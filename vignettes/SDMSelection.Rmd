@@ -1,0 +1,261 @@
+---
+title: "Species Distribution Model Selection"
+author: "Sergio Vignali, Arnaud Barras, Veronika Braunisch"
+date: "`r Sys.Date()`"
+bibliography: library.bib
+output: 
+  prettydoc::html_pretty:
+    df_print: kable
+    theme: cayman
+    highlight: github
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Maxent Model Selection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+# Set working environment
+
+```{r kableExtra, echo=F}
+library(knitr)
+library(kableExtra)
+```
+
+`SDMSelection` (Species Distribution Model Selection) package works with the new version of **MaxEnt** software (v. >= 3.4.1), if you have the old version you can download the new one from this [link](https://biodiversityinformatics.amnh.org/open_source/maxent/). The new version uses by default the **complementary log-log transform** (Cloglog) to produce the estimate of occurrence probability instead of the **logistig transform** and the feature class **threshold** is disabled but available as option [@Phillips2017].
+
+If is the first time you use **MaxEnt** in R you have to make available the **maxent.jar** file for the `dismo` package [@Hijmans2017]. To do that copy the **maxent.jar** file in the folder named **java** inside the folder returned by the following command (only for Ubuntu, install java openjdk witn `sudo apt install openjdk-11-jdk`, check it with `java --version`, and after run `sudo R CMD javareconf`):
+
+```{r, eval=FALSE}
+system.file(package="dismo")
+```
+
+Before loading `SDMSelection` you have to increase the RAM that **MaxEnt** can use. You should leave 2G for your OS and the rest you can use for Maxent. If you have 4GB RAM use `-Xmx2g` in the following command: 
+
+```{r java option}
+options(java.parameters = "-Xmx2g" )
+```
+
+Import package:
+```{r import}
+library(SDMSelection)
+```
+
+Check if maxent is correctly configured for `dismo`:
+
+```{r check maxent}
+maxent()
+```
+
+```{r}
+library(ggplot2)    # To plot graphs
+library(maps)       # For access useful maps
+library(rasterVis)  # To plot raster objects
+library(gridExtra)  # To plot multiple ggplot object in one page
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+
+# Acquire species distribution data and environmental variables
+
+For demostrating how to use `SDMSelection` we download a dataset of [*Bradipus variegatus*](https://en.wikipedia.org/wiki/Brown-throated_sloth) from  the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/) using the [gbif](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/gbif) function of `dismo` package. We download data from the last 50 years:
+```{r get presence data}
+data <- gbif(genus = 'Bradypus', species = 'variegatus*', geo = TRUE, removeZeros = TRUE, args = 'year=1967,2017')
+presence <- data.frame(x = data$lon, y = data$lat)
+presence <- presence[!duplicated(presence), ]  # Remove duplicate rows
+presence <- presence[!is.na(presence$x) | !is.na(presence$y), ]  # Remove NA values
+```
+
+```{r}
+cat('Number of observations before cleaning data:', nrow(data),
+    '\nNumber of obsevations after cleaning data  :', nrow(presence))
+```
+
+
+We downloaded `r nrow(data)` presence locations and after cleaning the duplicates and the NA we have `r nrow(presence)` locations for our analysis. We can plot the study area and the presence locations we downloaded from GBIF:
+
+```{r, fig.align="center"}
+ggplot(map_data('world'), aes(long, lat)) +
+    geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
+    geom_jitter(data = presence, aes(x = x, y = y), color = 'red',
+                alpha = 0.4, size = 2) +
+    labs(x = "longitude", y = "latitude") +
+    theme_minimal() +
+    theme(legend.position = "none") +
+    coord_fixed() +
+    scale_x_continuous(limits = c(-125, -32)) +
+    scale_y_continuous(limits = c(-56, 40))
+```
+
+For the analysis we will use the climat data from [WorldClim](http://www.worldclim.org/) version 1.4 [@Hijmans2005] (you can download the new version 2.0 from the previous link) and the ecoregions from [WWF](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world) [@Olson2001] included in the `dismo` package:
+
+```{r get predictors, fig.align="center"}
+files <- list.files(path = paste(system.file(package = 'dismo'), '/ex', sep = ''), pattern = 'grd', full.names = T)
+predictors <- stack(files)
+```
+
+Plot **bio1** using [gplot](https://www.rdocumentation.org/packages/rasterVis/versions/0.43/topics/gplot-methods) function from `rasterVis` packagege:
+
+```{r, fig.align="center"}
+gplot(predictors$bio1) +
+    geom_tile(aes(fill = value)) +
+    coord_equal() +
+    scale_fill_gradientn(colours = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"),
+                         na.value = "transparent",
+                         name = '°C x 10') +
+    labs(title = 'Annual Mean Temperature',
+         x = 'longitude',
+         y = 'latitude') +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    theme_minimal() +
+    theme(plot.title = element_text(hjust = 0.5),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank())
+```
+
+
+There are nine environmental variables:
+
+* Continuous variables
+    + **bio1** Annual Mean Temperature
+    + **bio5** Max Temperature of Warmest Month
+    + **bio6** Min Temperature of Coldest Month
+    + **bio7** Temperature Annual Range (bio5-bio6)
+    + **bio8** Mean Temperature of Wettest Quarter
+    + **bio12** Annual Precipitation
+    + **bio16** Precipitation of Wettest Quarter
+    + **bio17** Precipitation of Driest Quarter
+* Categorical variables
+    + **biome** Terrestrial Ecoregions of the World
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+
+# Prepare data for MaxEnt Model Selection
+
+MaxEnt is a Machine Learning approach for Species Distribution Models and Machine Learning methods offen use a Train, a Validation and a Test dataset [@Russell2013]. Given a dataset, in our case the presence data, we split it randomly in three different folders. One folder contains the majority of the data and is used to train the model, i.e. the **train** dataset; another folder is used to estimate the model performance while tuning the hyperparameters of the model, i.e. the **validation** dataset and the last folder, the **test** dataset, is used at the end of the tuning process to have an unbiased estimation of the final model. The model selection procedure is therefore a continuous process where several models are trained varying the settings of the hyperparameters and evaluated using the **validation** dataset. In this way we try to minimize the differences between the model accuracy based on the train data and the model accuracy based on the validation data. At the end of the process, the real measure of the model performance is given by the **test** dataset that has never been used during the model selection procedure. For a good overview of the topic visit the [Jason Brownlee’s](https://machinelearningmastery.com/difference-test-validation-datasets/) thread.
+
+We create a random train/val/test datasets witholding a 20\% sample for validation and a 20\% for testing. We set the seed to obtain consistent results between different trail:
+
+```{r split data in train/dev/test dataset}
+# The %<-% operator from "zeallot"" package unpacks a list in variables
+c(train_coords, val_coords, test_coords) %<-% trainValTest(presence, val = 0.2, test = 0.2, seed = 25)
+cat('Total presence locations  :', nrow(presence),
+    '\nTotal train locations     :', nrow(train_coords),
+    '\nTotal validation locations:', nrow(val_coords),
+    '\nTotal test locations      :', nrow(test_coords))
+```
+
+Plot train, validation and test datasets:
+
+```{r, fig.align="center"}
+base_plot <- ggplot(map_data('world'), aes(long, lat)) +
+  geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
+  labs(x = "longitude", y = "latitude") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_fixed() +
+  scale_x_continuous(limits = c(-125, -32)) +
+  scale_y_continuous(limits = c(-56, 40)) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+train_plot <- base_plot + geom_jitter(data = train_coords, aes(x = x, y = y), color = 'red', alpha = 0.4, size = 1) + labs(title = 'Train')
+val_plot <- base_plot + geom_jitter(data = val_coords, aes(x = x, y = y), color = 'green', alpha = 0.4, size = 1) + labs(title = 'Validation')
+test_plot <- base_plot + geom_jitter(data = test_coords, aes(x = x, y = y), color = 'blue', alpha = 0.4, size = 1) + labs(title = 'Test')
+
+grid.arrange(train_plot, val_plot, test_plot, nrow = 1)
+```
+
+To extract the background locations we use the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function from `dismo` package.
+
+```{r extract background locations}
+set.seed(25)
+bg_coords <- randomPoints(predictors, 10000)
+```
+
+The environmental variables we downloaded have a coarse resolution and the function cannot extract more than `r nrow(bg_coords)` as you can see from the warning message.
+
+Before running the model we have to prepare the data in the correct format. The `prepareSWD` function will create an object of type `MaxentSWD` that stores the species name, the coordinates of the locations and the value of the environmental variables at location points. The parameter `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (you can pass a vector if you have more than one categorical environmental variables). The function extracts the value of the environmental variables for each locations and excludes those locations that have `NA` value for at least one environmental variable.
+
+```{r prepare SWD datasets}
+train <- prepareSWD(species = 'Bradipus variegatus', coords = train_coords, env = predictors, categoricals = 'biome')
+val <- prepareSWD(species = 'Bradipus variegatus', coords = val_coords, env = predictors, categoricals = 'biome')
+test <- prepareSWD(species = 'Bradipus variegatus', coords = test_coords, env = predictors, categoricals = 'biome')
+bg <- prepareSWD(species = 'Bradipus variegatus', coords = bg_coords, env = predictors, categoricals = 'biome')
+```
+
+The warning message reports that in the background dataset there are 9 locations that are discarded.  
+Let's have a look at the `MaxentSWD` object:
+
+```{r show MaxentSWD object}
+train
+```
+
+To see the data you can run:
+
+```{r show train data, eval=F, echo=T}
+train@data
+```
+
+```{r make table, echo=F}
+kable(train@data) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive")) %>%
+  scroll_box(height = "500px")
+```
+
+or access the coordinates with `train@coords` or the species with `train@species`.
+
+```{r show train coords data, eval=F, echo=T}
+train@coords
+```
+
+```{r, echo=F}
+kable(train@coords) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive")) %>%
+  scroll_box(height = "500px")
+```
+
+If you look at the number of the raw in the **coordinates** data frame you see that they are a random sample of the presence data frame (we crerated it using the `trainDevTest` function).
+You can also save the `MaxentSWD` object in a **.csv** file to use t directly in the software **Maxent**.
+```{r save SWD, eval=F, echo=T}
+swd2csv(train, file_name = "train.csv")
+```
+
+
+To run the model we will use a sub sample of the background locations and we will use the full dataset to compute the correlation between the environmental variables. We can extract the sub sample using the `getSubsample` function and after plot the background locations:
+```{r, fig.align="center"}
+bg_model <- getSubsample(bg, 5000, seed = 25)
+ggplot(map_data('world'), aes(long, lat)) +
+    geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
+    geom_jitter(data = bg_model@coords, aes(x = X, y = Y),
+                color = 'blue', alpha = 0.4, size = 0.5) +
+    labs(x = "longitude", y = "latitude") +
+    theme_minimal() +
+    theme(legend.position = "none") +
+    coord_fixed() +
+    scale_x_continuous(limits = c(-125, -32)) +
+    scale_y_continuous(limits = c(-56, 40))
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+# Run MaxEnt models
+
+The `runMaxent` function helps you running MaxEnt models in R, you can set all the desidered arguments. The main arguments have a dedicated parameter, for all the others you can use the `extra_args` parameter and pass a vector with the options. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but you can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to run a model (note that `rm = 1` and `fc = 'lqph'` are the default settings when you use MaxEnt software v. 1.4.1 and you have at least 80 presence locations):
+
+```{r run MaxEnt}
+full_model <- runMaxent(train, bg_model, rm = 1, fc = 'lqph', test = test, output_format = 'cloglog', response_curves = TRUE, folder = 'full_model')
+```
+
+The function takes care of the environmental variables data type. When you prepared the data you defined **biome** as categorical variable and the information is passed to the `runMaxent` function.
+
+The result of the `runMaxent` function is an object of class `MaxentModel` that stores in different slots the value of `presence`, `background`, MaxEnt `results`, `lambdas` coefficients, `rm`, `fc`, `iterations`, the `path` where is stored the MaxEnt output, the path of the `html` file and the `plot_data` if you set the `response_curves` parameter to `TRUE` (some of this values come from the results of the [maxent](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/maxent} function of `dismo`)). You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in your browser if you save the results permanetly using the parameter `folder =`.
+<div style="text-align: right"><a href="#top">Back to top</a></div>

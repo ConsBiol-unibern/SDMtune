@@ -1,11 +1,25 @@
 Package: SDMSelection
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Species Distribution Model Selection
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Date: 2018-03-12
+Authors@R: c(
+	person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch", role = c("cre", "aut")),
+	person("Arnaud", "Barras", role = "aut"),
+	person("Veronika", "Braunisch", role = "aut")
+	)
+Description: Performs Variables selection and model tuning for SDMs (Species Distribution Models). It provides also some utilities to display results.
+License: GPL (>= 3)
+Depends: R (>= 3.2.0),
+          dismo (>= 1.1-4),
+          zeallot (>= 0.1.0)
+Imports: Rdpack
+RdMacros: Rdpack
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
+Suggests: knitr,
+    kableExtra,
+    rmarkdown
+VignetteBuilder: knitr
