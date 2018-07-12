@@ -27,9 +27,7 @@ This Class represents a MaxEnt model objects and hosts all the information about
 
 \item{\code{output_format}}{character. The output format of the model.}
 
-\item{\code{lambdas}}{vector. The lambdas parameters of the model.}
-
-\item{\code{coeff}}{data.frame. The lambda coefficient of the model.}
+\item{\code{coeff}}{data.frame. The lambda coefficients of the model.}
 
 \item{\code{formula}}{formula. The formula used to make prediction.}
 

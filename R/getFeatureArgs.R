@@ -20,14 +20,14 @@ getFeatureArgs <- function(fc) {
 
   feature_args <- c("noautofeature")
 
-  if (grepl("l", fc))
-    feature_args <- append(feature_args, "linear=true")
-  if (grepl("q", fc))
-    feature_args <- append(feature_args, "quadratic=true")
-  if (grepl("p", fc))
-    feature_args <- append(feature_args, "product=true")
-  if (grepl("h", fc))
-    feature_args <- append(feature_args, "hinge=true")
+  if (!grepl("l", fc))
+    feature_args <- append(feature_args, "nolinear")
+  if (!grepl("q", fc))
+    feature_args <- append(feature_args, "noquadratic")
+  if (!grepl("p", fc))
+    feature_args <- append(feature_args, "noproduct")
+  if (!grepl("h", fc))
+    feature_args <- append(feature_args, "nohinge")
   if (grepl("t", fc))
     feature_args <- append(feature_args, "threshold=true")
 
