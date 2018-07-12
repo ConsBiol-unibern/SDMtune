@@ -259,3 +259,7 @@ The function takes care of the environmental variables data type. When you prepa
 
 The result of the `runMaxent` function is an object of class `MaxentModel` that stores in different slots the value of `presence`, `background`, MaxEnt `results`, `lambdas` coefficients, `rm`, `fc`, `iterations`, the `path` where is stored the MaxEnt output, the path of the `html` file and the `plot_data` if you set the `response_curves` parameter to `TRUE` (some of this values come from the results of the [maxent](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/maxent} function of `dismo`)). You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in your browser if you save the results permanetly using the parameter `folder =`.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
+
+# Make Prediction
+
+When you use `runMaxent` the function trains a model but doesn't make any prediction. To make prediction use `predictMaxent`:
