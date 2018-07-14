@@ -10,17 +10,16 @@
 #' @slot fc character. The feature class combination used to train the model.
 #' @slot iterations numeric. The number of iterations used to train the model.
 #' @slot output_format character. The output format of the model.
+#' @slot lambdas vector. The lambdas parameters of the model.
 #' @slot coeff data.frame. The lambda coefficients of the model.
 #' @slot formula formula. The formula used to make prediction.
 #' @slot lpn numeric. Linear Predictor Normalizer.
 #' @slot dn numeric. Density Normalizer.
 #' @slot entropy numeric. The entropy value.
 #' @slot min_max data.frame. The minimum and maximum values of the continuous variables, used for clamping.
-#' @slot plot_data list. If available a list containing the value to plot the response curves.
-#' @slot path character. The path where to save the fold with the files produced by MaxEnt,
+#' @slot plot_data list. If available a list containing the values used to plot the response curves.
+#' @slot folder character. The path for the folder where are saved all the files produced by MaxEnt,
 #' available if the "folder" parameter is provided to the runMaxent function.
-#' @slot html character. The path of the html file produced by MaxEnt, available if the "folder"
-#' parameter is provided to the runMaxent function.
 #'
 #' @author Sergio Vignali
 MaxentModel <- setClass("MaxentModel",
@@ -33,6 +32,7 @@ MaxentModel <- setClass("MaxentModel",
                           fc = "character",
                           iterations = "numeric",
                           output_format = "character",
+                          lambdas = "vector",
                           coeff = "data.frame",
                           formula = "formula",
                           lpn = "numeric",
@@ -40,27 +40,28 @@ MaxentModel <- setClass("MaxentModel",
                           entropy = "numeric",
                           min_max = "data.frame",
                           plot_data = "list",
-                          path = "character",
-                          html = "character")
+                          folder = "character")
 )
 
 setMethod("show",
           signature = "MaxentModel",
           definition = function(object) {
-            cat("Class                    :", class(object), "\n")
-            cat("Species                  :", object@presence@species, "\n")
-            cat("Regularization multiplier:", object@rm, "\n")
-            cat("Feature Class            :", object@fc, "\n")
-            cat("Iterations               :", object@iterations, "\n")
-            cat("Output Format            :", object@output_format, "\n")
-            cat("Presence locations       :", nrow(object@presence@data), "\n")
-            cat("Background locations     :", nrow(object@background@data), "\n")
-            cat("Test locations           :", nrow(object@test@data), "\n")
-            cat("Continuous variables     :", names(Filter(is.numeric, object@presence@data)), "\n")
-            cat("Categoricals             :", names(Filter(is.factor, object@presence@data)), "\n")
-            cat("Plot data                :", ifelse(identical(object@plot_data, list()), "No", "Yes"))
+            cat("Class               :", class(object), "\n")
+            cat("Species             :", object@presence@species, "\n")
+            cat("RM                  :", object@rm, "\n")
+            cat("FCs                 :", object@fc, "\n")
+            cat("Iterations          :", object@iterations, "\n")
+            cat("Output Format       :", object@output_format, "\n")
+            cat("Presence data       :", nrow(object@presence@data), "\n")
+            cat("Background data     :", nrow(object@background@data), "\n")
+            cat("Test data           :", nrow(object@test@data), "\n")
+            cat("Continuous variables:", names(Filter(is.numeric, object@presence@data)), "\n")
+            cat("Categoricals        :", names(Filter(is.factor, object@presence@data)), "\n")
+            cat("Plot data           :", ifelse(identical(object@plot_data, list()), "No", "Yes"))
 
-            if (file.exists(object@html)) browseURL(object@html)
+            html <- paste0(object@folder, "/species.html")
+
+            if (file.exists(html)) browseURL(html)
           })
 
 #' Run MaxEnt
@@ -87,7 +88,7 @@ setMethod("show",
 #' @return The output of MaxEnt as MaxentModel object.
 #'
 #' @examples
-#' \dontrun{model <- runMaxent(train, bg, rm, jacckinfe = TRUE, response_curves = TRUE))}
+#' \dontrun{model <- runMaxent(train, bg, rm, response_curves = TRUE))}
 #'
 #' @author Sergio Vignali
 runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
@@ -149,9 +150,9 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
   result <- MaxentModel(presence = train, background = bg,
                         results = model@results, rm = rm, fc = fc,
                         iterations = iterations, output_format = output_format,
-                        coeff = l$lambdas, formula = f, lpn = l$lpn, dn = l$dn,
-                        entropy = l$entropy, min_max = l$min_max,
-                        plot_data = plot_data)
+                        lambdas = model@lambdas, coeff = l$lambdas, formula = f,
+                        lpn = l$lpn, dn = l$dn, entropy = l$entropy,
+                        min_max = l$min_max, plot_data = plot_data)
 
   if (!is.null(test)) {
     test@species <- train@species
@@ -162,12 +163,11 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
     unlink(folder, recursive = TRUE)
     if (!is.null(test))
       unlink(test_folder, recursive = TRUE)
-    result@path <- ""
-    result@html <- ""
+    result@folder <- ""
   } else {
-    result@path <- paste0(getwd(), "/", folder)
+    result@folder <- paste0(getwd(), "/", folder)
 
-    output_file <- paste0(result@path, "/species.html")
+    output_file <- paste0(result@folder, "/species.html")
     f <- readLines(output_file)
     f[1] <- paste0("<title>", train@species, "</title>")
     f[2] <- paste0("<center><h1>Maxent model for ", train@species, "</h1></center>")
@@ -178,7 +178,6 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
     f[length(f) + 1] <- "- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMSelection: Species Distribution Model Selection. R package version 0.1.0."
     f[length(f) + 1] <- '<br>- Robert J. Hijmans, Steven Phillips, John Leathwick and Jane Elith (2017). dismo: Species Distribution Modeling. R package version 1.1-4. <a href="http://CRAN.R-project.org/package=dismo" target="_blank">CRAN</<a>'
     writeLines(f, output_file)
-    result@html <- output_file
     file.remove(model@html)
   }
 
