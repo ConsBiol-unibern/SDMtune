@@ -1,10 +1,10 @@
-#' Maxent Model
+#' Maxent
 #'
-#' This Class represents a MaxEnt model objects and hosts all the information about the model.
+#' This Class represents a MaxEnt model objects and hosts all the information related to the model.
 #'
-#' @slot presence MaxentSWD. The presence locations used to train the model.
-#' @slot background MaxentSWD. The backgorund locations used to train the model.
-#' @slot test MaxentSWD. The test locations used to validate the model.
+#' @slot presence SWD. The presence locations used to train the model.
+#' @slot background SWD. The backgorund locations used to train the model.
+#' @slot test SWD. The test locations used to validate the model.
 #' @slot results matrix. The result that usually MaxEnt provide as a csv file.
 #' @slot rm numeric. The value of the regularization multiplier used to train the model.
 #' @slot fc character. The feature class combination used to train the model.
@@ -22,11 +22,11 @@
 #' available if the "folder" parameter is provided to the runMaxent function.
 #'
 #' @author Sergio Vignali
-MaxentModel <- setClass("MaxentModel",
+Maxent <- setClass("Maxent",
                         slots = c(
-                          presence = "MaxentSWD",
-                          background = "MaxentSWD",
-                          test = "MaxentSWD",
+                          presence = "SWD",
+                          background = "SWD",
+                          test = "SWD",
                           results = "matrix",
                           rm = "numeric",
                           fc = "character",
@@ -44,7 +44,7 @@ MaxentModel <- setClass("MaxentModel",
 )
 
 setMethod("show",
-          signature = "MaxentModel",
+          signature = "Maxent",
           definition = function(object) {
             cat("Class               :", class(object), "\n")
             cat("Species             :", object@presence@species, "\n")
@@ -68,12 +68,12 @@ setMethod("show",
 #'
 #' Run a MaxEnt model using the dismo package.
 #'
-#' @param train The data frame used to train the model given as MaxentSWD object.
-#' @param bg The data frame with the background locations given as MaxentSWD object.
+#' @param train The data frame used to train the model given as SWD object.
+#' @param bg The data frame with the background locations given as SWD object.
 #' @param rm The value of the regularization multiplier.
 #' @param fc The value of the feature combination, possible values are combinations of
 #' "L", "Q", "P", "H" and "T".
-#' @param test The test dataset given as MaxentSWD object, default is NULL.
+#' @param test The test dataset given as SWD object, default is NULL.
 #' @param jackknife Flag to activate the jackknife test, default FALSE.
 #' @param output_format The MaxEnt output format, possible values are "Logistic", "Cloglog",
 #' "Cumulative" and "Raw", default value "Cloglog".
@@ -85,7 +85,7 @@ setMethod("show",
 #' @param folder The folder name where to save the MaxEnt output, default is NULL meaning a
 #' temporary folder. The folder is created in the working directory.
 #'
-#' @return The output of MaxEnt as MaxentModel object.
+#' @return The output of MaxEnt as Maxent object.
 #'
 #' @examples
 #' \dontrun{model <- runMaxent(train, bg, rm, response_curves = TRUE))}
@@ -95,8 +95,8 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
                       response_curves = FALSE, iterations = 500,
                       extra_args = NULL, folder = NULL) {
 
-  if (class(train) != "MaxentSWD" | class(bg) != "MaxentSWD")
-    stop("Train and background dataset must be a MaxentSWD object!")
+  if (class(train) != "SWD" | class(bg) != "SWD")
+    stop("Train and background dataset must be a SWD object!")
 
   delete_folder <- FALSE
 
@@ -110,8 +110,8 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
   if (is.null(test)) {
     test_file = NULL
   } else {
-    if (class(test) != "MaxentSWD")
-      stop("Test dataset must be a MaxentSWD object!")
+    if (class(test) != "SWD")
+      stop("Test dataset must be a SWD object!")
     if (delete_folder == TRUE) {
       test_folder = tempfile()
       dir.create(test_folder)
@@ -147,7 +147,7 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
   l <- getLambdas(paste0(folder, "/species.lambdas"), bg)
   f <- formulaFromLambdas(l$lambdas)
 
-  result <- MaxentModel(presence = train, background = bg,
+  result <- Maxent(presence = train, background = bg,
                         results = model@results, rm = rm, fc = fc,
                         iterations = iterations, output_format = output_format,
                         lambdas = model@lambdas, coeff = l$lambdas, formula = f,

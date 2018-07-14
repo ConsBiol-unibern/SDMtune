@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepareSWD.R
 \name{prepareSWD}
 \alias{prepareSWD}
-\title{Prepare a MaxentSWD data set for MaxEnt models}
+\title{Prepare a SWD data set for MaxEnt models}
 \usage{
 prepareSWD(species, coords, env, categoricals = NULL)
 }
@@ -16,7 +16,7 @@ prepareSWD(species, coords, env, categoricals = NULL)
 \item{categoricals}{Vector indicating which of the environmental variable is categorical, default is NULL.}
 }
 \value{
-A MaxentSWD object
+A SWD object
 }
 \description{
 Given the coordinates, the species' name and the environmental variables,

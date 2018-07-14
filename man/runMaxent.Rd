@@ -9,16 +9,16 @@ runMaxent(train, bg, rm, fc, test = NULL, output_format = "cloglog",
   folder = NULL)
 }
 \arguments{
-\item{train}{The data frame used to train the model given as MaxentSWD object.}
+\item{train}{The data frame used to train the model given as SWD object.}
 
-\item{bg}{The data frame with the background locations given as MaxentSWD object.}
+\item{bg}{The data frame with the background locations given as SWD object.}
 
 \item{rm}{The value of the regularization multiplier.}
 
 \item{fc}{The value of the feature combination, possible values are combinations of
 "L", "Q", "P", "H" and "T".}
 
-\item{test}{The test dataset given as MaxentSWD object, default is NULL.}
+\item{test}{The test dataset given as SWD object, default is NULL.}
 
 \item{output_format}{The MaxEnt output format, possible values are "Logistic", "Cloglog",
 "Cumulative" and "Raw", default value "Cloglog".}
@@ -38,13 +38,13 @@ temporary folder. The folder is created in the working directory.}
 \item{threads}{Number of threads used by MaxEnt, default is 1.}
 }
 \value{
-The output of MaxEnt as MaxentModel object.
+The output of MaxEnt as Maxent object.
 }
 \description{
 Run a MaxEnt model using the dismo package.
 }
 \examples{
-\dontrun{model <- runMaxent(train, bg, rm, jacckinfe = TRUE, response_curves = TRUE))}
+\dontrun{model <- runMaxent(train, bg, rm, response_curves = TRUE))}
 
 }
 \author{

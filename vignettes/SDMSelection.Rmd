@@ -184,7 +184,7 @@ bg_coords <- randomPoints(predictors, 10000)
 
 The environmental variables we downloaded have a coarse resolution and the function cannot extract more than `r nrow(bg_coords)` as you can see from the warning message.
 
-Before running the model we have to prepare the data in the correct format. The `prepareSWD` function will create an object of type `MaxentSWD` that stores the species name, the coordinates of the locations and the value of the environmental variables at location points. The parameter `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (you can pass a vector if you have more than one categorical environmental variables). The function extracts the value of the environmental variables for each locations and excludes those locations that have `NA` value for at least one environmental variable.
+Before running the model we have to prepare the data in the correct format. The `prepareSWD` function will create an object of type `SWD` that stores the species name, the coordinates of the locations and the value of the environmental variables at location points. The parameter `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (you can pass a vector if you have more than one categorical environmental variables). The function extracts the value of the environmental variables for each locations and excludes those locations that have `NA` value for at least one environmental variable.
 
 ```{r prepare SWD datasets}
 train <- prepareSWD(species = 'Bradipus variegatus', coords = train_coords, env = predictors, categoricals = 'biome')
@@ -194,9 +194,9 @@ bg <- prepareSWD(species = 'Bradipus variegatus', coords = bg_coords, env = pred
 ```
 
 The warning message reports that in the background dataset there are 9 locations that are discarded.  
-Let's have a look at the `MaxentSWD` object:
+Let's have a look at the `SWD` object:
 
-```{r show MaxentSWD object}
+```{r show SWD object}
 train
 ```
 
@@ -225,7 +225,7 @@ kable(train@coords) %>%
 ```
 
 If you look at the number of the raw in the **coordinates** data frame you see that they are a random sample of the presence data frame (we crerated it using the `trainDevTest` function).
-You can also save the `MaxentSWD` object in a **.csv** file to use t directly in the software **Maxent**.
+You can also save the `SWD` object in a **.csv** file to use t directly in the software **Maxent**.
 ```{r save SWD, eval=F, echo=T}
 swd2csv(train, file_name = "train.csv")
 ```
@@ -257,7 +257,7 @@ full_model <- runMaxent(train, bg_model, rm = 1, fc = 'lqph', test = val, output
 
 The function takes care of the environmental variables data type. When you prepared the data you defined **biome** as categorical variable and the information is passed to the `runMaxent` function.
 
-The result of the `runMaxent` function is an object of class `MaxentModel` that stores in different slots the value of `presence`, `background`, MaxEnt `results`, `lambdas` coefficients, `rm`, `fc`, `iterations`, the `folder` where is stored the MaxEnt output and the `plot_data` if the `response_curves` parameter is set to `TRUE` (some of this values come from the results of the [maxent](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/maxent} function of `dismo`)). You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in your browser if you save the results permanetly using the parameter `folder =`.
+The result of the `runMaxent` function is an object of class `Maxent` that stores in different slots the value of `presence`, `background`, MaxEnt `results`, `lambdas` coefficients, `rm`, `fc`, `iterations`, the `folder` where is stored the MaxEnt output and the `plot_data` if the `response_curves` parameter is set to `TRUE` (some of this values come from the results of the [maxent](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/maxent} function of `dismo`)). You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in your browser if you save the results permanetly using the parameter `folder =`.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 # Make Prediction

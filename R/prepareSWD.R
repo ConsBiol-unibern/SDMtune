@@ -9,7 +9,7 @@
 #' and "Test".
 #'
 #' @author Sergio Vignali
-MaxentSWD <- setClass("MaxentSWD",
+SWD <- setClass("SWD",
                       slots = c(
                         species = "character",
                         coords = "data.frame",
@@ -17,7 +17,7 @@ MaxentSWD <- setClass("MaxentSWD",
 )
 
 setMethod("show",
-          signature = "MaxentSWD",
+          signature = "SWD",
           definition = function(object) {
             cat("Class            :", class(object), "\n")
             cat("Species          :", object@species, "\n")
@@ -26,7 +26,7 @@ setMethod("show",
             cat("Categoricals     :", names(Filter(is.factor, object@data)))
           })
 
-#' Prepare a MaxentSWD data set for MaxEnt models
+#' Prepare a SWD data set for MaxEnt models
 #'
 #' Given the coordinates, the species' name and the environmental variables,
 #' the function prepares a data frame in the SWD format (sample with data).
@@ -36,7 +36,7 @@ setMethod("show",
 #' @param env The environmental variables in a RasterStack format.
 #' @param categoricals Vector indicating which of the environmental variable is categorical, default is NULL.
 #'
-#' @return A MaxentSWD object
+#' @return A SWD object
 #'
 #' @examples
 #' \dontrun{
@@ -72,6 +72,6 @@ prepareSWD <- function(species, coords, env, categoricals = NULL) {
       data[, i] <- as.factor(data[, i])
     }
 }
-  swd <- MaxentSWD(species = species, coords = coords, data = data)
+  swd <- SWD(species = species, coords = coords, data = data)
   return(swd)
 }
