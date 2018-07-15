@@ -4,19 +4,28 @@
 \alias{predict.Maxent}
 \title{Predict Maxent}
 \usage{
-predict.Maxent(model, data, clamp = TRUE, parallel = FALSE,
-  output_format = c("logistic", "cloglog", "raw"))
+predict.Maxent(model, data, clamp = TRUE, maxent_output = c("logistic",
+  "cloglog", "raw"), filename = "", format = "GTiff", extent = NULL,
+  parallel = FALSE)
 }
 \arguments{
 \item{model}{A Maxent model object.}
 
-\item{data}{A data frame or a raster Stack.}
+\item{data}{A data frame, a \link\link{stack:raster} or \link{brick}.}
 
-\item{clamp}{Flag for doing clumping during prediction, default is TRUE.}
+\item{clamp}{Flag for clumping during prediction, default is TRUE.}
+
+\item{maxent_output}{The output type, possible values are "raw", "logistic" or "cloglog".}
+
+\item{filename}{Output file name for the prediction map. If not provided the output is
+saved in a file.}
+
+\item{format}{The output format, see \link{writeRaster} for all the options, default is "GTiff".}
+
+\item{extent}{\link{Extent} object, if provided it restricts the prediction to the given
+extent, default is NULL.}
 
 \item{parallel}{Flag to use parallel computation during prediction, default is FALSE.}
-
-\item{output_format}{The format of the output, possible values are "raw", "logistic" or "cloglog".}
 }
 \value{
 A vector of prediction or a Raster object if data is a raster stack.
@@ -25,11 +34,11 @@ A vector of prediction or a Raster object if data is a raster stack.
 Predict Maxent
 }
 \details{
-You need package to use parallel computation.
+You need package \link{snow} to use parallel computation.
 }
 \examples{
 \dontrun{
-predic(model, predictors, output_format = "cloglog", parallel = TRUE)}
+predic(model, predictors, maxent_output = "cloglog", parallel = TRUE)}
 
 }
 \author{
