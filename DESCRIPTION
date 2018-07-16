@@ -34,7 +34,9 @@ VignetteBuilder: knitr
 Collate: 
     'SWD_class.R'
     'Maxent_class.R'
+    'doJk.R'
     'getSubsample.R'
+    'plotJk.R'
     'plotVarImp.R'
     'predict.Maxent.R'
     'prepareSWD.R'

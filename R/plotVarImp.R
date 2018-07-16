@@ -13,7 +13,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' plotContribution(model, color = '#a1d99b')}
+#' plotContribution(model, type = "permut", color = '#a1d99b')}
 #'
 #' @author Sergio Vignali
 plotVarImp <- function(model, type = c("contribution", "permutation"),

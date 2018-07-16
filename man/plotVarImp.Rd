@@ -21,7 +21,7 @@ Plot the variable importance as a bar plot.
 }
 \examples{
 \dontrun{
-plotContribution(model, color = '#a1d99b')}
+plotContribution(model, type = "permut", color = '#a1d99b')}
 
 }
 \author{

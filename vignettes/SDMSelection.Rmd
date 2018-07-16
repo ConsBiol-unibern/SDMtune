@@ -274,6 +274,20 @@ Or plot it the `plotVarImp` function (the default color is grey):
 ```{r plot model, fig.align="center"}
 plotVarImp(full_model, type = "perm", color = '#159957')
 ```
+
+Another way to estimate the variable importance is to run a **Jackknife Test**:
+```{r}
+jk <- doJk(full_model, with_only = T)
+```
+If the model has a test dataset, it returns the train and test AUC, if not it returns only the train AUC
+```{r}
+jk
+```
+You can plot the result of the **Jackknife Test** with the `plotJk` function:
+```{r}
+plotJk(full_model, jk, type = "train")
+```
+
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 # Make Prediction
