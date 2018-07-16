@@ -1,6 +1,3 @@
-setGeneric("train", function(object, ...)
-  standardGeneric("train")
-)
 #' Train Maxent model
 #'
 #' Trtain a MaxEnt model using the dismo package.

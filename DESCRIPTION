@@ -12,11 +12,13 @@ Description: Performs Variables selection and model tuning for SDMs (Species Dis
 License: GPL (>= 3)
 Depends: R (>= 3.2.0),
           zeallot (>= 0.1.0),
+          ggplot2 (>= 2.2.1),
           methods
 Imports: Rdpack,
           dismo (>= 1.1-4),
           raster (>= 2.6-7),
-          rgdal
+          rgdal (>= 0.3-3),
+          scales (>= 0.5.0)
 RdMacros: Rdpack
 Encoding: UTF-8
 LazyData: true
@@ -33,8 +35,10 @@ Collate:
     'SWD_class.R'
     'Maxent_class.R'
     'getSubsample.R'
+    'plotVarImp.R'
     'predict.Maxent.R'
     'prepareSWD.R'
     'swd2csv.R'
     'trainMaxent.R'
     'trainValTest.R'
+    'varImp.R'
