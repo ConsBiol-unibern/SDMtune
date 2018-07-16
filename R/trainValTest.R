@@ -3,12 +3,13 @@
 #' Split a dataset randomly in train, validation and test datasets. If val parameter is set to zero then
 #' the function returns only the train and the test datasets.
 #'
-#' @param df The data frame that has to be splitted in train, validation and test datasets.
-#' @param val The percentage of data withhold for validation.
-#' @param test The percentage of data withhold for testing.
-#' @param seed The value used to set the seed in order to have consistent results, default is NULL.
+#' @param df data.frame containing the data that have to be splitted in train, validation and test datasets.
+#' @param val numeric. The percentage of data withhold for validation.
+#' @param test numeric. The percentage of data withhold for testing.
+#' @param seed numeric. The value used to set the seed in order to have consistent results, default is NULL.
 #'
 #' @return A list with the train, validation and test data sets or train and test sets accordingly.
+#' @export
 #'
 #' @examples
 #' \dontrun{

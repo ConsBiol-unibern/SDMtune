@@ -7,13 +7,13 @@
 prepareSWD(species, coords, env, categoricals = NULL)
 }
 \arguments{
-\item{species}{The name of the species, background in the case of background locations.}
+\item{species}{character. The name of the species.}
 
-\item{coords}{The coordinates of the presence or background locations.}
+\item{coords}{data.frame. The coordinates of the presence or background locations.}
 
-\item{env}{The environmental variables in a RasterStack format.}
+\item{env}{raster stack or brick containing the environmental variables used to train the model.}
 
-\item{categoricals}{Vector indicating which of the environmental variable is categorical, default is NULL.}
+\item{categoricals}{vector indicating which of the environmental variable are categoricals, default is NULL.}
 }
 \value{
 A SWD object

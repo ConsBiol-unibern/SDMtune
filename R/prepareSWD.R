@@ -1,42 +1,15 @@
-#' MaxEnt Species With Data
-#'
-#' Object similar to the MAxEnt SWD format that hosts the species name, the coordinates
-#' of the locations and the value of the environmental variables at the location places.
-#'
-#' @slot species character. Name of the species.
-#' @slot coords data.frame. Coordinates of the locations.
-#' @slot data data.frame. Value of the environmental variables at location places.
-#' and "Test".
-#'
-#' @author Sergio Vignali
-SWD <- setClass("SWD",
-                      slots = c(
-                        species = "character",
-                        coords = "data.frame",
-                        data = "data.frame")
-)
-
-setMethod("show",
-          signature = "SWD",
-          definition = function(object) {
-            cat("Class            :", class(object), "\n")
-            cat("Species          :", object@species, "\n")
-            cat("Locations        :", nrow(object@data), "\n")
-            cat("Variables        :", names(Filter(is.numeric, object@data)), "\n")
-            cat("Categoricals     :", names(Filter(is.factor, object@data)))
-          })
-
 #' Prepare a SWD data set for MaxEnt models
 #'
 #' Given the coordinates, the species' name and the environmental variables,
 #' the function prepares a data frame in the SWD format (sample with data).
 #'
-#' @param species The name of the species, background in the case of background locations.
-#' @param coords The coordinates of the presence or background locations.
-#' @param env The environmental variables in a RasterStack format.
-#' @param categoricals Vector indicating which of the environmental variable is categorical, default is NULL.
+#' @param species character. The name of the species.
+#' @param coords data.frame. The coordinates of the presence or background locations.
+#' @param env raster stack or brick containing the environmental variables used to train the model.
+#' @param categoricals vector indicating which of the environmental variable are categoricals, default is NULL.
 #'
 #' @return A SWD object
+#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -49,7 +22,7 @@ prepareSWD <- function(species, coords, env, categoricals = NULL) {
   colnames(coords) <- c("LON", "LAT")
 
   message(paste0("Extracting environmental condition for ", species, "..."))
-  data <- as.data.frame(extract(env, coords))
+  data <- as.data.frame(raster::extract(env, coords))
 
   is_na <- is.na(rowSums(data))
   if (any(is_na)) {

@@ -1,102 +1,39 @@
-#' Maxent
-#'
-#' This Class represents a MaxEnt model objects and hosts all the information related to the model.
-#'
-#' @slot presence SWD. The presence locations used to train the model.
-#' @slot background SWD. The backgorund locations used to train the model.
-#' @slot test SWD. The test locations used to validate the model.
-#' @slot results matrix. The result that usually MaxEnt provide as a csv file.
-#' @slot rm numeric. The value of the regularization multiplier used to train the model.
-#' @slot fc character. The feature class combination used to train the model.
-#' @slot iterations numeric. The number of iterations used to train the model.
-#' @slot output_format character. The output format of the model.
-#' @slot lambdas vector. The lambdas parameters of the model.
-#' @slot coeff data.frame. The lambda coefficients of the model.
-#' @slot formula formula. The formula used to make prediction.
-#' @slot lpn numeric. Linear Predictor Normalizer.
-#' @slot dn numeric. Density Normalizer.
-#' @slot entropy numeric. The entropy value.
-#' @slot min_max data.frame. The minimum and maximum values of the continuous variables, used for clamping.
-#' @slot plot_data list. If available a list containing the values used to plot the response curves.
-#' @slot folder character. The path for the folder where are saved all the files produced by MaxEnt,
-#' available if the "folder" parameter is provided to the runMaxent function.
-#'
-#' @author Sergio Vignali
-Maxent <- setClass("Maxent",
-                        slots = c(
-                          presence = "SWD",
-                          background = "SWD",
-                          test = "SWD",
-                          results = "matrix",
-                          rm = "numeric",
-                          fc = "character",
-                          iterations = "numeric",
-                          output_format = "character",
-                          lambdas = "vector",
-                          coeff = "data.frame",
-                          formula = "formula",
-                          lpn = "numeric",
-                          dn = "numeric",
-                          entropy = "numeric",
-                          min_max = "data.frame",
-                          plot_data = "list",
-                          folder = "character")
+setGeneric("train", function(object, ...)
+  standardGeneric("train")
 )
-
-setMethod("show",
-          signature = "Maxent",
-          definition = function(object) {
-            cat("Class               :", class(object), "\n")
-            cat("Species             :", object@presence@species, "\n")
-            cat("RM                  :", object@rm, "\n")
-            cat("FCs                 :", object@fc, "\n")
-            cat("Iterations          :", object@iterations, "\n")
-            cat("Output Format       :", object@output_format, "\n")
-            cat("Presence data       :", nrow(object@presence@data), "\n")
-            cat("Background data     :", nrow(object@background@data), "\n")
-            cat("Test data           :", nrow(object@test@data), "\n")
-            cat("Continuous variables:", names(Filter(is.numeric, object@presence@data)), "\n")
-            cat("Categoricals        :", names(Filter(is.factor, object@presence@data)), "\n")
-            cat("Plot data           :", ifelse(identical(object@plot_data, list()), "No", "Yes"))
-
-            html <- paste0(object@folder, "/species.html")
-
-            if (file.exists(html)) browseURL(html)
-          })
-
-#' Run MaxEnt
+#' Train Maxent model
 #'
-#' Run a MaxEnt model using the dismo package.
+#' Trtain a MaxEnt model using the dismo package.
 #'
-#' @param train The data frame used to train the model given as SWD object.
-#' @param bg The data frame with the background locations given as SWD object.
-#' @param rm The value of the regularization multiplier.
-#' @param fc The value of the feature combination, possible values are combinations of
-#' "L", "Q", "P", "H" and "T".
-#' @param test The test dataset given as SWD object, default is NULL.
-#' @param jackknife Flag to activate the jackknife test, default FALSE.
-#' @param output_format The MaxEnt output format, possible values are "Logistic", "Cloglog",
-#' "Cumulative" and "Raw", default value "Cloglog".
-#' @param response_curves Flag to compute the response curves, default is FALSE.
-#' @param iterations Number of iterations used by the Maxent alghoritm, default is 500.
-#' @param threads Number of threads used by MaxEnt, default is 1.
-#' @param extra_args Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
+#' @param presence SWD object with the presence locations.
+#' @param bg SWD object with the background locations.
+#' @param rm numeric. The value of the regularization multiplier.
+#' @param fc vector. The value of the feature combination, possible values are combinations of
+#' "l", "q", "p", "h" and "t".
+#' @param test SWD object with the test locations, default is NULL.
+#' @param maxent_output character. The MaxEnt output format, possible values are "logistic", "cloglog"
+#' and "raw", default value "cloglog".
+#' @param response_curves logical to compute the response curves, default is FALSE.
+#' @param iterations numeric. Number of iterations used by the Maxent alghoritm, default is 500.
+#' @param extra_args vector. Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
 #' is NULL.
-#' @param folder The folder name where to save the MaxEnt output, default is NULL meaning a
-#' temporary folder. The folder is created in the working directory.
+#' @param folder character. The folder name where to save the MaxEnt output, default is NULL meaning
+#' that is not saved. The folder is created in the working directory.
 #'
 #' @return The output of MaxEnt as Maxent object.
+#' @export
+#' @importFrom dismo maxent
 #'
 #' @examples
-#' \dontrun{model <- runMaxent(train, bg, rm, response_curves = TRUE))}
+#' \dontrun{model <- runMaxent(presence, bg, rm, response_curves = TRUE))}
 #'
 #' @author Sergio Vignali
-runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
-                      response_curves = FALSE, iterations = 500,
-                      extra_args = NULL, folder = NULL) {
+trainMaxent <- function(presence, bg, rm, fc, test = NULL,
+                      maxent_output = "cloglog", response_curves = FALSE,
+                      iterations = 500, extra_args = NULL, folder = NULL) {
 
-  if (class(train) != "SWD" | class(bg) != "SWD")
-    stop("Train and background dataset must be a SWD object!")
+  if (class(presence) != "SWD" | class(bg) != "SWD")
+    stop("presence and background dataset must be a SWD object!")
 
   delete_folder <- FALSE
 
@@ -125,18 +62,18 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
 
   plot_data <- list()
   args <- .makeArgs(rm = rm, fc = fc, test = test_file,
-                   output_format = output_format,
+                   maxent_output = maxent_output,
                    response_curves = response_curves,
                    iterations = iterations, extra_args = extra_args)
 
-  x <- rbind(train@data, bg@data)
-  p <- c(rep(1, nrow(train@data)), rep(0, nrow(bg@data)))
-  model <- maxent(x, p, args = args, path = folder)
+  x <- rbind(presence@data, bg@data)
+  p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
+  model <- dismo::maxent(x, p, args = args, path = folder)
 
   if (response_curves == TRUE) {
     path <- paste0(folder, "/plots/")
     files <- dir(path, pattern = ".dat")
-    for (i in 1 : length(files)) {
+    for (i in 1: length(files)) {
       plot_data[[i]] <- read.csv(paste0(path, files[i]))
     }
     names <- gsub(".dat", "", files)
@@ -147,15 +84,15 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
   l <- .getLambdas(paste0(folder, "/species.lambdas"), bg)
   f <- .formulaFromLambdas(l$lambdas)
 
-  result <- Maxent(presence = train, background = bg,
+  result <- Maxent(presence = presence, background = bg,
                         results = model@results, rm = rm, fc = fc,
-                        iterations = iterations, output_format = output_format,
+                        iterations = iterations, maxent_output = maxent_output,
                         lambdas = model@lambdas, coeff = l$lambdas, formula = f,
                         lpn = l$lpn, dn = l$dn, entropy = l$entropy,
                         min_max = l$min_max, plot_data = plot_data)
 
   if (!is.null(test)) {
-    test@species <- train@species
+    test@species <- presence@species
     result@test <- test
   }
 
@@ -169,8 +106,8 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
 
     output_file <- paste0(result@folder, "/species.html")
     f <- readLines(output_file)
-    f[1] <- paste0("<title>", train@species, "</title>")
-    f[2] <- paste0("<center><h1>Maxent model for ", train@species, "</h1></center>")
+    f[1] <- paste0("<title>", presence@species, "</title>")
+    f[2] <- paste0("<center><h1>Maxent model for ", presence@species, "</h1></center>")
     f[3] <- paste("<br><center><b>Output produced using 'SDMSelection' version", packageVersion("SDMSelection"),
                      "(Vignali S. <i>et al.</i>, 2018) and 'dismo' version", packageVersion("dismo"),
                      "(Hijmans R. J. <i>et al.</i>, 2017).</b></center><br>", f[3])
@@ -185,14 +122,14 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
 }
 
 .makeArgs <- function(rm, fc,
-                     output_format = c("logistic", "cloglog", "raw"),
+                     maxent_output = c("logistic", "cloglog", "raw"),
                      test = NULL, response_curves = FALSE, iterations = 500,
                      extra_args = NULL) {
 
-  output_format <- match.arg(output_format)
+  maxent_output <- match.arg(maxent_output)
 
   args <- c("noaddsamplestobackground", paste0("betamultiplier=", rm),
-            paste0("outputformat=", output_format),
+            paste0("outputformat=", maxent_output),
             paste0("maximumiterations=", iterations),
             .getFeatureArgs(fc))
 
@@ -251,7 +188,6 @@ runMaxent <- function(train, bg, rm, fc, test = NULL, output_format = "cloglog",
 }
 
 .formulaFromLambdas <- function(l) {
-  #l <- model@lambdas
   fxs <- vector()
   for (i in 1:nrow(l)) {
     f <- l[i, ]

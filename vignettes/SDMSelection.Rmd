@@ -47,6 +47,7 @@ options(java.parameters = "-Xmx2g" )
 
 Import package:
 ```{r import}
+library(dismo)
 library(SDMSelection)
 ```
 
@@ -70,23 +71,23 @@ library(gridExtra)  # To plot multiple ggplot object in one page
 For demostrating how to use `SDMSelection` we download a dataset of [*Bradipus variegatus*](https://en.wikipedia.org/wiki/Brown-throated_sloth) from  the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/) using the [gbif](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/gbif) function of `dismo` package. We download data from the last 50 years:
 ```{r get presence data}
 data <- gbif(genus = 'Bradypus', species = 'variegatus*', geo = TRUE, removeZeros = TRUE, args = 'year=1967,2017')
-presence <- data.frame(x = data$lon, y = data$lat)
-presence <- presence[!duplicated(presence), ]  # Remove duplicate rows
-presence <- presence[!is.na(presence$x) | !is.na(presence$y), ]  # Remove NA values
+data <- data.frame(x = data$lon, y = data$lat)
+clean_data <- data[!duplicated(data), ]  # Remove duplicate rows
+clean_data <- clean_data[!is.na(clean_data$x) | !is.na(clean_data$y), ]  # Remove NA values
 ```
 
 ```{r}
 cat('Number of observations before cleaning data:', nrow(data),
-    '\nNumber of obsevations after cleaning data  :', nrow(presence))
+    '\nNumber of obsevations after cleaning data  :', nrow(clean_data))
 ```
 
 
-We downloaded `r nrow(data)` presence locations and after cleaning the duplicates and the NA we have `r nrow(presence)` locations for our analysis. We can plot the study area and the presence locations we downloaded from GBIF:
+We downloaded `r nrow(data)` presence locations and after cleaning the duplicates and the NA we have `r nrow(clean_data)` locations for our analysis. We can plot the study area and the presence locations we downloaded from GBIF:
 
 ```{r, fig.align="center"}
 ggplot(map_data('world'), aes(long, lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
-    geom_jitter(data = presence, aes(x = x, y = y), color = 'red',
+    geom_jitter(data = clean_data, aes(x = x, y = y), color = 'red',
                 alpha = 0.4, size = 2) +
     labs(x = "longitude", y = "latitude") +
     theme_minimal() +
@@ -148,8 +149,8 @@ We create a random train/val/test datasets witholding a 20\% sample for validati
 
 ```{r split data in train/dev/test dataset}
 # The %<-% operator from "zeallot"" package unpacks a list in variables
-c(train_coords, val_coords, test_coords) %<-% trainValTest(presence, val = 0.2, test = 0.2, seed = 25)
-cat('Total presence locations  :', nrow(presence),
+c(train_coords, val_coords, test_coords) %<-% trainValTest(clean_data, val = 0.2, test = 0.2, seed = 25)
+cat('Total presence locations  :', nrow(clean_data),
     '\nTotal train locations     :', nrow(train_coords),
     '\nTotal validation locations:', nrow(val_coords),
     '\nTotal test locations      :', nrow(test_coords))
@@ -252,14 +253,18 @@ ggplot(map_data('world'), aes(long, lat)) +
 The `runMaxent` function helps you running MaxEnt models in R, you can set all the desidered arguments. The main arguments have a dedicated parameter, for all the others you can use the `extra_args` parameter and pass a vector with the options. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but you can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to run a model (note that `rm = 1` and `fc = 'lqph'` are the default settings when you use MaxEnt software v. 1.4.1 and you have at least 80 presence locations):
 
 ```{r run MaxEnt}
-full_model <- runMaxent(train, bg_model, rm = 1, fc = 'lqph', test = val, output_format = 'cloglog', response_curves = TRUE, folder = 'full_model')
+full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = 'lqph', test = val, maxent_output = 'cloglog', response_curves = T, folder = 'full_model')
 ```
 
 The function takes care of the environmental variables data type. When you prepared the data you defined **biome** as categorical variable and the information is passed to the `runMaxent` function.
 
-The result of the `runMaxent` function is an object of class `Maxent` that stores in different slots the value of `presence`, `background`, MaxEnt `results`, `lambdas` coefficients, `rm`, `fc`, `iterations`, the `folder` where is stored the MaxEnt output and the `plot_data` if the `response_curves` parameter is set to `TRUE` (some of this values come from the results of the [maxent](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/maxent} function of `dismo`)). You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in your browser if you save the results permanetly using the parameter `folder =`.
+The result of the `runMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background**and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations**, the **folder** where is stored the MaxEnt output and the **plot_data** if the `response_curves` parameter is set to `TRUE` (some of this values come from the results of the [maxent](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/maxent} function of `dismo`)). You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in the browser if you save the results permanetly using the parameter `folder = my_path`.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 # Make Prediction
 
-When you use `runMaxent` the function trains a model but doesn't make any prediction. To make prediction use `predictMaxent`:
+The function `runMaxent` trains a model but doesn't make any prediction. The `predict` method makes the prediction:
+```{r}
+prediction <- predict(full_model, data = predictors, maxent_output = "cloglog", filename = "full_model_prediction", format = "GTiff", overwrite = T) 
+```
+You can pass as `data` a `data frame` or a [Raster Stack](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack), [Raster Brick](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/brick) object. In the first case the function returns a vector of prediction, in the second case it returns a raster map that can be saved providing the `filename` parameter.

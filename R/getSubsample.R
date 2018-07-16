@@ -2,11 +2,12 @@
 #'
 #' Get a random subsample of a SWD object.
 #'
-#' @param dataset A SWD object.
-#' @param size The size of the sub sample.
-#' @param seed The value used to set the seed in order to have consistent results, default is NULL.
+#' @param dataset SWD object.
+#' @param size numeric. The size of the sub sample.
+#' @param seed numeric. The value used to set the seed in order to have consistent results, default is NULL.
 #'
 #' @return The sub sample as SWD object.
+#' @export
 #'
 #' @examples
 #' \dontrun{

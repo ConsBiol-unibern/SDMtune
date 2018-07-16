@@ -11,9 +11,12 @@ Authors@R: c(
 Description: Performs Variables selection and model tuning for SDMs (Species Distribution Models). It provides also some utilities to display results.
 License: GPL (>= 3)
 Depends: R (>= 3.2.0),
+          zeallot (>= 0.1.0),
+          methods
+Imports: Rdpack,
           dismo (>= 1.1-4),
-          zeallot (>= 0.1.0)
-Imports: Rdpack
+          raster (>= 2.6-7),
+          rgdal
 RdMacros: Rdpack
 Encoding: UTF-8
 LazyData: true
@@ -21,5 +24,17 @@ RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
 Suggests: knitr,
     kableExtra,
-    rmarkdown
+    rmarkdown,
+    prettydoc,
+    roxygen2,
+    snow
 VignetteBuilder: knitr
+Collate: 
+    'SWD_class.R'
+    'Maxent_class.R'
+    'getSubsample.R'
+    'predict.Maxent.R'
+    'prepareSWD.R'
+    'swd2csv.R'
+    'trainMaxent.R'
+    'trainValTest.R'

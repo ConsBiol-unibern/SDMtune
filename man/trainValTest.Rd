@@ -7,13 +7,13 @@
 trainValTest(df, val, test, seed = NULL)
 }
 \arguments{
-\item{df}{The data frame that has to be splitted in train, validation and test datasets.}
+\item{df}{data.frame containing the data that have to be splitted in train, validation and test datasets.}
 
-\item{val}{The percentage of data withhold for validation.}
+\item{val}{numeric. The percentage of data withhold for validation.}
 
-\item{test}{The percentage of data withhold for testing.}
+\item{test}{numeric. The percentage of data withhold for testing.}
 
-\item{seed}{The value used to set the seed in order to have consistent results, default is NULL.}
+\item{seed}{numeric. The value used to set the seed in order to have consistent results, default is NULL.}
 }
 \value{
 A list with the train, validation and test data sets or train and test sets accordingly.

@@ -7,11 +7,11 @@
 getSubsample(dataset, size, seed = NULL)
 }
 \arguments{
-\item{dataset}{A SWD object.}
+\item{dataset}{SWD object.}
 
-\item{size}{The size of the sub sample.}
+\item{size}{numeric. The size of the sub sample.}
 
-\item{seed}{The value used to set the seed in order to have consistent results, default is NULL.}
+\item{seed}{numeric. The value used to set the seed in order to have consistent results, default is NULL.}
 }
 \value{
 The sub sample as SWD object.

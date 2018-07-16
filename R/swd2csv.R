@@ -2,8 +2,10 @@
 #'
 #' Save a MaxentSWD object in a csv file.
 #'
-#' @param swd A MaxentSWD object.
-#' @param file_name The name of the file where to save the object.
+#' @param swd SWD object.
+#' @param file_name character. The name of the file where to save the object.
+#'
+#' @export
 #'
 #' @examples
 #' \dontrun{

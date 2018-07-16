@@ -7,9 +7,9 @@
 swd2csv(swd, file_name)
 }
 \arguments{
-\item{swd}{A MaxentSWD object.}
+\item{swd}{SWD object.}
 
-\item{file_name}{The name of the file where to save the object.}
+\item{file_name}{character. The name of the file where to save the object.}
 }
 \description{
 Save a MaxentSWD object in a csv file.
