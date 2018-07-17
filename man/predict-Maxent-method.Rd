@@ -6,13 +6,13 @@
 \title{Predict Maxent}
 \usage{
 \S4method{predict}{Maxent}(object, data, clamp = TRUE,
-  maxent_output = c("logistic", "cloglog", "raw"), filename = "",
+  maxent_output = c("cloglog", "logistic", "raw"), filename = "",
   format = "GTiff", extent = NULL, parallel = FALSE, progress = "", ...)
 }
 \arguments{
 \item{object}{Maxent object.}
 
-\item{data}{data.frame, \code{\link{stack}} or \code{\link{brick}}.}
+\item{data}{data.frame, \code{\link{SWD}}, \code{\link{stack}} or \code{\link{brick}}.}
 
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
 

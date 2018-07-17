@@ -261,7 +261,7 @@ The function takes care of the environmental variables data type. When you prepa
 The result of the `runMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background**and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations**, the **folder** where is stored the MaxEnt output and the **plot_data** if the `response_curves` parameter is set to `TRUE` (some of this values come from the results of the [maxent](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/maxent} function of `dismo`)). You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in the browser if you save the results permanetly using the parameter `folder = my_path`.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
-## Display Variable Contribution
+## Variable Importance
 
 You can see the **percent contribution** and the **permutation importance** of each environmental variable `varImp`:
 

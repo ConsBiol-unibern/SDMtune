@@ -6,9 +6,9 @@ setGeneric("predict", function(object, ...)
 
     if (clamp) {
       for (variable in model@min_max$variable) {
-        data[variable] <- clamp(data[, variable],
-                                model@min_max$min[model@min_max$variable == variable],
-                                model@min_max$max[model@min_max$variable == variable])
+        data[variable] <- raster::clamp(data[, variable],
+                                        model@min_max$min[model@min_max$variable == variable],
+                                        model@min_max$max[model@min_max$variable == variable])
       }
     }
 
@@ -25,14 +25,14 @@ setGeneric("predict", function(object, ...)
     } else if (maxent_output == "logistic") {
        return(raw * exp(model@entropy) / (1 + raw * exp(model@entropy)))
     } else {
-      return(raw * exp(model@entropy) / (1 + raw * exp(model@entropy)))
+      return(1 - exp(-raw * exp(model@entropy)))
     }
 }
 
 #' Predict Maxent
 #'
 #' @param object Maxent object.
-#' @param data data.frame, \code{\link{stack}} or \code{\link{brick}}.
+#' @param data data.frame, \code{\link{SWD}}, \code{\link{stack}} or \code{\link{brick}}.
 #' @param clamp logical for clumping during prediction, default is TRUE.
 #' @param maxent_output character. The Maxent output type, possible values are "raw", "logistic" or "cloglog".
 #' @param filename character. Output file name for the prediction map, if provided the output is
@@ -46,7 +46,7 @@ setGeneric("predict", function(object, ...)
 #'
 #' @details You need package \link{snow} to use parallel computation and \code{\link{rgdal}} to save the prediction in a raster file.
 #' @include Maxent_class.R
-#' @importFrom raster beginCluster clusterR endCluster predict
+#' @importFrom raster beginCluster clusterR endCluster predict clamp
 #'
 #' @return A vector of prediction or a Raster object if data is a raster stack/brick.
 #' @exportMethod predict
@@ -58,7 +58,7 @@ setGeneric("predict", function(object, ...)
 setMethod("predict",
           signature = "Maxent",
           definition = function(object, data, clamp = TRUE,
-                                maxent_output = c("logistic", "cloglog", "raw"),
+                                maxent_output = c("cloglog", "logistic", "raw"),
                                 filename = "", format = "GTiff", extent = NULL,
                                 parallel = FALSE, progress = "", ...) {
             start_time <- proc.time()
@@ -90,6 +90,12 @@ setMethod("predict",
                                         ext = extent,
                                         ...)
               }
+            } else if (inherits(data, "SWD")) {
+              data <- data@data
+              pred <- .predict_from_lambdas(object,
+                                            data,
+                                            maxent_output = maxent_output,
+                                            clamp = clamp)
             } else if (inherits(data, "data.frame")) {
               pred <- .predict_from_lambdas(object,
                                             data,

@@ -18,7 +18,9 @@ Imports: Rdpack,
           dismo (>= 1.1-4),
           raster (>= 2.6-7),
           rgdal (>= 0.3-3),
-          scales (>= 0.5.0)
+          scales (>= 0.5.0),
+          foreach (>= 1.4.4),
+          stringr
 RdMacros: Rdpack
 Encoding: UTF-8
 LazyData: true
@@ -36,10 +38,12 @@ Collate:
     'Maxent_class.R'
     'doJk.R'
     'getSubsample.R'
+    'mergeSWD.R'
     'plotJk.R'
     'plotVarImp.R'
     'predict.Maxent.R'
     'prepareSWD.R'
+    'response.R'
     'swd2csv.R'
     'trainMaxent.R'
     'trainValTest.R'
