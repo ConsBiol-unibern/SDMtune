@@ -34,6 +34,7 @@ Suggests: knitr,
     snow
 VignetteBuilder: knitr
 Collate: 
+    'Maxent2MaxEnt.R'
     'SWD_class.R'
     'Maxent_class.R'
     'doJk.R'
