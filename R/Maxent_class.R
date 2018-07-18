@@ -17,7 +17,6 @@
 #' @slot dn numeric. Density Normalizer.
 #' @slot entropy numeric. The entropy value.
 #' @slot min_max data.frame. The minimum and maximum values of the continuous variables, used for clamping.
-#' @slot plot_data list. If available a list containing the values used to plot the response curves.
 #' @slot folder character. The path for the folder where are saved all the files produced by MaxEnt,
 #' available if the "folder" parameter is provided to the runMaxent function.
 #'
@@ -44,7 +43,6 @@ Maxent <- setClass("Maxent",
                      dn = "numeric",
                      entropy = "numeric",
                      min_max = "data.frame",
-                     plot_data = "list",
                      folder = "character")
 )
 
@@ -61,8 +59,7 @@ setMethod("show",
             cat("Background data     :", nrow(object@background@data), "\n")
             cat("Test data           :", nrow(object@test@data), "\n")
             cat("Continuous variables:", names(Filter(is.numeric, object@presence@data)), "\n")
-            cat("Categoricals        :", names(Filter(is.factor, object@presence@data)), "\n")
-            cat("Plot data           :", ifelse(identical(object@plot_data, list()), "No", "Yes"))
+            cat("Categoricals        :", names(Filter(is.factor, object@presence@data)))
 
             html <- paste0(object@folder, "/species.html")
 

@@ -41,8 +41,6 @@ This Class represents a MaxEnt model objects and hosts all the information relat
 
 \item{\code{min_max}}{data.frame. The minimum and maximum values of the continuous variables, used for clamping.}
 
-\item{\code{plot_data}}{list. If available a list containing the values used to plot the response curves.}
-
 \item{\code{folder}}{character. The path for the folder where are saved all the files produced by MaxEnt,
 available if the "folder" parameter is provided to the runMaxent function.}
 }}

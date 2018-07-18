@@ -5,8 +5,7 @@
 \title{Train Maxent model}
 \usage{
 trainMaxent(presence, bg, rm, fc, test = NULL, maxent_output = "cloglog",
-  response_curves = FALSE, iterations = 500, extra_args = NULL,
-  folder = NULL)
+  iterations = 500, extra_args = NULL, folder = NULL)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -22,8 +21,6 @@ trainMaxent(presence, bg, rm, fc, test = NULL, maxent_output = "cloglog",
 
 \item{maxent_output}{character. The MaxEnt output format, possible values are "logistic", "cloglog"
 and "raw", default value "cloglog".}
-
-\item{response_curves}{logical to compute the response curves, default is FALSE.}
 
 \item{iterations}{numeric. Number of iterations used by the Maxent alghoritm, default is 500.}
 

@@ -10,7 +10,6 @@
 #' @param test SWD object with the test locations, default is NULL.
 #' @param maxent_output character. The MaxEnt output format, possible values are "logistic", "cloglog"
 #' and "raw", default value "cloglog".
-#' @param response_curves logical to compute the response curves, default is FALSE.
 #' @param iterations numeric. Number of iterations used by the Maxent alghoritm, default is 500.
 #' @param extra_args vector. Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
 #' is NULL.
@@ -26,8 +25,8 @@
 #'
 #' @author Sergio Vignali
 trainMaxent <- function(presence, bg, rm, fc, test = NULL,
-                      maxent_output = "cloglog", response_curves = FALSE,
-                      iterations = 500, extra_args = NULL, folder = NULL) {
+                      maxent_output = "cloglog", iterations = 500,
+                      extra_args = NULL, folder = NULL) {
 
   if (class(presence) != "SWD" | class(bg) != "SWD")
     stop("presence and background dataset must be a SWD object!")
@@ -57,26 +56,13 @@ trainMaxent <- function(presence, bg, rm, fc, test = NULL,
     swd2csv(test, test_file)
   }
 
-  plot_data <- list()
   args <- .makeArgs(rm = rm, fc = fc, test = test_file,
-                   maxent_output = maxent_output,
-                   response_curves = response_curves,
-                   iterations = iterations, extra_args = extra_args)
+                   maxent_output = maxent_output, iterations = iterations,
+                   extra_args = extra_args)
 
   x <- rbind(presence@data, bg@data)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
   model <- dismo::maxent(x, p, args = args, path = folder)
-
-  if (response_curves == TRUE) {
-    path <- paste0(folder, "/plots/")
-    files <- dir(path, pattern = ".dat")
-    for (i in 1: length(files)) {
-      plot_data[[i]] <- read.csv(paste0(path, files[i]))
-    }
-    names <- gsub(".dat", "", files)
-    names <- gsub("species_", "", names)
-    names(plot_data) <- names
-  }
 
   l <- .getLambdas(paste0(folder, "/species.lambdas"), bg)
   f <- .formulaFromLambdas(l$lambdas)
@@ -86,7 +72,7 @@ trainMaxent <- function(presence, bg, rm, fc, test = NULL,
                         iterations = iterations, maxent_output = maxent_output,
                         lambdas = model@lambdas, coeff = l$lambdas, formula = f,
                         lpn = l$lpn, dn = l$dn, entropy = l$entropy,
-                        min_max = l$min_max, plot_data = plot_data)
+                        min_max = l$min_max)
 
   if (!is.null(test)) {
     test@species <- presence@species
@@ -120,8 +106,7 @@ trainMaxent <- function(presence, bg, rm, fc, test = NULL,
 
 .makeArgs <- function(rm, fc,
                      maxent_output = c("logistic", "cloglog", "raw"),
-                     test = NULL, response_curves = FALSE, iterations = 500,
-                     extra_args = NULL) {
+                     test = NULL, iterations = 500, extra_args = NULL) {
 
   maxent_output <- match.arg(maxent_output)
 
@@ -131,9 +116,6 @@ trainMaxent <- function(presence, bg, rm, fc, test = NULL,
             .getFeatureArgs(fc))
 
   if (!is.null(test)) args <- append(args, paste0("testsamplesfile=", test))
-
-  if (response_curves == TRUE) args <- append(args, c("responsecurves=true",
-                                                      "writeplotdata=true"))
 
   if (!is.null(extra_args)) args <- append(args, extra_args)
 

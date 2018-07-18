@@ -253,12 +253,12 @@ ggplot(map_data('world'), aes(long, lat)) +
 The `runMaxent` function helps you running MaxEnt models in R, you can set all the desidered arguments. The main arguments have a dedicated parameter, for all the others you can use the `extra_args` parameter and pass a vector with the options. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but you can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to run a model (note that `rm = 1` and `fc = 'lqph'` are the default settings when you use MaxEnt software v. 1.4.1 and you have at least 80 presence locations):
 
 ```{r run MaxEnt}
-full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = 'lqph', test = val, maxent_output = 'cloglog', response_curves = T, folder = 'full_model')
+full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = 'lqph', test = val, maxent_output = 'cloglog', folder = 'full_model')
 ```
 
 The function takes care of the environmental variables data type. When you prepared the data you defined **biome** as categorical variable and the information is passed to the `runMaxent` function.
 
-The result of the `runMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background**and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations**, the **folder** where is stored the MaxEnt output and the **plot_data** if the `response_curves` parameter is set to `TRUE` (some of this values come from the results of the [maxent](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/maxent} function of `dismo`)). You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in the browser if you save the results permanetly using the parameter `folder = my_path`.
+The result of the `trainMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background** and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations** and the **folder** where is stored the MaxEnt output if provided. You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in the browser if you save the results permanetly using the parameter `folder = my_path`.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 ## Variable Importance
