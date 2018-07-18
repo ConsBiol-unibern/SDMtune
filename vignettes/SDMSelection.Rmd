@@ -250,7 +250,7 @@ ggplot(map_data('world'), aes(long, lat)) +
 
 # Run MaxEnt models
 
-The `runMaxent` function helps you running MaxEnt models in R, you can set all the desidered arguments. The main arguments have a dedicated parameter, for all the others you can use the `extra_args` parameter and pass a vector with the options. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but you can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to run a model (note that `rm = 1` and `fc = 'lqph'` are the default settings when you use MaxEnt software v. 1.4.1 and you have at least 80 presence locations):
+The `trainMaxent` function helps you running MaxEnt models in R, you can set all the desidered arguments. The main arguments have a dedicated parameter, for all the others you can use the `extra_args` parameter and pass a vector with the options. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but you can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to run a model (note that `rm = 1` and `fc = 'lqph'` are the default settings when you use MaxEnt software v. 1.4.1 and you have at least 80 presence locations):
 
 ```{r run MaxEnt}
 full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = 'lqph', test = val, maxent_output = 'cloglog', folder = 'full_model')
