@@ -4,8 +4,8 @@
 \alias{trainMaxent}
 \title{Train Maxent model}
 \usage{
-trainMaxent(presence, bg, rm, fc, test = NULL, maxent_output = "cloglog",
-  iterations = 500, extra_args = NULL, folder = NULL)
+trainMaxent(presence, bg, rm, fc, test = NULL, iterations = 500,
+  extra_args = NULL, folder = NULL)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -18,9 +18,6 @@ trainMaxent(presence, bg, rm, fc, test = NULL, maxent_output = "cloglog",
 "l", "q", "p", "h" and "t".}
 
 \item{test}{SWD object with the test locations, default is NULL.}
-
-\item{maxent_output}{character. The MaxEnt output format, possible values are "logistic", "cloglog"
-and "raw", default value "cloglog".}
 
 \item{iterations}{numeric. Number of iterations used by the Maxent alghoritm, default is 500.}
 
@@ -37,7 +34,7 @@ The output of MaxEnt as Maxent object.
 Trtain a MaxEnt model using the dismo package.
 }
 \examples{
-\dontrun{model <- runMaxent(presence, bg, rm, response_curves = TRUE))}
+\dontrun{model <- trainMaxent(presence, bg, rm)}
 
 }
 \author{

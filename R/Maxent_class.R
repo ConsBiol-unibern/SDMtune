@@ -9,7 +9,6 @@
 #' @slot rm numeric. The value of the regularization multiplier used to train the model.
 #' @slot fc character. The feature class combination used to train the model.
 #' @slot iterations numeric. The number of iterations used to train the model.
-#' @slot maxent_output character. The output format of the model.
 #' @slot lambdas vector. The lambdas parameters of the model.
 #' @slot coeff data.frame. The lambda coefficients of the model.
 #' @slot formula formula. The formula used to make prediction.
@@ -35,7 +34,6 @@ Maxent <- setClass("Maxent",
                      rm = "numeric",
                      fc = "character",
                      iterations = "numeric",
-                     maxent_output = "character",
                      lambdas = "vector",
                      coeff = "data.frame",
                      formula = "formula",
@@ -54,7 +52,6 @@ setMethod("show",
             cat("RM                  :", object@rm, "\n")
             cat("FCs                 :", object@fc, "\n")
             cat("Iterations          :", object@iterations, "\n")
-            cat("Output Format       :", object@maxent_output, "\n")
             cat("Presence data       :", nrow(object@presence@data), "\n")
             cat("Background data     :", nrow(object@background@data), "\n")
             cat("Test data           :", nrow(object@test@data), "\n")

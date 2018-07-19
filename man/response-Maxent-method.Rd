@@ -30,7 +30,7 @@ default is FALSE.}
 The plot objects
 }
 \description{
-Plot the Responce Courve of the given environmental variable
+Plot the Response Curve of the given environmental variable.
 }
 \examples{
 \dontrun{

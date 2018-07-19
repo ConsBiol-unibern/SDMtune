@@ -3,7 +3,7 @@ setGeneric("response", function(object, ...)
 )
 #' Response Curve
 #'
-#' Plot the Responce Courve of the given environmental variable
+#' Plot the Response Curve of the given environmental variable.
 #'
 #' @param object Maxent object.
 #' @param variable character. Name of the variable to be plotted.

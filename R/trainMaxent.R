@@ -8,8 +8,6 @@
 #' @param fc vector. The value of the feature combination, possible values are combinations of
 #' "l", "q", "p", "h" and "t".
 #' @param test SWD object with the test locations, default is NULL.
-#' @param maxent_output character. The MaxEnt output format, possible values are "logistic", "cloglog"
-#' and "raw", default value "cloglog".
 #' @param iterations numeric. Number of iterations used by the Maxent alghoritm, default is 500.
 #' @param extra_args vector. Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
 #' is NULL.
@@ -21,12 +19,11 @@
 #' @importFrom dismo maxent
 #'
 #' @examples
-#' \dontrun{model <- runMaxent(presence, bg, rm, response_curves = TRUE))}
+#' \dontrun{model <- trainMaxent(presence, bg, rm)}
 #'
 #' @author Sergio Vignali
-trainMaxent <- function(presence, bg, rm, fc, test = NULL,
-                      maxent_output = "cloglog", iterations = 500,
-                      extra_args = NULL, folder = NULL) {
+trainMaxent <- function(presence, bg, rm, fc, test = NULL, iterations = 500,
+                        extra_args = NULL, folder = NULL) {
 
   if (class(presence) != "SWD" | class(bg) != "SWD")
     stop("presence and background dataset must be a SWD object!")
@@ -56,9 +53,8 @@ trainMaxent <- function(presence, bg, rm, fc, test = NULL,
     swd2csv(test, test_file)
   }
 
-  args <- .makeArgs(rm = rm, fc = fc, test = test_file,
-                   maxent_output = maxent_output, iterations = iterations,
-                   extra_args = extra_args)
+  args <- .makeArgs(rm = rm, fc = fc, test = test_file, iterations = iterations,
+                    extra_args = extra_args)
 
   x <- rbind(presence@data, bg@data)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
@@ -68,11 +64,10 @@ trainMaxent <- function(presence, bg, rm, fc, test = NULL,
   f <- .formulaFromLambdas(l$lambdas)
 
   result <- Maxent(presence = presence, background = bg,
-                        results = model@results, rm = rm, fc = fc,
-                        iterations = iterations, maxent_output = maxent_output,
-                        lambdas = model@lambdas, coeff = l$lambdas, formula = f,
-                        lpn = l$lpn, dn = l$dn, entropy = l$entropy,
-                        min_max = l$min_max)
+                   results = model@results, rm = rm, fc = fc,
+                   iterations = iterations, lambdas = model@lambdas,
+                   coeff = l$lambdas, formula = f, lpn = l$lpn, dn = l$dn,
+                   entropy = l$entropy, min_max = l$min_max)
 
   if (!is.null(test)) {
     test@species <- presence@species
@@ -104,14 +99,10 @@ trainMaxent <- function(presence, bg, rm, fc, test = NULL,
   return(result)
 }
 
-.makeArgs <- function(rm, fc,
-                     maxent_output = c("logistic", "cloglog", "raw"),
-                     test = NULL, iterations = 500, extra_args = NULL) {
-
-  maxent_output <- match.arg(maxent_output)
+.makeArgs <- function(rm, fc, test = NULL, iterations = 500,
+                      extra_args = NULL) {
 
   args <- c("noaddsamplestobackground", paste0("betamultiplier=", rm),
-            paste0("outputformat=", maxent_output),
             paste0("maximumiterations=", iterations),
             .getFeatureArgs(fc))
 
