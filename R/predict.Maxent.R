@@ -2,7 +2,7 @@ setGeneric("predict", function(object, ...)
     standardGeneric("predict")
     )
 
-.predict_from_lambdas <- function(model, data, maxent_output, clamp = TRUE) {
+.predict_from_lambdas <- function(model, data, type, clamp) {
 
     if (clamp) {
       for (variable in model@min_max$variable) {
@@ -20,9 +20,9 @@ setGeneric("predict", function(object, ...)
 
     S <- (dm %*% model@coeff$lambda) - model@lpn
     raw <- exp(S) / model@dn
-    if (maxent_output == "raw") {
+    if (type == "raw") {
       return(raw)
-    } else if (maxent_output == "logistic") {
+    } else if (type == "logistic") {
        return(raw * exp(model@entropy) / (1 + raw * exp(model@entropy)))
     } else {
       return(1 - exp(-raw * exp(model@entropy)))
@@ -34,7 +34,6 @@ setGeneric("predict", function(object, ...)
 #' @param object Maxent object.
 #' @param data data.frame, \code{\link{SWD}}, \code{\link{stack}} or \code{\link{brick}}.
 #' @param clamp logical for clumping during prediction, default is TRUE.
-#' @param maxent_output character. The Maxent output type, possible values are "raw", "logistic" or "cloglog".
 #' @param filename character. Output file name for the prediction map, if provided the output is
 #' saved in a file.
 #' @param format character. The output format, see \code{\link{writeRaster}} for all the options, default is "GTiff".
@@ -53,17 +52,14 @@ setGeneric("predict", function(object, ...)
 #' @rdname predict
 #'
 #' @examples\dontrun{
-#' predict(model, predictors, maxent_output = "cloglog", parallel = TRUE)}
+#' predict(model, predictors, parallel = TRUE)}
 #'
 #' @author Sergio Vignali
 setMethod("predict",
           signature = "Maxent",
-          definition = function(object, data, clamp = TRUE,
-                                maxent_output = c("cloglog", "logistic", "raw"),
-                                filename = "", format = "GTiff", extent = NULL,
+          definition = function(object, data, clamp = TRUE, filename = "",
+                                format = "GTiff", extent = NULL,
                                 parallel = FALSE, progress = "", ...) {
-
-            maxent_output <- match.arg(maxent_output)
 
             if (inherits(data, "Raster")) {
               if (parallel) {
@@ -72,7 +68,7 @@ setMethod("predict",
                                          predict,
                                          args = list(model = object,
                                                      clamp = clamp,
-                                                     maxent_output = maxent_output,
+                                                     type = object@type,
                                                      fun = .predict_from_lambdas),
                                          progress = progress,
                                          filename = filename,
@@ -82,7 +78,7 @@ setMethod("predict",
                 raster::endCluster()
               } else {
                 pred <- raster::predict(data, model = object,
-                                        maxent_output = maxent_output,
+                                        type = object@type,
                                         clamp = clamp,
                                         fun = .predict_from_lambdas,
                                         progress = progress,
@@ -95,12 +91,12 @@ setMethod("predict",
               data <- data@data
               pred <- .predict_from_lambdas(object,
                                             data,
-                                            maxent_output = maxent_output,
+                                            type = object@type,
                                             clamp = clamp)
             } else if (inherits(data, "data.frame")) {
               pred <- .predict_from_lambdas(object,
                                             data,
-                                            maxent_output = maxent_output,
+                                            type = object@type,
                                             clamp = clamp)
             }
 

@@ -7,7 +7,6 @@ setGeneric("response", function(object, ...)
 #'
 #' @param object Maxent object.
 #' @param variable character. Name of the variable to be plotted.
-#' @param maxent_output character. The Maxent output type, possible values are "raw", "logistic" or "cloglog".
 #' @param marginal logical, if TRUE it plots the marginal response courve, default is FALSE.
 #' @param clamp logical for clumping during prediction, default is TRUE.
 #' @param rug logical, if TRUE it adds the rug plot for presence and background locations locations,
@@ -23,22 +22,19 @@ setGeneric("response", function(object, ...)
 #'
 #' @examples
 #' \dontrun{
-#' response(model, variable = "bio12", maxent_output = "cloglog", marginal = TRUE, rug = TRUE)}
+#' response(model, variable = "bio12", marginal = TRUE, rug = TRUE)}
 #'
 #' @author Sergio Vignali
 setMethod("response",
           signature = "Maxent",
-          definition = function(object, variable,
-                                maxent_output = c("cloglog", "logistic", "raw"),
-                                marginal = FALSE, clamp = TRUE, rug = FALSE,
-                                color = "red") {
+          definition = function(object, variable, marginal = FALSE,
+                                clamp = TRUE, rug = FALSE, color = "red") {
 
             if (!variable %in% names(object@presence@data))
               stop(paste(variable, "is not used to train the model!"))
 
             cont_vars <- names(Filter(is.numeric, object@presence@data))
             cat_vars <- names(Filter(is.factor, object@presence@data))
-            maxent_output <- match.arg(maxent_output)
 
             if (variable %in% cat_vars) {
               categ <- unique(as.numeric(levels(bg@data[, variable]))[bg@data[, variable]])
@@ -76,13 +72,11 @@ setMethod("response",
               train@data <- object@presence@data[variable]
               bg@data <- object@background@data[variable]
               object <- trainMaxent(train, bg, rm = object@rm, fc = object@fc,
-                                   maxent_output = maxent_output,
-                                   iterations = object@iterations)
+                                    type = object@type,
+                                    iterations = object@iterations)
             }
 
-            pred <- suppressMessages(predict(object, data,
-                                             maxent_output = maxent_output,
-                                             clamp = clamp))
+            pred <- predict(object, data, clamp = clamp)
             plot_data <- data.frame(x = data[, variable], y = pred)
 
             if (variable %in% cont_vars) {
@@ -99,7 +93,7 @@ setMethod("response",
             my_plot <- my_plot +
               ggtitle(object@presence@species) +
               xlab(variable) +
-              ylab(paste(maxent_output, "output")) +
+              ylab(paste(object@type, "output")) +
               theme(plot.title = element_text(hjust = 0.5, face = "italic"),
                     legend.position = "none",
                     axis.ticks.x = element_blank(),

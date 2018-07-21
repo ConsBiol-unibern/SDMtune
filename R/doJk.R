@@ -63,7 +63,7 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
 
     message(paste(" * Jackknife Test without", variables[i]))
     jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
-                            test = test4jk, maxent_output = model@maxent_output)
+                            type = model@type, test = test4jk)
     aucs_without[i] <- jk_model@results["Training.AUC", ]
     if (auc_test)
       aucs_test_without[i] <- jk_model@results["Test.AUC", ]
@@ -84,7 +84,7 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
 
       message(paste(" * Jackknife Test with only", variables[i]))
       jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
-                            test = test4jk, maxent_output = model@maxent_output)
+                              type = model@type, test = test4jk)
       aucs_withonly[i] <- jk_model@results["Training.AUC", ]
       if (auc_test)
         aucs_test_withonly[i] <- jk_model@results["Test.AUC", ]

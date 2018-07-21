@@ -25,6 +25,8 @@ This Class represents a MaxEnt model objects and hosts all the information relat
 
 \item{\code{iterations}}{numeric. The number of iterations used to train the model.}
 
+\item{\code{type}}{character. The output format of the model.}
+
 \item{\code{lambdas}}{vector. The lambdas parameters of the model.}
 
 \item{\code{coeff}}{data.frame. The lambda coefficients of the model.}

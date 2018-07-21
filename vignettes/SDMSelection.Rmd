@@ -250,10 +250,10 @@ ggplot(map_data('world'), aes(long, lat)) +
 
 # Run MaxEnt models
 
-The `trainMaxent` function helps you running MaxEnt models in R, you can set all the desidered arguments. The main arguments have a dedicated parameter, for all the others you can use the `extra_args` parameter and pass a vector with the options. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but you can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to run a model (note that `rm = 1` and `fc = 'lqph'` are the default settings when you use MaxEnt software v. 1.4.1 and you have at least 80 presence locations):
+The `trainMaxent` function helps you running MaxEnt models in R, you can set all the desidered arguments. The main arguments have a dedicated parameter, for all the others you can use the `extra_args` parameter and pass a vector with the options. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but you can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to run a model (note that `rm = 1`, `fc = "lqph"` and `type = "cloglog"` are the default settings of MaxEnt software v. 1.4.1 when you have at least 80 presence locations):
 
 ```{r run MaxEnt}
-full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = 'lqph', test = val, folder = 'full_model')
+full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = "lqph", type = "cloglog", test = val, folder = 'full_model')
 ```
 
 The function takes care of the environmental variables data type. When you prepared the data you defined **biome** as categorical variable and the information is passed to the `runMaxent` function.
@@ -294,7 +294,7 @@ plotJk(full_model, jk, type = "train")
 
 The function `trainMaxent` trains a model but doesn't make any prediction. The `predict` method makes the prediction:
 ```{r}
-prediction <- predict(full_model, data = predictors, maxent_output = "cloglog", filename = "full_model_prediction", format = "GTiff", overwrite = T) 
+prediction <- predict(full_model, data = predictors, filename = "full_model_prediction", format = "GTiff", overwrite = T) 
 ```
 You can pass as `data` a `data frame` or a [Raster Stack](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack), [Raster Brick](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/brick) object. In the first case the function returns a vector of prediction, in the second case it returns a raster map that can be saved providing the `filename` parameter.
 <div style="text-align: right"><a href="#top">Back to top</a></div>

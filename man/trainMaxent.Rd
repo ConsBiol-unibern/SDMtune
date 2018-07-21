@@ -4,8 +4,8 @@
 \alias{trainMaxent}
 \title{Train Maxent model}
 \usage{
-trainMaxent(presence, bg, rm, fc, test = NULL, iterations = 500,
-  extra_args = NULL, folder = NULL)
+trainMaxent(presence, bg, rm, fc, type = c("cloglog", "logistic", "raw"),
+  test = NULL, iterations = 500, extra_args = NULL, folder = NULL)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -16,6 +16,9 @@ trainMaxent(presence, bg, rm, fc, test = NULL, iterations = 500,
 
 \item{fc}{vector. The value of the feature combination, possible values are combinations of
 "l", "q", "p", "h" and "t".}
+
+\item{type}{The MaxEnt output type, possible values are "Cloglog", "Logistic",
+"Cumulative" and "Raw", default value "Cloglog".}
 
 \item{test}{SWD object with the test locations, default is NULL.}
 

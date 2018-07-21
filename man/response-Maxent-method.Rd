@@ -5,16 +5,13 @@
 \alias{response,Maxent-method}
 \title{Response Curve}
 \usage{
-\S4method{response}{Maxent}(object, variable, maxent_output = c("cloglog",
-  "logistic", "raw"), marginal = FALSE, clamp = TRUE, rug = FALSE,
-  color = "red")
+\S4method{response}{Maxent}(object, variable, marginal = FALSE,
+  clamp = TRUE, rug = FALSE, color = "red")
 }
 \arguments{
 \item{object}{Maxent object.}
 
 \item{variable}{character. Name of the variable to be plotted.}
-
-\item{maxent_output}{character. The Maxent output type, possible values are "raw", "logistic" or "cloglog".}
 
 \item{marginal}{logical, if TRUE it plots the marginal response courve, default is FALSE.}
 
@@ -34,7 +31,7 @@ Plot the Response Curve of the given environmental variable.
 }
 \examples{
 \dontrun{
-response(model, variable = "bio12", maxent_output = "cloglog", marginal = TRUE, rug = TRUE)}
+response(model, variable = "bio12", marginal = TRUE, rug = TRUE)}
 
 }
 \author{

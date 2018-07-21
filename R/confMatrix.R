@@ -3,8 +3,6 @@
 #' Compute the Confusion Matrix for threshold values varying from 0 to 1
 #'
 #' @param model Maxent object.
-#' @param type character Prediction type, possible values are "cloglog" or "logistic",
-#' default is "cloglog".
 #' @param presence SWD presence locations, if not provided it uses the train dataset,
 #' default is NULL.
 #' @param th numeric if provided it computes the evaluation at the given threshold,
@@ -16,20 +14,17 @@
 #' @examples
 #' \dontrun{
 #' confMatrix(my_model, presence = test_dataset)}
-confMatrix <- function(model, type = c("cloglog", "logistic"), presence = NULL,
-                       th = NULL) {
+confMatrix <- function(model, presence = NULL, th = NULL) {
 
   if (class(model) != "Maxent")
     stop("Model must be a Maxent object!")
 
-  type <- match.arg(type)
-
   if (is.null(presence)) {
-    p_pred <- predict(model, model@presence, maxent_output = type)
+    p_pred <- predict(model, model@presence)
   } else {
-    p_pred <- predict(model, presence, maxent_output = type)
+    p_pred <- predict(model, presence)
   }
-  bg_pred <- predict(model, model@background, maxent_output = type)
+  bg_pred <- predict(model, model@background)
 
   n_pres <- nrow(p_pred)
   n_bg <- nrow(bg_pred)

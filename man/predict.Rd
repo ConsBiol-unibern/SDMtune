@@ -5,8 +5,7 @@
 \alias{predict,Maxent-method}
 \title{Predict Maxent}
 \usage{
-\S4method{predict}{Maxent}(object, data, clamp = TRUE,
-  maxent_output = c("cloglog", "logistic", "raw"), filename = "",
+\S4method{predict}{Maxent}(object, data, clamp = TRUE, filename = "",
   format = "GTiff", extent = NULL, parallel = FALSE, progress = "", ...)
 }
 \arguments{
@@ -15,8 +14,6 @@
 \item{data}{data.frame, \code{\link{SWD}}, \code{\link{stack}} or \code{\link{brick}}.}
 
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
-
-\item{maxent_output}{character. The Maxent output type, possible values are "raw", "logistic" or "cloglog".}
 
 \item{filename}{character. Output file name for the prediction map, if provided the output is
 saved in a file.}
@@ -43,7 +40,7 @@ You need package \link{snow} to use parallel computation and \code{\link{rgdal}}
 }
 \examples{
 \dontrun{
-predict(model, predictors, maxent_output = "cloglog", parallel = TRUE)}
+predict(model, predictors, parallel = TRUE)}
 
 }
 \author{
