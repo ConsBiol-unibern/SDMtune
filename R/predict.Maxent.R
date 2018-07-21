@@ -50,6 +50,7 @@ setGeneric("predict", function(object, ...)
 #'
 #' @return A vector of prediction or a Raster object if data is a raster stack/brick.
 #' @exportMethod predict
+#' @rdname predict
 #'
 #' @examples\dontrun{
 #' predict(model, predictors, maxent_output = "cloglog", parallel = TRUE)}
@@ -61,7 +62,7 @@ setMethod("predict",
                                 maxent_output = c("cloglog", "logistic", "raw"),
                                 filename = "", format = "GTiff", extent = NULL,
                                 parallel = FALSE, progress = "", ...) {
-            start_time <- proc.time()
+
             maxent_output <- match.arg(maxent_output)
 
             if (inherits(data, "Raster")) {
@@ -103,11 +104,5 @@ setMethod("predict",
                                             clamp = clamp)
             }
 
-            elapsed_time <- proc.time() - start_time
-            t_hour <- floor(elapsed_time[3] / 3600)
-            t_min <- floor( (elapsed_time[3] - (t_hour * 3600)) / 60)
-            t_sec <- elapsed_time[3] - (t_hour * 3600) - (t_min * 60)
-            message(paste0("  - Prediction finished in ", t_hour, "h ", t_min,
-                           "m ", round(t_sec, 1), "s"))
             return(pred)
           })
