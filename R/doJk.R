@@ -12,6 +12,7 @@
 #' @return A data frame with the test results. If **return_model = TRUE** it returns a list with
 #' the data frame together with the models.
 #' @export
+#' @import progress
 #' @importFrom foreach foreach %do%
 #'
 #' @examples \dontrun{
@@ -24,17 +25,19 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
   if (class(model) != "Maxent")
     stop("Model must be a Maxent object!")
 
-  start_time <- proc.time()
-  text <- paste("**  SDMSelection: Jackknife test for", model@presence@species,
-                " **")
-  nstars <- nchar(text)
-  message(paste(rep("*", nstars), collapse = ""))
-  message(text)
-  message(paste(rep("*", nstars), collapse = ""))
-  message("")
-
   if (is.null(variables))
     variables <- colnames(model@presence@data)
+
+  if (with_only) {
+    tot <- length(variables) * 2
+  } else {
+    tot <- length(variables)
+  }
+
+  pb <- progress::progress_bar$new(
+    format = "Jk Test [:bar] :percent in :elapsedfull",
+    total = tot, clear = FALSE, width = 60, show_after = 0)
+  pb$tick(0)
 
   aucs_without <- aucs_withonly <- vector(mode = "numeric",
                                           length = length(variables))
@@ -61,13 +64,13 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
       test4jk <- NULL
     }
 
-    message(paste(" * Jackknife Test without", variables[i]))
     jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
                             type = model@type, test = test4jk)
     aucs_without[i] <- jk_model@results["Training.AUC", ]
     if (auc_test)
       aucs_test_without[i] <- jk_model@results["Test.AUC", ]
     models_without <- c(models_without, jk_model)
+    pb$tick()
 
     if (with_only) {
       presence <- model@presence
@@ -82,13 +85,13 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
         test4jk <- NULL
       }
 
-      message(paste(" * Jackknife Test with only", variables[i]))
       jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
                               type = model@type, test = test4jk)
       aucs_withonly[i] <- jk_model@results["Training.AUC", ]
       if (auc_test)
         aucs_test_withonly[i] <- jk_model@results["Test.AUC", ]
       models_withonly <- c(models_withonly, jk_model)
+      pb$tick()
     }
   }
 
@@ -113,14 +116,6 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
   } else {
     output <- jk_test
   }
-
-  elapsed_time <- proc.time() - start_time
-  t_hour <- floor(elapsed_time[3] / 3600)
-  t_min <- floor( (elapsed_time[3] - (t_hour * 3600)) / 60)
-  t_sec <- elapsed_time[3] - (t_hour * 3600) - (t_min * 60)
-
-  message(paste0("  - Test copleted in ", t_hour, "h ", t_min, "m ",
-                 round(t_sec, 1), "s"))
 
   return(output)
 }

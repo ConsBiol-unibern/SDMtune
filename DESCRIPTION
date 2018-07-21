@@ -20,6 +20,7 @@ Imports: Rdpack,
           rgdal (>= 0.3-3),
           scales (>= 0.5.0),
           foreach (>= 1.4.4),
+          progress (>= 1.2.0),
           stringr
 RdMacros: Rdpack
 Encoding: UTF-8

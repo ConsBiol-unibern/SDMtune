@@ -258,7 +258,11 @@ full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = "lqph", 
 
 The function takes care of the environmental variables data type. When you prepared the data you defined **biome** as categorical variable and the information is passed to the `runMaxent` function.
 
-The result of the `trainMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background** and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations** and the **folder** where is stored the MaxEnt output if provided. You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in the browser if you save the results permanetly using the parameter `folder = my_path`.
+The result of the `trainMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background** and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations**, **output type** and the **folder** where is stored the MaxEnt output if provided. You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in the browser if you save the results permanetly using the parameter `folder = my_path`.
+```{r}
+full_model
+```
+
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 ## Variable Importance
