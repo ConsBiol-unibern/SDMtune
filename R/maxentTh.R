@@ -4,7 +4,8 @@
 #'
 #' @param model Maxent object.
 #'
-#' @examples maxentTh(model)
+#' @examples\dontrun{
+#' maxentTh(model)}
 #' @export
 #'
 #' @author Sergio Vignali

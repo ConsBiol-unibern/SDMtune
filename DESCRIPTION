@@ -21,6 +21,8 @@ Imports: Rdpack,
           scales (>= 0.5.0),
           foreach (>= 1.4.4),
           progress (>= 1.2.0),
+          rasterVis (>= 0.45),
+          reshape2 (>= 1.4.3),
           stringr
 RdMacros: Rdpack
 Encoding: UTF-8
@@ -40,6 +42,7 @@ Collate:
     'Maxent_class.R'
     'auc.R'
     'confMatrix.R'
+    'corVar.R'
     'doJk.R'
     'getSubsample.R'
     'maxentTh.R'
@@ -49,11 +52,12 @@ Collate:
     'plotPred.R'
     'plotROC.R'
     'plotVarImp.R'
-    'predict.Maxent.R'
+    'predict_Maxent.R'
     'prepareSWD.R'
     'response.R'
     'swd2csv.R'
     'trainMaxent.R'
     'trainValTest.R'
     'varImp.R'
+    'varSelection.R'
     'zzz.R'

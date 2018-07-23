@@ -10,15 +10,14 @@ setGeneric("response", function(object, ...)
 #' @param marginal logical, if TRUE it plots the marginal response courve, default is FALSE.
 #' @param clamp logical for clumping during prediction, default is TRUE.
 #' @param rug logical, if TRUE it adds the rug plot for presence and background locations locations,
-#' available only for continuous variables,
-#' default is FALSE.
+#' available only for continuous variables, default is FALSE.
 #' @param color The color of the curve, default is "red".
 #'
 #' @include Maxent_class.R
-#' @exportMethod response
-#'
-#' @return The plot objects
 #' @importFrom raster modal
+#'
+#' @return The plot object
+#' @exportMethod response
 #'
 #' @examples
 #' \dontrun{
@@ -68,7 +67,7 @@ setMethod("response",
               data[variable] <- categ
             }
 
-            if (marginal) {
+            if (!marginal) {
               train@data <- object@presence@data[variable]
               bg@data <- object@background@data[variable]
               object <- trainMaxent(train, bg, rm = object@rm, fc = object@fc,

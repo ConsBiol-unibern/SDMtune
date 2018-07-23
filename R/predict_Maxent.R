@@ -93,11 +93,13 @@ setMethod("predict",
                                             data,
                                             type = object@type,
                                             clamp = clamp)
+              pred <- as.vector(pred)
             } else if (inherits(data, "data.frame")) {
               pred <- .predict_from_lambdas(object,
                                             data,
                                             type = object@type,
                                             clamp = clamp)
+              pred <- as.vector(pred)
             }
 
             return(pred)

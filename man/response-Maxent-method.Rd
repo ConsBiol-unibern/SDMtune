@@ -18,13 +18,12 @@
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
 
 \item{rug}{logical, if TRUE it adds the rug plot for presence and background locations locations,
-available only for continuous variables,
-default is FALSE.}
+available only for continuous variables, default is FALSE.}
 
 \item{color}{The color of the curve, default is "red".}
 }
 \value{
-The plot objects
+The plot object
 }
 \description{
 Plot the Response Curve of the given environmental variable.

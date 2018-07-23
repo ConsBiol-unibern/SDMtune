@@ -12,7 +12,7 @@
 #' @return A data frame with the test results. If **return_model = TRUE** it returns a list with
 #' the data frame together with the models.
 #' @export
-#' @import progress
+#' @importFrom progress progress_bar
 #' @importFrom foreach foreach %do%
 #'
 #' @examples \dontrun{

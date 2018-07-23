@@ -280,25 +280,90 @@ plotVarImp(full_model, type = "perm", color = '#159957')
 ```
 
 Another way to estimate the variable importance is to run a **Jackknife Test**:
-```{r}
+```{r jk, eval=F}
 jk <- doJk(full_model, with_only = T)
 ```
+
+```{r, echo=F}
+jk <- suppressMessages(doJk(full_model, with_only = T))
+```
 If the model has a test dataset, it returns the train and test AUC, if not it returns only the train AUC
-```{r}
+```{r show jk}
 jk
 ```
 You can plot the result of the **Jackknife Test** with the `plotJk` function:
-```{r}
+```{r plot jk, fig.align="center"}
 plotJk(full_model, jk, type = "train")
 ```
+The red dashed vertical line represent the AUC value of the model trained using all the environmental variabled.
+<div style="text-align: right"><a href="#top">Back to top</a></div>
 
+## Plot Response Curves
+
+The function method `response` plots the response curve of the given environmental variable:
+
+```{r bio12, fig.align="center"}
+response(full_model, variable = 'bio12', marginal = T, rug = T)
+```
+
+**bio12** is a continuous variable, **biome** is categorical:
+
+```{r biome, fig.align="center"}
+response(full_model, variable = 'biome', marginal = T, color = '#159957')
+```
+
+Use `color` to change the **color** of the plot and `marginal` if you want to plot the marginal response curve.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 # Make Prediction
 
 The function `trainMaxent` trains a model but doesn't make any prediction. The `predict` method makes the prediction:
-```{r}
-prediction <- predict(full_model, data = predictors, filename = "full_model_prediction", format = "GTiff", overwrite = T) 
+```{r make prediction}
+prediction <- predict(full_model, data = predictors, filename = "full_model_prediction", format = "GTiff", overwrite = T)
 ```
-You can pass as `data` a `data frame` or a [Raster Stack](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack), [Raster Brick](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/brick) object. In the first case the function returns a vector of prediction, in the second case it returns a raster map that can be saved providing the `filename` parameter.
+You can pass as `data` a `data frame`, a `SWD object` or a [Raster Stack](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack), [Raster Brick](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/brick) object. In the first case the function returns a vector of prediction, in the second case it returns a raster map that can be saved providing the `filename` parameter. For big dataset you can provide the parameter `progress = "text"` to display a progress bar.
+
+## Plot Prediction
+
+The prediction can be plotted using any of the `plot` function in R but the function `plotPred` provides a way to plot it using the [rasterVis](https://oscarperpinan.github.io/rastervis/) package:
+```{r plot prediction, fig.align="center"}
+plotPred(prediction, lt = "cloglog output", hr = T) 
+```
+The default colorramp is similar to the usual MaxEnt output, but you can also use different colorramps:
+
+```{r plot prediction colorramp, fig.align="center"}
+plotPred(prediction, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"), lt = "cloglog output")
+```
+
+To get nice combination of colors for maps visit [COLORBREWER](http://colorbrewer2.org/), the one in this example is the **5-class RdYlBu** colorblind safe and print friendly.
+Using `hr = T` you obtain a high resolution plot, useful for publications.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
+
+## Plot Presence Absence
+
+To create a presence absence map you have to choose a threshold provided by MaxEnt. The function `maxentTh` provides a list of possible thresholds:
+
+```{r threshold, eval=F}
+maxentTh(full_model)
+```
+```{r, echo=F}
+kable(maxentTh(full_model)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive")) %>%
+  scroll_box(height = "500px")
+```
+
+For example if you want to use the **Maximum training sensitivity plus specificity Cloglog threshold** copy the value and use it as a parameter for the `plotPA` function:
+
+```{r plot presence absence, fig.align="center"}
+plotPA(prediction, th = 0.2849, filename = 'pa_map', overwrite = TRUE, format = 'GTiff')
+```
+
+or you can customise the colors using:
+
+```{r plot presence absence colors, fig.align="center"}
+plotPA(prediction, th = 0.2849, filename = 'pa_map', overwrite = TRUE, colors = c("#7fbf7b", "#af8dc3"))
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+# Data Driven Variable Selection
+Some of the environmental variables used to train our **full_model** are highly correlated. One possible approach is performed by the `varSelection` function. The function performs the variable selection iterating through several steps: starting from a trained model it checks if the variable ranked as most important (both variable importance rank are possible, percent contribution and permutation importance) is highly correlated with other variables according to the given method and correlation threshold. In this case it performs a Jaccknife test and among the correlated variables it discards the one that decreases the less the train AUC when removed from the model. After if trains another model and checks again for highly correlated variables. The process is repeated until the retained variables are not higly correlated anymore. 
