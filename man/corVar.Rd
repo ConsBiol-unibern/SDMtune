@@ -4,10 +4,10 @@
 \alias{corVar}
 \title{Print Correlated Variables}
 \usage{
-corVar(loc, method = "spearman", cor_th = 0.7)
+corVar(bg, method = "spearman", cor_th = 0.7)
 }
 \arguments{
-\item{loc}{SWD. Locations used to test the correlation between environmental variables.}
+\item{bg}{SWD. Locations used to test the correlation between environmental variables.}
 
 \item{method}{character. The method used to comput the correlation matrix, default "spearman".}
 
@@ -22,7 +22,7 @@ method and correlation threashold
 }
 \examples{
 \dontrun{
-corVar(loc, method = 'pearson', cor_th = 0.6)}
+corVar(bg, method = 'pearson', cor_th = 0.6)}
 
 }
 \author{

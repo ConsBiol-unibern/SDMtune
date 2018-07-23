@@ -47,6 +47,7 @@ Collate:
     'getSubsample.R'
     'maxentTh.R'
     'mergeSWD.R'
+    'plotCor.R'
     'plotJk.R'
     'plotPA.R'
     'plotPred.R'

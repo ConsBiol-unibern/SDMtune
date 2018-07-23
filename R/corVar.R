@@ -3,7 +3,7 @@
 #' Utility that prints the name of correlated variables according with the provided
 #' method and correlation threashold
 #'
-#' @param loc SWD. Locations used to test the correlation between environmental variables.
+#' @param bg SWD. Locations used to test the correlation between environmental variables.
 #' @param method character. The method used to comput the correlation matrix, default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly correlated variables, default is 0.7.
 #'
@@ -12,15 +12,15 @@
 #' @importFrom reshape2 melt
 #'
 #' @examples \dontrun{
-#' corVar(loc, method = 'pearson', cor_th = 0.6)}
+#' corVar(bg, method = 'pearson', cor_th = 0.6)}
 #'
 #' @author Sergio Vignali
-corVar <- function(loc, method = "spearman", cor_th = 0.7) {
+corVar <- function(bg, method = "spearman", cor_th = 0.7) {
 
-  if (class(loc) != "SWD")
-    stop("loc must be a SWD object!")
+  if (class(bg) != "SWD")
+    stop("bg must be a SWD object!")
 
-  df <- loc@data
+  df <- bg@data
   categorical <- names(Filter(is.factor, df))
   df[categorical] <- list(NULL)
   cor_matrix <- cor(df, method = method)
