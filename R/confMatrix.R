@@ -18,6 +18,8 @@ confMatrix <- function(model, test = NULL, th = NULL) {
 
   if (class(model) != "Maxent")
     stop("Model must be a Maxent object!")
+  if (!is.null(test) & class(test) != "SWD")
+    stop("Dataset must be a SWD object!")
 
   if (is.null(test)) {
     p_pred <- predict(model, model@presence)

@@ -15,8 +15,6 @@
 #'
 #' @author Sergio Vignali
 plotROC <- function(model, val = NULL, test = NULL) {
-  if (class(model) != "Maxent")
-    stop("Model must be a Maxent object!")
 
   cm <- confMatrix(model)
   fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
@@ -28,7 +26,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
     cm <- confMatrix(model, val)
     fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
     tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
-    auc <- auc(model, presence = val)
+    auc <- auc(model, test = val)
     df_val <- data.frame(set = "val", fpr = fpr, tpr = tpr)
     df <- rbind(df, df_val)
     labels <- append(labels, paste("Val", round(auc, 3)))
@@ -38,7 +36,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
     cm <- confMatrix(model, test)
     fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
     tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
-    auc <- auc(model, presence = test)
+    auc <- auc(model, test = test)
     df_test <- data.frame(set = "test", fpr = fpr, tpr = tpr)
     df <- rbind(df, df_test)
     labels <- append(labels, paste("Test", round(auc, 3)))

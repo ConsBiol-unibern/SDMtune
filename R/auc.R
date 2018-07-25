@@ -3,7 +3,7 @@
 #' Compute the AUC using the Man-Whitney U Test formula
 #'
 #' @param model Maxent object.
-#' @param presence SWD presence locations, if not provided it computes the train AUC,
+#' @param test SWD test locations, if not provided it computes the train AUC,
 #' default is NULL.
 #' @param bg SWD backgroung locations used to compute the AUC
 #' by the permutation importance function, defaul is NULL.
@@ -13,15 +13,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' auc(my_model, presence = test_dataset)}
+#' auc(my_model, test = test_dataset)}
 #'
 #' @author Sergio Vignali
-auc <- function(model, presence = NULL, bg = NULL) {
+auc <- function(model, test = NULL, bg = NULL) {
 
-  if (is.null(presence)) {
+  if (is.null(test)) {
     p_pred <- predict(model, model@presence)
   } else {
-    p_pred <- predict(model, presence)
+    p_pred <- predict(model, test)
   }
 
   # bg is used for permutation importance

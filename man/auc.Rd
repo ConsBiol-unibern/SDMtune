@@ -4,12 +4,12 @@
 \alias{auc}
 \title{AUC}
 \usage{
-auc(model, presence = NULL, bg = NULL)
+auc(model, test = NULL, bg = NULL)
 }
 \arguments{
 \item{model}{Maxent object.}
 
-\item{presence}{SWD presence locations, if not provided it computes the train AUC,
+\item{test}{SWD test locations, if not provided it computes the train AUC,
 default is NULL.}
 
 \item{bg}{SWD backgroung locations used to compute the AUC
@@ -23,7 +23,7 @@ Compute the AUC using the Man-Whitney U Test formula
 }
 \examples{
 \dontrun{
-auc(my_model, presence = test_dataset)}
+auc(my_model, test = test_dataset)}
 
 }
 \author{

@@ -59,6 +59,7 @@ Collate:
     'swd2csv.R'
     'trainMaxent.R'
     'trainValTest.R'
+    'tss.R'
     'varImp.R'
     'varSelection.R'
     'zzz.R'
