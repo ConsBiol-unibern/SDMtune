@@ -41,6 +41,8 @@ setGeneric("predict", function(object, ...)
 #' extent, default is NULL.
 #' @param parallel logical to use parallel computation during prediction, default is FALSE.
 #' @param progress character to display a progress bar: "text", "window" or "" (default) for no progress bar.
+#' @param type character MaxEnt output type, if not provided it uses the model type.
+#' Possible values are "cloglog", "logistic" and "raw", default is NULL.
 #' @param ... Additional parameter to pass to the \code{\link{writeRaster}} function.
 #'
 #' @details You need package \link{snow} to use parallel computation and \code{\link{rgdal}} to save the prediction in a raster file.
@@ -59,7 +61,14 @@ setMethod("predict",
           signature = "Maxent",
           definition = function(object, data, clamp = TRUE, filename = "",
                                 format = "GTiff", extent = NULL,
-                                parallel = FALSE, progress = "", ...) {
+                                parallel = FALSE, progress = "", type = NULL,
+                                ...) {
+
+            if (!is.null(type)) {
+              type = type
+            } else {
+              type = model@type
+            }
 
             if (inherits(data, "Raster")) {
               if (parallel) {
@@ -68,7 +77,7 @@ setMethod("predict",
                                          predict,
                                          args = list(model = object,
                                                      clamp = clamp,
-                                                     type = object@type,
+                                                     type = type,
                                                      fun = .predict_from_lambdas),
                                          progress = progress,
                                          filename = filename,
@@ -78,7 +87,7 @@ setMethod("predict",
                 raster::endCluster()
               } else {
                 pred <- raster::predict(data, model = object,
-                                        type = object@type,
+                                        type = type,
                                         clamp = clamp,
                                         fun = .predict_from_lambdas,
                                         progress = progress,
@@ -91,13 +100,13 @@ setMethod("predict",
               data <- data@data
               pred <- .predict_from_lambdas(object,
                                             data,
-                                            type = object@type,
+                                            type = type,
                                             clamp = clamp)
               pred <- as.vector(pred)
             } else if (inherits(data, "data.frame")) {
               pred <- .predict_from_lambdas(object,
                                             data,
-                                            type = object@type,
+                                            type = type,
                                             clamp = clamp)
               pred <- as.vector(pred)
             }

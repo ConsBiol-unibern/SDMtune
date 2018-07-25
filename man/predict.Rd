@@ -6,7 +6,8 @@
 \title{Predict Maxent}
 \usage{
 \S4method{predict}{Maxent}(object, data, clamp = TRUE, filename = "",
-  format = "GTiff", extent = NULL, parallel = FALSE, progress = "", ...)
+  format = "GTiff", extent = NULL, parallel = FALSE, progress = "",
+  type = NULL, ...)
 }
 \arguments{
 \item{object}{Maxent object.}
@@ -26,6 +27,9 @@ extent, default is NULL.}
 \item{parallel}{logical to use parallel computation during prediction, default is FALSE.}
 
 \item{progress}{character to display a progress bar: "text", "window" or "" (default) for no progress bar.}
+
+\item{type}{character MaxEnt output type, if not provided it uses the model type.
+Possible values are "cloglog", "logistic" and "raw", default is NULL.}
 
 \item{...}{Additional parameter to pass to the \code{\link{writeRaster}} function.}
 }
