@@ -315,6 +315,13 @@ response(full_model, variable = 'biome', marginal = T, color = '#159957')
 Use `color` to change the **color** of the plot and `marginal` if you want to plot the marginal response curve.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
+## Plot ROC curve
+
+```{r}
+plotROC(full_model, val = val)
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
 # Make Prediction
 
 The function `trainMaxent` trains a model but doesn't make any prediction. The `predict` method makes the prediction:

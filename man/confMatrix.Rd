@@ -4,24 +4,24 @@
 \alias{confMatrix}
 \title{Confusion Matrix}
 \usage{
-confMatrix(model, presence = NULL, th = NULL)
+confMatrix(model, test = NULL, th = NULL)
 }
 \arguments{
 \item{model}{Maxent object.}
 
-\item{presence}{SWD presence locations, if not provided it uses the train dataset,
+\item{test}{SWD test locations, if not provided it uses the train dataset,
 default is NULL.}
 
-\item{th}{numeric if provided it computes the evaluation at the given threshold,
+\item{th}{vector if provided it computes the evaluation at the given thresholds,
 default is NULL.}
 }
 \value{
 The Confusion Matrix for all the used thresholds.
 }
 \description{
-Compute the Confusion Matrix for threshold values varying from 0 to 1
+Computes Confusion Matrixes for threshold values varying from 0 to 1
 }
 \examples{
 \dontrun{
-confMatrix(my_model, presence = test_dataset)}
+confMatrix(my_model, test = test_dataset)}
 }

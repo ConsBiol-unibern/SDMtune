@@ -18,34 +18,33 @@ plotROC <- function(model, val = NULL, test = NULL) {
   if (class(model) != "Maxent")
     stop("Model must be a Maxent object!")
 
-  train <- model@presence@data
-  bg <- model@background@data
-  variables <- colnames(train)
-  maxent_model <- Maxent2MaxEnt(model)
-  train_evaluation <- dismo::evaluate(maxent_model, p = train, a = bg)
-  df <- data.frame(set = "train", FPR = train_evaluation@FPR,
-                   TPR = train_evaluation@TPR)
-  labels <- c(paste("Train", sprintf("%.3f", round(train_evaluation@auc, 3))))
+  cm <- confMatrix(model)
+  fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
+  tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
+  df <- data.frame(set = "train", fpr = fpr, tpr = tpr)
+  labels <- c(paste("Train", model@results["Training.AUC", ]))
 
   if (!is.null(val)) {
-    val_evaluation <- dismo::evaluate(maxent_model, p = val@data[variables], a = bg)
-    df_val <- data.frame(set = "val", FPR = val_evaluation@FPR,
-                         TPR = val_evaluation@TPR)
+    cm <- confMatrix(model, val)
+    fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
+    tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
+    auc <- auc(model, presence = val)
+    df_val <- data.frame(set = "val", fpr = fpr, tpr = tpr)
     df <- rbind(df, df_val)
-    labels <- append(labels,
-                     paste("Val", sprintf("%.3f", round(val_evaluation@auc, 3))))
+    labels <- append(labels, paste("Val", round(auc, 3)))
   }
 
   if (!is.null(test)) {
-    test_evaluation <- dismo::evaluate(maxent_model, p = test@data[variables], a = bg)
-    df_test <- data.frame(set = "test", FPR = test_evaluation@FPR,
-                          TPR = test_evaluation@TPR)
+    cm <- confMatrix(model, test)
+    fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
+    tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
+    auc <- auc(model, presence = test)
+    df_test <- data.frame(set = "test", fpr = fpr, tpr = tpr)
     df <- rbind(df, df_test)
-    labels <- append(labels,
-                     paste("Test", sprintf("%.3f", round(test_evaluation@auc, 3))))
+    labels <- append(labels, paste("Test", round(auc, 3)))
   }
 
-  my_plot <- ggplot(df, aes(x = FPR, y = TPR, colour = set)) +
+  my_plot <- ggplot(df, aes(x = fpr, y = tpr, colour = set)) +
     geom_line() +
     scale_colour_discrete(name = "AUC", labels = labels) +
     geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), color = "grey",

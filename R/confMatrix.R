@@ -1,11 +1,11 @@
 #' Confusion Matrix
 #'
-#' Compute the Confusion Matrix for threshold values varying from 0 to 1
+#' Computes Confusion Matrixes for threshold values varying from 0 to 1
 #'
 #' @param model Maxent object.
-#' @param presence SWD presence locations, if not provided it uses the train dataset,
+#' @param test SWD test locations, if not provided it uses the train dataset,
 #' default is NULL.
-#' @param th numeric if provided it computes the evaluation at the given threshold,
+#' @param th vector if provided it computes the evaluation at the given thresholds,
 #' default is NULL.
 #'
 #' @return The Confusion Matrix for all the used thresholds.
@@ -13,21 +13,21 @@
 #'
 #' @examples
 #' \dontrun{
-#' confMatrix(my_model, presence = test_dataset)}
-confMatrix <- function(model, presence = NULL, th = NULL) {
+#' confMatrix(my_model, test = test_dataset)}
+confMatrix <- function(model, test = NULL, th = NULL) {
 
   if (class(model) != "Maxent")
     stop("Model must be a Maxent object!")
 
-  if (is.null(presence)) {
+  if (is.null(test)) {
     p_pred <- predict(model, model@presence)
   } else {
-    p_pred <- predict(model, presence)
+    p_pred <- predict(model, test)
   }
   bg_pred <- predict(model, model@background)
 
-  n_pres <- nrow(p_pred)
-  n_bg <- nrow(bg_pred)
+  n_pres <- length(p_pred)
+  n_bg <- length(bg_pred)
 
   if (is.null(th)) {
     if (n_pres > 1000) {
@@ -43,14 +43,15 @@ confMatrix <- function(model, presence = NULL, th = NULL) {
     }
   }
 
-  tp <- fp <- fn <- tn <- vector(mode = "numeric", length = length(th))
+  tp <- fp <- vector(mode = "numeric", length = length(th))
 
   for (i in 1:length(th)) {
-    tp[i] <- sum(p_pred >= th[i])   # true positives
-    fp[i] <- sum(bg_pred >= th[i])  # false positives
-    fn[i] <- n_pres - tp[i]         # false negatives
-    tn[i] <- n_bg - fp[i]           # true negatives
+    tp[i] <- sum(p_pred >= th[i])
+    fp[i] <- sum(bg_pred >= th[i])
   }
+
+  fn <- n_pres - tp
+  tn <- n_bg - fp
   conf_matrix <- data.frame(th = th, tp = tp, fp = fp, fn = fn, tn = tn)
 
   return(conf_matrix)
