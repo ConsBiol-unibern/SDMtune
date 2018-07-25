@@ -40,6 +40,7 @@ Collate:
     'Maxent2MaxEnt.R'
     'SWD_class.R'
     'Maxent_class.R'
+    'aicc.R'
     'auc.R'
     'confMatrix.R'
     'corVar.R'
