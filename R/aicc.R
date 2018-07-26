@@ -1,7 +1,7 @@
 #' AICc
 #'
 #' Compute Akaike Information Criterion corrected for small samples size
-#' \insertCite{Warren2011}{SDMSelection}
+#' \insertCite{Warren2011}{SDMsel}
 #'
 #' @param model Maxent object.
 #' @param env \link{stack} or \link{brick} containing the environmental variables.
@@ -16,7 +16,7 @@
 #' to save the prediction in a raster file. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
 #'
-#' @references \insertRef{Warren2011}{SDMSelection}
+#' @references \insertRef{Warren2011}{SDMsel}
 #'
 #' @examples \dontrun{
 #' aicc(model, predictors, parallel = T)}

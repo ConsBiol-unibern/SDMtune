@@ -36,7 +36,7 @@ Note that fun is not a character parameter, you must use mean and not "mean".
 }
 \examples{
 \dontrun{
-response(model, variable = "bio12", marginal = TRUE, fun = median, rug = TRUE)}
+response(model, variable = "bio12", marginal = T, fun = median, rug = T)}
 
 }
 \author{

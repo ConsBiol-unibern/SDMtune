@@ -25,7 +25,7 @@ setGeneric("response", function(object, ...)
 #'
 #' @examples
 #' \dontrun{
-#' response(model, variable = "bio12", marginal = TRUE, fun = median, rug = TRUE)}
+#' response(model, variable = "bio12", marginal = T, fun = median, rug = T)}
 #'
 #' @author Sergio Vignali
 setMethod("response",

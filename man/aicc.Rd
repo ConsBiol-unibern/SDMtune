@@ -18,7 +18,7 @@ The computed AICc
 }
 \description{
 Compute Akaike Information Criterion corrected for small samples size
-\insertCite{Warren2011}{SDMSelection}
+\insertCite{Warren2011}{SDMsel}
 }
 \details{
 You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
@@ -31,7 +31,7 @@ aicc(model, predictors, parallel = T)}
 
 }
 \references{
-\insertRef{Warren2011}{SDMSelection}
+\insertRef{Warren2011}{SDMsel}
 }
 \author{
 Sergio Vignali

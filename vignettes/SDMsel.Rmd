@@ -31,7 +31,7 @@ library(knitr)
 library(kableExtra)
 ```
 
-`SDMSelection` (Species Distribution Model Selection) package works with the new version of **MaxEnt** software (v. >= 3.4.1), if you have the old version you can download the new one from this [link](https://biodiversityinformatics.amnh.org/open_source/maxent/). The new version uses by default the **complementary log-log transform** (Cloglog) to produce the estimate of occurrence probability instead of the **logistig transform** and the feature class **threshold** is disabled but available as option [@Phillips2017].
+`SDMsel` (Species Distribution Model Selection) package works with the new version of **MaxEnt** software (v. >= 3.4.1), if you have the old version you can download the new one from this [link](https://biodiversityinformatics.amnh.org/open_source/maxent/). The new version uses by default the **complementary log-log transform** (Cloglog) to produce the estimate of occurrence probability instead of the **logistig transform** and the feature class **threshold** is disabled but available as option [@Phillips2017].
 
 If is the first time you use **MaxEnt** in R you have to make available the **maxent.jar** file for the `dismo` package [@Hijmans2017]. To do that copy the **maxent.jar** file in the folder named **java** inside the folder returned by the following command (only for Ubuntu, install java openjdk witn `sudo apt install openjdk-11-jdk`, check it with `java --version`, and after run `sudo R CMD javareconf`):
 
@@ -39,7 +39,7 @@ If is the first time you use **MaxEnt** in R you have to make available the **ma
 system.file(package="dismo")
 ```
 
-Before loading `SDMSelection` you have to increase the RAM that **MaxEnt** can use. You should leave 2G for your OS and the rest you can use for Maxent. If you have 4GB RAM use `-Xmx2g` in the following command: 
+Before loading `SDMsel` you have to increase the RAM that **MaxEnt** can use. You should leave 2G for your OS and the rest you can use for Maxent. If you have 4GB RAM use `-Xmx2g` in the following command: 
 
 ```{r java option}
 options(java.parameters = "-Xmx2g" )
@@ -48,7 +48,7 @@ options(java.parameters = "-Xmx2g" )
 Import package:
 ```{r import}
 library(dismo)
-library(SDMSelection)
+library(SDMsel)
 ```
 
 Check if maxent is correctly configured for `dismo`:
@@ -68,7 +68,7 @@ library(gridExtra)  # To plot multiple ggplot object in one page
 
 # Acquire species distribution data and environmental variables
 
-For demostrating how to use `SDMSelection` we download a dataset of [*Bradipus variegatus*](https://en.wikipedia.org/wiki/Brown-throated_sloth) from  the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/) using the [gbif](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/gbif) function of `dismo` package. We download data from the last 50 years:
+For demostrating how to use `SDMsel` we download a dataset of [*Bradipus variegatus*](https://en.wikipedia.org/wiki/Brown-throated_sloth) from  the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/) using the [gbif](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/gbif) function of `dismo` package. We download data from the last 50 years:
 ```{r get presence data}
 data <- gbif(genus = 'Bradypus', species = 'variegatus*', geo = TRUE, removeZeros = TRUE, args = 'year=1967,2017')
 data <- data.frame(x = data$lon, y = data$lat)

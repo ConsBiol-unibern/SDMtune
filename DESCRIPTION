@@ -43,6 +43,7 @@ Collate:
     'SDMsel_class.R'
     'aicc.R'
     'auc.R'
+    'buttare.R'
     'confMatrix.R'
     'corVar.R'
     'doJk.R'
