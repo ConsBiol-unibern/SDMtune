@@ -25,12 +25,17 @@
 aicc <- function(model, env, parallel = FALSE){
 
   k <- nrow(model@coeff)
-  raw <- predict(model, env, type = "raw", parallel = parallel)
-  raw_sum <- raster::cellStats(raw, sum)
-  values <- raster::extract(raw, model@presence@coords)
-  ll <- sum(log(values / raw_sum))
-  aic <- 2 * k - 2 * ll
-  aicc <- aic + (2 * k * (k + 1) / (nrow(model@presence@data) - k - 1))
+
+  if (k > nrow(model@presence@data)) {
+    aicc <- NA
+  } else {
+    raw <- predict(model, env, type = "raw", parallel = parallel)
+    raw_sum <- raster::cellStats(raw, sum)
+    values <- raster::extract(raw, model@presence@coords)
+    ll <- sum(log(values / raw_sum))
+    aic <- 2 * k - 2 * ll
+    aicc <- aic + (2 * k * (k + 1) / (nrow(model@presence@data) - k - 1))
+  }
 
   return(round(aicc, 4))
 }
