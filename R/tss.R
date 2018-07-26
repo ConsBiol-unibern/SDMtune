@@ -15,7 +15,7 @@
 #' @author Sergio Vignali
 #'
 #' @references
-#' \insertRef{ALLOUCHE2006}{MMSelection}
+#' \insertRef{ALLOUCHE2006}{SDMsel}
 tss <- function(model, test = NULL) {
 
   cm <- confMatrix(model, test)

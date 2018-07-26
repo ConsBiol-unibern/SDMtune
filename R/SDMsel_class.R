@@ -1,3 +1,11 @@
+#' SDMsel class
+#'
+#' @slot results data.frame. Results with the evaluation of the models.
+#' @slot models list. List of \link{Maxent} objects
+#'
+#' @export
+#'
+#' @author Sergio Vignali
 SDMsel <- setClass("SDMsel",
                    slots = c(results = "data.frame",
                              models = "list")

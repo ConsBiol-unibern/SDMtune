@@ -1,40 +1,41 @@
-#' Tune Feature Combination
+#' Tune number of Background locations
 #'
-#' The function iterates among different Feature Classes combinations and for each of them
-#' performs a run a MaxEnt model using the given regularization multiplier.
+#' Test different sizes of background locations.
 #'
 #' @param model Maxent object.
-#' @param fcs vector. A list of Feature Classes combination to be tested.
+#' @param bg4test SWD. The dataset with the maximum number of background locations to be tested given as MaxentSWD object.
+#' @param bgs vector. A sequence of number of background locations to test. The maximum number must be lower thatn the maximum number of
+#' background locations in bg4test. Default is the maximum number of background locations in bg4test.
 #' @param metric character. The metric used to evaluate the models, possible values are:
-#' "auc", "tss" and "aicc", default is "auc".
+#' "auc", "tss" and "aicc", default is "auc"
 #' @param env \link{stack} or \link{brick} containing the environmental variables,
 #' used only with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
-#' @param extra_args vector. Extra arguments used to run MaxEnt.
-#'
-#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-#' to save the prediction in a raster file. Parallel computation increases the speed
-#' only for big datasets due to the time necessary to create the cluster.
+#' @param extra_args vector Extra arguments used to run MaxEnt..
+#' @param seed integer. The value used to set the seed in order to have consistent results, default is NULL.
 #'
 #' @return A \link{SDMsel} object.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' fc_test <- tuneFC(model, fcs = c("l", "lq", "lqp"), metric = "aicc",
-#' env = predictors, parallel = T)}
+#' test_bg <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000), metric = "auc", seed = 25)}
 #'
 #' @author Sergio Vignali
-tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
-                   parallel = FALSE, extra_args = NULL) {
+tuneBg <- function(model, bg4test, bgs, env = NULL,
+                   metric = c("auc", "tss", "aicc"), parallel = FALSE,
+                   extra_args = NULL, seed = NULL) {
+
+  if (max(bgs) > nrow(bg4test@data))
+    stop(paste("Maximum number of bgs cannot be more than!", nrow(bg4test@data)))
 
   if (nrow(model@test@data) == 0 & metric != "aicc")
     stop("You must first train the model using a test data set!")
-  if (metric == "aicc" & is.null(env))
-    stop("You must provide env if you want to use AICc metric!")
+
+  if (!is.null(seed)) set.seed(seed)
 
   pb <- progress::progress_bar$new(
-    format = "Tune FC [:bar] :percent in :elapsedfull", total = length(fcs),
+    format = "Tune Bg [:bar] :percent in :elapsedfull", total = length(bgs),
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
@@ -50,16 +51,22 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
   labels <- c("it", "bg", "rm", "fc", labels)
 
   models <- list()
-  res <- matrix(nrow = length(fcs), ncol = length(labels))
+  res <- matrix(nrow = length(bgs), ncol = length(labels))
 
-  for (i in 1:length(fcs)) {
+  folds <- sample(nrow(bg4test@data))
+  variables <- colnames(train@data)
+  bg4test@data <- bg4test@data[variables]
 
-    if (fcs[i] == model@fc) {
+  for (i in 1:length(bgs)) {
+
+    if (bgs[i] == nrow(model@background@data)) {
       new_model <- model
     } else {
-      new_model <- trainMaxent(model@presence, model@background, rm = model@rm,
-                               fc = fcs[i], test = model@test,
-                               type = model@type, extra_args = extra_args)
+      bg <- bg4test
+      bg@data <- bg4test@data[folds[1:bgs[i]], ]
+      new_model <- trainMaxent(model@presence, bg, rm = model@rm, fc = model@fc,
+                               test = model@test, type = model@type,
+                               extra_args = extra_args)
     }
 
     models <- c(models, new_model)
@@ -79,7 +86,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
   }
 
   res[, 1] <- model@iterations
-  res[, 2] <- nrow(model@background@data)
+  res[, 2] <- bgs
   res[, 3] <- model@rm
 
   if (metric == "aicc") {
@@ -87,13 +94,11 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
   } else {
     res[, 7] <- round(res[, 5] - res[, 6], 4)
   }
-  res[, 4] <- fcs
+  res[, 4] <- model@fc
   res <- as.data.frame(res)
   colnames(res) <- labels
 
   output <- SDMsel(results = res, models = models)
-
-  gc()
 
   return(output)
 }

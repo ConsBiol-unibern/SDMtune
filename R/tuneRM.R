@@ -1,10 +1,10 @@
-#' Tune Feature Combination
+#' Tune Regularization Multiplier
 #'
-#' The function iterates among different Feature Classes combinations and for each of them
-#' performs a run a MaxEnt model using the given regularization multiplier.
+#' Given a sequence of regularization multipliers, the function runs several
+#' MaxEnt models increasing the regularization multiplier.
 #'
 #' @param model Maxent object.
-#' @param fcs vector. A list of Feature Classes combination to be tested.
+#' @param rms vector. A sequence of regularization multipliers to test.
 #' @param metric character. The metric used to evaluate the models, possible values are:
 #' "auc", "tss" and "aicc", default is "auc".
 #' @param env \link{stack} or \link{brick} containing the environmental variables,
@@ -15,17 +15,17 @@
 #' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
 #' to save the prediction in a raster file. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
+#' The minimum value of rm allow is 0.001, if lower MaxEnt crasches.
 #'
 #' @return A \link{SDMsel} object.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' fc_test <- tuneFC(model, fcs = c("l", "lq", "lqp"), metric = "aicc",
-#' env = predictors, parallel = T)}
+#' fc_test <- tuneRM(model, metric = "aicc", env = predictors, parallel = T)}
 #'
 #' @author Sergio Vignali
-tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
+tuneRM <- function(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
                    parallel = FALSE, extra_args = NULL) {
 
   if (nrow(model@test@data) == 0 & metric != "aicc")
@@ -34,7 +34,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
     stop("You must provide env if you want to use AICc metric!")
 
   pb <- progress::progress_bar$new(
-    format = "Tune FC [:bar] :percent in :elapsedfull", total = length(fcs),
+    format = "Tune RM [:bar] :percent in :elapsedfull", total = length(rms),
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
@@ -50,15 +50,15 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
   labels <- c("it", "bg", "rm", "fc", labels)
 
   models <- list()
-  res <- matrix(nrow = length(fcs), ncol = length(labels))
+  res <- matrix(nrow = length(rms), ncol = length(labels))
 
-  for (i in 1:length(fcs)) {
+  for (i in 1:length(rms)) {
 
-    if (fcs[i] == model@fc) {
+    if (rms[i] == model@rm) {
       new_model <- model
     } else {
-      new_model <- trainMaxent(model@presence, model@background, rm = model@rm,
-                               fc = fcs[i], test = model@test,
+      new_model <- trainMaxent(model@presence, model@background, rm = rms[i],
+                               fc = model@fc, test = model@test,
                                type = model@type, extra_args = extra_args)
     }
 
@@ -80,14 +80,14 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
 
   res[, 1] <- model@iterations
   res[, 2] <- nrow(model@background@data)
-  res[, 3] <- model@rm
+  res[, 3] <- rms
 
   if (metric == "aicc") {
     res[, 6] <- round(res[, 5] - min(res[, 5]), 4)
   } else {
     res[, 7] <- round(res[, 5] - res[, 6], 4)
   }
-  res[, 4] <- fcs
+  res[, 4] <- model@fc
   res <- as.data.frame(res)
   colnames(res) <- labels
 

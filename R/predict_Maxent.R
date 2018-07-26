@@ -74,7 +74,7 @@ setMethod("predict",
 
             if (inherits(data, "Raster")) {
               if (parallel) {
-                raster::beginCluster()
+                suppressMessages(raster::beginCluster())
                 pred <- raster::clusterR(data,
                                          predict,
                                          args = list(model = object,

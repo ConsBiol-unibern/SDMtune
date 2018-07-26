@@ -24,7 +24,7 @@ tss(model, test = test_dataset)}
 
 }
 \references{
-\insertRef{ALLOUCHE2006}{MMSelection}
+\insertRef{ALLOUCHE2006}{SDMsel}
 }
 \author{
 Sergio Vignali
