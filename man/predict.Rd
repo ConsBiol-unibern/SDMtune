@@ -40,7 +40,7 @@ A vector of prediction or a Raster object if data is a raster stack/brick.
 Predict Maxent
 }
 \details{
-You need package \link{snow} to use parallel computation and \link{rgdal}
+You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
 to save the prediction in a raster file. Parallel computation increases the speed
 only for big datasets due to the time necessary to create the cluster.
 }

@@ -45,7 +45,7 @@ setGeneric("predict", function(object, ...)
 #' Possible values are "cloglog", "logistic" and "raw", default is NULL.
 #' @param ... Additional parameter to pass to the \link{writeRaster} function.
 #'
-#' @details You need package \link{snow} to use parallel computation and \link{rgdal}
+#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
 #' to save the prediction in a raster file. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
 #' @include Maxent_class.R
