@@ -64,6 +64,7 @@ Collate:
     'tss.R'
     'tuneBg.R'
     'tuneFC.R'
+    'tuneIt.R'
     'tuneRM.R'
     'varImp.R'
     'varSel.R'

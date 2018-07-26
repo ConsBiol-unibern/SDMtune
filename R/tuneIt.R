@@ -1,41 +1,38 @@
-#' Tune number of Background locations
+#' Tune number of Iterations
 #'
-#' Test different sizes of background locations.
+#' Test different number of iterations used by the optimization algorithm in MaxEnt.
 #'
 #' @param model Maxent object.
-#' @param bg4test SWD. The dataset with the maximum number of background locations to be tested given as MaxentSWD object.
-#' @param bgs vector. A sequence of number of background locations to test. The maximum number must be lower thatn the maximum number of
-#' background locations in bg4test. Default is the maximum number of background locations in bg4test.
+#' @param its vector. A sequence of number of iterations to be tested.
 #' @param metric character. The metric used to evaluate the models, possible values are:
-#' "auc", "tss" and "aicc", default is "auc"
+#' "auc", "tss" and "aicc", default is "auc".
 #' @param env \link{stack} or \link{brick} containing the environmental variables,
 #' used only with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
-#' @param extra_args vector Extra arguments used to run MaxEnt..
-#' @param seed integer. The value used to set the seed in order to have consistent results, default is NULL.
+#' @param extra_args vector. Extra arguments used to run MaxEnt.
+#'
+#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
+#' to save the prediction in a raster file. Parallel computation increases the speed
+#' only for big datasets due to the time necessary to create the cluster.
 #'
 #' @return A \link{SDMsel} object.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' bg_test <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000), metric = "auc", seed = 25)}
+#' it_test <- tuneIt(model, its = seq(300, 900, 200), metric = "tss")}
 #'
 #' @author Sergio Vignali
-tuneBg <- function(model, bg4test, bgs, env = NULL,
-                   metric = c("auc", "tss", "aicc"), parallel = FALSE,
-                   extra_args = NULL, seed = NULL) {
-
-  if (max(bgs) > nrow(bg4test@data))
-    stop(paste("Maximum number of bgs cannot be more than!", nrow(bg4test@data)))
+tuneIt <- function(model, its, metric = c("auc", "tss", "aicc"), env = NULL,
+                   parallel = FALSE, extra_args = NULL) {
 
   if (nrow(model@test@data) == 0 & metric != "aicc")
     stop("You must first train the model using a test data set!")
-
-  if (!is.null(seed)) set.seed(seed)
+  if (metric == "aicc" & is.null(env))
+    stop("You must provide env if you want to use AICc metric!")
 
   pb <- progress::progress_bar$new(
-    format = "Tune Bg [:bar] :percent in :elapsedfull", total = length(bgs),
+    format = "Tune It [:bar] :percent in :elapsedfull", total = length(its),
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
@@ -51,22 +48,17 @@ tuneBg <- function(model, bg4test, bgs, env = NULL,
   labels <- c("it", "bg", "rm", "fc", labels)
 
   models <- list()
-  res <- matrix(nrow = length(bgs), ncol = length(labels))
+  res <- matrix(nrow = length(its), ncol = length(labels))
 
-  folds <- sample(nrow(bg4test@data))
-  variables <- colnames(train@data)
-  bg4test@data <- bg4test@data[variables]
+  for (i in 1:length(its)) {
 
-  for (i in 1:length(bgs)) {
-
-    if (bgs[i] == nrow(model@background@data)) {
+    if (its[i] == model@iter) {
       new_model <- model
     } else {
-      bg <- bg4test
-      bg@data <- bg4test@data[folds[1:bgs[i]], ]
-      new_model <- trainMaxent(model@presence, bg, rm = model@rm, fc = model@fc,
-                               test = model@test, type = model@type,
-                               iter = model@iter, extra_args = extra_args)
+      new_model <- trainMaxent(model@presence, model@background, rm = model@rm,
+                               fc = model@fc, test = model@test,
+                               type = model@type, iter = its[i],
+                               extra_args = extra_args)
     }
 
     models <- c(models, new_model)
@@ -85,8 +77,8 @@ tuneBg <- function(model, bg4test, bgs, env = NULL,
     pb$tick(1)
   }
 
-  res[, 1] <- model@iter
-  res[, 2] <- bgs
+  res[, 1] <- its
+  res[, 2] <- nrow(model@background@data)
   res[, 3] <- model@rm
 
   if (metric == "aicc") {
@@ -99,6 +91,8 @@ tuneBg <- function(model, bg4test, bgs, env = NULL,
   colnames(res) <- labels
 
   output <- SDMsel(results = res, models = models)
+
+  gc()
 
   return(output)
 }

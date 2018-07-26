@@ -35,7 +35,7 @@ Test different sizes of background locations.
 }
 \examples{
 \dontrun{
-test_bg <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000), metric = "auc", seed = 25)}
+bg_test <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000), metric = "auc", seed = 25)}
 
 }
 \author{

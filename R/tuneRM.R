@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' fc_test <- tuneRM(model, metric = "aicc", env = predictors, parallel = T)}
+#' rm_test <- tuneRM(model, metric = "aicc", env = predictors, parallel = T)}
 #'
 #' @author Sergio Vignali
 tuneRM <- function(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
