@@ -12,7 +12,7 @@ Description: Performs Variables selection and model tuning for SDMs (Species Dis
 License: GPL (>= 3)
 Depends: R (>= 3.2.0),
           zeallot (>= 0.1.0),
-          ggplot2 (>= 2.2.1),
+          ggplot2 (>= 3.0.0),
           methods
 Imports: Rdpack,
           dismo (>= 1.1-4),
@@ -40,6 +40,7 @@ Collate:
     'Maxent2MaxEnt.R'
     'SWD_class.R'
     'Maxent_class.R'
+    'SDMsel.R'
     'SDMsel_class.R'
     'aicc.R'
     'auc.R'

@@ -317,7 +317,7 @@ Use `color` to change the **color** of the plot and `marginal` if you want to pl
 
 ## Plot ROC curve
 
-```{r}
+```{r plot ROC, fig.align="center"}
 plotROC(full_model, val = val)
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
