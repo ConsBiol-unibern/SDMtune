@@ -1,4 +1,4 @@
-Package: SDMSelection
+Package: SDMsel
 Type: Package
 Title: Species Distribution Model Selection
 Version: 0.1.0
