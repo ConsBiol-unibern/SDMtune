@@ -1,6 +1,6 @@
 #' Train Maxent model
 #'
-#' Trtain a MaxEnt model using the dismo package.
+#' Train a MaxEnt model using the dismo package.
 #'
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.

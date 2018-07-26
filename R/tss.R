@@ -23,5 +23,5 @@ tss <- function(model, test = NULL) {
   tnr <- cm$tn / (cm$fp + cm$tn)
   tss <- tpr + tnr - 1
 
-  return(round(max(tss), 3))
+  return(round(max(tss), 4))
 }

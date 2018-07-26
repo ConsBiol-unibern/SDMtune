@@ -34,7 +34,7 @@ that is not saved. The folder is created in the working directory.}
 The output of MaxEnt as Maxent object.
 }
 \description{
-Trtain a MaxEnt model using the dismo package.
+Train a MaxEnt model using the dismo package.
 }
 \examples{
 \dontrun{model <- trainMaxent(presence, bg, rm)}

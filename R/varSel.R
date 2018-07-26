@@ -19,14 +19,12 @@
 #' @importFrom progress progress_bar
 #'
 #' @examples \dontrun{
-#' varSelection(model, bg, use_permutation = T)}
+#' varSel(model, bg, use_permutation = T)}
 #'
 #' @author Sergio Vignali
-varSelection <- function(model, bg4cor, rm = 0.001, method = "spearman",
+varSel <- function(model, bg4cor, rm = 0.001, method = "spearman",
                          cor_th = 0.7, use_permutation = TRUE) {
 
-  if (class(model) != "Maxent")
-    stop("Model must be a Maxent object!")
   if (class(bg4cor) != "SWD")
     stop("bg4cort must be a SWD object!")
 
@@ -43,8 +41,8 @@ varSelection <- function(model, bg4cor, rm = 0.001, method = "spearman",
 
 
   pb <- progress::progress_bar$new(
-    format = "Var Selection [:bar] :percent in :elapsedfull",
-    total = total, clear = FALSE, width = 60, show_after = 0)
+    format = "Var Selection [:bar] :percent in :elapsedfull", total = total,
+    clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
   correlation_removed <- FALSE

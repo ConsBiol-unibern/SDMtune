@@ -8,10 +8,14 @@ setGeneric("response", function(object, ...)
 #' @param object Maxent object.
 #' @param variable character. Name of the variable to be plotted.
 #' @param marginal logical, if TRUE it plots the marginal response courve, default is FALSE.
+#' @param fun function used to compute the level of the other variables for marginal curves,
+#' possible values are mean and median, default is mean.
 #' @param clamp logical for clumping during prediction, default is TRUE.
 #' @param rug logical, if TRUE it adds the rug plot for presence and background locations locations,
 #' available only for continuous variables, default is FALSE.
 #' @param color The color of the curve, default is "red".
+#'
+#' @details Note that fun is not a character parameter, you must use mean and not "mean".
 #'
 #' @include Maxent_class.R
 #' @importFrom raster modal
@@ -21,16 +25,18 @@ setGeneric("response", function(object, ...)
 #'
 #' @examples
 #' \dontrun{
-#' response(model, variable = "bio12", marginal = TRUE, rug = TRUE)}
+#' response(model, variable = "bio12", marginal = TRUE, fun = median, rug = TRUE)}
 #'
 #' @author Sergio Vignali
 setMethod("response",
           signature = "Maxent",
-          definition = function(object, variable, marginal = FALSE,
+          definition = function(object, variable, marginal = FALSE, fun = mean,
                                 clamp = TRUE, rug = FALSE, color = "red") {
 
             if (!variable %in% names(object@presence@data))
               stop(paste(variable, "is not used to train the model!"))
+
+            set.seed(25)
 
             cont_vars <- names(Filter(is.numeric, object@presence@data))
             cat_vars <- names(Filter(is.factor, object@presence@data))
@@ -48,7 +54,7 @@ setMethod("response",
             bg_rug <- data.frame(x = object@background@data[, variable])
             data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(train@data)))
             colnames(data) <- colnames(train@data)
-            data[cont_vars] <- apply(train@data[cont_vars], 2, mean)
+            data[cont_vars] <- apply(train@data[cont_vars], 2, fun)
             data[cat_vars] <- apply(train@data[cat_vars], 2, raster::modal)
             data <- do.call("rbind", replicate(n_rows, data, simplify = FALSE))
 
@@ -80,7 +86,7 @@ setMethod("response",
 
             if (variable %in% cont_vars) {
               my_plot <- ggplot(plot_data, aes(x = x, y = y)) +
-                geom_line(colour = color, size = 1)
+                geom_line(colour = color)
 
             } else {
               my_plot <- ggplot(plot_data, aes(x = x, y = y)) +
@@ -107,6 +113,8 @@ setMethod("response",
             } else if (rug == TRUE) {
               message("Warning: rug is available only for continous variables!")
             }
+
+            gc()
 
             return(my_plot)
           })

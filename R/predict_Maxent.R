@@ -32,20 +32,22 @@ setGeneric("predict", function(object, ...)
 #' Predict Maxent
 #'
 #' @param object Maxent object.
-#' @param data data.frame, \code{\link{SWD}}, \code{\link{stack}} or \code{\link{brick}}.
+#' @param data data.frame, \link{SWD}, \link{stack} or \link{brick}.
 #' @param clamp logical for clumping during prediction, default is TRUE.
 #' @param filename character. Output file name for the prediction map, if provided the output is
 #' saved in a file.
-#' @param format character. The output format, see \code{\link{writeRaster}} for all the options, default is "GTiff".
+#' @param format character. The output format, see \link{writeRaster} for all the options, default is "GTiff".
 #' @param extent \link{Extent} object, if provided it restricts the prediction to the given
 #' extent, default is NULL.
 #' @param parallel logical to use parallel computation during prediction, default is FALSE.
 #' @param progress character to display a progress bar: "text", "window" or "" (default) for no progress bar.
 #' @param type character MaxEnt output type, if not provided it uses the model type.
 #' Possible values are "cloglog", "logistic" and "raw", default is NULL.
-#' @param ... Additional parameter to pass to the \code{\link{writeRaster}} function.
+#' @param ... Additional parameter to pass to the \link{writeRaster} function.
 #'
-#' @details You need package \link{snow} to use parallel computation and \code{\link{rgdal}} to save the prediction in a raster file.
+#' @details You need package \link{snow} to use parallel computation and \link{rgdal}
+#' to save the prediction in a raster file. Parallel computation increases the speed
+#' only for big datasets due to the time necessary to create the cluster.
 #' @include Maxent_class.R
 #' @importFrom raster beginCluster clusterR endCluster predict clamp
 #'
@@ -67,7 +69,7 @@ setMethod("predict",
             if (!is.null(type)) {
               type = type
             } else {
-              type = model@type
+              type = object@type
             }
 
             if (inherits(data, "Raster")) {

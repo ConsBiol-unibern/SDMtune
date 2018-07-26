@@ -12,14 +12,14 @@
 \arguments{
 \item{object}{Maxent object.}
 
-\item{data}{data.frame, \code{\link{SWD}}, \code{\link{stack}} or \code{\link{brick}}.}
+\item{data}{data.frame, \link{SWD}, \link{stack} or \link{brick}.}
 
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
 
 \item{filename}{character. Output file name for the prediction map, if provided the output is
 saved in a file.}
 
-\item{format}{character. The output format, see \code{\link{writeRaster}} for all the options, default is "GTiff".}
+\item{format}{character. The output format, see \link{writeRaster} for all the options, default is "GTiff".}
 
 \item{extent}{\link{Extent} object, if provided it restricts the prediction to the given
 extent, default is NULL.}
@@ -31,7 +31,7 @@ extent, default is NULL.}
 \item{type}{character MaxEnt output type, if not provided it uses the model type.
 Possible values are "cloglog", "logistic" and "raw", default is NULL.}
 
-\item{...}{Additional parameter to pass to the \code{\link{writeRaster}} function.}
+\item{...}{Additional parameter to pass to the \link{writeRaster} function.}
 }
 \value{
 A vector of prediction or a Raster object if data is a raster stack/brick.
@@ -40,7 +40,9 @@ A vector of prediction or a Raster object if data is a raster stack/brick.
 Predict Maxent
 }
 \details{
-You need package \link{snow} to use parallel computation and \code{\link{rgdal}} to save the prediction in a raster file.
+You need package \link{snow} to use parallel computation and \link{rgdal}
+to save the prediction in a raster file. Parallel computation increases the speed
+only for big datasets due to the time necessary to create the cluster.
 }
 \examples{
 \dontrun{

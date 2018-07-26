@@ -5,7 +5,7 @@
 \alias{response,Maxent-method}
 \title{Response Curve}
 \usage{
-\S4method{response}{Maxent}(object, variable, marginal = FALSE,
+\S4method{response}{Maxent}(object, variable, marginal = FALSE, fun = mean,
   clamp = TRUE, rug = FALSE, color = "red")
 }
 \arguments{
@@ -14,6 +14,9 @@
 \item{variable}{character. Name of the variable to be plotted.}
 
 \item{marginal}{logical, if TRUE it plots the marginal response courve, default is FALSE.}
+
+\item{fun}{function used to compute the level of the other variables for marginal curves,
+possible values are mean and median, default is mean.}
 
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
 
@@ -28,9 +31,12 @@ The plot object
 \description{
 Plot the Response Curve of the given environmental variable.
 }
+\details{
+Note that fun is not a character parameter, you must use mean and not "mean".
+}
 \examples{
 \dontrun{
-response(model, variable = "bio12", marginal = TRUE, rug = TRUE)}
+response(model, variable = "bio12", marginal = TRUE, fun = median, rug = TRUE)}
 
 }
 \author{

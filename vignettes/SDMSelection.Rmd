@@ -388,8 +388,8 @@ corVar(bg, method = "spearman", cor_th = 0.75)
 
 One possible approach to remove highly correlated variables is to choose a subset of variables based on expert knowledge of the target species. If you don't know which variable to retain, you can use some kind of data-driven variable selection. The function `varSelection` iterates through several steps: starting from a trained model it checks if the variable ranked as most important (both variable importance rank are possible: percent contribution and permutation importance) is highly correlated with other variables according to the given method and correlation threshold. In this case it performs a Jaccknife test and among the correlated variables it discards the one that decreases the less the train AUC when removed from the model. After if trains another model and checks again for highly correlated variables. The process is repeated until the retained variables are not highly correlated anymore.
 ```{r variable selection, eval=F}
-select_var_model <- varSelection(full_model, bg, rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = TRUE)
+select_var_model <- varSel(full_model, bg, rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = TRUE)
 ```
-```{r variable selection, echo=F}
-select_var_model <- suppressMessages(varSelection(full_model, bg, rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = TRUE))
+```{r, echo=F}
+select_var_model <- suppressMessages(varSel(full_model, bg, rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = TRUE))
 ```

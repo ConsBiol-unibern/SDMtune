@@ -22,9 +22,6 @@
 doJk <- function(model, variables = NULL, with_only = TRUE,
                  return_models = FALSE) {
 
-  if (class(model) != "Maxent")
-    stop("Model must be a Maxent object!")
-
   if (is.null(variables))
     variables <- colnames(model@presence@data)
 
@@ -35,8 +32,8 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
   }
 
   pb <- progress::progress_bar$new(
-    format = "Jk Test [:bar] :percent in :elapsedfull",
-    total = tot, clear = FALSE, width = 60, show_after = 0)
+    format = "Jk Test [:bar] :percent in :elapsedfull", total = tot,
+    clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
   aucs_without <- aucs_withonly <- vector(mode = "numeric",
@@ -116,6 +113,8 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
   } else {
     output <- jk_test
   }
+
+  gc()
 
   return(output)
 }

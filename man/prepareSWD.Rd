@@ -11,7 +11,7 @@ prepareSWD(species, coords, env, categoricals = NULL)
 
 \item{coords}{data.frame. The coordinates of the presence or background locations.}
 
-\item{env}{raster stack or brick containing the environmental variables used to train the model.}
+\item{env}{\link{stack} or \link{brick} containing the environmental variables used to train the model.}
 
 \item{categoricals}{vector indicating which of the environmental variable are categoricals, default is NULL.}
 }

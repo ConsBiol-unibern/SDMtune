@@ -44,7 +44,7 @@ Maxent <- setClass("Maxent",
                      entropy = "numeric",
                      min_max = "data.frame",
                      folder = "character")
-)
+                   )
 
 setMethod("show",
           signature = "Maxent",
