@@ -51,7 +51,7 @@ varSel <- function(model, bg4cor, rm = 0.001, method = "spearman",
     old_rm <- model@rm
     model <- trainMaxent(model@presence, model@background, rm, model@fc,
                          type = model@type, test = model@test,
-                         iterations = model@iterations)
+                         iter = model@iter)
     pb$tick(1)
   }
 
@@ -98,7 +98,7 @@ varSel <- function(model, bg4cor, rm = 0.001, method = "spearman",
     pb$tick(total - removed - 2)
     model <- trainMaxent(model@presence, model@background, old_rm, model@fc,
                          type = model@type, test = model@test,
-                         iterations = model@iterations)
+                         iter = model@iter)
     pb$tick(1)
   } else {
     pb$tick(total - removed)

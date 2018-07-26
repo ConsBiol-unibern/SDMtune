@@ -59,7 +59,8 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
     } else {
       new_model <- trainMaxent(model@presence, model@background, rm = model@rm,
                                fc = fcs[i], test = model@test,
-                               type = model@type, extra_args = extra_args)
+                               type = model@type, iter = model@iter,
+                               extra_args = extra_args)
     }
 
     models <- c(models, new_model)
@@ -78,7 +79,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
     pb$tick(1)
   }
 
-  res[, 1] <- model@iterations
+  res[, 1] <- model@iter
   res[, 2] <- nrow(model@background@data)
   res[, 3] <- model@rm
 

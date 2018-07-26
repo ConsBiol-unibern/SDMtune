@@ -66,7 +66,7 @@ tuneBg <- function(model, bg4test, bgs, env = NULL,
       bg@data <- bg4test@data[folds[1:bgs[i]], ]
       new_model <- trainMaxent(model@presence, bg, rm = model@rm, fc = model@fc,
                                test = model@test, type = model@type,
-                               extra_args = extra_args)
+                               iter = model@iter, extra_args = extra_args)
     }
 
     models <- c(models, new_model)
@@ -85,7 +85,7 @@ tuneBg <- function(model, bg4test, bgs, env = NULL,
     pb$tick(1)
   }
 
-  res[, 1] <- model@iterations
+  res[, 1] <- model@iter
   res[, 2] <- bgs
   res[, 3] <- model@rm
 

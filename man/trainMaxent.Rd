@@ -5,7 +5,7 @@
 \title{Train Maxent model}
 \usage{
 trainMaxent(presence, bg, rm, fc, type = c("cloglog", "logistic", "raw"),
-  test = NULL, iterations = 500, extra_args = NULL, folder = NULL)
+  test = NULL, iter = 500, extra_args = NULL, folder = NULL)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -22,7 +22,7 @@ trainMaxent(presence, bg, rm, fc, type = c("cloglog", "logistic", "raw"),
 
 \item{test}{SWD object with the test locations, default is NULL.}
 
-\item{iterations}{numeric. Number of iterations used by the Maxent alghoritm, default is 500.}
+\item{iter}{numeric. Number of iterations used by the Maxent alghoritm, default is 500.}
 
 \item{extra_args}{vector. Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
 is NULL.}

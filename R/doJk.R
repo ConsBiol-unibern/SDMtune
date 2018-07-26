@@ -62,7 +62,7 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
     }
 
     jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
-                            type = model@type, test = test4jk)
+                            type = model@type, test = test4jk, iter = model@iter)
     aucs_without[i] <- jk_model@results["Training.AUC", ]
     if (auc_test)
       aucs_test_without[i] <- jk_model@results["Test.AUC", ]
@@ -83,7 +83,8 @@ doJk <- function(model, variables = NULL, with_only = TRUE,
       }
 
       jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
-                              type = model@type, test = test4jk)
+                              type = model@type, test = test4jk,
+                              iter = model@iter)
       aucs_withonly[i] <- jk_model@results["Training.AUC", ]
       if (auc_test)
         aucs_test_withonly[i] <- jk_model@results["Test.AUC", ]

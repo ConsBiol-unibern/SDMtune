@@ -77,8 +77,7 @@ setMethod("response",
               train@data <- object@presence@data[variable]
               bg@data <- object@background@data[variable]
               object <- trainMaxent(train, bg, rm = object@rm, fc = object@fc,
-                                    type = object@type,
-                                    iterations = object@iterations)
+                                    type = object@type, iter = object@iter)
             }
 
             pred <- predict(object, data, clamp = clamp)

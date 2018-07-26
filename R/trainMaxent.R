@@ -10,7 +10,7 @@
 #' @param type The MaxEnt output type, possible values are "Cloglog", "Logistic",
 #' "Cumulative" and "Raw", default value "Cloglog".
 #' @param test SWD object with the test locations, default is NULL.
-#' @param iterations numeric. Number of iterations used by the Maxent alghoritm, default is 500.
+#' @param iter numeric. Number of iterations used by the Maxent alghoritm, default is 500.
 #' @param extra_args vector. Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
 #' is NULL.
 #' @param folder character. The folder name where to save the MaxEnt output, default is NULL meaning
@@ -26,7 +26,7 @@
 #' @author Sergio Vignali
 trainMaxent <- function(presence, bg, rm, fc,
                         type = c("cloglog", "logistic", "raw"), test = NULL,
-                        iterations = 500, extra_args = NULL, folder = NULL) {
+                        iter = 500, extra_args = NULL, folder = NULL) {
 
   if (class(presence) != "SWD" | class(bg) != "SWD")
     stop("presence and background dataset must be a SWD object!")
@@ -59,7 +59,7 @@ trainMaxent <- function(presence, bg, rm, fc,
   type <- match.arg(type)
 
   args <- .makeArgs(rm = rm, fc = fc, type = type, test = test_file,
-                    iterations = iterations, extra_args = extra_args)
+                    iter = iter, extra_args = extra_args)
 
   x <- rbind(presence@data, bg@data)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
@@ -70,7 +70,7 @@ trainMaxent <- function(presence, bg, rm, fc,
 
   result <- Maxent(presence = presence, background = bg,
                    results = model@results, rm = rm, fc = fc,
-                   iterations = iterations, type = type,
+                   iter = iter, type = type,
                    lambdas = model@lambdas, coeff = l$lambdas, formula = f,
                    lpn = l$lpn, dn = l$dn, entropy = l$entropy,
                    min_max = l$min_max)
@@ -105,11 +105,10 @@ trainMaxent <- function(presence, bg, rm, fc,
   return(result)
 }
 
-.makeArgs <- function(rm, fc, type, test = NULL, iterations = 500,
-                      extra_args = NULL) {
+.makeArgs <- function(rm, fc, type, test, iter, extra_args) {
 
   args <- c("noaddsamplestobackground", paste0("betamultiplier=", rm),
-            paste0("maximumiterations=", iterations),
+            paste0("maximumiterations=", iter),
             paste0('outputformat=', type), .getFeatureArgs(fc))
 
   if (!is.null(test)) args <- append(args, paste0("testsamplesfile=", test))

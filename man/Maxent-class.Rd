@@ -23,7 +23,7 @@ This Class represents a MaxEnt model objects and hosts all the information relat
 
 \item{\code{fc}}{character. The feature class combination used to train the model.}
 
-\item{\code{iterations}}{numeric. The number of iterations used to train the model.}
+\item{\code{iter}}{numeric. The number of iterations used to train the model.}
 
 \item{\code{type}}{character. The output format of the model.}
 

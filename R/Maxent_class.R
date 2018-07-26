@@ -8,7 +8,7 @@
 #' @slot results matrix. The result that usually MaxEnt provide as a csv file.
 #' @slot rm numeric. The value of the regularization multiplier used to train the model.
 #' @slot fc character. The feature class combination used to train the model.
-#' @slot iterations numeric. The number of iterations used to train the model.
+#' @slot iter numeric. The number of iterations used to train the model.
 #' @slot type character. The output format of the model.
 #' @slot lambdas vector. The lambdas parameters of the model.
 #' @slot coeff data.frame. The lambda coefficients of the model.
@@ -34,7 +34,7 @@ Maxent <- setClass("Maxent",
                      results = "matrix",
                      rm = "numeric",
                      fc = "character",
-                     iterations = "numeric",
+                     iter = "numeric",
                      type = "character",
                      lambdas = "vector",
                      coeff = "data.frame",
@@ -53,7 +53,7 @@ setMethod("show",
             cat("Species             :", object@presence@species, "\n")
             cat("RM                  :", object@rm, "\n")
             cat("FCs                 :", object@fc, "\n")
-            cat("Iterations          :", object@iterations, "\n")
+            cat("Iterations          :", object@iter, "\n")
             cat('Output type         :', object@type, '\n')
             cat("Presence data       :", nrow(object@presence@data), "\n")
             cat("Background data     :", nrow(object@background@data), "\n")
