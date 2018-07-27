@@ -53,13 +53,13 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
 
   res <- matrix(nrow = length(variables), ncol = 5)
   if (metric == "auc") {
-    labels <- c("Variable", "Train_AUC_without", "Test_AUC_without",
-                "Train_AUC_withonly", "Test_AUC_withonly")
+    labels <- c("Variable", "Train_AUC_without", "Train_AUC_withonly",
+                "Test_AUC_without", "Test_AUC_withonly")
   } else if (metric == "tss") {
-    labels <- c("Variable", "Train_TSS_without", "Test_TSS_without",
-                "Train_TSS_withonly", "Test_TSS_withonly")
+    labels <- c("Variable", "Train_TSS_without", "Train_TSS_withonly",
+                "Test_TSS_without", "Test_TSS_withonly")
   } else {
-    labels <- c("Variable", "AICc_without", "-", "AICc_withonly", "-")
+    labels <- c("Variable", "AICc_without", "AICc_withonly", "-", "-")
   }
 
   if (nrow(model@test@data) > 0 & metric != "aicc") {
@@ -87,11 +87,11 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     if (metric == "auc") {
       res[i, 2] <- jk_model@results["Training.AUC", ]
       if (test)
-        res[i, 3] <- jk_model@results["Test.AUC", ]
+        res[i, 4] <- jk_model@results["Test.AUC", ]
     } else if (metric == "tss") {
       res[i, 2] <- tss(jk_model)
       if (test)
-        res[i, 3] <- tss(jk_model, test4jk)
+        res[i, 4] <- tss(jk_model, test4jk)
     } else {
       res[i, 2] <- aicc(jk_model, env, parallel)
     }
@@ -116,15 +116,15 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
                               iter = model@iter)
 
       if (metric == "auc") {
-        res[i, 4] <- jk_model@results["Training.AUC", ]
+        res[i, 3] <- jk_model@results["Training.AUC", ]
         if (test)
           res[i, 5] <- jk_model@results["Test.AUC", ]
       } else if (metric == "tss") {
-        res[i, 4] <- tss(jk_model)
+        res[i, 3] <- tss(jk_model)
         if (test)
           res[i, 5] <- tss(jk_model, test4jk)
       } else {
-        res[i, 4] <- aicc(jk_model, env, parallel)
+        res[i, 3] <- aicc(jk_model, env, parallel)
       }
 
       models_withonly <- c(models_withonly, jk_model)
@@ -132,9 +132,9 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     }
   }
 
-  res[, 1] <- variables
   jk_test <- as.data.frame(res)
   colnames(jk_test) <- labels
+  jk_test[1] <- variables
 
   jk_test <- Filter(function(x) !all(is.na(x)), jk_test)
 
