@@ -32,7 +32,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   if (nrow(model@test@data) == 0 & metric != "aicc")
     stop("You must first train the model using a test data set!")
   if (metric == "aicc" & is.null(env))
-    stop("You must provide env parameter if you want to use AICc metric!")
+    stop("You must provide the env parameter if you want to use AICc metric!")
 
   if (!is.null(seed)) set.seed(seed)
 
@@ -96,9 +96,9 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   } else {
     res[, 7] <- round(res[, 5] - res[, 6], 4)
   }
-  res[, 4] <- model@fc
   res <- as.data.frame(res)
   colnames(res) <- labels
+  res$fc <- model@fc
 
   output <- SDMsel(results = res, models = models)
 

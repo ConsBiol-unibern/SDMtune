@@ -30,7 +30,7 @@ tuneIt <- function(model, its, metric = c("auc", "tss", "aicc"), env = NULL,
   if (nrow(model@test@data) == 0 & metric != "aicc")
     stop("You must first train the model using a test data set!")
   if (metric == "aicc" & is.null(env))
-    stop("You must provide env parameter if you want to use AICc metric!")
+    stop("You must provide the env parameter if you want to use AICc metric!")
 
   pb <- progress::progress_bar$new(
     format = "Tune It [:bar] :percent in :elapsedfull", total = length(its),
@@ -87,9 +87,9 @@ tuneIt <- function(model, its, metric = c("auc", "tss", "aicc"), env = NULL,
   } else {
     res[, 7] <- round(res[, 5] - res[, 6], 4)
   }
-  res[, 4] <- model@fc
   res <- as.data.frame(res)
   colnames(res) <- labels
+  res$fc <- model@fc
 
   output <- SDMsel(results = res, models = models)
 
