@@ -6,13 +6,22 @@
 #' @param model A MaxentModel object.
 #' @param bg4cor Background locations used to test the correlation between environmental variables,
 #' given as MaxentSWD object.
+#' @param metric character. The metric used to evaluate the models, possible values are:
+#' "auc", "tss" and "aicc", default is "auc".
+#' @param env \link{stack} or \link{brick} containing the environmental variables,
+#' used only with "aicc", default is NULL.
+#' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
 #' @param rm integer. The value of the regularization paramiter to use during computation,
 #' default is 0.001, see details.
 #' @param method The method used to comput the correlation matrix, default "spearman".
 #' @param cor_th The correlation threshold used to select highly correlated variables, default is 0.7.
 #' @param use_permutation Flag to select the permutation importance or the percent contribution.
+#' @param extra_args vector. Extra arguments used to run MaxEnt.
 #'
-#' @details Here we have to write something... I will refer to our paper for the explanations...
+#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
+#' to save the prediction in a raster file. Parallel computation increases the speed
+#' only for big datasets due to the time necessary to create the cluster.
+#' We should write something more... I will refer to our paper for the explanations...
 #'
 #' @return The name of the selected variables.
 #' @export
@@ -22,8 +31,9 @@
 #' varSel(model, bg, use_permutation = T)}
 #'
 #' @author Sergio Vignali
-varSel <- function(model, bg4cor, rm = 0.001, method = "spearman",
-                         cor_th = 0.7, use_permutation = TRUE) {
+varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
+                   parallel = FALSE, rm = 0.001, method = "spearman",
+                   cor_th = 0.7, use_permutation = TRUE, extra_args = NULL) {
 
   if (class(bg4cor) != "SWD")
     stop("bg4cort must be a SWD object!")
@@ -45,6 +55,7 @@ varSel <- function(model, bg4cor, rm = 0.001, method = "spearman",
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
+  metric <- match.arg(metric)
   correlation_removed <- FALSE
 
   if (change_rm) {
@@ -79,8 +90,16 @@ varSel <- function(model, bg4cor, rm = 0.001, method = "spearman",
       hcv <- row.names(coeff)[abs(coeff) >= cor_th]
 
       if (length(hcv) > 1) {
-        jk_test <- suppressMessages(doJk(model, hcv, return_models = TRUE))
-        index <- which.max(jk_test$results$Train_AUC_without)
+        jk_test <- suppressMessages(doJk(model, metric = metric,
+                                         variables = hcv, with_only = FALSE,
+                                         env = env, parallel = parallel,
+                                         return_models = TRUE))
+        if (metric != "aicc") {
+          index <- which.max(jk_test$results[, 2])
+        } else {
+          index <- which.min(jk_test$results[, 2])
+        }
+
         model <- jk_test$models_without[[index]]
         discarded_variable <- as.character(jk_test$results$Variable[index])
         cor_matrix[discarded_variable] <- NULL

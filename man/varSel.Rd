@@ -4,14 +4,23 @@
 \alias{varSel}
 \title{Variable Selection}
 \usage{
-varSel(model, bg4cor, rm = 0.001, method = "spearman", cor_th = 0.7,
-  use_permutation = TRUE)
+varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
+  parallel = FALSE, rm = 0.001, method = "spearman", cor_th = 0.7,
+  use_permutation = TRUE, extra_args = NULL)
 }
 \arguments{
 \item{model}{A MaxentModel object.}
 
 \item{bg4cor}{Background locations used to test the correlation between environmental variables,
 given as MaxentSWD object.}
+
+\item{metric}{character. The metric used to evaluate the models, possible values are:
+"auc", "tss" and "aicc", default is "auc".}
+
+\item{env}{\link{stack} or \link{brick} containing the environmental variables,
+used only with "aicc", default is NULL.}
+
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
 
 \item{rm}{integer. The value of the regularization paramiter to use during computation,
 default is 0.001, see details.}
@@ -21,6 +30,8 @@ default is 0.001, see details.}
 \item{cor_th}{The correlation threshold used to select highly correlated variables, default is 0.7.}
 
 \item{use_permutation}{Flag to select the permutation importance or the percent contribution.}
+
+\item{extra_args}{vector. Extra arguments used to run MaxEnt.}
 }
 \value{
 The name of the selected variables.
@@ -30,7 +41,10 @@ The function performs a data driven variable selection. Starting from provided m
 it iterates through the .......
 }
 \details{
-Here we have to write something... I will refer to our paper for the explanations...
+You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
+to save the prediction in a raster file. Parallel computation increases the speed
+only for big datasets due to the time necessary to create the cluster.
+We should write something more... I will refer to our paper for the explanations...
 }
 \examples{
 \dontrun{

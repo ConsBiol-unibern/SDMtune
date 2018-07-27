@@ -62,7 +62,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     labels <- c("Variable", "AICc_without", "AICc_withonly", "-", "-")
   }
 
-  if (nrow(model@test@data) > 0 & metric != "aicc") {
+  if (nrow(model@test@data) > 0) {
     test <- TRUE
   } else {
     test <- FALSE
