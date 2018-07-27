@@ -4,14 +4,16 @@
 \alias{plotJk}
 \title{Plot Jackknife Test}
 \usage{
-plotJk(model, jk, type = c("train", "test"))
+plotJk(jk, type = c("train", "test"), ref = NULL)
 }
 \arguments{
-\item{model}{Maxent object.}
-
 \item{jk}{data.frame with the output of the doJk function.}
 
-\item{type}{character, train or test to plot the train or test AUC values.}
+\item{type}{character, "train" or "test" to plot the train or test AUC values.}
+
+\item{ref}{numeric. The value of the chosen metric for the model trained using
+all the variables. If provided it plots a vertical line showing the reference
+value. Default is NULL.}
 }
 \value{
 The ggplot object.
@@ -21,7 +23,7 @@ Plot the Jackknife Test for variable importance.
 }
 \examples{
 \dontrun{
-plotJk(model, jk_test = 'AUC')}
+plotJk(jk_test, type = "train", ref = 0.955)}
 
 }
 \author{

@@ -16,21 +16,23 @@
 #'
 #' @return A \link{SDMsel} object.
 #' @export
+#' @importFrom progress progress_bar
 #'
 #' @examples
 #' \dontrun{
 #' bg_test <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000), metric = "auc", seed = 25)}
 #'
 #' @author Sergio Vignali
-tuneBg <- function(model, bg4test, bgs, env = NULL,
-                   metric = c("auc", "tss", "aicc"), parallel = FALSE,
-                   extra_args = NULL, seed = NULL) {
+tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
+                   env = NULL, parallel = FALSE, extra_args = NULL, seed = NULL) {
 
   if (max(bgs) > nrow(bg4test@data))
     stop(paste("Maximum number of bgs cannot be more than!", nrow(bg4test@data)))
 
   if (nrow(model@test@data) == 0 & metric != "aicc")
     stop("You must first train the model using a test data set!")
+  if (metric == "aicc" & is.null(env))
+    stop("You must provide env parameter if you want to use AICc metric!")
 
   if (!is.null(seed)) set.seed(seed)
 

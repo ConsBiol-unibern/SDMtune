@@ -19,6 +19,7 @@
 #'
 #' @return A \link{SDMsel} object.
 #' @export
+#' @importFrom progress progress_bar
 #'
 #' @examples
 #' \dontrun{
@@ -31,7 +32,7 @@ tuneRM <- function(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
   if (nrow(model@test@data) == 0 & metric != "aicc")
     stop("You must first train the model using a test data set!")
   if (metric == "aicc" & is.null(env))
-    stop("You must provide env if you want to use AICc metric!")
+    stop("You must provide env parameter if you want to use AICc metric!")
 
   pb <- progress::progress_bar$new(
     format = "Tune RM [:bar] :percent in :elapsedfull", total = length(rms),

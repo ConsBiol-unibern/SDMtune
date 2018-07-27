@@ -4,7 +4,7 @@
 \alias{tuneBg}
 \title{Tune number of Background locations}
 \usage{
-tuneBg(model, bg4test, bgs, env = NULL, metric = c("auc", "tss", "aicc"),
+tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"), env = NULL,
   parallel = FALSE, extra_args = NULL, seed = NULL)
 }
 \arguments{
@@ -15,11 +15,11 @@ tuneBg(model, bg4test, bgs, env = NULL, metric = c("auc", "tss", "aicc"),
 \item{bgs}{vector. A sequence of number of background locations to test. The maximum number must be lower thatn the maximum number of
 background locations in bg4test. Default is the maximum number of background locations in bg4test.}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables,
-used only with "aicc", default is NULL.}
-
 \item{metric}{character. The metric used to evaluate the models, possible values are:
 "auc", "tss" and "aicc", default is "auc"}
+
+\item{env}{\link{stack} or \link{brick} containing the environmental variables,
+used only with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
 

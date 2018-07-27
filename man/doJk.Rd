@@ -4,15 +4,22 @@
 \alias{doJk}
 \title{Jackknife Test}
 \usage{
-doJk(model, variables = NULL, with_only = TRUE, return_models = FALSE)
+doJk(model, metric = c("auc", "tss", "aicc"), variables = NULL,
+  with_only = TRUE, env = NULL, parallel = FALSE, return_models = FALSE)
 }
 \arguments{
-\item{model}{Maxent object..}
+\item{model}{Maxent object.}
+
+\item{metric}{character. The metric used to evaluate the models, possible values are:
+"auc", "tss" and "aicc", default is "auc".}
 
 \item{variables}{vector. Variables used for the test, if not provided it takes all the variables
 used to train the model, default is NULL.}
 
 \item{with_only}{logical. If TRUE it runs the test also for each variable in isolation, default is TRUE.}
+
+\item{env}{\link{stack} or \link{brick} containing the environmental variables,
+used only with "aicc", default is NULL.}
 
 \item{return_models}{logical, If TRUE returns all the models together with the test result, default is FALSE.}
 }
@@ -23,6 +30,11 @@ the data frame together with the models.
 \description{
 Run the Jackknife test for variable importance removing one variable at time and returns the train AUC.
 If the model has a test dataset, it returns also the test AUC.
+}
+\details{
+You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
+to save the prediction in a raster file. Parallel computation increases the speed
+only for big datasets due to the time necessary to create the cluster.
 }
 \examples{
 \dontrun{
