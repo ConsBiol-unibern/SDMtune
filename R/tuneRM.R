@@ -52,14 +52,20 @@ tuneRM <- function(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
   models <- list()
   res <- matrix(nrow = length(rms), ncol = length(labels))
 
+  if (nrow(model@test@data) == 0) {
+    test <- NULL
+  } else {
+    test <- model@test
+  }
+
   for (i in 1:length(rms)) {
 
     if (rms[i] == model@rm) {
       new_model <- model
     } else {
       new_model <- trainMaxent(model@presence, model@background, rm = rms[i],
-                               fc = model@fc, test = model@test,
-                               iter = model@iter, type = model@type)
+                               fc = model@fc, test = model, iter = model@iter,
+                               type = model@type)
     }
 
     models <- c(models, new_model)

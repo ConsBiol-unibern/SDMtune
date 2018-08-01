@@ -50,14 +50,20 @@ tuneIt <- function(model, its, metric = c("auc", "tss", "aicc"), env = NULL,
   models <- list()
   res <- matrix(nrow = length(its), ncol = length(labels))
 
+  if (nrow(model@test@data) == 0) {
+    test <- NULL
+  } else {
+    test <- model@test
+  }
+
   for (i in 1:length(its)) {
 
     if (its[i] == model@iter) {
       new_model <- model
     } else {
       new_model <- trainMaxent(model@presence, model@background, rm = model@rm,
-                               fc = model@fc, test = model@test,
-                               type = model@type, iter = its[i])
+                               fc = model@fc, test = test, type = model@type,
+                               iter = its[i])
     }
 
     models <- c(models, new_model)

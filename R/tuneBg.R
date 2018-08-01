@@ -58,6 +58,12 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   variables <- colnames(train@data)
   bg4test@data <- bg4test@data[variables]
 
+  if (nrow(model@test@data) == 0) {
+    test <- NULL
+  } else {
+    test <- model@test
+  }
+
   for (i in 1:length(bgs)) {
 
     if (bgs[i] == nrow(model@background@data)) {
@@ -66,7 +72,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
       bg <- bg4test
       bg@data <- bg4test@data[folds[1:bgs[i]], ]
       new_model <- trainMaxent(model@presence, bg, rm = model@rm, fc = model@fc,
-                               test = model@test, type = model@type,
+                               test = test, type = model@type,
                                iter = model@iter)
     }
 

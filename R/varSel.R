@@ -57,11 +57,16 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   metric <- match.arg(metric)
   correlation_removed <- FALSE
 
+  if (nrow(model@test@data) == 0) {
+    test <- NULL
+  } else {
+    test <- model@test
+  }
+
   if (change_rm) {
     old_rm <- model@rm
     model <- trainMaxent(model@presence, model@background, rm, model@fc,
-                         type = model@type, test = model@test,
-                         iter = model@iter)
+                         type = model@type, test = test, iter = model@iter)
     pb$tick(1)
   }
 
@@ -115,8 +120,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   if (change_rm) {
     pb$tick(total - removed - 2)
     model <- trainMaxent(model@presence, model@background, old_rm, model@fc,
-                         type = model@type, test = model@test,
-                         iter = model@iter)
+                         type = model@type, test = test, iter = model@iter)
     pb$tick(1)
   } else {
     pb$tick(total - removed)

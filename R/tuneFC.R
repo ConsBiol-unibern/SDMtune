@@ -52,14 +52,20 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
   models <- list()
   res <- matrix(nrow = length(fcs), ncol = length(labels))
 
+  if (nrow(model@test@data) == 0) {
+    test <- NULL
+  } else {
+    test <- model@test
+  }
+
   for (i in 1:length(fcs)) {
 
     if (fcs[i] == model@fc) {
       new_model <- model
     } else {
       new_model <- trainMaxent(model@presence, model@background, rm = model@rm,
-                               fc = fcs[i], test = model@test,
-                               type = model@type, iter = model@iter)
+                               fc = fcs[i], test = test, type = model@type,
+                               iter = model@iter)
     }
 
     models <- c(models, new_model)
