@@ -20,6 +20,7 @@ setGeneric("predict", function(object, ...)
 
     S <- (dm %*% model@coeff$lambda) - model@lpn
     raw <- exp(S) / model@dn
+    raw[raw == Inf] <- 1
     if (type == "raw") {
       return(raw)
     } else if (type == "logistic") {
