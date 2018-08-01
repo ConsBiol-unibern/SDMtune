@@ -11,7 +11,6 @@
 #' @param env \link{stack} or \link{brick} containing the environmental variables,
 #' used only with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
-#' @param extra_args vector Extra arguments used to run MaxEnt..
 #' @param seed integer. The value used to set the seed in order to have consistent results, default is NULL.
 #'
 #' @return A \link{SDMsel} object.
@@ -24,7 +23,7 @@
 #'
 #' @author Sergio Vignali
 tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
-                   env = NULL, parallel = FALSE, extra_args = NULL, seed = NULL) {
+                   env = NULL, parallel = FALSE, seed = NULL) {
 
   if (max(bgs) > nrow(bg4test@data))
     stop(paste("Maximum number of bgs cannot be more than!", nrow(bg4test@data)))
@@ -68,7 +67,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
       bg@data <- bg4test@data[folds[1:bgs[i]], ]
       new_model <- trainMaxent(model@presence, bg, rm = model@rm, fc = model@fc,
                                test = model@test, type = model@type,
-                               iter = model@iter, extra_args = extra_args)
+                               iter = model@iter)
     }
 
     models <- c(models, new_model)

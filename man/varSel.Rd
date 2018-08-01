@@ -6,7 +6,7 @@
 \usage{
 varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   parallel = FALSE, rm = 0.001, method = "spearman", cor_th = 0.7,
-  use_permutation = TRUE, extra_args = NULL)
+  use_permutation = TRUE)
 }
 \arguments{
 \item{model}{A MaxentModel object.}
@@ -30,8 +30,6 @@ default is 0.001, see details.}
 \item{cor_th}{The correlation threshold used to select highly correlated variables, default is 0.7.}
 
 \item{use_permutation}{Flag to select the permutation importance or the percent contribution.}
-
-\item{extra_args}{vector. Extra arguments used to run MaxEnt.}
 }
 \value{
 The name of the selected variables.

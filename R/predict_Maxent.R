@@ -31,6 +31,8 @@ setGeneric("predict", function(object, ...)
 
 #' Predict Maxent
 #'
+#' Compute prediction for a new dataset from a trained Maxent model.
+#'
 #' @param object Maxent object.
 #' @param data data.frame, \link{SWD}, \link{stack} or \link{brick}.
 #' @param clamp logical for clumping during prediction, default is TRUE.
@@ -48,6 +50,11 @@ setGeneric("predict", function(object, ...)
 #' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
 #' to save the prediction in a raster file. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
+#' The function performs the prediction in **R** without calling the **MaxEnt**
+#' java software. This results is a faster computation for large datasets.
+#'
+#' @references \insertRef{Wilson2009}{SDMsel}
+#'
 #' @include Maxent_class.R
 #' @importFrom raster beginCluster clusterR endCluster predict clamp
 #'

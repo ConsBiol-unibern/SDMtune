@@ -5,7 +5,7 @@
 \title{Tune number of Background locations}
 \usage{
 tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE, extra_args = NULL, seed = NULL)
+  parallel = FALSE, seed = NULL)
 }
 \arguments{
 \item{model}{Maxent object.}
@@ -22,8 +22,6 @@ background locations in bg4test. Default is the maximum number of background loc
 used only with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
-
-\item{extra_args}{vector Extra arguments used to run MaxEnt..}
 
 \item{seed}{integer. The value used to set the seed in order to have consistent results, default is NULL.}
 }

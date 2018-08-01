@@ -16,7 +16,6 @@
 #' @param method The method used to comput the correlation matrix, default "spearman".
 #' @param cor_th The correlation threshold used to select highly correlated variables, default is 0.7.
 #' @param use_permutation Flag to select the permutation importance or the percent contribution.
-#' @param extra_args vector. Extra arguments used to run MaxEnt.
 #'
 #' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
 #' to save the prediction in a raster file. Parallel computation increases the speed
@@ -33,7 +32,7 @@
 #' @author Sergio Vignali
 varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
                    parallel = FALSE, rm = 0.001, method = "spearman",
-                   cor_th = 0.7, use_permutation = TRUE, extra_args = NULL) {
+                   cor_th = 0.7, use_permutation = TRUE) {
 
   if (class(bg4cor) != "SWD")
     stop("bg4cort must be a SWD object!")

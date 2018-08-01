@@ -5,7 +5,7 @@
 \title{Tune Regularization Multiplier}
 \usage{
 tuneRM(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE, extra_args = NULL)
+  parallel = FALSE)
 }
 \arguments{
 \item{model}{Maxent object.}
@@ -19,8 +19,6 @@ tuneRM(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
 used only with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
-
-\item{extra_args}{vector. Extra arguments used to run MaxEnt.}
 }
 \value{
 A \link{SDMsel} object.

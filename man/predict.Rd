@@ -37,17 +37,22 @@ Possible values are "cloglog", "logistic" and "raw", default is NULL.}
 A vector of prediction or a Raster object if data is a raster stack/brick.
 }
 \description{
-Predict Maxent
+Compute prediction for a new dataset from a trained Maxent model.
 }
 \details{
 You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
 to save the prediction in a raster file. Parallel computation increases the speed
 only for big datasets due to the time necessary to create the cluster.
+The function performs the prediction in \strong{R} without calling the \strong{MaxEnt}
+java software. This results is a faster computation for large datasets.
 }
 \examples{
 \dontrun{
 predict(model, predictors, parallel = TRUE)}
 
+}
+\references{
+\insertRef{Wilson2009}{SDMsel}
 }
 \author{
 Sergio Vignali

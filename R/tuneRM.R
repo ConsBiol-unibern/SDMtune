@@ -10,7 +10,6 @@
 #' @param env \link{stack} or \link{brick} containing the environmental variables,
 #' used only with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
-#' @param extra_args vector. Extra arguments used to run MaxEnt.
 #'
 #' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
 #' to save the prediction in a raster file. Parallel computation increases the speed
@@ -27,7 +26,7 @@
 #'
 #' @author Sergio Vignali
 tuneRM <- function(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
-                   parallel = FALSE, extra_args = NULL) {
+                   parallel = FALSE) {
 
   if (nrow(model@test@data) == 0 & metric != "aicc")
     stop("You must first train the model using a test data set!")
@@ -60,8 +59,7 @@ tuneRM <- function(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
     } else {
       new_model <- trainMaxent(model@presence, model@background, rm = rms[i],
                                fc = model@fc, test = model@test,
-                               iter = model@iter, type = model@type,
-                               extra_args = extra_args)
+                               iter = model@iter, type = model@type)
     }
 
     models <- c(models, new_model)
