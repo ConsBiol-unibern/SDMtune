@@ -15,6 +15,8 @@
 #' to save the prediction in a raster file. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
 #'
+#' @family tuning functions
+#'
 #' @return A \link{SDMsel} object.
 #' @export
 #' @importFrom progress progress_bar

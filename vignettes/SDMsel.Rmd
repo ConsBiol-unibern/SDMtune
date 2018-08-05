@@ -1,19 +1,24 @@
 ---
-title: "Species Distribution Model Selection"
+title: "SDMsel"
+subtitle: "Species Distribution Model Selection"
 author: "Sergio Vignali, Arnaud Barras, Veronika Braunisch"
 date: "`r Sys.Date()`"
 bibliography: library.bib
-output: 
+always_allow_html: yes
+output:
   prettydoc::html_pretty:
     df_print: kable
     theme: cayman
     highlight: github
     toc: true
     toc_depth: 2
+  pdf_document:
+    toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Maxent Model Selection}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include = FALSE}
@@ -29,6 +34,7 @@ options(knitr.table.format = "html")
 ```{r kableExtra, echo=F}
 library(knitr)
 library(kableExtra)
+library(webshot)
 ```
 
 `SDMsel` (Species Distribution Model Selection) package works with the new version of **MaxEnt** software (v. >= 3.4.1), in case you have the old version you can download the new one from [here](https://biodiversityinformatics.amnh.org/open_source/maxent/). The new version uses by default the **complementary log-log transform** (Cloglog) to produce the estimate of occurrence probability instead of the **logistig transform** and the feature class **threshold** is disabled but available as option [@Phillips2017].
@@ -54,7 +60,7 @@ Load packages used in the vignette:
 
 ```{r}
 library(dismo)      # To download data used in the vignette
-library(ggplot2)    # To plot graphs
+library(plotly)     # For interactive graphs
 library(maps)       # For access useful maps
 library(rasterVis)  # To plot raster objects
 library(gridExtra)  # To plot multiple ggplot object in one page
@@ -260,14 +266,14 @@ ggplot(map_data('world'), aes(long, lat)) +
 The `trainMaxent` function helps training MaxEnt models in R and it gives the possibility to set several arguments. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but we can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to train a model (note that `rm = 1`, `fc = "lqph"` and `type = "cloglog"` are the default settings of MaxEnt software v. 1.4.1 when you have at least 80 presence locations):
 
 ```{r run MaxEnt}
-full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = "lqph", type = "cloglog", test = val, folder = "full_model")
+base_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = "lqph", type = "cloglog", test = val, folder = "base_model")
 ```
 
 The main arguments have a dedicated parameter in the function, for all the others we can use the `extra_args` parameter and pass a vector with the options (e.g. `extra_args = c("responsecurves=true", "writeplotdata=true"` to plot the response curves in the html file). The function takes care of the environmental variables data type: when we prepared the data we defined **biome** as categorical variable and the information is passed to the `trainMaxent` function.
 
 The result of the `trainMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background** and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations**, **output type** and the **folder** where is stored the MaxEnt output if provided. We can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When we call the model object R prints all the parameters we used to train the model and open the **html** file in the browser ( only if we save the results permanetly using the parameter `folder = my_path`).
 ```{r}
-full_model
+base_model
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
@@ -276,30 +282,27 @@ full_model
 We can see the **percent contribution** and the **permutation importance** of each environmental variable using `varImp`:
 
 ```{r variable contribution}
-varImp(full_model)
+varImp(base_model)
 ```
 
 Or plot it using the `plotVarImp` function (the default color is grey):
 
 ```{r plot model, fig.align="center"}
-plotVarImp(full_model, type = "perm", color = '#159957')
+plotVarImp(base_model, type = "perm", color = '#159957')
 ```
 
 Another way to estimate the variable importance is to run a **Jackknife Test**:
-```{r jk, eval=F}
-jk <- doJk(full_model, with_only = T, metric = "auc")
+```{r jk, message=F}
+jk <- doJk(base_model, with_only = T, metric = "auc")
 ```
 
-```{r, echo=F}
-jk <- suppressMessages(doJk(full_model, with_only = T, metric = "auc"))
-```
 If the model has a test dataset, it returns the train and test AUC, if not it returns only the train AUC
 ```{r show jk}
 jk
 ```
 We can plot the result of the **Jackknife Test** with the `plotJk` function:
 ```{r plot jk, fig.align="center"}
-plotJk(jk, type = "train", ref = auc(full_model))
+plotJk(jk, type = "train", ref = auc(base_model))
 ```
 The red dashed vertical line represent the AUC value of the model trained using all the environmental variabled.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
@@ -309,13 +312,13 @@ The red dashed vertical line represent the AUC value of the model trained using 
 The function `plotResponse` plots the response curve of the given environmental variable:
 
 ```{r bio12, fig.align="center"}
-plotResponse(full_model, variable = 'bio1', marginal = T, fun = mean, rug = T, clamp = T)
+plotResponse(base_model, variable = 'bio1', marginal = T, fun = mean, rug = T, clamp = T)
 ```
 
 **bio1** is a continuous variable, **biome** is categorical (in the next graph we plot the univariate response curve):
 
 ```{r biome, fig.align="center"}
-plotResponse(full_model, variable = 'biome', marginal = F, color = '#159957', clamp = T)
+plotResponse(base_model, variable = 'biome', marginal = F, color = '#159957', clamp = T)
 ```
 
 `color` allow to change the **color** of the plot and `marginal` if you want to plot the marginal response curve.
@@ -324,7 +327,7 @@ plotResponse(full_model, variable = 'biome', marginal = F, color = '#159957', cl
 ## Plot ROC curve
 
 ```{r plot ROC, fig.align="center"}
-plotROC(full_model, val = val)
+plotROC(base_model, val = val)
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
@@ -332,7 +335,7 @@ plotROC(full_model, val = val)
 
 The function `trainMaxent` trains a model but doesn't make any prediction. The `predict` method makes the prediction:
 ```{r make prediction}
-prediction <- predict(full_model, data = predictors, filename = "full_model_prediction", format = "GTiff", overwrite = T)
+prediction <- predict(base_model, data = predictors, filename = "base_model_prediction", format = "GTiff", overwrite = T)
 ```
 You can pass as `data` a `data frame`, a `SWD object` or a [Raster Stack](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack), [Raster Brick](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/brick) object. In the first case the function returns a vector of prediction, in the second case it returns a raster map that can be saved providing the `filename` parameter. For big dataset you can provide the parameter `progress = "text"` to display a progress bar and take advantage of the parallel computation using `parallel = T`.
 
@@ -357,10 +360,10 @@ Using `hr = T` you obtain a high resolution plot, useful for publications.
 To create a presence absence map we choose a threshold provided by MaxEnt. The function `maxentTh` provides a list of possible thresholds:
 
 ```{r threshold, eval=F}
-maxentTh(full_model)
+maxentTh(base_model)
 ```
 ```{r, echo=F}
-kable(maxentTh(full_model)) %>%
+kable(maxentTh(base_model)) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "responsive")) %>%
   scroll_box(height = "500px")
 ```
@@ -380,7 +383,7 @@ plotPA(prediction, th = 0.2849, filename = 'pa_map', overwrite = TRUE, colors = 
 
 # Data Driven Variable Selection
 
-Some of the environmental variables used to train our **full_model** are highly correlated.
+Some of the environmental variables used to train our **base_model** are highly correlated.
 There are two functions that help to visualize if the environmental variables are highly correlated: `plotCor` and `corVar`.
 `plotCor` builds a correlation matrix heat map (we use all the extracted background points to checks for autocorrelation):
 ```{r heat map, fig.align="center"}
@@ -393,20 +396,175 @@ corVar(bg, method = "spearman", cor_th = 0.75)
 ```
 
 One possible approach to remove highly correlated variables is to choose a subset of variables based on expert knowledge of the target species. If you don't know which variable to retain, you can use some kind of data-driven variable selection. The function `varSel` iterates through several steps: starting from a trained model it checks if the variable ranked as most important (both variable importance ranks are possible: percent contribution and permutation importance) is highly correlated with other variables according to the given method and correlation threshold. In this case it performs a Jaccknife test and among the correlated variables it discards the one that decreases the less the model performance. After it trains another model and checks again for highly correlated variables. The process is repeated until the retained variables are not highly correlated anymore. We suggest to use a very low regularization parameter to perform variable selection, in this case we use 0.001 (see Vignali et al. we add here the publication)
-```{r variable selection, eval=F}
-selected_var_model <- varSel(full_model, bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = T)
-```
-```{r, echo=F}
-selected_var_model <- suppressMessages(varSel(full_model, bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = T))
+```{r variable selection, message=F}
+selected_var_model <- varSel(base_model, bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = T)
 ```
 The function returns the model trained without the correlated variables, if we print the object we see that the function removed **bio1**, **bio16**, **bio7** and **bio8**:
 ```{r}
 selected_var_model
 ```
 If we plot the ROC curve we see that after removing the correlated variables the model has still very good performances:
-```{r}
+```{r, fig.align="center"}
 plotROC(selected_var_model, val = val)
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
-# Tune number of background locations
+# Tune model hyperparameters
+
+`SDMsel` provides a family of functions to tune model hyperparameters. For `Maxent` models we can tune the **feature combination**, the number of **background locations**, the **regularization multiplier** and the **number of iterations**. All the function of this family return an object of class `SDMsel` with two slots, one for the results and one with all the trained models.
+
+## Tune feature combination
+
+We can test the effect of different feature combinations on model performance using the function `tuneFC`:
+```{r, message=F}
+tune_fc <- tuneFC(selected_var_model, fcs = c("l", "lq", "lqp", "lqh", "lqph", "lqpht"), metric = "auc")
+```
+
+We can display the results with:
+```{r}
+tune_fc@results
+```
+or plot them:
+```{r, eval=F}
+plot_ly(tune_fc@results) %>%
+  add_trace(x = ~fc, y = ~train_AUC, type = "bar", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~fc, y = ~test_AUC, type = "bar", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Feature Class Combination"), yaxis = list(title = "AUC"), barmode = "group", title = "Model performance")
+```
+```{r, fig.align="center", echo=F}
+p <- plot_ly(tune_fc@results) %>%
+  add_trace(x = ~fc, y = ~train_AUC, type = "bar", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~fc, y = ~test_AUC, type = "bar", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Feature Class Combination"), yaxis = list(title = "AUC"), barmode = "group", title = "Model performance")
+htmltools::div(p, align = "center")
+```
+```{r}
+tune_fc@results[which.max(tune_fc@results$test_AUC), ]
+```
+
+The Feature Class combination with the highest validation AUC is **lqpht**, we select this model from the models slot and use it to tune the number of background locations.
+```{r}
+tuned_fc <- tune_fc@models[[which.max(tune_fc@results$test_AUC)]]
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+## Tune number of background locations
+
+The model we ran before used the 5000 background locations. To test the effect of using different number of background locations on the model performance we can run the function `tuneBg`. We have a maximum of `r nrow(bg@data)` locations in the `bg` object, in the next example we train a sequence of models using `r c(seq(3000, 9000, 1000), nrow(bg@data))`
+```{r, message=F}
+tune_bg <- tuneBg(tuned_fc, bg4test = bg, bgs = c(seq(1000, 9000, 1000), nrow(bg@data)), metric = "auc", seed = 25)
+```
+
+Output:
+```{r}
+tune_bg@results
+```
+
+```{r, eval=F}
+plot_ly(tune_bg@results) %>%
+  add_trace(x = ~bg, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~bg, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Background locations"), yaxis = list(title = "AUC"), title = "Model performance")
+```
+```{r, fig.align="center", echo=F}
+p <- plot_ly(tune_bg@results) %>%
+  add_trace(x = ~bg, y = ~train_AUC, type = "scatter", mode = "lines", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~bg, y = ~test_AUC, type = "scatter", mode = "lines", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Background locations"), yaxis = list(title = "AUC"), title = "Model performance")
+htmltools::div(p, align = "center")
+```
+
+The best number of background locations is 2000, we select this model from the models slot and use it to tune the regularization multiplier.
+```{r}
+tuned_bg <- tune_bg@models[[which.max(tune_bg@results$test_AUC)]]
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+## Tune Regularization Multiplier
+
+In the next step we tune the `regularization multiplier`. The default regularization multiplier used by MaxEnt is 1, but is not always the best choice:
+
+```{r tune rm, message=F}
+tune_rm <- tuneRM(tuned_bg, rms = seq(0.1, 2, 0.1), metric = "auc")
+```
+
+Output:
+
+```{r show results tuneRM, eval=F}
+tune_rm@results
+```
+```{r}
+kable(tune_rm@results) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive")) %>%
+  scroll_box(height = "400px")
+```
+
+```{r, eval=F}
+plot_ly(tune_rm@results) %>%
+  add_trace(x = ~rm, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~rm, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Regularization multiplier"), yaxis = list(title = "AUC"), title = "Model performance")
+```
+```{r, fig.align="center", echo=F}
+p <- plot_ly(tune_rm@results) %>%
+  add_trace(x = ~rm, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~rm, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Regularization multiplier"), yaxis = list(title = "AUC"), title = "Model performance")
+htmltools::div(p, align = "center")
+```
+The highest test AUC uses a `regularization multiplier` equal to 1.1, we select this model from the models slot and use it to tune the number of iterations.
+```{r}
+tuned_rm <- tune_rm@models[[which.max(tune_rm@results$test_AUC)]]
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+## Tune number of iterations:
+
+The default number of iterations used by the optimization algorithm in MaxEnt is 500. This value is good for not complex models and can be tuned as other hyperparameters:
+```{r, fig.align="center"}
+tune_it <- tuneIt(tuned_rm, its = seq(300, 600, 25), metric = "auc")
+```
+
+Output:
+
+```{r}
+tune_it@results
+```
+
+
+```{r, eval=F}
+plot_ly(tune_it@results) %>%
+  add_trace(x = ~it, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~it, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Number of iterations"), yaxis = list(title = "AUC"), title = "Model performance")
+```
+```{r, fig.align="center", echo=F}
+p <- plot_ly(tune_it@results) %>%
+  add_trace(x = ~it, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~it, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Number of iterations"), yaxis = list(title = "AUC"), title = "Model performance")
+htmltools::div(p, align = "center")
+```
+
+The test AUC increases changing the number of iterations from the default value of 500, and reach the maximum using 400 iterations, we select this model from the models slot:
+```{r}
+tuned_model <- tune_it@models[[which.max(tune_it@results$test_AUC)]]
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+# Tuned Model
+
+We can see the final setting of the tuned model printing the model object:
+```{r}
+tuned_model
+```
+All the functions of the tuning family don't save the MaxEnt ouput but we could save it using the `trainMaxent` function and setting all the hyperparameter values of the previous output. The `maxentOutput` function make this step easier, we just have to pass the model and it will set the hyperparameters for us. In addition there are other parameters to add the response curves and the JAckknife test to the html output:
+```{r}
+maxentOutput(tuned_model, response_curves = T, jk = T, threads = 4, folder = "final_output")
+```
+
+At the end of the tuning process is time to use the **Test** dataset to have an unbiased estimate of the model performance. We use the `plotROC` function for that:
+```{r, fig.align="center"}
+plotROC(tuned_model, val = val, test = test)
+```
+

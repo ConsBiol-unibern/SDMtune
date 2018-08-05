@@ -16,6 +16,8 @@
 #' only for big datasets due to the time necessary to create the cluster.
 #' The minimum value of rm allow is 0.001, if lower MaxEnt crasches.
 #'
+#' @family tuning functions
+#'
 #' @return A \link{SDMsel} object.
 #' @export
 #' @importFrom progress progress_bar
@@ -64,7 +66,7 @@ tuneRM <- function(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
       new_model <- model
     } else {
       new_model <- trainMaxent(model@presence, model@background, rm = rms[i],
-                               fc = model@fc, test = model, iter = model@iter,
+                               fc = model@fc, test = test, iter = model@iter,
                                type = model@type)
     }
 

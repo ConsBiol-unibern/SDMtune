@@ -61,7 +61,7 @@ setMethod("show",
             cat("Continuous variables:", names(Filter(is.numeric, object@presence@data)), "\n")
             cat("Categoricals        :", names(Filter(is.factor, object@presence@data)))
 
-            html <- paste0(object@folder, "/species.html")
+            html <- list.files(object@folder, pattern = "html", full.names = T)
 
             if (file.exists(html)) browseURL(html)
           })

@@ -48,6 +48,7 @@ Collate:
     'corVar.R'
     'doJk.R'
     'getSubsample.R'
+    'maxentOutput.R'
     'maxentTh.R'
     'mergeSWD.R'
     'plotCor.R'

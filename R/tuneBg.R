@@ -13,6 +13,12 @@
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
 #' @param seed integer. The value used to set the seed in order to have consistent results, default is NULL.
 #'
+#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
+#' to save the prediction in a raster file. Parallel computation increases the speed
+#' only for big datasets due to the time necessary to create the cluster.
+#'
+#' @family tuning functions
+#'
 #' @return A \link{SDMsel} object.
 #' @export
 #' @importFrom progress progress_bar
@@ -54,9 +60,10 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   models <- list()
   res <- matrix(nrow = length(bgs), ncol = length(labels))
 
+  vars <- colnames(model@presence@data)
+  bg4test@data <- bg4test@data[vars]
+
   folds <- sample(nrow(bg4test@data))
-  variables <- colnames(train@data)
-  bg4test@data <- bg4test@data[variables]
 
   if (nrow(model@test@data) == 0) {
     test <- NULL

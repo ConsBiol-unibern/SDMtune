@@ -38,6 +38,10 @@ fc_test <- tuneFC(model, fcs = c("l", "lq", "lqp"), metric = "aicc",
 env = predictors, parallel = T)}
 
 }
+\seealso{
+Other tuning functions: \code{\link{tuneBg}},
+  \code{\link{tuneIt}}, \code{\link{tuneRM}}
+}
 \author{
 Sergio Vignali
 }

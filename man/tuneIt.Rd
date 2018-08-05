@@ -36,6 +36,10 @@ only for big datasets due to the time necessary to create the cluster.
 it_test <- tuneIt(model, its = seq(300, 900, 200), metric = "tss")}
 
 }
+\seealso{
+Other tuning functions: \code{\link{tuneBg}},
+  \code{\link{tuneFC}}, \code{\link{tuneRM}}
+}
 \author{
 Sergio Vignali
 }

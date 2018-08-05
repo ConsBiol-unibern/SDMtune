@@ -38,6 +38,10 @@ The minimum value of rm allow is 0.001, if lower MaxEnt crasches.
 rm_test <- tuneRM(model, metric = "aicc", env = predictors, parallel = T)}
 
 }
+\seealso{
+Other tuning functions: \code{\link{tuneBg}},
+  \code{\link{tuneFC}}, \code{\link{tuneIt}}
+}
 \author{
 Sergio Vignali
 }

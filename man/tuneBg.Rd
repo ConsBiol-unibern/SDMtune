@@ -31,10 +31,19 @@ A \link{SDMsel} object.
 \description{
 Test different sizes of background locations.
 }
+\details{
+You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
+to save the prediction in a raster file. Parallel computation increases the speed
+only for big datasets due to the time necessary to create the cluster.
+}
 \examples{
 \dontrun{
 bg_test <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000), metric = "auc", seed = 25)}
 
+}
+\seealso{
+Other tuning functions: \code{\link{tuneFC}},
+  \code{\link{tuneIt}}, \code{\link{tuneRM}}
 }
 \author{
 Sergio Vignali

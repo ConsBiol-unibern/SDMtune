@@ -89,6 +89,7 @@ trainMaxent <- function(presence, bg, rm, fc,
     result@folder <- paste0(getwd(), "/", folder)
 
     output_file <- paste0(result@folder, "/species.html")
+    species <- gsub(" ", "_", tolower(result@presence@species))
     f <- readLines(output_file)
     f[1] <- paste0("<title>", presence@species, "</title>")
     f[2] <- paste0("<center><h1>Maxent model for ", presence@species, "</h1></center>")
@@ -100,6 +101,10 @@ trainMaxent <- function(presence, bg, rm, fc,
     f[length(f) + 1] <- '<br>- Robert J. Hijmans, Steven Phillips, John Leathwick and Jane Elith (2017). dismo: Species Distribution Modeling. R package version 1.1-4. <a href="http://CRAN.R-project.org/package=dismo" target="_blank">CRAN</<a>'
     writeLines(f, output_file)
     file.remove(model@html)
+    # Rename files
+    for (file in list.files(path = result@folder, pattern = "species*",
+                            full.names = TRUE))
+      file.rename(file, sub("species", species, file))
   }
 
   return(result)

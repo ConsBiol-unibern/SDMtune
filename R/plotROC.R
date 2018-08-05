@@ -20,7 +20,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
   fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
   tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
   df <- data.frame(set = "train", fpr = fpr, tpr = tpr)
-  labels <- c(paste("Train", model@results["Training.AUC", ]))
+  labels <- c(paste("Train", round(model@results["Training.AUC", ], 3)))
 
   if (!is.null(val)) {
     cm <- confMatrix(model, val)
