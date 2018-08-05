@@ -4,14 +4,14 @@
 \alias{trainValTest}
 \title{Train, Validation and Test datasets}
 \usage{
-trainValTest(df, val, test, seed = NULL)
+trainValTest(df, test, val = 0, seed = NULL)
 }
 \arguments{
 \item{df}{data.frame containing the data that have to be splitted in train, validation and test datasets.}
 
-\item{val}{numeric. The percentage of data withhold for validation.}
-
 \item{test}{numeric. The percentage of data withhold for testing.}
+
+\item{val}{numeric. The percentage of data withhold for validation, default is 0.}
 
 \item{seed}{numeric. The value used to set the seed in order to have consistent results, default is NULL.}
 }
@@ -19,8 +19,7 @@ trainValTest(df, val, test, seed = NULL)
 A list with the train, validation and test data sets or train and test sets accordingly.
 }
 \description{
-Split a dataset randomly in train, validation and test datasets. If val parameter is set to zero then
-the function returns only the train and the test datasets.
+Split a dataset randomly in train and test datasets or train, validation and test datasets.
 }
 \examples{
 \dontrun{

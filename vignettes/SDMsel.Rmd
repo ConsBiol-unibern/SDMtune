@@ -31,7 +31,7 @@ library(knitr)
 library(kableExtra)
 ```
 
-`SDMsel` (Species Distribution Model Selection) package works with the new version of **MaxEnt** software (v. >= 3.4.1), if you have the old version you can download the new one from this [link](https://biodiversityinformatics.amnh.org/open_source/maxent/). The new version uses by default the **complementary log-log transform** (Cloglog) to produce the estimate of occurrence probability instead of the **logistig transform** and the feature class **threshold** is disabled but available as option [@Phillips2017].
+`SDMsel` (Species Distribution Model Selection) package works with the new version of **MaxEnt** software (v. >= 3.4.1), in case you have the old version you can download the new one from [here](https://biodiversityinformatics.amnh.org/open_source/maxent/). The new version uses by default the **complementary log-log transform** (Cloglog) to produce the estimate of occurrence probability instead of the **logistig transform** and the feature class **threshold** is disabled but available as option [@Phillips2017].
 
 If is the first time you use **MaxEnt** in R you have to make available the **maxent.jar** file for the `dismo` package [@Hijmans2017]. To do that copy the **maxent.jar** file in the folder named **java** inside the folder returned by the following command (only for Ubuntu, install java openjdk witn `sudo apt install openjdk-11-jdk`, check it with `java --version`, and after run `sudo R CMD javareconf`):
 
@@ -39,16 +39,25 @@ If is the first time you use **MaxEnt** in R you have to make available the **ma
 system.file(package="dismo")
 ```
 
-Before loading `SDMsel` you have to increase the RAM that **MaxEnt** can use. You should leave 2G for your OS and the rest you can use for Maxent. If you have 4GB RAM use `-Xmx2g` in the following command: 
+Before loading `SDMsel` you have to increase the RAM that **MaxEnt** can use. You should leave around 2G for your OS and make the rest available for MaxEnt (e.g. if you have 4GB RAM make 2G available using `-Xmx2g`): 
 
 ```{r java option}
 options(java.parameters = "-Xmx2g" )
 ```
 
-Import package:
+Import `SDMsel`:
 ```{r import}
-library(dismo)
 library(SDMsel)
+```
+
+Load packages used in the vignette:
+
+```{r}
+library(dismo)      # To download data used in the vignette
+library(ggplot2)    # To plot graphs
+library(maps)       # For access useful maps
+library(rasterVis)  # To plot raster objects
+library(gridExtra)  # To plot multiple ggplot object in one page
 ```
 
 Check if maxent is correctly configured for `dismo`:
@@ -56,46 +65,10 @@ Check if maxent is correctly configured for `dismo`:
 ```{r check maxent}
 maxent()
 ```
-
-```{r}
-library(ggplot2)    # To plot graphs
-library(maps)       # For access useful maps
-library(rasterVis)  # To plot raster objects
-library(gridExtra)  # To plot multiple ggplot object in one page
-```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 
-# Acquire species distribution data and environmental variables
-
-For demostrating how to use `SDMsel` we download a dataset of [*Bradipus variegatus*](https://en.wikipedia.org/wiki/Brown-throated_sloth) from  the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/) using the [gbif](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/gbif) function of `dismo` package. We download data from the last 50 years:
-```{r get presence data}
-data <- gbif(genus = 'Bradypus', species = 'variegatus*', geo = TRUE, removeZeros = TRUE, args = 'year=1967,2017')
-data <- data.frame(x = data$lon, y = data$lat)
-clean_data <- data[!duplicated(data), ]  # Remove duplicate rows
-clean_data <- clean_data[!is.na(clean_data$x) | !is.na(clean_data$y), ]  # Remove NA values
-```
-
-```{r}
-cat('Number of observations before cleaning data:', nrow(data),
-    '\nNumber of obsevations after cleaning data  :', nrow(clean_data))
-```
-
-
-We downloaded `r nrow(data)` presence locations and after cleaning the duplicates and the NA we have `r nrow(clean_data)` locations for our analysis. We can plot the study area and the presence locations we downloaded from GBIF:
-
-```{r, fig.align="center"}
-ggplot(map_data('world'), aes(long, lat)) +
-    geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
-    geom_jitter(data = clean_data, aes(x = x, y = y), color = 'red',
-                alpha = 0.4, size = 2) +
-    labs(x = "longitude", y = "latitude") +
-    theme_minimal() +
-    theme(legend.position = "none") +
-    coord_fixed() +
-    scale_x_continuous(limits = c(-125, -32)) +
-    scale_y_continuous(limits = c(-56, 40))
-```
+# Acquire environmental variables and species distribution data
 
 For the analysis we will use the climat data from [WorldClim](http://www.worldclim.org/) version 1.4 [@Hijmans2005] (you can download the new version 2.0 from the previous link) and the ecoregions from [WWF](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world) [@Olson2001] included in the `dismo` package:
 
@@ -104,7 +77,7 @@ files <- list.files(path = paste(system.file(package = 'dismo'), '/ex', sep = ''
 predictors <- stack(files)
 ```
 
-Plot **bio1** using [gplot](https://www.rdocumentation.org/packages/rasterVis/versions/0.43/topics/gplot-methods) function from `rasterVis` packagege:
+Plot **bio1** using [gplot](https://www.rdocumentation.org/packages/rasterVis/versions/0.43/topics/gplot-methods) function from `rasterVis` package:
 
 ```{r, fig.align="center"}
 gplot(predictors$bio1) +
@@ -124,7 +97,6 @@ gplot(predictors$bio1) +
           axis.ticks.y = element_blank())
 ```
 
-
 There are nine environmental variables:
 
 * Continuous variables
@@ -138,25 +110,62 @@ There are nine environmental variables:
     + **bio17** Precipitation of Driest Quarter
 * Categorical variables
     + **biome** Terrestrial Ecoregions of the World
+
+For demostrating how to use `SDMsel` we download a dataset of [*Vultur gryphus*](https://en.wikipedia.org/wiki/Andean_condor) from  the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/) using the [gbif](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/gbif) function of `dismo` package. We download data from the last 3 years. 
+```{r get presence data}
+data <- gbif(genus = 'Vultur', species = 'gryphus*', geo = TRUE, removeZeros = TRUE, args = 'year=2015,2017')
+data <- data.frame(x = data$lon, y = data$lat)
+clean_data <- data[!duplicated(data), ]  # Remove duplicate rows
+clean_data <- clean_data[!is.na(clean_data$x) | !is.na(clean_data$y), ]  # Remove NA values
+```
+We remove all but one location per raster cell using the function `thinData`:
+```{r}
+clean_data <- thinData(clean_data, predictors)
+```
+
+
+```{r}
+cat('Number of observations before cleaning data:', nrow(data),
+    '\nNumber of obsevations after cleaning data  :', nrow(clean_data))
+```
+
+
+We downloaded `r nrow(data)` presence locations and after cleaning the duplicates and the NA we have `r nrow(clean_data)` locations for our analysis. We can plot the study area and the presence locations we downloaded from **GBIF**:
+
+```{r, fig.align="center"}
+ggplot(map_data('world'), aes(long, lat)) +
+    geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
+    geom_jitter(data = clean_data, aes(x = x, y = y), color = 'red',
+                alpha = 0.4, size = 1) +
+    labs(x = "longitude", y = "latitude") +
+    theme_minimal() +
+    theme(legend.position = "none") +
+    coord_fixed() +
+    scale_x_continuous(limits = c(-125, -32)) +
+    scale_y_continuous(limits = c(-56, 40))
+```
+In this tutorial we don't check the validity of the locations, instead we assume they are correct and we model the distribution only for demonstration purpose.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 
-# Prepare data for MaxEnt Model Selection
+# Model Selection
 
-MaxEnt is a Machine Learning approach for Species Distribution Models and Machine Learning methods offen use a Train, a Validation and a Test dataset [@Russell2013]. Given a dataset, in our case the presence data, we split it randomly in three different folders. One folder contains the majority of the data and is used to train the model, i.e. the **train** dataset; another folder is used to estimate the model performance while tuning the hyperparameters of the model, i.e. the **validation** dataset and the last folder, the **test** dataset, is used at the end of the tuning process to have an unbiased estimation of the final model. The model selection procedure is therefore a continuous process where several models are trained varying the settings of the hyperparameters and evaluated using the **validation** dataset. In this way we try to minimize the differences between the model accuracy based on the train data and the model accuracy based on the validation data. At the end of the process, the real measure of the model performance is given by the **test** dataset that has never been used during the model selection procedure. For a good overview of the topic visit the [Jason Brownlee’s](https://machinelearningmastery.com/difference-test-validation-datasets/) thread.
+MaxEnt is a Machine Learning (ML) approach for Species Distribution Models and most of the ML methods require to define several **hyperparameters** before training the model. Hyperparameters are parameters whose values are set before the learning process begins and are not estimated from the data. Their best value is unknown for a given model but can be assessd using a tuning precedure. During the tuning procedure several models are trained varying the value of a hyperparameter and the model with the best performance is retained. The performance of a model can be evaluated using various metrics, `SDMsel` provides three: `AUC`, `TSS` (True Skill Statistic) and `AICc`.
 
-We create a random train/val/test datasets witholding a 20\% sample for validation and a 20\% for testing. We set the seed to obtain consistent results between different trail:
+## Prepare data for Model Selection
+
+In this vignette we demonstrate how to perform model selction using the `AUC`. We create a random train/val/test datasets withholding a 20% sample for validation and a 20% for testing. We set the seed to obtain consistent results between different trail:
 
 ```{r split data in train/dev/test dataset}
 # The %<-% operator from "zeallot"" package unpacks a list in variables
-c(train_coords, val_coords, test_coords) %<-% trainValTest(clean_data, val = 0.2, test = 0.2, seed = 25)
+c(train_coords, val_coords, test_coords) %<-% trainValTest(clean_data, val = 0.2, test = 0.2, seed = 2530)
 cat('Total presence locations  :', nrow(clean_data),
     '\nTotal train locations     :', nrow(train_coords),
     '\nTotal validation locations:', nrow(val_coords),
     '\nTotal test locations      :', nrow(test_coords))
 ```
 
-Plot train, validation and test datasets:
+Plot train and test datasets:
 
 ```{r, fig.align="center"}
 base_plot <- ggplot(map_data('world'), aes(long, lat)) +
@@ -179,19 +188,19 @@ grid.arrange(train_plot, val_plot, test_plot, nrow = 1)
 To extract the background locations we use the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function from `dismo` package.
 
 ```{r extract background locations}
-set.seed(25)
+set.seed(2530)
 bg_coords <- randomPoints(predictors, 10000)
 ```
 
 The environmental variables we downloaded have a coarse resolution and the function cannot extract more than `r nrow(bg_coords)` as you can see from the warning message.
 
-Before running the model we have to prepare the data in the correct format. The `prepareSWD` function will create an object of type `SWD` that stores the species name, the coordinates of the locations and the value of the environmental variables at location points. The parameter `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (you can pass a vector if you have more than one categorical environmental variables). The function extracts the value of the environmental variables for each locations and excludes those locations that have `NA` value for at least one environmental variable.
+Before running the model we have to prepare the data in the correct format. The `prepareSWD` function will create a `SWD` object that stores the species name, the coordinates of the locations and the value of the environmental variables at location points. The parameter `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (you can pass a vector if you have more than one categorical environmental variables). The function extracts the value of the environmental variables for each locations and excludes those locations that have `NA` value for at least one environmental variable.
 
 ```{r prepare SWD datasets}
-train <- prepareSWD(species = 'Bradipus variegatus', coords = train_coords, env = predictors, categoricals = 'biome')
-val <- prepareSWD(species = 'Bradipus variegatus', coords = val_coords, env = predictors, categoricals = 'biome')
-test <- prepareSWD(species = 'Bradipus variegatus', coords = test_coords, env = predictors, categoricals = 'biome')
-bg <- prepareSWD(species = 'Bradipus variegatus', coords = bg_coords, env = predictors, categoricals = 'biome')
+train <- prepareSWD(species = "Vultur gryphus", coords = train_coords, env = predictors, categoricals = "biome")
+val <- prepareSWD(species = "Vultur gryphus", coords = val_coords, env = predictors, categoricals = "biome")
+test <- prepareSWD(species = "Vultur gryphus", coords = test_coords, env = predictors, categoricals = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categoricals = "biome")
 ```
 
 The warning message reports that in the background dataset there are 9 locations that are discarded.  
@@ -201,7 +210,7 @@ Let's have a look at the `SWD` object:
 train
 ```
 
-To see the data you can run:
+To see the data we run:
 
 ```{r show train data, eval=F, echo=T}
 train@data
@@ -225,16 +234,14 @@ kable(train@coords) %>%
   scroll_box(height = "500px")
 ```
 
-If you look at the number of the raw in the **coordinates** data frame you see that they are a random sample of the presence data frame (we crerated it using the `trainDevTest` function).
-You can also save the `SWD` object in a **.csv** file to use t directly in the software **Maxent**.
+We can save the `SWD` object in a **.csv** file to use it directly in the software **MaxEnt**.
 ```{r save SWD, eval=F, echo=T}
 swd2csv(train, file_name = "train.csv")
 ```
 
-
-To run the model we will use a sub sample of the background locations and we will use the full dataset to compute the correlation between the environmental variables. We can extract the sub sample using the `getSubsample` function and after plot the background locations:
+We use a sub sample of the background locations to train the model and we use the full dataset to compute the correlation between the environmental variables. We extract the sub sample using the `getSubsample` function and after we plot the background locations:
 ```{r, fig.align="center"}
-bg_model <- getSubsample(bg, 5000, seed = 25)
+bg_model <- getSubsample(bg, 5000, seed = 2530)
 ggplot(map_data('world'), aes(long, lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
     geom_jitter(data = bg_model@coords, aes(x = X, y = Y),
@@ -248,32 +255,31 @@ ggplot(map_data('world'), aes(long, lat)) +
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
-# Run MaxEnt models
+# Train MaxEnt models
 
-The `trainMaxent` function helps you running MaxEnt models in R, you can set all the desidered arguments. The main arguments have a dedicated parameter, for all the others you can use the `extra_args` parameter and pass a vector with the options. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but you can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to run a model (note that `rm = 1`, `fc = "lqph"` and `type = "cloglog"` are the default settings of MaxEnt software v. 1.4.1 when you have at least 80 presence locations):
+The `trainMaxent` function helps training MaxEnt models in R and it gives the possibility to set several arguments. By default the function saves the **MaxEnt** output files in a temporary folder that is sistematically deleted at the end of the script but we can use the parameter `folder` to specify where to permanently save the output. The next line of code is an example of how to use the function to train a model (note that `rm = 1`, `fc = "lqph"` and `type = "cloglog"` are the default settings of MaxEnt software v. 1.4.1 when you have at least 80 presence locations):
 
 ```{r run MaxEnt}
-full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = "lqph", type = "cloglog", test = val, folder = 'full_model')
+full_model <- trainMaxent(presence = train, bg = bg_model, rm = 1, fc = "lqph", type = "cloglog", test = val, folder = "full_model")
 ```
 
-The function takes care of the environmental variables data type. When you prepared the data you defined **biome** as categorical variable and the information is passed to the `runMaxent` function.
+The main arguments have a dedicated parameter in the function, for all the others we can use the `extra_args` parameter and pass a vector with the options (e.g. `extra_args = c("responsecurves=true", "writeplotdata=true"` to plot the response curves in the html file). The function takes care of the environmental variables data type: when we prepared the data we defined **biome** as categorical variable and the information is passed to the `trainMaxent` function.
 
-The result of the `trainMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background** and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations**, **output type** and the **folder** where is stored the MaxEnt output if provided. You can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When you call the model object R prints all the parameters you used to run the model and open the **html** file in the browser if you save the results permanetly using the parameter `folder = my_path`.
+The result of the `trainMaxent` function is an object of class `Maxent` that stores in different slots the **presence**, **background** and, if provided, the **test** dataset; MaxEnt **results**, **lambdas** coefficients, **rm**, **fc**, **iterations**, **output type** and the **folder** where is stored the MaxEnt output if provided. We can access this values using `model@name_of_the_slot`, like `model@rm` or `model@fc`. When we call the model object R prints all the parameters we used to train the model and open the **html** file in the browser ( only if we save the results permanetly using the parameter `folder = my_path`).
 ```{r}
 full_model
 ```
-
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 ## Variable Importance
 
-You can see the **percent contribution** and the **permutation importance** of each environmental variable `varImp`:
+We can see the **percent contribution** and the **permutation importance** of each environmental variable using `varImp`:
 
 ```{r variable contribution}
 varImp(full_model)
 ```
 
-Or plot it the `plotVarImp` function (the default color is grey):
+Or plot it using the `plotVarImp` function (the default color is grey):
 
 ```{r plot model, fig.align="center"}
 plotVarImp(full_model, type = "perm", color = '#159957')
@@ -291,7 +297,7 @@ If the model has a test dataset, it returns the train and test AUC, if not it re
 ```{r show jk}
 jk
 ```
-You can plot the result of the **Jackknife Test** with the `plotJk` function:
+We can plot the result of the **Jackknife Test** with the `plotJk` function:
 ```{r plot jk, fig.align="center"}
 plotJk(jk, type = "train", ref = auc(full_model))
 ```
@@ -300,19 +306,19 @@ The red dashed vertical line represent the AUC value of the model trained using 
 
 ## Plot Response Curves
 
-The function method `response` plots the response curve of the given environmental variable:
+The function `plotResponse` plots the response curve of the given environmental variable:
 
 ```{r bio12, fig.align="center"}
-response(full_model, variable = 'bio12', marginal = T, rug = T)
+plotResponse(full_model, variable = 'bio1', marginal = T, fun = mean, rug = T, clamp = T)
 ```
 
-**bio12** is a continuous variable, **biome** is categorical:
+**bio1** is a continuous variable, **biome** is categorical (in the next graph we plot the univariate response curve):
 
 ```{r biome, fig.align="center"}
-response(full_model, variable = 'biome', marginal = T, color = '#159957')
+plotResponse(full_model, variable = 'biome', marginal = F, color = '#159957', clamp = T)
 ```
 
-Use `color` to change the **color** of the plot and `marginal` if you want to plot the marginal response curve.
+`color` allow to change the **color** of the plot and `marginal` if you want to plot the marginal response curve.
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 ## Plot ROC curve
@@ -328,13 +334,13 @@ The function `trainMaxent` trains a model but doesn't make any prediction. The `
 ```{r make prediction}
 prediction <- predict(full_model, data = predictors, filename = "full_model_prediction", format = "GTiff", overwrite = T)
 ```
-You can pass as `data` a `data frame`, a `SWD object` or a [Raster Stack](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack), [Raster Brick](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/brick) object. In the first case the function returns a vector of prediction, in the second case it returns a raster map that can be saved providing the `filename` parameter. For big dataset you can provide the parameter `progress = "text"` to display a progress bar.
+You can pass as `data` a `data frame`, a `SWD object` or a [Raster Stack](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack), [Raster Brick](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/brick) object. In the first case the function returns a vector of prediction, in the second case it returns a raster map that can be saved providing the `filename` parameter. For big dataset you can provide the parameter `progress = "text"` to display a progress bar and take advantage of the parallel computation using `parallel = T`.
 
 ## Plot Prediction
 
 The prediction can be plotted using any of the `plot` function in R but the function `plotPred` provides a way to plot it using the [rasterVis](https://oscarperpinan.github.io/rastervis/) package:
 ```{r plot prediction, fig.align="center"}
-plotPred(prediction, lt = "cloglog output", hr = T) 
+plotPred(prediction, lt = "cloglog output")
 ```
 The default colorramp is similar to the usual MaxEnt output, but you can also use different colorramps:
 
@@ -348,7 +354,7 @@ Using `hr = T` you obtain a high resolution plot, useful for publications.
 
 ## Plot Presence Absence
 
-To create a presence absence map you have to choose a threshold provided by MaxEnt. The function `maxentTh` provides a list of possible thresholds:
+To create a presence absence map we choose a threshold provided by MaxEnt. The function `maxentTh` provides a list of possible thresholds:
 
 ```{r threshold, eval=F}
 maxentTh(full_model)
@@ -359,13 +365,13 @@ kable(maxentTh(full_model)) %>%
   scroll_box(height = "500px")
 ```
 
-For example if you want to use the **Maximum training sensitivity plus specificity Cloglog threshold** copy the value and use it as a parameter for the `plotPA` function:
+For example we use the **Maximum training sensitivity plus specificity Cloglog threshold** as parameter for the `plotPA` function:
 
 ```{r plot presence absence, fig.align="center"}
-plotPA(prediction, th = 0.2849, filename = 'pa_map', overwrite = TRUE, format = 'GTiff')
+plotPA(prediction, th = 0.0476, filename = 'pa_map', overwrite = TRUE, format = 'GTiff')
 ```
 
-or you can customise the colors using:
+or we can customise the colors using:
 
 ```{r plot presence absence colors, fig.align="center"}
 plotPA(prediction, th = 0.2849, filename = 'pa_map', overwrite = TRUE, colors = c("#7fbf7b", "#af8dc3"))
@@ -376,20 +382,31 @@ plotPA(prediction, th = 0.2849, filename = 'pa_map', overwrite = TRUE, colors = 
 
 Some of the environmental variables used to train our **full_model** are highly correlated.
 There are two functions that help to visualize if the environmental variables are highly correlated: `plotCor` and `corVar`.
-`pltCor` builds a correlation matrix heat map, we use all the extracted background points to checks for autocorrelation:
+`plotCor` builds a correlation matrix heat map (we use all the extracted background points to checks for autocorrelation):
 ```{r heat map, fig.align="center"}
 plotCor(bg, method = "spearman", cor_th = 0.75)
 ```
-Using the parameter `correlationth` the function prints only the value that are higher than the absolute value of the given threshold (in this case 0.7).
-`corVar` create a data frame with the correlated variables:
+Using the parameter `correlationth` the function prints only the value that are higher than the absolute value of the given threshold (in this case 0.75).
+`corVar` creates a data frame with the correlated variables:
 ```{r varCor}
 corVar(bg, method = "spearman", cor_th = 0.75)
 ```
 
-One possible approach to remove highly correlated variables is to choose a subset of variables based on expert knowledge of the target species. If you don't know which variable to retain, you can use some kind of data-driven variable selection. The function `varSelection` iterates through several steps: starting from a trained model it checks if the variable ranked as most important (both variable importance rank are possible: percent contribution and permutation importance) is highly correlated with other variables according to the given method and correlation threshold. In this case it performs a Jaccknife test and among the correlated variables it discards the one that decreases the less the train AUC when removed from the model. After if trains another model and checks again for highly correlated variables. The process is repeated until the retained variables are not highly correlated anymore.
+One possible approach to remove highly correlated variables is to choose a subset of variables based on expert knowledge of the target species. If you don't know which variable to retain, you can use some kind of data-driven variable selection. The function `varSel` iterates through several steps: starting from a trained model it checks if the variable ranked as most important (both variable importance ranks are possible: percent contribution and permutation importance) is highly correlated with other variables according to the given method and correlation threshold. In this case it performs a Jaccknife test and among the correlated variables it discards the one that decreases the less the model performance. After it trains another model and checks again for highly correlated variables. The process is repeated until the retained variables are not highly correlated anymore. We suggest to use a very low regularization parameter to perform variable selection, in this case we use 0.001 (see Vignali et al. we add here the publication)
 ```{r variable selection, eval=F}
-select_var_model <- varSel(full_model, bg, rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = TRUE)
+selected_var_model <- varSel(full_model, bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = T)
 ```
 ```{r, echo=F}
-select_var_model <- suppressMessages(varSel(full_model, bg, rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = TRUE))
+selected_var_model <- suppressMessages(varSel(full_model, bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = T))
 ```
+The function returns the model trained without the correlated variables, if we print the object we see that the function removed **bio1**, **bio16**, **bio7** and **bio8**:
+```{r}
+selected_var_model
+```
+If we plot the ROC curve we see that after removing the correlated variables the model has still very good performances:
+```{r}
+plotROC(selected_var_model, val = val)
+```
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+
+# Tune number of background locations

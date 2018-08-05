@@ -48,7 +48,6 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   }
   removed <- 0
 
-
   pb <- progress::progress_bar$new(
     format = "Var Selection [:bar] :percent in :elapsedfull", total = total,
     clear = FALSE, width = 60, show_after = 0)
@@ -56,6 +55,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
 
   metric <- match.arg(metric)
   correlation_removed <- FALSE
+  vars <- colnames(model@presence@data)
 
   if (nrow(model@test@data) == 0) {
     test <- NULL
@@ -119,12 +119,17 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
 
   if (change_rm) {
     pb$tick(total - removed - 2)
+    if (!is.null(test))
+      test <- model@test
     model <- trainMaxent(model@presence, model@background, old_rm, model@fc,
                          type = model@type, test = test, iter = model@iter)
     pb$tick(1)
   } else {
     pb$tick(total - removed)
   }
+
+  removed_vars <- setdiff(vars, colnames(model@presence@data))
+  message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
 
   return(model)
 }

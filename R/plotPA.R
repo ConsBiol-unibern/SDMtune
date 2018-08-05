@@ -13,6 +13,7 @@
 #'
 #' @return A ggplot object.
 #' @export
+#' @importFrom raster writeRaster
 #'
 #' @examples
 #' \dontrun{
@@ -29,7 +30,7 @@ plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
   pa <- map >= th
 
   if (!is.null(filename))
-    writeRaster(pa, filename, format, ...)
+    raster::writeRaster(pa, filename, format, ...)
   if (is.null(colors))
     colors <- c('#67a9cf', '#ef8a62')
   if (hr) {

@@ -13,7 +13,7 @@ MaxentSWD object, defaul NULL.}
 \item{method}{character.  The method used to compute the correlation matrix, default is "spearman".}
 
 \item{cor_th}{numeric. If provided it prints only the coefficients that are higher or
-lower than the given threshold.}
+lower than the given threshold, default is NULL.}
 }
 \value{
 The plot object.
