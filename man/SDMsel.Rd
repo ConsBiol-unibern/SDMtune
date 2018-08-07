@@ -6,8 +6,8 @@
 \alias{SDMsel-package}
 \title{SDMsel: A package for tuning Species Distribution Models.}
 \description{
-Performs data driven variable selection and model tuning for SDMs
-(Species Distribution Models). It provides also some utilities to display
+Performs Data-driven Variable Selection and Model Tuning for SDMs
+(Species Distribution Models). It provides also utilities to display
 results (at the moment it implements only MaxEnt models).
 }
 \details{

@@ -49,19 +49,21 @@ Maxent <- setClass("Maxent",
 setMethod("show",
           signature = "Maxent",
           definition = function(object) {
-            cat("Class               :", class(object), "\n")
-            cat("Species             :", object@presence@species, "\n")
-            cat("RM                  :", object@rm, "\n")
-            cat("FCs                 :", object@fc, "\n")
-            cat("Iterations          :", object@iter, "\n")
-            cat('Output type         :', object@type, '\n')
-            cat("Presence data       :", nrow(object@presence@data), "\n")
-            cat("Background data     :", nrow(object@background@data), "\n")
-            cat("Test data           :", nrow(object@test@data), "\n")
-            cat("Continuous variables:", names(Filter(is.numeric, object@presence@data)), "\n")
-            cat("Categoricals        :", names(Filter(is.factor, object@presence@data)))
+            cat("Class                :", class(object), "\n")
+            cat("Species              :", object@presence@species, "\n")
+            cat("RM                   :", object@rm, "\n")
+            cat("FCs                  :", object@fc, "\n")
+            cat("Iterations           :", object@iter, "\n")
+            cat('Output type          :', object@type, '\n')
+            cat("Presence data        :", nrow(object@presence@data), "\n")
+            cat("Background data      :", nrow(object@background@data), "\n")
+            cat("Test data            :", nrow(object@test@data), "\n")
+            cat("Continuous variables :", names(Filter(is.numeric, object@presence@data)), "\n")
+            cat("Categorical variables:", names(Filter(is.factor, object@presence@data)))
 
-            html <- list.files(object@folder, pattern = "html", full.names = T)
+            html <- paste0(object@folder, "/",
+                           sub(" ", "_", tolower(object@presence@species)),
+                           ".html")
 
             if (file.exists(html)) browseURL(html)
           })

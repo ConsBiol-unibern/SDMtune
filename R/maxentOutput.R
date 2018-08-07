@@ -42,6 +42,8 @@ maxentOutput <- function(model, response_curves = FALSE, jk = FALSE,
   output <- trainMaxent(train, bg, rm, fc, test = test, type = type,
                          iter = iter, folder = folder, extra_args = extra_args)
 
+  gc()
+
   return(invisible(output))
 
 }

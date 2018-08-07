@@ -8,7 +8,7 @@ Authors@R: c(
 	person("Arnaud", "Barras", role = "aut"),
 	person("Veronika", "Braunisch", role = "aut")
 	)
-Description: Performs Variables selection and model tuning for SDMs (Species Distribution Models). It provides also some utilities to display results.
+Description: Performs Data-driven Variables selection and Model Tuning for SDMs (Species Distribution Models). It provides also utilities to display results.
 License: GPL (>= 3)
 Depends: R (>= 3.2.0),
           zeallot (>= 0.1.0),

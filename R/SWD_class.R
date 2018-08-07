@@ -21,9 +21,9 @@ SWD <- setClass("SWD",
 setMethod("show",
           signature = "SWD",
           definition = function(object) {
-            cat("Class            :", class(object), "\n")
-            cat("Species          :", object@species, "\n")
-            cat("Locations        :", nrow(object@data), "\n")
-            cat("Variables        :", names(Filter(is.numeric, object@data)), "\n")
-            cat("Categoricals     :", names(Filter(is.factor, object@data)))
+            cat("Class                :", class(object), "\n")
+            cat("Species              :", object@species, "\n")
+            cat("Locations            :", nrow(object@data), "\n")
+            cat("Continuous variables :", names(Filter(is.numeric, object@data)), "\n")
+            cat("Categorical variables:", names(Filter(is.factor, object@data)))
           })
