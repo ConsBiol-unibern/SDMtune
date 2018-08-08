@@ -8,6 +8,7 @@
 #'
 #' @return The plot object.
 #' @export
+#' @import ggplot2
 #'
 #' @examples
 #' \dontrun{
@@ -42,10 +43,10 @@ plotROC <- function(model, val = NULL, test = NULL) {
     labels <- append(labels, paste("Test", round(auc, 3)))
   }
 
-  my_plot <- ggplot(df, aes(x = fpr, y = tpr, colour = set)) +
+  my_plot <- ggplot(df, aes_(x = ~fpr, y = ~tpr, colour = ~set)) +
     geom_line() +
     scale_colour_discrete(name = "AUC", labels = labels) +
-    geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
+    geom_segment(aes_(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
                  linetype = 2) +
     xlab("False Positive Rate") +
     ylab("True Positive Rate") +

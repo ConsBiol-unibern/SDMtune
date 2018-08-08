@@ -2,7 +2,7 @@
 #'
 #' Plot a presence absence map using the given threshold.
 #'
-#' @param map raster. The \link{RaterLayer} object with the prediction.
+#' @param map raster. The \link{raster} object with the prediction.
 #' @param th numeric. The threshold to convert the MaxEnt output in a presence/absence map.
 #' @param colors vector. Colors to be used, default is NULL and uses red and blue.
 #' @param hr logical, if TRUE produces an output with high resolution, default is FALSE.
@@ -40,9 +40,10 @@ plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
   }
 
   my_plot <- rasterVis::gplot(pa, maxpixels = maxpixels) +
-    geom_tile(aes(fill = factor(value, labels = c("Absence", "Presence")))) +
+    geom_tile(aes_(fill = ~value)) +
     scale_fill_manual(values = colors,
-                      breaks = c("Presence", "Absence"),
+                      breaks = c(1, 0),
+                      labels = c("Presence", "Absence"),
                       name = "") +
     coord_equal() +
     labs(title = "", x = "", y = "") +

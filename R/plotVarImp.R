@@ -26,13 +26,15 @@ plotVarImp <- function(model, type = c("contribution", "permutation"),
 
   if (type == "contribution") {
     df <- df[nrow(df):1, ]
+    df$Percent_contribution <- df$Percent_contribution / 100
     df$Variable <- factor(df$Variable, levels = df$Variable)
-    my_plot <- ggplot(df, aes(x = Variable, y = (Percent_contribution / 100))) +
+    my_plot <- ggplot(df, aes_(x = ~Variable, y = ~Percent_contribution)) +
       ylab("Percent Contribution")
   } else {
     df <- df[order(df$Permutation_importance), ]
+    df$Permutation_importance <- df$Permutation_importance / 100
     df$Variable <- factor(df$Variable, levels = df$Variable)
-    my_plot <- ggplot(df, aes(x = Variable, y = (Permutation_importance / 100))) +
+    my_plot <- ggplot(df, aes_(x = ~Variable, y = ~Permutation_importance)) +
       ylab("Permutation Importance")
   }
   my_plot <- my_plot +

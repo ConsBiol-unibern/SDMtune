@@ -24,6 +24,7 @@
 #' @return The name of the selected variables.
 #' @export
 #' @importFrom progress progress_bar
+#' @importFrom stats cor
 #'
 #' @examples \dontrun{
 #' varSel(model, bg, use_permutation = T)}

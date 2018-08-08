@@ -4,8 +4,8 @@
 \alias{tuneBg}
 \title{Tune number of Background locations}
 \usage{
-tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE, seed = NULL)
+tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
+  env = NULL, parallel = FALSE, seed = NULL)
 }
 \arguments{
 \item{model}{Maxent object.}
@@ -26,7 +26,7 @@ used only with "aicc", default is NULL.}
 \item{seed}{integer. The value used to set the seed in order to have consistent results, default is NULL.}
 }
 \value{
-A \link{SDMsel} object.
+A \link{SDMtune} object.
 }
 \description{
 Test different sizes of background locations.
@@ -48,3 +48,4 @@ Other tuning functions: \code{\link{tuneFC}},
 \author{
 Sergio Vignali
 }
+\concept{tuning functions}

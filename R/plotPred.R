@@ -2,7 +2,7 @@
 #'
 #' Plot Prediction output.
 #'
-#' @param map raster. The \link{RaterLayer} object with the prediction.
+#' @param map raster. The \link{raster} object with the prediction.
 #' @param lt character. Legend title, default is an empty string.
 #' @param colorramp vector. A custom color ramp given as a vector of colors (see example),
 #' default is NULL and uses a colorramp similar to the original MaxEnt output.
@@ -32,7 +32,7 @@ plotPred <- function(map, lt = "", colorramp = NULL, hr = FALSE) {
   }
 
   my_plot <- rasterVis::gplot(map, maxpixels = maxpixels) +
-    geom_tile(aes(fill = value)) +
+    geom_tile(aes_(fill = ~value)) +
     scale_fill_gradientn(colours = colorramp,
                          limits = c(0, 1),
                          na.value = "transparent",

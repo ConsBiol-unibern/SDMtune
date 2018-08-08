@@ -21,7 +21,7 @@ used only with "aicc", default is NULL.}
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
 }
 \value{
-A \link{SDMsel} object.
+A \link{SDMtune} object.
 }
 \description{
 Given a sequence of regularization multipliers, the function runs several
@@ -45,3 +45,4 @@ Other tuning functions: \code{\link{tuneBg}},
 \author{
 Sergio Vignali
 }
+\concept{tuning functions}

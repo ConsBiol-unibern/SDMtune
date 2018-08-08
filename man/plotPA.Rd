@@ -8,7 +8,7 @@ plotPA(map, th, colors = NULL, hr = FALSE, filename = NULL,
   format = "GTiff", ...)
 }
 \arguments{
-\item{map}{raster. The \link{RaterLayer} object with the prediction.}
+\item{map}{raster. The \link{raster} object with the prediction.}
 
 \item{th}{numeric. The threshold to convert the MaxEnt output in a presence/absence map.}
 

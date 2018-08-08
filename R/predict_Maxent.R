@@ -57,7 +57,9 @@ setGeneric("predict", function(object, ...)
 #' @references \insertRef{Wilson2009}{SDMsel}
 #'
 #' @include Maxent_class.R
+#' @import methods
 #' @importFrom raster beginCluster clusterR endCluster predict clamp
+#' @importFrom stats formula model.matrix
 #'
 #' @return A vector of prediction or a Raster object if data is a raster stack/brick.
 #' @exportMethod predict

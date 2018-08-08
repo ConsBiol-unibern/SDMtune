@@ -68,6 +68,8 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     test <- FALSE
   }
 
+  i <- NULL  # Avoid NOTE from R CMD check
+
   foreach::foreach(i = 1:length(variables)) %do% {
     presence <- model@presence
     bg <- model@background

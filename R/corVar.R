@@ -11,6 +11,7 @@
 #' @return The name of the correlated variables.
 #' @export
 #' @importFrom reshape2 melt
+#' @importFrom stats cor
 #'
 #' @examples \dontrun{
 #' corVar(bg, method = 'pearson', cor_th = 0.6)}

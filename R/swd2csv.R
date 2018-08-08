@@ -6,6 +6,7 @@
 #' @param file_name character. The name of the file where to save the object.
 #'
 #' @export
+#' @importFrom utils write.csv
 #'
 #' @examples
 #' \dontrun{

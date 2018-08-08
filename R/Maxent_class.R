@@ -24,6 +24,7 @@
 #' @name Maxent-class
 #' @rdname Maxent-class
 #' @exportClass Maxent
+#' @importFrom utils browseURL
 #'
 #' @author Sergio Vignali
 Maxent <- setClass("Maxent",

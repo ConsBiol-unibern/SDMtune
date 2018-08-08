@@ -413,7 +413,7 @@ plotROC(selected_var_model, val = val)
 
 # Tune model hyperparameters
 
-`SDMsel` provides a family of functions to tune model hyperparameters. For `Maxent` models we can tune the **feature combination**, the number of **background locations**, the **regularization multiplier** and the **number of iterations**. All the functions of this family return an object of class `SDMsel` with two slots, one for the results and one with all the trained models.
+`SDMsel` provides a family of functions to tune model hyperparameters. For `Maxent` models we can tune the **feature combination**, the number of **background locations**, the **regularization multiplier** and the **number of iterations**. All the functions of this family return an object of class `SDMtune` with two slots, one for the results and one with all the trained models.
 
 ## Tune feature combination
 

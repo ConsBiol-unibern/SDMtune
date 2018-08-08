@@ -16,7 +16,7 @@
 #'
 #' @family tuning functions
 #'
-#' @return A \link{SDMsel} object.
+#' @return A \link{SDMtune} object.
 #' @export
 #' @importFrom progress progress_bar
 #'
@@ -97,7 +97,7 @@ tuneIt <- function(model, its, metric = c("auc", "tss", "aicc"), env = NULL,
   colnames(res) <- labels
   res$fc <- model@fc
 
-  output <- SDMsel(results = res, models = models)
+  output <- SDMtune(results = res, models = models)
 
   gc()
 

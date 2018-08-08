@@ -19,6 +19,7 @@
 #' @return The output of MaxEnt as Maxent object.
 #' @export
 #' @importFrom dismo maxent
+#' @importFrom utils packageVersion read.csv
 #'
 #' @examples
 #' \dontrun{model <- trainMaxent(presence, bg, rm)}

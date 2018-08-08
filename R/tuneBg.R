@@ -19,7 +19,7 @@
 #'
 #' @family tuning functions
 #'
-#' @return A \link{SDMsel} object.
+#' @return A \link{SDMtune} object.
 #' @export
 #' @importFrom progress progress_bar
 #'
@@ -112,7 +112,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   colnames(res) <- labels
   res$fc <- model@fc
 
-  output <- SDMsel(results = res, models = models)
+  output <- SDMtune(results = res, models = models)
 
   return(output)
 }

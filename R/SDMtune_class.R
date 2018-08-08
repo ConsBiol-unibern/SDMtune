@@ -1,4 +1,4 @@
-#' SDMsel class
+#' SDMtune class
 #'
 #' @slot results data.frame. Results with the evaluation of the models.
 #' @slot models list. List of \link{Maxent} objects
@@ -6,13 +6,13 @@
 #' @export
 #'
 #' @author Sergio Vignali
-SDMsel <- setClass("SDMsel",
-                   slots = c(results = "data.frame",
-                             models = "list")
-                   )
+SDMtune <- setClass("SDMtune",
+                    slots = c(results = "data.frame",
+                              models = "list")
+                    )
 
 setMethod("show",
-          signature = "SDMsel",
+          signature = "SDMtune",
           definition = function(object) {
             cat("An object of class        : ", class(object), "\n")
             cat("Number of iterations      : ", paste(as.character(unique(object@results$it)), collapse = ", "), "\n")

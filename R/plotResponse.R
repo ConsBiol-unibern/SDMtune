@@ -15,6 +15,7 @@
 #' @details Note that fun is not a character parameter, you must use mean and not "mean".
 #'
 #' @include Maxent_class.R
+#' @import ggplot2
 #' @importFrom raster modal
 #'
 #' @return The plot model
@@ -26,7 +27,7 @@
 #'
 #' @author Sergio Vignali
 plotResponse <- function(model, variable, marginal = FALSE, fun = mean,
-                         clamp = TRUE, rug = FALSE, color = "red", ...) {
+                         clamp = TRUE, rug = FALSE, color = "red") {
 
   if (!variable %in% names(model@presence@data))
     stop(paste(variable, "is not used to train the model!"))
@@ -56,7 +57,7 @@ plotResponse <- function(model, variable, marginal = FALSE, fun = mean,
   if (clamp & variable %in% cont_vars) {
     var_min <- min(bg@data[variable])
     var_max <- max(bg@data[variable])
-    train_rug <- subset(train_rug, x >= var_min & x <= var_max)
+    train_rug$x <- train_rug[train_rug$x >= var_min & train_rug$x <= var_max, ]
   } else if (variable %in% cont_vars) {
     var_min <- min(rbind(train@data[variable], bg@data[variable]))
     var_max <- max(rbind(train@data[variable], bg@data[variable]))
@@ -79,11 +80,11 @@ plotResponse <- function(model, variable, marginal = FALSE, fun = mean,
   plot_data <- data.frame(x = data[, variable], y = pred)
 
   if (variable %in% cont_vars) {
-    my_plot <- ggplot(plot_data, aes(x = x, y = y)) +
+    my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
       geom_line(colour = color)
 
   } else {
-    my_plot <- ggplot(plot_data, aes(x = x, y = y)) +
+    my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
       geom_bar(stat = "identity", fill = color) +
       scale_x_continuous(breaks = seq(min(plot_data$x),
                                       max(plot_data$x), 1))
@@ -100,9 +101,9 @@ plotResponse <- function(model, variable, marginal = FALSE, fun = mean,
 
   if (rug == TRUE & variable %in% cont_vars) {
     my_plot <- my_plot +
-      geom_rug(data = train_rug, inherit.aes = FALSE, aes(x),
+      geom_rug(data = train_rug, inherit.aes = FALSE, aes_string("x"),
                sides = "t", color = "#4C4C4C") +
-      geom_rug(data = bg_rug, inherit.aes = FALSE, aes(x),
+      geom_rug(data = bg_rug, inherit.aes = FALSE, aes_string("x"),
                sides = "b", color = "#4C4C4C")
   } else if (rug == TRUE) {
     message("Warning: rug is available only for continous variables!")

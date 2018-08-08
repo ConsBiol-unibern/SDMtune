@@ -15,7 +15,9 @@
 #'
 #' @return The plot object.
 #' @export
+#' @import ggplot2
 #' @importFrom reshape2 melt
+#' @importFrom stats cor
 #'
 #' @examples
 #' \dontrun{
@@ -43,7 +45,7 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
 
   cor_matrix <- reshape2::melt(cor_matrix, na.rm = TRUE)
 
-  heat_map <- ggplot(data = cor_matrix, aes(Var2, Var1, fill = value)) +
+  heat_map <- ggplot(data = cor_matrix, aes_(~Var2, ~Var1, fill = ~value)) +
     geom_tile(color = "white") +
     scale_fill_gradient2(low = "blue", high = "red", mid = "white",
                          midpoint = 0, limit = c(-1, 1), space = "Lab",
@@ -63,11 +65,11 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
 
   if (is.null(cor_th)) {
     heat_map <- heat_map +
-      geom_text(data = cor_matrix, aes(Var2, Var1, label = round(value, 2)),
+      geom_text(data = cor_matrix, aes_(~Var2, ~Var1, label = round(cor_matrix$value, 2)),
                 color = "black", size = 3.5)
   } else {
     heat_map <- heat_map +
-      geom_text(data = highly_correlated, aes(Var2, Var1, label = round(value, 2)),
+      geom_text(data = highly_correlated, aes_(~Var2, ~Var1, label = round(highly_correlated$value, 2)),
                 color = "black", size = 3.5)
   }
 

@@ -7,7 +7,7 @@
 plotPred(map, lt = "", colorramp = NULL, hr = FALSE)
 }
 \arguments{
-\item{map}{raster. The \link{RaterLayer} object with the prediction.}
+\item{map}{raster. The \link{raster} object with the prediction.}
 
 \item{lt}{character. Legend title, default is an empty string.}
 

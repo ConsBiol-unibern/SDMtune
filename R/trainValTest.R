@@ -9,6 +9,7 @@
 #'
 #' @return A list with the train, validation and test data sets or train and test sets accordingly.
 #' @export
+#' @import zeallot
 #'
 #' @examples
 #' \dontrun{

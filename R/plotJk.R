@@ -10,6 +10,7 @@
 #'
 #' @return The ggplot object.
 #' @export
+#' @import ggplot2
 #'
 #' @examples
 #' \dontrun{
@@ -69,7 +70,7 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
   df_plot <- rbind(df_with, df_without)
   df_plot$test <- c(rep("With only", nrow(df_with)),
                     rep("Whitout", nrow(df_without)))
-  my_plot <- ggplot(df_plot, aes(x = Variable, y = value, fill = test)) +
+  my_plot <- ggplot(df_plot, aes_(x = ~Variable, y = ~value, fill = ~test)) +
     geom_bar(stat = 'identity', position = position_dodge()) +
     coord_flip() +
     ggtitle("Jackknife Test") +
