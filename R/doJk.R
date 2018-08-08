@@ -11,10 +11,10 @@
 #' @param with_only logical. If TRUE it runs the test also for each variable in isolation, default is TRUE.
 #' @param env \link{stack} or \link{brick} containing the environmental variables,
 #' used only with "aicc", default is NULL.
+#' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.
 #' @param return_models logical, If TRUE returns all the models together with the test result, default is FALSE.
 #'
-#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-#' to save the prediction in a raster file. Parallel computation increases the speed
+#' @details You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
 #'
 #' @return A data frame with the test results. If **return_model = TRUE** it returns a list with
@@ -28,7 +28,8 @@
 #'
 #' @author Sergio Vignali
 doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
-                 with_only = TRUE, env = NULL, return_models = FALSE) {
+                 with_only = TRUE, env = NULL, parallel = FALSE,
+                 return_models = FALSE) {
 
   if (metric == "aicc" & is.null(env))
     stop("You must provide env parameter if you want to use AICc metric!")

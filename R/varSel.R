@@ -10,15 +10,14 @@
 #' "auc", "tss" and "aicc", default is "auc".
 #' @param env \link{stack} or \link{brick} containing the environmental variables,
 #' used only with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
+#' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.
 #' @param rm integer. The value of the regularization paramiter to use during computation,
 #' default is 0.001, see details.
 #' @param method The method used to comput the correlation matrix, default "spearman".
 #' @param cor_th The correlation threshold used to select highly correlated variables, default is 0.7.
 #' @param use_permutation Flag to select the permutation importance or the percent contribution.
 #'
-#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-#' to save the prediction in a raster file. Parallel computation increases the speed
+#' @details You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
 #' We should write something more... I will refer to our paper for the explanations...
 #'

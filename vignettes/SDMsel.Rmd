@@ -16,7 +16,7 @@ output:
     toc: true
     toc_depth: 2
 vignette: >
-  %\VignetteIndexEntry{Maxent Model Selection}
+  %\VignetteIndexEntry{SDMsel}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -379,7 +379,7 @@ plotPA(prediction, th = 0.0476, filename = 'pa_map', overwrite = TRUE, format = 
 or we can customise the colors using:
 
 ```{r plot presence absence colors, fig.align="center"}
-plotPA(prediction, th = 0.2849, filename = 'pa_map', overwrite = TRUE, colors = c("#7fbf7b", "#af8dc3"))
+plotPA(prediction, th = 0.0476, filename = 'pa_map', overwrite = TRUE, colors = c("#7fbf7b", "#af8dc3"))
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
@@ -429,24 +429,22 @@ tune_fc@results
 or plot them:
 ```{r, eval=F}
 plot_ly(tune_fc@results) %>%
-  add_trace(x = ~fc, y = ~train_AUC, type = "bar", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~fc, y = ~train_AUC, type = "bar", name = "Train AUC", marker = list(color = "#00BFC4"), text = ~paste("Diff AUC:", diff_AUC)) %>%
   add_trace(x = ~fc, y = ~test_AUC, type = "bar", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
   layout(xaxis = list(title = "Feature Class Combination"), yaxis = list(title = "AUC"), barmode = "group", title = "Model performance")
 ```
 ```{r, fig.align="center", echo=F}
 p <- plot_ly(tune_fc@results) %>%
-  add_trace(x = ~fc, y = ~train_AUC, type = "bar", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
+  add_trace(x = ~fc, y = ~train_AUC, type = "bar", name = "Train AUC", marker = list(color = "#00BFC4"), text = ~paste("Diff AUC:", diff_AUC)) %>%
   add_trace(x = ~fc, y = ~test_AUC, type = "bar", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
   layout(xaxis = list(title = "Feature Class Combination"), yaxis = list(title = "AUC"), barmode = "group", title = "Model performance")
 htmltools::div(p, align = "center")
 ```
-```{r}
-tune_fc@results[which.max(tune_fc@results$test_AUC), ]
-```
 
-The Feature Class combination with the highest validation AUC is **lqpht**, we select this model from the models slot and use it to tune the number of background locations.
+We want to maximize the AUC in the validation dataset but we want to acccount also for the difference between train AUC and validation AUC. If you hover hover the previous output and you select "compare data on hover" you notice that **lqph** provides the best result, we select this model from the models slot and use it to tune the number of background locations.
+
 ```{r}
-tuned_fc <- tune_fc@models[[which.max(tune_fc@results$test_AUC)]]
+tuned_fc <- tune_fc@models[[5]]
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
@@ -476,9 +474,9 @@ p <- plot_ly(tune_bg@results) %>%
 htmltools::div(p, align = "center")
 ```
 
-The best number of background locations is 3000, we select this model from the models slot and use it to tune the regularization multiplier.
+We obtain the best result using all the background locations, we select this model from the models slot and use it to tune the regularization multiplier.
 ```{r}
-tuned_bg <- tune_bg@models[[which.max(tune_bg@results$test_AUC)]]
+tuned_bg <- tune_bg@models[[10]]
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
@@ -496,7 +494,7 @@ Output:
 tune_rm@results
 ```
 
-```{r}
+```{r, echo=F}
 kable(tune_rm@results) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "responsive")) %>%
   scroll_box(height = "400px")
@@ -515,25 +513,32 @@ p <- plot_ly(tune_rm@results) %>%
   layout(xaxis = list(title = "Regularization multiplier"), yaxis = list(title = "AUC"), title = "Model performance")
 htmltools::div(p, align = "center")
 ```
-The highest test AUC uses a `regularization multiplier` equal to 1.1, we select this model from the models slot and use it to tune the number of iterations.
+
+The model with the highest validation AUC uses a `regularization multiplier` equal to 0.1 but at rm = 0.3 we have the minimum differece between train and validation AUC, we select this model from the models slot and use it to tune the number of iterations.
+
 ```{r}
-tuned_rm <- tune_rm@models[[which.max(tune_rm@results$test_AUC)]]
+tuned_rm <- tune_rm@models[[which.min(tune_rm@results$diff_AUC)]]
 ```
 <div style="text-align: right"><a href="#top">Back to top</a></div>
 
 ## Tune number of iterations:
 
-The default number of iterations used by the optimization algorithm in MaxEnt is 500. This value is in general good but can be tuned like other hyperparameters. We test a sequence iterations starting from 300 till 600 with increments of 25:
+The default number of iterations used by the optimization algorithm in MaxEnt is 500. This value is in general good but can be tuned like other hyperparameters. We test a sequence iterations starting from 400 till 2300 with increments of 100:
+
 ```{r, message=F}
-tune_it <- tuneIt(tuned_rm, its = seq(300, 600, 25), metric = "auc")
+tune_it <- tuneIt(tuned_rm, its = seq(400, 2300, 100), metric = "auc")
 ```
 
 Output:
 
-```{r}
+```{r, eval=F}
 tune_it@results
 ```
-
+```{r, echo=F}
+kable(tune_it@results) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive")) %>%
+  scroll_box(height = "400px")
+```
 
 ```{r, eval=F}
 plot_ly(tune_it@results) %>%
@@ -549,7 +554,7 @@ p <- plot_ly(tune_it@results) %>%
 htmltools::div(p, align = "center")
 ```
 
-The test AUC changes varying the number of iterations and reach the maximum using 400 iterations, we select this model from the models slot:
+The test AUC changes varying the number of iterations and reach the maximum using 2200 iterations, we select this model from the models slot:
 ```{r}
 tuned_model <- tune_it@models[[which.max(tune_it@results$test_AUC)]]
 ```
@@ -570,4 +575,5 @@ At the end of the tuning process is time to use the **Test** dataset to have an 
 ```{r, fig.align="center"}
 plotROC(tuned_model, val = val, test = test)
 ```
-
+<div style="text-align: right"><a href="#top">Back to top</a></div>
+# References

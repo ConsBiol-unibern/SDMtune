@@ -5,7 +5,7 @@
 \title{Jackknife Test}
 \usage{
 doJk(model, metric = c("auc", "tss", "aicc"), variables = NULL,
-  with_only = TRUE, env = NULL, return_models = FALSE)
+  with_only = TRUE, env = NULL, parallel = FALSE, return_models = FALSE)
 }
 \arguments{
 \item{model}{Maxent object.}
@@ -21,6 +21,8 @@ used to train the model, default is NULL.}
 \item{env}{\link{stack} or \link{brick} containing the environmental variables,
 used only with "aicc", default is NULL.}
 
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.}
+
 \item{return_models}{logical, If TRUE returns all the models together with the test result, default is FALSE.}
 }
 \value{
@@ -32,8 +34,7 @@ Run the Jackknife test for variable importance removing one variable at time and
 If the model has a test dataset, it returns also the test AUC.
 }
 \details{
-You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-to save the prediction in a raster file. Parallel computation increases the speed
+You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
 only for big datasets due to the time necessary to create the cluster.
 }
 \examples{

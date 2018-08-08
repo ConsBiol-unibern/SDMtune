@@ -20,7 +20,7 @@ given as MaxentSWD object.}
 \item{env}{\link{stack} or \link{brick} containing the environmental variables,
 used only with "aicc", default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.}
 
 \item{rm}{integer. The value of the regularization paramiter to use during computation,
 default is 0.001, see details.}
@@ -39,8 +39,7 @@ The function performs a data driven variable selection. Starting from provided m
 it iterates through the .......
 }
 \details{
-You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-to save the prediction in a raster file. Parallel computation increases the speed
+You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
 only for big datasets due to the time necessary to create the cluster.
 We should write something more... I will refer to our paper for the explanations...
 }

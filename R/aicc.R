@@ -12,8 +12,7 @@
 #' @importFrom raster extract cellStats
 #' @importFrom Rdpack reprompt
 #'
-#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-#' to save the prediction in a raster file. Parallel computation increases the speed
+#' @details You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
 #'
 #' @references \insertRef{Warren2011}{SDMsel}
