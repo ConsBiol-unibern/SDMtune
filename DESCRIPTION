@@ -19,10 +19,10 @@ Imports: Rdpack,
           raster (>= 2.6-7),
           rgdal (>= 0.3-3),
           scales (>= 0.5.0),
-          foreach (>= 1.4.4),
           progress (>= 1.2.0),
           rasterVis (>= 0.45),
           reshape2 (>= 1.4.3),
+          foreach (>= 1.4.4),
           stringr
 RdMacros: Rdpack
 Encoding: UTF-8

@@ -28,8 +28,7 @@
 #'
 #' @author Sergio Vignali
 doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
-                 with_only = TRUE, env = NULL, parallel = FALSE,
-                 return_models = FALSE) {
+                 with_only = TRUE, env = NULL, return_models = FALSE) {
 
   if (metric == "aicc" & is.null(env))
     stop("You must provide env parameter if you want to use AICc metric!")
