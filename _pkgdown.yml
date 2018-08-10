@@ -1,0 +1,59 @@
+reference:
+- title: Prepare Data
+  desc: Function to prepare data for SDMsel analysis
+  contents:
+  - '`getSubsample`'
+  - '`prepareSWD`'
+  - '`swd2csv`'
+  - '`thinData`'
+  - '`trainValTest`'
+- title: Modeling
+  desc: Function to train the model and get informatio from the model
+  contents:
+  - '`maxentOutput`'
+  - '`maxentTh`'
+  - '`predict,Maxent-method`'
+  - '`trainMaxent`'
+  - '`varImp`'
+- title: Evaluating
+  desc: Function to evaluate the model
+  contents:
+  - '`aicc`'
+  - '`auc`'
+  - '`confMatrix`'
+  - '`doJk`'
+  - '`tss`'
+- title: Data-driven Variable selection
+  desc: Function to perform Data-driven Variable selection
+  contents:
+  - '`corVar`'
+  - '`varSel`'
+- title: Plot
+  desc: Function to plot results
+  contents:
+  - '`plotCor`'
+  - '`plotJk`'
+  - '`plotPA`'
+  - '`plotPred`'
+  - '`plotResponse`'
+  - '`plotROC`'
+  - '`plotVarImp`'
+- title: Tune
+  desc: Function to tune model hyperparameters
+  contents:
+  - '`tuneBg`'
+  - '`tuneFC`'
+  - '`tuneIt`'
+  - '`tuneRM`'
+- title: Utilities
+  desc: Some utility functions
+  contents:
+  - '`Maxent2MaxEnt`'
+  - '`mergeSWD`'
+- title: Classes
+  desc: SDMsel classes and pkg description
+  contents:
+  - '`Maxent-class`'
+  - '`SDMsel`'
+  - '`SDMtune-class`'
+  - '`SWD-class`'
