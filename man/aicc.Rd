@@ -17,8 +17,7 @@ aicc(model, env, parallel = FALSE)
 The computed AICc
 }
 \description{
-Compute Akaike Information Criterion corrected for small samples size
-\insertCite{Warren2011}{SDMsel}
+Compute Akaike Information Criterion corrected for small samples size (Warren and Seifert 2011).
 }
 \details{
 You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
@@ -30,7 +29,9 @@ aicc(model, predictors, parallel = T)}
 
 }
 \references{
-\insertRef{Warren2011}{SDMsel}
+Warren D.L., Seifert S.N., (2011). Ecological niche modeling in Maxent:
+the importance of model complexity and the performance of model selection criteria.
+Ecological Applications, 21(2), 335–342.
 }
 \author{
 Sergio Vignali

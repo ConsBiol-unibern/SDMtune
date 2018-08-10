@@ -54,7 +54,7 @@ setGeneric("predict", function(object, ...)
 #' The function performs the prediction in **R** without calling the **MaxEnt**
 #' java software. This results is a faster computation for large datasets.
 #'
-#' @references \insertRef{Wilson2009}{SDMsel}
+#' @references Wilson P.D., (2009). Guidelines for computing MaxEnt model output values from a lambdas file.
 #'
 #' @include Maxent_class.R
 #' @import methods

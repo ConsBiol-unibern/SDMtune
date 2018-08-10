@@ -1,7 +1,6 @@
 #' AICc
 #'
-#' Compute Akaike Information Criterion corrected for small samples size
-#' \insertCite{Warren2011}{SDMsel}
+#' Compute Akaike Information Criterion corrected for small samples size (Warren and Seifert 2011).
 #'
 #' @param model Maxent object.
 #' @param env \link{stack} or \link{brick} containing the environmental variables.
@@ -15,7 +14,9 @@
 #' @details You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
 #'
-#' @references \insertRef{Warren2011}{SDMsel}
+#' @references Warren D.L., Seifert S.N., (2011). Ecological niche modeling in Maxent:
+#' the importance of model complexity and the performance of model selection criteria.
+#' Ecological Applications, 21(2), 335–342.
 #'
 #' @examples \dontrun{
 #' aicc(model, predictors, parallel = T)}

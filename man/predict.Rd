@@ -52,7 +52,7 @@ predict(model, predictors, parallel = TRUE)}
 
 }
 \references{
-\insertRef{Wilson2009}{SDMsel}
+Wilson P.D., (2009). Guidelines for computing MaxEnt model output values from a lambdas file.
 }
 \author{
 Sergio Vignali

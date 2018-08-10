@@ -24,7 +24,8 @@ tss(model, test = test_dataset)}
 
 }
 \references{
-\insertRef{ALLOUCHE2006}{SDMsel}
+Allouche O., Tsoar A., Kadmon R., (2006). Assessing the accuracy of species distribution models:
+prevalence, kappa and the true skill statistic (TSS). Journal of Applied Ecology, 43(6), 1223–1232.
 }
 \author{
 Sergio Vignali
