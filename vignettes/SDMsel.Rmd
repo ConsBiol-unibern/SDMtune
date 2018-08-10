@@ -12,9 +12,6 @@ output:
     highlight: github
     toc: true
     toc_depth: 2
-  pdf_document:
-    toc: true
-    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{SDMsel}
   %\VignetteEncoding{UTF-8}
