@@ -26,8 +26,6 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-# packagename <img src="vignette/figures/logo.png" align="right" />
-
 # Set working environment
 
 ```{r kableExtra, echo=F}
