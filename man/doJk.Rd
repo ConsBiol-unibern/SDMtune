@@ -5,8 +5,7 @@
 \title{Jackknife Test}
 \usage{
 doJk(model, metric = c("auc", "tss", "aicc"), variables = NULL,
-  with_only = TRUE, env = NULL, parallel = FALSE,
-  return_models = FALSE)
+  with_only = TRUE, env = NULL, parallel = FALSE, return_models = FALSE)
 }
 \arguments{
 \item{model}{Maxent object.}

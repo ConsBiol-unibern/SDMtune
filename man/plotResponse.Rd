@@ -4,8 +4,8 @@
 \alias{plotResponse}
 \title{Plot Response Curve}
 \usage{
-plotResponse(model, variable, marginal = FALSE, fun = mean,
-  clamp = TRUE, rug = FALSE, color = "red")
+plotResponse(model, variable, marginal = FALSE, fun = mean, clamp = TRUE,
+  rug = FALSE, color = "red")
 }
 \arguments{
 \item{model}{Maxent object.}

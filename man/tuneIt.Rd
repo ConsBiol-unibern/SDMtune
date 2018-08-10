@@ -43,4 +43,3 @@ Other tuning functions: \code{\link{tuneBg}},
 \author{
 Sergio Vignali
 }
-\concept{tuning functions}

@@ -4,8 +4,8 @@
 \alias{tuneBg}
 \title{Tune number of Background locations}
 \usage{
-tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
-  env = NULL, parallel = FALSE, seed = NULL)
+tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"), env = NULL,
+  parallel = FALSE, seed = NULL)
 }
 \arguments{
 \item{model}{Maxent object.}
@@ -48,4 +48,3 @@ Other tuning functions: \code{\link{tuneFC}},
 \author{
 Sergio Vignali
 }
-\concept{tuning functions}

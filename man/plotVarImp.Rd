@@ -4,8 +4,7 @@
 \alias{plotVarImp}
 \title{Plot Varible Importance}
 \usage{
-plotVarImp(model, type = c("contribution", "permutation"),
-  color = "grey")
+plotVarImp(model, type = c("contribution", "permutation"), color = "grey")
 }
 \arguments{
 \item{model}{Maxent object.}

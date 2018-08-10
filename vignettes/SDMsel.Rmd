@@ -6,13 +6,13 @@ date: "`r Sys.Date()`"
 bibliography: library.bib
 always_allow_html: yes
 output:
-  pdf_document:
-    toc: true
-    toc_depth: 2
   prettydoc::html_pretty:
     df_print: kable
     theme: cayman
     highlight: github
+    toc: true
+    toc_depth: 2
+  pdf_document:
     toc: true
     toc_depth: 2
 vignette: >
