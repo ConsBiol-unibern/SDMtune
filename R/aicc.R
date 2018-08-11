@@ -9,7 +9,6 @@
 #' @return The computed AICc
 #' @export
 #' @importFrom raster extract cellStats
-#' @importFrom Rdpack reprompt
 #'
 #' @details You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
