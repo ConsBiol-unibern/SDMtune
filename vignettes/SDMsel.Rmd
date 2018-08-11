@@ -286,7 +286,7 @@ varImp(base_model)
 Or plot it using the `plotVarImp` function (the default color is grey):
 
 ```{r plot model, fig.align="center"}
-plotVarImp(base_model, type = "perm", color = '#159957')
+plotVarImp(base_model, type = "perm", color = "#159957")
 ```
 
 Another way to estimate the variable importance is to run a **Jackknife Test**:

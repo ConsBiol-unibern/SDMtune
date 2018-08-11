@@ -1,6 +1,6 @@
 Package: SDMsel
 Type: Package
-Title: Species Distribution Model Selection
+Title: Species Distribution Model selection
 Version: 0.0.0.9000
 Date: 2018-03-12
 Authors@R: c(
@@ -9,7 +9,7 @@ Authors@R: c(
 	person("Arnaud", "Barras", role = "aut"),
 	person("Veronika", "Braunisch", role = "aut", comment = c(ORCID = "00000-0001-7035-4662"))
 	)
-Description: Performs Data-driven Variables selection and Model Tuning for SDMs (Species Distribution Models). It provides also utilities to display results.
+Description: Provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models).
 License: GPL (>= 3)
 URL: https://github.com/sgvignali/SDMsel
 BugReports: https://github.com/sgvignali/SDMsel/issues

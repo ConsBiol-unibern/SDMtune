@@ -8,13 +8,13 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "docs/reference/figures/README-"
 )
 ```
 
 # SDMsel <img src="man/figures/logo.png" align="right" />
 
-Performs data driven variable selection and model tuning for SDMs (Species Distribution Models). It provides also some utilities to display results (at the moment it implements only MaxEnt models).
+SDMsel (Species Distribution Model selection) provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models).
 
 ## Installation
 
@@ -32,8 +32,59 @@ devtools::install_github("sgvignali/SDMsel")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Load required packages:
+```{r load packages}
+library(SDMsel)
+library(dismo)
+```
 
-```{r example}
-## basic example code
+
+Obtain data for analysis, we use the dataset provided by `dismo`package:
+
+```{r obtain data}
+files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+predictors <- stack(files)
+file <- paste(system.file(package = "dismo"), "/ex/bradypus.csv", sep = "")
+bradypus <- read.table(file, header = TRUE, sep = ",")
+train_coords <- bradypus[, 2:3]
+set.seed(25)
+bg_coords <- randomPoints(predictors, 5000)  # Extract random points
+```
+
+Prepare the data for the analisys with `SDMsel`:
+
+```{r prepare data}
+train <- prepareSWD(species = "Bradipus variagatus", coords = train_coords, env = predictors, categoricals = "biome")
+bg <- prepareSWD(species = "Bradipus variagatus", coords = bg_coords, env = predictors, categoricals = "biome")
+```
+
+Train a MaxEnt model:
+
+```{r train MaxEnt}
+model <- trainMaxent(presence = train, bg = bg, rm = 1, fc = "lqp", type = "cloglog", iter = 500)
+```
+
+Plot variable importance:
+
+```{r plot-var-imp}
+plotVarImp(model, type = "permutation", color = "#159957")
+```
+
+plot ROC curve:
+
+```{r plot-ROC-curve}
+plotROC(model)
+```
+
+
+Make prediction:
+
+```{r predict}
+pred <- predict(model, predictors)
+```
+
+Plot prediction:
+
+```{r plot-prediction}
+plotPred(pred, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"), lt = "cloglog output")
 ```
