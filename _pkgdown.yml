@@ -1,3 +1,11 @@
+authors:
+  Sergio Vignali:
+    href: https://github.com/sgvignali
+  Arnaud Barras:
+    href: http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html
+  Veronika Braunisch:
+    href: http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html
+
 reference:
 - title: Prepare Data
   desc: Function to prepare data for SDMsel analysis

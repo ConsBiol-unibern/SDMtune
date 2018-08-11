@@ -4,14 +4,15 @@ Title: Species Distribution Model Selection
 Version: 0.1.0
 Date: 2018-03-12
 Authors@R: c(
-	person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch", role = c("aut", "cre")),
+	person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",
+	       role = c("aut", "cre"), comment = c(ORCID = "00000-0002-3390-5442")),
 	person("Arnaud", "Barras", role = "aut"),
-	person("Veronika", "Braunisch", role = "aut")
+	person("Veronika", "Braunisch", role = "aut", comment = c(ORCID = "00000-0001-7035-4662"))
 	)
 Description: Performs Data-driven Variables selection and Model Tuning for SDMs (Species Distribution Models). It provides also utilities to display results.
 License: GPL (>= 3)
-URL: https://github.com/sergiovignali/SDMsel
-BugReports: https://github.com/sergiovignali/SDMsel/issues
+URL: https://github.com/sgvignali/SDMsel
+BugReports: https://github.com/sgvignali/SDMsel/issues
 Depends: R (>= 3.2.0),
           zeallot (>= 0.1.0),
           ggplot2 (>= 3.0.0),
