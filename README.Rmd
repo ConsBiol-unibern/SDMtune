@@ -12,16 +12,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SDMsel
+# SDMsel <img src="man/figures/logo.png" align="right" />
 
-The goal of SDMsel is to ...
+Performs data driven variable selection and model tuning for SDMs (Species Distribution Models). It provides also some utilities to display results (at the moment it implements only MaxEnt models).
 
 ## Installation
 
-You can install SDMsel from github with:
+You can get the latest stable version from CRAN:
+
+```{r CRAN-installation, eval=F}
+install.packages("SDMsel")
+```
+
+or latest development version from github:
 
 ```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
 devtools::install_github("sgvignali/SDMsel")
 ```
 
