@@ -66,13 +66,13 @@ model <- trainMaxent(presence = train, bg = bg, rm = 1, fc = "lqp", type = "clog
 
 Plot variable importance:
 
-```{r plot-var-imp}
+```{r plot-var-imp, fig.align="center"}
 plotVarImp(model, type = "permutation", color = "#159957")
 ```
 
 plot ROC curve:
 
-```{r plot-ROC-curve}
+```{r plot-ROC-curve, fig.align="center"}
 plotROC(model)
 ```
 
@@ -85,6 +85,6 @@ pred <- predict(model, predictors)
 
 Plot prediction:
 
-```{r plot-prediction}
+```{r plot-prediction, fig.align="center"}
 plotPred(pred, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"), lt = "cloglog output")
 ```

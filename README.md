@@ -77,7 +77,7 @@ Plot variable importance:
 plotVarImp(model, type = "permutation", color = "#159957")
 ```
 
-![](docs/reference/figures/README-plot-var-imp-1.png)
+<img src="docs/reference/figures/README-plot-var-imp-1.png" style="display: block; margin: auto;" />
 
 plot ROC curve:
 
@@ -85,7 +85,7 @@ plot ROC curve:
 plotROC(model)
 ```
 
-![](docs/reference/figures/README-plot-ROC-curve-1.png)
+<img src="docs/reference/figures/README-plot-ROC-curve-1.png" style="display: block; margin: auto;" />
 
 Make prediction:
 
@@ -99,4 +99,4 @@ Plot prediction:
 plotPred(pred, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"), lt = "cloglog output")
 ```
 
-![](docs/reference/figures/README-plot-prediction-1.png)
+<img src="docs/reference/figures/README-plot-prediction-1.png" style="display: block; margin: auto;" />
