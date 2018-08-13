@@ -2,11 +2,9 @@
 title: "SDMsel"
 subtitle: "Species Distribution Model Selection"
 bibliography: library.bib
-always_allow_html: yes
 output:
-  prettydoc::html_pretty:
-    df_print: kable
-    theme: cayman
+  html_document:
+    theme: flatly
     highlight: github
     toc: true
     toc_depth: 2

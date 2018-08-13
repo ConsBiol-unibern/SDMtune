@@ -14,10 +14,6 @@ options(knitr.table.format = "html")
 
 # Set working environment
 
-```{r kableExtra, echo=F}
-library(knitr)
-```
-
 Import `SDMsel`:
 ```{r import}
 options(java.parameters = "-Xmx2g" )
@@ -371,7 +367,7 @@ One possible approach to remove highly correlated variables is to choose a subse
 selected_var_model <- varSel(base_model, bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75, use_permutation = T)
 ```
 
-The function returns the model trained without the correlated variables, if we print the object we see that the function removed **bio1**, **bio16**, **bio7** and **bio8**:
+The function returns the model trained without the correlated variables, if we print the object we see that the function removed **bio6**, **bio7**, **bio8** and **bio16**:
 
 ```{r}
 selected_var_model
@@ -464,18 +460,18 @@ plot_ly(tune_rm@results) %>%
   layout(xaxis = list(title = "Regularization multiplier"), yaxis = list(title = "AUC"), title = "Model performance")
 ```
 
-The model with the highest validation AUC uses a `regularization multiplier` equal to 0.1 but at rm = 0.3 we have the minimum differece between train and validation AUC, we select this model from the models slot and use it to tune the number of iterations.
+The model with the highest validation AUC uses a `regularization multiplier` equal to 0.5 but at rm = 0.9 we have a lower differece between train and validation AUC with an irrelevant decrease of validation AUC, we select this model from the models slot and use it to tune the number of iterations.
 
 ```{r}
-tuned_rm <- tune_rm@models[[which.min(tune_rm@results$diff_AUC)]]
+tuned_rm <- tune_rm@models[[9]]
 ```
 
 ## Tune number of iterations:
 
 The default number of iterations used by the optimization algorithm in MaxEnt is 500. This value is in general good but can be tuned like other hyperparameters. We test a sequence iterations starting from 400 till 2300 with increments of 100:
 
-```{r, message=F}
-tune_it <- tuneIt(tuned_rm, its = seq(400, 2300, 100), metric = "auc")
+```{r tune it, message=F}
+tune_it <- tuneIt(tuned_rm, its = seq(400, 1100, 50), metric = "auc")
 ```
 
 Output:
@@ -491,10 +487,10 @@ plot_ly(tune_it@results) %>%
   layout(xaxis = list(title = "Number of iterations"), yaxis = list(title = "AUC"), title = "Model performance")
 ```
 
-The test AUC changes varying the number of iterations and reach the maximum using 2200 iterations, we select this model from the models slot:
+The AUC changes varying the number of iterations in both Train and Validation datasets. In this case there are not much differences with the default value of 500 iterations (this is not always the case) but using 1500 iterations we obtain a lower difference between Train and Validation AUC, we select this model from the models slot:
 
 ```{r}
-tuned_model <- tune_it@models[[which.max(tune_it@results$test_AUC)]]
+tuned_model <- tune_it@models[[which.min(tune_it@results$diff_AUC)]]
 ```
 
 

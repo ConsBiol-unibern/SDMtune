@@ -125,7 +125,7 @@ file &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 bradypus &lt;-<span class="st"> </span><span class="kw">read.table</span>(file, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">sep =</span> <span class="st">","</span>)
 train_coords &lt;-<span class="st"> </span>bradypus[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]
 <span class="kw">set.seed</span>(<span class="dv">25</span>)
-bg_coords &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/randomPoints">randomPoints</a></span>(predictors, <span class="dv">5000</span>)  <span class="co"># Extract random points</span></code></pre></div>
+bg_coords &lt;-<span class="st"> </span><span class="kw">randomPoints</span>(predictors, <span class="dv">5000</span>)  <span class="co"># Extract random points</span></code></pre></div>
 <p>Prepare the data for the analisys with <code>SDMsel</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Bradipus variagatus"</span>, <span class="dt">coords =</span> train_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)
 <span class="co">#&gt; Extracting environmental condition for Bradipus variagatus...</span>
@@ -142,7 +142,7 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(model)</code></pre></div>
 <p><img src="reference/figures/README-plot-ROC-curve-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Make prediction:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(model, predictors)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">predict</span>(model, predictors)</code></pre></div>
 <p>Plot prediction:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(pred, <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
 <p><img src="reference/figures/README-plot-prediction-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -162,16 +162,16 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/Maxent2MaxEnt.html">Maxent2MaxEnt</a></span>(model)</code></pre></div>
 <p>Run the test with 10 replicates:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(microbenchmark)
-res &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark">microbenchmark</a></span>(<span class="st">"dismo"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(me_model, predictors)},
-                      <span class="st">"SDMsel"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(model, predictors)},
+res &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="st">"dismo"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw">predict</span>(me_model, predictors)},
+                      <span class="st">"SDMsel"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw">predict</span>(model, predictors)},
                       <span class="dt">times =</span> <span class="dv">10</span>,
                       <span class="dt">check =</span> my_check)</code></pre></div>
 <p>Print results:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;    expr      min       lq     mean   median       uq      max neval</span>
-<span class="co">#&gt;   dismo 288.0900 297.5604 334.1476 307.6697 334.3895 454.5537    10</span>
-<span class="co">#&gt;  SDMsel 118.2141 120.1065 135.9201 122.3191 122.9339 267.3167    10</span></code></pre></div>
+<span class="co">#&gt;   dismo 491.6890 550.1245 580.2259 581.7273 627.0316 645.1758    10</span>
+<span class="co">#&gt;  SDMsel 158.9714 205.7170 241.4000 232.3237 241.4249 435.9126    10</span></code></pre></div>
 <p>Plot results:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">autoplot</span>(res)
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></code></pre></div>
