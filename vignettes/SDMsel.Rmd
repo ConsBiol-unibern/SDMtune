@@ -5,9 +5,10 @@ bibliography: library.bib
 output:
   html_document:
     theme: flatly
-    highlight: github
+    highlight: default
     toc: true
     toc_depth: 2
+    toc_float: true
 vignette: >
   %\VignetteIndexEntry{SDMsel}
   %\VignetteEncoding{UTF-8}
@@ -22,11 +23,8 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-# Set working environment
 
-```{r kableExtra, echo=F}
-library(knitr)
-```
+# Set working environment
 
 `SDMsel` (Species Distribution Model Selection) package works with the new version of **MaxEnt** software (v. >= 3.4.1), in case you have the old version you can download the new one from [here](https://biodiversityinformatics.amnh.org/open_source/maxent/). The new version uses by default the **complementary log-log transform** (Cloglog) to produce the estimate of occurrence probability instead of the **logistic transform** and the feature class **threshold** is disabled but available as option [@Phillips2017].
 
@@ -51,7 +49,7 @@ library(SDMsel)
 
 Check if maxent is correctly configured for `dismo`:
 
-```{r check maxent}
+```{r check maxent, eval=F}
 dismo::maxent()
 ```
 
