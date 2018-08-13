@@ -8,4 +8,4 @@ bibentry(bibtype = "Manual",
                     person("Veronika", "Braunisch")),
          year = year,
          note = note,
-         url = "https://github.com/sergiovignali/SDMsel")
+         url = "https://github.com/sgvignali/SDMsel")

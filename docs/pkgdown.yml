@@ -3,4 +3,5 @@ pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
   SDMsel: SDMsel.html
+  tune_auc: articles/tune_auc.html
 

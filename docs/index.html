@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="container template-article">
-      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SDMsel</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.0.0.9000</span>
       </span>
     </div>
 
@@ -47,6 +47,18 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/articles/tune_auc.html">Tune model using AUC</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -79,7 +91,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#sdmsel" class="anchor"></a>SDMsel <img src="reference/figures/logo.png" align="right">
 </h1></div>
-<p>SDMsel (Species Distribution Model selection) provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models).</p>
+<p><strong>SDMsel</strong> (Species Distribution Model selection) provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models). <strong>SDMsel</strong> uses its own script to predict MaxEnt models that results to be much faster for large datasets than native prediction made using Java software. This reduce considerably the computation time when tuninig the model using the <strong>AICc</strong>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -126,15 +138,45 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.
 <p>Plot variable importance:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotVarImp.html">plotVarImp</a></span>(model, <span class="dt">type =</span> <span class="st">"permutation"</span>, <span class="dt">color =</span> <span class="st">"#159957"</span>)</code></pre></div>
 <p><img src="reference/figures/README-plot-var-imp-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>plot ROC curve:</p>
+<p>Plot ROC curve:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(model)</code></pre></div>
 <p><img src="reference/figures/README-plot-ROC-curve-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Make prediction:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(model, predictors)</code></pre></div>
 <p>Plot prediction:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(pred, <span class="dt">colorramp =</span> <span class="kw">c</span>(<span class="st">"#2c7bb6"</span>, <span class="st">"#abd9e9"</span>, <span class="st">"#ffffbf"</span>, <span class="st">"#fdae61"</span>, <span class="st">"#d7191c"</span>), <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(pred, <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
 <p><img src="reference/figures/README-plot-prediction-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
+</div>
+<div id="speed-test" class="section level1">
+<h1 class="hasAnchor">
+<a href="#speed-test" class="anchor"></a>Speed test</h1>
+<p>We test now the difference in speed between the predict function of <strong>dismo</strong> package that uses the Java software and the predict function of <strong>SDMsel</strong> package. We also test if the results are equivalent.</p>
+<p>The following code creates a function to test the equivalence of the results:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_check &lt;-<span class="st"> </span><span class="cf">function</span>(values) {
+  error &lt;-<span class="st"> </span><span class="fl">1e-7</span> 
+  max_error &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">values</span>(values[[<span class="dv">1</span>]]) <span class="op">-</span><span class="st"> </span><span class="kw">values</span>(values[[<span class="dv">2</span>]]), <span class="dt">na.rm =</span> T) 
+  max_error <span class="op">&lt;</span><span class="st"> </span>error
+}</code></pre></div>
+<p>If the results are different for more than <code>1e-7</code> the test will fail. The next function converts an object of class <code>Maxent</code> into an object of class <code>MaxEnt</code> (dismo pkg):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/Maxent2MaxEnt.html">Maxent2MaxEnt</a></span>(model)</code></pre></div>
+<p>Run the test with 10 replicates:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(microbenchmark)
+res &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark">microbenchmark</a></span>(<span class="st">"dismo"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(me_model, predictors)},
+                      <span class="st">"SDMsel"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(model, predictors)},
+                      <span class="dt">times =</span> <span class="dv">10</span>,
+                      <span class="dt">check =</span> my_check)</code></pre></div>
+<p>Print results:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res
+<span class="co">#&gt; Unit: milliseconds</span>
+<span class="co">#&gt;    expr      min       lq     mean   median       uq      max neval</span>
+<span class="co">#&gt;   dismo 288.0900 297.5604 334.1476 307.6697 334.3895 454.5537    10</span>
+<span class="co">#&gt;  SDMsel 118.2141 120.1065 135.9201 122.3191 122.9339 267.3167    10</span></code></pre></div>
+<p>Plot results:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">autoplot</span>(res)
+<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><strong>SDMsel</strong> is at least twice faster than native Java software and the speed improves much more for large datasets when using parallel computation (i.e. see details in predict function).</p>
 </div>
   </div>
 
@@ -169,6 +211,8 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.
 <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a> <br><small class="roles"> Author </small>  </li>
 <li>
 <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/00000-0001-7035-4662" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
+<li>
+<a href="http://www.cb.iee.unibe.ch/index_eng.html">Conservation Biology</a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
 </div>
 
@@ -178,7 +222,7 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/sgvignali">Sergio Vignali</a>, <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a>, <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a>.</p>
+  <p>Developed by <a href="https://github.com/sgvignali">Sergio Vignali</a>, <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a>, <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a>, <a href="http://www.cb.iee.unibe.ch/index_eng.html">Conservation Biology</a>.</p>
 </div>
 
 <div class="pkgdown">
