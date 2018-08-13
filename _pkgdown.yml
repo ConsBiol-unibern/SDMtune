@@ -1,3 +1,10 @@
+template:
+  params:
+    bootswatch: flatly
+
+navbar:
+  type: inverse
+
 authors:
   Sergio Vignali:
     href: https://github.com/sgvignali
