@@ -6,13 +6,13 @@
 \usage{
 varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   parallel = FALSE, rm = 0.001, method = "spearman", cor_th = 0.7,
-  use_permutation = TRUE)
+  use_percent = FALSE)
 }
 \arguments{
-\item{model}{A MaxentModel object.}
+\item{model}{Maxent object.}
 
-\item{bg4cor}{Background locations used to test the correlation between environmental variables,
-given as MaxentSWD object.}
+\item{bg4cor}{SWD object. Background locations used to test the correlation between
+environmental variables.}
 
 \item{metric}{character. The metric used to evaluate the models, possible values are:
 "auc", "tss" and "aicc", default is "auc".}
@@ -25,18 +25,25 @@ used only with "aicc", default is NULL.}
 \item{rm}{integer. The value of the regularization paramiter to use during computation,
 default is 0.001, see details.}
 
-\item{method}{The method used to comput the correlation matrix, default "spearman".}
+\item{method}{character. The method used to comput the correlation matrix, default "spearman".}
 
-\item{cor_th}{The correlation threshold used to select highly correlated variables, default is 0.7.}
+\item{cor_th}{numeric. The correlation threshold used to select highly correlated variables,
+default is 0.7.}
 
-\item{use_permutation}{Flag to select the permutation importance or the percent contribution.}
+\item{use_percent}{logical, if TRUE it uses the percent contribution instead of the
+permutation importance.}
 }
 \value{
 The name of the selected variables.
 }
 \description{
-The function performs a data driven variable selection. Starting from provided model
-it iterates through the .......
+The function performs a data-driven variable selection. Starting from the provided model
+it iterates through all the variables starting from the one with the highest contribution
+(percent or permutation). If the variable is correlated with other variables (according to
+the given method and threshold) it performs a Jackknife test and among the correlated
+variables it removes the one that results in the best performing model when removed
+(according to the given metric). The process is repeated untill the remaining variables
+are not highly correlated anymore.
 }
 \details{
 You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed

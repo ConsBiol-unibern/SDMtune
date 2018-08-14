@@ -60,6 +60,7 @@ Collate:
     'plotVarImp.R'
     'predict_Maxent.R'
     'prepareSWD.R'
+    'reduceVar.R'
     'swd2csv.R'
     'thinData.R'
     'trainMaxent.R'

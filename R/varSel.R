@@ -1,11 +1,16 @@
 #' Variable Selection
 #'
-#' The function performs a data driven variable selection. Starting from provided model
-#' it iterates through the .......
+#' The function performs a data-driven variable selection. Starting from the provided model
+#' it iterates through all the variables starting from the one with the highest contribution
+#' (percent or permutation). If the variable is correlated with other variables (according to
+#' the given method and threshold) it performs a Jackknife test and among the correlated
+#' variables it removes the one that results in the best performing model when removed
+#' (according to the given metric). The process is repeated untill the remaining variables
+#' are not highly correlated anymore.
 #'
-#' @param model A MaxentModel object.
-#' @param bg4cor Background locations used to test the correlation between environmental variables,
-#' given as MaxentSWD object.
+#' @param model Maxent object.
+#' @param bg4cor SWD object. Background locations used to test the correlation between
+#' environmental variables.
 #' @param metric character. The metric used to evaluate the models, possible values are:
 #' "auc", "tss" and "aicc", default is "auc".
 #' @param env \link{stack} or \link{brick} containing the environmental variables,
@@ -13,9 +18,11 @@
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.
 #' @param rm integer. The value of the regularization paramiter to use during computation,
 #' default is 0.001, see details.
-#' @param method The method used to comput the correlation matrix, default "spearman".
-#' @param cor_th The correlation threshold used to select highly correlated variables, default is 0.7.
-#' @param use_permutation Flag to select the permutation importance or the percent contribution.
+#' @param method character. The method used to comput the correlation matrix, default "spearman".
+#' @param cor_th numeric. The correlation threshold used to select highly correlated variables,
+#' default is 0.7.
+#' @param use_percent logical, if TRUE it uses the percent contribution instead of the
+#' permutation importance.
 #'
 #' @details You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
 #' only for big datasets due to the time necessary to create the cluster.
@@ -32,7 +39,7 @@
 #' @author Sergio Vignali
 varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
                    parallel = FALSE, rm = 0.001, method = "spearman",
-                   cor_th = 0.7, use_permutation = TRUE) {
+                   cor_th = 0.7, use_percent = FALSE) {
 
   if (class(bg4cor) != "SWD")
     stop("bg4cort must be a SWD object!")
@@ -80,8 +87,8 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
 
     cor_matrix <- as.data.frame(cor_matrix)
     scores <- varImp(model)
-    if (use_permutation)
-      scores <- scores[order(-scores$Permutation_importance), ]
+    if (use_percent)
+      scores <- scores[order(-scores$Percent_contribution), ]
     varnames <- scores$Variable
     discarded_variable <- NULL
 
