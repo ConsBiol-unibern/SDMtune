@@ -402,8 +402,8 @@ or plot them:
 ```{r, fig.align="center"}
 plot_ly(tune_fc@results) %>%
   add_trace(x = ~fc, y = ~train_AUC, type = "bar", name = "Train AUC", marker = list(color = "#00BFC4"), text = ~paste("Diff AUC:", diff_AUC)) %>%
-  add_trace(x = ~fc, y = ~test_AUC, type = "bar", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
-  layout(xaxis = list(title = "Feature Class Combination"), yaxis = list(title = "AUC"), barmode = "group", title = "Model performance")
+  add_trace(x = ~fc, y = ~test_AUC, type = "bar", name = "Val AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Feature Class Combination"), yaxis = list(title = "AUC"), barmode = "group", title = "Model performance", legend = list(orientation = 'h'))
 ```
 
 We want to maximize the AUC in the validation dataset but we want to acccount also for the difference between train AUC and validation AUC. If you hover hover the previous output and you select "compare data on hover" you notice that **lqph** provides the best result, we select this model from the models slot and use it to tune the number of background locations.
@@ -429,8 +429,8 @@ tune_bg@results
 ```{r, fig.align="center"}
 plot_ly(tune_bg@results) %>%
   add_trace(x = ~bg, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
-  add_trace(x = ~bg, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
-  layout(xaxis = list(title = "Background locations"), yaxis = list(title = "AUC"), title = "Model performance")
+  add_trace(x = ~bg, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Val AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Background locations"), yaxis = list(title = "AUC"), title = "Model performance", legend = list(orientation = 'h'))
 ```
 
 We obtain the best result using all the background locations, we select this model from the models slot and use it to tune the regularization multiplier.
@@ -456,8 +456,8 @@ tune_rm@results
 ```{r, fig.align="center"}
 plot_ly(tune_rm@results) %>%
   add_trace(x = ~rm, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
-  add_trace(x = ~rm, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
-  layout(xaxis = list(title = "Regularization multiplier"), yaxis = list(title = "AUC"), title = "Model performance")
+  add_trace(x = ~rm, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Val AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Regularization multiplier"), yaxis = list(title = "AUC"), title = "Model performance", legend = list(orientation = 'h'))
 ```
 
 The model with the highest validation AUC uses a `regularization multiplier` equal to 0.5 but at rm = 0.9 we have a lower differece between train and validation AUC with an irrelevant decrease of validation AUC, we select this model from the models slot and use it to tune the number of iterations.
@@ -483,14 +483,51 @@ tune_it@results
 ```{r, fig.align="center"}
 plot_ly(tune_it@results) %>%
   add_trace(x = ~it, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
-  add_trace(x = ~it, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Validation AUC", marker = list(color = "#F8766D")) %>%
-  layout(xaxis = list(title = "Number of iterations"), yaxis = list(title = "AUC"), title = "Model performance")
+  add_trace(x = ~it, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Val AUC", marker = list(color = "#F8766D")) %>%
+  layout(xaxis = list(title = "Number of iterations"), yaxis = list(title = "AUC"), title = "Model performance", legend = list(orientation = 'h'))
+  
 ```
 
-The AUC changes varying the number of iterations in both Train and Validation datasets. In this case there are not much differences with the default value of 500 iterations (this is not always the case) but using 1500 iterations we obtain a lower difference between Train and Validation AUC, we select this model from the models slot:
+The AUC changes varying the number of iterations in both Train and Validation datasets. In this case there are not much differences with the default value of 500 iterations (this is not always the case) but using 1050 iterations we obtain a lower difference between Train and Validation AUC, we select this model from the models slot:
 
 ```{r}
-tuned_model <- tune_it@models[[which.min(tune_it@results$diff_AUC)]]
+tuned_it <- tune_it@models[[which.min(tune_it@results$diff_AUC)]]
+```
+
+## Remove less important variables
+
+Let's say that we would like to remove variables with a contribution (permutation or percent) lower than a given threshold. We could simply remove them in a stepwise fashion untill the variable with the lower contribution contributes more than the given threshold or we could remove the variable only if the model performace doesn't decrease. The function `reduceVar` performs both approaches, in the next example we demonstrate the second approach.
+
+We print the variable contribution:
+
+```{r}
+varImp(tuned_it)
+```
+
+We decide we want to remove the variables with a permutation importance lower than 3\% but we do it only if the model performance doesn't decrease and we use the **AUC** of the Validation dataset to measure the model performance:
+
+```{r}
+tuned_model <- reduceVar(tuned_it, th = 3, metric = "auc", use_jk = T)
+```
+
+We print again the variable contribution:
+
+```{r}
+varImp(tuned_model)
+```
+
+but **bio17** was not removed because the model without bio17 has lower performance than the one with. We can demonstrate it removing the variable and comparing the **AUC** values on the Validation dataset:
+
+```{r}
+model_without_bio17 <- reduceVar(tuned_it, th = 3)
+varImp(model_without_bio17)
+```
+
+Compare AUC:
+
+```{r}
+cat("Validation AUC with bio17   : ", auc(tuned_it, val),
+    "\nValidation AUC without bio17: ", auc(model_without_bio17, val))
 ```
 
 
