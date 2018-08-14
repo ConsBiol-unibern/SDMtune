@@ -27,7 +27,7 @@ reference:
 - title: Modeling
   desc: Function to train the model and get informatio from the model
   contents:
-  - '`maxentOutput`'
+  - '`modelOutput`'
   - '`maxentTh`'
   - '`predict,Maxent-method`'
   - '`trainMaxent`'

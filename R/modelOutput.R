@@ -1,4 +1,4 @@
-#' MaxEnt Output
+#' Model Output
 #'
 #' Given a model the function produces the output in the given folder.
 #'
@@ -11,14 +11,15 @@
 #' @param folder character. The name of the folder in which to save the MaxEnt output,
 #' default is NULL meaning a temporary folder. The folder is created in the working directory.
 #'
+#' @return The model object.
 #' @export
 #'
 #' @examples
-#' \dontrun{model <- produceOutput(model, response_curves = T, jacckinfe = T,
-#' thread = 4, folder = 'my_folder'))}
+#' \dontrun{model <- modelOutput(model, response_curves = T, jk = T,
+#' thread = 4, folder = "my_folder"))}
 #'
 #' @author Sergio Vignali
-maxentOutput <- function(model, response_curves = FALSE, jk = FALSE,
+modelOutput <- function(model, response_curves = FALSE, jk = FALSE,
                           threads = 1, folder = NULL) {
 
   train <- model@presence

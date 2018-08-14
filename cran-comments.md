@@ -1,6 +1,6 @@
 ## Test environments
 * ubuntu 18.04 install, R 3.4.4
-* windows R dev using`devtools::build_win()`
+* win-builder (devel and release)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs or NOTES.
