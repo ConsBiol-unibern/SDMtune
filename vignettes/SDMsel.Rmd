@@ -8,7 +8,6 @@ output:
     highlight: default
     toc: true
     toc_depth: 2
-    toc_float: true
 vignette: >
   %\VignetteIndexEntry{SDMsel}
   %\VignetteEncoding{UTF-8}
