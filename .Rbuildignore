@@ -4,4 +4,7 @@
 ^_pkgdown\.yml$
 ^docs$
 ^README\.Rmd$
+^README\.md$
 ^README-.*\.png$
+^cran-comments\.md$
+^vignettes/articles\.Rmd$

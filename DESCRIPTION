@@ -1,8 +1,7 @@
 Package: SDMsel
 Type: Package
-Title: Species Distribution Model selection
+Title: Species Distribution Model Selection
 Version: 0.0.0.9000
-Date: 2018-03-12
 Authors@R: c(
 	person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",
 	       role = c("aut", "cre"), comment = c(ORCID = "00000-0002-3390-5442")),
