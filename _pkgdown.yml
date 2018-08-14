@@ -56,8 +56,9 @@ reference:
   - '`plotROC`'
   - '`plotVarImp`'
 - title: Tune
-  desc: Function to tune model hyperparameters
+  desc: Function for model tuning
   contents:
+  - '`reduceVar`'
   - '`tuneBg`'
   - '`tuneFC`'
   - '`tuneIt`'

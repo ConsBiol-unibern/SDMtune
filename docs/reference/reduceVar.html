@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Variable Selection — varSel • SDMsel</title>
+<title>Reduce Variables — reduceVar • SDMsel</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,15 +30,14 @@
 
 
 
-<meta property="og:title" content="Variable Selection — varSel" />
+<meta property="og:title" content="Reduce Variables — reduceVar" />
 
-<meta property="og:description" content="The function performs a data-driven variable selection. Starting from the provided model
-it iterates through all the variables starting from the one with the highest contribution
-(permutation or percent). If the variable is correlated with other variables (according to
-the given method and threshold) it performs a Jackknife test and among the correlated
-variables it removes the one that results in the best performing model when removed
-(according to the given metric using the Train dataset). The process is repeated untill
-the remaining variables are not highly correlated anymore." />
+<meta property="og:description" content="Remove variables whose contribution (permutation or percent) is less than the
+given threshold. The function removes one variable at time and after trains a
+new model to get the new variable contribution rank. If use_jk is TRUE the
+function checks if after removing the variable the model performance decreases
+(according to the given metric). In this case the function stops removing the
+variable even if the contribution is lower than the given threshold." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -123,26 +122,24 @@ the remaining variables are not highly correlated anymore." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Variable Selection</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/varSel.R'><code>R/varSel.R</code></a></small>
-    <div class="hidden name"><code>varSel.Rd</code></div>
+    <h1>Reduce Variables</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/reduceVar.R'><code>R/reduceVar.R</code></a></small>
+    <div class="hidden name"><code>reduceVar.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The function performs a data-driven variable selection. Starting from the provided model
-it iterates through all the variables starting from the one with the highest contribution
-(permutation or percent). If the variable is correlated with other variables (according to
-the given method and threshold) it performs a Jackknife test and among the correlated
-variables it removes the one that results in the best performing model when removed
-(according to the given metric using the Train dataset). The process is repeated untill
-the remaining variables are not highly correlated anymore.</p>
+    <p>Remove variables whose contribution (permutation or percent) is less than the
+given threshold. The function removes one variable at time and after trains a
+new model to get the new variable contribution rank. If use_jk is TRUE the
+function checks if after removing the variable the model performance decreases
+(according to the given metric). In this case the function stops removing the
+variable even if the contribution is lower than the given threshold.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>varSel</span>(<span class='no'>model</span>, <span class='no'>bg4cor</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rm</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>, <span class='kw'>cor_th</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>use_percent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>use_percent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>use_jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,14 +149,13 @@ the remaining variables are not highly correlated anymore.</p>
       <td><p>Maxent object.</p></td>
     </tr>
     <tr>
-      <th>bg4cor</th>
-      <td><p>SWD object. Background locations used to test the correlation between
-environmental variables.</p></td>
+      <th>th</th>
+      <td><p>numeric. The contribtion threshold used to remove variables, default is 2.</p></td>
     </tr>
     <tr>
       <th>metric</th>
       <td><p>character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".</p></td>
+"auc", "tss" and "aicc", used only if use_jk is TRUE, default is "auc".</p></td>
     </tr>
     <tr>
       <th>env</th>
@@ -168,43 +164,29 @@ used only with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.</p></td>
-    </tr>
-    <tr>
-      <th>rm</th>
-      <td><p>integer. The value of the regularization paramiter to use during computation,
-default is 0.001, see details.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>character. The method used to comput the correlation matrix, default "spearman".</p></td>
-    </tr>
-    <tr>
-      <th>cor_th</th>
-      <td><p>numeric. The correlation threshold used to select highly correlated variables,
-default is 0.7.</p></td>
+      <td><p>logical, if TRUE it uses parallel computation, deafult is FALSE.
+Used only with AICc.</p></td>
     </tr>
     <tr>
       <th>use_percent</th>
       <td><p>logical, if TRUE it uses the percent contribution instead of the
 permutation importance.</p></td>
     </tr>
+    <tr>
+      <th>use_jk</th>
+      <td><p>Flag to use the Jackknife AUC test during the variable selection,
+if FALSE the function uses the percent variable contribution, default is FALSE.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The name of the selected variables.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>You need package <span class="pkg">snow</span> to use parallel computation. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
-We should write something more... I will refer to our paper for the explanations...</p>
+    <p>The model trained using the selected variables.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>varSel</span>(<span class='no'>model</span>, <span class='no'>bg</span>, <span class='kw'>use_permutation</span> <span class='kw'>=</span> <span class='no'>T</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>reduveVar</span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>model</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
@@ -214,8 +196,6 @@ We should write something more... I will refer to our paper for the explanations
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

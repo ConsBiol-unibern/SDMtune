@@ -1,11 +1,11 @@
 #' Reduce Variables
 #'
-#' Remove variables whose contribution is less than the given threshold. The function
-#' removes one variable at time after and after trains a new model to get the new
-#' varible contribution rank. If use_jk is TRUE the function checks if after removing
-#' the variable the model performance decrease (according to the given metric).
-#' In this case the function stops removing the variable even if the contribution
-#' is lower than the given threshold.
+#' Remove variables whose contribution (permutation or percent) is less than the
+#' given threshold. The function removes one variable at time and after trains a
+#' new model to get the new variable contribution rank. If use_jk is TRUE the
+#' function checks if after removing the variable the model performance decreases
+#' (according to the given metric). In this case the function stops removing the
+#' variable even if the contribution is lower than the given threshold.
 #'
 #' @param model Maxent object.
 #' @param th numeric. The contribtion threshold used to remove variables, default is 2.
