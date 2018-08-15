@@ -12,7 +12,6 @@
 #'
 #' @return data.frame with the ordered permutation importance
 #' @export
-#' @importFrom foreach foreach %do%
 #'
 #' @examples
 #' \dontrun{

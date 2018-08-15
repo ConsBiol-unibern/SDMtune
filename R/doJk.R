@@ -21,7 +21,6 @@
 #' the data frame together with the models.
 #' @export
 #' @importFrom progress progress_bar
-#' @importFrom foreach foreach %do%
 #'
 #' @examples \dontrun{
 #' doJk(model, variable = c('bio1', 'bio12'), with_only = TRUE)}
@@ -68,9 +67,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     test <- FALSE
   }
 
-  i <- NULL  # Avoid NOTE from R CMD check
-
-  foreach::foreach(i = 1:length(variables)) %do% {
+  for (i in 1:length(variables)) {
     presence <- model@presence
     bg <- model@background
     presence@data[variables[i]] <- NULL
