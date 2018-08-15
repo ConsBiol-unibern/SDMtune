@@ -51,6 +51,7 @@ Collate:
     'maxentTh.R'
     'mergeSWD.R'
     'modelOutput.R'
+    'permImp.R'
     'plotCor.R'
     'plotJk.R'
     'plotPA.R'
