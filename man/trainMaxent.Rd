@@ -14,11 +14,11 @@ trainMaxent(presence, bg, rm, fc, type = c("cloglog", "logistic", "raw"),
 
 \item{rm}{numeric. The value of the regularization multiplier.}
 
-\item{fc}{vector. The value of the feature combination, possible values are combinations of
-"l", "q", "p", "h" and "t".}
+\item{fc}{vector. The value of the feature combination, possible values are
+combinations of "l", "q", "p", "h" and "t".}
 
 \item{type}{The MaxEnt output type, possible values are "Cloglog", "Logistic",
-"Cumulative" and "Raw", default value "Cloglog".}
+and "Raw", default value "Cloglog".}
 
 \item{test}{SWD object with the test locations, default is NULL.}
 

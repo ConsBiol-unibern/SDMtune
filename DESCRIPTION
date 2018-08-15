@@ -26,7 +26,8 @@ Imports: dismo (>= 1.1-4),
           reshape2 (>= 1.4.3),
           foreach (>= 1.4.4),
           stringr (>= 1.3.1),
-          rJava (>= 0.9-10)
+          rJava (>= 0.9-10),
+          maxnet (>= 0.1.2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
@@ -40,6 +41,7 @@ Collate:
     'Maxent2MaxEnt.R'
     'SWD_class.R'
     'Maxent_class.R'
+    'Maxnet_class.R'
     'SDMsel.R'
     'SDMtune_class.R'
     'aicc.R'
@@ -65,6 +67,7 @@ Collate:
     'swd2csv.R'
     'thinData.R'
     'trainMaxent.R'
+    'trainMaxnet.R'
     'trainValTest.R'
     'tss.R'
     'tuneBg.R'

@@ -5,10 +5,10 @@
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
 #' @param rm numeric. The value of the regularization multiplier.
-#' @param fc vector. The value of the feature combination, possible values are combinations of
-#' "l", "q", "p", "h" and "t".
+#' @param fc vector. The value of the feature combination, possible values are
+#' combinations of "l", "q", "p", "h" and "t".
 #' @param type The MaxEnt output type, possible values are "Cloglog", "Logistic",
-#' "Cumulative" and "Raw", default value "Cloglog".
+#' and "Raw", default value "Cloglog".
 #' @param test SWD object with the test locations, default is NULL.
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm, default is 500.
 #' @param extra_args vector. Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
