@@ -25,13 +25,14 @@ reference:
   - '`thinData`'
   - '`trainValTest`'
 - title: Modeling
-  desc: Function to train the model and get informatio from the model
+  desc: Function to train the model and get information from the model
   contents:
   - '`modelOutput`'
   - '`maxentTh`'
   - '`predict,Maxent-method`'
   - '`trainMaxent`'
   - '`varImp`'
+  - '`permImp`'
 - title: Evaluating
   desc: Function to evaluate the model
   contents:

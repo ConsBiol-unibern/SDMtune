@@ -2,13 +2,16 @@
 #'
 #' The function randomly permutes one variable at time (using train and background
 #' datasets) and computes the decrease in training AUC. The result is normalized
-#' as percentage. Same implementation of MaxEnt java software but with the additional
-#' possibility of running several permutation to obtain a better estimate of the
+#' to percentages. Same implementation of MaxEnt java software but with the additional
+#' possibility of running several permutations to obtain a better estimate of the
 #' permutation importance. In case of more than one permutation (default is 10)
-#' the average of the decrease in AUC is computed .
+#' the average of the decrease in training AUC is computed.
 #'
 #' @param model Maxent object.
-#' @param permut integer. Number of permutation, default is 10.
+#' @param permut integer. Number of permutations, default is 10.
+#'
+#' @details Note that it could return values slightly different from MaxEnt java
+#' software for a different random permutation.
 #'
 #' @return data.frame with the ordered permutation importance
 #' @export
