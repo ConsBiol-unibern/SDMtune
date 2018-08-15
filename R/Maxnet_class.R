@@ -1,3 +1,4 @@
+setOldClass("maxnet")
 #' Maxnet
 #'
 #' This Class represents a Maxnet model objects and hosts all the information related to the model.
@@ -8,11 +9,7 @@
 #' @slot rm numeric. The value of the regularization multiplier used to train the model.
 #' @slot fc character. The feature class combination used to train the model.
 #' @slot type character. The output format of the model.
-#' @slot lambdas vector. The lambdas parameters of the model.
-#' @slot coeff data.frame. The lambda coefficients of the model.
-#' @slot formula formula. The formula used to make prediction.
-#' @slot entropy numeric. The entropy value.
-#' @slot min_max data.frame. The minimum and maximum values of the continuous variables, used for clamping.
+#' @slot model maxnet. The maxnet model object.
 #'
 #' @include SWD_class.R
 #' @name Maxnet-class
@@ -28,11 +25,7 @@ Maxnet <- setClass("Maxnet",
                      rm = "numeric",
                      fc = "character",
                      type = "character",
-                     lambdas = "vector",
-                     coeff = "data.frame",
-                     formula = "formula",
-                     entropy = "numeric",
-                     min_max = "data.frame")
+                     model = "maxnet")
 )
 
 setMethod("show",

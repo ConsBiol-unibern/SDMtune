@@ -28,10 +28,8 @@ trainMaxnet <- function(presence, bg, rm, fc,
   model <- maxnet::maxnet(p, x, f = maxnet::maxnet.formula(p, x, classes = fc),
                           regmult = rm)
 
-  # result <- Maxnet(presence = presence, background = bg,
-  #                  rm = rm, fc = fc, type = type,
-  #                  lambdas = model@lambdas, coeff = model$betas, formula = f,
-  #                  entropy = model$entropy, min_max = l$min_max)
+  result <- Maxnet(presence = presence, background = bg, rm = rm, fc = fc,
+                   type = type, model = model)
 
-  return(model)
+  return(result)
 }

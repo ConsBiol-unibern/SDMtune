@@ -23,15 +23,7 @@ This Class represents a Maxnet model objects and hosts all the information relat
 
 \item{\code{type}}{character. The output format of the model.}
 
-\item{\code{lambdas}}{vector. The lambdas parameters of the model.}
-
-\item{\code{coeff}}{data.frame. The lambda coefficients of the model.}
-
-\item{\code{formula}}{formula. The formula used to make prediction.}
-
-\item{\code{entropy}}{numeric. The entropy value.}
-
-\item{\code{min_max}}{data.frame. The minimum and maximum values of the continuous variables, used for clamping.}
+\item{\code{model}}{maxnet. The maxnet model object.}
 }}
 
 \author{
