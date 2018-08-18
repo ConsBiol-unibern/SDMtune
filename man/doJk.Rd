@@ -4,11 +4,15 @@
 \alias{doJk}
 \title{Jackknife Test}
 \usage{
-doJk(model, metric = c("auc", "tss", "aicc"), variables = NULL,
-  with_only = TRUE, env = NULL, parallel = FALSE, return_models = FALSE)
+doJk(model, type = c("cloglog", "logistic", "raw"), metric = c("auc", "tss",
+  "aicc"), variables = NULL, with_only = TRUE, env = NULL,
+  parallel = FALSE, return_models = FALSE)
 }
 \arguments{
 \item{model}{SDMmodel object.}
+
+\item{type}{character MaxEnt output type, possible values are "cloglog",
+"logistic" and "raw", default is "cloglog".}
 
 \item{metric}{character. The metric used to evaluate the models, possible values are:
 "auc", "tss" and "aicc", default is "auc".}

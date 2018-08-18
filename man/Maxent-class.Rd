@@ -6,20 +6,20 @@
 \alias{Maxent}
 \title{Maxent}
 \description{
-This Class represents a MaxEnt model objects and hosts all the information related to the model.
+This Class represents a MaxEnt model objects and hosts all the information
+related to the model.
 }
 \section{Slots}{
 
 \describe{
 \item{\code{results}}{matrix. The result that usually MaxEnt provide as a csv file.}
 
-\item{\code{rm}}{numeric. The value of the regularization multiplier used to train the model.}
+\item{\code{rm}}{numeric. The value of the regularization multiplier used to train
+the model.}
 
 \item{\code{fc}}{character. The feature class combination used to train the model.}
 
 \item{\code{iter}}{numeric. The number of iterations used to train the model.}
-
-\item{\code{type}}{character. The output format of the model.}
 
 \item{\code{lambdas}}{vector. The lambdas parameters of the model.}
 
@@ -33,10 +33,12 @@ This Class represents a MaxEnt model objects and hosts all the information relat
 
 \item{\code{entropy}}{numeric. The entropy value.}
 
-\item{\code{min_max}}{data.frame. The minimum and maximum values of the continuous variables, used for clamping.}
+\item{\code{min_max}}{data.frame. The minimum and maximum values of the continuous
+variables, used for clamping.}
 
-\item{\code{folder}}{character. The path for the folder where are saved all the files produced by MaxEnt,
-available if the "folder" parameter is provided to the runMaxent function.}
+\item{\code{folder}}{character. The path for the folder where are saved all the files
+produced by MaxEnt, available if the "folder" parameter is provided to the
+runMaxent function.}
 }}
 
 \author{

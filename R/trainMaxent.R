@@ -1,20 +1,24 @@
 #' Train Maxent model
 #'
-#' Train a MaxEnt model using the dismo package.
+#' Train a MaxEnt model using the dismo package. The function runs Maxent model
+#' with a minimum settings of optional parameters to speed the computation time.
+#' Use \link{modelOutput} function to set more parameters (i.e. response curves)
+#' and save the output permanently in a folder.
 #'
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
 #' @param rm numeric. The value of the regularization multiplier.
 #' @param fc vector. The value of the feature combination, possible values are
 #' combinations of "l", "q", "p", "h" and "t".
-#' @param type The MaxEnt output type, possible values are "Cloglog", "Logistic",
-#' and "Raw", default value "Cloglog".
 #' @param test SWD object with the test locations, default is NULL.
-#' @param iter numeric. Number of iterations used by the Maxent alghoritm, default is 500.
-#' @param extra_args vector. Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
+#' @param iter numeric. Number of iterations used by the Maxent alghoritm,
+#' default is 500.
+#' @param extra_args vector. Extra arguments used to run MaxEnt, e.g.
+#' "removeduplicates=false", default
 #' is NULL.
-#' @param folder character. The folder name where to save the MaxEnt output, default is NULL meaning
-#' that is not saved. The folder is created in the working directory.
+#' @param folder character. The folder name where to save the MaxEnt output,
+#' default is NULL meaning that is not saved. The folder is created in the
+#' working directory.
 #'
 #' @return The output of MaxEnt as Maxent object.
 #' @export
@@ -25,9 +29,8 @@
 #' \dontrun{model <- trainMaxent(presence, bg, rm)}
 #'
 #' @author Sergio Vignali
-trainMaxent <- function(presence, bg, rm, fc,
-                        type = c("cloglog", "logistic", "raw"), test = NULL,
-                        iter = 500, extra_args = NULL, folder = NULL) {
+trainMaxent <- function(presence, bg, rm, fc, test = NULL, iter = 500,
+                        extra_args = NULL, folder = NULL) {
 
   if (is.null(test)) {
     test_file = NULL
@@ -57,10 +60,8 @@ trainMaxent <- function(presence, bg, rm, fc,
     swd2csv(test, test_file)
   }
 
-  type <- match.arg(type)
-
-  args <- .makeArgs(rm = rm, fc = fc, type = type, test = test_file,
-                    iter = iter, extra_args = extra_args)
+  args <- .makeArgs(rm = rm, fc = fc, test = test_file, iter = iter,
+                    extra_args = extra_args)
 
   x <- rbind(presence@data, bg@data)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
@@ -70,8 +71,8 @@ trainMaxent <- function(presence, bg, rm, fc,
   f <- .formulaFromLambdas(l$lambdas)
 
   model_object <- Maxent(results = model@results, rm = rm, fc = fc, iter = iter,
-                         type = type, lambdas = model@lambdas,
-                         coeff = l$lambdas, formula = f, lpn = l$lpn, dn = l$dn,
+                         lambdas = model@lambdas, coeff = l$lambdas,
+                         formula = f, lpn = l$lpn, dn = l$dn,
                          entropy = l$entropy, min_max = l$min_max)
 
   result@model <- model_object
@@ -114,11 +115,10 @@ trainMaxent <- function(presence, bg, rm, fc,
   return(result)
 }
 
-.makeArgs <- function(rm, fc, type, test, iter, extra_args) {
+.makeArgs <- function(rm, fc, test, iter, extra_args) {
 
   args <- c("noaddsamplestobackground", paste0("betamultiplier=", rm),
-            paste0("maximumiterations=", iter),
-            paste0('outputformat=', type), .getFeatureArgs(fc))
+            paste0("maximumiterations=", iter), .getFeatureArgs(fc))
 
   if (!is.null(test)) args <- append(args, paste0("testsamplesfile=", test))
 

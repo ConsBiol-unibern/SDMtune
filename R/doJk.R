@@ -4,6 +4,8 @@
 #' If the model has a test dataset, it returns also the test AUC.
 #'
 #' @param model SDMmodel object.
+#' @param type character MaxEnt output type, possible values are "cloglog",
+#' "logistic" and "raw", default is "cloglog".
 #' @param metric character. The metric used to evaluate the models, possible values are:
 #' "auc", "tss" and "aicc", default is "auc".
 #' @param variables vector. Variables used for the test, if not provided it takes all the variables
@@ -26,7 +28,7 @@
 #' doJk(model, variable = c('bio1', 'bio12'), with_only = TRUE)}
 #'
 #' @author Sergio Vignali
-doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
+doJk <- function(model, type = c("cloglog", "logistic", "raw"), metric = c("auc", "tss", "aicc"), variables = NULL,
                  with_only = TRUE, env = NULL, parallel = FALSE,
                  return_models = FALSE) {
 
@@ -81,7 +83,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     }
 
     jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
-                            type = model@type, test = test4jk, iter = model@iter)
+                            test = test4jk, iter = model@iter)
 
     if (metric == "auc") {
       res[i, 2] <- jk_model@results["Training.AUC", ]
@@ -111,7 +113,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
       }
 
       jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
-                              type = model@type, test = test4jk,
+                              test = test4jk,
                               iter = model@iter)
 
       if (metric == "auc") {

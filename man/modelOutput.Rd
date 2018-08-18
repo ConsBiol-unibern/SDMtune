@@ -4,22 +4,26 @@
 \alias{modelOutput}
 \title{Model Output}
 \usage{
-modelOutput(model, response_curves = FALSE, jk = FALSE, threads = 1,
-  folder = NULL)
+modelOutput(model, type = c("cloglog", "logistic", "raw"),
+  response_curves = FALSE, jk = FALSE, threads = 1, folder = NULL)
 }
 \arguments{
 \item{model}{Maxent object.}
 
-\item{response_curves}{logical, if TRUE it plots the response curves in the html output,
-default is FALSE.}
+\item{type}{character MaxEnt output type, possible values are "cloglog",
+"logistic" and "raw", default is "cloglog".}
+
+\item{response_curves}{logical, if TRUE it plots the response curves in the
+html output, default is FALSE.}
 
 \item{jk}{logical, if TRUE it runs the jackknife test, default FALSE.}
 
 \item{threads}{numeric. Number of threads used by MaxEnt to compute the
 Jackknife test, default is 1.}
 
-\item{folder}{character. The name of the folder in which to save the MaxEnt output,
-default is NULL meaning a temporary folder. The folder is created in the working directory.}
+\item{folder}{character. The name of the folder in which to save the MaxEnt
+output, default is NULL meaning a temporary folder. The folder is created in
+the working directory.}
 }
 \value{
 The model object.
@@ -28,8 +32,8 @@ The model object.
 Given a model the function produces the output in the given folder.
 }
 \examples{
-\dontrun{model <- modelOutput(model, response_curves = T, jk = T,
-thread = 4, folder = "my_folder"))}
+\dontrun{model <- modelOutput(model, type = "logistic", response_curves = T,
+jk = T, thread = 4, folder = "my_folder"))}
 
 }
 \author{

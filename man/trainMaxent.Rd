@@ -4,8 +4,8 @@
 \alias{trainMaxent}
 \title{Train Maxent model}
 \usage{
-trainMaxent(presence, bg, rm, fc, type = c("cloglog", "logistic", "raw"),
-  test = NULL, iter = 500, extra_args = NULL, folder = NULL)
+trainMaxent(presence, bg, rm, fc, test = NULL, iter = 500,
+  extra_args = NULL, folder = NULL)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -17,24 +17,27 @@ trainMaxent(presence, bg, rm, fc, type = c("cloglog", "logistic", "raw"),
 \item{fc}{vector. The value of the feature combination, possible values are
 combinations of "l", "q", "p", "h" and "t".}
 
-\item{type}{The MaxEnt output type, possible values are "Cloglog", "Logistic",
-and "Raw", default value "Cloglog".}
-
 \item{test}{SWD object with the test locations, default is NULL.}
 
-\item{iter}{numeric. Number of iterations used by the Maxent alghoritm, default is 500.}
+\item{iter}{numeric. Number of iterations used by the Maxent alghoritm,
+default is 500.}
 
-\item{extra_args}{vector. Extra arguments used to run MaxEnt, e.g. "removeduplicates=false", default
+\item{extra_args}{vector. Extra arguments used to run MaxEnt, e.g.
+"removeduplicates=false", default
 is NULL.}
 
-\item{folder}{character. The folder name where to save the MaxEnt output, default is NULL meaning
-that is not saved. The folder is created in the working directory.}
+\item{folder}{character. The folder name where to save the MaxEnt output,
+default is NULL meaning that is not saved. The folder is created in the
+working directory.}
 }
 \value{
 The output of MaxEnt as Maxent object.
 }
 \description{
-Train a MaxEnt model using the dismo package.
+Train a MaxEnt model using the dismo package. The function runs Maxent model
+with a minimum settings of optional parameters to speed the computation time.
+Use \link{modelOutput} function to set more parameters (i.e. response curves)
+and save the output permanently in a folder.
 }
 \examples{
 \dontrun{model <- trainMaxent(presence, bg, rm)}

@@ -8,8 +8,8 @@ setGeneric("predict", function(object, ...)
 #'
 #' @param object Maxent object.
 #' @param data data.frame containing values used for the prediction.
-#' @param type character MaxEnt output type, if not provided it uses the model
-#' type. Possible values are "cloglog", "logistic" and "raw", default is NULL.
+#' @param type character MaxEnt output type, possible values are "cloglog",
+#' "logistic" and "raw", default is "cloglog".
 #' @param clamp logical for clumping during prediction, default is TRUE.
 #'
 #' @details The function performs the prediction in **R** without calling the

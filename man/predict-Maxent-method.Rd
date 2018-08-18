@@ -13,8 +13,8 @@
 
 \item{data}{data.frame containing values used for the prediction.}
 
-\item{type}{character MaxEnt output type, if not provided it uses the model
-type. Possible values are "cloglog", "logistic" and "raw", default is NULL.}
+\item{type}{character MaxEnt output type, possible values are "cloglog",
+"logistic" and "raw", default is "cloglog".}
 
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
 }
