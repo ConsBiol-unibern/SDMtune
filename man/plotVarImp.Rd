@@ -4,12 +4,10 @@
 \alias{plotVarImp}
 \title{Plot Varible Importance}
 \usage{
-plotVarImp(model, type = c("contribution", "permutation"), color = "grey")
+plotVarImp(df, color = "grey")
 }
 \arguments{
-\item{model}{Maxent object.}
-
-\item{type}{character, contribution or permutation (or an abbreviation of them) are possible values.}
+\item{df}{data.frame. The result of varImp function.}
 
 \item{color}{character. The color of the bar plot, default is grey.}
 }
@@ -17,11 +15,11 @@ plotVarImp(model, type = c("contribution", "permutation"), color = "grey")
 The ggplot object.
 }
 \description{
-Plot the variable importance as a bar plot.
+Plot the permutation variable importance as a bar plot.
 }
 \examples{
 \dontrun{
-plotContribution(model, type = "permut", color = '#a1d99b')}
+plotVarImp(my_table, color = '#a1d99b')}
 
 }
 \author{
