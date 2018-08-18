@@ -9,7 +9,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' varContribution(model)}
+#' maxentVarImp(model)}
 #'
 #' @author Sergio Vignali
 maxentVarImp <- function(model) {

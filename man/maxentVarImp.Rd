@@ -17,7 +17,7 @@ Shows the percent contribution and permutation importance of the variable used t
 }
 \examples{
 \dontrun{
-varContribution(model)}
+maxentVarImp(model)}
 
 }
 \author{

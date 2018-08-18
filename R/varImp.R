@@ -1,4 +1,4 @@
-#' Permutation Importance
+#' Variable Importance
 #'
 #' The function randomly permutes one variable at time (using train and background
 #' datasets) and computes the decrease in training AUC. The result is normalized
@@ -18,10 +18,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' permImp(model, permut = 50)}
+#' varImp(model, permut = 50)}
 #'
 #' @author Sergio Vignali
-permImp <- function(model, permut = 10) {
+varImp <- function(model, permut = 10) {
 
   set.seed(25)
   vars <- colnames(model@presence@data)
