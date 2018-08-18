@@ -8,7 +8,7 @@ doJk(model, metric = c("auc", "tss", "aicc"), variables = NULL,
   with_only = TRUE, env = NULL, parallel = FALSE, return_models = FALSE)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
 \item{metric}{character. The metric used to evaluate the models, possible values are:
 "auc", "tss" and "aicc", default is "auc".}

@@ -3,7 +3,7 @@
 #' Run the Jackknife test for variable importance removing one variable at time and returns the train AUC.
 #' If the model has a test dataset, it returns also the test AUC.
 #'
-#' @param model Maxent object.
+#' @param model SDMmodel object.
 #' @param metric character. The metric used to evaluate the models, possible values are:
 #' "auc", "tss" and "aicc", default is "auc".
 #' @param variables vector. Variables used for the test, if not provided it takes all the variables

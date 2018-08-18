@@ -5,31 +5,34 @@
 \alias{predict,SDMmodel-method}
 \title{Predict}
 \usage{
-\S4method{predict}{SDMmodel}(object, data, clamp = TRUE, filename = "",
-  format = "GTiff", extent = NULL, parallel = FALSE, progress = "",
-  type = NULL, ...)
+\S4method{predict}{SDMmodel}(object, data, type, clamp = TRUE,
+  filename = "", format = "GTiff", extent = NULL, parallel = FALSE,
+  progress = "", ...)
 }
 \arguments{
 \item{object}{SDMsel object.}
 
 \item{data}{data.frame, \link{SWD}, \link{stack} or \link{brick}.}
 
+\item{type}{character. Output type, see \link{predict,Maxent-method} for
+Maxent models or \link{predict.maxnet} for Maxnet models.}
+
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
 
-\item{filename}{character. Output file name for the prediction map, if provided the output is
-saved in a file.}
+\item{filename}{character. Output file name for the prediction map, if
+provided the output is saved in a file.}
 
-\item{format}{character. The output format, see \link{writeRaster} for all the options, default is "GTiff".}
+\item{format}{character. The output format, see \link{writeRaster} for all
+the options, default is "GTiff".}
 
-\item{extent}{\link{Extent} object, if provided it restricts the prediction to the given
-extent, default is NULL.}
+\item{extent}{\link{Extent} object, if provided it restricts the prediction
+to the given extent, default is NULL.}
 
-\item{parallel}{logical to use parallel computation during prediction, default is FALSE.}
+\item{parallel}{logical to use parallel computation during prediction,
+default is FALSE.}
 
-\item{progress}{character to display a progress bar: "text", "window" or "" (default) for no progress bar.}
-
-\item{type}{character MaxEnt output type, if not provided it uses the model type.
-Possible values are "cloglog", "logistic" and "raw", default is NULL.}
+\item{progress}{character to display a progress bar: "text", "window" or ""
+(default) for no progress bar.}
 
 \item{...}{Additional parameter to pass to the \link{writeRaster} function.}
 }
@@ -41,12 +44,12 @@ stack/brick.
 Predict output for a new dataset from a trained SDMsel model.
 }
 \details{
-You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-to save the prediction in a raster file. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
-For \strong{Maxent} models the function performs the prediction in \strong{R} without
-calling the \strong{MaxEnt} java software. This results is a faster computation for
-large datasets.
+You need package \pkg{snow} to use parallel computation and
+\pkg{rgdal} to save the prediction in a raster file. Parallel computation
+increases the speed only for big datasets due to the time necessary to create
+the cluster. For \strong{Maxent} models the function performs the prediction in
+\strong{R} without calling the \strong{MaxEnt} java software. This results is a faster
+computation for large datasets.
 }
 \examples{
 \dontrun{

@@ -8,24 +8,27 @@ setGeneric("predict", function(object, ...)
 #'
 #' @param object SDMsel object.
 #' @param data data.frame, \link{SWD}, \link{stack} or \link{brick}.
+#' @param type character. Output type, see \link{predict,Maxent-method} for
+#' Maxent models or \link{predict.maxnet} for Maxnet models.
 #' @param clamp logical for clumping during prediction, default is TRUE.
-#' @param filename character. Output file name for the prediction map, if provided the output is
-#' saved in a file.
-#' @param format character. The output format, see \link{writeRaster} for all the options, default is "GTiff".
-#' @param extent \link{Extent} object, if provided it restricts the prediction to the given
-#' extent, default is NULL.
-#' @param parallel logical to use parallel computation during prediction, default is FALSE.
-#' @param progress character to display a progress bar: "text", "window" or "" (default) for no progress bar.
-#' @param type character MaxEnt output type, if not provided it uses the model type.
-#' Possible values are "cloglog", "logistic" and "raw", default is NULL.
+#' @param filename character. Output file name for the prediction map, if
+#' provided the output is saved in a file.
+#' @param format character. The output format, see \link{writeRaster} for all
+#' the options, default is "GTiff".
+#' @param extent \link{Extent} object, if provided it restricts the prediction
+#' to the given extent, default is NULL.
+#' @param parallel logical to use parallel computation during prediction,
+#' default is FALSE.
+#' @param progress character to display a progress bar: "text", "window" or ""
+#' (default) for no progress bar.
 #' @param ... Additional parameter to pass to the \link{writeRaster} function.
 #'
-#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-#' to save the prediction in a raster file. Parallel computation increases the speed
-#' only for big datasets due to the time necessary to create the cluster.
-#' For **Maxent** models the function performs the prediction in **R** without
-#' calling the **MaxEnt** java software. This results is a faster computation for
-#' large datasets.
+#' @details You need package \pkg{snow} to use parallel computation and
+#' \pkg{rgdal} to save the prediction in a raster file. Parallel computation
+#' increases the speed only for big datasets due to the time necessary to create
+#' the cluster. For **Maxent** models the function performs the prediction in
+#' **R** without calling the **MaxEnt** java software. This results is a faster
+#' computation for large datasets.
 #'
 #' @references Wilson P.D., (2009). Guidelines for computing MaxEnt model output
 #' values from a lambdas file.
@@ -45,21 +48,14 @@ setGeneric("predict", function(object, ...)
 #' @author Sergio Vignali
 setMethod("predict",
           signature = "SDMmodel",
-          definition = function(object, data, clamp = TRUE, filename = "",
+          definition = function(object, data, type, clamp = TRUE, filename = "",
                                 format = "GTiff", extent = NULL,
-                                parallel = FALSE, progress = "", type = NULL,
-                                ...) {
+                                parallel = FALSE, progress = "", ...) {
 
             if (class(object@model) == "Maxent") {
               model <- object@model
             } else {
               model <- object@model@model
-            }
-
-            if (!is.null(type)) {
-              type = type
-            } else {
-              type = object@type
             }
 
             if (inherits(data, "Raster")) {

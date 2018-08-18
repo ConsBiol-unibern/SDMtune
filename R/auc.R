@@ -44,5 +44,5 @@ auc <- function(model, test = NULL, bg = NULL) {
   U <- sum(rank(c(p_pred, bg_pred))[seq(p_pred)]) - (n_pres * (n_pres + 1) / 2)
   auc <- U / (n_bg * n_pres)
 
-  return(auc)
+  return(round(auc, 4))
 }
