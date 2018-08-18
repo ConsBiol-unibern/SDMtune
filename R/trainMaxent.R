@@ -29,8 +29,12 @@ trainMaxent <- function(presence, bg, rm, fc,
                         type = c("cloglog", "logistic", "raw"), test = NULL,
                         iter = 500, extra_args = NULL, folder = NULL) {
 
-  if (class(presence) != "SWD" | class(bg) != "SWD")
-    stop("presence and background dataset must be a SWD object!")
+  if (is.null(test)) {
+    test_file = NULL
+    test <- new("SWD")
+  }
+
+  result <- SDMmodel(presence = presence, background = bg, test = test)
 
   delete_folder <- FALSE
 
@@ -41,11 +45,7 @@ trainMaxent <- function(presence, bg, rm, fc,
     dir.create(folder)
   }
 
-  if (is.null(test)) {
-    test_file = NULL
-  } else {
-    if (class(test) != "SWD")
-      stop("Test dataset must be a SWD object!")
+  if (nrow(test@data) > 0) {
     if (delete_folder == TRUE) {
       test_folder = tempfile()
       dir.create(test_folder)
@@ -69,12 +69,12 @@ trainMaxent <- function(presence, bg, rm, fc,
   l <- .getLambdas(paste0(folder, "/species.lambdas"), bg)
   f <- .formulaFromLambdas(l$lambdas)
 
-  result <- Maxent(presence = presence, background = bg,
-                   results = model@results, rm = rm, fc = fc,
-                   iter = iter, type = type,
-                   lambdas = model@lambdas, coeff = l$lambdas, formula = f,
-                   lpn = l$lpn, dn = l$dn, entropy = l$entropy,
-                   min_max = l$min_max)
+  model_object <- Maxent(results = model@results, rm = rm, fc = fc, iter = iter,
+                         type = type, lambdas = model@lambdas,
+                         coeff = l$lambdas, formula = f, lpn = l$lpn, dn = l$dn,
+                         entropy = l$entropy, min_max = l$min_max)
+
+  result@model <- model_object
 
   if (!is.null(test)) {
     test@species <- presence@species
@@ -85,12 +85,12 @@ trainMaxent <- function(presence, bg, rm, fc,
     unlink(folder, recursive = TRUE)
     if (!is.null(test))
       unlink(test_folder, recursive = TRUE)
-    result@folder <- ""
+    result@model@folder <- ""
   } else {
-    result@folder <- paste0(getwd(), "/", folder)
+    result@model@folder <- paste0(getwd(), "/", folder)
 
-    output_file <- paste0(result@folder, "/species.html")
-    species <- gsub(" ", "_", tolower(result@presence@species))
+    output_file <- paste0(result@model@folder, "/species.html")
+    species <- gsub(" ", "_", tolower(presence@species))
     f <- readLines(output_file)
     f[1] <- paste0("<title>", presence@species, "</title>")
     f[2] <- paste0("<center><h1>Maxent model for ", presence@species, "</h1></center>")
@@ -100,11 +100,14 @@ trainMaxent <- function(presence, bg, rm, fc,
     f[length(f) + 1] <- "<br><hr><br>"
     f[length(f) + 1] <- "- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.1.0."
     f[length(f) + 1] <- '<br>- Robert J. Hijmans, Steven Phillips, John Leathwick and Jane Elith (2017). dismo: Species Distribution Modeling. R package version 1.1-4. <a href="http://CRAN.R-project.org/package=dismo" target="_blank">CRAN</<a>'
+    f <- gsub("species_", paste0(species, "_"), f)
+    f <- gsub("species.csv", paste0(species, ".csv"), f)
+    f <- gsub("species.lambdas", paste0(species, ".lambdas"), f)
     writeLines(f, output_file)
     file.remove(model@html)
     # Rename files
-    for (file in list.files(path = result@folder, pattern = "species*",
-                            full.names = TRUE))
+    for (file in list.files(path = result@model@folder, pattern = "species*",
+                            full.names = TRUE, recursive = TRUE))
       file.rename(file, sub("species", species, file))
   }
 

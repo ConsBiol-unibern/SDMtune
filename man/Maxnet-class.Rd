@@ -11,17 +11,9 @@ This Class represents a Maxnet model objects and hosts all the information relat
 \section{Slots}{
 
 \describe{
-\item{\code{presence}}{SWD. The presence locations used to train the model.}
-
-\item{\code{background}}{SWD. The backgorund locations used to train the model.}
-
-\item{\code{test}}{SWD. The test locations used to validate the model.}
-
 \item{\code{rm}}{numeric. The value of the regularization multiplier used to train the model.}
 
 \item{\code{fc}}{character. The feature class combination used to train the model.}
-
-\item{\code{type}}{character. The output format of the model.}
 
 \item{\code{model}}{maxnet. The maxnet model object.}
 }}

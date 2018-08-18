@@ -11,12 +11,6 @@ This Class represents a MaxEnt model objects and hosts all the information relat
 \section{Slots}{
 
 \describe{
-\item{\code{presence}}{SWD. The presence locations used to train the model.}
-
-\item{\code{background}}{SWD. The backgorund locations used to train the model.}
-
-\item{\code{test}}{SWD. The test locations used to validate the model.}
-
 \item{\code{results}}{matrix. The result that usually MaxEnt provide as a csv file.}
 
 \item{\code{rm}}{numeric. The value of the regularization multiplier used to train the model.}

@@ -4,8 +4,7 @@
 \alias{trainMaxnet}
 \title{Train Maxnet model}
 \usage{
-trainMaxnet(presence, bg, rm, fc, type = c("cloglog", "logistic", "raw"),
-  test = NULL)
+trainMaxnet(presence, bg, rm, fc, test = NULL)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -14,8 +13,8 @@ trainMaxnet(presence, bg, rm, fc, type = c("cloglog", "logistic", "raw"),
 
 \item{rm}{numeric. The value of the regularization multiplier.}
 
-\item{type}{The MaxEnt output type, possible values are "Cloglog", "Logistic",
-and "Raw", default value "Cloglog".}
+\item{fc}{vector. The value of the feature combination, possible values are
+combinations of "l", "q", "p", "h" and "t".}
 
 \item{test}{SWD object with the test locations, default is NULL.}
 }

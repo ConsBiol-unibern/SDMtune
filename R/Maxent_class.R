@@ -2,9 +2,6 @@
 #'
 #' This Class represents a MaxEnt model objects and hosts all the information related to the model.
 #'
-#' @slot presence SWD. The presence locations used to train the model.
-#' @slot background SWD. The backgorund locations used to train the model.
-#' @slot test SWD. The test locations used to validate the model.
 #' @slot results matrix. The result that usually MaxEnt provide as a csv file.
 #' @slot rm numeric. The value of the regularization multiplier used to train the model.
 #' @slot fc character. The feature class combination used to train the model.
@@ -20,7 +17,6 @@
 #' @slot folder character. The path for the folder where are saved all the files produced by MaxEnt,
 #' available if the "folder" parameter is provided to the runMaxent function.
 #'
-#' @include SWD_class.R
 #' @name Maxent-class
 #' @rdname Maxent-class
 #' @exportClass Maxent
@@ -29,9 +25,6 @@
 #' @author Sergio Vignali
 Maxent <- setClass("Maxent",
                    slots = c(
-                     presence = "SWD",
-                     background = "SWD",
-                     test = "SWD",
                      results = "matrix",
                      rm = "numeric",
                      fc = "character",
@@ -51,20 +44,13 @@ setMethod("show",
           signature = "Maxent",
           definition = function(object) {
             cat("Class                :", class(object), "\n")
-            cat("Species              :", object@presence@species, "\n")
             cat("RM                   :", object@rm, "\n")
             cat("FCs                  :", object@fc, "\n")
             cat("Iterations           :", object@iter, "\n")
             cat('Output type          :', object@type, '\n')
-            cat("Presence data        :", nrow(object@presence@data), "\n")
-            cat("Background data      :", nrow(object@background@data), "\n")
-            cat("Test data            :", nrow(object@test@data), "\n")
-            cat("Continuous variables :", names(Filter(is.numeric, object@presence@data)), "\n")
-            cat("Categorical variables:", names(Filter(is.factor, object@presence@data)))
 
-            html <- paste0(object@folder, "/",
-                           sub(" ", "_", tolower(object@presence@species)),
-                           ".html")
+            html <- list.files(path = object@folder, pattern = ".html",
+                               full.names = TRUE)
 
-            if (file.exists(html)) browseURL(html)
+            if (!identical(html, character(0))) browseURL(html)
           })
