@@ -2,126 +2,60 @@ setGeneric("predict", function(object, ...)
     standardGeneric("predict")
     )
 
-.predict_from_lambdas <- function(model, data, type, clamp) {
+#' Predict Maxent
+#'
+#' Predict output for a new dataset from a trained Maxent model.
+#'
+#' @param Maxent object.
+#' @param data data.frame containing values used for the prediction.
+#' @param type character MaxEnt output type, if not provided it uses the model
+#' type. Possible values are "cloglog", "logistic" and "raw", default is NULL.
+#' @param clamp logical for clumping during prediction, default is TRUE.
+#'
+#' @details The function performs the prediction in **R** without calling the
+#' **MaxEnt** java software. This results is a faster computation for large
+#' datasets.
+#'
+#' @references Wilson P.D., (2009). Guidelines for computing MaxEnt model output
+#' values from a lambdas file.
+#'
+#' @include Maxent_class.R
+#'
+#' @return A vector with the prediction
+#' @exportMethod predict
+#'
+#' @examples \dontrun{
+#' predict(model, my_dataset, type = "cloglog")}
+setMethod("predict",
+          signature = "Maxent",
+          definition = function(object, data,
+                                type = c("cloglog", "logistic", "raw"),
+                                clamp = TRUE) {
+
+    type <- match.arg(type)
 
     if (clamp) {
-      for (variable in model@min_max$variable) {
+      for (variable in object@min_max$variable) {
         data[variable] <- raster::clamp(data[, variable],
-                                        model@min_max$min[model@min_max$variable == variable],
-                                        model@min_max$max[model@min_max$variable == variable])
+                                        object@min_max$min[object@min_max$variable == variable],
+                                        object@min_max$max[object@min_max$variable == variable])
       }
     }
 
-    f <- model@formula
+    f <- object@formula
     # Make the design matrix
     dm <- model.matrix(f, data)
     # Clamp feature if outside fo the scaling normalization
     if (clamp) dm <- t(pmin(pmax(t(dm), 0), 1))
 
-    S <- (dm %*% model@coeff$lambda) - model@lpn
-    raw <- exp(S) / model@dn
+    S <- (dm %*% object@coeff$lambda) - object@lpn
+    raw <- exp(S) / object@dn
     raw[raw == Inf] <- 1
     if (type == "raw") {
       return(raw)
     } else if (type == "logistic") {
-       return(raw * exp(model@entropy) / (1 + raw * exp(model@entropy)))
+       return(raw * exp(object@entropy) / (1 + raw * exp(object@entropy)))
     } else {
-      return(1 - exp(-raw * exp(model@entropy)))
+      return(1 - exp(-raw * exp(object@entropy)))
     }
-}
-
-#' Predict Maxent
-#'
-#' Compute prediction for a new dataset from a trained Maxent model.
-#'
-#' @param object Maxent object.
-#' @param data data.frame, \link{SWD}, \link{stack} or \link{brick}.
-#' @param clamp logical for clumping during prediction, default is TRUE.
-#' @param filename character. Output file name for the prediction map, if provided the output is
-#' saved in a file.
-#' @param format character. The output format, see \link{writeRaster} for all the options, default is "GTiff".
-#' @param extent \link{Extent} object, if provided it restricts the prediction to the given
-#' extent, default is NULL.
-#' @param parallel logical to use parallel computation during prediction, default is FALSE.
-#' @param progress character to display a progress bar: "text", "window" or "" (default) for no progress bar.
-#' @param type character MaxEnt output type, if not provided it uses the model type.
-#' Possible values are "cloglog", "logistic" and "raw", default is NULL.
-#' @param ... Additional parameter to pass to the \link{writeRaster} function.
-#'
-#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-#' to save the prediction in a raster file. Parallel computation increases the speed
-#' only for big datasets due to the time necessary to create the cluster.
-#' The function performs the prediction in **R** without calling the **MaxEnt**
-#' java software. This results is a faster computation for large datasets.
-#'
-#' @references Wilson P.D., (2009). Guidelines for computing MaxEnt model output values from a lambdas file.
-#'
-#' @include Maxent_class.R
-#' @import methods
-#' @importFrom raster beginCluster clusterR endCluster predict clamp
-#' @importFrom stats formula model.matrix
-#'
-#' @return A vector of prediction or a Raster object if data is a raster stack/brick.
-#' @exportMethod predict
-#' @rdname predict
-#'
-#' @examples\dontrun{
-#' predict(model, predictors, parallel = TRUE)}
-#'
-#' @author Sergio Vignali
-setMethod("predict",
-          signature = "Maxent",
-          definition = function(object, data, clamp = TRUE, filename = "",
-                                format = "GTiff", extent = NULL,
-                                parallel = FALSE, progress = "", type = NULL,
-                                ...) {
-
-            if (!is.null(type)) {
-              type = type
-            } else {
-              type = object@type
-            }
-
-            if (inherits(data, "Raster")) {
-              if (parallel) {
-                suppressMessages(raster::beginCluster())
-                pred <- raster::clusterR(data,
-                                         predict,
-                                         args = list(model = object,
-                                                     clamp = clamp,
-                                                     type = type,
-                                                     fun = .predict_from_lambdas),
-                                         progress = progress,
-                                         filename = filename,
-                                         format = format,
-                                         ext = extent,
-                                         ...)
-                raster::endCluster()
-              } else {
-                pred <- raster::predict(data, model = object,
-                                        type = type,
-                                        clamp = clamp,
-                                        fun = .predict_from_lambdas,
-                                        progress = progress,
-                                        filename = filename,
-                                        format = format,
-                                        ext = extent,
-                                        ...)
-              }
-            } else if (inherits(data, "SWD")) {
-              data <- data@data
-              pred <- .predict_from_lambdas(object,
-                                            data,
-                                            type = type,
-                                            clamp = clamp)
-              pred <- as.vector(pred)
-            } else if (inherits(data, "data.frame")) {
-              pred <- .predict_from_lambdas(object,
-                                            data,
-                                            type = type,
-                                            clamp = clamp)
-              pred <- as.vector(pred)
-            }
-
-            return(pred)
-          })
+})

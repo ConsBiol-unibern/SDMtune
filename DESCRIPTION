@@ -63,6 +63,7 @@ Collate:
     'plotResponse.R'
     'plotVarImp.R'
     'predict_Maxent.R'
+    'predict_SDMmodel.R'
     'prepareSWD.R'
     'reduceVar.R'
     'swd2csv.R'
