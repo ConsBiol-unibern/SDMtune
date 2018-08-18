@@ -83,7 +83,7 @@ trainMaxent <- function(presence, bg, rm, fc,
 
   if (delete_folder == TRUE) {
     unlink(folder, recursive = TRUE)
-    if (!is.null(test))
+    if (nrow(test@data) > 0)
       unlink(test_folder, recursive = TRUE)
     result@model@folder <- ""
   } else {

@@ -7,12 +7,12 @@
 permImp(model, permut = 10)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMsel object.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
 }
 \value{
-data.frame with the ordered permutation importance
+data.frame with the ordered permutation importance.
 }
 \description{
 The function randomly permutes one variable at time (using train and background

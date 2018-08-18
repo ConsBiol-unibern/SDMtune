@@ -32,8 +32,12 @@ datasets.
 \examples{
 \dontrun{
 predict(model, my_dataset, type = "cloglog")}
+
 }
 \references{
 Wilson P.D., (2009). Guidelines for computing MaxEnt model output
 values from a lambdas file.
+}
+\author{
+Sergio Vignali
 }

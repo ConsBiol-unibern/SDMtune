@@ -26,6 +26,8 @@ setGeneric("predict", function(object, ...)
 #'
 #' @examples \dontrun{
 #' predict(model, my_dataset, type = "cloglog")}
+#'
+#' @author Sergio Vignali
 setMethod("predict",
           signature = "Maxent",
           definition = function(object, data,

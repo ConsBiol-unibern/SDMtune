@@ -7,7 +7,7 @@
 auc(model, test = NULL, bg = NULL)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
 \item{test}{SWD test locations, if not provided it computes the train AUC,
 default is NULL.}

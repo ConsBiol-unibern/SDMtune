@@ -7,13 +7,13 @@
 #' permutation importance. In case of more than one permutation (default is 10)
 #' the average of the decrease in training AUC is computed.
 #'
-#' @param model Maxent object.
+#' @param model SDMsel object.
 #' @param permut integer. Number of permutations, default is 10.
 #'
 #' @details Note that it could return values slightly different from MaxEnt java
 #' software for a different random permutation.
 #'
-#' @return data.frame with the ordered permutation importance
+#' @return data.frame with the ordered permutation importance.
 #' @export
 #'
 #' @examples
@@ -43,13 +43,17 @@ permImp <- function(model, permut = 10) {
   }
 
   if (permut > 1) {
+    sdAUC <- apply(permutedAUC, 2, sd)
     permutedAUC <- apply(permutedAUC, 2, mean)
   }
 
   perm_imp <- pmax(0, (model_auc - permutedAUC))
   perm_imp <- 100 * perm_imp / sum(perm_imp)
+  perm_imp <- round(perm_imp, 1)
 
   output <- data.frame(Variable = vars, Permutation_importance = perm_imp)
+  if (permut > 1)
+    output$sd <- round(sdAUC, 3)
   output <- output[order(output$Permutation_importance, decreasing = TRUE), ]
   row.names(output) <- NULL
 

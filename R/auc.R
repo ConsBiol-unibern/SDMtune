@@ -2,7 +2,7 @@
 #'
 #' Compute the AUC using the Man-Whitney U Test formula
 #'
-#' @param model Maxent object.
+#' @param model SDMmodel object.
 #' @param test SWD test locations, if not provided it computes the train AUC,
 #' default is NULL.
 #' @param bg SWD backgroung locations used to compute the AUC
@@ -18,17 +18,23 @@
 #' @author Sergio Vignali
 auc <- function(model, test = NULL, bg = NULL) {
 
-  if (is.null(test)) {
-    p_pred <- predict(model, model@presence)
+  if (class(model@model) == "Maxent") {
+    object <- model@model
   } else {
-    p_pred <- predict(model, test)
+    object <- model@model@model
+  }
+
+  if (is.null(test)) {
+    p_pred <- predict(object, model@presence@data)
+  } else {
+    p_pred <- predict(object, test@data)
   }
 
   # bg is used for permutation importance
   if (is.null(bg)) {
-    bg_pred <- predict(model, model@background)
+    bg_pred <- predict(object, model@background@data)
   } else {
-    bg_pred <- predict(model, bg)
+    bg_pred <- predict(object, bg@data)
   }
 
   n_pres <- length(p_pred)
