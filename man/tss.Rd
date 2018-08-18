@@ -7,7 +7,7 @@
 tss(model, test = NULL)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
 \item{test}{SWD object, if provided it computes the TSS for the test dataset,
 if not for the train dataset, default is NULL.}

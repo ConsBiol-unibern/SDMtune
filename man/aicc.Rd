@@ -7,7 +7,7 @@
 aicc(model, env, parallel = FALSE)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
 \item{env}{\link{stack} or \link{brick} containing the environmental variables.}
 

@@ -7,7 +7,7 @@
 confMatrix(model, test = NULL, th = NULL)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
 \item{test}{SWD test locations, if not provided it uses the train dataset,
 default is NULL.}

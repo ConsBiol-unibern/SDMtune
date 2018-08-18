@@ -2,7 +2,7 @@
 #'
 #' Compute Akaike Information Criterion corrected for small samples size (Warren and Seifert 2011).
 #'
-#' @param model Maxent object.
+#' @param model SDMmodel object.
 #' @param env \link{stack} or \link{brick} containing the environmental variables.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
 #'
@@ -23,18 +23,25 @@
 #' @author Sergio Vignali
 aicc <- function(model, env, parallel = FALSE){
 
-  k <- nrow(model@coeff)
+  if (class(model@model) == "Maxent") {
+    k <- nrow(model@model@coeff)
+    type <- "raw"
+  } else {
+    k <- length(model@model@model$betas)
+    type <- "exponential"
+  }
 
   if (k > nrow(model@presence@data)) {
     aicc <- NA
   } else {
-    raw <- predict(model, env, type = "raw", parallel = parallel)
+    raw <- predict(model, env, type = type, parallel = parallel)
     raw_sum <- raster::cellStats(raw, sum)
     values <- raster::extract(raw, model@presence@coords)
     ll <- sum(log(values / raw_sum))
     aic <- 2 * k - 2 * ll
     aicc <- aic + (2 * k * (k + 1) / (nrow(model@presence@data) - k - 1))
+    aicc <- round(aicc, 4)
   }
 
-  return(round(aicc, 4))
+  return(aicc)
 }

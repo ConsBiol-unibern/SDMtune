@@ -2,7 +2,7 @@
 #'
 #' Computes Confusion Matrixes for threshold values varying from 0 to 1
 #'
-#' @param model Maxent object.
+#' @param model SDMmodel object.
 #' @param test SWD test locations, if not provided it uses the train dataset,
 #' default is NULL.
 #' @param th vector if provided it computes the evaluation at the given thresholds,
@@ -16,17 +16,18 @@
 #' confMatrix(my_model, test = test_dataset)}
 confMatrix <- function(model, test = NULL, th = NULL) {
 
-  if (class(model) != "Maxent")
-    stop("Model must be a Maxent object!")
-  if (!is.null(test) & class(test) != "SWD")
-    stop("Dataset must be a SWD object!")
+  if (class(model@model) == "Maxent") {
+    object <- model@model
+  } else {
+    object <- model@model@model
+  }
 
   if (is.null(test)) {
-    p_pred <- predict(model, model@presence)
+    p_pred <- predict(object, model@presence@data)
   } else {
-    p_pred <- predict(model, test)
+    p_pred <- predict(object, test@data)
   }
-  bg_pred <- predict(model, model@background)
+  bg_pred <- predict(object, model@background@data)
 
   n_pres <- length(p_pred)
   n_bg <- length(bg_pred)

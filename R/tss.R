@@ -2,7 +2,7 @@
 #'
 #' Compute the max TSS of a given Maxent model.
 #'
-#' @param model Maxent object.
+#' @param model SDMmodel object.
 #' @param test SWD object, if provided it computes the TSS for the test dataset,
 #' if not for the train dataset, default is NULL.
 #'
