@@ -15,6 +15,7 @@
 #'
 #' @return data.frame with the ordered permutation importance.
 #' @export
+#' @importFrom stats sd
 #'
 #' @examples
 #' \dontrun{

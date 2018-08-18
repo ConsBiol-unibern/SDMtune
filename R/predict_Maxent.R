@@ -6,7 +6,7 @@ setGeneric("predict", function(object, ...)
 #'
 #' Predict output for a new dataset from a trained Maxent model.
 #'
-#' @param Maxent object.
+#' @param object Maxent object.
 #' @param data data.frame containing values used for the prediction.
 #' @param type character MaxEnt output type, if not provided it uses the model
 #' type. Possible values are "cloglog", "logistic" and "raw", default is NULL.
