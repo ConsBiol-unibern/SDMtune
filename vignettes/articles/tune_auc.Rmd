@@ -337,10 +337,10 @@ Using `hr = T` you obtain a high resolution plot, useful for publications.
 
 ## Plot Presence Absence
 
-To create a presence absence map we choose a threshold provided by MaxEnt. The function `maxentTh` provides a list of possible thresholds:
+To create a presence absence map we have to choose a threshold. The function `thresholds` provides a list of possible thresholds:
 
 ```{r threshold}
-maxentTh(base_model)
+thresholds(base_model1, type = "cloglog")
 ```
 
 For example we use the **Maximum training sensitivity plus specificity Cloglog threshold** as parameter for the `plotPA` function:

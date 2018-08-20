@@ -4,24 +4,28 @@
 \alias{confMatrix}
 \title{Confusion Matrix}
 \usage{
-confMatrix(model, test = NULL, th = NULL)
+confMatrix(model, type = c("cloglog", "logistic"), test = NULL, th = NULL)
 }
 \arguments{
 \item{model}{SDMmodel object.}
 
+\item{type}{character. The output type, possible values are "cloglog" and
+"logistic", default is "cloglog".}
+
 \item{test}{SWD test locations, if not provided it uses the train dataset,
 default is NULL.}
 
-\item{th}{vector if provided it computes the evaluation at the given thresholds,
-default is NULL.}
+\item{th}{vector if provided it computes the evaluation at the given
+thresholds, default is NULL and it computes the evaluation for a sequence
+from 0 to 1 with steps of 0.0001.}
 }
 \value{
 The Confusion Matrix for all the used thresholds.
 }
 \description{
-Computes Confusion Matrixes for threshold values varying from 0 to 1
+Computes Confusion Matrixes for threshold values varying from 0 to 1.
 }
 \examples{
 \dontrun{
-confMatrix(my_model, test = test_dataset)}
+confMatrix(my_model, type = "logisitc")}
 }

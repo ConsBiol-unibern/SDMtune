@@ -2,13 +2,32 @@
 % Please edit documentation in R/thresholds.R
 \name{thresholds}
 \alias{thresholds}
-\title{Title}
+\title{Thresholds}
 \usage{
-thresholds(model)
+thresholds(model, type)
 }
 \arguments{
-\item{model}{}
+\item{model}{SDMmodel object}
+
+\item{type}{character. The output type, possible values are "cloglog" and
+"logistic", default is "cloglog".}
+}
+\value{
+data.frame with the thresholds.
 }
 \description{
-Title
+Compute three threshold values: minimum training presence, equal training
+sensitivity and specificity and maximum training sensitivity plus
+specificity.
+}
+\details{
+The equal training sensitivity and specificity minimizes the
+difference between sensitivity and specificity.
+}
+\examples{
+\dontrun{thresholds(model, type = "logistic")}
+
+}
+\author{
+Sergio Vignali
 }
