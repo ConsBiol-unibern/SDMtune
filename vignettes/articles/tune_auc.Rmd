@@ -298,7 +298,7 @@ plotResponse(base_model, var = 'biome', type = "logistic", marginal = F, color =
 
 ## Plot ROC curve
 
-The `plotROC` function plots the ROC curve and display the value of the AUC. Is possible to plot only the Train ROC curve or the Train together with the validation and/or the test one:
+The `plotROC` function plots the ROC curve and display the value of the AUC. Is possible to plot the Train ROC curve alone or together with the validation and/or the test one:
 
 ```{r plot ROC, fig.align="center"}
 plotROC(base_model, val = val)
@@ -310,10 +310,10 @@ plotROC(base_model, val = val)
 The function `trainMaxent` trains a model but doesn't make any prediction. The `predict` method makes the prediction:
 
 ```{r make prediction, eval=F}
-prediction <- predict(base_model, data = predictors, filename = "base_model_prediction", format = "GTiff", overwrite = T)
+prediction <- predict(base_model, data = predictors, type = "cloglog", filename = "base_model_prediction", format = "GTiff", overwrite = T)
 ```
 ```{r, echo=F}
-prediction <- predict(base_model, data = predictors)
+prediction <- predict(base_model, data = predictors, type = "cloglog")
 ```
 
 You can pass as `data` a `data frame`, a `SWD object` or a [Raster Stack](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack), [Raster Brick](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/brick) object. In the first case the function returns a vector of prediction, in the second case it returns a raster map that can be saved providing the `filename` parameter. For big dataset you can provide the parameter `progress = "text"` to display a progress bar and take advantage of the parallel computation using `parallel = T`.

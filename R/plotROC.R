@@ -2,7 +2,7 @@
 #'
 #' Plot the ROC curve of the given model and print the AUC value.
 #'
-#' @param model Maxen object.
+#' @param model SDMmodel object.
 #' @param val SWD the validation dataset, default is NULL.
 #' @param test SWD the test dataset, default is NULL.
 #'
@@ -20,8 +20,9 @@ plotROC <- function(model, val = NULL, test = NULL) {
   cm <- confMatrix(model)
   fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
   tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
+  auc <- auc(model)
   df <- data.frame(set = "train", fpr = fpr, tpr = tpr)
-  labels <- c(paste("Train", round(model@results["Training.AUC", ], 3)))
+  labels <- c(paste("Train", round(auc, 3)))
 
   if (!is.null(val)) {
     cm <- confMatrix(model, val)

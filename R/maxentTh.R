@@ -10,11 +10,11 @@
 #'
 #' @author Sergio Vignali
 maxentTh <- function(model) {
-  thresholds <- grep(".threshold", rownames(model@results), value = TRUE)
+  thresholds <- grep(".threshold", rownames(model@model@results), value = TRUE)
   thresholds <- grep("cumulative.threshold", thresholds, value = TRUE,
                      invert = TRUE)
   labels <- gsub(".threshold", "", thresholds)
-  df <- data.frame(threshold = model@results[thresholds, ])
+  df <- data.frame(threshold = model@model@results[thresholds, ])
   rownames(df) <- labels
   return(df)
 }

@@ -38,9 +38,9 @@ Suggests: knitr (>= 1.20),
     snow (>= 0.4-2)
 VignetteBuilder: knitr
 Collate: 
-    'Maxent2MaxEnt.R'
     'Maxent_class.R'
     'Maxnet_class.R'
+    'SDMmodel2MaxEnt.R'
     'SWD_class.R'
     'SDMmodel_class.R'
     'SDMsel.R'

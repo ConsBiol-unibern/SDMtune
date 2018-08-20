@@ -7,7 +7,7 @@
 plotROC(model, val = NULL, test = NULL)
 }
 \arguments{
-\item{model}{Maxen object.}
+\item{model}{SDMmodel object.}
 
 \item{val}{SWD the validation dataset, default is NULL.}
 
