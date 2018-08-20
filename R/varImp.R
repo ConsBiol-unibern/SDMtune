@@ -11,7 +11,7 @@
 #' @param permut integer. Number of permutations, default is 10.
 #'
 #' @details Note that it could return values slightly different from MaxEnt java
-#' software for a different random permutation.
+#' software due to a different random permutation.
 #'
 #' @return data.frame with the ordered permutation importance.
 #' @export

@@ -6,48 +6,52 @@
 \usage{
 varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   parallel = FALSE, rm = 0.001, method = "spearman", cor_th = 0.7,
-  use_percent = FALSE)
+  permut = 10)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
-\item{bg4cor}{SWD object. Background locations used to test the correlation between
-environmental variables.}
+\item{bg4cor}{SWD object. Background locations used to test the correlation
+between environmental variables.}
 
-\item{metric}{character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".}
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables,
-used only with "aicc", default is NULL.}
+\item{env}{\link{stack} or \link{brick} containing the environmental
+variables, used only with "aicc", default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.}
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.}
 
-\item{rm}{integer. The value of the regularization paramiter to use during computation,
-default is 0.001, see details.}
+\item{rm}{integer. The value of the regularization paramiter to use during
+computation, default is 0.001, see details.}
 
-\item{method}{character. The method used to comput the correlation matrix, default "spearman".}
+\item{method}{character. The method used to comput the correlation matrix,
+default "spearman".}
 
-\item{cor_th}{numeric. The correlation threshold used to select highly correlated variables,
-default is 0.7.}
+\item{cor_th}{numeric. The correlation threshold used to select highly
+correlated variables, default is 0.7.}
 
-\item{use_percent}{logical, if TRUE it uses the percent contribution instead of the
-permutation importance.}
+\item{permut}{integer. Number of permutations, default is 10.}
 }
 \value{
-The name of the selected variables.
+The model with trained using the selected variables.
 }
 \description{
-The function performs a data-driven variable selection. Starting from the provided model
-it iterates through all the variables starting from the one with the highest contribution
-(permutation or percent). If the variable is correlated with other variables (according to
-the given method and threshold) it performs a Jackknife test and among the correlated
-variables it removes the one that results in the best performing model when removed
-(according to the given metric using the Train dataset). The process is repeated untill
-the remaining variables are not highly correlated anymore.
+The function performs a data-driven variable selection. Starting from the
+provided model it iterates through all the variables starting from the one
+with the highest contribution (permutation importance). If the variable is
+correlated with other variables (according to the given method and threshold)
+it performs a Jackknife test and among the correlated variables it removes
+the one that results in the best performing model when removed (according to
+the given metric using the Train dataset). The process is repeated untill the
+remaining variables are not highly correlated anymore.
 }
 \details{
-You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
+You need package \pkg{snow} to use parallel computation. Parallel
+computation increases the speed only for big datasets due to the time
+necessary to create the cluster. For \strong{Maxnet} using a \strong{rm} lower than 0.1
+the model won't converge!
 We should write something more... I will refer to our paper for the explanations...
 }
 \examples{

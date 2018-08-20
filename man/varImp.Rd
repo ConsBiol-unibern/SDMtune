@@ -24,7 +24,7 @@ the average of the decrease in training AUC is computed.
 }
 \details{
 Note that it could return values slightly different from MaxEnt java
-software for a different random permutation.
+software due to a different random permutation.
 }
 \examples{
 \dontrun{

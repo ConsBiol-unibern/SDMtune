@@ -25,7 +25,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
   labels <- c(paste("Train", round(auc, 3)))
 
   if (!is.null(val)) {
-    cm <- confMatrix(model, val)
+    cm <- confMatrix(model, test = val)
     fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
     tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
     auc <- auc(model, test = val)
@@ -35,7 +35,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
   }
 
   if (!is.null(test)) {
-    cm <- confMatrix(model, test)
+    cm <- confMatrix(model, test = test)
     fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
     tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
     auc <- auc(model, test = test)

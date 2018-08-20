@@ -1,34 +1,38 @@
 #' Variable Selection
 #'
-#' The function performs a data-driven variable selection. Starting from the provided model
-#' it iterates through all the variables starting from the one with the highest contribution
-#' (permutation or percent). If the variable is correlated with other variables (according to
-#' the given method and threshold) it performs a Jackknife test and among the correlated
-#' variables it removes the one that results in the best performing model when removed
-#' (according to the given metric using the Train dataset). The process is repeated untill
-#' the remaining variables are not highly correlated anymore.
+#' The function performs a data-driven variable selection. Starting from the
+#' provided model it iterates through all the variables starting from the one
+#' with the highest contribution (permutation importance). If the variable is
+#' correlated with other variables (according to the given method and threshold)
+#' it performs a Jackknife test and among the correlated variables it removes
+#' the one that results in the best performing model when removed (according to
+#' the given metric using the Train dataset). The process is repeated untill the
+#' remaining variables are not highly correlated anymore.
 #'
-#' @param model Maxent object.
-#' @param bg4cor SWD object. Background locations used to test the correlation between
-#' environmental variables.
-#' @param metric character. The metric used to evaluate the models, possible values are:
-#' "auc", "tss" and "aicc", default is "auc".
-#' @param env \link{stack} or \link{brick} containing the environmental variables,
-#' used only with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.
-#' @param rm integer. The value of the regularization paramiter to use during computation,
-#' default is 0.001, see details.
-#' @param method character. The method used to comput the correlation matrix, default "spearman".
-#' @param cor_th numeric. The correlation threshold used to select highly correlated variables,
-#' default is 0.7.
-#' @param use_percent logical, if TRUE it uses the percent contribution instead of the
-#' permutation importance.
+#' @param model SDMmodel object.
+#' @param bg4cor SWD object. Background locations used to test the correlation
+#' between environmental variables.
+#' @param metric character. The metric used to evaluate the models, possible
+#' values are: "auc", "tss" and "aicc", default is "auc".
+#' @param env \link{stack} or \link{brick} containing the environmental
+#' variables, used only with "aicc", default is NULL.
+#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' FALSE. Used only with AICc.
+#' @param rm integer. The value of the regularization paramiter to use during
+#' computation, default is 0.001, see details.
+#' @param method character. The method used to comput the correlation matrix,
+#' default "spearman".
+#' @param cor_th numeric. The correlation threshold used to select highly
+#' correlated variables, default is 0.7.
+#' @param permut integer. Number of permutations, default is 10.
 #'
-#' @details You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
-#' only for big datasets due to the time necessary to create the cluster.
+#' @details You need package \pkg{snow} to use parallel computation. Parallel
+#' computation increases the speed only for big datasets due to the time
+#' necessary to create the cluster. For **Maxnet** using a **rm** lower than 0.1
+#' the model won't converge!
 #' We should write something more... I will refer to our paper for the explanations...
 #'
-#' @return The name of the selected variables.
+#' @return The model with trained using the selected variables.
 #' @export
 #' @importFrom progress progress_bar
 #' @importFrom stats cor
@@ -39,7 +43,7 @@
 #' @author Sergio Vignali
 varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
                    parallel = FALSE, rm = 0.001, method = "spearman",
-                   cor_th = 0.7, use_percent = FALSE) {
+                   cor_th = 0.7, permut = 10) {
 
   if (class(bg4cor) != "SWD")
     stop("bg4cort must be a SWD object!")
@@ -49,7 +53,8 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
                        as.character(cor_vars$Var2)))
   total <- length(cor_vars)
   change_rm = FALSE
-  if (rm != model@rm) {
+
+  if (rm != model@model@rm) {
     total <- total + 2
     change_rm = TRUE
   }
@@ -62,18 +67,22 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
 
   metric <- match.arg(metric)
   correlation_removed <- FALSE
-  vars <- colnames(model@presence@data)
+  initial_vars <- colnames(model@presence@data)
+  model_method <- class(model@model)
 
-  if (nrow(model@test@data) == 0) {
-    test <- NULL
+  if (model_method == "Maxent") {
+    iter <- model@model@iter
+    extra_args <- model@model@extra_args
   } else {
-    test <- model@test
+    iter <- NULL
+    extra_args <- NULL
   }
 
   if (change_rm) {
-    old_rm <- model@rm
-    model <- trainMaxent(model@presence, model@background, rm, model@fc,
-                         type = model@type, test = test, iter = model@iter)
+    old_rm <- model@model@rm
+    model <- train(method = model_method, presence = model@presence,
+                   bg = model@background, rm = rm, fc = model@model@fc,
+                   iter = iter, extra_args = extra_args)
     pb$tick(1)
   }
 
@@ -86,18 +95,16 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   while (correlation_removed == FALSE) {
 
     cor_matrix <- as.data.frame(cor_matrix)
-    scores <- varImp(model)
-    if (use_percent)
-      scores <- scores[order(-scores$Percent_contribution), ]
-    varnames <- scores$Variable
+    scores <- varImp(model, permut = permut)
+    vars <- scores$Variable
     discarded_variable <- NULL
 
-    for (i in 1:length(varnames)) {
+    for (i in 1:length(vars)) {
 
-      if (varnames[i] %in% categorical)
+      if (vars[i] %in% categorical)
         next
 
-      coeff <- cor_matrix[varnames[i]]
+      coeff <- cor_matrix[vars[i]]
       hcv <- row.names(coeff)[abs(coeff) >= cor_th]
 
       if (length(hcv) > 1) {
@@ -126,16 +133,15 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
 
   if (change_rm) {
     pb$tick(total - removed - 2)
-    if (!is.null(test))
-      test <- model@test
-    model <- trainMaxent(model@presence, model@background, old_rm, model@fc,
-                         type = model@type, test = test, iter = model@iter)
+    model <- train(method = model_method, presence = model@presence,
+                   bg = model@background, rm = old_rm, fc = model@model@fc,
+                   iter = iter, extra_args = extra_args)
     pb$tick(1)
   } else {
     pb$tick(total - removed)
   }
 
-  removed_vars <- setdiff(vars, colnames(model@presence@data))
+  removed_vars <- setdiff(initial_vars, colnames(model@presence@data))
   message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
 
   return(model)

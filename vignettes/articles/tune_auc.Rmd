@@ -340,22 +340,22 @@ Using `hr = T` you obtain a high resolution plot, useful for publications.
 To create a presence absence map we have to choose a threshold. The function `thresholds` provides a list of possible thresholds:
 
 ```{r threshold}
-thresholds(base_model1, type = "cloglog")
+thresholds(base_model, type = "cloglog")
 ```
 
 For example we use the **Maximum training sensitivity plus specificity Cloglog threshold** as parameter for the `plotPA` function:
 
 ```{r plot presence absence, eval=F}
-plotPA(prediction, th = 0.1169, filename = 'pa_map', overwrite = TRUE, format = 'GTiff')
+plotPA(prediction, th = 0.1165, filename = 'pa_map', overwrite = TRUE, format = 'GTiff')
 ```
 ```{r, fig.align="center", echo=F}
-plotPA(prediction, th = 0.1169)
+plotPA(prediction, th = 0.1165)
 ```
 
 or we can customise the colors using:
 
 ```{r plot presence absence colors, fig.align="center"}
-plotPA(prediction, th = 0.1169, colors = c("#7fbf7b", "#af8dc3"))
+plotPA(prediction, th = 0.1165, colors = c("#7fbf7b", "#af8dc3"))
 ```
 
 # Data Driven Variable Selection
@@ -378,7 +378,7 @@ corVar(bg, method = "spearman", cor_th = 0.75)
 One possible approach to remove highly correlated variables is to choose a subset of variables based on expert knowledge of the target species. If you don't know which variable to retain, you can use some kind of data-driven variable selection. The function `varSel` iterates through several steps: starting from a trained model it checks if the variable ranked as most important (both variable importance ranks are possible: percent contribution and permutation importance) is highly correlated with other variables according to the given method and correlation threshold. In this case it performs a Jaccknife test and among the correlated variables it discards the one that decreases the less the model performance. After it trains another model without the removed variable and checks again for highly correlated variables. The process is repeated until the retained variables are not highly correlated anymore. We suggest to use a very low regularization parameter to perform variable selection, in this case we use 0.001 (see Vignali et al. we add here the publication)
 
 ```{r variable selection, message=F}
-selected_var_model <- varSel(base_model, bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75)
+selected_var_model <- varSel(base_model, bg4cor =  bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75, permut = 2)
 ```
 
 The function returns the model trained without the correlated variables, if we print the object we see that the function removed **bio6**, **bio7**, **bio8** and **bio16**:
@@ -396,7 +396,7 @@ plotROC(selected_var_model, val = val)
 
 # Tune model hyperparameters
 
-`SDMsel` provides a family of functions to tune model hyperparameters. For `Maxent` models we can tune the **feature combination**, the number of **background locations**, the **regularization multiplier** and the **number of iterations**. All the functions of this family return an object of class `SDMtune` with two slots, one for the results and one with all the trained models.
+`SDMsel` provides a family of functions to tune model hyperparameters: **feature combination**, number of **background locations** and **regularization multiplier**. All the functions of this family return an object of class `SDMtune` with two slots, one for the results and the other with all the trained models.
 
 ## Tune feature combination
 
