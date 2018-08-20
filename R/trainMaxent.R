@@ -12,26 +12,36 @@
 #' combinations of "l", "q", "p", "h" and "t".
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm,
 #' default is 500.
-#' @param extra_args vector. Extra arguments used to run MaxEnt, e.g.
-#' "removeduplicates=false", default is NULL.
+#' @param extra_args vector. Extra arguments used to run MaxEnt, defalt is
+#' c("noaddsamplestobackground", "removeduplicates=false").
 #'
-#' @return The output of MaxEnt as Maxent object.
+#'
+#' @details The function by default **uses extra_args =
+#' c("noaddsamplestobackground", "removeduplicates=false")**. In case this is
+#' not your expected beaviour you can remove both passing extra_args = "" or you
+#' ca add any other additional arguments extending the previous vector.
+#'
+#' @return A SDMmodel object.
 #' @export
 #' @importFrom dismo maxent
 #' @importFrom utils packageVersion read.csv
 #'
 #' @examples
-#' \dontrun{model <- trainMaxent(presence, bg, rm)}
+#' \dontrun{model <- trainMaxent(presence, bg, rm,
+#' extra_args = )}
 #'
 #' @author Sergio Vignali
-trainMaxent <- function(presence, bg, rm, fc, iter = 500, extra_args = NULL) {
+trainMaxent <- function(presence, bg, rm, fc, iter = 500,
+                        extra_args = c("noaddsamplestobackground",
+                                       "removeduplicates=false")) {
 
   result <- SDMmodel(presence = presence, background = bg)
 
-  if (grepl("folder=", extra_args[length(extra_args)] )) {
-    delete_folder <- FALSE
-    folder <- sub("folder=", "", extra_args[length(extra_args)])
-    extra_args <- extra_args[-length(extra_args)]
+  if (paste(extra_args, collapse = "") != "" &
+      grepl("folder=", extra_args[length(extra_args)])) {
+      delete_folder <- FALSE
+      folder <- sub("folder=", "", extra_args[length(extra_args)])
+      extra_args <- extra_args[-length(extra_args)]
   } else {
     delete_folder <- TRUE
     folder <- tempfile()
@@ -87,10 +97,10 @@ trainMaxent <- function(presence, bg, rm, fc, iter = 500, extra_args = NULL) {
 
 .makeArgs <- function(rm, fc, iter, extra_args) {
 
-  args <- c("noaddsamplestobackground", paste0("betamultiplier=", rm),
-            paste0("maximumiterations=", iter), .getFeatureArgs(fc))
+  args <- c(paste0("betamultiplier=", rm), paste0("maximumiterations=", iter),
+            .getFeatureArgs(fc))
 
-  if (!is.null(extra_args)) args <- append(args, extra_args)
+  args <- c(args, extra_args)
 
   return(args)
 }

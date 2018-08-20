@@ -4,7 +4,8 @@
 \alias{trainMaxent}
 \title{Train Maxent model}
 \usage{
-trainMaxent(presence, bg, rm, fc, iter = 500, extra_args = NULL)
+trainMaxent(presence, bg, rm, fc, iter = 500,
+  extra_args = c("noaddsamplestobackground", "removeduplicates=false"))
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -19,11 +20,11 @@ combinations of "l", "q", "p", "h" and "t".}
 \item{iter}{numeric. Number of iterations used by the Maxent alghoritm,
 default is 500.}
 
-\item{extra_args}{vector. Extra arguments used to run MaxEnt, e.g.
-"removeduplicates=false", default is NULL.}
+\item{extra_args}{vector. Extra arguments used to run MaxEnt, defalt is
+c("noaddsamplestobackground", "removeduplicates=false").}
 }
 \value{
-The output of MaxEnt as Maxent object.
+A SDMmodel object.
 }
 \description{
 Train a MaxEnt model using the dismo package. The function runs Maxent model
@@ -31,8 +32,15 @@ with a minimum settings of optional parameters to speed the computation time.
 Use \link{modelOutput} function to set more parameters (i.e. response curves)
 and save the output permanently in a folder.
 }
+\details{
+The function by default \strong{uses extra_args =
+c("noaddsamplestobackground", "removeduplicates=false")}. In case this is
+not your expected beaviour you can remove both passing extra_args = "" or you
+ca add any other additional arguments extending the previous vector.
+}
 \examples{
-\dontrun{model <- trainMaxent(presence, bg, rm)}
+\dontrun{model <- trainMaxent(presence, bg, rm,
+extra_args = )}
 
 }
 \author{

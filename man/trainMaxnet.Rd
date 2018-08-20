@@ -4,7 +4,7 @@
 \alias{trainMaxnet}
 \title{Train Maxnet model}
 \usage{
-trainMaxnet(presence, bg, rm, fc, test = NULL)
+trainMaxnet(presence, bg, rm, fc)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -15,11 +15,9 @@ trainMaxnet(presence, bg, rm, fc, test = NULL)
 
 \item{fc}{vector. The value of the feature combination, possible values are
 combinations of "l", "q", "p", "h" and "t".}
-
-\item{test}{SWD object with the test locations, default is NULL.}
 }
 \value{
-Maxent object.
+A SDMmodel object.
 }
 \description{
 Train a Maxnet model using the maxnet package.

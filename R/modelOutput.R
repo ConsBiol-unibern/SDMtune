@@ -16,7 +16,16 @@
 #' @param extra_args vector. Extra arguments used to run MaxEnt, e.g.
 #' "removeduplicates=false", default is NULL.
 #'
-#' @return The model object.
+#' @param extra_args vector. Extra arguments used to run MaxEnt, defalt is
+#' c("noaddsamplestobackground", "removeduplicates=false").
+#'
+#'
+#' @details The function by default **uses extra_args =
+#' c("noaddsamplestobackground", "removeduplicates=false")**. In case this is
+#' not your expected beaviour you can remove both passing extra_args = "" or you
+#' ca add any other additional arguments extending the previous vector.
+#'
+#' @return The SDMmodel object.
 #' @export
 #'
 #' @examples
@@ -26,7 +35,8 @@
 #' @author Sergio Vignali
 modelOutput <- function(model, type = c("cloglog", "logistic", "raw"), folder,
                         test = NULL, response_curves = FALSE, jk = FALSE,
-                        threads = 1, extra_args = NULL) {
+                        threads = 1, extra_args = c("noaddsamplestobackground",
+                                                    "removeduplicates=false")) {
 
   if (class(model@model) != "Maxent")
     stop("modelOutput function works only with Maxent model for the moment!")

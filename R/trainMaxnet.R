@@ -7,9 +7,8 @@
 #' @param rm numeric. The value of the regularization multiplier.
 #' @param fc vector. The value of the feature combination, possible values are
 #' combinations of "l", "q", "p", "h" and "t".
-#' @param test SWD object with the test locations, default is NULL.
 #'
-#' @return Maxent object.
+#' @return A SDMmodel object.
 #' @export
 #' @importFrom maxnet maxnet maxnet.formula
 #'
@@ -17,12 +16,9 @@
 #' \dontrun{model <- trainMaxnet(presence, bg, rm)}
 #'
 #' @author Sergio Vignali
-trainMaxnet <- function(presence, bg, rm, fc, test = NULL) {
+trainMaxnet <- function(presence, bg, rm, fc) {
 
-  if (is.null(test))
-    test <- new("SWD")
-
-  result <- SDMmodel(presence = presence, background = bg, test = test)
+  result <- SDMmodel(presence = presence, background = bg)
 
   x <- rbind(presence@data, bg@data)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
