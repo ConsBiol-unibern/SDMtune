@@ -15,8 +15,6 @@ This Class represents a MaxEnt model objects and hosts all the information relat
 
 \item{\code{background}}{SWD. The backgorund locations used to train the model.}
 
-\item{\code{test}}{SWD. The test locations used to validate the model.}
-
 \item{\code{model}}{Maxent or Maxnet object.}
 }}
 

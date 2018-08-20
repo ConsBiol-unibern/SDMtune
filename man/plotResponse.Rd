@@ -4,23 +4,28 @@
 \alias{plotResponse}
 \title{Plot Response Curve}
 \usage{
-plotResponse(model, variable, marginal = FALSE, fun = mean, clamp = TRUE,
+plotResponse(model, var, type, marginal = FALSE, fun = mean, clamp = TRUE,
   rug = FALSE, color = "red")
 }
 \arguments{
 \item{model}{Maxent object.}
 
-\item{variable}{character. Name of the variable to be plotted.}
+\item{var}{character. Name of the variable to be plotted.}
 
-\item{marginal}{logical, if TRUE it plots the marginal response courve, default is FALSE.}
+\item{type}{character. Output type, see \link{predict,Maxent-method} for
+Maxent models or \link{predict.maxnet} for Maxnet models.}
 
-\item{fun}{function used to compute the level of the other variables for marginal curves,
-possible values are mean and median, default is mean.}
+\item{marginal}{logical, if TRUE it plots the marginal response courve,
+default is FALSE.}
+
+\item{fun}{function used to compute the level of the other variables for
+marginal curves, possible values are mean and median, default is mean.}
 
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
 
-\item{rug}{logical, if TRUE it adds the rug plot for presence and background locations locations,
-available only for continuous variables, default is FALSE.}
+\item{rug}{logical, if TRUE it adds the rug plot for presence and background
+locations locations, available only for continuous variables, default is
+FALSE.}
 
 \item{color}{The color of the curve, default is "red".}
 }
@@ -31,11 +36,12 @@ The plot model
 Plot the Response Curve of the given environmental variable.
 }
 \details{
-Note that fun is not a character parameter, you must use mean and not "mean".
+Note that fun is not a character parameter, you must use mean and
+not "mean".
 }
 \examples{
 \dontrun{
-plotResponse(model, variable = "bio12", marginal = T, fun = median, rug = T)}
+plotResponse(model, var = "bio12", marginal = T, fun = median, rug = T)}
 
 }
 \author{

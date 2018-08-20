@@ -10,15 +10,10 @@
 #' @param rm numeric. The value of the regularization multiplier.
 #' @param fc vector. The value of the feature combination, possible values are
 #' combinations of "l", "q", "p", "h" and "t".
-#' @param test SWD object with the test locations, default is NULL.
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm,
 #' default is 500.
 #' @param extra_args vector. Extra arguments used to run MaxEnt, e.g.
-#' "removeduplicates=false", default
-#' is NULL.
-#' @param folder character. The folder name where to save the MaxEnt output,
-#' default is NULL meaning that is not saved. The folder is created in the
-#' working directory.
+#' "removeduplicates=false", default is NULL.
 #'
 #' @return The output of MaxEnt as Maxent object.
 #' @export
@@ -29,63 +24,37 @@
 #' \dontrun{model <- trainMaxent(presence, bg, rm)}
 #'
 #' @author Sergio Vignali
-trainMaxent <- function(presence, bg, rm, fc, test = NULL, iter = 500,
-                        extra_args = NULL, folder = NULL) {
+trainMaxent <- function(presence, bg, rm, fc, iter = 500, extra_args = NULL) {
 
-  if (is.null(test)) {
-    test_file = NULL
-    test <- new("SWD")
-  }
+  result <- SDMmodel(presence = presence, background = bg)
 
-  result <- SDMmodel(presence = presence, background = bg, test = test)
-
-  delete_folder <- FALSE
-
-  if (is.null(folder)) {
-    folder <- tempfile()
-    delete_folder = TRUE
+  if (grepl("folder=", extra_args[length(extra_args)] )) {
+    delete_folder <- FALSE
+    folder <- sub("folder=", "", extra_args[length(extra_args)])
+    extra_args <- extra_args[-length(extra_args)]
   } else {
-    dir.create(folder)
+    delete_folder <- TRUE
+    folder <- tempfile()
   }
 
-  if (nrow(test@data) > 0) {
-    if (delete_folder == TRUE) {
-      test_folder = tempfile()
-      dir.create(test_folder)
-      test_file <- paste0(test_folder, "/test.csv")
-    } else {
-      test_file <- paste0(folder, "/test.csv")
-    }
-    test@species <- "species"
-    swd2csv(test, test_file)
-  }
-
-  args <- .makeArgs(rm = rm, fc = fc, test = test_file, iter = iter,
-                    extra_args = extra_args)
+  args <- .makeArgs(rm = rm, fc = fc, iter = iter, extra_args = extra_args)
 
   x <- rbind(presence@data, bg@data)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
-  model <- dismo::maxent(x, p, args = args, path = folder)
+  dismo_model <- dismo::maxent(x, p, args = args, path = folder)
 
   l <- .getLambdas(paste0(folder, "/species.lambdas"), bg)
   f <- .formulaFromLambdas(l$lambdas)
 
-  model_object <- Maxent(results = model@results, rm = rm, fc = fc, iter = iter,
-                         lambdas = model@lambdas, coeff = l$lambdas,
-                         formula = f, lpn = l$lpn, dn = l$dn,
+  model_object <- Maxent(results = dismo_model@results, rm = rm, fc = fc,
+                         iter = iter, lambdas = dismo_model@lambdas,
+                         coeff = l$lambdas, formula = f, lpn = l$lpn, dn = l$dn,
                          entropy = l$entropy, min_max = l$min_max)
 
   result@model <- model_object
 
-  if (!is.null(test)) {
-    test@species <- presence@species
-    result@test <- test
-  }
-
   if (delete_folder == TRUE) {
     unlink(folder, recursive = TRUE)
-    if (nrow(test@data) > 0)
-      unlink(test_folder, recursive = TRUE)
     result@model@folder <- ""
   } else {
     result@model@folder <- paste0(getwd(), "/", folder)
@@ -105,22 +74,21 @@ trainMaxent <- function(presence, bg, rm, fc, test = NULL, iter = 500,
     f <- gsub("species.csv", paste0(species, ".csv"), f)
     f <- gsub("species.lambdas", paste0(species, ".lambdas"), f)
     writeLines(f, output_file)
-    file.remove(model@html)
+    file.remove(dismo_model@html)
     # Rename files
     for (file in list.files(path = result@model@folder, pattern = "species*",
                             full.names = TRUE, recursive = TRUE))
       file.rename(file, sub("species", species, file))
   }
 
+  gc()
   return(result)
 }
 
-.makeArgs <- function(rm, fc, test, iter, extra_args) {
+.makeArgs <- function(rm, fc, iter, extra_args) {
 
   args <- c("noaddsamplestobackground", paste0("betamultiplier=", rm),
             paste0("maximumiterations=", iter), .getFeatureArgs(fc))
-
-  if (!is.null(test)) args <- append(args, paste0("testsamplesfile=", test))
 
   if (!is.null(extra_args)) args <- append(args, extra_args)
 
