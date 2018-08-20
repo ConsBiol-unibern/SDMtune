@@ -28,15 +28,16 @@ A SDMmodel object.
 }
 \description{
 Train a MaxEnt model using the dismo package. The function runs Maxent model
-with a minimum settings of optional parameters to speed the computation time.
-Use \link{modelOutput} function to set more parameters (i.e. response curves)
-and save the output permanently in a folder.
+with a minimum setting of optional parameters (e.g. it doesn't make the
+response curves) to speed up the computation time. Use \link{modelOutput}
+function to set more parameters (i.e. response curves) and save the output
+permanently in a folder.
 }
 \details{
-The function by default \strong{uses extra_args =
+By default the function uses \strong{extra_args =
 c("noaddsamplestobackground", "removeduplicates=false")}. In case this is
 not your expected beaviour you can remove both passing extra_args = "" or you
-ca add any other additional arguments extending the previous vector.
+can add any other additional arguments extending the previous vector.
 }
 \examples{
 \dontrun{model <- trainMaxent(presence, bg, rm,

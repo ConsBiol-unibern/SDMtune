@@ -33,10 +33,12 @@ A SWDmodel object
 Train a model using the given method.
 }
 \details{
-The function by default \strong{uses extra_args =
-c("noaddsamplestobackground", "removeduplicates=false")}. In case this is
-not your expected beaviour you can remove both passing extra_args = "" or you
-ca add any other additional arguments extending the previous vector.
+See \link{trainMaxent} and \link{trainMaxnet} for details related to
+the different methods. For \strong{Maxent} models the function uses by default
+\strong{extra_args = c("noaddsamplestobackground", "removeduplicates=false")}.
+In case this is not your expected beaviour you can remove both passing
+\strong{extra_args = ""} or you can add any other additional arguments extending
+the previous vector.
 }
 \examples{
 \dontrun{

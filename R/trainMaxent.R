@@ -1,9 +1,10 @@
 #' Train Maxent model
 #'
 #' Train a MaxEnt model using the dismo package. The function runs Maxent model
-#' with a minimum settings of optional parameters to speed the computation time.
-#' Use \link{modelOutput} function to set more parameters (i.e. response curves)
-#' and save the output permanently in a folder.
+#' with a minimum setting of optional parameters (e.g. it doesn't make the
+#' response curves) to speed up the computation time. Use \link{modelOutput}
+#' function to set more parameters (i.e. response curves) and save the output
+#' permanently in a folder.
 #'
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
@@ -16,10 +17,10 @@
 #' c("noaddsamplestobackground", "removeduplicates=false").
 #'
 #'
-#' @details The function by default **uses extra_args =
+#' @details By default the function uses **extra_args =
 #' c("noaddsamplestobackground", "removeduplicates=false")**. In case this is
 #' not your expected beaviour you can remove both passing extra_args = "" or you
-#' ca add any other additional arguments extending the previous vector.
+#' can add any other additional arguments extending the previous vector.
 #'
 #' @return A SDMmodel object.
 #' @export

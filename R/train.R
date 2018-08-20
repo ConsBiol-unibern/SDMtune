@@ -14,10 +14,12 @@
 #' c("noaddsamplestobackground", "removeduplicates=false"), used only for
 #' "Maxent" method.#'
 #'
-#' @details The function by default **uses extra_args =
-#' c("noaddsamplestobackground", "removeduplicates=false")**. In case this is
-#' not your expected beaviour you can remove both passing extra_args = "" or you
-#' ca add any other additional arguments extending the previous vector.
+#' @details See \link{trainMaxent} and \link{trainMaxnet} for details related to
+#' the different methods. For **Maxent** models the function uses by default
+#' **extra_args = c("noaddsamplestobackground", "removeduplicates=false")**.
+#' In case this is not your expected beaviour you can remove both passing
+#' **extra_args = ""** or you can add any other additional arguments extending
+#' the previous vector.
 #'
 #' @return A SWDmodel object
 #' @export
