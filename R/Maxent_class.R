@@ -45,8 +45,8 @@ Maxent <- setClass("Maxent",
 setMethod("show",
           signature = "Maxent",
           definition = function(object) {
-            cat("Class                :", class(object), "\n")
-            cat("RM                   :", object@rm, "\n")
-            cat("FCs                  :", object@fc, "\n")
-            cat("Iterations           :", object@iter, "\n")
+            cat("Class     :", class(object), "\n")
+            cat("RM        :", object@rm, "\n")
+            cat("FCs       :", object@fc, "\n")
+            cat("Iterations:", object@iter, "\n")
           })
