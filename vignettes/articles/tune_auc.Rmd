@@ -264,7 +264,7 @@ plotVarImp(df, color = "#159957")
 Another way to estimate the variable importance is to run a **Jackknife Test**:
 
 ```{r jk, message=F}
-jk <- doJk(base_model, with_only = T, metric = "auc")
+jk <- doJk(base_model, with_only = T, metric = "auc", test = val)
 ```
 
 If the model has a test dataset, it returns the train and test AUC, if not it returns only the train AUC

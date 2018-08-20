@@ -20,7 +20,7 @@ combinations of "l", "q", "p", "h" and "t".}
 \item{iter}{numeric. Number of iterations used by the Maxent alghoritm,
 default is 500.}
 
-\item{extra_args}{vector. Extra arguments used to run MaxEnt, defalt is
+\item{extra_args}{vector. Extra arguments used to run MaxEnt, default is
 c("noaddsamplestobackground", "removeduplicates=false").}
 }
 \value{

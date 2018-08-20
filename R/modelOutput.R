@@ -13,17 +13,6 @@
 #' @param jk logical, if TRUE it runs the jackknife test, default FALSE.
 #' @param threads numeric. Number of threads used by MaxEnt to compute the
 #' Jackknife test, default is 1.
-#' @param extra_args vector. Extra arguments used to run MaxEnt, e.g.
-#' "removeduplicates=false", default is NULL.
-#'
-#' @param extra_args vector. Extra arguments used to run MaxEnt, defalt is
-#' c("noaddsamplestobackground", "removeduplicates=false").
-#'
-#'
-#' @details The function by default **uses extra_args =
-#' c("noaddsamplestobackground", "removeduplicates=false")**. In case this is
-#' not your expected beaviour you can remove both passing extra_args = "" or you
-#' ca add any other additional arguments extending the previous vector.
 #'
 #' @return The SDMmodel object.
 #' @export
@@ -35,15 +24,16 @@
 #' @author Sergio Vignali
 modelOutput <- function(model, type = c("cloglog", "logistic", "raw"), folder,
                         test = NULL, response_curves = FALSE, jk = FALSE,
-                        threads = 1, extra_args = c("noaddsamplestobackground",
-                                                    "removeduplicates=false")) {
+                        threads = 1) {
 
   if (class(model@model) != "Maxent")
     stop("modelOutput function works only with Maxent model for the moment!")
 
   dir.create(folder)
+  extra_args <- model@model@extra_args
 
   if (!is.null(test)) {
+    test@data <- test@data[colnames(model@presence@data)]
     test_file <- paste0(folder, "/test.csv")
     test@species <- "species"
     swd2csv(test, test_file)

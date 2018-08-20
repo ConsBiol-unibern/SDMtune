@@ -5,8 +5,7 @@
 \title{Model Output}
 \usage{
 modelOutput(model, type = c("cloglog", "logistic", "raw"), folder,
-  test = NULL, response_curves = FALSE, jk = FALSE, threads = 1,
-  extra_args = c("noaddsamplestobackground", "removeduplicates=false"))
+  test = NULL, response_curves = FALSE, jk = FALSE, threads = 1)
 }
 \arguments{
 \item{model}{SDMmodel object.}
@@ -26,24 +25,12 @@ html output, default is FALSE.}
 
 \item{threads}{numeric. Number of threads used by MaxEnt to compute the
 Jackknife test, default is 1.}
-
-\item{extra_args}{vector. Extra arguments used to run MaxEnt, e.g.
-"removeduplicates=false", default is NULL.}
-
-\item{extra_args}{vector. Extra arguments used to run MaxEnt, defalt is
-c("noaddsamplestobackground", "removeduplicates=false").}
 }
 \value{
 The SDMmodel object.
 }
 \description{
 Given a model the function produces the output in the given folder.
-}
-\details{
-The function by default \strong{uses extra_args =
-c("noaddsamplestobackground", "removeduplicates=false")}. In case this is
-not your expected beaviour you can remove both passing extra_args = "" or you
-ca add any other additional arguments extending the previous vector.
 }
 \examples{
 \dontrun{model <- modelOutput(model, type = "logistic", test = test,

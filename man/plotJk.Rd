@@ -7,13 +7,14 @@
 plotJk(jk, type = c("train", "test"), ref = NULL)
 }
 \arguments{
-\item{jk}{data.frame with the output of the doJk function.}
+\item{jk}{data.frame with the output of the \strong{doJk} function.}
 
-\item{type}{character, "train" or "test" to plot the train or test AUC values.}
+\item{type}{character, "train" or "test" to plot the result of the test on
+the train or test dataset.}
 
-\item{ref}{numeric. The value of the chosen metric for the model trained using
-all the variables. If provided it plots a vertical line showing the reference
-value. Default is NULL.}
+\item{ref}{numeric. The value of the chosen metric for the model trained
+using all the variables. If provided it plots a vertical line showing the
+reference value. Default is NULL.}
 }
 \value{
 The ggplot object.
@@ -23,7 +24,7 @@ Plot the Jackknife Test for variable importance.
 }
 \examples{
 \dontrun{
-plotJk(jk_test, type = "train", ref = 0.955)}
+plotJk(jk_test, type = "train", ref = auc(my_model))}
 
 }
 \author{

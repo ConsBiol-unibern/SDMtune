@@ -1,26 +1,29 @@
 #' Jackknife Test
 #'
-#' Run the Jackknife test for variable importance removing one variable at time and returns the train AUC.
-#' If the model has a test dataset, it returns also the test AUC.
+#' Run the Jackknife test for variable importance removing one variable at time.
 #'
 #' @param model SDMmodel object.
-#' @param type character MaxEnt output type, possible values are "cloglog",
-#' "logistic" and "raw", default is "cloglog".
-#' @param metric character. The metric used to evaluate the models, possible values are:
-#' "auc", "tss" and "aicc", default is "auc".
-#' @param variables vector. Variables used for the test, if not provided it takes all the variables
-#' used to train the model, default is NULL.
-#' @param with_only logical. If TRUE it runs the test also for each variable in isolation, default is TRUE.
-#' @param env \link{stack} or \link{brick} containing the environmental variables,
-#' used only with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.
-#' @param return_models logical, If TRUE returns all the models together with the test result, default is FALSE.
+#' @param metric character. The metric used to evaluate the models, possible
+#' values are: "auc", "tss" and "aicc", default is "auc".
+#' @param variables vector. Variables used for the test, if not provided it
+#' takes all the variables used to train the model, default is NULL.
+#' @param test SWD. If provided it reports the result also for the test dataset.
+#' Not used for **aicc**.
+#' @param with_only logical. If TRUE it runs the test also for each variable in
+#' isolation, default is TRUE.
+#' @param env \link{stack} or \link{brick} containing the environmental
+#' variables, used only with "aicc", default is NULL.
+#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' FALSE. Used only with AICc.
+#' @param return_models logical, If TRUE returns all the models together with
+#' the test result, default is FALSE.
 #'
-#' @details You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
-#' only for big datasets due to the time necessary to create the cluster.
+#' @details You need package \pkg{snow} to use parallel computation. Parallel
+#' computation increases the speed only for big datasets due to the time
+#' necessary to create the cluster.
 #'
-#' @return A data frame with the test results. If **return_model = TRUE** it returns a list with
-#' the data frame together with the models.
+#' @return A data frame with the test results. If **return_model = TRUE** it
+#' returns a list containing the test results together with the models.
 #' @export
 #' @importFrom progress progress_bar
 #'
@@ -28,12 +31,15 @@
 #' doJk(model, variable = c('bio1', 'bio12'), with_only = TRUE)}
 #'
 #' @author Sergio Vignali
-doJk <- function(model, type = c("cloglog", "logistic", "raw"), metric = c("auc", "tss", "aicc"), variables = NULL,
-                 with_only = TRUE, env = NULL, parallel = FALSE,
+doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
+                 test = NULL, with_only = TRUE, env = NULL, parallel = FALSE,
                  return_models = FALSE) {
 
   if (metric == "aicc" & is.null(env))
     stop("You must provide env parameter if you want to use AICc metric!")
+
+  if (!is.null(test) & class(test) != "SWD")
+    stop("test dataset must be a SWD object!")
 
   if (is.null(variables))
     variables <- colnames(model@presence@data)
@@ -63,10 +69,14 @@ doJk <- function(model, type = c("cloglog", "logistic", "raw"), metric = c("auc"
     labels <- c("Variable", "AICc_without", "AICc_withonly", "-", "-")
   }
 
-  if (nrow(model@test@data) > 0) {
-    test <- TRUE
+  if (class(model@model) == "Maxent") {
+    method <- "Maxent"
+    iter <- model@model@iter
+    extra_args <- model@model@extra_args
   } else {
-    test <- FALSE
+    method <- "Maxnet"
+    iter <- NULL
+    extra_args <- NULL
   }
 
   for (i in 1:length(variables)) {
@@ -75,24 +85,18 @@ doJk <- function(model, type = c("cloglog", "logistic", "raw"), metric = c("auc"
     presence@data[variables[i]] <- NULL
     bg@data[variables[i]] <- NULL
 
-    if (test) {
-      test4jk <- model@test
-      test4jk@data[variables[i]] <- NULL
-    } else {
-      test4jk <- NULL
-    }
-
-    jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
-                            test = test4jk, iter = model@iter)
+    jk_model <- train(method = method, presence = presence, bg = bg,
+                      rm = model@model@rm, fc = model@model@fc, iter = iter,
+                      extra_args = extra_args)
 
     if (metric == "auc") {
-      res[i, 2] <- jk_model@results["Training.AUC", ]
-      if (test)
-        res[i, 4] <- jk_model@results["Test.AUC", ]
+      res[i, 2] <- auc(jk_model)
+      if (!is.null(test))
+        res[i, 4] <- auc(jk_model, test)
     } else if (metric == "tss") {
       res[i, 2] <- tss(jk_model)
-      if (test)
-        res[i, 4] <- tss(jk_model, test4jk)
+      if (!is.null(test))
+        res[i, 4] <- tss(jk_model, test)
     } else {
       res[i, 2] <- aicc(jk_model, env, parallel)
     }
@@ -105,25 +109,18 @@ doJk <- function(model, type = c("cloglog", "logistic", "raw"), metric = c("auc"
       presence@data <- presence@data[variables[i]]
       bg@data <- bg@data[variables[i]]
 
-      if (test) {
-        test4jk <- model@test
-        test4jk@data <- model@test@data[variables[i]]
-      } else {
-        test4jk <- NULL
-      }
-
-      jk_model <- trainMaxent(presence, bg, rm = model@rm, fc = model@fc,
-                              test = test4jk,
-                              iter = model@iter)
+      jk_model <- train(method = method, presence = presence, bg = bg,
+                        rm = model@model@rm, fc = model@model@fc, iter = iter,
+                        extra_args = extra_args)
 
       if (metric == "auc") {
-        res[i, 3] <- jk_model@results["Training.AUC", ]
-        if (test)
-          res[i, 5] <- jk_model@results["Test.AUC", ]
+        res[i, 3] <- auc(jk_model)
+        if (!is.null(test))
+          res[i, 5] <- auc(jk_model, test)
       } else if (metric == "tss") {
         res[i, 3] <- tss(jk_model)
-        if (test)
-          res[i, 5] <- tss(jk_model, test4jk)
+        if (!is.null(test))
+          res[i, 5] <- tss(jk_model, test)
       } else {
         res[i, 3] <- aicc(jk_model, env, parallel)
       }

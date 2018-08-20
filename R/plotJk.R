@@ -2,11 +2,12 @@
 #'
 #' Plot the Jackknife Test for variable importance.
 #'
-#' @param jk data.frame with the output of the doJk function.
-#' @param type character, "train" or "test" to plot the train or test AUC values.
-#' @param ref numeric. The value of the chosen metric for the model trained using
-#' all the variables. If provided it plots a vertical line showing the reference
-#' value. Default is NULL.
+#' @param jk data.frame with the output of the **doJk** function.
+#' @param type character, "train" or "test" to plot the result of the test on
+#' the train or test dataset.
+#' @param ref numeric. The value of the chosen metric for the model trained
+#' using all the variables. If provided it plots a vertical line showing the
+#' reference value. Default is NULL.
 #'
 #' @return The ggplot object.
 #' @export
@@ -14,7 +15,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' plotJk(jk_test, type = "train", ref = 0.955)}
+#' plotJk(jk_test, type = "train", ref = auc(my_model))}
 #'
 #' @author Sergio Vignali
 plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
@@ -35,9 +36,12 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
     y_label <- "AICc"
   }
 
-  if (type == "test" & metric != "aicc" & !grepl("Test", paste(colnames(jk),
-                                                               collapse = "")))
-    stop("Jackknife data frame doesn't have Test columns")
+  if (type == "test") {
+    if (metric == "aicc")
+      stop("Test mode is not available with aicc!")
+    if (!grepl("Test", paste(colnames(jk), collapse = "")))
+      stop("Jackknife data frame doesn't have Test column!")
+  }
 
   if (metric != "aicc") {
     if (type == "train") {

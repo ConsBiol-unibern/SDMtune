@@ -21,6 +21,8 @@ the model.}
 
 \item{\code{iter}}{numeric. The number of iterations used to train the model.}
 
+\item{\code{extra_args}}{character. Extra arguments used to run MaxEnt.}
+
 \item{\code{lambdas}}{vector. The lambdas parameters of the model.}
 
 \item{\code{coeff}}{data.frame. The lambda coefficients of the model.}

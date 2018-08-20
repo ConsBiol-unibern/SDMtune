@@ -13,7 +13,7 @@
 #' combinations of "l", "q", "p", "h" and "t".
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm,
 #' default is 500.
-#' @param extra_args vector. Extra arguments used to run MaxEnt, defalt is
+#' @param extra_args vector. Extra arguments used to run MaxEnt, default is
 #' c("noaddsamplestobackground", "removeduplicates=false").
 #'
 #'
@@ -58,8 +58,9 @@ trainMaxent <- function(presence, bg, rm, fc, iter = 500,
   f <- .formulaFromLambdas(l$lambdas)
 
   model_object <- Maxent(results = dismo_model@results, rm = rm, fc = fc,
-                         iter = iter, lambdas = dismo_model@lambdas,
-                         coeff = l$lambdas, formula = f, lpn = l$lpn, dn = l$dn,
+                         iter = iter, extra_args = extra_args,
+                         lambdas = dismo_model@lambdas, coeff = l$lambdas,
+                         formula = f, lpn = l$lpn, dn = l$dn,
                          entropy = l$entropy, min_max = l$min_max)
 
   result@model <- model_object

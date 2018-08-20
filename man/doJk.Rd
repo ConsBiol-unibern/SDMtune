@@ -4,42 +4,45 @@
 \alias{doJk}
 \title{Jackknife Test}
 \usage{
-doJk(model, type = c("cloglog", "logistic", "raw"), metric = c("auc", "tss",
-  "aicc"), variables = NULL, with_only = TRUE, env = NULL,
-  parallel = FALSE, return_models = FALSE)
+doJk(model, metric = c("auc", "tss", "aicc"), variables = NULL,
+  test = NULL, with_only = TRUE, env = NULL, parallel = FALSE,
+  return_models = FALSE)
 }
 \arguments{
 \item{model}{SDMmodel object.}
 
-\item{type}{character MaxEnt output type, possible values are "cloglog",
-"logistic" and "raw", default is "cloglog".}
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{metric}{character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".}
+\item{variables}{vector. Variables used for the test, if not provided it
+takes all the variables used to train the model, default is NULL.}
 
-\item{variables}{vector. Variables used for the test, if not provided it takes all the variables
-used to train the model, default is NULL.}
+\item{test}{SWD. If provided it reports the result also for the test dataset.
+Not used for \strong{aicc}.}
 
-\item{with_only}{logical. If TRUE it runs the test also for each variable in isolation, default is TRUE.}
+\item{with_only}{logical. If TRUE it runs the test also for each variable in
+isolation, default is TRUE.}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables,
-used only with "aicc", default is NULL.}
+\item{env}{\link{stack} or \link{brick} containing the environmental
+variables, used only with "aicc", default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.}
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.}
 
-\item{return_models}{logical, If TRUE returns all the models together with the test result, default is FALSE.}
+\item{return_models}{logical, If TRUE returns all the models together with
+the test result, default is FALSE.}
 }
 \value{
-A data frame with the test results. If \strong{return_model = TRUE} it returns a list with
-the data frame together with the models.
+A data frame with the test results. If \strong{return_model = TRUE} it
+returns a list containing the test results together with the models.
 }
 \description{
-Run the Jackknife test for variable importance removing one variable at time and returns the train AUC.
-If the model has a test dataset, it returns also the test AUC.
+Run the Jackknife test for variable importance removing one variable at time.
 }
 \details{
-You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
+You need package \pkg{snow} to use parallel computation. Parallel
+computation increases the speed only for big datasets due to the time
+necessary to create the cluster.
 }
 \examples{
 \dontrun{

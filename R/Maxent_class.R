@@ -8,6 +8,7 @@
 #' the model.
 #' @slot fc character. The feature class combination used to train the model.
 #' @slot iter numeric. The number of iterations used to train the model.
+#' @slot extra_args character. Extra arguments used to run MaxEnt.
 #' @slot lambdas vector. The lambdas parameters of the model.
 #' @slot coeff data.frame. The lambda coefficients of the model.
 #' @slot formula formula. The formula used to make prediction.
@@ -32,6 +33,7 @@ Maxent <- setClass("Maxent",
                      rm = "numeric",
                      fc = "character",
                      iter = "numeric",
+                     extra_args = "character",
                      lambdas = "vector",
                      coeff = "data.frame",
                      formula = "formula",
