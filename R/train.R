@@ -10,7 +10,7 @@
 #' combinations of "l", "q", "p", "h" and "t".
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm,
 #' default is 500, used only for "Maxent" method.
-#' @param extra_args vector. Extra arguments used to run MaxEnt, defalt is
+#' @param extra_args vector. Extra arguments used to run MaxEnt, default is
 #' c("noaddsamplestobackground", "removeduplicates=false"), used only for
 #' "Maxent" method.#'
 #'

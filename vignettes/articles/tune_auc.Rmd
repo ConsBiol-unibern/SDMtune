@@ -285,13 +285,13 @@ The red dashed vertical line represents the AUC value of the model trained using
 The function `plotResponse` plots the response curve of the given environmental variable:
 
 ```{r bio12, fig.align="center"}
-plotResponse(base_model, variable = 'bio1', marginal = T, fun = mean, rug = T, clamp = T)
+plotResponse(base_model, var = 'bio1', type = "cloglog", marginal = T, fun = mean, rug = T, clamp = T)
 ```
 
-**bio1** is a continuous variable, **biome** is categorical (in the next graph we plot the univariate response curve):
+**bio1** is a continuous variable, **biome** is categorical (in the next graph we plot the univariate response curve of the **logistic** output nstead of the  **cloglog** output):
 
 ```{r biome, fig.align="center"}
-plotResponse(base_model, variable = 'biome', marginal = F, color = '#159957', clamp = T)
+plotResponse(base_model, var = 'biome', type = "logistic", marginal = F, color = '#159957', clamp = T)
 ```
 
 `color` allows to change the **color** of the plot and `marginal` to plot the marginal response curve.

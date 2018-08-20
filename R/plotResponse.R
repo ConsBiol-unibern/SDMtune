@@ -77,14 +77,19 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   if (!marginal) {
     train@data <- model@presence@data[var]
     bg@data <- model@background@data[var]
-    if (class(model) == "Maxent") {
-      model <- trainMaxent(train, bg, rm = model@model@rm, fc = model@model@fc,
-                         iter = model@model@iter)
-      train <- model@presence
-      bg <- model@background
+    method <- class(model@model)
+
+    if (method == "Maxent") {
+      iter <- model@model@iter
+      extra_args <- model@model@extra_args
     } else {
-      model <- trainMaxnet(train, bg, rm = model@model@rm, fc = model@model@fc)
+      iter <- NULL
+      extra_args <- NULL
     }
+
+    model <- train(method = method, presence = train, bg = bg,
+                   rm = model@model@rm, fc = model@model@fc, iter = iter,
+                   extra_args = extra_args)
   }
 
   pred <- predict(model, data, type = type, clamp = clamp)

@@ -57,6 +57,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
 
   metric <- match.arg(metric)
   models_without <- models_withonly <- c()
+  method <- class(model@model)
 
   res <- matrix(nrow = length(variables), ncol = 5)
   if (metric == "auc") {
@@ -69,12 +70,10 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     labels <- c("Variable", "AICc_without", "AICc_withonly", "-", "-")
   }
 
-  if (class(model@model) == "Maxent") {
-    method <- "Maxent"
+  if (method == "Maxent") {
     iter <- model@model@iter
     extra_args <- model@model@extra_args
   } else {
-    method <- "Maxnet"
     iter <- NULL
     extra_args <- NULL
   }
