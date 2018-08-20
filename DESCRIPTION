@@ -68,6 +68,7 @@ Collate:
     'reduceVar.R'
     'swd2csv.R'
     'thinData.R'
+    'thresholds.R'
     'train.R'
     'trainMaxent.R'
     'trainMaxnet.R'

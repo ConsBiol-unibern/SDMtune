@@ -346,16 +346,16 @@ maxentTh(base_model)
 For example we use the **Maximum training sensitivity plus specificity Cloglog threshold** as parameter for the `plotPA` function:
 
 ```{r plot presence absence, eval=F}
-plotPA(prediction, th = 0.0476, filename = 'pa_map', overwrite = TRUE, format = 'GTiff')
+plotPA(prediction, th = 0.1169, filename = 'pa_map', overwrite = TRUE, format = 'GTiff')
 ```
 ```{r, fig.align="center", echo=F}
-plotPA(prediction, th = 0.0476)
+plotPA(prediction, th = 0.1169)
 ```
 
 or we can customise the colors using:
 
 ```{r plot presence absence colors, fig.align="center"}
-plotPA(prediction, th = 0.0476, colors = c("#7fbf7b", "#af8dc3"))
+plotPA(prediction, th = 0.1169, colors = c("#7fbf7b", "#af8dc3"))
 ```
 
 # Data Driven Variable Selection
