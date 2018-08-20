@@ -4,8 +4,7 @@
 \alias{trainMaxent}
 \title{Train Maxent model}
 \usage{
-trainMaxent(presence, bg, rm, fc, test = NULL, iter = 500,
-  extra_args = NULL, folder = NULL)
+trainMaxent(presence, bg, rm, fc, iter = 500, extra_args = NULL)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -17,18 +16,11 @@ trainMaxent(presence, bg, rm, fc, test = NULL, iter = 500,
 \item{fc}{vector. The value of the feature combination, possible values are
 combinations of "l", "q", "p", "h" and "t".}
 
-\item{test}{SWD object with the test locations, default is NULL.}
-
 \item{iter}{numeric. Number of iterations used by the Maxent alghoritm,
 default is 500.}
 
 \item{extra_args}{vector. Extra arguments used to run MaxEnt, e.g.
-"removeduplicates=false", default
-is NULL.}
-
-\item{folder}{character. The folder name where to save the MaxEnt output,
-default is NULL meaning that is not saved. The folder is created in the
-working directory.}
+"removeduplicates=false", default is NULL.}
 }
 \value{
 The output of MaxEnt as Maxent object.
