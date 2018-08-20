@@ -4,33 +4,38 @@
 \alias{tuneFC}
 \title{Tune Feature Combination}
 \usage{
-tuneFC(model, fcs, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE)
+tuneFC(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
+  env = NULL, parallel = FALSE)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
-\item{fcs}{vector. A list of Feature Classes combination to be tested.}
+\item{fcs}{vector with all the Feature Classes combination to be tested.}
 
-\item{metric}{character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".}
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables,
-used only with "aicc", default is NULL.}
+\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc,
+default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
+\item{env}{\link{stack} or \link{brick} containing the environmental
+variables, used only with "aicc", default is NULL.}
+
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.}
 }
 \value{
 A \link{SDMtune} object.
 }
 \description{
-The function iterates among different Feature Classes combinations and for each of them
-performs a run a MaxEnt model using the given regularization multiplier.
+The function iterates among different Feature Classes combinations and for
+each of them performs trains a different MaxEnt model.
 }
 \details{
-You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-to save the prediction in a raster file. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
+You need package \pkg{snow} to use parallel computation and
+\pkg{rgdal} to save the prediction in a raster file. Parallel computation
+increases the speed only for big datasets due to the time necessary to create
+the cluster.
 }
 \examples{
 \dontrun{

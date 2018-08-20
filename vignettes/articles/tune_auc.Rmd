@@ -375,13 +375,13 @@ Using the parameter `cor_th` the function prints only the values whose absolute 
 corVar(bg, method = "spearman", cor_th = 0.75)
 ```
 
-One possible approach to remove highly correlated variables is to choose a subset of variables based on expert knowledge of the target species. If you don't know which variable to retain, you can use some kind of data-driven variable selection. The function `varSel` iterates through several steps: starting from a trained model it checks if the variable ranked as most important (both variable importance ranks are possible: percent contribution and permutation importance) is highly correlated with other variables according to the given method and correlation threshold. In this case it performs a Jaccknife test and among the correlated variables it discards the one that decreases the less the model performance. After it trains another model without the removed variable and checks again for highly correlated variables. The process is repeated until the retained variables are not highly correlated anymore. We suggest to use a very low regularization parameter to perform variable selection, in this case we use 0.001 (see Vignali et al. we add here the publication)
+One possible approach to remove highly correlated variables is to choose a subset of variables based on expert knowledge of the target species. If you don't know which variable to retain, you can use some kind of data-driven variable selection. The function `varSel` iterates through several steps: starting from a trained model it checks if the variable ranked as most important (both variable importance ranks are possible: percent contribution and permutation importance) is highly correlated with other variables according to the given method and correlation threshold. In this case it performs a Jaccknife test and among the correlated variables it discards the one that decreases the less the model performance. After it trains another model without the removed variable and checks again for highly correlated variables. The process is repeated until the retained variables are not highly correlated anymore. We suggest to use a very low regularization parameter to perform variable selection, in this case we use 0.001 (see Vignali et al. we add here the publication):
 
 ```{r variable selection, message=F}
 selected_var_model <- varSel(base_model, bg4cor =  bg, metric = "auc", rm = 0.001, method = "spearman", cor_th = 0.75, permut = 2)
 ```
 
-The function returns the model trained without the correlated variables, if we print the object we see that the function removed **bio6**, **bio7**, **bio8** and **bio16**:
+Note that we used **permut = 2** only to reduce the compuation time but you can increment it to have a better estimate of the permutation importance. The function returns the model trained without the correlated variables, if we print the object we see that the function removed **bio6**, **bio7**, **bio8** and **bio16**:
 
 ```{r}
 selected_var_model
@@ -403,7 +403,7 @@ plotROC(selected_var_model, val = val)
 We can test the effect of different feature combinations on model performance using the function `tuneFC`:
 
 ```{r, message=F}
-tune_fc <- tuneFC(selected_var_model, fcs = c("l", "lq", "lqp", "lqh", "lqph", "lqpht"), metric = "auc")
+tune_fc <- tuneFC(selected_var_model, fcs = c("l", "lq", "lqp", "lqh", "lqph", "lqpht"), metric = "auc", test = val)
 ```
 
 We can display the results with:
@@ -431,7 +431,7 @@ tuned_fc <- tune_fc@models[[5]]
 The model we trained before used 5000 background locations. To test the effect of using different number of background locations on the model performance we can run the function `tuneBg`. We have a maximum of `r nrow(bg@data)` locations in the `bg` object, in the next example we train a sequence of models using `r c(seq(3000, 9000, 1000), nrow(bg@data))`:
 
 ```{r, message=F}
-tune_bg <- tuneBg(tuned_fc, bg4test = bg, bgs = c(seq(1000, 9000, 1000), nrow(bg@data)), metric = "auc", seed = 25)
+tune_bg <- tuneBg(tuned_fc, bg4test = bg, bgs = c(seq(1000, 9000, 1000), nrow(bg@data)), metric = "auc", test = val, seed = 25)
 ```
 
 Output:
@@ -458,7 +458,7 @@ tuned_bg <- tune_bg@models[[10]]
 In the next step we tune the `regularization multiplier`. The default regularization multiplier used by MaxEnt is 1, but is not always the best choice. In the next example we test a sequence of regularization multipliers starting from 0.1 till 2.0 with increments of 0.1:
 
 ```{r tune rm, message=F}
-tune_rm <- tuneRM(tuned_bg, rms = seq(0.1, 2, 0.1), metric = "auc")
+tune_rm <- tuneRM(tuned_bg, rms = seq(0.1, 2, 0.1), metric = "auc", test = val)
 ```
 
 Output:
@@ -474,73 +474,45 @@ plot_ly(tune_rm@results) %>%
   layout(xaxis = list(title = "Regularization multiplier"), yaxis = list(title = "AUC"), title = "Model performance", legend = list(orientation = 'h'))
 ```
 
-The model with the highest validation AUC uses a `regularization multiplier` equal to 0.5 but at rm = 0.9 we have a lower differece between train and validation AUC with an irrelevant decrease of validation AUC, we select this model from the models slot and use it to tune the number of iterations.
+The model with the highest validation AUC uses a `regularization multiplier` equal to 0.5 but at rm = 0.9 we have a lower differece between train and validation AUC with an irrelevant decrease of validation AUC, we select this model from the models slot.
 
 ```{r}
 tuned_rm <- tune_rm@models[[9]]
 ```
 
-## Tune number of iterations:
-
-The default number of iterations used by the optimization algorithm in MaxEnt is 500. This value is in general good but can be tuned like other hyperparameters. We test a sequence iterations starting from 400 till 2300 with increments of 100:
-
-```{r tune it, message=F}
-tune_it <- tuneIt(tuned_rm, its = seq(400, 1100, 50), metric = "auc")
-```
-
-Output:
-
-```{r}
-tune_it@results
-```
-
-```{r, fig.align="center"}
-plot_ly(tune_it@results) %>%
-  add_trace(x = ~it, y = ~train_AUC, type = "scatter", mode = "lines+markers", name = "Train AUC", marker = list(color = "#00BFC4")) %>%
-  add_trace(x = ~it, y = ~test_AUC, type = "scatter", mode = "lines+markers", name = "Val AUC", marker = list(color = "#F8766D")) %>%
-  layout(xaxis = list(title = "Number of iterations"), yaxis = list(title = "AUC"), title = "Model performance", legend = list(orientation = 'h'))
-  
-```
-
-The AUC changes varying the number of iterations in both Train and Validation datasets. In this case there are not much differences with the default value of 500 iterations (this is not always the case) but using 1050 iterations we obtain a lower difference between Train and Validation AUC, we select this model from the models slot:
-
-```{r}
-tuned_it <- tune_it@models[[which.min(tune_it@results$diff_AUC)]]
-```
-
 ## Remove less important variables
 
-Let's say that we would like to remove variables with a contribution (permutation or percent) lower than a given threshold. We could simply remove them in a stepwise fashion untill the variable with the lower contribution contributes more than the given threshold or we could remove the variable only if the model performace doesn't decrease. The function `reduceVar` performs both approaches, in the next example we demonstrate the second approach.
+Let's say that we would like to remove variables with a contribution (permutation importance) lower than a given threshold. We could simply remove them in a stepwise fashion untill the variable with the lower contribution contributes more than the given threshold or we could remove the variable only if the model performace doesn't decrease. The function `reduceVar` performs both approaches, in the next example we demonstrate the second approach.
 
 We print the variable contribution:
 
 ```{r}
-varImp(tuned_it)
+varImp(tuned_rm, permut = 2)
 ```
 
-We decide we want to remove the variables with a permutation importance lower than 3\% but we do it only if the model performance doesn't decrease and we use the **AUC** of the Validation dataset to measure the model performance:
+We decide we want to remove the variables with a permutation importance lower than 5\% but we do it only if the model performance doesn't decrease and we use the **AUC** of the Validation dataset to measure the model performance:
 
 ```{r}
-tuned_model <- reduceVar(tuned_it, th = 3, metric = "auc", use_jk = T)
+tuned_model <- reduceVar(tuned_rm, th = 5, metric = "auc", test = val, use_jk = T, permut = 2)
 ```
 
 We print again the variable contribution:
 
 ```{r}
-varImp(tuned_model)
+varImp(tuned_model, permut = 2)
 ```
 
-but **bio17** was not removed because the model without bio17 has lower performance than the one with. We can demonstrate it removing the variable and comparing the **AUC** values on the Validation dataset:
+but **bio17** and **bio12** were not removed because the model without **bio17** has lower performance than the one with. We can demonstrate it removing the variable and comparing the **AUC** values on the Validation dataset:
 
 ```{r}
-model_without_bio17 <- reduceVar(tuned_it, th = 3)
-varImp(model_without_bio17)
+model_without_bio17 <- reduceVar(tuned_rm, th = 4.5, permut = 2)
+varImp(model_without_bio17, permut = 2)
 ```
 
 Compare AUC:
 
 ```{r}
-cat("Validation AUC with bio17   : ", auc(tuned_it, val),
+cat("Validation AUC with bio17   : ", auc(tuned_model, val),
     "\nValidation AUC without bio17: ", auc(model_without_bio17, val))
 ```
 
@@ -553,10 +525,14 @@ We can see the final setting of the tuned model printing the model object:
 tuned_model
 ```
 
-All the functions of the tuning family don't save the MaxEnt ouput but we could save it using the `trainMaxent` function and setting all the hyperparameter values according with the previous output. The `maxentOutput` function makes this step easier, we just have to pass the model and it will set the hyperparameters for us. In addition there are other parameters to add the response curves and the Jackknife test to the html output:
+```{r}
+tuned_model@model
+```
+
+All the previous functions don't save the model ouput but we could save it using the `maxentOutput`. The function makes this step easy, we just have to pass the model and it will set the hyperparameters for us. In addition there are other parameters to add the response curves and the Jackknife test to the html output:
 
 ```{r, eval=F}
-modelOutput(tuned_model, response_curves = T, jk = T, threads = 4, folder = "final_output")
+modelOutput(tuned_model, type = "cloglog", test = val, response_curves = T, jk = T, threads = 4, folder = "final_output")
 ```
 
 At the end of the tuning process is time to use the **Test** dataset to have an unbiased estimate of the model performance. We use the `plotROC` function for that:

@@ -4,26 +4,33 @@
 \alias{tuneBg}
 \title{Tune number of Background locations}
 \usage{
-tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE, seed = NULL)
+tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"), test = NULL,
+  env = NULL, parallel = FALSE, seed = NULL)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
-\item{bg4test}{SWD. The dataset with the maximum number of background locations to be tested given as MaxentSWD object.}
+\item{bg4test}{SWD. The dataset with the maximum number of background
+locations to be tested given as MaxentSWD object.}
 
-\item{bgs}{vector. A sequence of number of background locations to test. The maximum number must be lower thatn the maximum number of
-background locations in bg4test. Default is the maximum number of background locations in bg4test.}
+\item{bgs}{vector. A sequence of number of background locations to test. The
+maximum number must be lower than the maximum number of background locations
+in bg4test.}
 
-\item{metric}{character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc"}
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables,
-used only with "aicc", default is NULL.}
+\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc,
+default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
+\item{env}{\link{stack} or \link{brick} containing the environmental
+variables, used only with "aicc", default is NULL.}
 
-\item{seed}{integer. The value used to set the seed in order to have consistent results, default is NULL.}
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.}
+
+\item{seed}{integer. The value used to set the seed in order to have
+consistent results, default is NULL.}
 }
 \value{
 A \link{SDMtune} object.
@@ -32,13 +39,15 @@ A \link{SDMtune} object.
 Test different sizes of background locations.
 }
 \details{
-You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-to save the prediction in a raster file. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
+You need package \pkg{snow} to use parallel computation and
+\pkg{rgdal} to save the prediction in a raster file. Parallel computation
+increases the speed only for big datasets due to the time necessary to create
+the cluster.
 }
 \examples{
 \dontrun{
-bg_test <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000), metric = "auc", seed = 25)}
+bg_test <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000),
+metric = "auc", test = test, seed = 25)}
 
 }
 \seealso{

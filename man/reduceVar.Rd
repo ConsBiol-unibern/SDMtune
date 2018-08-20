@@ -4,28 +4,32 @@
 \alias{reduceVar}
 \title{Reduce Variables}
 \usage{
-reduceVar(model, th = 2, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE, use_percent = FALSE, use_jk = FALSE)
+reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
+  env = NULL, parallel = FALSE, use_jk = FALSE, permut = 10)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
-\item{th}{numeric. The contribtion threshold used to remove variables, default is 2.}
+\item{th}{numeric. The contribution threshold used to remove variables.}
 
-\item{metric}{character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", used only if use_jk is TRUE, default is "auc".}
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", used only if use_jk is TRUE, default is
+"auc".}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables,
-used only with "aicc", default is NULL.}
+\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc,
+and if use_jk = FALSE, default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.
-Used only with AICc.}
+\item{env}{\link{stack} or \link{brick} containing the environmental
+variables, used only with "aicc", default is NULL.}
 
-\item{use_percent}{logical, if TRUE it uses the percent contribution instead of the
-permutation importance.}
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.}
 
-\item{use_jk}{Flag to use the Jackknife AUC test during the variable selection,
-if FALSE the function uses the percent variable contribution, default is FALSE.}
+\item{use_jk}{Flag to use the Jackknife AUC test during the variable
+selection, if FALSE the function uses the percent variable contribution,
+default is FALSE.}
+
+\item{permut}{integer. Number of permutations, default is 10.}
 }
 \value{
 The model trained using the selected variables.
@@ -34,9 +38,10 @@ The model trained using the selected variables.
 Remove variables whose contribution (permutation or percent) is less than the
 given threshold. The function removes one variable at time and after trains a
 new model to get the new variable contribution rank. If use_jk is TRUE the
-function checks if after removing the variable the model performance decreases
-(according to the given metric). In this case the function stops removing the
-variable even if the contribution is lower than the given threshold.
+function checks if after removing the variable the model performance
+decreases (according to the given metric). In this case the function stops
+removing the variable even if the contribution is lower than the given
+threshold.
 }
 \examples{
 \dontrun{model <- reduveVar(model = model, th = 2)}

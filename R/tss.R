@@ -19,7 +19,7 @@
 #' prevalence, kappa and the true skill statistic (TSS). Journal of Applied Ecology, 43(6), 1223–1232.
 tss <- function(model, test = NULL) {
 
-  cm <- confMatrix(model, test)
+  cm <- confMatrix(model, test = test)
   tpr <- cm$tp / (cm$tp + cm$fn)
   tnr <- cm$tn / (cm$fp + cm$tn)
   tss <- tpr + tnr - 1

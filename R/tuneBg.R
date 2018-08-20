@@ -2,20 +2,27 @@
 #'
 #' Test different sizes of background locations.
 #'
-#' @param model Maxent object.
-#' @param bg4test SWD. The dataset with the maximum number of background locations to be tested given as MaxentSWD object.
-#' @param bgs vector. A sequence of number of background locations to test. The maximum number must be lower thatn the maximum number of
-#' background locations in bg4test. Default is the maximum number of background locations in bg4test.
-#' @param metric character. The metric used to evaluate the models, possible values are:
-#' "auc", "tss" and "aicc", default is "auc"
-#' @param env \link{stack} or \link{brick} containing the environmental variables,
-#' used only with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is FALSE.
-#' @param seed integer. The value used to set the seed in order to have consistent results, default is NULL.
+#' @param model SDMmodel object.
+#' @param bg4test SWD. The dataset with the maximum number of background
+#' locations to be tested given as MaxentSWD object.
+#' @param bgs vector. A sequence of number of background locations to test. The
+#' maximum number must be lower than the maximum number of background locations
+#' in bg4test.
+#' @param metric character. The metric used to evaluate the models, possible
+#' values are: "auc", "tss" and "aicc", default is "auc".
+#' @param test SWD. Test dataset used to evaluate the model, not used with aicc,
+#' default is NULL.
+#' @param env \link{stack} or \link{brick} containing the environmental
+#' variables, used only with "aicc", default is NULL.
+#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' FALSE. Used only with AICc.
+#' @param seed integer. The value used to set the seed in order to have
+#' consistent results, default is NULL.
 #'
-#' @details You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-#' to save the prediction in a raster file. Parallel computation increases the speed
-#' only for big datasets due to the time necessary to create the cluster.
+#' @details You need package \pkg{snow} to use parallel computation and
+#' \pkg{rgdal} to save the prediction in a raster file. Parallel computation
+#' increases the speed only for big datasets due to the time necessary to create
+#' the cluster.
 #'
 #' @family tuning functions
 #'
@@ -25,28 +32,41 @@
 #'
 #' @examples
 #' \dontrun{
-#' bg_test <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000), metric = "auc", seed = 25)}
+#' bg_test <- tuneBg(model, bg4test,bgs = seq(5000, 30000, 5000),
+#' metric = "auc", test = test, seed = 25)}
 #'
 #' @author Sergio Vignali
 tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
-                   env = NULL, parallel = FALSE, seed = NULL) {
+                   test = NULL, env = NULL, parallel = FALSE, seed = NULL) {
+
+  metric <- match.arg(metric)
 
   if (max(bgs) > nrow(bg4test@data))
-    stop(paste("Maximum number of bgs cannot be more than!", nrow(bg4test@data)))
+    stop(paste("Maximum number of bgs cannot be more than!",
+               nrow(bg4test@data)))
 
-  if (nrow(model@test@data) == 0 & metric != "aicc")
-    stop("You must first train the model using a test data set!")
+  if (is.null(test) & metric != "aicc")
+    stop("You need to provide a test dataset!")
   if (metric == "aicc" & is.null(env))
     stop("You must provide the env parameter if you want to use AICc metric!")
 
-  if (!is.null(seed)) set.seed(seed)
+  if (!is.null(seed))
+    set.seed(seed)
 
   pb <- progress::progress_bar$new(
     format = "Tune Bg [:bar] :percent in :elapsedfull", total = length(bgs),
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
-  metric <- match.arg(metric)
+  method <- class(model@model)
+
+  if (method == "Maxent") {
+    iter <- model@model@iter
+    extra_args <- model@model@extra_args
+  } else {
+    iter <- NULL
+    extra_args <- NULL
+  }
 
   if (metric == "auc") {
     labels <- c("train_AUC", "test_AUC", "diff_AUC")
@@ -55,7 +75,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   } else {
     labels <- c("AICc", "delta_AICc")
   }
-  labels <- c("it", "bg", "rm", "fc", labels)
+  labels <- c("bg", "rm", "fc", labels)
 
   models <- list()
   res <- matrix(nrow = length(bgs), ncol = length(labels))
@@ -65,12 +85,6 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
 
   folds <- sample(nrow(bg4test@data))
 
-  if (nrow(model@test@data) == 0) {
-    test <- NULL
-  } else {
-    test <- model@test
-  }
-
   for (i in 1:length(bgs)) {
 
     if (bgs[i] == nrow(model@background@data)) {
@@ -78,41 +92,39 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     } else {
       bg <- bg4test
       bg@data <- bg4test@data[folds[1:bgs[i]], ]
-      new_model <- trainMaxent(model@presence, bg, rm = model@rm, fc = model@fc,
-                               test = test, type = model@type,
-                               iter = model@iter)
+      new_model <- train(method = method, model@presence, bg = bg,
+                         rm = model@model@rm, fc = model@model@fc, iter = iter,
+                         extra_args = extra_args)
     }
 
     models <- c(models, new_model)
     if (metric == "auc") {
-      res[i, 5] <- new_model@results["Training.AUC", ]
-      res[i, 6] <- new_model@results["Test.AUC", ]
-      res[i, 7] <- res[i, 5] - res[i, 6]
+      res[i, 4] <- auc(new_model)
+      res[i, 5] <- auc(new_model, test)
     } else if (metric == "tss") {
-      res[i, 5] <- tss(new_model)
-      res[i, 6] <- tss(new_model, new_model@test)
-      res[i, 7] <- res[i, 5] - res[i, 6]
+      res[i, 4] <- tss(new_model)
+      res[i, 5] <- tss(new_model, test)
     } else {
-      res[i, 5] <- aicc(new_model, env, parallel)
+      res[i, 4] <- aicc(new_model, env, parallel)
     }
 
     pb$tick(1)
   }
 
-  res[, 1] <- model@iter
-  res[, 2] <- bgs
-  res[, 3] <- model@rm
+  res[, 1] <- bgs
+  res[, 2] <- model@model@rm
 
   if (metric == "aicc") {
-    res[, 6] <- round(res[, 5] - min(res[, 5]), 4)
+    res[, 5] <- round(res[, 4] - min(res[, 4]), 4)
   } else {
-    res[, 7] <- round(res[, 5] - res[, 6], 4)
+    res[, 6] <- round(res[, 4] - res[, 5], 4)
   }
   res <- as.data.frame(res)
   colnames(res) <- labels
-  res$fc <- model@fc
+  res$fc <- model@model@fc
 
   output <- SDMtune(results = res, models = models)
+  gc()
 
   return(output)
 }

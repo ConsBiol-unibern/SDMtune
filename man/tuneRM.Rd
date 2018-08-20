@@ -4,21 +4,25 @@
 \alias{tuneRM}
 \title{Tune Regularization Multiplier}
 \usage{
-tuneRM(model, rms, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE)
+tuneRM(model, rms, metric = c("auc", "tss", "aicc"), test = NULL,
+  env = NULL, parallel = FALSE)
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
 \item{rms}{vector. A sequence of regularization multipliers to test.}
 
-\item{metric}{character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".}
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables,
-used only with "aicc", default is NULL.}
+\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc,
+default is NULL. Used only with AICc.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
+\item{env}{\link{stack} or \link{brick} containing the environmental
+variables, used only with "aicc", default is NULL.}
+
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE.}
 }
 \value{
 A \link{SDMtune} object.
@@ -28,10 +32,11 @@ Given a sequence of regularization multipliers, the function runs several
 MaxEnt models increasing the regularization multiplier.
 }
 \details{
-You need package \pkg{snow} to use parallel computation and \pkg{rgdal}
-to save the prediction in a raster file. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
-The minimum value of rm allow is 0.001, if lower MaxEnt crasches.
+You need package \pkg{snow} to use parallel computation and
+\pkg{rgdal} to save the prediction in a raster file. Parallel computation
+increases the speed only for big datasets due to the time necessary to create
+the cluster. The minimum value of rm allow is for Maxent models is 0.001, if
+lower MaxEnt crasches; for Maxnet model is 0.1, if lower doesn't converg.
 }
 \examples{
 \dontrun{
