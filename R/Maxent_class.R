@@ -49,9 +49,4 @@ setMethod("show",
             cat("RM                   :", object@rm, "\n")
             cat("FCs                  :", object@fc, "\n")
             cat("Iterations           :", object@iter, "\n")
-
-            html <- list.files(path = object@folder, pattern = ".html",
-                               full.names = TRUE)
-
-            if (!identical(html, character(0))) browseURL(html)
           })

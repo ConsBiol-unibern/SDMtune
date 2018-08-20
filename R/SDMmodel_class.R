@@ -50,4 +50,11 @@ setMethod("show",
             cat("Test data            :", nrow(object@test@data), "\n")
             cat("Continuous variables :", names(Filter(is.numeric, object@presence@data)), "\n")
             cat("Categorical variables:", names(Filter(is.factor, object@presence@data)))
+
+            if (class(model) == "Maxent") {
+              html <- list.files(path = object@model@folder, pattern = ".html",
+                                 full.names = TRUE)
+
+              if (!identical(html, character(0))) browseURL(html)
+            }
           })
