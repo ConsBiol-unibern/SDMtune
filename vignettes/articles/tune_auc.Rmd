@@ -28,6 +28,7 @@ library(plotly)     # For interactive graphs
 library(maps)       # For access useful maps
 library(rasterVis)  # To plot raster objects
 library(gridExtra)  # To plot multiple ggplot object in one page
+library(zeallot)    # For unpacking assignment
 ```
 
 
