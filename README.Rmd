@@ -63,32 +63,45 @@ bg <- prepareSWD(species = "Bradipus variagatus", coords = bg_coords, env = pred
 Train a MaxEnt model:
 
 ```{r train MaxEnt}
-model <- trainMaxent(presence = train, bg = bg, rm = 1, fc = "lqp", type = "cloglog", iter = 500)
+maxent_model <- train(method = "Maxent", presence = train, bg = bg, rm = 1, fc = "lqph")
 ```
 
-Plot variable importance:
+Train a Maxnet model:
 
-```{r plot-var-imp, fig.align="center"}
-plotVarImp(model, type = "permutation", color = "#159957")
+```{r train Maxnet}
+maxnet_model <- train(method = "Maxnet", presence = train, bg = bg, rm = 1, fc = "lqph")
 ```
 
 Plot ROC curve:
 
-```{r plot-ROC-curve, fig.align="center"}
-plotROC(model)
+```{r plot-ROC-curve maxent, fig.align="center"}
+plotROC(maxent_model)
+```
+
+
+```{r plot-ROC-curve maxnet, fig.align="center"}
+plotROC(maxnet_model)
 ```
 
 
 Make prediction:
 
-```{r predict}
-pred <- predict(model, predictors)
+```{r predict maxent}
+maxent_pred <- predict(maxent_model, data = predictors, type = "cloglog")
+```
+
+```{r predict maxnet}
+maxnet_pred <- predict(maxnet_model, data = predictors, type = "cloglog")
 ```
 
 Plot prediction:
 
-```{r plot-prediction, fig.align="center"}
-plotPred(pred, lt = "cloglog output")
+```{r plot-prediction maxent, fig.align="center"}
+plotPred(maxent_pred, lt = "cloglog output")
+```
+
+```{r plot-prediction maxnet, fig.align="center"}
+plotPred(maxnet_pred, lt = "cloglog output")
 ```
 
 # Speed test
@@ -108,7 +121,7 @@ my_check <- function(values) {
 If the results are different for more than `1e-7` the test will fail. The next function converts an object of class `Maxent` into an object of class `MaxEnt` (dismo pkg):
 
 ```{r}
-me_model <- Maxent2MaxEnt(model)
+me_model <- SDMmodel2MaxEnt(maxent_model)
 ```
 
 Run the test with 10 replicates:
@@ -116,7 +129,7 @@ Run the test with 10 replicates:
 ```{r}
 library(microbenchmark)
 res <- microbenchmark("dismo" = pred <- {predict(me_model, predictors)},
-                      "SDMsel" = pred <- {predict(model, predictors)},
+                      "SDMsel" = pred <- {predict(maxent_model, predictors, type = "cloglog")},
                       times = 10,
                       check = my_check)
 ```
@@ -132,4 +145,4 @@ Plot results:
 autoplot(res)
 ```
 
-**SDMsel** is at least twice faster than native Java software and the speed improves much more for large datasets when using parallel computation (i.e. see details in predict function).
+**SDMsel** is at almost three times faster than native Java software and the speed improves much more for large datasets when using parallel computation (i.e. see details in predict function).

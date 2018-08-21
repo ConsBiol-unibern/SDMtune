@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Species Distribution Model selection • SDMsel</title>
+<title>Species Distribution Model Selection • SDMsel</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Species Distribution Model selection">
-<meta property="og:description" content="Provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models).">
+<script src="pkgdown.js"></script><meta property="og:title" content="Species Distribution Model Selection">
+<meta property="og:description" content="Provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models). SDMsel uses its own script to predict MaxEnt models that results to be much faster for large datasets than native prediction made using Java software. This reduce considerably the computation time when tuninig the model using the AICc.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -91,7 +91,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#sdmsel" class="anchor"></a>SDMsel <img src="reference/figures/logo.png" align="right">
 </h1></div>
-<p><strong>SDMsel</strong> (Species Distribution Model selection) provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models). <strong>SDMsel</strong> uses its own script to predict MaxEnt models that results to be much faster for large datasets than native prediction made using Java software. This reduce considerably the computation time when tuninig the model using the <strong>AICc</strong>.</p>
+<p><strong>SDMsel</strong> (Species Distribution Model selection) provides a framework that facilitates users in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements MaxEnt and Maxnet models). <strong>SDMsel</strong> uses its own script to predict MaxEnt models that results to be much faster for large datasets than native prediction made using Java software. This reduce considerably the computation time when tuninig the model using the <strong>AICc</strong>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -105,7 +105,6 @@
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Load required packages:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SDMsel)
-<span class="co">#&gt; Loading required package: zeallot</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="co">#&gt;  ________________________________________</span>
 <span class="co">#&gt; |   ____   ____   __  __             _   |</span>
@@ -133,19 +132,23 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.
 <span class="co">#&gt; Extracting environmental condition for Bradipus variagatus...</span>
 <span class="co">#&gt; Warning: 5 locations are NA for some environmental variables, they will be discard!</span></code></pre></div>
 <p>Train a MaxEnt model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw"><a href="reference/trainMaxent.html">trainMaxent</a></span>(<span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">rm =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqp"</span>, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">iter =</span> <span class="dv">500</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxent_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">rm =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqph"</span>)
 <span class="co">#&gt; Loading required namespace: rJava</span></code></pre></div>
-<p>Plot variable importance:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotVarImp.html">plotVarImp</a></span>(model, <span class="dt">type =</span> <span class="st">"permutation"</span>, <span class="dt">color =</span> <span class="st">"#159957"</span>)</code></pre></div>
-<p><img src="reference/figures/README-plot-var-imp-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>Train a Maxnet model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">rm =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqph"</span>)</code></pre></div>
 <p>Plot ROC curve:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(model)</code></pre></div>
-<p><img src="reference/figures/README-plot-ROC-curve-1.png" width="700" style="display: block; margin: auto;"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(maxent_model)</code></pre></div>
+<p><img src="reference/figures/README-plot-ROC-curve%20maxent-1.png" width="700" style="display: block; margin: auto;"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(maxnet_model)</code></pre></div>
+<p><img src="reference/figures/README-plot-ROC-curve%20maxnet-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Make prediction:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">predict</span>(model, predictors)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxent_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(maxent_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxnet_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(maxnet_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</code></pre></div>
 <p>Plot prediction:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(pred, <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
-<p><img src="reference/figures/README-plot-prediction-1.png" width="700" style="display: block; margin: auto;"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(maxent_pred, <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
+<p><img src="reference/figures/README-plot-prediction%20maxent-1.png" width="700" style="display: block; margin: auto;"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(maxnet_pred, <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
+<p><img src="reference/figures/README-plot-prediction%20maxnet-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div id="speed-test" class="section level1">
@@ -159,24 +162,24 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.
   max_error <span class="op">&lt;</span><span class="st"> </span>error
 }</code></pre></div>
 <p>If the results are different for more than <code>1e-7</code> the test will fail. The next function converts an object of class <code>Maxent</code> into an object of class <code>MaxEnt</code> (dismo pkg):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/Maxent2MaxEnt.html">Maxent2MaxEnt</a></span>(model)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span>(maxent_model)</code></pre></div>
 <p>Run the test with 10 replicates:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(microbenchmark)
 res &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="st">"dismo"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw">predict</span>(me_model, predictors)},
-                      <span class="st">"SDMsel"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw">predict</span>(model, predictors)},
+                      <span class="st">"SDMsel"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw">predict</span>(maxent_model, predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)},
                       <span class="dt">times =</span> <span class="dv">10</span>,
                       <span class="dt">check =</span> my_check)</code></pre></div>
 <p>Print results:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;    expr      min       lq     mean   median       uq      max neval</span>
-<span class="co">#&gt;   dismo 491.6890 550.1245 580.2259 581.7273 627.0316 645.1758    10</span>
-<span class="co">#&gt;  SDMsel 158.9714 205.7170 241.4000 232.3237 241.4249 435.9126    10</span></code></pre></div>
+<span class="co">#&gt;   dismo 645.3720 746.9058 760.6923 779.2516 787.1466 789.6014    10</span>
+<span class="co">#&gt;  SDMsel 254.0611 260.0966 266.8722 268.4914 271.5640 281.6170    10</span></code></pre></div>
 <p>Plot results:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">autoplot</span>(res)
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"></p>
-<p><strong>SDMsel</strong> is at least twice faster than native Java software and the speed improves much more for large datasets when using parallel computation (i.e. see details in predict function).</p>
+<p><strong>SDMsel</strong> is at almost three times faster than native Java software and the speed improves much more for large datasets when using parallel computation (i.e. see details in predict function).</p>
 </div>
   </div>
 
