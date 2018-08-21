@@ -17,12 +17,12 @@ options(knitr.table.format = "html")
 Import `SDMsel`:
 ```{r import}
 options(java.parameters = "-Xmx2g" )
-library(SDMsel)
 ```
 
 Load packages used in the vignette:
 
 ```{r, message=F}
+library(SDMsel)
 library(dismo)      # To download data used in the vignette
 library(plotly)     # For interactive graphs
 library(maps)       # For access useful maps
@@ -219,7 +219,7 @@ ggplot(map_data('world'), aes(long, lat)) +
 
 We use the `train` function to train the model. The `method` parameter is used to set which type of model we want to train, in our case a **Maxent** (note that `rm = 1`, `fc = "lqph"` and `iter= 500` are the default settings of MaxEnt software v. 1.4.1 when you have at least 80 presence locations):
 
-```{r run MaxEnt, eval=F}
+```{r run MaxEnt}
 base_model <- train(method = "Maxent", presence = train, bg = bg_model, rm = 1, fc = "lqph", iter = 500)
 ```
 
