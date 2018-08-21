@@ -128,7 +128,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>plotResponse</span>(<span class='no'>model</span>, <span class='no'>variable</span>, <span class='kw'>marginal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>plotResponse</span>(<span class='no'>model</span>, <span class='no'>var</span>, <span class='no'>type</span>, <span class='kw'>marginal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>rug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -139,17 +139,23 @@
       <td><p>Maxent object.</p></td>
     </tr>
     <tr>
-      <th>variable</th>
+      <th>var</th>
       <td><p>character. Name of the variable to be plotted.</p></td>
     </tr>
     <tr>
+      <th>type</th>
+      <td><p>character. Output type, see <a href='predict-Maxent-method.html'>predict,Maxent-method</a> for
+Maxent models or predict.maxnet for Maxnet models.</p></td>
+    </tr>
+    <tr>
       <th>marginal</th>
-      <td><p>logical, if TRUE it plots the marginal response courve, default is FALSE.</p></td>
+      <td><p>logical, if TRUE it plots the marginal response courve,
+default is FALSE.</p></td>
     </tr>
     <tr>
       <th>fun</th>
-      <td><p>function used to compute the level of the other variables for marginal curves,
-possible values are mean and median, default is mean.</p></td>
+      <td><p>function used to compute the level of the other variables for
+marginal curves, possible values are mean and median, default is mean.</p></td>
     </tr>
     <tr>
       <th>clamp</th>
@@ -157,8 +163,9 @@ possible values are mean and median, default is mean.</p></td>
     </tr>
     <tr>
       <th>rug</th>
-      <td><p>logical, if TRUE it adds the rug plot for presence and background locations locations,
-available only for continuous variables, default is FALSE.</p></td>
+      <td><p>logical, if TRUE it adds the rug plot for presence and background
+locations locations, available only for continuous variables, default is
+FALSE.</p></td>
     </tr>
     <tr>
       <th>color</th>
@@ -172,12 +179,13 @@ available only for continuous variables, default is FALSE.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that fun is not a character parameter, you must use mean and not "mean".</p>
+    <p>Note that fun is not a character parameter, you must use mean and
+not "mean".</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>plotResponse</span>(<span class='no'>model</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"bio12"</span>, <span class='kw'>marginal</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>median</span>, <span class='kw'>rug</span> <span class='kw'>=</span> <span class='no'>T</span>)
+<span class='fu'>plotResponse</span>(<span class='no'>model</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"bio12"</span>, <span class='kw'>marginal</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>median</span>, <span class='kw'>rug</span> <span class='kw'>=</span> <span class='no'>T</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

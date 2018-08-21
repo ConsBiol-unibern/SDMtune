@@ -16,6 +16,10 @@ authors:
     href: http://www.cb.iee.unibe.ch/index_eng.html
 
 reference:
+- title: Package
+  desc: Package description
+  contents:
+  - '`SDMsel`'
 - title: Prepare Data
   desc: Function to prepare data for SDMsel analysis
   contents:
@@ -29,10 +33,14 @@ reference:
   contents:
   - '`modelOutput`'
   - '`maxentTh`'
+  - '`maxentVarImp`'
   - '`predict,Maxent-method`'
+  - '`predict,SDMmodel-method`'
+  - '`train`'
   - '`trainMaxent`'
+  - '`trainMaxnet`'
+  - '`thresholds`'
   - '`varImp`'
-  - '`permImp`'
 - title: Evaluating
   desc: Function to evaluate the model
   contents:
@@ -62,17 +70,17 @@ reference:
   - '`reduceVar`'
   - '`tuneBg`'
   - '`tuneFC`'
-  - '`tuneIt`'
   - '`tuneRM`'
 - title: Utilities
   desc: Some utility functions
   contents:
-  - '`Maxent2MaxEnt`'
   - '`mergeSWD`'
+  - '`SDMmodel2MaxEnt`'
 - title: Classes
   desc: SDMsel classes and pkg description
   contents:
   - '`Maxent-class`'
-  - '`SDMsel`'
+  - '`Maxnet-class`'
+  - '`SDMmodel-class`'
   - '`SDMtune-class`'
   - '`SWD-class`'

@@ -32,13 +32,14 @@
 
 <meta property="og:title" content="Variable Selection — varSel" />
 
-<meta property="og:description" content="The function performs a data-driven variable selection. Starting from the provided model
-it iterates through all the variables starting from the one with the highest contribution
-(permutation or percent). If the variable is correlated with other variables (according to
-the given method and threshold) it performs a Jackknife test and among the correlated
-variables it removes the one that results in the best performing model when removed
-(according to the given metric using the Train dataset). The process is repeated untill
-the remaining variables are not highly correlated anymore." />
+<meta property="og:description" content="The function performs a data-driven variable selection. Starting from the
+provided model it iterates through all the variables starting from the one
+with the highest contribution (permutation importance). If the variable is
+correlated with other variables (according to the given method and threshold)
+it performs a Jackknife test and among the correlated variables it removes
+the one that results in the best performing model when removed (according to
+the given metric using the Train dataset). The process is repeated untill the
+remaining variables are not highly correlated anymore." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -130,75 +131,79 @@ the remaining variables are not highly correlated anymore." />
 
     <div class="ref-description">
     
-    <p>The function performs a data-driven variable selection. Starting from the provided model
-it iterates through all the variables starting from the one with the highest contribution
-(permutation or percent). If the variable is correlated with other variables (according to
-the given method and threshold) it performs a Jackknife test and among the correlated
-variables it removes the one that results in the best performing model when removed
-(according to the given metric using the Train dataset). The process is repeated untill
-the remaining variables are not highly correlated anymore.</p>
+    <p>The function performs a data-driven variable selection. Starting from the
+provided model it iterates through all the variables starting from the one
+with the highest contribution (permutation importance). If the variable is
+correlated with other variables (according to the given method and threshold)
+it performs a Jackknife test and among the correlated variables it removes
+the one that results in the best performing model when removed (according to
+the given metric using the Train dataset). The process is repeated untill the
+remaining variables are not highly correlated anymore.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>varSel</span>(<span class='no'>model</span>, <span class='no'>bg4cor</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rm</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>, <span class='kw'>cor_th</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>use_percent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>Maxent object.</p></td>
+      <td><p>SDMmodel object.</p></td>
     </tr>
     <tr>
       <th>bg4cor</th>
-      <td><p>SWD object. Background locations used to test the correlation between
-environmental variables.</p></td>
+      <td><p>SWD object. Background locations used to test the correlation
+between environmental variables.</p></td>
     </tr>
     <tr>
       <th>metric</th>
-      <td><p>character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".</p></td>
+      <td><p>character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p>stack or brick containing the environmental variables,
-used only with "aicc", default is NULL.</p></td>
+      <td><p>stack or brick containing the environmental
+variables, used only with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.</p></td>
+      <td><p>logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.</p></td>
     </tr>
     <tr>
       <th>rm</th>
-      <td><p>integer. The value of the regularization paramiter to use during computation,
-default is 0.001, see details.</p></td>
+      <td><p>integer. The value of the regularization paramiter to use during
+computation, default is 0.001, see details.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>character. The method used to comput the correlation matrix, default "spearman".</p></td>
+      <td><p>character. The method used to comput the correlation matrix,
+default "spearman".</p></td>
     </tr>
     <tr>
       <th>cor_th</th>
-      <td><p>numeric. The correlation threshold used to select highly correlated variables,
-default is 0.7.</p></td>
+      <td><p>numeric. The correlation threshold used to select highly
+correlated variables, default is 0.7.</p></td>
     </tr>
     <tr>
-      <th>use_percent</th>
-      <td><p>logical, if TRUE it uses the percent contribution instead of the
-permutation importance.</p></td>
+      <th>permut</th>
+      <td><p>integer. Number of permutations, default is 10.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The name of the selected variables.</p>
+    <p>The model with trained using the selected variables.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>You need package <span class="pkg">snow</span> to use parallel computation. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
+    <p>You need package <span class="pkg">snow</span> to use parallel computation. Parallel
+computation increases the speed only for big datasets due to the time
+necessary to create the cluster. For <strong>Maxnet</strong> using a <strong>rm</strong> lower than 0.1
+the model won't converge!
 We should write something more... I will refer to our paper for the explanations...</p>
     
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Model Output — modelOutput • SDMsel</title>
+<title>Train — train • SDMsel</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Model Output — modelOutput" />
+<meta property="og:title" content="Train — train" />
 
-<meta property="og:description" content="Given a model the function produces the output in the given folder." />
+<meta property="og:description" content="Train a model using the given method." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -117,68 +117,75 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Model Output</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/modelOutput.R'><code>R/modelOutput.R</code></a></small>
-    <div class="hidden name"><code>modelOutput.Rd</code></div>
+    <h1>Train</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/train.R'><code>R/train.R</code></a></small>
+    <div class="hidden name"><code>train.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Given a model the function produces the output in the given folder.</p>
+    <p>Train a model using the given method.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>modelOutput</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"cloglog"</span>, <span class='st'>"logistic"</span>, <span class='st'>"raw"</span>), <span class='no'>folder</span>,
-  <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>response_curves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Maxent"</span>, <span class='st'>"Maxnet"</span>), <span class='no'>presence</span>, <span class='no'>bg</span>, <span class='no'>rm</span>, <span class='no'>fc</span>, <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>500</span>,
+  <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"noaddsamplestobackground"</span>, <span class='st'>"removeduplicates=false"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>SDMmodel object.</p></td>
+      <th>method</th>
+      <td><p>character. Possible values are "Maxent" or "Maxnet</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>character MaxEnt output type, possible values are "cloglog",
-"logistic" and "raw", default is "cloglog".</p></td>
+      <th>presence</th>
+      <td><p>SWD object with the presence locations.</p></td>
     </tr>
     <tr>
-      <th>folder</th>
-      <td><p>character. The name of the folder in which to save the MaxEnt
-output. The folder is created in the working directory.</p></td>
+      <th>bg</th>
+      <td><p>SWD object with the background locations.</p></td>
     </tr>
     <tr>
-      <th>test</th>
-      <td><p>SWD object with the test locations, default is NULL.</p></td>
+      <th>rm</th>
+      <td><p>numeric. The value of the regularization multiplier.</p></td>
     </tr>
     <tr>
-      <th>response_curves</th>
-      <td><p>logical, if TRUE it plots the response curves in the
-html output, default is FALSE.</p></td>
+      <th>fc</th>
+      <td><p>vector. The value of the feature combination, possible values are
+combinations of "l", "q", "p", "h" and "t".</p></td>
     </tr>
     <tr>
-      <th>jk</th>
-      <td><p>logical, if TRUE it runs the jackknife test, default FALSE.</p></td>
+      <th>iter</th>
+      <td><p>numeric. Number of iterations used by the Maxent alghoritm,
+default is 500, used only for "Maxent" method.</p></td>
     </tr>
     <tr>
-      <th>threads</th>
-      <td><p>numeric. Number of threads used by MaxEnt to compute the
-Jackknife test, default is 1.</p></td>
+      <th>extra_args</th>
+      <td><p>vector. Extra arguments used to run MaxEnt, default is
+c("noaddsamplestobackground", "removeduplicates=false"), used only for
+"Maxent" method.#'</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The SDMmodel object.</p>
+    <p>A SWDmodel object</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>See <a href='trainMaxent.html'>trainMaxent</a> and <a href='trainMaxnet.html'>trainMaxnet</a> for details related to
+the different methods. For <strong>Maxent</strong> models the function uses by default
+<strong>extra_args = c("noaddsamplestobackground", "removeduplicates=false")</strong>.
+In case this is not your expected beaviour you can remove both passing
+<strong>extra_args = ""</strong> or you can add any other additional arguments extending
+the previous vector.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-model <- modelOutput(model, type = "logistic", test = test,
-response_curves = T, jk = T, thread = 4, folder = "my_folder"))
-# }
-<div class='input'>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"Maxnet"</span>, <span class='no'>presence</span>, <span class='no'>bg</span>, <span class='kw'>rm</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lqp"</span>)
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -187,6 +194,8 @@ response_curves = T, jk = T, thread = 4, folder = "my_folder"))
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -32,8 +32,7 @@
 
 <meta property="og:title" content="Jackknife Test — doJk" />
 
-<meta property="og:description" content="Run the Jackknife test for variable importance removing one variable at time and returns the train AUC.
-If the model has a test dataset, it returns also the test AUC." />
+<meta property="og:description" content="Run the Jackknife test for variable importance removing one variable at time." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -125,59 +124,68 @@ If the model has a test dataset, it returns also the test AUC." />
 
     <div class="ref-description">
     
-    <p>Run the Jackknife test for variable importance removing one variable at time and returns the train AUC.
-If the model has a test dataset, it returns also the test AUC.</p>
+    <p>Run the Jackknife test for variable importance removing one variable at time.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>doJk</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>with_only</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>return_models</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>with_only</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>return_models</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>Maxent object.</p></td>
+      <td><p>SDMmodel object.</p></td>
     </tr>
     <tr>
       <th>metric</th>
-      <td><p>character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".</p></td>
+      <td><p>character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".</p></td>
     </tr>
     <tr>
       <th>variables</th>
-      <td><p>vector. Variables used for the test, if not provided it takes all the variables
-used to train the model, default is NULL.</p></td>
+      <td><p>vector. Variables used for the test, if not provided it
+takes all the variables used to train the model, default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>test</th>
+      <td><p>SWD. If provided it reports the result also for the test dataset.
+Not used for <strong>aicc</strong>.</p></td>
     </tr>
     <tr>
       <th>with_only</th>
-      <td><p>logical. If TRUE it runs the test also for each variable in isolation, default is TRUE.</p></td>
+      <td><p>logical. If TRUE it runs the test also for each variable in
+isolation, default is TRUE.</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p>stack or brick containing the environmental variables,
-used only with "aicc", default is NULL.</p></td>
+      <td><p>stack or brick containing the environmental
+variables, used only with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical, if TRUE it uses parallel computation, deafult is FALSE. Used only with AICc.</p></td>
+      <td><p>logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.</p></td>
     </tr>
     <tr>
       <th>return_models</th>
-      <td><p>logical, If TRUE returns all the models together with the test result, default is FALSE.</p></td>
+      <td><p>logical, If TRUE returns all the models together with
+the test result, default is FALSE.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with the test results. If <strong>return_model = TRUE</strong> it returns a list with
-the data frame together with the models.</p>
+    <p>A data frame with the test results. If <strong>return_model = TRUE</strong> it
+returns a list containing the test results together with the models.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>You need package <span class="pkg">snow</span> to use parallel computation. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.</p>
+    <p>You need package <span class="pkg">snow</span> to use parallel computation. Parallel
+computation increases the speed only for big datasets due to the time
+necessary to create the cluster.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

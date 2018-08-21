@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Tune Feature Combination — tuneFC" />
 
-<meta property="og:description" content="The function iterates among different Feature Classes combinations and for each of them
-performs a run a MaxEnt model using the given regularization multiplier." />
+<meta property="og:description" content="The function iterates among different Feature Classes combinations and for
+each of them performs trains a different MaxEnt model." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -125,38 +125,44 @@ performs a run a MaxEnt model using the given regularization multiplier." />
 
     <div class="ref-description">
     
-    <p>The function iterates among different Feature Classes combinations and for each of them
-performs a run a MaxEnt model using the given regularization multiplier.</p>
+    <p>The function iterates among different Feature Classes combinations and for
+each of them performs trains a different MaxEnt model.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tuneFC</span>(<span class='no'>model</span>, <span class='no'>fcs</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>tuneFC</span>(<span class='no'>model</span>, <span class='no'>fcs</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>Maxent object.</p></td>
+      <td><p>SDMmodel object.</p></td>
     </tr>
     <tr>
       <th>fcs</th>
-      <td><p>vector. A list of Feature Classes combination to be tested.</p></td>
+      <td><p>vector with all the Feature Classes combination to be tested.</p></td>
     </tr>
     <tr>
       <th>metric</th>
-      <td><p>character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".</p></td>
+      <td><p>character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".</p></td>
+    </tr>
+    <tr>
+      <th>test</th>
+      <td><p>SWD. Test dataset used to evaluate the model, not used with aicc,
+default is NULL.</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p>stack or brick containing the environmental variables,
-used only with "aicc", default is NULL.</p></td>
+      <td><p>stack or brick containing the environmental
+variables, used only with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical, if TRUE it uses parallel computation, deafult is FALSE.</p></td>
+      <td><p>logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.</p></td>
     </tr>
     </table>
     
@@ -166,14 +172,15 @@ used only with "aicc", default is NULL.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>You need package <span class="pkg">snow</span> to use parallel computation and <span class="pkg">rgdal</span>
-to save the prediction in a raster file. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.</p>
+    <p>You need package <span class="pkg">snow</span> to use parallel computation and
+<span class="pkg">rgdal</span> to save the prediction in a raster file. Parallel computation
+increases the speed only for big datasets due to the time necessary to create
+the cluster.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other tuning functions: <code><a href='tuneBg.html'>tuneBg</a></code>,
-  <code><a href='tuneIt.html'>tuneIt</a></code>, <code><a href='tuneRM.html'>tuneRM</a></code></p></div>
+  <code><a href='tuneRM.html'>tuneRM</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

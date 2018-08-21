@@ -35,9 +35,10 @@
 <meta property="og:description" content="Remove variables whose contribution (permutation or percent) is less than the
 given threshold. The function removes one variable at time and after trains a
 new model to get the new variable contribution rank. If use_jk is TRUE the
-function checks if after removing the variable the model performance decreases
-(according to the given metric). In this case the function stops removing the
-variable even if the contribution is lower than the given threshold." />
+function checks if after removing the variable the model performance
+decreases (according to the given metric). In this case the function stops
+removing the variable even if the contribution is lower than the given
+threshold." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -132,50 +133,57 @@ variable even if the contribution is lower than the given threshold." />
     <p>Remove variables whose contribution (permutation or percent) is less than the
 given threshold. The function removes one variable at time and after trains a
 new model to get the new variable contribution rank. If use_jk is TRUE the
-function checks if after removing the variable the model performance decreases
-(according to the given metric). In this case the function stops removing the
-variable even if the contribution is lower than the given threshold.</p>
+function checks if after removing the variable the model performance
+decreases (according to the given metric). In this case the function stops
+removing the variable even if the contribution is lower than the given
+threshold.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>use_percent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>use_jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='no'>th</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>use_jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>Maxent object.</p></td>
+      <td><p>SDMmodel object.</p></td>
     </tr>
     <tr>
       <th>th</th>
-      <td><p>numeric. The contribtion threshold used to remove variables, default is 2.</p></td>
+      <td><p>numeric. The contribution threshold used to remove variables.</p></td>
     </tr>
     <tr>
       <th>metric</th>
-      <td><p>character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", used only if use_jk is TRUE, default is "auc".</p></td>
+      <td><p>character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", used only if use_jk is TRUE, default is
+"auc".</p></td>
+    </tr>
+    <tr>
+      <th>test</th>
+      <td><p>SWD. Test dataset used to evaluate the model, not used with aicc,
+and if use_jk = FALSE, default is NULL.</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p>stack or brick containing the environmental variables,
-used only with "aicc", default is NULL.</p></td>
+      <td><p>stack or brick containing the environmental
+variables, used only with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical, if TRUE it uses parallel computation, deafult is FALSE.
-Used only with AICc.</p></td>
-    </tr>
-    <tr>
-      <th>use_percent</th>
-      <td><p>logical, if TRUE it uses the percent contribution instead of the
-permutation importance.</p></td>
+      <td><p>logical, if TRUE it uses parallel computation, deafult is
+FALSE. Used only with AICc.</p></td>
     </tr>
     <tr>
       <th>use_jk</th>
-      <td><p>Flag to use the Jackknife AUC test during the variable selection,
-if FALSE the function uses the percent variable contribution, default is FALSE.</p></td>
+      <td><p>Flag to use the Jackknife AUC test during the variable
+selection, if FALSE the function uses the percent variable contribution,
+default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>permut</th>
+      <td><p>integer. Number of permutations, default is 10.</p></td>
     </tr>
     </table>
     

@@ -130,15 +130,15 @@ MaxEnt models increasing the regularization multiplier.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tuneRM</span>(<span class='no'>model</span>, <span class='no'>rms</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>tuneRM</span>(<span class='no'>model</span>, <span class='no'>rms</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>Maxent object.</p></td>
+      <td><p>SDMmodel object.</p></td>
     </tr>
     <tr>
       <th>rms</th>
@@ -146,17 +146,23 @@ MaxEnt models increasing the regularization multiplier.</p>
     </tr>
     <tr>
       <th>metric</th>
-      <td><p>character. The metric used to evaluate the models, possible values are:
-"auc", "tss" and "aicc", default is "auc".</p></td>
+      <td><p>character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".</p></td>
+    </tr>
+    <tr>
+      <th>test</th>
+      <td><p>SWD. Test dataset used to evaluate the model, not used with aicc,
+default is NULL. Used only with AICc.</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p>stack or brick containing the environmental variables,
-used only with "aicc", default is NULL.</p></td>
+      <td><p>stack or brick containing the environmental
+variables, used only with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical, if TRUE it uses parallel computation, deafult is FALSE.</p></td>
+      <td><p>logical, if TRUE it uses parallel computation, deafult is
+FALSE.</p></td>
     </tr>
     </table>
     
@@ -166,15 +172,16 @@ used only with "aicc", default is NULL.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>You need package <span class="pkg">snow</span> to use parallel computation and <span class="pkg">rgdal</span>
-to save the prediction in a raster file. Parallel computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
-The minimum value of rm allow is 0.001, if lower MaxEnt crasches.</p>
+    <p>You need package <span class="pkg">snow</span> to use parallel computation and
+<span class="pkg">rgdal</span> to save the prediction in a raster file. Parallel computation
+increases the speed only for big datasets due to the time necessary to create
+the cluster. The minimum value of rm allow is for Maxent models is 0.001, if
+lower MaxEnt crasches; for Maxnet model is 0.1, if lower doesn't converg.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other tuning functions: <code><a href='tuneBg.html'>tuneBg</a></code>,
-  <code><a href='tuneFC.html'>tuneFC</a></code>, <code><a href='tuneIt.html'>tuneIt</a></code></p></div>
+  <code><a href='tuneFC.html'>tuneFC</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

@@ -32,7 +32,12 @@
 
 <meta property="og:title" content="Variable Importance — varImp" />
 
-<meta property="og:description" content="Shows the percent contribution and permutation importance of the variable used to train the model." />
+<meta property="og:description" content="The function randomly permutes one variable at time (using train and background
+datasets) and computes the decrease in training AUC. The result is normalized
+to percentages. Same implementation of MaxEnt java software but with the additional
+possibility of running several permutations to obtain a better estimate of the
+permutation importance. In case of more than one permutation (default is 10)
+the average of the decrease in training AUC is computed." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -124,29 +129,43 @@
 
     <div class="ref-description">
     
-    <p>Shows the percent contribution and permutation importance of the variable used to train the model.</p>
+    <p>The function randomly permutes one variable at time (using train and background
+datasets) and computes the decrease in training AUC. The result is normalized
+to percentages. Same implementation of MaxEnt java software but with the additional
+possibility of running several permutations to obtain a better estimate of the
+permutation importance. In case of more than one permutation (default is 10)
+the average of the decrease in training AUC is computed.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>varImp</span>(<span class='no'>model</span>)</pre>
+    <pre class="usage"><span class='fu'>varImp</span>(<span class='no'>model</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>Maxent object.</p></td>
+      <td><p>SDMsel object.</p></td>
+    </tr>
+    <tr>
+      <th>permut</th>
+      <td><p>integer. Number of permutations, default is 10.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with the variable importance.</p>
+    <p>data.frame with the ordered permutation importance.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that it could return values slightly different from MaxEnt java
+software due to a different random permutation.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>varContribution</span>(<span class='no'>model</span>)
+<span class='fu'>varImp</span>(<span class='no'>model</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>50</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
@@ -156,6 +175,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

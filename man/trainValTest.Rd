@@ -28,7 +28,7 @@ test datasets.
 }
 \examples{
 \dontrun{
-sets <- trainValTest(presence, val = 0.3, test = 0.1, set_seed = 25)}
+sets <- trainValTest(presence, val = 0.2, test = 0.2, set_seed = 25)}
 
 }
 \author{
