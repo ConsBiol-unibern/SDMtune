@@ -80,7 +80,7 @@ trainMaxent <- function(presence, bg, rm, fc, iter = 500,
                      "(Vignali S. <i>et al.</i>, 2018) and 'dismo' version", packageVersion("dismo"),
                      "(Hijmans R. J. <i>et al.</i>, 2017).</b></center><br>", f[3])
     f[length(f) + 1] <- "<br><hr><br>"
-    f[length(f) + 1] <- "- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.1.0."
+    f[length(f) + 1] <- "- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.0.0.9000"
     f[length(f) + 1] <- '<br>- Robert J. Hijmans, Steven Phillips, John Leathwick and Jane Elith (2017). dismo: Species Distribution Modeling. R package version 1.1-4. <a href="http://CRAN.R-project.org/package=dismo" target="_blank">CRAN</<a>'
     f <- gsub("species_", paste0(species, "_"), f)
     f <- gsub("species.csv", paste0(species, ".csv"), f)

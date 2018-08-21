@@ -34,7 +34,8 @@ Roxygen: list(markdown = TRUE)
 Suggests: knitr (>= 1.20),
     rmarkdown (>= 1.10),
     roxygen2 (>= 6.0.1),
-    snow (>= 0.4-2)
+    snow (>= 0.4-2),
+    prettydoc (>= 0.2.1)
 VignetteBuilder: knitr
 Collate: 
     'Maxent_class.R'
@@ -65,6 +66,7 @@ Collate:
     'predict_SDMmodel.R'
     'prepareSWD.R'
     'reduceVar.R'
+    'render_template.R'
     'swd2csv.R'
     'thinData.R'
     'thresholds.R'

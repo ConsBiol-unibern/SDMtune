@@ -1,0 +1,36 @@
+---
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+params:
+  model: model
+---
+
+```{r, echo=F}
+library(SDMsel)
+```
+
+**`r class(model@model)`** output produced using **SDMsel** version `r packageVersion("SDMsel")` (Vignali S. *et al.*, 2018).
+
+Next we plot the ROC curve for `r model@presence@species`:
+
+```{r plot ROC, echo=F, fig.align="center"}
+plotROC(params$model)
+```
+
+ <table style="width:100%">
+<tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr>
+<tr>
+<td>Jill</td>
+<td>Smith</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Eve</td>
+<td>Jackson</td>
+<td>94</td>
+</tr>
+</table> 
+
+- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.0.0.9000
