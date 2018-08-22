@@ -26,7 +26,8 @@ Imports: dismo (>= 1.1-4),
           reshape2 (>= 1.4.3),
           stringr (>= 1.3.1),
           rJava (>= 0.9-10),
-          maxnet (>= 0.1.2)
+          maxnet (>= 0.1.2),
+          kableExtra (>= 0.9.0)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
@@ -55,6 +56,7 @@ Collate:
     'maxentVarImp.R'
     'mergeSWD.R'
     'modelOutput.R'
+    'modelReport.R'
     'plotCor.R'
     'plotJk.R'
     'plotPA.R'
@@ -66,7 +68,6 @@ Collate:
     'predict_SDMmodel.R'
     'prepareSWD.R'
     'reduceVar.R'
-    'render_template.R'
     'swd2csv.R'
     'thinData.R'
     'thresholds.R'

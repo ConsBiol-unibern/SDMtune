@@ -1,0 +1,64 @@
+---
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+params:
+  model: base_model
+  type: type
+  test: test
+  plot_folder: plot_folder
+---
+
+```{r, echo=F}
+library(SDMsel)
+library(kableExtra)
+```
+
+**`r class(model@model)`** output produced using **SDMsel** version `r packageVersion("SDMsel")` (Vignali S. *et al.*, 2018).
+
+# ROC curve
+
+Next we plot the ROC curve for `r model@presence@species`:
+
+```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
+plot <- plotROC(params$model, test = params$test)
+suppressMessages(ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = params$plot_folder))
+print(plot)
+```
+
+# Thresholds
+
+```{r, echo=FALSE, out.width='75%'}
+knitr::kable(thresholds(params$model, type = params$type, test = params$test)) %>%
+  kable_styling(bootstrap_options = c("responsive"))
+```
+
+# Response curves
+
+```{r, fig.hold='hold', out.width='25%', message=FALSE, echo=FALSE}
+tags <- c("<p>")
+vars <- sort(colnames(params$model@presence@data))
+for (var in vars) {
+  plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE))
+  suppressMessages(ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = params$plot_folder))
+  path <- paste0(params$plot_folder, "/", var, "_marginal.png")
+  tag <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25%>")
+  tags <- c(tags, tag)
+}
+tags <- c(tags, "</p>")
+tags <- paste(tags, collapse = "")
+htmltools::HTML(tags)
+```
+
+# Variable importance
+
+```{r, echo=FALSE}
+knitr::kable(suppressMessages(varImp(params$model))) %>%
+  kable_styling(bootstrap_options = c("responsive"), full_width = FALSE)
+```
+
+
+# Reference
+
+- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.0.0.9000
