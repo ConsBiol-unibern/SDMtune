@@ -5,6 +5,7 @@ output:
     highlight: github
 params:
   model: model
+  test: test
 ---
 
 ```{r, echo=F}
@@ -15,8 +16,9 @@ library(SDMsel)
 
 Next we plot the ROC curve for `r model@presence@species`:
 
+
 ```{r plot ROC, echo=F, fig.align="center"}
-plotROC(params$model)
+plotROC(params$model, test = params$test)
 ```
 
  <table style="width:100%">
