@@ -4,7 +4,8 @@ output:
     theme: cayman
     highlight: github
 params:
-  model: model
+  model: base_model
+  type: type
   test: test
 ---
 
@@ -14,25 +15,30 @@ library(SDMsel)
 
 **`r class(model@model)`** output produced using **SDMsel** version `r packageVersion("SDMsel")` (Vignali S. *et al.*, 2018).
 
-Next we plot the ROC curve for `r model@presence@species`:
+# ROC curve
 
+Next we plot the ROC curve for `r model@presence@species`:
 
 ```{r plot ROC, echo=F, fig.align="center"}
 plotROC(params$model, test = params$test)
 ```
 
- <table style="width:100%">
-<tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr>
-<tr>
-<td>Jill</td>
-<td>Smith</td>
-<td>50</td>
-</tr>
-<tr>
-<td>Eve</td>
-<td>Jackson</td>
-<td>94</td>
-</tr>
-</table> 
+# Thresholds
+
+```{r, echo=F}
+knitr::kable(thresholds(params$model, type = params$type, test = params$test))
+```
+
+# Response curves
+
+```{r, fig.hold='hold', out.width='20%'}
+vars <- colnames(params$model@presence@data)
+for (var in vars) {
+  plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE)
+}
+```
+
+
+# Reference
 
 - Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.0.0.9000

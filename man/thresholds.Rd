@@ -4,13 +4,16 @@
 \alias{thresholds}
 \title{Thresholds}
 \usage{
-thresholds(model, type)
+thresholds(model, type, test = NULL)
 }
 \arguments{
 \item{model}{SDMmodel object}
 
 \item{type}{character. The output type, possible values are "cloglog" and
 "logistic", default is "cloglog".}
+
+\item{test}{SWD test locations, if not provided it returns the training and
+test thresholds, default is NULL.}
 }
 \value{
 data.frame with the thresholds.

@@ -4,7 +4,7 @@
 \alias{render_template}
 \title{Title}
 \usage{
-render_template(model, test, folder)
+render_template(model, type, test, folder)
 }
 \arguments{
 \item{folder}{}

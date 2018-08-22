@@ -16,6 +16,7 @@
 #' @return data.frame with the ordered permutation importance.
 #' @export
 #' @importFrom stats sd
+#' @importFrom progress progress_bar
 #'
 #' @examples
 #' \dontrun{
@@ -31,6 +32,12 @@ varImp <- function(model, permut = 10) {
 
   n_pres <- nrow(model@presence@data)
 
+  pb <- progress::progress_bar$new(
+    format = "Variable importance [:bar] :percent in :elapsedfull",
+    total = length(vars),
+    clear = FALSE, width = 60, show_after = 0)
+  pb$tick(0)
+
   for (j in 1:length(vars)) {
     for (i in 1:permut) {
       data <- sample(c(model@presence@data[, vars[j]],
@@ -41,6 +48,7 @@ varImp <- function(model, permut = 10) {
       bg_copy@data[, vars[j]] <- data[(n_pres + 1):length(data)]
       permutedAUC[i, j] <- auc(model, presence_copy, bg = bg_copy)
     }
+    pb$tick(1)
   }
 
   if (permut > 1) {
