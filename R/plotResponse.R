@@ -110,9 +110,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   my_plot <- my_plot +
     xlab(var) +
     ylab(paste(type, "output")) +
-    theme(legend.position = "none",
-          axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank())
+    theme_minimal()
 
   if (rug == TRUE & var %in% cont_vars) {
     my_plot <- my_plot +

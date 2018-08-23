@@ -28,9 +28,7 @@ plotVarImp <- function(df, color = "grey") {
     geom_bar(position = "dodge", stat = "identity", fill = color) +
     coord_flip() +
     xlab("") +
-    theme(plot.title = element_text(hjust = 0.5, face = "italic"),
-          axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank())
+    theme_minimal()
 
   return(my_plot)
 }

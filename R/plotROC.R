@@ -52,11 +52,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
     xlab("False Positive Rate") +
     ylab("True Positive Rate") +
     coord_fixed() +
-    theme(legend.justification = c(1, 0),
-          legend.position = c(1, 0),
-          legend.box.margin = margin(c(10,10,10,10)),
-          axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank())
+    theme_minimal()
 
   return(my_plot)
 }

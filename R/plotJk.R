@@ -79,9 +79,7 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
     coord_flip() +
     xlab("") +
     ylab(y_label) +
-    theme(axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank(),
-          legend.title = element_blank())
+    theme_minimal()
 
   if (!is.null(ref))
     my_plot <- my_plot +
