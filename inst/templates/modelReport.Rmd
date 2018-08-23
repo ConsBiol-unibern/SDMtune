@@ -65,7 +65,7 @@ if (params$response_curves) {
     plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE))
     suppressMessages(ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = plot_folder))
     path <- paste0(plot_folder, "/", var, "_marginal.png")
-    element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25%></a>")
+    element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25% title=\"", var, "\"></a>")
     elements <- c(elements, element)
     pb$tick(1)
   }
@@ -87,7 +87,7 @@ if (params$response_curves) {
     plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = FALSE, rug = TRUE))
     suppressMessages(ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = plot_folder))
     path <- paste0(plot_folder, "/", var, ".png")
-    element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25%></a>")
+    element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25% title=\"", var, "\"></a>")
     elements <- c(elements, element)
     pb$tick(1)
   }
