@@ -77,11 +77,9 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
   my_plot <- ggplot(df_plot, aes_(x = ~Variable, y = ~value, fill = ~test)) +
     geom_bar(stat = 'identity', position = position_dodge()) +
     coord_flip() +
-    ggtitle("Jackknife Test") +
     xlab("") +
     ylab(y_label) +
-    theme(plot.title = element_text(hjust = 0.5),
-          axis.ticks.x = element_blank(),
+    theme(axis.ticks.x = element_blank(),
           axis.ticks.y = element_blank(),
           legend.title = element_blank())
 

@@ -35,6 +35,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
                  test = NULL, with_only = TRUE, env = NULL, parallel = FALSE,
                  return_models = FALSE) {
 
+  metric <- match.arg(metric)
   if (metric == "aicc" & is.null(env))
     stop("You must provide env parameter if you want to use AICc metric!")
 
@@ -55,7 +56,6 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
-  metric <- match.arg(metric)
   models_without <- models_withonly <- c()
   method <- class(model@model)
 
