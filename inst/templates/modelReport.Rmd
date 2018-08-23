@@ -4,10 +4,12 @@ output:
     theme: cayman
     highlight: github
 params:
-  model: base_model
+  model: model
   type: type
+  folder: folder
   test: test
-  plot_folder: plot_folder
+  response_curves: true
+  jk: false
 ---
 
 ```{r, echo=F}
@@ -15,50 +17,125 @@ library(SDMsel)
 library(kableExtra)
 ```
 
-**`r class(model@model)`** output produced using **SDMsel** version `r packageVersion("SDMsel")` (Vignali S. *et al.*, 2018).
+**`r class(params$model@model)`** output produced using **SDMsel** version `r packageVersion("SDMsel")` (Vignali S. *et al.*, 2018).
+
+```{r, echo=FALSE, message=FALSE}
+message("save files...")
+swd2csv(params$model@presence, "presence.csv")
+swd2csv(params$model@background, "background.csv")
+if (!is.null(test))
+  swd2csv(test, "test.csv")
+```
+
 
 # ROC curve
 
 Next we plot the ROC curve for `r model@presence@species`:
 
 ```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
+message("plotting ROC curve...")
 plot <- plotROC(params$model, test = params$test)
-suppressMessages(ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = params$plot_folder))
-print(plot)
+suppressMessages(ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = params$folder))
+element <- "<p><a href=\"./plots/ROC_curve.png\"><img src=\"./plots/ROC_curve.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
+htmltools::HTML(element)
 ```
 
 # Thresholds
 
-```{r, echo=FALSE, out.width='75%'}
+```{r, echo=FALSE, message=FALSE}
+message("doing thresholds...")
 knitr::kable(thresholds(params$model, type = params$type, test = params$test)) %>%
   kable_styling(bootstrap_options = c("responsive"))
 ```
 
+`r if(!params$response_curves) {"<!--"}`
 # Response curves
 
+Marginal curves:
+
 ```{r, fig.hold='hold', out.width='25%', message=FALSE, echo=FALSE}
-tags <- c("<p>")
-vars <- sort(colnames(params$model@presence@data))
-for (var in vars) {
-  plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE))
-  suppressMessages(ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = params$plot_folder))
-  path <- paste0(params$plot_folder, "/", var, "_marginal.png")
-  tag <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25%>")
-  tags <- c(tags, tag)
+if (params$response_curves) {
+  vars <- sort(colnames(params$model@presence@data))
+  pb <- progress::progress_bar$new(
+    format = "Marginal curves [:bar] :percent in :elapsedfull", total = length(vars), clear = FALSE, width = 60, show_after = 0)
+  pb$tick(0)
+  elements <- c("<p>")
+  for (var in vars) {
+    plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE))
+    suppressMessages(ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = params$folder))
+    path <- paste0(params$folder, "/", var, "_marginal.png")
+    element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25%></a>")
+    elements <- c(elements, element)
+    pb$tick(1)
+  }
+  elements <- c(elements, "</p>")
+  elements <- paste(elements, collapse = "")
+  htmltools::HTML(elements)
 }
-tags <- c(tags, "</p>")
-tags <- paste(tags, collapse = "")
-htmltools::HTML(tags)
 ```
+
+Univariate curves:
+
+```{r, message=FALSE, echo=FALSE}
+if (params$response_curves) {
+  pb <- progress::progress_bar$new(
+    format = "Univariate curves [:bar] :percent in :elapsedfull", total = length(vars), clear = FALSE, width = 60, show_after = 0)
+  pb$tick(0)
+  elements <- c("<p>")
+  for (var in vars) {
+    plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = FALSE, rug = TRUE))
+    suppressMessages(ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = params$folder))
+    path <- paste0(params$folder, "/", var, ".png")
+    element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25%></a>")
+    elements <- c(elements, element)
+    pb$tick(1)
+  }
+  elements <- c(elements, "</p>")
+  elements <- paste(elements, collapse = "")
+  htmltools::HTML(elements)
+}
+```
+`r if(!params$response_curves) {"-->"}`
 
 # Variable importance
 
-```{r, echo=FALSE}
-knitr::kable(suppressMessages(varImp(params$model))) %>%
+```{r, echo=FALSE, message=FALSE}
+knitr::kable(varImp(params$model)) %>%
   kable_styling(bootstrap_options = c("responsive"), full_width = FALSE)
 ```
 
+`r if(!params$jk) {"<!--"}`
+# Jackknife test
 
-# Reference
+```{r, echo=FALSE, message=FALSE}
+if (jk) {
+  jk <- doJk(params$model, metric = "auc", test = params$test)
+  plot <- plotJk(jk, type = "train", ref = auc(params$model))
+  suppressMessages(ggsave(filename = "train_jk.png", plot = plot, device = "png", path = params$folder))
+  if (!is.null(test)) {
+    plot <- plotJk(jk, type = "test", ref = auc(params$model, test))
+    suppressMessages(ggsave(filename = "test_jk.png", plot = plot, device = "png", path = params$folder))
+    element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" width=50%></a><a href=\"./plots/test_jk.png\"><img src=\"./plots/test_jk.png\" width=50%></a></p>"
+  } else {
+    element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
+  }
+  htmltools::HTML(element)
+}
+```
+`r if(!params$jk) {"-->"}`
+
+# Model settings
+
+Shown below the settings used to train the model:
+
+* Model type: `r class(params$model@model)`
+* Train locations: `r nrow(params$model@presence@data)`
+* Background locations: `r nrow(params$model@background@data)``r if(!is.null(params$test)) {paste("\n* Test locations:", nrow(params$test@data))}`
+* Continuous variables: `r names(Filter(is.numeric, params$model@presence@data))`
+* Categorical variables: `r names(Filter(is.factor, params$model@presence@data))`
+* Feature combination: `r params$model@model@fc`
+* Regularization multiplier: `r params$model@model@rm``r if(class(params$model@model) == "Maxent") {paste("\n* Extra arguments:", paste(params$model@model@extra_args, collapse = ", "))}`
+
+### Reference
 
 - Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.0.0.9000

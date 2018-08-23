@@ -2,13 +2,39 @@
 % Please edit documentation in R/modelReport.R
 \name{modelReport}
 \alias{modelReport}
-\title{Title}
+\title{Model Report}
 \usage{
-modelReport(model, type, test, folder)
+modelReport(model, type, folder, test = NULL, response_curves = FALSE,
+  jk = FALSE)
 }
 \arguments{
-\item{folder}{}
+\item{model}{SDMmodel object}
+
+\item{type}{character. Output type, see \link{predict,Maxent-method} for
+Maxent models or \link{predict.maxnet} for Maxnet models.}
+
+\item{folder}{character. The name of the folder in which to save the output.
+The folder is created in the working directory.}
+
+\item{test}{SWD object with the test locations, default is NULL.}
+
+\item{response_curves}{logical, if TRUE it plots the response curves in the
+html output, default is FALSE.}
+
+\item{jk}{logical, if TRUE it runs the jackknife test, default FALSE.}
 }
 \description{
-Title
+Make a model report that shows main results
+}
+\details{
+The function produces a report similar to the one created by Maxent
+software.
+}
+\examples{
+\dontrun{
+modelReport(model, "cloglog", folder = "my_folder", response_curves = T)}
+
+}
+\author{
+Sergio Vignali
 }
