@@ -21,10 +21,11 @@ library(kableExtra)
 
 ```{r, echo=FALSE, message=FALSE}
 message("save files...")
-swd2csv(params$model@presence, "presence.csv")
-swd2csv(params$model@background, "background.csv")
-if (!is.null(test))
-  swd2csv(test, "test.csv")
+swd2csv(params$model@presence, paste0(params$folder, "/presence.csv"))
+swd2csv(params$model@background, paste0(params$folder, "/background.csv"))
+if (!is.null(params$test))
+  swd2csv(params$test, paste0(params$folder, "/test.csv"))
+plot_folder <- paste0(params$folder, "/plots")
 ```
 
 
@@ -35,7 +36,7 @@ Next we plot the ROC curve for `r model@presence@species`:
 ```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
 message("plotting ROC curve...")
 plot <- plotROC(params$model, test = params$test)
-suppressMessages(ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = params$folder))
+suppressMessages(ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = plot_folder))
 element <- "<p><a href=\"./plots/ROC_curve.png\"><img src=\"./plots/ROC_curve.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
 htmltools::HTML(element)
 ```
@@ -62,8 +63,8 @@ if (params$response_curves) {
   elements <- c("<p>")
   for (var in vars) {
     plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE))
-    suppressMessages(ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = params$folder))
-    path <- paste0(params$folder, "/", var, "_marginal.png")
+    suppressMessages(ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = plot_folder))
+    path <- paste0(plot_folder, "/", var, "_marginal.png")
     element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25%></a>")
     elements <- c(elements, element)
     pb$tick(1)
@@ -84,8 +85,8 @@ if (params$response_curves) {
   elements <- c("<p>")
   for (var in vars) {
     plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = FALSE, rug = TRUE))
-    suppressMessages(ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = params$folder))
-    path <- paste0(params$folder, "/", var, ".png")
+    suppressMessages(ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = plot_folder))
+    path <- paste0(plot_folder, "/", var, ".png")
     element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25%></a>")
     elements <- c(elements, element)
     pb$tick(1)
@@ -111,10 +112,10 @@ knitr::kable(varImp(params$model)) %>%
 if (jk) {
   jk <- doJk(params$model, metric = "auc", test = params$test)
   plot <- plotJk(jk, type = "train", ref = auc(params$model))
-  suppressMessages(ggsave(filename = "train_jk.png", plot = plot, device = "png", path = params$folder))
+  suppressMessages(ggsave(filename = "train_jk.png", plot = plot, device = "png", path = plot_folder))
   if (!is.null(test)) {
     plot <- plotJk(jk, type = "test", ref = auc(params$model, test))
-    suppressMessages(ggsave(filename = "test_jk.png", plot = plot, device = "png", path = params$folder))
+    suppressMessages(ggsave(filename = "test_jk.png", plot = plot, device = "png", path = plot_folder))
     element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" width=50%></a><a href=\"./plots/test_jk.png\"><img src=\"./plots/test_jk.png\" width=50%></a></p>"
   } else {
     element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
@@ -129,6 +130,7 @@ if (jk) {
 Shown below the settings used to train the model:
 
 * Model type: `r class(params$model@model)`
+* Output type: `r params$type`
 * Train locations: `r nrow(params$model@presence@data)`
 * Background locations: `r nrow(params$model@background@data)``r if(!is.null(params$test)) {paste("\n* Test locations:", nrow(params$test@data))}`
 * Continuous variables: `r names(Filter(is.numeric, params$model@presence@data))`

@@ -108,11 +108,9 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   }
 
   my_plot <- my_plot +
-    ggtitle(model@presence@species) +
     xlab(var) +
     ylab(paste(type, "output")) +
-    theme(plot.title = element_text(hjust = 0.5, face = "italic"),
-          legend.position = "none",
+    theme(legend.position = "none",
           axis.ticks.x = element_blank(),
           axis.ticks.y = element_blank())
 

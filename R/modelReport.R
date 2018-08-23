@@ -27,7 +27,6 @@ modelReport <- function(model, type, folder, test = NULL,
 
   dir.create(paste0(folder, "/plots"), recursive = TRUE)
   folder <- paste0(getwd(), "/", folder)
-  plot_folder <- paste0(folder, "/plots")
   species <- gsub(" ", "_", tolower(model@presence@species))
   title <- paste(class(model@model), "model for", model@presence@species)
   args <- c(paste0("--metadata=title:\"", title, "\""))
@@ -36,7 +35,7 @@ modelReport <- function(model, type, folder, test = NULL,
                     output_file = paste0(species, ".html"),
                     output_dir = folder,
                     params = list(model = model, type = type, test = test,
-                                  folder = plot_folder,
+                                  folder = folder,
                                   response_curves = response_curves, jk = jk),
                     output_options = list(pandoc_args = args),
                     quiet = TRUE
