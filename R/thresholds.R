@@ -28,38 +28,55 @@ thresholds <- function(model, type, test = NULL) {
     object <- model@model@model
   }
 
-  cm <- confMatrix(model, type = type)
-  tpr <- cm$tp / (cm$tp + cm$fn)
-  tnr <- cm$tn / (cm$fp + cm$tn)
+  n_pres <- nrow(model@presence@data)
+
+  cm_train <- confMatrix(model, type = type)
+  tpr <- cm_train$tp / (cm_train$tp + cm_train$fn)
+  tnr <- cm_train$tn / (cm_train$fp + cm_train$tn)
 
   mtp <- round(min(predict(object, model@presence@data, type = type)), 3)
-  ess <- round(cm$th[which.min(abs(tpr - tnr))], 3)
-  mss <- round(cm$th[which.max(tpr + tnr)], 3)
+  ess <- round(cm_train$th[which.min(abs(tpr - tnr))], 3)
+  mss <- round(cm_train$th[which.max(tpr + tnr)], 3)
 
   ths <- c(mtp, ess, mss)
   rownames <- c("Minimum training presence",
                 "Equal training sensitivity and specificity",
                 "Maximum training sensitivity plus specificity")
+  colnames <- c("Threshold",
+                paste(stringr::str_to_title(type), "value"),
+                "Training omission rate")
 
   if (!is.null(test)) {
-    cm <- confMatrix(model, type = type, test = test)
-    tpr <- cm$tp / (cm$tp + cm$fn)
-    tnr <- cm$tn / (cm$fp + cm$tn)
+    cm_test <- confMatrix(model, type = type, test = test)
+    tpr <- cm_test$tp / (cm_test$tp + cm_test$fn)
+    tnr <- cm_test$tn / (cm_test$fp + cm_test$tn)
 
-    mtp <- round(min(predict(object, model@presence@data, type = type)), 3)
-    ess <- round(cm$th[which.min(abs(tpr - tnr))], 3)
-    mss <- round(cm$th[which.max(tpr + tnr)], 3)
+    ess <- round(cm_test$th[which.min(abs(tpr - tnr))], 3)
+    mss <- round(cm_test$th[which.max(tpr + tnr)], 3)
 
-    ths <- c(ths, mtp, ess, mss)
+    ths <- c(ths, ess, mss)
     rownames <- c(rownames,
-                  "Minimum test presence",
                   "Equal test sensitivity and specificity",
                   "Maximum test sensitivity plus specificity")
+    colnames <- c(colnames, "Test omission rate")
+    n_test <- nrow(test@data)
+    or_test <- vector(mode = "numeric", length = 5)
   }
-
+  or_train <- vector(mode = "numeric", length = length(ths))
   output <- data.frame(Threshold = rownames, Values = ths)
-  colnames(output) <- c("Threshold",
-                        paste(stringr::str_to_title(type), "value"))
+  for (i in 1:length(ths)) {
+    index <- which.min(abs(cm_train$th - output[i, 2]))
+    or_train[i] <- round(cm_train[index, ]$fn / n_pres, 3)
+    if (!is.null(test)) {
+      index <- which.min(abs(cm_test$th - output[i, 2]))
+      or_test[i] <- round(cm_test[index, ]$fn / n_test, 3)
+    }
+  }
+  output$or <- or_train
+  if (!is.null(test))
+    output$or_test <- or_test
+
+  colnames(output) <- colnames
 
   return(output)
 }
