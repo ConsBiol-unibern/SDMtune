@@ -6,6 +6,9 @@ setClassUnion("model", c("Maxent", "Maxnet"))
 #' @slot presence SWD. The presence locations used to train the model.
 #' @slot background SWD. The backgorund locations used to train the model.
 #' @slot model Maxent or Maxnet object.
+#' @slot html character. The path of the html file, available only after running
+#' the function \link{modelReport}.
+#' runMaxent function.
 #'
 #' @include SWD_class.R Maxent_class.R Maxnet_class.R
 #' @name SDMmodel-class
@@ -17,7 +20,8 @@ SDMmodel <- setClass("SDMmodel",
   representation(
     presence = "SWD",
     background = "SWD",
-    model = "model"),
+    model = "model",
+    html = "character"),
   validity = function(object)	{
     if (ncol(object@presence@data) != ncol(object@background@data))
       return("presence and background have a different number of columns!")
@@ -41,12 +45,7 @@ setMethod("show",
     cat("Continuous variables :", names(Filter(is.numeric, object@presence@data)), "\n")
     cat("Categorical variables:", names(Filter(is.factor, object@presence@data)))
 
-    if (class(object@model) == "Maxent") {
-      html <- list.files(path = object@model@folder, pattern = ".html",
-                         full.names = TRUE)
-
-      if (!identical(html, character(0)))
-        browseURL(html)
-    }
+    if (!identical(object@html, character(0)))
+      browseURL(object@html)
   }
 )

@@ -16,6 +16,10 @@ This Class represents a MaxEnt model objects and hosts all the information relat
 \item{\code{background}}{SWD. The backgorund locations used to train the model.}
 
 \item{\code{model}}{Maxent or Maxnet object.}
+
+\item{\code{html}}{character. The path of the html file, available only after running
+the function \link{modelReport}.
+runMaxent function.}
 }}
 
 \author{
