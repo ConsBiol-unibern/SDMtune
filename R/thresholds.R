@@ -33,6 +33,7 @@ thresholds <- function(model, type, test = NULL) {
   cm_train <- confMatrix(model, type = type)
   tpr <- cm_train$tp / (cm_train$tp + cm_train$fn)
   tnr <- cm_train$tn / (cm_train$fp + cm_train$tn)
+  fpr <- cm_train$fp / (cm_train$fp + cm_train$tn)
 
   mtp <- round(min(predict(object, model@presence@data, type = type)), 3)
   ess <- round(cm_train$th[which.min(abs(tpr - tnr))], 3)
@@ -44,37 +45,47 @@ thresholds <- function(model, type, test = NULL) {
                 "Maximum training sensitivity plus specificity")
   colnames <- c("Threshold",
                 paste(stringr::str_to_title(type), "value"),
+                "Fractional predicted area",
                 "Training omission rate")
 
   if (!is.null(test)) {
     cm_test <- confMatrix(model, type = type, test = test)
-    tpr <- cm_test$tp / (cm_test$tp + cm_test$fn)
-    tnr <- cm_test$tn / (cm_test$fp + cm_test$tn)
+    tpr_test <- cm_test$tp / (cm_test$tp + cm_test$fn)
+    tnr_test <- cm_test$tn / (cm_test$fp + cm_test$tn)
 
-    ess <- round(cm_test$th[which.min(abs(tpr - tnr))], 3)
-    mss <- round(cm_test$th[which.max(tpr + tnr)], 3)
+    ess <- round(cm_test$th[which.min(abs(tpr_test - tnr_test))], 3)
+    mss <- round(cm_test$th[which.max(tpr_test + tnr_test)], 3)
 
     ths <- c(ths, ess, mss)
     rownames <- c(rownames,
                   "Equal test sensitivity and specificity",
                   "Maximum test sensitivity plus specificity")
-    colnames <- c(colnames, "Test omission rate")
+    colnames <- c(colnames, "Test omission rate", "P-values")
     n_test <- nrow(test@data)
     or_test <- vector(mode = "numeric", length = 5)
+    p_values <- vector(mode = "numeric", length = 5)
   }
   or_train <- vector(mode = "numeric", length = length(ths))
-  output <- data.frame(Threshold = rownames, Values = ths)
+  fpa <- vector(mode = "numeric", length = length(ths))
+
   for (i in 1:length(ths)) {
-    index <- which.min(abs(cm_train$th - output[i, 2]))
+    index <- which.min(abs(cm_train$th - ths[i]))
     or_train[i] <- round(cm_train[index, ]$fn / n_pres, 3)
+    fpa[i] <- round(fpr[index], 3)
     if (!is.null(test)) {
-      index <- which.min(abs(cm_test$th - output[i, 2]))
+      index <- which.min(abs(cm_test$th - ths[i]))
       or_test[i] <- round(cm_test[index, ]$fn / n_test, 3)
+      p_values[i] <- binom.test((round((1 - or_test[i]), 0) * n_test), n_test,
+                                fpa[i], alternative = "greater")$p.value
     }
   }
-  output$or <- or_train
-  if (!is.null(test))
+
+  output <- data.frame(th = rownames, val = ths, fpa = fpa, or = or_train)
+
+  if (!is.null(test)) {
     output$or_test <- or_test
+    output$pv <- p_values
+  }
 
   colnames(output) <- colnames
 

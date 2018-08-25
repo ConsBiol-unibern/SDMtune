@@ -39,7 +39,8 @@ confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
   n_bg <- length(bg_pred)
 
   if (is.null(th)) {
-    th <- seq(0, 1, 0.0001)
+    # th <- seq(0, 1, 0.0001)
+    th <- sort(unique(c(p_pred, bg_pred)))
   }
 
   tp <- fp <- vector(mode = "numeric", length = length(th))
