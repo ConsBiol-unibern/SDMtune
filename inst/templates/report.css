@@ -1,0 +1,23 @@
+#response figure {
+  /*display: table;*/
+  width: 25%;
+  padding: 0 0 15px 0;
+  margin: 0;
+  float: left;
+}
+
+#response img {
+  width: 100%;
+}
+
+#response p {
+  clear: both;
+}
+
+#response figcaption {
+  /*display: table-caption;*/
+  /*caption-side: bottom;*/
+  text-align: center;
+  color: #606c71;
+  /*text-decoration: none;*/
+}

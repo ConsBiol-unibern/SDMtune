@@ -27,7 +27,8 @@ Imports: dismo (>= 1.1-4),
           stringr (>= 1.3.1),
           rJava (>= 0.9-10),
           maxnet (>= 0.1.2),
-          kableExtra (>= 0.9.0)
+          kableExtra (>= 0.9.0),
+          htmltools (>= 0.3.6)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

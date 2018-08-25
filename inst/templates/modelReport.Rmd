@@ -3,6 +3,7 @@ output:
   prettydoc::html_pretty:
     theme: cayman
     highlight: github
+    css: report.css
 params:
   model: model
   type: type
@@ -50,7 +51,7 @@ knitr::kable(thresholds(params$model, type = params$type, test = params$test), d
 ```
 
 `r if(!params$response_curves) {"<!--"}`
-# Response curves
+# Response curves {#response}
 
 Marginal curves:
 
@@ -60,16 +61,15 @@ if (params$response_curves) {
   pb <- progress::progress_bar$new(
     format = "Marginal curves [:bar] :percent in :elapsedfull", total = length(vars), clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
-  elements <- c("<p>")
+  elements <- c("")
   for (var in vars) {
     plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE))
     suppressMessages(ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = plot_folder))
     path <- paste0(plot_folder, "/", var, "_marginal.png")
-    element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25% title=\"", var, "\"></a>")
+    element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
     elements <- c(elements, element)
     pb$tick(1)
   }
-  elements <- c(elements, "</p>")
   elements <- paste(elements, collapse = "")
   htmltools::HTML(elements)
 }
@@ -82,16 +82,16 @@ if (params$response_curves) {
   pb <- progress::progress_bar$new(
     format = "Univariate curves [:bar] :percent in :elapsedfull", total = length(vars), clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
-  elements <- c("<p>")
+  elements <- c("")
   for (var in vars) {
     plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = FALSE, rug = TRUE))
     suppressMessages(ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = plot_folder))
     path <- paste0(plot_folder, "/", var, ".png")
-    element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" width=25% title=\"", var, "\"></a>")
+    element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
     elements <- c(elements, element)
     pb$tick(1)
   }
-  elements <- c(elements, "</p>")
+  elements <- c(elements, "<p></p>")
   elements <- paste(elements, collapse = "")
   htmltools::HTML(elements)
 }

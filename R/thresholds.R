@@ -15,6 +15,7 @@
 #'
 #' @return data.frame with the thresholds.
 #' @export
+#' @importFrom stats binom.test
 #'
 #' @examples
 #' \dontrun{thresholds(model, type = "logistic")}
@@ -75,8 +76,9 @@ thresholds <- function(model, type, test = NULL) {
     if (!is.null(test)) {
       index <- which.min(abs(cm_test$th - ths[i]))
       or_test[i] <- round(cm_test[index, ]$fn / n_test, 3)
-      p_values[i] <- binom.test((round((1 - or_test[i]), 0) * n_test), n_test,
-                                fpa[i], alternative = "greater")$p.value
+      p_values[i] <- stats::binom.test((round((1 - or_test[i]), 0) * n_test),
+                                       n_test, fpa[i],
+                                       alternative = "greater")$p.value
     }
   }
 
