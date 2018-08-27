@@ -21,11 +21,16 @@ data.frame with the thresholds.
 \description{
 Compute three threshold values: minimum training presence, equal training
 sensitivity and specificity and maximum training sensitivity plus
-specificity.
+specificity together with fractional predicted area and the omission rate. If
+a test dataset is provided it returns also the equal test sensitivity and
+specificity and maximum test sensitivity plus specificity thresholds and the
+p-values of the one-tailed binomial exact test.
 }
 \details{
 The equal training sensitivity and specificity minimizes the
-difference between sensitivity and specificity.
+difference between sensitivity and specificity. The one-tailed binomial test
+checks that test points are predicted no better than by a random prediction
+with the same fractional predicted area.
 }
 \examples{
 \dontrun{thresholds(model, type = "logistic")}
