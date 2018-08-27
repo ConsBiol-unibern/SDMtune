@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SDMmodel — SDMmodel-class • SDMsel</title>
+<title>Model Report — modelReport • SDMsel</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="SDMmodel — SDMmodel-class" />
+<meta property="og:title" content="Model Report — modelReport" />
 
-<meta property="og:description" content="This Class represents a MaxEnt model objects and hosts all the information related to the model." />
+<meta property="og:description" content="Make a model report that shows main results" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -117,38 +117,73 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>SDMmodel</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/SDMmodel_class.R'><code>R/SDMmodel_class.R</code></a></small>
-    <div class="hidden name"><code>SDMmodel-class.Rd</code></div>
+    <h1>Model Report</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/modelReport.R'><code>R/modelReport.R</code></a></small>
+    <div class="hidden name"><code>modelReport.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This Class represents a MaxEnt model objects and hosts all the information related to the model.</p>
+    <p>Make a model report that shows main results</p>
     
     </div>
 
-        
-    <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
-
+    <pre class="usage"><span class='fu'>modelReport</span>(<span class='no'>model</span>, <span class='no'>type</span>, <span class='no'>folder</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>response_curves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
-    <dl class='dl-horizontal'>
-<dt><code>presence</code></dt><dd><p>SWD. The presence locations used to train the model.</p></dd>
-    <dt><code>background</code></dt><dd><p>SWD. The backgorund locations used to train the model.</p></dd>
-    <dt><code>model</code></dt><dd><p>Maxent or Maxnet object.</p></dd>
-    <dt><code>html</code></dt><dd><p>character. The path of the html file, available only after running
-the function <a href='modelReport.html'>modelReport</a>.
-runMaxent function.</p></dd>
-</dl>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>model</th>
+      <td><p>SDMmodel object</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>character. Output type, see <a href='predict-Maxent-method.html'>predict,Maxent-method</a> for
+Maxent models or predict.maxnet for Maxnet models.</p></td>
+    </tr>
+    <tr>
+      <th>folder</th>
+      <td><p>character. The name of the folder in which to save the output.
+The folder is created in the working directory.</p></td>
+    </tr>
+    <tr>
+      <th>test</th>
+      <td><p>SWD object with the test locations, default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>response_curves</th>
+      <td><p>logical, if TRUE it plots the response curves in the
+html output, default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>jk</th>
+      <td><p>logical, if TRUE it runs the jackknife test, default FALSE.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The function produces a report similar to the one created by Maxent
+software.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>modelReport</span>(<span class='no'>model</span>, <span class='st'>"cloglog"</span>, <span class='kw'>folder</span> <span class='kw'>=</span> <span class='st'>"my_folder"</span>, <span class='kw'>response_curves</span> <span class='kw'>=</span> <span class='no'>T</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#slots">Slots</a></li>
-          </ul>
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     

@@ -32,6 +32,7 @@ reference:
   desc: Function to train the model and get information from the model
   contents:
   - '`modelOutput`'
+  - '`modelReport`'
   - '`maxentTh`'
   - '`maxentVarImp`'
   - '`predict,Maxent-method`'

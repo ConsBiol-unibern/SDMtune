@@ -34,7 +34,10 @@
 
 <meta property="og:description" content="Compute three threshold values: minimum training presence, equal training
 sensitivity and specificity and maximum training sensitivity plus
-specificity." />
+specificity together with fractional predicted area and the omission rate. If
+a test dataset is provided it returns also the equal test sensitivity and
+specificity and maximum test sensitivity plus specificity thresholds and the
+p-values of the one-tailed binomial exact test." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -128,11 +131,14 @@ specificity." />
     
     <p>Compute three threshold values: minimum training presence, equal training
 sensitivity and specificity and maximum training sensitivity plus
-specificity.</p>
+specificity together with fractional predicted area and the omission rate. If
+a test dataset is provided it returns also the equal test sensitivity and
+specificity and maximum test sensitivity plus specificity thresholds and the
+p-values of the one-tailed binomial exact test.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>thresholds</span>(<span class='no'>model</span>, <span class='no'>type</span>)</pre>
+    <pre class="usage"><span class='fu'>thresholds</span>(<span class='no'>model</span>, <span class='no'>type</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,6 +152,11 @@ specificity.</p>
       <td><p>character. The output type, possible values are "cloglog" and
 "logistic", default is "cloglog".</p></td>
     </tr>
+    <tr>
+      <th>test</th>
+      <td><p>SWD test locations, if not provided it returns the training and
+test thresholds, default is NULL.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -155,7 +166,9 @@ specificity.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The equal training sensitivity and specificity minimizes the
-difference between sensitivity and specificity.</p>
+difference between sensitivity and specificity. The one-tailed binomial test
+checks that test points are predicted no better than by a random prediction
+with the same fractional predicted area.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
