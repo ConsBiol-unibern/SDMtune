@@ -105,7 +105,6 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">java.parameters =</span> <span class="st">"-Xmx2g"</span> )</code></pre></div>
 <p>Import <code>SDMsel</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SDMsel)
-<span class="co">#&gt; Loading required package: zeallot</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="co">#&gt;  ________________________________________</span>
 <span class="co">#&gt; |   ____   ____   __  __             _   |</span>
@@ -116,9 +115,7 @@
 <span class="co">#&gt; |________________________________________|</span>
 <span class="co">#&gt; </span></code></pre></div>
 <p>Check if maxent is correctly configured for <code>dismo</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dismo<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/maxent">maxent</a></span>()
-<span class="co">#&gt; Loading required namespace: rJava</span>
-<span class="co">#&gt; This is MaxEnt version 3.4.1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dismo<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/maxent">maxent</a></span>()</code></pre></div>
 <p>Now everything is set up and you can start your analysis. A good starting point to learn how to use <strong>SDMsel</strong> is the article <a href="">Tune model using AUC</a> in the package website.</p>
 <p>(<strong>TODO: I will add the right link when we release the pkg!</strong>)</p>
 </div>
@@ -127,7 +124,7 @@
 <a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-Hijmans2017">
-<p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “dismo: Species Distribution Modeling.” <a href="https://cran.r-project.org/web/packages/dismo/dismo.pdf" class="uri">https://cran.r-project.org/web/packages/dismo/dismo.pdf</a>.</p>
+<p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “dismo: Species Distribution Modeling.” <a href="https://cran.r-project.org/package=dismo" class="uri">https://cran.r-project.org/package=dismo</a>.</p>
 </div>
 <div id="ref-Phillips2017">
 <p>Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E. Schapire, and Mary E. Blair. 2017. “Opening the black box: an open-source release of Maxent.” <em>Ecography</em> 40 (7). Wiley/Blackwell (10.1111): 887–93. doi:<a href="https://doi.org/10.1111/ecog.03049">10.1111/ecog.03049</a>.</p>
