@@ -8,7 +8,7 @@ Authors@R: c(
 	       role = c("aut", "cre"), comment = c(ORCID = "00000-0002-3390-5442")),
 	person("Arnaud", "Barras", role = "aut"),
 	person("Veronika", "Braunisch", role = "aut", comment = c(ORCID = "00000-0001-7035-4662")),
-	person("Conservation Biology", role = c("cph", "fnd"))
+	person("Conservation Biology - University of Bern" , role = "fnd")
 	)
 Description: Provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models). SDMsel uses its own script to predict MaxEnt models that results to be much faster for large datasets than native prediction made using Java software. This reduce considerably the computation time when tuninig the model using the AICc.
 License: GPL (>= 3)

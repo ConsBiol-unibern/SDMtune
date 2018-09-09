@@ -41,9 +41,9 @@ thresholds <- function(model, type, test = NULL) {
   tnr <- cm_train$tn / (cm_train$fp + cm_train$tn)
   fpr <- cm_train$fp / (cm_train$fp + cm_train$tn)
 
-  mtp <- round(min(predict(object, model@presence@data, type = type)), 3)
-  ess <- round(cm_train$th[which.min(abs(tpr - tnr))], 3)
-  mss <- round(cm_train$th[which.max(tpr + tnr)], 3)
+  mtp <- min(predict(object, model@presence@data, type = type))
+  ess <- cm_train$th[which.min(abs(tpr - tnr))]
+  mss <- cm_train$th[which.max(tpr + tnr)]
 
   ths <- c(mtp, ess, mss)
   rownames <- c("Minimum training presence",
@@ -59,8 +59,8 @@ thresholds <- function(model, type, test = NULL) {
     tpr_test <- cm_test$tp / (cm_test$tp + cm_test$fn)
     tnr_test <- cm_test$tn / (cm_test$fp + cm_test$tn)
 
-    ess <- round(cm_test$th[which.min(abs(tpr_test - tnr_test))], 3)
-    mss <- round(cm_test$th[which.max(tpr_test + tnr_test)], 3)
+    ess <- cm_test$th[which.min(abs(tpr_test - tnr_test))]
+    mss <- cm_test$th[which.max(tpr_test + tnr_test)]
 
     ths <- c(ths, ess, mss)
     rownames <- c(rownames,
@@ -76,11 +76,11 @@ thresholds <- function(model, type, test = NULL) {
 
   for (i in 1:length(ths)) {
     index <- which.min(abs(cm_train$th - ths[i]))
-    or_train[i] <- round(cm_train[index, ]$fn / n_pres, 3)
-    fpa[i] <- round(fpr[index], 3)
+    or_train[i] <- cm_train[index, ]$fn / n_pres
+    fpa[i] <- fpr[index]
     if (!is.null(test)) {
       index <- which.min(abs(cm_test$th - ths[i]))
-      or_test[i] <- round(cm_test[index, ]$fn / n_test, 3)
+      or_test[i] <- cm_test[index, ]$fn / n_test
       p_values[i] <- stats::binom.test((round((1 - or_test[i]), 0) * n_test),
                                        n_test, fpa[i],
                                        alternative = "greater")$p.value
@@ -88,9 +88,10 @@ thresholds <- function(model, type, test = NULL) {
   }
 
   output <- data.frame(th = rownames, val = ths, fpa = fpa, or = or_train)
+  output[, 2:4] <- round(output[, 2:4], 3)
 
   if (!is.null(test)) {
-    output$or_test <- or_test
+    output$or_test <- round(or_test, 3)
     output$pv <- p_values
   }
 
