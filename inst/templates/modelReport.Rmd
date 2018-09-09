@@ -22,6 +22,7 @@ library(kableExtra)
 
 ```{r, echo=FALSE, message=FALSE}
 message("save files...")
+saveRDS(params$model, file = paste0(params$folder, "/model.Rds"))
 swd2csv(params$model@presence, paste0(params$folder, "/presence.csv"))
 swd2csv(params$model@background, paste0(params$folder, "/background.csv"))
 if (!is.null(params$test))
