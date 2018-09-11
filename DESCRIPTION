@@ -28,7 +28,9 @@ Imports: dismo (>= 1.1-4),
           rJava (>= 0.9-10),
           maxnet (>= 0.1.2),
           kableExtra (>= 0.9.0),
-          htmltools (>= 0.3.6)
+          htmltools (>= 0.3.6),
+          prettydoc (>= 0.2.1),
+          keras (>= 2.2.0)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
@@ -36,12 +38,12 @@ Roxygen: list(markdown = TRUE)
 Suggests: knitr (>= 1.20),
     rmarkdown (>= 1.10),
     roxygen2 (>= 6.0.1),
-    snow (>= 0.4-2),
-    prettydoc (>= 0.2.1)
+    snow (>= 0.4-2)
 VignetteBuilder: knitr
 Collate: 
     'Maxent_class.R'
     'Maxnet_class.R'
+    'NN_class.R'
     'SDMmodel2MaxEnt.R'
     'SWD_class.R'
     'SDMmodel_class.R'
@@ -75,6 +77,7 @@ Collate:
     'train.R'
     'trainMaxent.R'
     'trainMaxnet.R'
+    'trainNN.R'
     'trainValTest.R'
     'tss.R'
     'tuneBg.R'
