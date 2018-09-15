@@ -1,4 +1,4 @@
-setClassUnion("model", c("Maxent", "Maxnet"))
+setClassUnion("model", c("Maxent", "Maxnet", "NN"))
 #' SDMmodel
 #'
 #' This Class represents a MaxEnt model objects and hosts all the information related to the model.
@@ -8,9 +8,8 @@ setClassUnion("model", c("Maxent", "Maxnet"))
 #' @slot model Maxent or Maxnet object.
 #' @slot html character. The path of the html file, available only after running
 #' the function \link{modelReport}.
-#' runMaxent function.
 #'
-#' @include SWD_class.R Maxent_class.R Maxnet_class.R
+#' @include SWD_class.R Maxent_class.R Maxnet_class.R NN_class.R
 #' @name SDMmodel-class
 #' @rdname SDMmodel-class
 #' @exportClass SDMmodel

@@ -18,7 +18,7 @@
 #' @author Sergio Vignali
 auc <- function(model, test = NULL, bg = NULL) {
 
-  if (class(model@model) == "Maxent") {
+  if (class(model@model) != "Maxnet") {
     object <- model@model
   } else {
     object <- model@model@model

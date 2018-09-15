@@ -22,7 +22,7 @@ confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
 
   type <- match.arg(type)
 
-  if (class(model@model) == "Maxent") {
+  if (class(model@model) != "Maxnet") {
     object <- model@model
   } else {
     object <- model@model@model

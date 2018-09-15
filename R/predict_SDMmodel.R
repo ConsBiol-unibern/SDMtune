@@ -52,7 +52,7 @@ setMethod("predict",
                                 format = "GTiff", extent = NULL,
                                 parallel = FALSE, progress = "", ...) {
 
-            if (class(object@model) == "Maxent") {
+            if (class(object@model) != "Maxnet") {
               model <- object@model
             } else {
               model <- object@model@model

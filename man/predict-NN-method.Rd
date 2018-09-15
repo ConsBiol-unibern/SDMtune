@@ -5,17 +5,17 @@
 \alias{predict,NN-method}
 \title{Predict NN}
 \usage{
-\S4method{predict}{NN}(object, data, clamp = TRUE, standardize = TRUE)
+\S4method{predict}{NN}(object, data, type = "logistic", clamp = TRUE)
 }
 \arguments{
 \item{object}{NN object.}
 
 \item{data}{data.frame containing values used for the prediction.}
 
-\item{clamp}{logical for clumping during prediction, default is TRUE.}
+\item{type}{character. Output type, at the moment only "logistic is
+available.}
 
-\item{standardize}{logical for standirdize data before doing prediction,
-default is TRUE.}
+\item{clamp}{logical for clumping during prediction, default is TRUE.}
 }
 \value{
 A vector with the prediction

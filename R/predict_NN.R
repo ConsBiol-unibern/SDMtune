@@ -4,9 +4,9 @@
 #'
 #' @param object NN object.
 #' @param data data.frame containing values used for the prediction.
+#' @param type character. Output type, at the moment only "logistic is
+#' available.
 #' @param clamp logical for clumping during prediction, default is TRUE.
-#' @param standardize logical for standirdize data before doing prediction,
-#' default is TRUE.
 #'
 #' @include NN_class.R
 #'
@@ -20,8 +20,7 @@
 #' @author Sergio Vignali
 setMethod("predict",
           signature = "NN",
-          definition = function(object, data, clamp = TRUE,
-                                standardize = TRUE) {
+          definition = function(object, data, type = "logistic", clamp = TRUE) {
 
             if (clamp) {
               for (var in object@min_max$variable) {
@@ -34,10 +33,8 @@ setMethod("predict",
             cont_vars <- names(Filter(is.numeric, data))
             cat_vars <- names(Filter(is.factor, data))
 
-            if (standardize) {
-              data[cont_vars] <- scale(data[cont_vars], center = object@means,
-                                       scale = object@stds)
-            }
+            data[cont_vars] <- scale(data[cont_vars], center = object@means,
+                                     scale = object@stds)
 
             if (length(cat_vars) > 0) {
               for (cat in cat_vars) {

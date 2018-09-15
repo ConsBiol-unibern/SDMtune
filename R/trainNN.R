@@ -17,8 +17,6 @@
 #' @param verbose integer. Verbosity mode (0 = silent, 1 = progress bar,
 #' 2 = text).
 #' @param callbacks List of callbacks to be called during training.
-#' @param standardize logical, if TRUE continuous variables will be standardized
-#' before training the model.
 #'
 #' @details Write something here...
 #'
@@ -32,13 +30,13 @@
 #' @author Sergio Vignali
 trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
                     optimizer = "rmsprop", loss = "mse", epoch = 500,
-                    batch_size = 32, verbose = 1, callbacks = list(),
-                    standardize = TRUE) {
+                    batch_size = 32, verbose = 1, callbacks = list()) {
 
   if (is.null(conf) & is.null(model))
     stop("You must provide conf or model parameter!")
   requireNamespace("keras")
 
+  result <- SDMmodel(presence = presence, background = bg)
   x <- rbind(presence@data, bg@data)
   cont_vars <- names(Filter(is.numeric, x))
   cat_vars <- names(Filter(is.factor, x))
@@ -47,12 +45,11 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
                         min = apply(x[cont_vars], 2, min),
                         max = apply(x[cont_vars], 2, max))
 
-  if (standardize) {
-    means <- apply(x[cont_vars], 2, mean)
-    stds <- apply(x[cont_vars], 2, sd)
+  # Standardize continuous variables
+  means <- apply(x[cont_vars], 2, mean)
+  stds <- apply(x[cont_vars], 2, sd)
 
-    x[cont_vars] <- scale(x[cont_vars], center = means, scale = stds)
-  }
+  x[cont_vars] <- scale(x[cont_vars], center = means, scale = stds)
 
   if (length(cat_vars) > 0) {
     for (cat in cat_vars) {
@@ -76,10 +73,12 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
 
   history <- model %>% fit(x, p, epochs = epoch, batch_size = batch_size,
                            callbacks = callbacks, verbose = verbose)
-  output <- NN(model = model, loss = loss, optimizer = optimizer,
+  model_object <- NN(model = model, loss = loss, optimizer = optimizer,
                min_max = min_max, means = means, stds = stds, levels = xlevs)
 
-  return(list(output, history))
+  result@model <- model_object
+
+  return(list(result, history))
 }
 
 #' @importFrom keras %>% keras_model_sequential layer_dense regularizer_l2
