@@ -37,6 +37,17 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
     x[cols] <- scale(x[cols], center = means, scale = stds)
   }
 
+  cats <- names(Filter(is.factor, x))
+
+  if (length(cats) > 0) {
+    for (cat in cats) {
+      data <- to_categorical(x[, cat])
+      colnames(data) <- paste0(cat, "_", 1:ncol(data))
+      x[cat] <- NULL
+      x <- cbind(x, data)
+    }
+  }
+
   x <- data.matrix(x)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
 
