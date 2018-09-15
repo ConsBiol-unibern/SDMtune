@@ -22,7 +22,7 @@
 #'
 #' @details Write something here...
 #'
-#' @return
+#' @return NN object.
 #' @export
 #' @importFrom keras %>% compile fit
 #'
@@ -56,7 +56,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
 
   if (length(cat_vars) > 0) {
     for (cat in cat_vars) {
-      one_hot <- model.matrix(~x[, cat] - 1)
+      one_hot <- one_hot(x[, cat], levels(x[, cat]))
       colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
       x[cat] <- NULL
       x <- cbind(x, one_hot)
@@ -69,7 +69,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   if (!is.null(model)) {
     model <- model
   } else {
-    model <- parse_nn(conf, ncol(x))
+    model <- parse_nn(conf, reg, ncol(x))
   }
 
   model %>% compile(optimizer = optimizer, loss = loss)

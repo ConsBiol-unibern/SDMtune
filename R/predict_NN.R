@@ -12,7 +12,7 @@
 #'
 #' @return A vector with the prediction
 #' @exportMethod predict
-#' @importFrom keras %>% to_categorical
+#' @importFrom keras %>%
 #'
 #' @examples \dontrun{
 #' predict(model, my_dataset)}
@@ -25,13 +25,14 @@ setMethod("predict",
 
             if (clamp) {
               for (var in object@min_max$variable) {
-                data[var] <- pmax(object@min_max$min[, object@min_max$variable == var],
-                                  pmin(data[var], object@min_max$max[, object@min_max$variable == var]))
+                data[var] <- clamp(data[, var],
+                                   object@min_max$min[object@min_max$variable == var],
+                                   object@min_max$max[object@min_max$variable == var])
               }
             }
 
             cont_vars <- names(Filter(is.numeric, data))
-            cat_vars <- names(Filter(is.factor, object))
+            cat_vars <- names(Filter(is.factor, data))
 
             if (standardize) {
               data[cont_vars] <- scale(data[cont_vars], center = object@means,
@@ -40,7 +41,7 @@ setMethod("predict",
 
             if (length(cat_vars) > 0) {
               for (cat in cat_vars) {
-                one_hot <- to_categorical(data[, cat])
+                one_hot <- one_hot(data[, cat], object@levels[[cat]])
                 colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
                 data[cat] <- NULL
                 data <- cbind(data, one_hot)
@@ -50,40 +51,5 @@ setMethod("predict",
             data <- data.matrix(data)
             pred <- object@model %>% predict(data)
 
-            return(pred)
+            return(as.vector(pred))
           })
-
-#' @export
-#' @importFrom keras %>% to_categorical
-predictNN <- function(object, data, clamp = TRUE,
-                      standardize = TRUE) {
-
-  if (clamp) {
-    for (var in object@min_max$variable) {
-      data[var] <- pmax(object@min_max$min[, object@min_max$variable == var],
-                        pmin(data[var], object@min_max$max[, object@min_max$variable == var]))
-    }
-  }
-
-  cont_vars <- names(Filter(is.numeric, data))
-  cat_vars <- names(Filter(is.factor, data))
-
-  if (standardize) {
-    data[cont_vars] <- scale(data[cont_vars], center = object@means,
-                             scale = object@stds)
-  }
-
-  if (length(cat_vars) > 0) {
-    for (cat in cat_vars) {
-      one_hot <- to_categorical(data[, cat])
-      colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
-      data[cat] <- NULL
-      data <- cbind(data, one_hot)
-    }
-  }
-
-  data <- data.matrix(data)
-  pred <- object@model %>% predict(data)
-
-  return(pred)
-}

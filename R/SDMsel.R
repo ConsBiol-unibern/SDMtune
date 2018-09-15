@@ -11,4 +11,7 @@
 #'
 #' @docType package
 #' @name SDMsel
+#' @import Rcpp
+#' @importFrom Rcpp evalCpp
+#' @useDynLib SDMsel
 NULL

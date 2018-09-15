@@ -38,6 +38,9 @@ default is 32.}
 \item{standardize}{logical, if TRUE continuous variables will be standardized
 before training the model.}
 }
+\value{
+NN object.
+}
 \description{
 Train a Neural Network model
 }

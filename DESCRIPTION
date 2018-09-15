@@ -30,9 +30,11 @@ Imports: dismo (>= 1.1-4),
           kableExtra (>= 0.9.0),
           htmltools (>= 0.3.6),
           prettydoc (>= 0.2.1),
-          keras (>= 2.2.0)
+          keras (>= 2.2.0),
+          Rcpp (>= 0.12.18)
 Encoding: UTF-8
 LazyData: true
+LinkingTo: Rcpp
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
 Suggests: knitr (>= 1.20),
@@ -44,6 +46,7 @@ Collate:
     'Maxent_class.R'
     'Maxnet_class.R'
     'NN_class.R'
+    'RcppExports.R'
     'SDMmodel2MaxEnt.R'
     'SWD_class.R'
     'SDMmodel_class.R'
