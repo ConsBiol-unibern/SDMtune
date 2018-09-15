@@ -14,16 +14,21 @@ related to the model.
 \describe{
 \item{\code{model}}{keras.engine.sequential.Sequential. The Neural Network object.}
 
+\item{\code{loss}}{character. Name of the loss function optimized.}
+
 \item{\code{optimizer}}{character. Name of optimizer algorithm used to train the
 model.}
 
-\item{\code{loss}}{character. Name of the loss function optimized.}
+\item{\code{min_max}}{data.frame. The minimum and maximum values of the continuous
+variables, used for clamping.}
 
 \item{\code{means}}{numeric. Vector of means used to standardize continuous
 variables.}
 
 \item{\code{stds}}{numeric. Vector of standard deviations used to standardize
 continuous variables.}
+
+\item{\code{levels}}{list with the levels of each categorical variable.}
 }}
 
 \author{

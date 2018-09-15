@@ -1,50 +1,65 @@
 #' Train Neural Network
 #'
-#' @param presence
-#' @param bg
-#' @param conf
-#' @param model
-#' @param reg
-#' @param optimizer
-#' @param loss
-#' @param epoch
-#' @param batch_size
-#' @param verbose
-#' @param callbacks
-#' @param standardize
+#' Train a Neural Network model
+#'
+#' @param presence SWD object with the presence locations.
+#' @param bg SWD object with the background locations.
+#' @param conf list containing vector with layers configuration, see details.
+#' @param model a keras model.
+#' @param reg numeric. The regularization to be applied to each layer,
+#' default is 0.
+#' @param optimizer character. The optimizer algorithm, default is "rmsprop".
+#' @param loss character. The Loss function to be optimized, default is "mse".
+#' @param epoch integer. Number of epoch used to train the model,
+#' default is 500.
+#' @param batch_size integer. Number of samples used in each mini batch,
+#' default is 32.
+#' @param verbose integer. Verbosity mode (0 = silent, 1 = progress bar,
+#' 2 = text).
+#' @param callbacks List of callbacks to be called during training.
+#' @param standardize logical, if TRUE continuous variables will be standardized
+#' before training the model.
+#'
+#' @details Write something here...
 #'
 #' @return
 #' @export
+#' @importFrom keras %>% compile fit
 #'
-#' @examples
+#' @examples \dontrun{
+#' trainNN(presence, bg, conf = list(c(100, "tanh"), c(100, "tanh")))}
+#'
+#' @author Sergio Vignali
 trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
                     optimizer = "rmsprop", loss = "mse", epoch = 500,
-                    batch_size = 128, verbose = 1, callbacks = list(),
+                    batch_size = 32, verbose = 1, callbacks = list(),
                     standardize = TRUE) {
 
   if (is.null(conf) & is.null(model))
     stop("You must provide conf or model parameter!")
-  require(keras)
+  requireNamespace("keras")
 
   x <- rbind(presence@data, bg@data)
+  cont_vars <- names(Filter(is.numeric, x))
+  cat_vars <- names(Filter(is.factor, x))
+  xlevs <- lapply(bg@data[cat_vars], function(i) {levels(i)})
+  min_max <- data.frame(variable = colnames(x[cont_vars]),
+                        min = apply(x[cont_vars], 2, min),
+                        max = apply(x[cont_vars], 2, max))
 
   if (standardize) {
-    cols <- names(Filter(is.numeric, x))
+    means <- apply(x[cont_vars], 2, mean)
+    stds <- apply(x[cont_vars], 2, sd)
 
-    means <- apply(x[cols], 2, mean)
-    stds <- apply(x[cols], 2, sd)
-
-    x[cols] <- scale(x[cols], center = means, scale = stds)
+    x[cont_vars] <- scale(x[cont_vars], center = means, scale = stds)
   }
 
-  cats <- names(Filter(is.factor, x))
-
-  if (length(cats) > 0) {
-    for (cat in cats) {
-      data <- to_categorical(x[, cat])
-      colnames(data) <- paste0(cat, "_", 1:ncol(data))
+  if (length(cat_vars) > 0) {
+    for (cat in cat_vars) {
+      one_hot <- model.matrix(~x[, cat] - 1)
+      colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
       x[cat] <- NULL
-      x <- cbind(x, data)
+      x <- cbind(x, one_hot)
     }
   }
 
@@ -54,19 +69,20 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   if (!is.null(model)) {
     model <- model
   } else {
-    model <- parse_nn(conf, reg, ncol(x))
+    model <- parse_nn(conf, ncol(x))
   }
 
   model %>% compile(optimizer = optimizer, loss = loss)
 
   history <- model %>% fit(x, p, epochs = epoch, batch_size = batch_size,
                            callbacks = callbacks, verbose = verbose)
-  output <- NN(optimizer = optimizer, loss = loss, model = model, means = means,
-               stds = stds)
+  output <- NN(model = model, loss = loss, optimizer = optimizer,
+               min_max = min_max, means = means, stds = stds, levels = xlevs)
 
   return(list(output, history))
 }
 
+#' @importFrom keras %>% keras_model_sequential layer_dense regularizer_l2
 parse_nn <- function(conf, reg, input_units) {
   model <- keras_model_sequential()
   for (i in 1:length(conf)) {

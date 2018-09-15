@@ -5,12 +5,50 @@
 \title{Train Neural Network}
 \usage{
 trainNN(presence, bg, conf = NULL, model = NULL, reg = 0,
-  optimizer = "rmsprop", loss = "mse", epoch = 500, batch_size = 128,
+  optimizer = "rmsprop", loss = "mse", epoch = 500, batch_size = 32,
   verbose = 1, callbacks = list(), standardize = TRUE)
 }
 \arguments{
-\item{standardize}{}
+\item{presence}{SWD object with the presence locations.}
+
+\item{bg}{SWD object with the background locations.}
+
+\item{conf}{list containing vector with layers configuration, see details.}
+
+\item{model}{a keras model.}
+
+\item{reg}{numeric. The regularization to be applied to each layer,
+default is 0.}
+
+\item{optimizer}{character. The optimizer algorithm, default is "rmsprop".}
+
+\item{loss}{character. The Loss function to be optimized, default is "mse".}
+
+\item{epoch}{integer. Number of epoch used to train the model,
+default is 500.}
+
+\item{batch_size}{integer. Number of samples used in each mini batch,
+default is 32.}
+
+\item{verbose}{integer. Verbosity mode (0 = silent, 1 = progress bar,
+2 = text).}
+
+\item{callbacks}{List of callbacks to be called during training.}
+
+\item{standardize}{logical, if TRUE continuous variables will be standardized
+before training the model.}
 }
 \description{
-Train Neural Network
+Train a Neural Network model
+}
+\details{
+Write something here...
+}
+\examples{
+\dontrun{
+trainNN(presence, bg, conf = list(c(100, "tanh"), c(100, "tanh")))}
+
+}
+\author{
+Sergio Vignali
 }
