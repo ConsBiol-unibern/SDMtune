@@ -6,10 +6,10 @@
 \usage{
 trainNN(presence, bg, conf = NULL, model = NULL, reg = 0,
   optimizer = "rmsprop", loss = "mse", epoch = 500, batch_size = 128,
-  verbose = 1, callbacks = list())
+  verbose = 1, callbacks = list(), standardize = TRUE)
 }
 \arguments{
-\item{callbacks}{}
+\item{standardize}{}
 }
 \description{
 Train Neural Network

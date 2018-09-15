@@ -13,6 +13,17 @@ related to the model.
 
 \describe{
 \item{\code{model}}{keras.engine.sequential.Sequential. The Neural Network object.}
+
+\item{\code{optimizer}}{character. Name of optimizer algorithm used to train the
+model.}
+
+\item{\code{loss}}{character. Name of the loss function optimized.}
+
+\item{\code{means}}{numeric. Vector of means used to standardize continuous
+variables.}
+
+\item{\code{stds}}{numeric. Vector of standard deviations used to standardize
+continuous variables.}
 }}
 
 \author{
