@@ -1,4 +1,4 @@
-setOldClass("keras.engine.sequential.Sequential")
+setOldClass(c("keras.engine.sequential.Sequential", "keras_training_history"))
 #' NN
 #'
 #' This Class represents a Neural Network model objects and hosts all the information
@@ -22,8 +22,9 @@ setOldClass("keras.engine.sequential.Sequential")
 #'
 #' @author Sergio Vignali
 NN <- setClass("NN",
-               slots = c(
+               representation(
                  model = "keras.engine.sequential.Sequential",
+                 history = "keras_training_history",
                  loss = "character",
                  optimizer = "character",
                  min_max = "data.frame",
