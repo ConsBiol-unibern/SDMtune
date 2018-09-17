@@ -11,7 +11,7 @@ This Class represents a Maxnet model objects and hosts all the information relat
 \section{Slots}{
 
 \describe{
-\item{\code{rm}}{numeric. The value of the regularization multiplier used to train the model.}
+\item{\code{reg}}{numeric. The value of the regularization multiplier used to train the model.}
 
 \item{\code{fc}}{character. The feature class combination used to train the model.}
 

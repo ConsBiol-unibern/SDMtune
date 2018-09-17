@@ -52,7 +52,7 @@ modelOutput <- function(model, type = c("cloglog", "logistic", "raw"), folder,
   extra_args <- c(extra_args, paste0("folder=", folder))
 
   model <- trainMaxent(presence = model@presence, bg = model@background,
-                       rm = model@model@rm, fc = model@model@fc,
+                       reg = model@model@reg, fc = model@model@fc,
                        iter = model@model@iter, extra_args = extra_args)
 
   if (!is.null(test)) {

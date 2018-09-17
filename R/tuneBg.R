@@ -75,7 +75,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   } else {
     labels <- c("AICc", "delta_AICc")
   }
-  labels <- c("bg", "rm", "fc", labels)
+  labels <- c("bg", "reg", "fc", labels)
 
   models <- list()
   res <- matrix(nrow = length(bgs), ncol = length(labels))
@@ -93,8 +93,8 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
       bg <- bg4test
       bg@data <- bg4test@data[folds[1:bgs[i]], ]
       new_model <- train(method = method, model@presence, bg = bg,
-                         rm = model@model@rm, fc = model@model@fc, iter = iter,
-                         extra_args = extra_args)
+                         reg = model@model@reg, fc = model@model@fc,
+                         iter = iter, extra_args = extra_args)
     }
 
     models <- c(models, new_model)
@@ -112,7 +112,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   }
 
   res[, 1] <- bgs
-  res[, 2] <- model@model@rm
+  res[, 2] <- model@model@reg
 
   if (metric == "aicc") {
     res[, 5] <- round(res[, 4] - min(res[, 4]), 4)

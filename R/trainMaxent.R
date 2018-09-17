@@ -8,7 +8,7 @@
 #'
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
-#' @param rm numeric. The value of the regularization multiplier.
+#' @param reg numeric. The value of the regularization multiplier.
 #' @param fc vector. The value of the feature combination, possible values are
 #' combinations of "l", "q", "p", "h" and "t".
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm,
@@ -28,11 +28,11 @@
 #' @importFrom utils packageVersion read.csv
 #'
 #' @examples
-#' \dontrun{model <- trainMaxent(presence, bg, rm,
+#' \dontrun{model <- trainMaxent(presence, bg, reg,
 #' extra_args = )}
 #'
 #' @author Sergio Vignali
-trainMaxent <- function(presence, bg, rm, fc, iter = 500,
+trainMaxent <- function(presence, bg, reg, fc, iter = 500,
                         extra_args = c("noaddsamplestobackground",
                                        "removeduplicates=false")) {
 
@@ -48,7 +48,7 @@ trainMaxent <- function(presence, bg, rm, fc, iter = 500,
     folder <- tempfile()
   }
 
-  args <- .makeArgs(rm = rm, fc = fc, iter = iter, extra_args = extra_args)
+  args <- .makeArgs(reg = reg, fc = fc, iter = iter, extra_args = extra_args)
 
   x <- rbind(presence@data, bg@data)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
@@ -57,7 +57,7 @@ trainMaxent <- function(presence, bg, rm, fc, iter = 500,
   l <- .getLambdas(paste0(folder, "/species.lambdas"), bg)
   f <- .formulaFromLambdas(l$lambdas)
 
-  model_object <- Maxent(results = dismo_model@results, rm = rm, fc = fc,
+  model_object <- Maxent(results = dismo_model@results, reg = reg, fc = fc,
                          iter = iter, extra_args = extra_args,
                          lambdas = dismo_model@lambdas, coeff = l$lambdas,
                          formula = f, lpn = l$lpn, dn = l$dn,
@@ -97,9 +97,9 @@ trainMaxent <- function(presence, bg, rm, fc, iter = 500,
   return(result)
 }
 
-.makeArgs <- function(rm, fc, iter, extra_args) {
+.makeArgs <- function(reg, fc, iter, extra_args) {
 
-  args <- c(paste0("betamultiplier=", rm), paste0("maximumiterations=", iter),
+  args <- c(paste0("betamultiplier=", reg), paste0("maximumiterations=", iter),
             .getFeatureArgs(fc))
 
   args <- c(args, extra_args)

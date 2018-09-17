@@ -14,7 +14,7 @@ related to the model.
 \describe{
 \item{\code{results}}{matrix. The result that usually MaxEnt provide as a csv file.}
 
-\item{\code{rm}}{numeric. The value of the regularization multiplier used to train
+\item{\code{reg}}{numeric. The value of the regularization multiplier used to train
 the model.}
 
 \item{\code{fc}}{character. The feature class combination used to train the model.}

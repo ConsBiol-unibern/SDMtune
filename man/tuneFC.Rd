@@ -45,7 +45,7 @@ env = predictors, parallel = T)}
 }
 \seealso{
 Other tuning functions: \code{\link{tuneBg}},
-  \code{\link{tuneRM}}
+  \code{\link{tuneReg}}
 }
 \author{
 Sergio Vignali

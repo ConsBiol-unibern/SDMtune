@@ -5,7 +5,7 @@
 \title{Variable Selection}
 \usage{
 varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE, rm = 0.001, method = "spearman", cor_th = 0.7,
+  parallel = FALSE, reg = 0.001, method = "spearman", cor_th = 0.7,
   permut = 10)
 }
 \arguments{
@@ -23,7 +23,7 @@ variables, used only with "aicc", default is NULL.}
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE. Used only with AICc.}
 
-\item{rm}{integer. The value of the regularization paramiter to use during
+\item{reg}{integer. The value of the regularization paramiter to use during
 computation, default is 0.001, see details.}
 
 \item{method}{character. The method used to comput the correlation matrix,
@@ -50,13 +50,13 @@ remaining variables are not highly correlated anymore.
 \details{
 You need package \pkg{snow} to use parallel computation. Parallel
 computation increases the speed only for big datasets due to the time
-necessary to create the cluster. For \strong{Maxnet} using a \strong{rm} lower than 0.1
-the model won't converge!
+necessary to create the cluster. For \strong{Maxnet} using a \strong{reg} lower than
+0.1 the model won't converge!
 We should write something more... I will refer to our paper for the explanations...
 }
 \examples{
 \dontrun{
-varSel(model, bg, use_permutation = T)}
+varSel(model, bg, metric = "auc")}
 
 }
 \author{

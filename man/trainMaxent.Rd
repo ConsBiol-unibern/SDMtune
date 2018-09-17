@@ -4,7 +4,7 @@
 \alias{trainMaxent}
 \title{Train Maxent model}
 \usage{
-trainMaxent(presence, bg, rm, fc, iter = 500,
+trainMaxent(presence, bg, reg, fc, iter = 500,
   extra_args = c("noaddsamplestobackground", "removeduplicates=false"))
 }
 \arguments{
@@ -12,7 +12,7 @@ trainMaxent(presence, bg, rm, fc, iter = 500,
 
 \item{bg}{SWD object with the background locations.}
 
-\item{rm}{numeric. The value of the regularization multiplier.}
+\item{reg}{numeric. The value of the regularization multiplier.}
 
 \item{fc}{vector. The value of the feature combination, possible values are
 combinations of "l", "q", "p", "h" and "t".}
@@ -40,7 +40,7 @@ not your expected beaviour you can remove both passing extra_args = "" or you
 can add any other additional arguments extending the previous vector.
 }
 \examples{
-\dontrun{model <- trainMaxent(presence, bg, rm,
+\dontrun{model <- trainMaxent(presence, bg, reg,
 extra_args = )}
 
 }

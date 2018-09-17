@@ -4,7 +4,7 @@
 #' related to the model.
 #'
 #' @slot results matrix. The result that usually MaxEnt provide as a csv file.
-#' @slot rm numeric. The value of the regularization multiplier used to train
+#' @slot reg numeric. The value of the regularization multiplier used to train
 #' the model.
 #' @slot fc character. The feature class combination used to train the model.
 #' @slot iter numeric. The number of iterations used to train the model.
@@ -30,7 +30,7 @@
 Maxent <- setClass("Maxent",
                    slots = c(
                      results = "matrix",
-                     rm = "numeric",
+                     reg = "numeric",
                      fc = "character",
                      iter = "numeric",
                      extra_args = "character",
@@ -48,7 +48,7 @@ setMethod("show",
           signature = "Maxent",
           definition = function(object) {
             cat("Class     :", class(object), "\n")
-            cat("RM        :", object@rm, "\n")
+            cat("Reg       :", object@reg, "\n")
             cat("FCs       :", object@fc, "\n")
             cat("Iterations:", object@iter, "\n")
           })

@@ -5,7 +5,7 @@
 #' @param method character. Possible values are "Maxent" or "Maxnet
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
-#' @param rm numeric. The value of the regularization multiplier.
+#' @param reg numeric. The value of the regularization intensiy.
 #' @param fc vector. The value of the feature combination, possible values are
 #' combinations of "l", "q", "p", "h" and "t".
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm,
@@ -25,19 +25,19 @@
 #' @export
 #'
 #' @examples \dontrun{
-#' model <- train("Maxnet", presence, bg, rm = 2, fc = "lqp")}
+#' model <- train("Maxnet", presence, bg, reg = 2, fc = "lqp")}
 #'
 #' @author Sergio Vignali
-train <- function(method = c("Maxent", "Maxnet"), presence, bg, rm, fc,
+train <- function(method = c("Maxent", "Maxnet"), presence, bg, reg, fc,
                   iter = 500, extra_args = c("noaddsamplestobackground",
                                              "removeduplicates=false")) {
   method = match.arg(method)
 
   if (method == "Maxent") {
-    model <- trainMaxent(presence = presence, bg = bg, rm = rm, fc = fc,
+    model <- trainMaxent(presence = presence, bg = bg, reg = reg, fc = fc,
                          iter = iter, extra_args = extra_args)
   } else {
-    model <- trainMaxnet(presence = presence, bg = bg, rm = rm, fc = fc)
+    model <- trainMaxnet(presence = presence, bg = bg, reg = reg, fc = fc)
   }
 
   return(model)

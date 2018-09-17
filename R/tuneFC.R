@@ -63,7 +63,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   } else {
     labels <- c("AICc", "delta_AICc")
   }
-  labels <- c("bg", "rm", "fc", labels)
+  labels <- c("bg", "reg", "fc", labels)
 
   models <- list()
   res <- matrix(nrow = length(fcs), ncol = length(labels))
@@ -74,7 +74,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
       new_model <- model
     } else {
       new_model <- train(method = method, presence = model@presence,
-                         bg = model@background, rm = model@model@rm,
+                         bg = model@background, reg = model@model@reg,
                          fc = fcs[i], iter = iter, extra_args = extra_args)
     }
 
@@ -93,7 +93,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   }
 
   res[, 1] <- nrow(model@background@data)
-  res[, 2] <- model@model@rm
+  res[, 2] <- model@model@reg
 
   if (metric == "aicc") {
     res[, 5] <- round(res[, 4] - min(res[, 4]), 4)

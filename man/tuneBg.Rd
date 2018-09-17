@@ -52,7 +52,7 @@ metric = "auc", test = test, seed = 25)}
 }
 \seealso{
 Other tuning functions: \code{\link{tuneFC}},
-  \code{\link{tuneRM}}
+  \code{\link{tuneReg}}
 }
 \author{
 Sergio Vignali

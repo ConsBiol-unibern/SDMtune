@@ -6,7 +6,7 @@
 \usage{
 trainNN(presence, bg, conf = NULL, model = NULL, reg = 0,
   optimizer = "rmsprop", loss = "mse", epoch = 500, batch_size = 32,
-  verbose = 1, callbacks = list(), standardize = TRUE)
+  verbose = 1, callbacks = list())
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -34,9 +34,6 @@ default is 32.}
 2 = text).}
 
 \item{callbacks}{List of callbacks to be called during training.}
-
-\item{standardize}{logical, if TRUE continuous variables will be standardized
-before training the model.}
 }
 \value{
 NN object.

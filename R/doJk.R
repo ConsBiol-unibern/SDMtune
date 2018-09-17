@@ -85,7 +85,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     bg@data[variables[i]] <- NULL
 
     jk_model <- train(method = method, presence = presence, bg = bg,
-                      rm = model@model@rm, fc = model@model@fc, iter = iter,
+                      reg = model@model@reg, fc = model@model@fc, iter = iter,
                       extra_args = extra_args)
 
     if (metric == "auc") {
@@ -109,7 +109,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
       bg@data <- bg@data[variables[i]]
 
       jk_model <- train(method = method, presence = presence, bg = bg,
-                        rm = model@model@rm, fc = model@model@fc, iter = iter,
+                        reg = model@model@reg, fc = model@model@fc, iter = iter,
                         extra_args = extra_args)
 
       if (metric == "auc") {

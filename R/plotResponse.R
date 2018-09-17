@@ -89,7 +89,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     }
 
     model <- train(method = method, presence = train, bg = bg,
-                   rm = model@model@rm, fc = model@model@fc, iter = iter,
+                   reg = model@model@reg, fc = model@model@fc, iter = iter,
                    extra_args = extra_args)
   }
 

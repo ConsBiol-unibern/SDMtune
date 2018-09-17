@@ -4,7 +4,7 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("Maxent", "Maxnet"), presence, bg, rm, fc, iter = 500,
+train(method = c("Maxent", "Maxnet"), presence, bg, reg, fc, iter = 500,
   extra_args = c("noaddsamplestobackground", "removeduplicates=false"))
 }
 \arguments{
@@ -14,7 +14,7 @@ train(method = c("Maxent", "Maxnet"), presence, bg, rm, fc, iter = 500,
 
 \item{bg}{SWD object with the background locations.}
 
-\item{rm}{numeric. The value of the regularization multiplier.}
+\item{reg}{numeric. The value of the regularization intensiy.}
 
 \item{fc}{vector. The value of the feature combination, possible values are
 combinations of "l", "q", "p", "h" and "t".}
@@ -42,7 +42,7 @@ the previous vector.
 }
 \examples{
 \dontrun{
-model <- train("Maxnet", presence, bg, rm = 2, fc = "lqp")}
+model <- train("Maxnet", presence, bg, reg = 2, fc = "lqp")}
 
 }
 \author{

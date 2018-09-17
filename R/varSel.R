@@ -18,7 +18,7 @@
 #' variables, used only with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE. Used only with AICc.
-#' @param rm integer. The value of the regularization paramiter to use during
+#' @param reg integer. The value of the regularization paramiter to use during
 #' computation, default is 0.001, see details.
 #' @param method character. The method used to comput the correlation matrix,
 #' default "spearman".
@@ -28,8 +28,8 @@
 #'
 #' @details You need package \pkg{snow} to use parallel computation. Parallel
 #' computation increases the speed only for big datasets due to the time
-#' necessary to create the cluster. For **Maxnet** using a **rm** lower than 0.1
-#' the model won't converge!
+#' necessary to create the cluster. For **Maxnet** using a **reg** lower than
+#' 0.1 the model won't converge!
 #' We should write something more... I will refer to our paper for the explanations...
 #'
 #' @return The model with trained using the selected variables.
@@ -38,11 +38,11 @@
 #' @importFrom stats cor
 #'
 #' @examples \dontrun{
-#' varSel(model, bg, use_permutation = T)}
+#' varSel(model, bg, metric = "auc")}
 #'
 #' @author Sergio Vignali
 varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
-                   parallel = FALSE, rm = 0.001, method = "spearman",
+                   parallel = FALSE, reg = 0.001, method = "spearman",
                    cor_th = 0.7, permut = 10) {
 
   if (class(bg4cor) != "SWD")
@@ -52,11 +52,11 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   cor_vars <- unique(c(as.character(cor_vars$Var1),
                        as.character(cor_vars$Var2)))
   total <- length(cor_vars)
-  change_rm = FALSE
+  change_reg = FALSE
 
-  if (rm != model@model@rm) {
+  if (reg != model@model@reg) {
     total <- total + 2
-    change_rm = TRUE
+    change_reg = TRUE
   }
   removed <- 0
 
@@ -78,10 +78,10 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
     extra_args <- NULL
   }
 
-  if (change_rm) {
-    old_rm <- model@model@rm
+  if (change_reg) {
+    old_reg <- model@model@reg
     model <- train(method = model_method, presence = model@presence,
-                   bg = model@background, rm = rm, fc = model@model@fc,
+                   bg = model@background, reg = reg, fc = model@model@fc,
                    iter = iter, extra_args = extra_args)
     pb$tick(1)
   }
@@ -131,10 +131,10 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
       correlation_removed <- TRUE
   }
 
-  if (change_rm) {
+  if (change_reg) {
     pb$tick(total - removed - 2)
     model <- train(method = model_method, presence = model@presence,
-                   bg = model@background, rm = old_rm, fc = model@model@fc,
+                   bg = model@background, reg = old_reg, fc = model@model@fc,
                    iter = iter, extra_args = extra_args)
     pb$tick(1)
   } else {
