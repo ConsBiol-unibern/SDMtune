@@ -4,14 +4,14 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("maxent", "maxnet", "NN"), presence, bg, reg, fc = NULL,
+train(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg, fc = NULL,
   conf = NULL, model = NULL, optimizer = "rmsprop", loss = "mse",
   epoch = 500, batch_size = 32, verbose = 1, callbacks = list(),
   iter = 500, extra_args = c("noaddsamplestobackground",
   "removeduplicates=false"))
 }
 \arguments{
-\item{method}{character. Possible values are "maxent", "maxnet" or "NN".}
+\item{method}{character. Possible values are "Maxent", "Maxnet" or "NN".}
 
 \item{presence}{SWD object with the presence locations.}
 

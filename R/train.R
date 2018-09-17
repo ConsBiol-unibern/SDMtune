@@ -2,7 +2,7 @@
 #'
 #' Train a model using the given method.
 #'
-#' @param method character. Possible values are "maxent", "maxnet" or "NN".
+#' @param method character. Possible values are "Maxent", "Maxnet" or "NN".
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
 #' @param reg numeric. The value of the regularization intensiy.
@@ -44,7 +44,7 @@
 #' model <- train("Maxnet", presence, bg, reg = 2, fc = "lqp")}
 #'
 #' @author Sergio Vignali
-train <- function(method = c("maxent", "maxnet", "NN"), presence, bg, reg,
+train <- function(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg,
                   fc = NULL, conf = NULL, model = NULL, optimizer = "rmsprop",
                   loss = "mse", epoch = 500, batch_size = 32, verbose = 1,
                   callbacks = list(), iter = 500,

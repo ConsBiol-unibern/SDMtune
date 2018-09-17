@@ -27,6 +27,9 @@ NN <- setClass("NN",
                  history = "keras_training_history",
                  loss = "character",
                  optimizer = "character",
+                 epoch = "numeric",
+                 batch_size = "numeric",
+                 callbacks = "list",
                  min_max = "data.frame",
                  means = "numeric",
                  stds = "numeric",
@@ -36,8 +39,10 @@ NN <- setClass("NN",
 setMethod("show",
           signature = "NN",
           definition = function(object) {
-            cat("Class        :", class(object), "\n")
-            cat("Layers       :", length(object@model$layers), "\n")
-            cat("Loss function:", object@loss, "\n")
-            cat("Optimizer    :", object@optimizer, "\n")
+            cat("Class     :", class(object), "\n")
+            cat("Layers    :", length(object@model$layers), "\n")
+            cat("Loss      :", object@loss, "\n")
+            cat("Optimizer :", object@optimizer, "\n")
+            cat("Epoch     :", object@epoch, "\n")
+            cat("Batch size:", object@batch_size)
           })

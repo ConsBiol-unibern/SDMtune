@@ -64,8 +64,10 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   history <- model %>% fit(x, p, epochs = epoch, batch_size = batch_size,
                            callbacks = callbacks, verbose = verbose)
   model_object <- NN(model = model, history = history, loss = loss,
-                     optimizer = optimizer, min_max = min_max, means = means,
-                     stds = stds, levels = xlevs)
+                     optimizer = optimizer, epoch = epoch,
+                     batch_size = batch_size, callbacks = callbacks,
+                     min_max = min_max, means = means, stds = stds,
+                     levels = xlevs)
 
   result@model <- model_object
 

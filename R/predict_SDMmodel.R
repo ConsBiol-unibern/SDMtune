@@ -35,7 +35,7 @@ setGeneric("predict", function(object, ...)
 #'
 #' @include Maxent_class.R Maxnet_class.R
 #' @import methods
-#' @importFrom raster beginCluster clusterR endCluster predict clamp
+#' @importFrom raster beginCluster clusterR endCluster predict clamp subset
 #' @importFrom stats formula model.matrix
 #'
 #' @return A vector with the prediction or a Raster object if data is a raster
@@ -58,7 +58,10 @@ setMethod("predict",
               model <- object@model@model
             }
 
+            vars <- colnames(object@presence@data)
+
             if (inherits(data, "Raster")) {
+              data <- raster::subset(data, vars)
               if (parallel) {
                 suppressMessages(raster::beginCluster())
                 pred <- raster::clusterR(data,
@@ -85,10 +88,11 @@ setMethod("predict",
                                         ...)
               }
             } else if (inherits(data, "SWD")) {
-              data <- data@data
+              data <- data@data[vars]
               pred <- predict(model, data, type = type, clamp = clamp)
               pred <- as.vector(pred)
             } else if (inherits(data, "data.frame")) {
+              data <- data[vars]
               pred <- predict(model, data, type = type, clamp = clamp)
               pred <- as.vector(pred)
             }

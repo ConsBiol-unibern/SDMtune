@@ -22,6 +22,7 @@
 #' @include Maxent_class.R
 #' @import ggplot2
 #' @importFrom raster modal
+#' @importFrom keras get_config from_config
 #'
 #' @return The plot model
 #' @export
@@ -88,9 +89,21 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
       extra_args <- NULL
     }
 
-    model <- train(method = method, presence = train, bg = bg,
-                   reg = model@model@reg, fc = model@model@fc, iter = iter,
-                   extra_args = extra_args)
+    if (method == "NN") {
+      config <- get_config(model@model@model)
+      m <- from_config(config)
+      model <- train(method = method, presence = train, bg = bg,
+                     reg = model@model@reg,
+                     model = m,
+                     optimizer = model@model@optimizer,
+                     loss = model@model@loss, epoch = model@model@epoch,
+                     batch_size = model@model@batch_size, verbose = 0,
+                     callbacks = model@model@callbacks)
+    } else {
+      model <- train(method = method, presence = train, bg = bg,
+                     reg = model@model@reg, fc = model@model@fc, iter = iter,
+                     extra_args = extra_args)
+    }
   }
 
   pred <- predict(model, data, type = type, clamp = clamp)

@@ -30,21 +30,7 @@ setMethod("predict",
               }
             }
 
-            cont_vars <- names(Filter(is.numeric, data))
-            cat_vars <- names(Filter(is.factor, data))
-
-            data[cont_vars] <- scale(data[cont_vars], center = object@means,
-                                     scale = object@stds)
-
-            if (length(cat_vars) > 0) {
-              for (cat in cat_vars) {
-                one_hot <- one_hot(data[, cat], object@levels[[cat]])
-                colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
-                data[cat] <- NULL
-                data <- cbind(data, one_hot)
-              }
-            }
-
+            data <- format_data(data, object@means, object@stds, object@levels)
             data <- data.matrix(data)
             pred <- object@model %>% predict(data)
 
