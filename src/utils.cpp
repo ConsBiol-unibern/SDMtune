@@ -24,7 +24,7 @@ IntegerMatrix one_hot(NumericVector x, CharacterVector levels) {
     one_hot( _, i ) = x == atoi( levels[i] );
   }
 
-  return one_hot ;
+  return one_hot;
 }
 
 //' Clamp
