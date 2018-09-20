@@ -40,7 +40,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   x <- rbind(presence@data, bg@data)
   cont_vars <- names(Filter(is.numeric, x))
   cat_vars <- names(Filter(is.factor, x))
-  xlevs <- lapply(bg@data[cat_vars], function(i) {levels(i)})
+  levels <- lapply(bg@data[cat_vars], function(i) {levels(i)})
   min_max <- data.frame(variable = colnames(x[cont_vars]),
                         min = apply(x[cont_vars], 2, min),
                         max = apply(x[cont_vars], 2, max))
@@ -67,7 +67,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
                      optimizer = optimizer, epoch = epoch,
                      batch_size = batch_size, callbacks = callbacks,
                      min_max = min_max, means = means, stds = stds,
-                     levels = xlevs)
+                     levels = levels)
 
   result@model <- model_object
 
@@ -103,7 +103,7 @@ format_data <- function(x, means, stds, levels) {
 
   if (length(cat_vars) > 0) {
     for (cat in cat_vars) {
-      one_hot <- one_hot(x[, cat], levels(x[, cat]))
+      one_hot <- one_hot(x[, cat], levels[[cat]])
       colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
       x[cat] <- NULL
       x <- cbind(x, one_hot)
