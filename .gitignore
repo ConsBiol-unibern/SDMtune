@@ -4,3 +4,6 @@
 .Ruserdata
 inst/doc
 .Rproj.user
+src/*.o
+src/*.so
+src/*.dll
