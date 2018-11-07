@@ -49,7 +49,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   means <- apply(x[cont_vars], 2, mean)
   stds <- apply(x[cont_vars], 2, sd)
 
-  x <- format_data(x, means, stds, levels)
+  x <- format_data(x, means, stds, xlevs)
   x <- data.matrix(x)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
 
@@ -79,18 +79,17 @@ parse_nn <- function(conf, reg, input_units) {
   model <- keras_model_sequential()
   for (i in 1:length(conf)) {
     if (i == 1) {
-      model <- model %>% layer_dense(units = conf[[i]][1],
-                                     activation = conf[[i]][2],
-                                     regularizer_l2(reg),
-                                     input_shape = input_units)
+      model %>% layer_dense(units = conf[[i]][1],
+                            activation = conf[[i]][2],
+                            regularizer_l2(reg),
+                            input_shape = input_units)
     } else {
-      model <- model %>% layer_dense(units = conf[[i]][1],
-                                   activation = conf[[i]][2],
-                                   regularizer_l2(reg))
+      model %>% layer_dense(units = conf[[i]][1],
+                            activation = conf[[i]][2],
+                            regularizer_l2(reg))
     }
   }
-  model <- model %>% layer_dense(units = 1, activation = "sigmoid",
-                                 regularizer_l2(reg))
+  model %>% layer_dense(units = 1, activation = "sigmoid", regularizer_l2(reg))
   return(model)
 }
 
@@ -103,7 +102,7 @@ format_data <- function(x, means, stds, levels) {
 
   if (length(cat_vars) > 0) {
     for (cat in cat_vars) {
-      one_hot <- one_hot(x[, cat], levels(x[, cat]))
+      one_hot <- one_hot(x[, cat], unlist(levels[cat]))
       colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
       x[cat] <- NULL
       x <- cbind(x, one_hot)
