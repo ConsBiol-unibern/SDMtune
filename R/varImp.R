@@ -42,6 +42,8 @@ varImp <- function(model, permut = 10) {
     for (i in 1:permut) {
       data <- sample(c(model@presence@data[, vars[j]],
                        model@background@data[, vars[j]]))
+      if (is.factor(model@presence@data[, vars[j]]))
+        data <- as.factor(data)
       presence_copy <- model@presence
       presence_copy@data[, vars[j]] <- data[1:n_pres]
       bg_copy <- model@background
