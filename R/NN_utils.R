@@ -2,10 +2,10 @@
 #'
 #' Reshape input units of a NN model
 #'
-#' @param model SDMmodel object.
+#' @param model NN object.
 #' @param input_units numeric. The number of unit to be set in the new model.
 #'
-#' @return SDMmodel object with the new number of iinput units.
+#' @return NN object with the new number of input units.
 #' @export
 #' @importFrom keras model_to_yaml model_from_yaml
 #'
@@ -14,15 +14,15 @@
 #' @author Sergio Vignali
 reshape_input <- function(model, input_units) {
 
-  if (class(model@model) != "NN")
+  if (class(model) != "NN")
     stop("Model doesn't contain a NN object!")
 
   old_units <- get_input_units(model)
-  yaml <- keras::model_to_yaml(model@model@model)
+  yaml <- keras::model_to_yaml(model@model)
   yaml <- sub(paste("batch_input_shape: !!python/tuple \\[null,", old_units),
               paste("batch_input_shape: !!python/tuple \\[null,", input_units),
               yaml)
-  model@model@model <- keras::model_from_yaml(yaml)
+  model@model <- keras::model_from_yaml(yaml)
   return(model)
 }
 
@@ -30,7 +30,7 @@ reshape_input <- function(model, input_units) {
 #'
 #' Get the number of input units in a NN model.
 #'
-#' @param model SDMmodel object.
+#' @param model NN object.
 #'
 #' @return numeric. The number of input units.
 #'
@@ -42,7 +42,7 @@ get_input_units <- function(model) {
   cat_vars <- names(Filter(is.factor, model@presence@data))
   units <- length(cont_vars)
   for (j in 1:length(cat_vars)) {
-    units <- units + length(unlist(model@model@levels[cat_vars[j]]))
+    units <- units + length(unlist(model@levels[cat_vars[j]]))
   }
   return(units)
 }

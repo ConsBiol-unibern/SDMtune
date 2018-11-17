@@ -22,7 +22,7 @@
 #'
 #' @return NN object.
 #' @export
-#' @importFrom keras %>% compile fit
+#' @importFrom keras %>% compile fit model_to_yaml
 #'
 #' @examples \dontrun{
 #' trainNN(presence, bg, conf = list(c(100, "tanh"), c(100, "tanh")))}
@@ -60,6 +60,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   }
 
   model %>% compile(optimizer = optimizer, loss = loss)
+  yaml <- keras::model_to_yaml(model)
 
   history <- model %>% fit(x, p, epochs = epoch, batch_size = batch_size,
                            callbacks = callbacks, verbose = verbose)
@@ -67,7 +68,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
                      optimizer = optimizer, epoch = epoch,
                      batch_size = batch_size, callbacks = callbacks,
                      min_max = min_max, means = means, stds = stds,
-                     levels = levels)
+                     levels = levels, yaml = yaml)
 
   result@model <- model_object
 

@@ -26,6 +26,7 @@
 #' returns a list containing the test results together with the models.
 #' @export
 #' @importFrom progress progress_bar
+#' @importFrom keras model_from_yaml
 #'
 #' @examples \dontrun{
 #' doJk(model, variable = c('bio1', 'bio12'), with_only = TRUE)}
@@ -70,12 +71,37 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     labels <- c("Variable", "AICc_without", "AICc_withonly", "-", "-")
   }
 
+  verbose <- 0
   if (method == "Maxent") {
+    fc <- model@model@fc
+    reg <- model@model@reg
     iter <- model@model@iter
     extra_args <- model@model@extra_args
-  } else {
+    NN_model <- NULL
+    optimizer <- NULL
+    loss <- NULL
+    epoch <- NULL
+    batch_size <- NULL
+  } else if (method == "Maxnet") {
+    fc <- model@model@fc
+    reg <- model@model@reg
     iter <- NULL
     extra_args <- NULL
+    NN_model <- NULL
+    optimizer <- NULL
+    loss <- NULL
+    epoch <- NULL
+    batch_size <- NULL
+  } else {
+    fc <- NULL
+    reg <- NULL
+    iter <- NULL
+    extra_args <- NULL
+    optimizer <- model@model@optimizer
+    loss <- model@model@loss
+    epoch <- model@model@epoch
+    batch_size <- model@model@batch_size
+    old_units <- get_input_units(model)
   }
 
   for (i in 1:length(variables)) {
@@ -84,9 +110,19 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     presence@data[variables[i]] <- NULL
     bg@data[variables[i]] <- NULL
 
-    jk_model <- train(method = method, presence = presence, bg = bg,
-                      reg = model@model@reg, fc = model@model@fc, iter = iter,
-                      extra_args = extra_args)
+    if (method == NN) {
+      if (is.factor(variables[i])) {
+        new_units <- old_units - length(unlist(model@model@levels[cat_vars[j]]))
+      } else {
+        new_units <- old_units - 1
+      }
+      NN_model <- reshape_input(model@model, new_units)@model
+    }
+
+    jk_model <- train(method = method, presence = presence, bg = bg, reg = reg,
+                      fc = fc, model = NN_model, optimizer = optimizer,
+                      loss = loss, epoch = epoch, batch_size = batch_size,
+                      verbose = verbose, iter = iter, extra_args = extra_args)
 
     if (metric == "auc") {
       res[i, 2] <- auc(jk_model)
@@ -109,7 +145,9 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
       bg@data <- bg@data[variables[i]]
 
       jk_model <- train(method = method, presence = presence, bg = bg,
-                        reg = model@model@reg, fc = model@model@fc, iter = iter,
+                        reg = reg, fc = fc, model = model,
+                        optimizer = optimizer, loss = loss, epoch = epoch,
+                        batch_size = batch_size, verbose = verbose, iter = iter,
                         extra_args = extra_args)
 
       if (metric == "auc") {

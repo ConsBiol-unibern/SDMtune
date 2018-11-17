@@ -7,7 +7,7 @@
 loadNN(file_name)
 }
 \arguments{
-\item{file_name}{The name of the files without the extension in  which is
+\item{file_name}{The name of the files without the extension in which is
 saved the object. The function expects to have the file in the working
 directory.}
 }

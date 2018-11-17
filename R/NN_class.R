@@ -15,6 +15,7 @@ setOldClass(c("keras.engine.sequential.Sequential", "keras_training_history"))
 #' @slot stds numeric. Vector of standard deviations used to standardize
 #' continuous variables.
 #' @slot levels list with the levels of each categorical variable.
+#' @slot yaml character. The yaml representation of the model configuration.
 #'
 #' @name NN-class
 #' @rdname NN-class
@@ -33,7 +34,8 @@ NN <- setClass("NN",
                  min_max = "data.frame",
                  means = "numeric",
                  stds = "numeric",
-                 levels = "list")
+                 levels = "list",
+                 yaml = "character")
 )
 
 setMethod("show",

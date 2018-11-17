@@ -7,7 +7,7 @@
 get_input_units(model)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{NN object.}
 }
 \value{
 numeric. The number of input units.

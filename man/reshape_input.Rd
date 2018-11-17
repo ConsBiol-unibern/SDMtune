@@ -7,12 +7,12 @@
 reshape_input(model, input_units)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{NN object.}
 
 \item{input_units}{numeric. The number of unit to be set in the new model.}
 }
 \value{
-SDMmodel object with the new number of iinput units.
+NN object with the new number of input units.
 }
 \description{
 Reshape input units of a NN model

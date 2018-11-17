@@ -29,6 +29,8 @@ variables.}
 continuous variables.}
 
 \item{\code{levels}}{list with the levels of each categorical variable.}
+
+\item{\code{yaml}}{character. The yaml representation of the model configuration.}
 }}
 
 \author{
