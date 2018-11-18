@@ -57,7 +57,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(train@data)))
   colnames(data) <- colnames(train@data)
   data[cont_vars] <- apply(train@data[cont_vars], 2, fun)
-  data[cat_vars] <- apply(train@data[cat_vars], 2, raster::modal)
+  data[cat_vars] <- as.factor(apply(train@data[cat_vars], 2, raster::modal))
   data <- do.call("rbind", replicate(n_rows, data, simplify = FALSE))
 
   if (clamp & var %in% cont_vars) {
