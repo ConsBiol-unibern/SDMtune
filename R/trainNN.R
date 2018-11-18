@@ -56,7 +56,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   if (!is.null(model)) {
     model <- model
   } else {
-    model <- parse_nn(conf, reg, ncol(x))
+    model <- parseNNConf(conf, reg, ncol(x))
   }
 
   model %>% compile(optimizer = optimizer, loss = loss)
@@ -73,42 +73,4 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   result@model <- model_object
 
   return(result)
-}
-
-#' @importFrom keras %>% keras_model_sequential layer_dense regularizer_l2
-parse_nn <- function(conf, reg, input_units) {
-  model <- keras_model_sequential()
-  for (i in 1:length(conf)) {
-    if (i == 1) {
-      model %>% layer_dense(units = conf[[i]][1],
-                            activation = conf[[i]][2],
-                            regularizer_l2(reg),
-                            input_shape = input_units)
-    } else {
-      model %>% layer_dense(units = conf[[i]][1],
-                            activation = conf[[i]][2],
-                            regularizer_l2(reg))
-    }
-  }
-  model %>% layer_dense(units = 1, activation = "sigmoid", regularizer_l2(reg))
-  return(model)
-}
-
-format_data <- function(x, means, stds, levels) {
-
-  cont_vars <- names(Filter(is.numeric, x))
-  cat_vars <- names(Filter(is.factor, x))
-
-  x[cont_vars] <- scale(x[cont_vars], center = means, scale = stds)
-
-  if (length(cat_vars) > 0) {
-    for (cat in cat_vars) {
-      one_hot <- one_hot(x[, cat], unlist(levels[cat]))
-      colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
-      x[cat] <- NULL
-      x <- cbind(x, one_hot)
-    }
-  }
-
-  return(x)
 }

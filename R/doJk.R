@@ -110,13 +110,13 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     presence@data[variables[i]] <- NULL
     bg@data[variables[i]] <- NULL
 
-    if (method == NN) {
-      if (is.factor(variables[i])) {
-        new_units <- old_units - length(unlist(model@model@levels[cat_vars[j]]))
+    if (method == "NN") {
+      if (is.factor(model@presence@data[, variables[i]])) {
+        new_units <- old_units - length(unlist(model@model@levels[variables[i]]))
       } else {
         new_units <- old_units - 1
       }
-      NN_model <- reshape_input(model@model, new_units)@model
+      NN_model <- reshape_input(model, new_units)
     }
 
     jk_model <- train(method = method, presence = presence, bg = bg, reg = reg,
@@ -144,8 +144,17 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
       presence@data <- presence@data[variables[i]]
       bg@data <- bg@data[variables[i]]
 
+      if (method == "NN") {
+        if (is.factor(model@presence@data[, variables[i]])) {
+          new_units <- length(unlist(model@model@levels[variables[i]]))
+        } else {
+          new_units <- 1
+        }
+        NN_model <- reshape_input(model, new_units)
+      }
+
       jk_model <- train(method = method, presence = presence, bg = bg,
-                        reg = reg, fc = fc, model = model,
+                        reg = reg, fc = fc, model = NN_model,
                         optimizer = optimizer, loss = loss, epoch = epoch,
                         batch_size = batch_size, verbose = verbose, iter = iter,
                         extra_args = extra_args)

@@ -27,7 +27,7 @@ auc <- function(model, test = NULL, bg = NULL) {
   if (is.null(test)) {
     p_pred <- predict(object, model@presence@data)
   } else {
-    p_pred <- predict(object, test@data)
+    p_pred <- predict(object, test@data[colnames(model@presence@data)])
   }
 
   # bg is used for permutation importance

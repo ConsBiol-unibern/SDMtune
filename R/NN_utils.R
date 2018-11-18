@@ -1,52 +1,3 @@
-#' Reshape Input
-#'
-#' Reshape input units of a NN model
-#'
-#' @param model NN object.
-#' @param input_units numeric. The number of unit to be set in the new model.
-#'
-#' @return NN object with the new number of input units.
-#' @export
-#' @importFrom keras model_to_yaml model_from_yaml
-#'
-#' @examples \dontrun{reshape_input(model, 7)}
-#'
-#' @author Sergio Vignali
-reshape_input <- function(model, input_units) {
-
-  if (class(model) != "NN")
-    stop("Model doesn't contain a NN object!")
-
-  old_units <- get_input_units(model)
-  yaml <- keras::model_to_yaml(model@model)
-  yaml <- sub(paste("batch_input_shape: !!python/tuple \\[null,", old_units),
-              paste("batch_input_shape: !!python/tuple \\[null,", input_units),
-              yaml)
-  model@model <- keras::model_from_yaml(yaml)
-  return(model)
-}
-
-#' Get Input Units
-#'
-#' Get the number of input units in a NN model.
-#'
-#' @param model NN object.
-#'
-#' @return numeric. The number of input units.
-#'
-#' @examples \dontrun{get_input_units(model)}
-#'
-#' @author Sergio Vignali
-get_input_units <- function(model) {
-  cont_vars <- names(Filter(is.numeric, model@presence@data))
-  cat_vars <- names(Filter(is.factor, model@presence@data))
-  units <- length(cont_vars)
-  for (j in 1:length(cat_vars)) {
-    units <- units + length(unlist(model@levels[cat_vars[j]]))
-  }
-  return(units)
-}
-
 #' Save NN
 #'
 #' Save a SDMmodel object containing a NN model.
@@ -74,7 +25,7 @@ saveNN <- function(model, file_name = NULL) {
     file_name <- gsub(" ", "_", model@presence@species)
 
   keras::save_model_hdf5(model@model@model,
-                                 filepath = paste0(getwd(), "/", file_name))
+                         filepath = paste0(getwd(), "/", file_name))
   saveRDS(model, file = paste0(file_name, ".Rds"))
 }
 
@@ -98,3 +49,64 @@ loadNN <- function(file_name) {
   model@model@model <- keras::load_model_hdf5(paste0(getwd(), "/", file_name))
   return(model)
 }
+
+#' @importFrom keras model_to_yaml model_from_yaml
+reshape_input <- function(model, input_units) {
+
+  old_units <- get_input_units(model)
+  yaml <- keras::model_to_yaml(model@model@model)
+  yaml <- sub(paste("batch_input_shape: !!python/tuple \\[null,", old_units),
+              paste("batch_input_shape: !!python/tuple \\[null,", input_units),
+              yaml)
+  new_model <- keras::model_from_yaml(yaml)
+  return(new_model)
+}
+
+get_input_units <- function(model) {
+  cont_vars <- names(Filter(is.numeric, model@presence@data))
+  cat_vars <- names(Filter(is.factor, model@presence@data))
+  units <- length(cont_vars)
+  for (j in 1:length(cat_vars)) {
+    units <- units + length(unlist(model@model@levels[cat_vars[j]]))
+  }
+  return(units)
+}
+
+#' @importFrom keras %>% keras_model_sequential layer_dense regularizer_l2
+parseNNConf <- function(conf, reg, input_units) {
+  model <- keras_model_sequential()
+  for (i in 1:length(conf)) {
+    if (i == 1) {
+      model %>% layer_dense(units = conf[[i]][1],
+                            activation = conf[[i]][2],
+                            regularizer_l2(reg),
+                            input_shape = input_units)
+    } else {
+      model %>% layer_dense(units = conf[[i]][1],
+                            activation = conf[[i]][2],
+                            regularizer_l2(reg))
+    }
+  }
+  model %>% layer_dense(units = 1, activation = "sigmoid", regularizer_l2(reg))
+  return(model)
+}
+
+format_data <- function(x, means, stds, levels) {
+
+  cont_vars <- names(Filter(is.numeric, x))
+  cat_vars <- names(Filter(is.factor, x))
+
+  x[cont_vars] <- scale(x[cont_vars], center = means, scale = stds)
+
+  if (length(cat_vars) > 0) {
+    for (cat in cat_vars) {
+      one_hot <- one_hot(x[, cat], unlist(levels[cat]))
+      colnames(one_hot) <- paste0(cat, "_", 1:ncol(one_hot))
+      x[cat] <- NULL
+      x <- cbind(x, one_hot)
+    }
+  }
+
+  return(x)
+}
+
