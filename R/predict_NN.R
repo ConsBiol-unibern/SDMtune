@@ -30,6 +30,8 @@ setMethod("predict",
               }
             }
 
+            cat_vars <- names(object@levels)
+            data[cat_vars] <- lapply(data[cat_vars], factor)
             data <- format_data(data, object@means, object@stds, object@levels)
             data <- data.matrix(data)
             pred <- object@model %>% predict(data)
