@@ -5,8 +5,8 @@
 \title{Train Neural Network}
 \usage{
 trainNN(presence, bg, conf = NULL, model = NULL, reg = 0,
-  optimizer = "rmsprop", loss = "mse", epoch = 500, batch_size = 32,
-  verbose = 1, callbacks = list())
+  optimizer = "rmsprop", loss = "binary_crossentropy", epoch = 500,
+  batch_size = 32, verbose = 1, callbacks = list())
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}

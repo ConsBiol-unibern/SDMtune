@@ -28,12 +28,6 @@
 #' @author Sergio Vignali
 thresholds <- function(model, type, test = NULL) {
 
-  if (class(model@model) == "Maxent") {
-    object <- model@model
-  } else {
-    object <- model@model@model
-  }
-
   n_pres <- nrow(model@presence@data)
 
   cm_train <- confMatrix(model, type = type)
@@ -41,7 +35,7 @@ thresholds <- function(model, type, test = NULL) {
   tnr <- cm_train$tn / (cm_train$fp + cm_train$tn)
   fpr <- cm_train$fp / (cm_train$fp + cm_train$tn)
 
-  mtp <- min(predict(object, model@presence@data, type = type))
+  mtp <- min(predict(model, model@presence@data, type = type))
   ess <- cm_train$th[which.min(abs(tpr - tnr))]
   mss <- cm_train$th[which.max(tpr + tnr)]
 
