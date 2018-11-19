@@ -48,15 +48,18 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   if (class(bg4cor) != "SWD")
     stop("bg4cort must be a SWD object!")
 
+  model_method <- class(model@model)
   cor_vars <- corVar(bg4cor, method = method, cor_th = cor_th)
   cor_vars <- unique(c(as.character(cor_vars$Var1),
                        as.character(cor_vars$Var2)))
   total <- length(cor_vars)
   change_reg = FALSE
 
-  if (reg != model@model@reg) {
-    total <- total + 2
-    change_reg = TRUE
+  if (model_method != "NN") {
+    if (reg != model@model@reg) {
+      total <- total + 2
+      change_reg = TRUE
+    }
   }
   removed <- 0
 
@@ -68,7 +71,6 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   metric <- match.arg(metric)
   correlation_removed <- FALSE
   initial_vars <- colnames(model@presence@data)
-  model_method <- class(model@model)
 
   if (model_method == "Maxent") {
     iter <- model@model@iter
@@ -95,7 +97,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   while (correlation_removed == FALSE) {
 
     cor_matrix <- as.data.frame(cor_matrix)
-    scores <- varImp(model, permut = permut)
+    scores <- suppressMessages(varImp(model, permut = permut))
     vars <- scores$Variable
     discarded_variable <- NULL
 

@@ -22,18 +22,12 @@ confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
 
   type <- match.arg(type)
 
-  if (class(model@model) != "Maxnet") {
-    object <- model@model
-  } else {
-    object <- model@model@model
-  }
-
   if (is.null(test)) {
-    p_pred <- predict(object, model@presence@data, type = type)
+    p_pred <- predict(model, model@presence@data, type = type)
   } else {
-    p_pred <- predict(object, test@data, type = type)
+    p_pred <- predict(model, test@data, type = type)
   }
-  bg_pred <- predict(object, model@background@data, type = type)
+  bg_pred <- predict(model, model@background@data, type = type)
 
   n_pres <- length(p_pred)
   n_bg <- length(bg_pred)

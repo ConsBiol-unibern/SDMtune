@@ -49,7 +49,7 @@ trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
   means <- apply(x[cont_vars], 2, mean)
   stds <- apply(x[cont_vars], 2, sd)
 
-  x <- format_data(x, means, stds, xlevs)
+  x <- format_data(x, means, stds, levels)
   x <- data.matrix(x)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
 
