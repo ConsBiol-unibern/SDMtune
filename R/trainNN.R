@@ -8,8 +8,10 @@
 #' @param model a keras model.
 #' @param reg numeric. The regularization to be applied to each layer,
 #' default is 0.
-#' @param optimizer character. The optimizer algorithm, default is "rmsprop".
-#' @param loss character. The Loss function to be optimized, default is "mse".
+#' @param optimizer character. The optimizer algorithm, default uses the Adam
+#' algorithm.
+#' @param loss character. The Loss function to be optimized, default uses the
+#' binary crossentropy.
 #' @param epoch integer. Number of epoch used to train the model,
 #' default is 500.
 #' @param batch_size integer. Number of samples used in each mini batch,
@@ -29,7 +31,7 @@
 #'
 #' @author Sergio Vignali
 trainNN <- function(presence, bg, conf = NULL, model = NULL, reg = 0,
-                    optimizer = "rmsprop", loss = "binary_crossentropy",
+                    optimizer = "adam", loss = "binary_crossentropy",
                     epoch = 500, batch_size = 32, verbose = 1,
                     callbacks = list()) {
 

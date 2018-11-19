@@ -109,4 +109,3 @@ format_data <- function(x, means, stds, levels) {
 
   return(x)
 }
-

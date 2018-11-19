@@ -5,7 +5,7 @@
 \title{Train Neural Network}
 \usage{
 trainNN(presence, bg, conf = NULL, model = NULL, reg = 0,
-  optimizer = "rmsprop", loss = "binary_crossentropy", epoch = 500,
+  optimizer = "adam", loss = "binary_crossentropy", epoch = 500,
   batch_size = 32, verbose = 1, callbacks = list())
 }
 \arguments{
@@ -20,9 +20,11 @@ trainNN(presence, bg, conf = NULL, model = NULL, reg = 0,
 \item{reg}{numeric. The regularization to be applied to each layer,
 default is 0.}
 
-\item{optimizer}{character. The optimizer algorithm, default is "rmsprop".}
+\item{optimizer}{character. The optimizer algorithm, default uses the Adam
+algorithm.}
 
-\item{loss}{character. The Loss function to be optimized, default is "mse".}
+\item{loss}{character. The Loss function to be optimized, default uses the
+binary crossentropy.}
 
 \item{epoch}{integer. Number of epoch used to train the model,
 default is 500.}
