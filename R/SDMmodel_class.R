@@ -48,3 +48,28 @@ setMethod("show",
       browseURL(object@html)
   }
 )
+
+setGeneric("plot", function(object, ...)
+  standardGeneric("plot")
+)
+
+
+#' @exportMethod plot
+#'
+#' @author Sergio Vignali
+setMethod("plot",
+          signature = "SDMmodel",
+          definition = function(object) {
+
+            if (class(object@model) != "NN") {
+              stop(paste("No plot method for model of class", class(object@model)))
+            }
+
+            df <- data.frame(epoch = 0:499, train = object@model@train_aucs,
+                             val = object@model@val_aucs)
+
+            plot_ly(df, x = ~epoch) %>% add_trace(y = ~train, name = "train", mode = "line-basic", type = "scatter") %>%
+              add_trace(y = ~val, name = "val", mode = "line-basic", type = "scatter") %>%
+              layout(xaxis = list(zeroline = FALSE), yaxis = list(title = "auc"))
+          })
+
