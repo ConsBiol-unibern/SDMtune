@@ -16,6 +16,8 @@ setOldClass(c("keras.engine.sequential.Sequential", "keras_training_history"))
 #' continuous variables.
 #' @slot levels list with the levels of each categorical variable.
 #' @slot yaml character. The yaml representation of the model configuration.
+#' @slot train_aucs numeric. Train auc values for each epoch.
+#' @slot val_aucs numeric. Validation auc values for each epoch.
 #'
 #' @name NN-class
 #' @rdname NN-class
@@ -35,7 +37,9 @@ NN <- setClass("NN",
                  means = "numeric",
                  stds = "numeric",
                  levels = "list",
-                 yaml = "character")
+                 yaml = "character",
+                 train_aucs = "numeric",
+                 val_aucs = "numeric")
 )
 
 setMethod("show",

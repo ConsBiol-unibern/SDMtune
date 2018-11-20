@@ -31,6 +31,10 @@ continuous variables.}
 \item{\code{levels}}{list with the levels of each categorical variable.}
 
 \item{\code{yaml}}{character. The yaml representation of the model configuration.}
+
+\item{\code{train_aucs}}{numeric. Train auc values for each epoch.}
+
+\item{\code{val_aucs}}{numeric. Validation auc values for each epoch.}
 }}
 
 \author{

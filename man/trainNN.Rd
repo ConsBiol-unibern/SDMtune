@@ -4,14 +4,17 @@
 \alias{trainNN}
 \title{Train Neural Network}
 \usage{
-trainNN(presence, bg, conf = NULL, model = NULL, reg = 0,
+trainNN(presence, bg, val = NULL, conf = NULL, model = NULL, reg = 0,
   optimizer = "adam", loss = "binary_crossentropy", epoch = 500,
-  batch_size = 32, verbose = 1, callbacks = list())
+  batch_size = 32, verbose = 1, call_backs = list(),
+  tensorboard = FALSE)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
 
 \item{bg}{SWD object with the background locations.}
+
+\item{val}{SWD object with the validation dataset.}
 
 \item{conf}{list containing vector with layers configuration, see details.}
 
@@ -34,6 +37,9 @@ default is 32.}
 
 \item{verbose}{integer. Verbosity mode (0 = silent, 1 = progress bar,
 2 = text).}
+
+\item{tensorboard}{logical if TRUE it creates a log directory and it call the
+tensorboard callback, default is FALSE.}
 
 \item{callbacks}{List of callbacks to be called during training.}
 }

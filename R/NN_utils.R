@@ -25,7 +25,7 @@ saveNN <- function(model, file_name = NULL) {
     file_name <- gsub(" ", "_", model@presence@species)
 
   keras::save_model_hdf5(model@model@model,
-                         filepath = paste0(getwd(), "/", file_name))
+                         filepath = paste0(getwd(), "/", file_name, ".hdf5"))
   saveRDS(model, file = paste0(file_name, ".Rds"))
 }
 
@@ -109,3 +109,39 @@ format_data <- function(x, means, stds, levels) {
 
   return(x)
 }
+
+aucsHistory <- R6::R6Class("predHistory",
+                           inherit = keras::KerasCallback,
+                           public = list(
+                             train_aucs = NULL,
+                             train = NULL,
+                             n_train = NULL,
+                             bg = NULL,
+                             n_bg = NULL,
+                             val = NULL,
+                             n_val = NULL,
+                             val_aucs = NULL,
+                             initialize = function(train, bg, val = NULL) {
+                               self$train <- train
+                               self$n_train <- nrow(self$train)
+                               self$bg <- bg
+                               self$n_bg <- nrow(self$bg)
+                               if (!is.null(val)) {
+                                 self$val <- val
+                                 self$n_val <- nrow(self$val)
+                               }
+                             },
+                             on_epoch_end = function(epoch, logs = list()) {
+
+                               p_pred <- self$model %>% predict(self$train)
+                               bg_pred <- self$model %>% predict(self$bg)
+                               U <- sum(rank(c(p_pred, bg_pred))[seq(p_pred)]) - (self$n_train * (self$n_train + 1) / 2)
+                               self$train_aucs <- c(self$train_aucs, U / (self$n_bg * self$n_train))
+
+                               if (!is.null(self$val)) {
+                                 v_pred <- self$model %>% predict(self$val)
+                                 U <- sum(rank(c(v_pred, bg_pred))[seq(v_pred)]) - (self$n_val * (self$n_val + 1) / 2)
+                                 self$val_aucs <- c(self$val_aucs, U / (self$n_bg * self$n_val))
+                               }
+                             }
+                           ))
