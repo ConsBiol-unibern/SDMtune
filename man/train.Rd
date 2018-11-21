@@ -4,11 +4,11 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg, fc = NULL,
-  conf = NULL, model = NULL, optimizer = "rmsprop", loss = "mse",
-  epoch = 500, batch_size = 32, verbose = 1, callbacks = list(),
-  iter = 500, extra_args = c("noaddsamplestobackground",
-  "removeduplicates=false"))
+train(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg = 0,
+  fc = NULL, conf = NULL, model = NULL, optimizer = "rmsprop",
+  loss = "mse", epoch = 500, batch_size = 32, verbose = 1,
+  call_backs = list(), iter = 500,
+  extra_args = c("noaddsamplestobackground", "removeduplicates=false"), ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent", "Maxnet" or "NN".}
@@ -42,15 +42,15 @@ default is 32, used only for "NN".}
 \item{verbose}{integer. Verbosity mode (0 = silent, 1 = progress bar,
 2 = text), used only for "NN".}
 
-\item{callbacks}{List of callbacks to be called during training, used only
-for "NN".}
-
 \item{iter}{numeric. Number of iterations used by the Maxent alghoritm,
 default is 500, used only for "maxent" method.}
 
 \item{extra_args}{vector. Extra arguments used to run MaxEnt, default is
 c("noaddsamplestobackground", "removeduplicates=false"), used only for
 "maxent" method.#'}
+
+\item{callbacks}{List of callbacks to be called during training, used only
+for "NN".}
 }
 \value{
 A SWDmodel object

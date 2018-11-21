@@ -28,6 +28,7 @@
 #' @param extra_args vector. Extra arguments used to run MaxEnt, default is
 #' c("noaddsamplestobackground", "removeduplicates=false"), used only for
 #' "maxent" method.#'
+#' @... specific arguments for the different algorithms.
 #'
 #' @details See \link{trainMaxent}, \link{trainMaxnet} or \link{trainNN} for
 #' details related to the different methods. For **Maxent** models the function
@@ -44,12 +45,12 @@
 #' model <- train("Maxnet", presence, bg, reg = 2, fc = "lqp")}
 #'
 #' @author Sergio Vignali
-train <- function(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg,
+train <- function(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg = 0,
                   fc = NULL, conf = NULL, model = NULL, optimizer = "rmsprop",
                   loss = "mse", epoch = 500, batch_size = 32, verbose = 1,
-                  callbacks = list(), iter = 500,
+                  call_backs = list(), iter = 500,
                   extra_args = c("noaddsamplestobackground",
-                                 "removeduplicates=false")) {
+                                 "removeduplicates=false"), ...) {
   method = match.arg(method)
 
   if (method == "Maxent") {
@@ -61,7 +62,7 @@ train <- function(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg,
     model <- trainNN(presence = presence, bg = bg, conf = conf, model = model,
                      reg = reg, optimizer = optimizer, loss = loss,
                      epoch = epoch, batch_size = batch_size, verbose = verbose,
-                     callbacks = callbacks)
+                     call_backs = call_backs, ...)
   }
 
   return(model)
