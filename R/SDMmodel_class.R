@@ -1,7 +1,8 @@
 setClassUnion("model", c("Maxent", "Maxnet", "NN"))
 #' SDMmodel
 #'
-#' This Class represents a MaxEnt model objects and hosts all the information related to the model.
+#' This Class represents a MaxEnt model objects and hosts all the information
+#' related to the model.
 #'
 #' @slot presence SWD. The presence locations used to train the model.
 #' @slot background SWD. The backgorund locations used to train the model.
@@ -48,28 +49,38 @@ setMethod("show",
       browseURL(object@html)
   }
 )
-
-setGeneric("plot", function(object, ...)
-  standardGeneric("plot")
-)
-
-
+#' Plot SDMmodel object
+#'
+#' Used only for the objects containing NN model. It plots the auc values for
+#' all the epoch if monitored during training.
+#'
 #' @exportMethod plot
+#' @importFrom plotly %>% plot_ly add_trace layout
 #'
 #' @author Sergio Vignali
 setMethod("plot",
-          signature = "SDMmodel",
-          definition = function(object) {
+          signature(x = "SDMmodel", y = "missing"),
+          definition = function(x) {
 
-            if (class(object@model) != "NN") {
-              stop(paste("No plot method for model of class", class(object@model)))
+            if (class(x@model) != "NN") {
+              stop(paste("No plot method for model of class",
+                         class(x@model)))
             }
 
-            df <- data.frame(epoch = 0:499, train = object@model@train_aucs,
-                             val = object@model@val_aucs)
+            if (class(x@model) == "NN" & length(x@model@train_aucs) == 0)
+              stop("You must train the model using monitor_auc = TRUE!")
 
-            plot_ly(df, x = ~epoch) %>% add_trace(y = ~train, name = "train", mode = "line-basic", type = "scatter") %>%
-              add_trace(y = ~val, name = "val", mode = "line-basic", type = "scatter") %>%
-              layout(xaxis = list(zeroline = FALSE), yaxis = list(title = "auc"))
+            p <- plot_ly(x = seq(1, x@model@epoch)) %>%
+              add_trace(y = x@model@train_aucs, name = "training",
+                        mode = "line-basic", type = "scatter") %>%
+              plotly::layout(xaxis = list(zeroline = FALSE, title = "epoch"),
+                             yaxis = list(title = "auc"),
+                             legend = list(orientation = "h"))
+
+            if (!is.null(x@model@val_aucs))
+              p <- p %>% add_trace(y = x@model@val_aucs, name = "validation",
+                                   mode = "line-basic", type = "scatter")
+
+            return(p)
           })
 

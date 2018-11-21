@@ -31,7 +31,8 @@ Imports: dismo (>= 1.1-4),
           htmltools (>= 0.3.6),
           prettydoc (>= 0.2.1),
           keras (>= 2.2.0),
-          Rcpp (>= 0.12.18)
+          Rcpp (>= 0.12.18),
+          plotly (>= 4.8.0)
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp

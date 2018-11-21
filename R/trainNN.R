@@ -4,7 +4,8 @@
 #'
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
-#' @param val SWD object with the validation dataset.
+#' @param val SWD object with the validation dataset, if provided it computes
+#' the metrics also for the validation dataset, default is NULL.
 #' @param conf list containing vector with layers configuration, see details.
 #' @param model a keras model.
 #' @param reg numeric. The regularization to be applied to each layer,
@@ -17,11 +18,14 @@
 #' default is 500.
 #' @param batch_size integer. Number of samples used in each mini batch,
 #' default is 32.
-#' @param verbose integer. Verbosity mode (0 = silent, 1 = progress bar,
-#' 2 = text).
+#' @param monitor_auc logical if TRUE computes the train auc for each epoch and
+#' store it the NN object. If a validation dataset is provided it computes also
+#' the validation auc, default is FALSE.
 #' @param callbacks List of callbacks to be called during training.
 #' @param tensorboard logical if TRUE it creates a log directory and it call the
 #' tensorboard callback, default is FALSE.
+#' @param verbose integer. Verbosity mode (0 = silent, 1 = progress bar,
+#' 2 = text).
 #'
 #' @details Write something here...
 #'
@@ -32,13 +36,13 @@
 #' @importFrom keras callback_tensorboard
 #'
 #' @examples \dontrun{
-#' trainNN(presence, bg, conf = list(c(100, "tanh"), c(100, "tanh")))}
+#' trainNN(presence, bg, val, conf = list(c(100, "tanh"), c(100, "tanh")))}
 #'
 #' @author Sergio Vignali
 trainNN <- function(presence, bg, val = NULL, conf = NULL, model = NULL,
                     reg = 0, optimizer = "adam", loss = "binary_crossentropy",
-                    epoch = 500, batch_size = 32, verbose = 1,
-                    call_backs = list(), tensorboard = FALSE) {
+                    epoch = 500, batch_size = 32, monitor_auc = FALSE,
+                    call_backs = list(), tensorboard = FALSE, verbose = 1) {
 
   if (is.null(conf) & is.null(model))
     stop("You must provide conf or model parameter!")
@@ -65,13 +69,17 @@ trainNN <- function(presence, bg, val = NULL, conf = NULL, model = NULL,
     val_data <- rbind(val@data, bg@data)
     val_data <- data.matrix(format_data(val_data, means, stds, levels))
     val_data <- list(val_data, c(rep(1, nrow(val@data)), rep(0, nrow(bg@data))))
-    pred_callback <- aucsHistory$new(x[1:nrow(presence@data), ],
-                                     x[(nrow(presence@data) + 1):nrow(x), ],
-                                     val_data[[1]][1:nrow(val@data), ])
+    if (monitor_auc) {
+      pred_callback <- aucsHistory$new(x[1:nrow(presence@data), ],
+                                       x[(nrow(presence@data) + 1):nrow(x), ],
+                                       val_data[[1]][1:nrow(val@data), ])
+    }
   } else {
     val_data <- list()
-    pred_callback <- aucsHistory$new(x[1:nrow(presence@data), ],
-                                     x[(nrow(presence@data) + 1):nrow(x), ])
+    if (monitor_auc) {
+      pred_callback <- aucsHistory$new(x[1:nrow(presence@data), ],
+                                       x[(nrow(presence@data) + 1):nrow(x), ])
+    }
   }
 
   if (tensorboard) {
@@ -80,7 +88,8 @@ trainNN <- function(presence, bg, val = NULL, conf = NULL, model = NULL,
     call_backs <- c(call_backs, keras::callback_tensorboard(log_dir = "log"))
   }
 
-  call_backs <- c(call_backs, pred_callback)
+  if (monitor_auc)
+    call_backs <- c(call_backs, pred_callback)
 
   if (!is.null(model)) {
     model <- model
@@ -99,11 +108,13 @@ trainNN <- function(presence, bg, val = NULL, conf = NULL, model = NULL,
                      optimizer = optimizer, epoch = epoch,
                      batch_size = batch_size, callbacks = call_backs,
                      min_max = min_max, means = means, stds = stds,
-                     levels = levels, yaml = yaml,
-                     train_aucs = pred_callback$train_aucs)
+                     levels = levels, yaml = yaml)
 
-  if (!is.null(val))
-    model_object@val_aucs <- pred_callback$val_aucs
+  if (monitor_auc) {
+    model_object@train_aucs <- pred_callback$train_aucs
+    if (!is.null(val))
+      model_object@val_aucs <- pred_callback$val_aucs
+  }
 
   result@model <- model_object
 

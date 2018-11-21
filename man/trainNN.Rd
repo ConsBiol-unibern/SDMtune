@@ -6,15 +6,16 @@
 \usage{
 trainNN(presence, bg, val = NULL, conf = NULL, model = NULL, reg = 0,
   optimizer = "adam", loss = "binary_crossentropy", epoch = 500,
-  batch_size = 32, verbose = 1, call_backs = list(),
-  tensorboard = FALSE)
+  batch_size = 32, monitor_auc = FALSE, call_backs = list(),
+  tensorboard = FALSE, verbose = 1)
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
 
 \item{bg}{SWD object with the background locations.}
 
-\item{val}{SWD object with the validation dataset.}
+\item{val}{SWD object with the validation dataset, if provided it computes
+the metrics also for the validation dataset, default is NULL.}
 
 \item{conf}{list containing vector with layers configuration, see details.}
 
@@ -35,11 +36,15 @@ default is 500.}
 \item{batch_size}{integer. Number of samples used in each mini batch,
 default is 32.}
 
-\item{verbose}{integer. Verbosity mode (0 = silent, 1 = progress bar,
-2 = text).}
+\item{monitor_auc}{logical if TRUE computes the train auc for each epoch and
+store it the NN object. If a validation dataset is provided it computes also
+the validation auc, default is FALSE.}
 
 \item{tensorboard}{logical if TRUE it creates a log directory and it call the
 tensorboard callback, default is FALSE.}
+
+\item{verbose}{integer. Verbosity mode (0 = silent, 1 = progress bar,
+2 = text).}
 
 \item{callbacks}{List of callbacks to be called during training.}
 }
@@ -54,7 +59,7 @@ Write something here...
 }
 \examples{
 \dontrun{
-trainNN(presence, bg, conf = list(c(100, "tanh"), c(100, "tanh")))}
+trainNN(presence, bg, val, conf = list(c(100, "tanh"), c(100, "tanh")))}
 
 }
 \author{
