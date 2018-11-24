@@ -8,7 +8,7 @@ plotResponse(model, var, type, marginal = FALSE, fun = mean, clamp = TRUE,
   rug = FALSE, color = "red")
 }
 \arguments{
-\item{model}{Maxent object.}
+\item{model}{SDMmodel object.}
 
 \item{var}{character. Name of the variable to be plotted.}
 

@@ -2,7 +2,7 @@
 #'
 #' Plot the Response Curve of the given environmental variable.
 #'
-#' @param model Maxent object.
+#' @param model SDMmodel object.
 #' @param var character. Name of the variable to be plotted.
 #' @param type character. Output type, see \link{predict,Maxent-method} for
 #' Maxent models or \link{predict.maxnet} for Maxnet models.
@@ -19,13 +19,11 @@
 #' @details Note that fun is not a character parameter, you must use mean and
 #' not "mean".
 #'
+#' @return The plot model
+#' @export
 #' @include Maxent_class.R
 #' @import ggplot2
 #' @importFrom raster modal
-#' @importFrom keras get_config from_config
-#'
-#' @return The plot model
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -82,27 +80,13 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     method <- class(model@model)
 
     if (method == "Maxent") {
-      iter <- model@model@iter
-      extra_args <- model@model@extra_args
-    } else {
-      iter <- NULL
-      extra_args <- NULL
-    }
-
-    if (method == "NN") {
-      config <- get_config(model@model@model)
-      m <- from_config(config)
       model <- train(method = method, presence = train, bg = bg,
-                     reg = model@model@reg,
-                     model = m,
-                     optimizer = model@model@optimizer,
-                     loss = model@model@loss, epoch = model@model@epoch,
-                     batch_size = model@model@batch_size, verbose = 0,
-                     callbacks = model@model@callbacks)
+                     reg = model@model@reg, fc = model@model@fc,
+                     iter = model@model@iter,
+                     extra_args = model@model@extra_args)
     } else {
       model <- train(method = method, presence = train, bg = bg,
-                     reg = model@model@reg, fc = model@model@fc, iter = iter,
-                     extra_args = extra_args)
+                     reg = model@model@reg, fc = model@model@fc)
     }
   }
 
