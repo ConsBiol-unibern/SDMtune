@@ -55,12 +55,6 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   total <- length(cor_vars)
   change_reg = FALSE
 
-  if (model_method != "NN") {
-    if (reg != model@model@reg) {
-      total <- total + 2
-      change_reg = TRUE
-    }
-  }
   removed <- 0
 
   pb <- progress::progress_bar$new(
@@ -72,19 +66,17 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   correlation_removed <- FALSE
   initial_vars <- colnames(model@presence@data)
 
-  if (model_method == "Maxent") {
-    iter <- model@model@iter
-    extra_args <- model@model@extra_args
-  } else {
-    iter <- NULL
-    extra_args <- NULL
-  }
-
   if (change_reg) {
     old_reg <- model@model@reg
-    model <- train(method = model_method, presence = model@presence,
-                   bg = model@background, reg = reg, fc = model@model@fc,
-                   iter = iter, extra_args = extra_args)
+    if (method == "Maxent") {
+      model <- train(method = model_method, presence = model@presence,
+                     bg = model@background, reg = reg, fc = model@model@fc,
+                     iter = model@model@iter,
+                     extra_args = model@model@extra_args)
+    } else {
+      model <- train(method = model_method, presence = model@presence,
+                     bg = model@background, reg = reg, fc = model@model@fc)
+    }
     pb$tick(1)
   }
 
@@ -135,9 +127,15 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
 
   if (change_reg) {
     pb$tick(total - removed - 2)
-    model <- train(method = model_method, presence = model@presence,
-                   bg = model@background, reg = old_reg, fc = model@model@fc,
-                   iter = iter, extra_args = extra_args)
+    if (method == "Maxent") {
+      model <- train(method = model_method, presence = model@presence,
+                     bg = model@background, reg = old_reg, fc = model@model@fc,
+                     iter = model@model@iter,
+                     extra_args = model@model@extra_args)
+    } else {
+      model <- train(method = model_method, presence = model@presence,
+                     bg = model@background, reg = old_reg, fc = model@model@fc)
+    }
     pb$tick(1)
   } else {
     pb$tick(total - removed)
