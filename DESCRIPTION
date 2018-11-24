@@ -30,9 +30,7 @@ Imports: dismo (>= 1.1-4),
           kableExtra (>= 0.9.0),
           htmltools (>= 0.3.6),
           prettydoc (>= 0.2.1),
-          keras (>= 2.2.0),
           Rcpp (>= 0.12.18),
-          plotly (>= 4.8.0)
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
@@ -46,8 +44,6 @@ VignetteBuilder: knitr
 Collate: 
     'Maxent_class.R'
     'Maxnet_class.R'
-    'NN_class.R'
-    'NN_utils.R'
     'RcppExports.R'
     'SDMmodel2MaxEnt.R'
     'SWD_class.R'
@@ -73,7 +69,6 @@ Collate:
     'plotResponse.R'
     'plotVarImp.R'
     'predict_Maxent.R'
-    'predict_NN.R'
     'predict_SDMmodel.R'
     'prepareSWD.R'
     'reduceVar.R'
@@ -83,7 +78,6 @@ Collate:
     'train.R'
     'trainMaxent.R'
     'trainMaxnet.R'
-    'trainNN.R'
     'trainValTest.R'
     'tss.R'
     'tuneBg.R'
