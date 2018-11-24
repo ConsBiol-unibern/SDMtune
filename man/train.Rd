@@ -4,9 +4,8 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("Maxent", "Maxnet"), presence, bg, reg = 0, fc = NULL,
-  iter = 500, extra_args = c("noaddsamplestobackground",
-  "removeduplicates=false"))
+train(method = c("Maxent", "Maxnet"), presence, bg, reg = 1, fc = "lqph",
+  ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
@@ -15,31 +14,19 @@ train(method = c("Maxent", "Maxnet"), presence, bg, reg = 0, fc = NULL,
 
 \item{bg}{SWD object with the background locations.}
 
-\item{reg}{numeric. The value of the regularization intensiy.}
+\item{reg}{numeric. The value of the regularization intensiy, default is 1.}
 
 \item{fc}{vector. The value of the feature combination, possible values are
-combinations of "l", "q", "p", "h" and "t".}
+combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 
-\item{iter}{numeric. Number of iterations used by the Maxent alghoritm,
-default is 500, used only for "maxent" method.}
-
-\item{extra_args}{vector. Extra arguments used to run MaxEnt, default is
-c("noaddsamplestobackground", "removeduplicates=false"), used only for
-"maxent" method.#'}
+\item{...}{Argument passed to the relative functions, see \link{trainMaxent}
+or \link{trainMaxnet} for details related to the different methods.}
 }
 \value{
 A SWDmodel object
 }
 \description{
 Train a model using the given method.
-}
-\details{
-See \link{trainMaxent} or \link{trainMaxnet} for details related to
-the different methods. For \strong{Maxent} models the function uses by default
-\strong{extra_args = c("noaddsamplestobackground","removeduplicates=false")}. In
-case this is not your expected beaviour you can remove both passing
-\strong{extra_args = ""} or you can add any other additional arguments extending
-the previous vector.
 }
 \examples{
 \dontrun{

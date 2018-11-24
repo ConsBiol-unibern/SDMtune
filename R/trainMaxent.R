@@ -8,9 +8,9 @@
 #'
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
-#' @param reg numeric. The value of the regularization multiplier.
+#' @param reg numeric. The value of the regularization multiplier, default is 1.
 #' @param fc vector. The value of the feature combination, possible values are
-#' combinations of "l", "q", "p", "h" and "t".
+#' combinations of "l", "q", "p", "h" and "t", default is "lqph".
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm,
 #' default is 500.
 #' @param extra_args vector. Extra arguments used to run MaxEnt, default is
@@ -28,11 +28,10 @@
 #' @importFrom utils packageVersion read.csv
 #'
 #' @examples
-#' \dontrun{model <- trainMaxent(presence, bg, reg,
-#' extra_args = )}
+#' \dontrun{model <- trainMaxent(presence, bg)}
 #'
 #' @author Sergio Vignali
-trainMaxent <- function(presence, bg, reg, fc, iter = 500,
+trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
                         extra_args = c("noaddsamplestobackground",
                                        "removeduplicates=false")) {
 
