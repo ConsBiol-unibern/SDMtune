@@ -4,14 +4,12 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg = 0,
-  fc = NULL, conf = NULL, model = NULL, optimizer = "rmsprop",
-  loss = "mse", epoch = 500, batch_size = 32, verbose = 1,
-  call_backs = list(), iter = 500,
-  extra_args = c("noaddsamplestobackground", "removeduplicates=false"), ...)
+train(method = c("Maxent", "Maxnet"), presence, bg, reg = 0, fc = NULL,
+  iter = 500, extra_args = c("noaddsamplestobackground",
+  "removeduplicates=false"))
 }
 \arguments{
-\item{method}{character. Possible values are "Maxent", "Maxnet" or "NN".}
+\item{method}{character. Possible values are "Maxent" or "Maxnet".}
 
 \item{presence}{SWD object with the presence locations.}
 
@@ -20,27 +18,7 @@ train(method = c("Maxent", "Maxnet", "NN"), presence, bg, reg = 0,
 \item{reg}{numeric. The value of the regularization intensiy.}
 
 \item{fc}{vector. The value of the feature combination, possible values are
-combinations of "l", "q", "p", "h" and "t", not used for "NN".}
-
-\item{conf}{list containing vector with layers configuration, see details,
-used only for "NN".}
-
-\item{model}{a keras model, used only for "NN".}
-
-\item{optimizer}{character. The optimizer algorithm, default is "rmsprop",
-used only for "NN".}
-
-\item{loss}{character. The Loss function to be optimized, default is "mse",
-used only for "NN".}
-
-\item{epoch}{integer. Number of epoch used to train the model,
-default is 500, used only for "NN".}
-
-\item{batch_size}{integer. Number of samples used in each mini batch,
-default is 32, used only for "NN".}
-
-\item{verbose}{integer. Verbosity mode (0 = silent, 1 = progress bar,
-2 = text), used only for "NN".}
+combinations of "l", "q", "p", "h" and "t".}
 
 \item{iter}{numeric. Number of iterations used by the Maxent alghoritm,
 default is 500, used only for "maxent" method.}
@@ -48,9 +26,6 @@ default is 500, used only for "maxent" method.}
 \item{extra_args}{vector. Extra arguments used to run MaxEnt, default is
 c("noaddsamplestobackground", "removeduplicates=false"), used only for
 "maxent" method.#'}
-
-\item{callbacks}{List of callbacks to be called during training, used only
-for "NN".}
 }
 \value{
 A SWDmodel object
@@ -59,9 +34,8 @@ A SWDmodel object
 Train a model using the given method.
 }
 \details{
-See \link{trainMaxent}, \link{trainMaxnet} or \link{trainNN} for
-details related to the different methods. For \strong{Maxent} models the function
-uses by default
+See \link{trainMaxent} or \link{trainMaxnet} for details related to
+the different methods. For \strong{Maxent} models the function uses by default
 \strong{extra_args = c("noaddsamplestobackground","removeduplicates=false")}. In
 case this is not your expected beaviour you can remove both passing
 \strong{extra_args = ""} or you can add any other additional arguments extending
