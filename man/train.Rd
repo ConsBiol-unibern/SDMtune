@@ -4,8 +4,7 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("Maxent", "Maxnet"), presence, bg, reg = 1, fc = "lqph",
-  ...)
+train(method = c("Maxent", "Maxnet"), presence, bg, ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
@@ -13,11 +12,6 @@ train(method = c("Maxent", "Maxnet"), presence, bg, reg = 1, fc = "lqph",
 \item{presence}{SWD object with the presence locations.}
 
 \item{bg}{SWD object with the background locations.}
-
-\item{reg}{numeric. The value of the regularization intensiy, default is 1.}
-
-\item{fc}{vector. The value of the feature combination, possible values are
-combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 
 \item{...}{Argument passed to the relative functions, see \link{trainMaxent}
 or \link{trainMaxnet} for details related to the different methods.}

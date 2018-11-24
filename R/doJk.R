@@ -71,58 +71,22 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     labels <- c("Variable", "AICc_without", "AICc_withonly", "-", "-")
   }
 
-  verbose <- 0
-  if (method == "Maxent") {
-    fc <- model@model@fc
-    reg <- model@model@reg
-    iter <- model@model@iter
-    extra_args <- model@model@extra_args
-    NN_model <- NULL
-    optimizer <- NULL
-    loss <- NULL
-    epoch <- NULL
-    batch_size <- NULL
-  } else if (method == "Maxnet") {
-    fc <- model@model@fc
-    reg <- model@model@reg
-    iter <- NULL
-    extra_args <- NULL
-    NN_model <- NULL
-    optimizer <- NULL
-    loss <- NULL
-    epoch <- NULL
-    batch_size <- NULL
-  } else {
-    fc <- NULL
-    reg <- NULL
-    iter <- NULL
-    extra_args <- NULL
-    optimizer <- model@model@optimizer
-    loss <- model@model@loss
-    epoch <- model@model@epoch
-    batch_size <- model@model@batch_size
-    old_units <- get_input_units(model)
-  }
-
   for (i in 1:length(variables)) {
     presence <- model@presence
     bg <- model@background
     presence@data[variables[i]] <- NULL
     bg@data[variables[i]] <- NULL
 
-    if (method == "NN") {
-      if (is.factor(model@presence@data[, variables[i]])) {
-        new_units <- old_units - length(unlist(model@model@levels[variables[i]]))
-      } else {
-        new_units <- old_units - 1
-      }
-      NN_model <- reshape_input(model, new_units)
+    if (method == "Maxent") {
+      jk_model <- train(method = method, presence = presence, bg = bg,
+                        reg = model@model@reg, fc = model@model@fc,
+                        iter = model@model@iter,
+                        extra_args = model@model@extra_args)
+    } else {
+      jk_model <- train(method = method, presence = presence, bg = bg,
+                        reg = model@model@reg, fc = model@model@fc)
     }
 
-    jk_model <- train(method = method, presence = presence, bg = bg, reg = reg,
-                      fc = fc, model = NN_model, optimizer = optimizer,
-                      loss = loss, epoch = epoch, batch_size = batch_size,
-                      verbose = verbose, iter = iter, extra_args = extra_args)
 
     if (metric == "auc") {
       res[i, 2] <- auc(jk_model)
@@ -144,20 +108,15 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
       presence@data <- presence@data[variables[i]]
       bg@data <- bg@data[variables[i]]
 
-      if (method == "NN") {
-        if (is.factor(model@presence@data[, variables[i]])) {
-          new_units <- length(unlist(model@model@levels[variables[i]]))
-        } else {
-          new_units <- 1
-        }
-        NN_model <- reshape_input(model, new_units)
+      if (method == "Maxent") {
+        jk_model <- train(method = method, presence = presence, bg = bg,
+                          reg = model@model@reg, fc = model@model@fc,
+                          iter = model@model@iter,
+                          extra_args = model@model@extra_args)
+      } else {
+        jk_model <- train(method = method, presence = presence, bg = bg,
+                          reg = model@model@reg, fc = model@model@fc)
       }
-
-      jk_model <- train(method = method, presence = presence, bg = bg,
-                        reg = reg, fc = fc, model = NN_model,
-                        optimizer = optimizer, loss = loss, epoch = epoch,
-                        batch_size = batch_size, verbose = verbose, iter = iter,
-                        extra_args = extra_args)
 
       if (metric == "auc") {
         res[i, 3] <- auc(jk_model)

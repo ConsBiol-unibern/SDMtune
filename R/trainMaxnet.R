@@ -4,19 +4,19 @@
 #'
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
-#' @param reg numeric. The value of the regularization intensity.
+#' @param reg numeric. The value of the regularization intensity, default is 1.
 #' @param fc vector. The value of the feature combination, possible values are
-#' combinations of "l", "q", "p", "h" and "t".
+#' combinations of "l", "q", "p", "h" and "t", default is "lqph".
 #'
 #' @return A SDMmodel object.
 #' @export
 #' @importFrom maxnet maxnet maxnet.formula
 #'
 #' @examples
-#' \dontrun{model <- trainMaxnet(presence, bg, reg)}
+#' \dontrun{model <- trainMaxnet(presence, bg)}
 #'
 #' @author Sergio Vignali
-trainMaxnet <- function(presence, bg, reg, fc) {
+trainMaxnet <- function(presence, bg, reg = 1, fc = "lqph") {
 
   result <- SDMmodel(presence = presence, background = bg)
 

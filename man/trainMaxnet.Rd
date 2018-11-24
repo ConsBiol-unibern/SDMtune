@@ -4,17 +4,17 @@
 \alias{trainMaxnet}
 \title{Train Maxnet model}
 \usage{
-trainMaxnet(presence, bg, reg, fc)
+trainMaxnet(presence, bg, reg = 1, fc = "lqph")
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
 
 \item{bg}{SWD object with the background locations.}
 
-\item{reg}{numeric. The value of the regularization intensity.}
+\item{reg}{numeric. The value of the regularization intensity, default is 1.}
 
 \item{fc}{vector. The value of the feature combination, possible values are
-combinations of "l", "q", "p", "h" and "t".}
+combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 }
 \value{
 A SDMmodel object.
@@ -23,7 +23,7 @@ A SDMmodel object.
 Train a Maxnet model using the maxnet package.
 }
 \examples{
-\dontrun{model <- trainMaxnet(presence, bg, reg)}
+\dontrun{model <- trainMaxnet(presence, bg)}
 
 }
 \author{
