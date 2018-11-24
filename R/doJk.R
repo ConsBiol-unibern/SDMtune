@@ -26,7 +26,6 @@
 #' returns a list containing the test results together with the models.
 #' @export
 #' @importFrom progress progress_bar
-#' @importFrom keras model_from_yaml
 #'
 #' @examples \dontrun{
 #' doJk(model, variable = c('bio1', 'bio12'), with_only = TRUE)}
