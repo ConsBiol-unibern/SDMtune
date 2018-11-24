@@ -49,38 +49,3 @@ setMethod("show",
       browseURL(object@html)
   }
 )
-#' Plot SDMmodel object
-#'
-#' Used only for the objects containing NN model. It plots the auc values for
-#' all the epoch if monitored during training.
-#'
-#' @exportMethod plot
-#' @importFrom plotly %>% plot_ly add_trace layout
-#'
-#' @author Sergio Vignali
-setMethod("plot",
-          signature(x = "SDMmodel", y = "missing"),
-          definition = function(x) {
-
-            if (class(x@model) != "NN") {
-              stop(paste("No plot method for model of class",
-                         class(x@model)))
-            }
-
-            if (class(x@model) == "NN" & length(x@model@train_aucs) == 0)
-              stop("You must train the model using monitor_auc = TRUE!")
-
-            p <- plot_ly(x = seq(1, x@model@epoch)) %>%
-              add_trace(y = x@model@train_aucs, name = "training",
-                        mode = "line-basic", type = "scatter") %>%
-              plotly::layout(xaxis = list(zeroline = FALSE, title = "epoch"),
-                             yaxis = list(title = "auc"),
-                             legend = list(orientation = "h"))
-
-            if (!is.null(x@model@val_aucs))
-              p <- p %>% add_trace(y = x@model@val_aucs, name = "validation",
-                                   mode = "line-basic", type = "scatter")
-
-            return(p)
-          })
-
