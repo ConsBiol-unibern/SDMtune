@@ -60,14 +60,6 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
 
   method <- class(model@model)
 
-  if (method == "Maxent") {
-    iter <- model@model@iter
-    extra_args <- model@model@extra_args
-  } else {
-    iter <- NULL
-    extra_args <- NULL
-  }
-
   if (metric == "auc") {
     labels <- c("train_AUC", "test_AUC", "diff_AUC")
   } else if (metric == "tss") {
@@ -92,9 +84,15 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     } else {
       bg <- bg4test
       bg@data <- bg4test@data[folds[1:bgs[i]], ]
-      new_model <- train(method = method, model@presence, bg = bg,
-                         reg = model@model@reg, fc = model@model@fc,
-                         iter = iter, extra_args = extra_args)
+      if (method == "Maxent") {
+        new_model <- train(method = method, presence = model@presence,
+                           bg = bg, reg = model@model@reg, fc = model@model@fc,
+                           iter = model@model@iter,
+                           extra_args = model@model@extra_args)
+      } else {
+        new_model <- train(method = method, presence = model@presence,
+                           bg = bg, reg = model@model@reg, fc = model@model@fc)
+      }
     }
 
     models <- c(models, new_model)

@@ -48,14 +48,6 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
 
   method <- class(model@model)
 
-  if (method == "Maxent") {
-    iter <- model@model@iter
-    extra_args <- model@model@extra_args
-  } else {
-    iter <- NULL
-    extra_args <- NULL
-  }
-
   if (metric == "auc") {
     labels <- c("train_AUC", "test_AUC", "diff_AUC")
   } else if (metric == "tss") {
@@ -73,9 +65,16 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
     if (fcs[i] == model@model@fc) {
       new_model <- model
     } else {
-      new_model <- train(method = method, presence = model@presence,
-                         bg = model@background, reg = model@model@reg,
-                         fc = fcs[i], iter = iter, extra_args = extra_args)
+      if (method == "Maxent") {
+        new_model <- train(method = method, presence = model@presence,
+                           bg = model@background, reg = model@model@reg,
+                           fc = fcs[i], iter = model@model@iter,
+                           extra_args = model@model@extra_args)
+      } else {
+        new_model <- train(method = method, presence = model@presence,
+                           bg = model@background, reg = model@model@reg,
+                           fc = fcs[i])
+      }
     }
 
     models <- c(models, new_model)

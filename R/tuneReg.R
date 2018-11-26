@@ -48,14 +48,6 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
 
   method <- class(model@model)
 
-  if (method == "Maxent") {
-    iter <- model@model@iter
-    extra_args <- model@model@extra_args
-  } else {
-    iter <- NULL
-    extra_args <- NULL
-  }
-
   if (metric == "auc") {
     labels <- c("train_AUC", "test_AUC", "diff_AUC")
   } else if (metric == "tss") {
@@ -73,10 +65,16 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
     if (regs[i] == model@model@reg) {
       new_model <- model
     } else {
-      new_model <- train(method = method, presence = model@presence,
-                         bg = model@background, reg = regs[i],
-                         fc = model@model@fc, iter = iter,
-                         extra_args = extra_args)
+      if (method == "Maxent") {
+        new_model <- train(method = method, presence = model@presence,
+                           bg = model@background, reg = regs[i],
+                           fc = model@model@fc, iter = model@model@iter,
+                           extra_args = model@model@extra_args)
+      } else {
+        new_model <- train(method = method, presence = model@presence,
+                           bg = model@background, reg = regs[i],
+                           fc = model@model@fc)
+      }
     }
 
     models <- c(models, new_model)
