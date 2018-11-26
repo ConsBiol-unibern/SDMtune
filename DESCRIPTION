@@ -10,7 +10,8 @@ Authors@R: c(
 	person("Veronika", "Braunisch", role = "aut", comment = c(ORCID = "00000-0001-7035-4662")),
 	person("Conservation Biology - University of Bern" , role = "fnd")
 	)
-Description: Provides a framework that facilitates user in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements only MaxEnt models). SDMsel uses its own script to predict MaxEnt models that results to be much faster for large datasets than native prediction made using Java software. This reduce considerably the computation time when tuninig the model using the AICc.
+Description: SDMsel (Species Distribution Model selection) provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models).
+SDMsel uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the AICc. 
 License: GPL (>= 3)
 URL: https://github.com/sgvignali/SDMsel
 BugReports: https://github.com/sgvignali/SDMsel/issues

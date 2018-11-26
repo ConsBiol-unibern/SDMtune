@@ -29,7 +29,7 @@ A SDMmodel object.
 \description{
 Train a MaxEnt model using the dismo package. The function runs Maxent model
 with a minimum setting of optional parameters (e.g. it doesn't make the
-response curves) to speed up the computation time. Use \link{modelOutput}
+response curves) to speed up the computation time. Use \link{modelReport}
 function to set more parameters (i.e. response curves) and save the output
 permanently in a folder.
 }

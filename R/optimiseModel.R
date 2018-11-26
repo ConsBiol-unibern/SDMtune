@@ -29,6 +29,7 @@
 #' @return list containing the models of the last population.
 #' @export
 #' @importFrom progress progress_bar
+#' @importFrom stats rnorm
 #'
 #' @examples \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
 #' 1.5), fcs = c("lq", "lqp", "lqph"), n_bgs = c(5000, 10000, 15000),
