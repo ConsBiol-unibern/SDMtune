@@ -59,7 +59,6 @@ Collate:
     'maxentTh.R'
     'maxentVarImp.R'
     'mergeSWD.R'
-    'modelOutput.R'
     'modelReport.R'
     'optimiseModel.R'
     'plotCor.R'
