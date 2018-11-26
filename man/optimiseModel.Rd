@@ -4,7 +4,8 @@
 \alias{optimiseModel}
 \title{Optimise Model}
 \usage{
-optimiseModel(model, bg, regs, fcs, n_bgs, val, pop, gen, keep_best = 0.4,
+optimiseModel(model, bg, regs, fcs, n_bgs, val, pop, gen, metric = c("auc",
+  "tss", "aicc"), env = NULL, parallel = FALSE, keep_best = 0.4,
   keep_random = 0.1, mutation_chance = 0.2, seed = NULL)
 }
 \arguments{
@@ -24,6 +25,15 @@ tested.}
 \item{pop}{numeric. Size of the population.}
 
 \item{gen}{numeric. Number of generations.}
+
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".}
+
+\item{env}{\link{stack} or \link{brick} containing the environmental
+variables, used only with "aicc", default is NULL.}
+
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE.}
 
 \item{keep_best}{numeric. Percentage of the best models in the population to be
 retained during each iteration, expressed as decimal number. Default is 0.4.}

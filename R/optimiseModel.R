@@ -9,6 +9,12 @@
 #' @param val SWD object containing the validation dataset.
 #' @param pop numeric. Size of the population.
 #' @param gen numeric. Number of generations.
+#' @param metric character. The metric used to evaluate the models, possible
+#' values are: "auc", "tss" and "aicc", default is "auc".
+#' @param env \link{stack} or \link{brick} containing the environmental
+#' variables, used only with "aicc", default is NULL.
+#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' FALSE.
 #' @param keep_best numeric. Percentage of the best models in the population to be
 #' retained during each iteration, expressed as decimal number. Default is 0.4.
 #' @param keep_random numeric. Probability of retaining the excluded models
@@ -30,7 +36,8 @@
 #'
 #' @author Sergio Vignali
 optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
-                          keep_best = 0.4, keep_random = 0.1,
+                          metric = c("auc", "tss", "aicc"), env = NULL,
+                          parallel = FALSE, keep_best = 0.4, keep_random = 0.1,
                           mutation_chance = 0.2, seed = NULL) {
 
   pb <- progress::progress_bar$new(
@@ -41,6 +48,7 @@ optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
   if (!is.null(seed))
     set.seed(seed)
 
+  metric <- match.arg(metric)
   vars <- colnames(model@presence@data)
   bg@data <- bg@data[vars]
 
@@ -48,7 +56,8 @@ optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
                               fcs = fcs, n_bgs = n_bgs)
 
   for (i in 1:gen) {
-    models <- rank_models(models, val)
+    models <- rank_models(models, val, metric = metric, env = env,
+                          parallel = parallel)
     pb$tick(1)
     kept <- round((pop * keep_best), 0)
     parents <- models[1:kept]
@@ -74,7 +83,8 @@ optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
     }
     models <- new_models
   }
-  models <- rank_models(models, val)
+  models <- rank_models(models, val, metric = metric, env = env,
+                        parallel = parallel)
   pb$tick(1)
   gc()
 
@@ -115,26 +125,46 @@ create_population <- function(model, size, bg, regs, fcs, n_bgs) {
   return(models)
 }
 
-rank_models <- function(models, test) {
+rank_models <- function(models, test, metric, env, parallel) {
 
-  test_aucs <- c()
-  good_models <- bad_models <- c()
+  values <- c()
+  good_models <- c()
+  bad_models <- c()
 
   for (i in 1:length((models))) {
-    train_auc <- auc(models[[i]])
-    test_auc <- auc(models[[i]], test)
-    diff_auc <- train_auc - test_auc
 
-    if (diff_auc >= 0) {
-      good_models <- c(good_models, models[[i]])
-      test_aucs <- c(test_aucs, test_auc)
+    if (metric == "auc") {
+      train_metric <- auc(models[[i]])
+      test_metric <- auc(models[[i]], test)
+      diff_metric <- train_metric - test_metric
+    } else if (metric == "tss") {
+      train_metric <- tss(models[[i]])
+      test_metric <- tss(models[[i]], test)
+      diff_metric <- train_metric - test_metric
     } else {
-      bad_models <- c(bad_models, models[[i]])
+      values <- c(values, aicc(models[[i]], env, parallel))
+    }
+
+    if (metric != "aicc") {
+      if (diff_metric >= 0) {
+        good_models <- c(good_models, models[[i]])
+        values <- c(values, test_metric)
+      } else {
+        bad_models <- c(bad_models, models[[i]])
+      }
+    } else {
+      good_models <- c(good_models, models[[i]])
     }
   }
 
-  index <- order(-test_aucs)
-  models <- c(good_models[index], bad_models)
+  if (length(values) != 0) {
+    index <- order(-values)
+    models <- c(good_models[index], bad_models)
+  } else {
+    index <- order(-values)
+    models <- bad_models
+  }
+
   gc()
 
   return(models)
