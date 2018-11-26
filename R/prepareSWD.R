@@ -22,7 +22,7 @@ prepareSWD <- function(species, coords, env, categoricals = NULL) {
   coords <- as.data.frame(coords)
   colnames(coords) <- c("LON", "LAT")
 
-  message("Extracting predictor information for given locations")
+  message("Extracting predictor information for given locations...")
   data <- as.data.frame(raster::extract(env, coords))
 
   is_na <- is.na(rowSums(data))

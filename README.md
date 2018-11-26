@@ -62,9 +62,9 @@ Prepare the data for the analysis with `SDMsel`:
 
 ``` r
 train <- prepareSWD(species = "Bradypus variegatus", coords = train_coords, env = predictors, categoricals = "biome")
-#> Extracting predictor information for given locations
+#> Extracting predictor information for given locations...
 bg <- prepareSWD(species = "Bradypus variegatus", coords = bg_coords, env = predictors, categoricals = "biome")
-#> Extracting predictor information for given locations
+#> Extracting predictor information for given locations...
 #> Warning: 5 locations are NA for some environmental variables, they will be discard!
 ```
 
@@ -156,8 +156,8 @@ Print results:
 res
 #> Unit: milliseconds
 #>    expr      min       lq     mean   median       uq      max neval
-#>   dismo 230.2145 233.6679 252.0330 256.3933 260.4426 282.1513    10
-#>  SDMsel 113.1268 113.5470 118.9845 120.6838 123.1456 125.2244    10
+#>   dismo 237.4585 238.8186 259.6385 264.0198 273.6772 293.8009    10
+#>  SDMsel 110.3205 113.7262 119.1561 117.2536 123.8524 133.3155    10
 ```
 
 Plot results:
@@ -169,4 +169,4 @@ autoplot(res)
 
 <img src="docs/reference/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
-**SDMsel** is at almost three times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).
+**SDMsel** is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).

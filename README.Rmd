@@ -145,4 +145,4 @@ Plot results:
 autoplot(res)
 ```
 
-**SDMsel** is at almost three times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).
+**SDMsel** is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).

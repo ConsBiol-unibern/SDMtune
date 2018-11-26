@@ -89,15 +89,15 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="sdmsel" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#sdmsel" class="anchor"></a>SDMsel <img src="reference/figures/logo.png" align="right">
+<a href="#sdmsel" class="anchor"></a>SDMsel <img src="logo.png" align="right">
 </h1></div>
-<p><strong>SDMsel</strong> (Species Distribution Model selection) provides a framework that facilitates users in preparing data for analysis, train and evaluate models. It also implements functions for data driven variable selection and model tuning and includes some utilities to display results (at the moment it implements MaxEnt and Maxnet models). <strong>SDMsel</strong> uses its own script to predict MaxEnt models that results to be much faster for large datasets than native prediction made using Java software. This reduce considerably the computation time when tuninig the model using the <strong>AICc</strong>.</p>
+<p><strong>SDMsel</strong> (Species Distribution Model selection) provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models). <strong>SDMsel</strong> uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the <strong>AICc</strong>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can get the latest stable version from CRAN:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"SDMsel"</span>)</code></pre></div>
-<p>or latest development version from github:</p>
+<p>or the latest development version from github:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"sgvignali/SDMsel"</span>)</code></pre></div>
 </div>
 <div id="example" class="section level2">
@@ -116,34 +116,39 @@
 <span class="co">#&gt; </span>
 <span class="kw">library</span>(dismo)
 <span class="co">#&gt; Loading required package: raster</span>
-<span class="co">#&gt; Loading required package: sp</span></code></pre></div>
-<p>Obtain data for analysis, we use the dataset provided by <code>dismo</code>package:</p>
+<span class="co">#&gt; Loading required package: sp</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'raster'</span>
+<span class="co">#&gt; The following object is masked from 'package:SDMsel':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     clamp</span></code></pre></div>
+<p>Obtain the data for the analysis, we use the dataset provided by <code>dismo</code>package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="kw">paste</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"dismo"</span>), <span class="st">"/ex"</span>, <span class="dt">sep =</span> <span class="st">""</span>), <span class="dt">pattern =</span> <span class="st">"grd"</span>, <span class="dt">full.names =</span> T)
 predictors &lt;-<span class="st"> </span><span class="kw">stack</span>(files)
 file &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"dismo"</span>), <span class="st">"/ex/bradypus.csv"</span>, <span class="dt">sep =</span> <span class="st">""</span>)
 bradypus &lt;-<span class="st"> </span><span class="kw">read.table</span>(file, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">sep =</span> <span class="st">","</span>)
 train_coords &lt;-<span class="st"> </span>bradypus[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]
 <span class="kw">set.seed</span>(<span class="dv">25</span>)
-bg_coords &lt;-<span class="st"> </span><span class="kw">randomPoints</span>(predictors, <span class="dv">5000</span>)  <span class="co"># Extract random points</span></code></pre></div>
-<p>Prepare the data for the analisys with <code>SDMsel</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Bradipus variagatus"</span>, <span class="dt">coords =</span> train_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)
-<span class="co">#&gt; Extracting environmental condition for Bradipus variagatus...</span>
-bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Bradipus variagatus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)
-<span class="co">#&gt; Extracting environmental condition for Bradipus variagatus...</span>
+bg_coords &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/randomPoints">randomPoints</a></span>(predictors, <span class="dv">5000</span>)  <span class="co"># Extract random points</span></code></pre></div>
+<p>Prepare the data for the analysis with <code>SDMsel</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Bradypus variegatus"</span>, <span class="dt">coords =</span> train_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)
+<span class="co">#&gt; Extracting predictor information for given locations...</span>
+bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Bradypus variegatus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)
+<span class="co">#&gt; Extracting predictor information for given locations...</span>
 <span class="co">#&gt; Warning: 5 locations are NA for some environmental variables, they will be discard!</span></code></pre></div>
 <p>Train a MaxEnt model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxent_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">rm =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqph"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxent_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">reg =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqph"</span>)
 <span class="co">#&gt; Loading required namespace: rJava</span></code></pre></div>
 <p>Train a Maxnet model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">rm =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqph"</span>)</code></pre></div>
-<p>Plot ROC curve:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">reg =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqph"</span>)</code></pre></div>
+<p>Plot the ROC curve:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(maxent_model)</code></pre></div>
 <p><img src="reference/figures/README-plot-ROC-curve%20maxent-1.png" width="700" style="display: block; margin: auto;"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(maxnet_model)</code></pre></div>
 <p><img src="reference/figures/README-plot-ROC-curve%20maxnet-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Make prediction:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxent_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(maxent_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxnet_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(maxnet_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxent_pred &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(maxent_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxnet_pred &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(maxnet_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</code></pre></div>
 <p>Plot prediction:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(maxent_pred, <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
 <p><img src="reference/figures/README-plot-prediction%20maxent-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -154,32 +159,32 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.
 <div id="speed-test" class="section level1">
 <h1 class="hasAnchor">
 <a href="#speed-test" class="anchor"></a>Speed test</h1>
-<p>We test now the difference in speed between the predict function of <strong>dismo</strong> package that uses the Java software and the predict function of <strong>SDMsel</strong> package. We also test if the results are equivalent.</p>
+<p>We test now the difference in computation speed between the predict function of the <strong>dismo</strong> package that uses the Java software and the predict function of the <strong>SDMsel</strong> package. We also test if the results are equivalent.</p>
 <p>The following code creates a function to test the equivalence of the results:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_check &lt;-<span class="st"> </span><span class="cf">function</span>(values) {
   error &lt;-<span class="st"> </span><span class="fl">1e-7</span> 
   max_error &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">values</span>(values[[<span class="dv">1</span>]]) <span class="op">-</span><span class="st"> </span><span class="kw">values</span>(values[[<span class="dv">2</span>]]), <span class="dt">na.rm =</span> T) 
   max_error <span class="op">&lt;</span><span class="st"> </span>error
 }</code></pre></div>
-<p>If the results are different for more than <code>1e-7</code> the test will fail. The next function converts an object of class <code>Maxent</code> into an object of class <code>MaxEnt</code> (dismo pkg):</p>
+<p>If the results diverge more than <code>1e-7</code> the test will fail. The next function converts an object of class <code>Maxent</code> into an object of class <code>MaxEnt</code> (dismo pkg):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span>(maxent_model)</code></pre></div>
 <p>Run the test with 10 replicates:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(microbenchmark)
-res &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="st">"dismo"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw">predict</span>(me_model, predictors)},
-                      <span class="st">"SDMsel"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw">predict</span>(maxent_model, predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)},
+res &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark">microbenchmark</a></span>(<span class="st">"dismo"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(me_model, predictors)},
+                      <span class="st">"SDMsel"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw"><a href="http://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(maxent_model, predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)},
                       <span class="dt">times =</span> <span class="dv">10</span>,
                       <span class="dt">check =</span> my_check)</code></pre></div>
 <p>Print results:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;    expr      min       lq     mean   median       uq      max neval</span>
-<span class="co">#&gt;   dismo 747.7900 778.5767 783.1809 785.5682 788.4146 804.5847    10</span>
-<span class="co">#&gt;  SDMsel 260.5408 264.6248 268.7938 267.7068 273.6533 280.9240    10</span></code></pre></div>
+<span class="co">#&gt;   dismo 237.2536 239.3330 258.7588 263.7246 265.1656 300.9869    10</span>
+<span class="co">#&gt;  SDMsel 113.8705 114.3718 138.0899 119.2163 125.4116 308.2215    10</span></code></pre></div>
 <p>Plot results:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">autoplot</span>(res)
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"></p>
-<p><strong>SDMsel</strong> is at almost three times faster than native Java software and the speed improves much more for large datasets when using parallel computation (i.e. see details in predict function).</p>
+<p><strong>SDMsel</strong> is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).</p>
 </div>
   </div>
 
@@ -214,8 +219,7 @@ res &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span c
 <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a> <br><small class="roles"> Author </small>  </li>
 <li>
 <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/00000-0001-7035-4662" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
-<li>
-<a href="http://www.cb.iee.unibe.ch/index_eng.html">Conservation Biology</a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li>Conservation Biology - University of Bern <br><small class="roles"> Funder </small>  </li>
 </ul>
 </div>
 
@@ -225,7 +229,7 @@ res &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span c
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/sgvignali">Sergio Vignali</a>, <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a>, <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a>, <a href="http://www.cb.iee.unibe.ch/index_eng.html">Conservation Biology</a>.</p>
+  <p>Developed by <a href="https://github.com/sgvignali">Sergio Vignali</a>, <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a>, <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a>, Conservation Biology - University of Bern.</p>
 </div>
 
 <div class="pkgdown">
