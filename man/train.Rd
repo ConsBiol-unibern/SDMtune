@@ -17,7 +17,7 @@ train(method = c("Maxent", "Maxnet"), presence, bg, ...)
 or \link{trainMaxnet} for details related to the different methods.}
 }
 \value{
-A SWDmodel object
+A SWDmodel object.
 }
 \description{
 Train a model using the given method.

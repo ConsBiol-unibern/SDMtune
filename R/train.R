@@ -8,7 +8,7 @@
 #' @param ... Arguments passed to the relative functions, see \link{trainMaxent}
 #' or \link{trainMaxnet} for details related to the different methods.
 #'
-#' @return A SWDmodel object
+#' @return A SWDmodel object.
 #' @export
 #'
 #' @examples \dontrun{

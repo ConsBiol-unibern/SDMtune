@@ -36,8 +36,6 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   if (!var %in% names(model@presence@data))
     stop(paste(var, "is not used to train the model!"))
 
-  set.seed(25)
-
   train <- model@presence
   bg <- model@background
   cont_vars <- names(Filter(is.numeric, train@data))

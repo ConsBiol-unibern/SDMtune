@@ -6,12 +6,12 @@
 #' @param fcs character vector with the feature combunation values to be tested.
 #' @param n_bgs numeric vector with the number of background location to be
 #' tested.
-#' @param gen numeric. Number of generations.
+#' @param val SWD object containing the validation dataset.
 #' @param pop numeric. Size of the population.
-#' @param test SWD object containing the validation dataset.
-#' @param keep numeric. Percentage of the best models in the population to be
+#' @param gen numeric. Number of generations.
+#' @param keep_best numeric. Percentage of the best models in the population to be
 #' retained during each iteration, expressed as decimal number. Default is 0.4.
-#' @param random_keep numeric. Probability of retaining the excluded models
+#' @param keep_random numeric. Probability of retaining the excluded models
 #' during each iteration, expressed as decimal number. Default is 0.1.
 #' @param mutation_chance numeric. Probability of mutation of the child models,
 #' expressed as decimal number. Default is 0.2.
@@ -22,33 +22,39 @@
 #'
 #' @return list containing the models of the last population.
 #' @export
+#' @importFrom progress progress_bar
 #'
 #' @examples \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
-#' 1.5), fcs = c("lq", "lqp", "lqph"), n_bgs = c(5000, 10000, 15000), gen = 5,
-#' pop = 20, val = my_val, seed = 25)}
+#' 1.5), fcs = c("lq", "lqp", "lqph"), n_bgs = c(5000, 10000, 15000),
+#' val = my_val, pop = 20, gen = 10, seed = 25)}
 #'
 #' @author Sergio Vignali
-optimiseModel <- function(model, bg, regs, fcs, n_bgs, gen, pop, val,
-                          keep = 0.4, random_keep = 0.1,
+optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
+                          keep_best = 0.4, keep_random = 0.1,
                           mutation_chance = 0.2, seed = NULL) {
+
+  pb <- progress::progress_bar$new(
+    format = "Optimise Model [:bar] :percent in :elapsedfull",
+    total = (gen + 1), clear = FALSE, width = 60, show_after = 0)
+  pb$tick(0)
 
   if (!is.null(seed))
     set.seed(seed)
 
   vars <- colnames(model@presence@data)
   bg@data <- bg@data[vars]
-  parents <- c()
 
   models <- create_population(model, size = pop, bg = bg, regs = regs,
                               fcs = fcs, n_bgs = n_bgs)
 
   for (i in 1:gen) {
     models <- rank_models(models, val)
-    kept <- round((pop * keep), 0)
+    pb$tick(1)
+    kept <- round((pop * keep_best), 0)
     parents <- models[1:kept]
 
     for (mod in models[(kept + 1):pop]) {
-      if (random_keep > rnorm(1))
+      if (keep_random > rnorm(1))
         parents <- c(parents, mod)
     }
 
@@ -69,6 +75,7 @@ optimiseModel <- function(model, bg, regs, fcs, n_bgs, gen, pop, val,
     models <- new_models
   }
   models <- rank_models(models, val)
+  pb$tick(1)
   gc()
 
   return(models)
@@ -142,8 +149,8 @@ breed <- function(mother, father) {
 
   if (method == "Maxent") {
     new_model <- train(method = method, presence = mother@presence, bg = bg,
-                       reg = reg, fc = fc, iter = model@model@iter,
-                       extra_args = model@model@extra_args)
+                       reg = reg, fc = fc, iter = mother@model@iter,
+                       extra_args = mother@model@extra_args)
   } else {
     new_model <- train(method = method, presence = mother@presence, bg = bg,
                        reg = reg, fc = fc)

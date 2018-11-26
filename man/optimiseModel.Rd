@@ -4,8 +4,8 @@
 \alias{optimiseModel}
 \title{Optimise Model}
 \usage{
-optimiseModel(model, bg, regs, fcs, n_bgs, gen, pop, val, keep = 0.4,
-  random_keep = 0.1, mutation_chance = 0.2, seed = NULL)
+optimiseModel(model, bg, regs, fcs, n_bgs, val, pop, gen, keep_best = 0.4,
+  keep_random = 0.1, mutation_chance = 0.2, seed = NULL)
 }
 \arguments{
 \item{model}{SDMmodel object.}
@@ -19,14 +19,16 @@ optimiseModel(model, bg, regs, fcs, n_bgs, gen, pop, val, keep = 0.4,
 \item{n_bgs}{numeric vector with the number of background location to be
 tested.}
 
-\item{gen}{numeric. Number of generations.}
+\item{val}{SWD object containing the validation dataset.}
 
 \item{pop}{numeric. Size of the population.}
 
-\item{keep}{numeric. Percentage of the best models in the population to be
+\item{gen}{numeric. Number of generations.}
+
+\item{keep_best}{numeric. Percentage of the best models in the population to be
 retained during each iteration, expressed as decimal number. Default is 0.4.}
 
-\item{random_keep}{numeric. Probability of retaining the excluded models
+\item{keep_random}{numeric. Probability of retaining the excluded models
 during each iteration, expressed as decimal number. Default is 0.1.}
 
 \item{mutation_chance}{numeric. Probability of mutation of the child models,
@@ -34,8 +36,6 @@ expressed as decimal number. Default is 0.2.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is NULL.}
-
-\item{test}{SWD object containing the validation dataset.}
 }
 \value{
 list containing the models of the last population.
@@ -48,8 +48,8 @@ See vignette for a full explanation of the algorithm.
 }
 \examples{
 \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
-1.5), fcs = c("lq", "lqp", "lqph"), n_bgs = c(5000, 10000, 15000), gen = 5,
-pop = 20, val = my_val, seed = 25)}
+1.5), fcs = c("lq", "lqp", "lqph"), n_bgs = c(5000, 10000, 15000),
+val = my_val, pop = 20, gen = 10, seed = 25)}
 
 }
 \author{
