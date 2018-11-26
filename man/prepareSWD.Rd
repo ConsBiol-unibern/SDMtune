@@ -24,7 +24,8 @@ the function prepares a data frame in the SWD format (sample with data).
 }
 \examples{
 \dontrun{
-presence_swd <- prepareSWD(species = "Bradipus variegatus", coords = presence, env = env)}
+presence_swd <- prepareSWD(species = "Bradipus variegatus",
+coords = presence, env = env)}
 
 }
 \author{

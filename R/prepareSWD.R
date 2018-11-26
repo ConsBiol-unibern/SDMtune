@@ -13,7 +13,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' presence_swd <- prepareSWD(species = "Bradipus variegatus", coords = presence, env = env)}
+#' presence_swd <- prepareSWD(species = "Bradipus variegatus",
+#' coords = presence, env = env)}
 #'
 #' @author Sergio Vignali
 prepareSWD <- function(species, coords, env, categoricals = NULL) {
@@ -21,7 +22,7 @@ prepareSWD <- function(species, coords, env, categoricals = NULL) {
   coords <- as.data.frame(coords)
   colnames(coords) <- c("LON", "LAT")
 
-  message(paste0("Extracting environmental condition for ", species, "..."))
+  message("Extracting predictor information for given locations")
   data <- as.data.frame(raster::extract(env, coords))
 
   is_na <- is.na(rowSums(data))
