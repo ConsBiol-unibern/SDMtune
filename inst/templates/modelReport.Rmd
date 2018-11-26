@@ -137,7 +137,7 @@ Shown below the settings used to train the model:
 * Continuous variables: `r names(Filter(is.numeric, params$model@presence@data))`
 * Categorical variables: `r names(Filter(is.factor, params$model@presence@data))`
 * Feature combination: `r params$model@model@fc`
-* Regularization multiplier: `r params$model@model@rm``r if(class(params$model@model) == "Maxent") {paste("\n* Extra arguments:", paste(params$model@model@extra_args, collapse = ", "))}`
+* Regularization multiplier: `r params$model@model@reg``r if(class(params$model@model) == "Maxent") {paste("\n* Extra arguments:", paste(params$model@model@extra_args, collapse = ", "))}`
 
 ### Reference
 

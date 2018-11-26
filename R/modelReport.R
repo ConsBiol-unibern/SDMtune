@@ -44,6 +44,7 @@ modelReport <- function(model, type, folder, test = NULL,
   html <- paste0(folder, "/", species, ".html")
   model@html <- html
   browseURL(html)
+
   gc()
 
   return(invisible(model))

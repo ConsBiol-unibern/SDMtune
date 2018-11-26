@@ -30,7 +30,7 @@ Imports: dismo (>= 1.1-4),
           kableExtra (>= 0.9.0),
           htmltools (>= 0.3.6),
           prettydoc (>= 0.2.1),
-          Rcpp (>= 0.12.18),
+          Rcpp (>= 0.12.18)
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
