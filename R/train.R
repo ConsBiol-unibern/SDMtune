@@ -5,7 +5,7 @@
 #' @param method character. Possible values are "Maxent" or "Maxnet".
 #' @param presence SWD object with the presence locations.
 #' @param bg SWD object with the background locations.
-#' @param ... Argument passed to the relative functions, see \link{trainMaxent}
+#' @param ... Arguments passed to the relative functions, see \link{trainMaxent}
 #' or \link{trainMaxnet} for details related to the different methods.
 #'
 #' @return A SWDmodel object

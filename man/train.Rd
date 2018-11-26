@@ -13,7 +13,7 @@ train(method = c("Maxent", "Maxnet"), presence, bg, ...)
 
 \item{bg}{SWD object with the background locations.}
 
-\item{...}{Argument passed to the relative functions, see \link{trainMaxent}
+\item{...}{Arguments passed to the relative functions, see \link{trainMaxent}
 or \link{trainMaxnet} for details related to the different methods.}
 }
 \value{

@@ -5,7 +5,7 @@
 \title{Train Maxent model}
 \usage{
 trainMaxent(presence, bg, reg = 1, fc = "lqph", iter = 500,
-  extra_args = c("noaddsamplestobackground", "removeduplicates=false"))
+  extra_args = "removeduplicates=false")
 }
 \arguments{
 \item{presence}{SWD object with the presence locations.}
@@ -21,7 +21,7 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 default is 500.}
 
 \item{extra_args}{vector. Extra arguments used to run MaxEnt, default is
-c("noaddsamplestobackground", "removeduplicates=false").}
+"removeduplicates=false".}
 }
 \value{
 A SDMmodel object.
@@ -34,10 +34,9 @@ function to set more parameters (i.e. response curves) and save the output
 permanently in a folder.
 }
 \details{
-By default the function uses \strong{extra_args =
-c("noaddsamplestobackground", "removeduplicates=false")}. In case this is
-not your expected beaviour you can remove both passing extra_args = "" or you
-can add any other additional arguments extending the previous vector.
+By default the function uses \strong{extra_args = "removeduplicates=false"}.
+In case this is not your expected beaviour you can assign extra_args = "" or
+you can add any other additional arguments extending the previous vector.
 }
 \examples{
 \dontrun{model <- trainMaxent(presence, bg)}
