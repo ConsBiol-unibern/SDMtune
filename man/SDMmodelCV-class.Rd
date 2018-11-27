@@ -14,6 +14,10 @@ the models trained during the cross validation.
 \describe{
 \item{\code{models}}{list. A list containing all the models trained during the cross
 validation.}
+
+\item{\code{presence}}{SWD object. Full dataset used by the k-fold cross validation.}
+
+\item{\code{folds}}{numeric. Vector with the index of the k-fold.}
 }}
 
 \author{

@@ -5,6 +5,8 @@
 #'
 #' @slot models list. A list containing all the models trained during the cross
 #' validation.
+#' @slot presence SWD object. Full dataset used by the k-fold cross validation.
+#' @slot folds numeric. Vector with the index of the k-fold.
 #'
 #' @include SWD_class.R
 #' @name SDMmodelCV-class
@@ -15,7 +17,8 @@
 SDMmodelCV <- setClass("SDMmodelCV",
                        representation(
                          models = "list",
-                         presence = "SWD"
+                         presence = "SWD",
+                         folds = "numeric"
                        )
 )
 

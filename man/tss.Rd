@@ -7,16 +7,20 @@
 tss(model, test = NULL)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{SDMmodel or SDMmodelCV object.}
 
-\item{test}{SWD object, if provided it computes the TSS for the test dataset,
-if not for the train dataset, default is NULL.}
+\item{test}{SWD test locations, used for SDMmodel objects, if not provided
+it computes the train TSS, default is NULL.}
 }
 \value{
 The value of the TSS of the given model.
 }
 \description{
-Compute the max TSS of a given Maxent model.
+Compute the max TSS of a given model.
+}
+\details{
+If the model is a SDMmodelCV object, the function computes the mean
+of the testing TSS values of the different replicates.
 }
 \examples{
 \dontrun{

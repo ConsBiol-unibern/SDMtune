@@ -1,10 +1,13 @@
 #' True Skill Statistics
 #'
-#' Compute the max TSS of a given Maxent model.
+#' Compute the max TSS of a given model.
 #'
-#' @param model SDMmodel object.
-#' @param test SWD object, if provided it computes the TSS for the test dataset,
-#' if not for the train dataset, default is NULL.
+#' @param model SDMmodel or SDMmodelCV object.
+#' @param test SWD test locations, used for SDMmodel objects, if not provided
+#' it computes the train TSS, default is NULL.
+#'
+#' @details If the model is a SDMmodelCV object, the function computes the mean
+#' of the testing TSS values of the different replicates.
 #'
 #' @return The value of the TSS of the given model.
 #' @export
@@ -19,10 +22,26 @@
 #' prevalence, kappa and the true skill statistic (TSS). Journal of Applied Ecology, 43(6), 1223–1232.
 tss <- function(model, test = NULL) {
 
+  if (class(model) == "SDMmodel") {
+    tss <- max(compute_tss(model, test))
+  } else {
+    tsss <- c()
+    for (i in 1:length(model@models)) {
+      test <- model@presence
+      test@data <- model@presence@data[model@folds == i, ]
+      tsss <- c(tsss, max(compute_tss(model@models[[i]], test)))
+    }
+    tss <- mean(tsss)
+  }
+
+  return(round(tss, 4))
+}
+
+compute_tss <- function(model, test) {
   cm <- confMatrix(model, test = test)
   tpr <- cm$tp / (cm$tp + cm$fn)
   tnr <- cm$tn / (cm$fp + cm$tn)
   tss <- tpr + tnr - 1
 
-  return(round(max(tss), 4))
+  return(tss)
 }
