@@ -1,7 +1,7 @@
 setClassUnion("model", c("Maxent", "Maxnet"))
 #' SDMmodel
 #'
-#' This Class represents a MaxEnt model objects and hosts all the information
+#' This Class represents a SDMmodel model object and hosts all the information
 #' related to the model.
 #'
 #' @slot presence SWD. The presence locations used to train the model.

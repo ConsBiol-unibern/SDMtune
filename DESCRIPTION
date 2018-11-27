@@ -46,6 +46,7 @@ Collate:
     'Maxnet_class.R'
     'RcppExports.R'
     'SDMmodel2MaxEnt.R'
+    'SDMmodelCV.R'
     'SWD_class.R'
     'SDMmodel_class.R'
     'SDMsel.R'

@@ -6,7 +6,7 @@
 \alias{SDMmodel}
 \title{SDMmodel}
 \description{
-This Class represents a MaxEnt model objects and hosts all the information
+This Class represents a SDMmodel model object and hosts all the information
 related to the model.
 }
 \section{Slots}{
