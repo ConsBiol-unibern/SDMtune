@@ -36,10 +36,15 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   if (!var %in% names(model@presence@data))
     stop(paste(var, "is not used to train the model!"))
 
+  if (class(model) == "SDMmodel") {
+    bg <- model@background
+  } else {
+    bg <- model@models[[1]]@background
+  }
+
   train <- model@presence
-  bg <- model@background
-  cont_vars <- names(Filter(is.numeric, train@data))
-  cat_vars <- names(Filter(is.factor, train@data))
+  cont_vars <- names(Filter(is.numeric, bg@data))
+  cat_vars <- names(Filter(is.factor, bg@data))
 
   if (var %in% cat_vars) {
     categ <- unique(as.numeric(levels(bg@data[, var]))[bg@data[, var]])
@@ -50,6 +55,77 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
 
   train_rug <- data.frame(x = train@data[, var])
   bg_rug <- data.frame(x = bg@data[, var])
+
+  if (class(model) == "SDMmodel") {
+    plot_data <- get_plot_data(model, train, bg, var, cont_vars, cat_vars,
+                               n_rows, train_rug, fun, marginal, clamp, type)
+
+    if (var %in% cont_vars) {
+      my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
+        geom_line(colour = color)
+
+    } else {
+      my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
+        geom_bar(stat = "identity", fill = color) +
+        scale_x_continuous(breaks = seq(min(plot_data$x),
+                                        max(plot_data$x), 1))
+    }
+  } else {
+    nf <- length(model@models)
+    plot_data <- get_plot_data(model@models[[1]], train, bg, var, cont_vars,
+                               cat_vars, n_rows, train_rug, fun, marginal,
+                               clamp, type)
+    colnames(plot_data) <- c("x", "y_1")
+    for (i in 2:nf)
+      plot_data[paste0('y_', i)] <- get_plot_data(model@models[[i]], train, bg,
+                                                  var, cont_vars, cat_vars,
+                                                  n_rows, train_rug, fun,
+                                                  marginal, clamp, type)$y
+    plot_data$y <- rowMeans(plot_data[, -1])
+    plot_data$sd <- apply(plot_data[, 2:(nf + 1)], 1, sd, na.rm = TRUE)
+    plot_data$y_min <- plot_data$y - plot_data$sd
+    plot_data$y_max <- plot_data$y + plot_data$sd
+
+    if (var %in% cont_vars) {
+      my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y", ymin = "y_min",
+                                              ymax = "y_max")) +
+        geom_line(colour = color) +
+        geom_ribbon(fill = color, alpha = 0.2)
+
+    } else {
+      my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
+        geom_bar(stat = "identity", fill = color) +
+        geom_errorbar(aes_string(ymin = "y_min", ymax = "y_max"),
+                      width = 0.2, size = 0.3) +
+        scale_x_continuous(breaks = seq(min(plot_data$x),
+                                        max(plot_data$x), 1))
+    }
+  }
+
+  my_plot <- my_plot +
+    xlab(var) +
+    ylab(paste(type, "output")) +
+    theme_minimal()
+
+  if (rug == TRUE & var %in% cont_vars) {
+    my_plot <- my_plot +
+      geom_rug(data = train_rug, inherit.aes = FALSE, aes_string("x"),
+               sides = "t", color = "#4C4C4C") +
+      geom_rug(data = bg_rug, inherit.aes = FALSE, aes_string("x"),
+               sides = "b", color = "#4C4C4C")
+  } else if (rug == TRUE) {
+    message("Warning: rug is available only for continous variables!")
+  }
+
+  gc()
+
+  return(my_plot)
+}
+
+
+get_plot_data <- function(model, train, bg, var, cont_vars, cat_vars, n_rows,
+                          train_rug, fun, marginal, clamp, type) {
+
   data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(train@data)))
   colnames(data) <- colnames(train@data)
   data[cont_vars] <- apply(train@data[cont_vars], 2, fun)
@@ -90,33 +166,5 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   pred <- predict(model, data, type = type, clamp = clamp)
   plot_data <- data.frame(x = data[, var], y = pred)
 
-  if (var %in% cont_vars) {
-    my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
-      geom_line(colour = color)
-
-  } else {
-    my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
-      geom_bar(stat = "identity", fill = color) +
-      scale_x_continuous(breaks = seq(min(plot_data$x),
-                                      max(plot_data$x), 1))
-  }
-
-  my_plot <- my_plot +
-    xlab(var) +
-    ylab(paste(type, "output")) +
-    theme_minimal()
-
-  if (rug == TRUE & var %in% cont_vars) {
-    my_plot <- my_plot +
-      geom_rug(data = train_rug, inherit.aes = FALSE, aes_string("x"),
-               sides = "t", color = "#4C4C4C") +
-      geom_rug(data = bg_rug, inherit.aes = FALSE, aes_string("x"),
-               sides = "b", color = "#4C4C4C")
-  } else if (rug == TRUE) {
-    message("Warning: rug is available only for continous variables!")
-  }
-
-  gc()
-
-  return(my_plot)
+  return(plot_data)
 }
