@@ -7,11 +7,13 @@
 plotROC(model, val = NULL, test = NULL)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{SDMmodel or SDMmodelCV object.}
 
-\item{val}{SWD the validation dataset, default is NULL.}
+\item{val}{SWD the validation dataset, used only for SDMmodel object, default
+is NULL.}
 
-\item{test}{SWD the test dataset, default is NULL.}
+\item{test}{SWD the test dataset, used only for SDMmodel object, default is
+NULL.}
 }
 \value{
 The plot object.

@@ -2,7 +2,7 @@
 #'
 #' Plot the Response Curve of the given environmental variable.
 #'
-#' @param model SDMmodel object.
+#' @param model SDMmodel or SDMmodelCV object.
 #' @param var character. Name of the variable to be plotted.
 #' @param type character. Output type, see \link{predict,Maxent-method} for
 #' Maxent models or \link{predict.maxnet} for Maxnet models.
