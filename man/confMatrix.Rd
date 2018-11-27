@@ -4,7 +4,8 @@
 \alias{confMatrix}
 \title{Confusion Matrix}
 \usage{
-confMatrix(model, type = c("cloglog", "logistic"), test = NULL, th = NULL)
+confMatrix(model, type = c("cloglog", "logistic"), test = NULL,
+  th = NULL)
 }
 \arguments{
 \item{model}{SDMmodel object.}

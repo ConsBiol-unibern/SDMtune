@@ -4,9 +4,10 @@
 \alias{optimiseModel}
 \title{Optimise Model}
 \usage{
-optimiseModel(model, bg, regs, fcs, n_bgs, val, pop, gen, metric = c("auc",
-  "tss", "aicc"), env = NULL, parallel = FALSE, keep_best = 0.4,
-  keep_random = 0.1, mutation_chance = 0.2, seed = NULL)
+optimiseModel(model, bg, regs, fcs, n_bgs, val, pop, gen,
+  metric = c("auc", "tss", "aicc"), env = NULL, parallel = FALSE,
+  keep_best = 0.4, keep_random = 0.1, mutation_chance = 0.2,
+  seed = NULL)
 }
 \arguments{
 \item{model}{SDMmodel object.}
