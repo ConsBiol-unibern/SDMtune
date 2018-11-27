@@ -38,7 +38,7 @@ train <- function(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
       models[[i]] <- do.call(f, args = list(presence = train, bg = bg, ...))
       pb$tick(1)
     }
-    model <- SDMmodelCV(models = models)
+    model <- SDMmodelCV(models = models, presence = presence)
   }
 
   return(model)

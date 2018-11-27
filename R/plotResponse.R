@@ -59,8 +59,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   if (clamp & var %in% cont_vars) {
     var_min <- min(bg@data[var])
     var_max <- max(bg@data[var])
-    train_rug <- data.frame(x = train_rug[train_rug$x >= var_min
-                                          & train_rug$x <= var_max, ])
+    train_rug <- data.frame(x = clamp(train_rug$x, var_min, var_max))
   } else if (var %in% cont_vars) {
     var_min <- min(rbind(train@data[var], bg@data[var]))
     var_max <- max(rbind(train@data[var], bg@data[var]))
