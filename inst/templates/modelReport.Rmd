@@ -16,18 +16,19 @@ params:
 ```{r, echo=F}
 library(SDMsel)
 library(kableExtra)
+options(crayon.enabled = TRUE)
 ```
 
 **`r class(params$model@model)`** output produced using **SDMsel** version `r packageVersion("SDMsel")` (Vignali S. *et al.*, 2018).
 
 ```{r, echo=FALSE, message=FALSE}
-message("save files...")
 saveRDS(params$model, file = paste0(params$folder, "/model.Rds"))
 swd2csv(params$model@presence, paste0(params$folder, "/presence.csv"))
 swd2csv(params$model@background, paste0(params$folder, "/background.csv"))
 if (!is.null(params$test))
   swd2csv(params$test, paste0(params$folder, "/test.csv"))
 plot_folder <- paste0(params$folder, "/plots")
+message(crayon::green(cli::symbol$tick), " File saved")
 ```
 
 
@@ -36,19 +37,19 @@ plot_folder <- paste0(params$folder, "/plots")
 Next we plot the ROC curve for `r model@presence@species`:
 
 ```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
-message("plotting ROC curve...")
 plot <- plotROC(params$model, test = params$test)
 suppressMessages(ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = plot_folder))
 element <- "<p><a href=\"./plots/ROC_curve.png\"><img src=\"./plots/ROC_curve.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
 htmltools::HTML(element)
+message(crayon::green(cli::symbol$tick), " ROC curve")
 ```
 
 # Thresholds
 
 ```{r, echo=FALSE, message=FALSE}
-message("doing thresholds...")
 knitr::kable(thresholds(params$model, type = params$type, test = params$test), digits = 20) %>%
   kable_styling(bootstrap_options = c("responsive"))
+message(crayon::green(cli::symbol$tick), " Thresholds")
 ```
 
 `r if(!params$response_curves) {"<!--"}`
@@ -74,6 +75,7 @@ if (params$response_curves) {
   elements <- paste(elements, collapse = "")
   htmltools::HTML(elements)
 }
+message(crayon::green(cli::symbol$tick), " Marginal response curves")
 ```
 
 Univariate curves:
@@ -96,6 +98,7 @@ if (params$response_curves) {
   elements <- paste(elements, collapse = "")
   htmltools::HTML(elements)
 }
+message(crayon::green(cli::symbol$tick), " Univariate response curves")
 ```
 `r if(!params$response_curves) {"-->"}`
 
@@ -104,6 +107,7 @@ if (params$response_curves) {
 ```{r, echo=FALSE, message=FALSE}
 knitr::kable(varImp(params$model)) %>%
   kable_styling(bootstrap_options = c("responsive"), full_width = FALSE)
+message(crayon::green(cli::symbol$tick), " Variable importance")
 ```
 
 `r if(!params$jk) {"<!--"}`
@@ -123,6 +127,7 @@ if (jk) {
   }
   htmltools::HTML(element)
 }
+message(crayon::green(cli::symbol$tick), " Jackknife test")
 ```
 `r if(!params$jk) {"-->"}`
 

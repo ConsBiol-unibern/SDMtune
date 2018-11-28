@@ -58,7 +58,8 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
 
   if (class(model) == "SDMmodel") {
     plot_data <- get_plot_data(model, train, bg, var, cont_vars, cat_vars,
-                               n_rows, train_rug, fun, marginal, clamp, type)
+                               n_rows, train_rug, fun, marginal, clamp, type,
+                               categ)
 
     if (var %in% cont_vars) {
       my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
@@ -74,7 +75,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     nf <- length(model@models)
     plot_data <- get_plot_data(model@models[[1]], train, bg, var, cont_vars,
                                cat_vars, n_rows, train_rug, fun, marginal,
-                               clamp, type)
+                               clamp, type, categ)
     colnames(plot_data) <- c("x", "y_1")
     for (i in 2:nf)
       plot_data[paste0('y_', i)] <- get_plot_data(model@models[[i]], train, bg,
@@ -124,7 +125,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
 
 
 get_plot_data <- function(model, train, bg, var, cont_vars, cat_vars, n_rows,
-                          train_rug, fun, marginal, clamp, type) {
+                          train_rug, fun, marginal, clamp, type, categ) {
 
   data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(train@data)))
   colnames(data) <- colnames(train@data)

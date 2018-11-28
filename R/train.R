@@ -13,6 +13,7 @@
 #' @return A SWDmodel or SDMmodelCV object.
 #' @export
 #' @importFrom dismo kfold
+#' @importFrom progress progress_bar
 #'
 #' @examples \dontrun{
 #' model <- train("Maxnet", presence, bg, reg = 2, fc = "lqp")}
