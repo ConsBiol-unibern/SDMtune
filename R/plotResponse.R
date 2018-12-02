@@ -114,8 +114,6 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
                sides = "t", color = "#4C4C4C") +
       geom_rug(data = bg_rug, inherit.aes = FALSE, aes_string("x"),
                sides = "b", color = "#4C4C4C")
-  } else if (rug == TRUE) {
-    message("Warning: rug is available only for continous variables!")
   }
 
   gc()
