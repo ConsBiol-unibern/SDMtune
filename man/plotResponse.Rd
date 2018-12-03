@@ -36,7 +36,7 @@ The plot model
 Plot the Response Curve of the given environmental variable.
 }
 \details{
-Note that fun is not a character parameter, you must use mean and
+Note that fun is not a character argument, you must use mean and
 not "mean".
 }
 \examples{

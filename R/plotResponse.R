@@ -16,7 +16,7 @@
 #' FALSE.
 #' @param color The color of the curve, default is "red".
 #'
-#' @details Note that fun is not a character parameter, you must use mean and
+#' @details Note that fun is not a character argument, you must use mean and
 #' not "mean".
 #'
 #' @return The plot model

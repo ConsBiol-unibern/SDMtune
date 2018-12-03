@@ -21,7 +21,7 @@ plotPA(map, th, colors = NULL, hr = FALSE, filename = NULL,
 \item{format}{character. The output format, see \link{writeRaster} for all the options,
 default is Geotiff.}
 
-\item{...}{Additional parameters, see \link{writeRaster} for all the options.}
+\item{...}{Additional arguments, see \link{writeRaster} for all the options.}
 }
 \value{
 A ggplot object.

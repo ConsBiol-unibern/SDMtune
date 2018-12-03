@@ -37,7 +37,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
 
   metric <- match.arg(metric)
   if (metric == "aicc" & is.null(env))
-    stop("You must provide env parameter if you want to use AICc metric!")
+    stop("You must provide env argument if you want to use AICc metric!")
 
   if (!is.null(test) & class(test) != "SWD")
     stop("test dataset must be a SWD object!")

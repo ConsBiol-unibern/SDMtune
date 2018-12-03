@@ -9,7 +9,7 @@
 #' @param filename character, if provided the raster map is saved in a file, default is NULL.
 #' @param format character. The output format, see \link{writeRaster} for all the options,
 #' default is Geotiff.
-#' @param ... Additional parameters, see \link{writeRaster} for all the options.
+#' @param ... Additional arguments, see \link{writeRaster} for all the options.
 #'
 #' @return A ggplot object.
 #' @export

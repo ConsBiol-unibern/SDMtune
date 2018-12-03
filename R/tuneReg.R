@@ -39,7 +39,7 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
   if (is.null(test) & metric != "aicc")
     stop("You need to provide a test dataset!")
   if (metric == "aicc" & is.null(env))
-    stop("You must provide the env parameter if you want to use AICc metric!")
+    stop("You must provide the env argument if you want to use AICc metric!")
 
   pb <- progress::progress_bar$new(
     format = "Tune Reg [:bar] :percent in :elapsedfull", total = length(regs),

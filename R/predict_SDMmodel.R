@@ -21,7 +21,7 @@ setGeneric("predict", function(object, ...)
 #' default is FALSE.
 #' @param progress character to display a progress bar: "text", "window" or ""
 #' (default) for no progress bar.
-#' @param ... Additional parameters to pass to the \link{writeRaster} function.
+#' @param ... Additional arguments to pass to the \link{writeRaster} function.
 #'
 #' @details You need package \pkg{snow} to use parallel computation and
 #' \pkg{rgdal} to save the prediction in a raster file. Parallel computation

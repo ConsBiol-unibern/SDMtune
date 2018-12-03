@@ -1,9 +1,9 @@
 #' Train Maxent model
 #'
 #' Train a MaxEnt model using the dismo package. The function runs Maxent model
-#' with a minimum setting of optional parameters (e.g. it doesn't make the
+#' with a minimum setting of optional arguments (e.g. it doesn't make the
 #' response curves) to speed up the computation time. Use \link{modelReport}
-#' function to set more parameters (i.e. response curves) and save the output
+#' function to set more arguments (i.e. response curves) and save the output
 #' permanently in a folder.
 #'
 #' @param presence SWD object with the presence locations.
