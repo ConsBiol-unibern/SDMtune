@@ -37,10 +37,6 @@ the model.}
 
 \item{\code{min_max}}{data.frame. The minimum and maximum values of the continuous
 variables, used for clamping.}
-
-\item{\code{folder}}{character. The path for the folder where are saved all the files
-produced by MaxEnt, available if the "folder" parameter is provided to the
-runMaxent function.}
 }}
 
 \author{

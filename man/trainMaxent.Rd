@@ -34,9 +34,10 @@ function to set more arguments (i.e. response curves) and save the output
 permanently in a folder.
 }
 \details{
-By default the function uses \strong{extra_args = "removeduplicates=false"}.
-In case this is not your expected beaviour you can assign extra_args = "" or
-you can add any other additional arguments extending the previous vector.
+By default the function uses
+\strong{extra_args = "removeduplicates=false"}. In case this is not your expected
+beaviour you can assign extra_args = "" or you can add any other additional
+arguments extending the previous vector.
 }
 \examples{
 \dontrun{model <- trainMaxent(presence, bg)}

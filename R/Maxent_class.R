@@ -17,9 +17,6 @@
 #' @slot entropy numeric. The entropy value.
 #' @slot min_max data.frame. The minimum and maximum values of the continuous
 #' variables, used for clamping.
-#' @slot folder character. The path for the folder where are saved all the files
-#' produced by MaxEnt, available if the "folder" parameter is provided to the
-#' runMaxent function.
 #'
 #' @name Maxent-class
 #' @rdname Maxent-class
@@ -40,8 +37,7 @@ Maxent <- setClass("Maxent",
                      lpn = "numeric",
                      dn = "numeric",
                      entropy = "numeric",
-                     min_max = "data.frame",
-                     folder = "character")
+                     min_max = "data.frame")
                    )
 
 setMethod("show",

@@ -17,9 +17,10 @@
 #' "removeduplicates=false".
 #'
 #'
-#' @details By default the function uses **extra_args = "removeduplicates=false"**.
-#' In case this is not your expected beaviour you can assign extra_args = "" or
-#' you can add any other additional arguments extending the previous vector.
+#' @details By default the function uses
+#' **extra_args = "removeduplicates=false"**. In case this is not your expected
+#' beaviour you can assign extra_args = "" or you can add any other additional
+#' arguments extending the previous vector.
 #'
 #' @return A SDMmodel object.
 #' @export
@@ -34,16 +35,7 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
                         extra_args = "removeduplicates=false") {
 
   result <- SDMmodel(presence = presence, background = bg)
-
-  if (paste(extra_args, collapse = "") != "" &
-      grepl("folder=", extra_args[length(extra_args)])) {
-      delete_folder <- FALSE
-      folder <- sub("folder=", "", extra_args[length(extra_args)])
-      extra_args <- extra_args[-length(extra_args)]
-  } else {
-    delete_folder <- TRUE
-    folder <- tempfile()
-  }
+  folder <- tempfile()
 
   args <- .makeArgs(reg = reg, fc = fc, iter = iter, extra_args = extra_args)
 
@@ -62,35 +54,9 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
 
   result@model <- model_object
 
-  if (delete_folder == TRUE) {
-    unlink(folder, recursive = TRUE)
-    result@model@folder <- ""
-  } else {
-    result@model@folder <- paste0(getwd(), "/", folder)
-
-    output_file <- paste0(result@model@folder, "/species.html")
-    species <- gsub(" ", "_", tolower(presence@species))
-    f <- readLines(output_file)
-    f[1] <- paste0("<title>", presence@species, "</title>")
-    f[2] <- paste0("<center><h1>Maxent model for ", presence@species, "</h1></center>")
-    f[3] <- paste("<br><center><b>Output produced using 'SDMsel' version", packageVersion("SDMsel"),
-                     "(Vignali S. <i>et al.</i>, 2018) and 'dismo' version", packageVersion("dismo"),
-                     "(Hijmans R. J. <i>et al.</i>, 2017).</b></center><br>", f[3])
-    f[length(f) + 1] <- "<br><hr><br>"
-    f[length(f) + 1] <- "- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.0.0.9000"
-    f[length(f) + 1] <- '<br>- Robert J. Hijmans, Steven Phillips, John Leathwick and Jane Elith (2017). dismo: Species Distribution Modeling. R package version 1.1-4. <a href="http://CRAN.R-project.org/package=dismo" target="_blank">CRAN</<a>'
-    f <- gsub("species_", paste0(species, "_"), f)
-    f <- gsub("species.csv", paste0(species, ".csv"), f)
-    f <- gsub("species.lambdas", paste0(species, ".lambdas"), f)
-    writeLines(f, output_file)
-    file.remove(dismo_model@html)
-    # Rename files
-    for (file in list.files(path = result@model@folder, pattern = "species*",
-                            full.names = TRUE, recursive = TRUE))
-      file.rename(file, sub("species", species, file))
-  }
-
+  unlink(folder, recursive = TRUE)
   gc()
+
   return(result)
 }
 
