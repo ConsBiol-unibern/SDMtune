@@ -46,7 +46,18 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
-  method <- class(model@model)
+  presence <- model@presence
+  old_model <- model
+  if (class(model) == "SDMmodel") {
+    rep <- 1
+    method <- class(model@model)
+    bg <- model@background
+  } else {
+    rep <- length(model@models)
+    method <- class(model@models[[1]]@model)
+    bg <- model@models[[1]]@background
+    model <- model@models[[1]]
+  }
 
   if (metric == "auc") {
     labels <- c("train_AUC", "test_AUC", "diff_AUC")
@@ -63,17 +74,16 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   for (i in 1:length(fcs)) {
 
     if (fcs[i] == model@model@fc) {
-      new_model <- model
+      new_model <- old_model
     } else {
       if (method == "Maxent") {
-        new_model <- train(method = method, presence = model@presence,
-                           bg = model@background, reg = model@model@reg,
-                           fc = fcs[i], iter = model@model@iter,
+        new_model <- train(method = method, presence = presence, bg = bg,
+                           reg = model@model@reg, fc = fcs[i], replicates = rep,
+                           iter = model@model@iter,
                            extra_args = model@model@extra_args)
       } else {
-        new_model <- train(method = method, presence = model@presence,
-                           bg = model@background, reg = model@model@reg,
-                           fc = fcs[i])
+        new_model <- train(method = method, presence = presence, bg = bg,
+                           reg = model@model@reg, fc = fcs[i], replicates = rep)
       }
     }
 
@@ -91,7 +101,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
     pb$tick(1)
   }
 
-  res[, 1] <- nrow(model@background@data)
+  res[, 1] <- nrow(bg@data)
   res[, 2] <- model@model@reg
 
   if (metric == "aicc") {
