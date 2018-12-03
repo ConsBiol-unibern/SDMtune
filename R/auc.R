@@ -3,13 +3,13 @@
 #' Compute the AUC using the Man-Whitney U Test formula.
 #'
 #' @param model SDMmodel or SDMmodelCV object.
-#' @param test SWD test locations, used for SDMmodel objects, if not provided
-#' it computes the train AUC, default is NULL.
+#' @param test SWD test locations for SDMmodel objects or TRUE for SDModelCV
+#' objects, if not provided it computes the train AUC, default is NULL.
 #' @param bg SWD backgroung locations used to compute the AUC
 #' by the permutation importance function, defaul is NULL.
 #'
 #' @details If the model is a SDMmodelCV object, the function computes the mean
-#' of the testing AUC values of the different replicates.
+#' of the training or testing AUC values of the different replicates.
 #'
 #' @return The value of the AUC.
 #' @export
@@ -26,9 +26,14 @@ auc <- function(model, test = NULL, bg = NULL) {
   } else {
     aucs <- c()
     for (i in 1:length(model@models)) {
-      test <- model@presence
-      test@data <- model@presence@data[model@folds == i, ]
-      aucs <- c(aucs, compute_auc(model@models[[i]], test, bg))
+      if (is.null(test)) {
+        data <- model@presence
+        data@data <- model@presence@data[model@folds != i, ]
+      } else {
+        data <- model@presence
+        data@data <- model@presence@data[model@folds == i, ]
+      }
+      aucs <- c(aucs, compute_auc(model@models[[i]], data, bg))
     }
     auc <- mean(aucs)
   }
@@ -37,23 +42,25 @@ auc <- function(model, test = NULL, bg = NULL) {
 }
 
 compute_auc <- function(model, test, bg) {
-  if (class(model@model) != "Maxnet") {
-    object <- model@model
+
+  if (class(model@model) == "Maxent") {
+    type <- "raw"
   } else {
-    object <- model@model@model
+    type <- "link"
   }
 
   if (is.null(test)) {
-    p_pred <- predict(object, model@presence@data)
+    p_pred <- predict(model, model@presence@data, type = type)
   } else {
-    p_pred <- predict(object, test@data[colnames(model@presence@data)])
+    p_pred <- predict(model, test@data[colnames(model@presence@data)],
+                      type = type)
   }
 
   # bg is used for permutation importance
   if (is.null(bg)) {
-    bg_pred <- predict(object, model@background@data)
+    bg_pred <- predict(model, model@background@data, type = type)
   } else {
-    bg_pred <- predict(object, bg@data)
+    bg_pred <- predict(model, bg@data, type = type)
   }
 
   n_pres <- length(p_pred)

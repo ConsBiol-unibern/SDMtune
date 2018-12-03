@@ -9,8 +9,8 @@ auc(model, test = NULL, bg = NULL)
 \arguments{
 \item{model}{SDMmodel or SDMmodelCV object.}
 
-\item{test}{SWD test locations, used for SDMmodel objects, if not provided
-it computes the train AUC, default is NULL.}
+\item{test}{SWD test locations for SDMmodel objects or TRUE for SDModelCV
+objects, if not provided it computes the train AUC, default is NULL.}
 
 \item{bg}{SWD backgroung locations used to compute the AUC
 by the permutation importance function, defaul is NULL.}
@@ -23,7 +23,7 @@ Compute the AUC using the Man-Whitney U Test formula.
 }
 \details{
 If the model is a SDMmodelCV object, the function computes the mean
-of the testing AUC values of the different replicates.
+of the training or testing AUC values of the different replicates.
 }
 \examples{
 \dontrun{
