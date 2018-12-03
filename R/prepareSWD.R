@@ -39,12 +39,16 @@ prepareSWD <- function(species, coords, env, categoricals = NULL) {
                   "will be discard!")
             )
   }
-  # Set categorical variables as factors
   colnames(coords) <- c("X", "Y")
+  # Set categorical variables as factors
   if (!is.null(categoricals)) {
     for (i in categoricals) {
       data[, i] <- as.factor(data[, i])
     }
+
+  # Reset row names
+  rownames(coords) <- NULL
+  rownames(data) <- NULL
 }
   swd <- SWD(species = species, coords = coords, data = data)
   return(swd)
