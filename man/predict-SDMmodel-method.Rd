@@ -34,7 +34,7 @@ default is FALSE.}
 \item{progress}{character to display a progress bar: "text", "window" or ""
 (default) for no progress bar.}
 
-\item{...}{Additional parameter to pass to the \link{writeRaster} function.}
+\item{...}{Additional parameters to pass to the \link{writeRaster} function.}
 }
 \value{
 A vector with the prediction or a Raster object if data is a raster

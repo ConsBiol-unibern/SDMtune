@@ -5,7 +5,7 @@
 \title{Model Report}
 \usage{
 modelReport(model, type, folder, test = NULL, response_curves = FALSE,
-  jk = FALSE)
+  jk = FALSE, env = NULL, clamp = TRUE)
 }
 \arguments{
 \item{model}{SDMmodel object}
@@ -22,6 +22,12 @@ The folder is created in the working directory.}
 html output, default is FALSE.}
 
 \item{jk}{logical, if TRUE it runs the jackknife test, default FALSE.}
+
+\item{env}{\link{stack} or \link{brick}. If provided it computes and adds a
+prediction map to the output, default is NULL.}
+
+\item{clamp}{logical for clumping during prediction, used for response curves
+and when \strong{env} is provided, default is TRUE.}
 }
 \description{
 Make a model report that shows main results

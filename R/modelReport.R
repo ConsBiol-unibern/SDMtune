@@ -11,41 +11,58 @@
 #' @param response_curves logical, if TRUE it plots the response curves in the
 #' html output, default is FALSE.
 #' @param jk logical, if TRUE it runs the jackknife test, default FALSE.
+#' @param env \link{stack} or \link{brick}. If provided it computes and adds a
+#' prediction map to the output, default is NULL.
+#' @param clamp logical for clumping during prediction, used for response curves
+#' and when **env** is provided, default is TRUE.
 #'
 #' @details The function produces a report similar to the one created by Maxent
 #' software.
 #'
 #' @export
+#' @importFrom utils menu
+#' @importFrom crayon red green
+#' @importFrom cli symbol
 #'
 #' @examples \dontrun{
 #' modelReport(model, "cloglog", folder = "my_folder", response_curves = T)}
 #'
 #' @author Sergio Vignali
 modelReport <- function(model, type, folder, test = NULL,
-                        response_curves = FALSE, jk = FALSE) {
-  template = system.file("templates", "modelReport.Rmd", package = "SDMsel")
+                        response_curves = FALSE, jk = FALSE, env = NULL,
+                        clamp = TRUE) {
 
-  dir.create(paste0(folder, "/plots"), recursive = TRUE)
-  folder <- paste0(getwd(), "/", folder)
-  species <- gsub(" ", "_", tolower(model@presence@species))
-  title <- paste(class(model@model), "model for", model@presence@species)
-  args <- c(paste0("--metadata=title:\"", title, "\""))
+  if (file.exists(paste0(getwd(), "/", folder)))
+    continue <- utils::menu(choices = c("Yes", "No"),
+                            title = message(crayon::red(cli::symbol$fancy_question_mark),
+                                            " The folder '", folder,
+                                            "' already exists, do you want to overwrite it?"))
+  if (continue == 1) {
+    template = system.file("templates", "modelReport.Rmd", package = "SDMsel")
 
-  rmarkdown::render(template,
-                    output_file = paste0(species, ".html"),
-                    output_dir = folder,
-                    params = list(model = model, type = type, test = test,
-                                  folder = folder,
-                                  response_curves = response_curves, jk = jk),
-                    output_options = list(pandoc_args = args),
-                    quiet = TRUE
-                    )
+    dir.create(paste0(folder, "/plots"), recursive = TRUE, showWarnings = FALSE)
+    folder <- paste0(getwd(), "/", folder)
+    species <- gsub(" ", "_", tolower(model@presence@species))
+    title <- paste(class(model@model), "model for", model@presence@species)
+    args <- c(paste0("--metadata=title:\"", title, "\""))
 
-  html <- paste0(folder, "/", species, ".html")
-  model@html <- html
-  browseURL(html)
+    rmarkdown::render(template,
+                      output_file = paste0(species, ".html"),
+                      output_dir = folder,
+                      params = list(model = model, type = type, test = test,
+                                    folder = folder, env = env, jk = jk,
+                                    response_curves = response_curves,
+                                    clamp = clamp),
+                      output_options = list(pandoc_args = args),
+                      quiet = TRUE
+                      )
 
-  gc()
+    html <- paste0(folder, "/", species, ".html")
+    model@html <- html
+    browseURL(html)
+
+    gc()
+  }
 
   return(invisible(model))
 }
