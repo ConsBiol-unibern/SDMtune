@@ -9,7 +9,7 @@ auc(model, test = NULL, bg = NULL)
 \arguments{
 \item{model}{SDMmodel or SDMmodelCV object.}
 
-\item{test}{SWD test locations for SDMmodel objects or TRUE for SDModelCV
+\item{test}{SWD test locations for SDMmodel objects or logical for SDModelCV
 objects, if not provided it computes the train AUC, default is NULL.}
 
 \item{bg}{SWD backgroung locations used to compute the AUC

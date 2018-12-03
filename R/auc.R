@@ -3,7 +3,7 @@
 #' Compute the AUC using the Man-Whitney U Test formula.
 #'
 #' @param model SDMmodel or SDMmodelCV object.
-#' @param test SWD test locations for SDMmodel objects or TRUE for SDModelCV
+#' @param test SWD test locations for SDMmodel objects or logical for SDModelCV
 #' objects, if not provided it computes the train AUC, default is NULL.
 #' @param bg SWD backgroung locations used to compute the AUC
 #' by the permutation importance function, defaul is NULL.

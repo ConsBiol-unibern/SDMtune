@@ -5,7 +5,7 @@
 \title{Train}
 \usage{
 train(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
-  ...)
+  verbose = TRUE, folds = NULL, ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
@@ -16,6 +16,13 @@ train(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
 
 \item{replicates}{numeric. Number of replicates, used for cross validation.
 Default is 1, meaning no cross validation is performed.}
+
+\item{verbose}{logical if TRUE shows a progress bar if replicates is greater
+then 1, default is TRUE.}
+
+\item{folds}{numeric. Vector containing the inxes for the k-fold partition of
+the training data, if not provided the function uses the \link{k-fold}
+function of the \link{dismo} package, default is NULL.}
 
 \item{...}{Arguments passed to the relative functions, see \link{trainMaxent}
 or \link{trainMaxnet} for details related to the different methods.}

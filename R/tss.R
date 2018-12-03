@@ -3,7 +3,7 @@
 #' Compute the max TSS of a given model.
 #'
 #' @param model SDMmodel or SDMmodelCV object.
-#' @param test SWD test locations for SDMmodel objects or TRUE for SDModelCV
+#' @param test SWD test locations for SDMmodel objects or logical for SDModelCV
 #' objects, if not provided it computes the train AUC, default is NULL.
 #'
 #' @details If the model is a SDMmodelCV object, the function computes the mean
