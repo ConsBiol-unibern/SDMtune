@@ -59,13 +59,10 @@ message("\r", crayon::green(cli::symbol$tick), " Computing thresholds...")
 
 Marginal curves:
 
-```{r, fig.hold='hold', out.width='25%', message=FALSE, echo=FALSE}
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
 if (params$response_curves) {
   message("- Plotting marginal response curves...", appendLF = FALSE)
   vars <- sort(colnames(params$model@presence@data))
-  # pb <- progress::progress_bar$new(
-  #   format = "Marginal curves [:bar] :percent in :elapsedfull", total = length(vars), clear = FALSE, width = 60, show_after = 0)
-  # pb$tick(0)
   elements <- c()
   for (var in vars) {
     plot <- plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE)
@@ -73,22 +70,18 @@ if (params$response_curves) {
     path <- paste0(plot_folder, "/", var, "_marginal.png")
     element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
     elements <- c(elements, element)
-    # pb$tick(1)
   }
   elements <- paste(elements, collapse = "")
   htmltools::HTML(elements)
-  message("\r", crayon::green(cli::symbol$tick), " Plotting marginal response curves...")
 }
 ```
 
 Univariate curves:
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
 if (params$response_curves) {
+  message("\r", crayon::green(cli::symbol$tick), " Plotting marginal response curves...")
   message("- Plotting univariate response curves...", appendLF = FALSE)
-  # pb <- progress::progress_bar$new(
-  #   format = "Univariate curves [:bar] :percent in :elapsedfull", total = length(vars), clear = FALSE, width = 60, show_after = 0)
-  # pb$tick(0)
   elements <- c("")
   for (var in vars) {
     plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = FALSE, rug = TRUE))
@@ -96,19 +89,20 @@ if (params$response_curves) {
     path <- paste0(plot_folder, "/", var, ".png")
     element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
     elements <- c(elements, element)
-    # pb$tick(1)
   }
   elements <- c(elements, "<p></p>")
   elements <- paste(elements, collapse = "")
   htmltools::HTML(elements)
-  message("\r", crayon::green(cli::symbol$tick), " Plotting univariate response curves...")
 }
 ```
+
 `r if(!params$response_curves) {"-->"}`
 
 # Variable importance
 
 ```{r, echo=FALSE, message=FALSE}
+if (params$response_curves)
+  message("\r", crayon::green(cli::symbol$tick), " Plotting univariate response curves...")
 message("- Computing variable importance...", appendLF = FALSE)
 knitr::kable(suppressMessages(varImp(params$model))) %>%
   kable_styling(bootstrap_options = c("responsive"), full_width = FALSE)
@@ -119,7 +113,7 @@ message("\r", crayon::green(cli::symbol$tick), " Computing variable importance..
 # Jackknife test
 
 ```{r, echo=FALSE, message=FALSE}
-if (jk) {
+if (params$jk) {
   message("- Running Jackknife test...", appendLF = FALSE)
   jk <- suppressMessages(doJk(params$model, metric = "auc", test = params$test))
   plot <- plotJk(jk, type = "train", ref = auc(params$model))
@@ -132,12 +126,21 @@ if (jk) {
     element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
   }
   htmltools::HTML(element)
+}
+```
+```{r, echo=FALSE, message=FALSE}
+# Leave this chunk outside to avoid deleting html...
+if (params$jk) {
   message("\r", crayon::green(cli::symbol$tick), " Running Jackknife test...")
 }
 ```
+
 `r if(!params$jk) {"-->"}`
 
 # Model settings
+```{r, echo=FALSE, message=FALSE}
+message("- Writing model settings...", appendLF = FALSE)
+```
 
 Shown below the settings used to train the model:
 
@@ -149,6 +152,11 @@ Shown below the settings used to train the model:
 * Categorical variables: `r names(Filter(is.factor, params$model@presence@data))`
 * Feature combination: `r params$model@model@fc`
 * Regularization multiplier: `r params$model@model@reg``r if(class(params$model@model) == "Maxent") {paste("\n* Extra arguments:", paste(params$model@model@extra_args, collapse = ", "))}`
+
+```{r, echo=FALSE, message=FALSE}
+message("\r", crayon::green(cli::symbol$tick)," Writing model settings...")
+```
+
 
 ### Reference
 
