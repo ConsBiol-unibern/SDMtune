@@ -44,13 +44,7 @@ tss <- function(model, test = NULL) {
 
 compute_tss <- function(model, test) {
 
-  if (class(model@model) == "Maxent") {
-    type <- "raw"
-  } else {
-    type <- "link"
-  }
-
-  cm <- confMatrix(model, test = test, type)
+  cm <- confMatrix(model, test = test, type = "logistic")
   tpr <- cm$tp / (cm$tp + cm$fn)
   tnr <- cm$tn / (cm$fp + cm$tn)
   tss <- tpr + tnr - 1
