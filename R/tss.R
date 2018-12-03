@@ -3,11 +3,11 @@
 #' Compute the max TSS of a given model.
 #'
 #' @param model SDMmodel or SDMmodelCV object.
-#' @param test SWD test locations, used for SDMmodel objects, if not provided
-#' it computes the train TSS, default is NULL.
+#' @param test SWD test locations for SDMmodel objects or TRUE for SDModelCV
+#' objects, if not provided it computes the train AUC, default is NULL.
 #'
 #' @details If the model is a SDMmodelCV object, the function computes the mean
-#' of the testing TSS values of the different replicates.
+#' of the training or testing TSS values of the different replicates.
 #'
 #' @return The value of the TSS of the given model.
 #' @export
@@ -27,9 +27,14 @@ tss <- function(model, test = NULL) {
   } else {
     tsss <- c()
     for (i in 1:length(model@models)) {
-      test <- model@presence
-      test@data <- model@presence@data[model@folds == i, ]
-      tsss <- c(tsss, max(compute_tss(model@models[[i]], test)))
+      if (is.null(test)) {
+        data <- model@presence
+        data@data <- model@presence@data[model@folds != i, ]
+      } else {
+        data <- model@presence
+        data@data <- model@presence@data[model@folds == i, ]
+      }
+      tsss <- c(tsss, max(compute_tss(model@models[[i]], data)))
     }
     tss <- mean(tsss)
   }
@@ -38,7 +43,14 @@ tss <- function(model, test = NULL) {
 }
 
 compute_tss <- function(model, test) {
-  cm <- confMatrix(model, test = test)
+
+  if (class(model@model) == "Maxent") {
+    type <- "raw"
+  } else {
+    type <- "link"
+  }
+
+  cm <- confMatrix(model, test = test, type)
   tpr <- cm$tp / (cm$tp + cm$fn)
   tnr <- cm$tn / (cm$fp + cm$tn)
   tss <- tpr + tnr - 1

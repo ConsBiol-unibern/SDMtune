@@ -9,8 +9,8 @@ tss(model, test = NULL)
 \arguments{
 \item{model}{SDMmodel or SDMmodelCV object.}
 
-\item{test}{SWD test locations, used for SDMmodel objects, if not provided
-it computes the train TSS, default is NULL.}
+\item{test}{SWD test locations for SDMmodel objects or TRUE for SDModelCV
+objects, if not provided it computes the train AUC, default is NULL.}
 }
 \value{
 The value of the TSS of the given model.
@@ -20,7 +20,7 @@ Compute the max TSS of a given model.
 }
 \details{
 If the model is a SDMmodelCV object, the function computes the mean
-of the testing TSS values of the different replicates.
+of the training or testing TSS values of the different replicates.
 }
 \examples{
 \dontrun{
