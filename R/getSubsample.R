@@ -27,5 +27,9 @@ getSubsample <- function(dataset, size, seed = NULL) {
   dataset@data <- dataset@data[folds[1:size], ]
   dataset@coords <- dataset@coords[folds[1:size], ]
 
+  # Reset row names
+  rownames(dataset@data) <- NULL
+  rownames(dataset@coords) <- NULL
+
   return(dataset)
 }

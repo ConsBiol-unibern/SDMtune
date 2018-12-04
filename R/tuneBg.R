@@ -102,6 +102,9 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
       bg <- bg4test
       bg@data <- bg4test@data[folds_bg[1:bgs[i]], ]
       bg@coords <- bg4test@coords[folds_bg[1:bgs[i]], ]
+      # Reset row names
+      rownames(bg@data) <- NULL
+      rownames(bg@coords) <- NULL
       if (method == "Maxent") {
         new_model <- train(method = method, presence = model@presence, bg = bg,
                            reg = object@model@reg, fc = object@model@fc,
