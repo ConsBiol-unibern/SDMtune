@@ -64,17 +64,16 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
-  presence <- model@presence
-  old_model <- model
   if (class(model) == "SDMmodel") {
     rep <- 1
     method <- class(model@model)
     folds <- NULL
+    object <- model
   } else {
     rep <- length(model@models)
     method <- class(model@models[[1]]@model)
     folds <- model@folds
-    model <- model@models[[1]]
+    object <- model@models[[1]]
     test = TRUE
   }
 
@@ -98,20 +97,20 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   for (i in 1:length(bgs)) {
 
     if (bgs[i] == nrow(model@background@data)) {
-      new_model <- old_model
+      new_model <- model
     } else {
       bg <- bg4test
       bg@data <- bg4test@data[folds_bg[1:bgs[i]], ]
       bg@coords <- bg4test@coords[folds_bg[1:bgs[i]], ]
       if (method == "Maxent") {
-        new_model <- train(method = method, presence = presence, bg = bg,
-                           reg = model@model@reg, fc = model@model@fc,
+        new_model <- train(method = method, presence = model@presence, bg = bg,
+                           reg = object@model@reg, fc = object@model@fc,
                            replicates = rep, verbose = FALSE, folds = folds,
-                           iter = model@model@iter,
-                           extra_args = model@model@extra_args)
+                           iter = object@model@iter,
+                           extra_args = object@model@extra_args)
       } else {
-        new_model <- train(method = method, presence = presence, bg = bg,
-                           reg = model@model@reg, fc = model@model@fc,
+        new_model <- train(method = method, presence = model@presence, bg = bg,
+                           reg = object@model@reg, fc = object@model@fc,
                            replicates = rep, verbose = FALSE, folds = folds)
       }
     }
@@ -131,7 +130,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   }
 
   res[, 1] <- bgs
-  res[, 2] <- model@model@reg
+  res[, 2] <- object@model@reg
 
   if (metric == "aicc") {
     res[, 5] <- round(res[, 4] - min(res[, 4]), 4)
@@ -140,7 +139,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   }
   res <- as.data.frame(res)
   colnames(res) <- labels
-  res$fc <- model@model@fc
+  res$fc <- object@model@fc
 
   output <- SDMtune(results = res, models = models)
   gc()

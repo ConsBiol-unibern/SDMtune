@@ -52,18 +52,16 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
-  presence <- model@presence
-  bg <- model@background
-  old_model <- model
   if (class(model) == "SDMmodel") {
     rep <- 1
     method <- class(model@model)
     folds <- NULL
+    object <- model
   } else {
     rep <- length(model@models)
     method <- class(model@models[[1]]@model)
     folds <- model@folds
-    model <- model@models[[1]]
+    object <- model@models[[1]]
     test = TRUE
   }
 
@@ -81,18 +79,20 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
 
   for (i in 1:length(regs)) {
 
-    if (regs[i] == model@model@reg) {
-      new_model <- old_model
+    if (regs[i] == object@model@reg) {
+      new_model <- model
     } else {
       if (method == "Maxent") {
-        new_model <- train(method = method, presence = presence, bg = bg,
-                           reg = regs[i], fc = model@model@fc, replicates = rep,
+        new_model <- train(method = method, presence = model@presence,
+                           bg = model@background, reg = regs[i],
+                           fc = object@model@fc, replicates = rep,
                            verbose = FALSE, folds = folds,
-                           iter = model@model@iter,
-                           extra_args = model@model@extra_args)
+                           iter = object@model@iter,
+                           extra_args = object@model@extra_args)
       } else {
-        new_model <- train(method = method, presence = presence, bg = bg,
-                           reg = regs[i], fc = model@model@fc, replicates = rep,
+        new_model <- train(method = method, presence = model@presence,
+                           bg = model@background, reg = regs[i],
+                           fc = object@model@fc, replicates = rep,
                            verbose = FALSE, folds = folds)
       }
     }
@@ -111,7 +111,7 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
     pb$tick(1)
   }
 
-  res[, 1] <- nrow(bg@data)
+  res[, 1] <- nrow(model@background@data)
   res[, 2] <- regs
 
   if (metric == "aicc") {
@@ -121,7 +121,7 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
   }
   res <- as.data.frame(res)
   colnames(res) <- labels
-  res$fc <- model@model@fc
+  res$fc <- object@model@fc
 
   output <- SDMtune(results = res, models = models)
   gc()
