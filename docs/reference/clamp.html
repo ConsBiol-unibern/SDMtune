@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train Maxnet model — trainMaxnet • SDMsel</title>
+<title>Clamp — clamp • SDMsel</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Train Maxnet model — trainMaxnet" />
+<meta property="og:title" content="Clamp — clamp" />
 
-<meta property="og:description" content="Train a Maxnet model using the maxnet package." />
+<meta property="og:description" content="Clamp a given vector between the provided lower and upper values." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -119,50 +119,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train Maxnet model</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/trainMaxnet.R'><code>R/trainMaxnet.R</code></a></small>
-    <div class="hidden name"><code>trainMaxnet.Rd</code></div>
+    <h1>Clamp</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/RcppExports.R'><code>R/RcppExports.R</code></a></small>
+    <div class="hidden name"><code>clamp.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Train a Maxnet model using the maxnet package.</p>
+    <p>Clamp a given vector between the provided lower and upper values.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>trainMaxnet</span>(<span class='no'>presence</span>, <span class='no'>bg</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lqph"</span>)</pre>
+    <pre class="usage"><span class='fu'>clamp</span>(<span class='no'>x</span>, <span class='no'>lower</span>, <span class='no'>upper</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>presence</th>
-      <td><p>SWD object with the presence locations.</p></td>
+      <th>x</th>
+      <td><p>numeric. Vector to be clamped.</p></td>
     </tr>
     <tr>
-      <th>bg</th>
-      <td><p>SWD object with the background locations.</p></td>
+      <th>lower</th>
+      <td><p>numeric. The lowest value used to clamp.</p></td>
     </tr>
     <tr>
-      <th>reg</th>
-      <td><p>numeric. The value of the regularization intensity, default is 1.</p></td>
-    </tr>
-    <tr>
-      <th>fc</th>
-      <td><p>vector. The value of the feature combination, possible values are
-combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></td>
+      <th>upper</th>
+      <td><p>numeric. The highest value used to clamp</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A SDMmodel object.</p>
+    <p>numeric. The clamped vector.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The code is taken from
+<a href='http://gallery.rcpp.org/articles/sugar-function-clamp/'>http://gallery.rcpp.org/articles/sugar-function-clamp/</a>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>trainMaxnet</span>(<span class='no'>presence</span>, <span class='no'>bg</span>)
-<span class='co'># }</span><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>clamp</span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='fl'>4</span>, <span class='fl'>17</span>)</div><div class='output co'>#&gt;  [1]  4  4  4  4  5  6  7  8  9 10 11 12 13 14 15 16 17 17 17 17</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -171,6 +169,8 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

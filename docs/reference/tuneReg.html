@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train Maxnet model — trainMaxnet • SDMsel</title>
+<title>Tune Regularization — tuneReg • SDMsel</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Train Maxnet model — trainMaxnet" />
+<meta property="og:title" content="Tune Regularization — tuneReg" />
 
-<meta property="og:description" content="Train a Maxnet model using the maxnet package." />
+<meta property="og:description" content="Given a sequence of regularization multipliers, the function runs several
+models increasing the regularization multiplier." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -119,49 +120,75 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train Maxnet model</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/trainMaxnet.R'><code>R/trainMaxnet.R</code></a></small>
-    <div class="hidden name"><code>trainMaxnet.Rd</code></div>
+    <h1>Tune Regularization</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/tuneReg.R'><code>R/tuneReg.R</code></a></small>
+    <div class="hidden name"><code>tuneReg.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Train a Maxnet model using the maxnet package.</p>
+    <p>Given a sequence of regularization multipliers, the function runs several
+models increasing the regularization multiplier.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>trainMaxnet</span>(<span class='no'>presence</span>, <span class='no'>bg</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lqph"</span>)</pre>
+    <pre class="usage"><span class='fu'>tuneReg</span>(<span class='no'>model</span>, <span class='no'>regs</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>presence</th>
-      <td><p>SWD object with the presence locations.</p></td>
+      <th>model</th>
+      <td><p>SDMmodel or SWDmodelCV object.</p></td>
     </tr>
     <tr>
-      <th>bg</th>
-      <td><p>SWD object with the background locations.</p></td>
+      <th>regs</th>
+      <td><p>vector. A sequence of regularization multipliers to test.</p></td>
     </tr>
     <tr>
-      <th>reg</th>
-      <td><p>numeric. The value of the regularization intensity, default is 1.</p></td>
+      <th>metric</th>
+      <td><p>character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".</p></td>
     </tr>
     <tr>
-      <th>fc</th>
-      <td><p>vector. The value of the feature combination, possible values are
-combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></td>
+      <th>test</th>
+      <td><p>SWD. Test dataset used to evaluate the model, not used with aicc
+or SDMmodelCV objects, default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>env</th>
+      <td><p><a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a> or brick containing the environmental
+variables, used only with "aicc", default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>logical, if TRUE it uses parallel computation, deafult is
+FALSE.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A SDMmodel object.</p>
+    <p>A <a href='SDMtune-class.html'>SDMtune</a> object.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>You need package <span class="pkg">snow</span> to use parallel computation and
+<span class="pkg">rgdal</span> to save the prediction in a raster file. Parallel computation
+increases the speed only for big datasets due to the time necessary to create
+the cluster. The minimum value of reg allow is for Maxent models is 0.001, if
+lower MaxEnt crasches; for Maxnet model is 0.1, if lower doesn't converg.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other tuning functions: <code><a href='tuneBg.html'>tuneBg</a></code>,
+  <code><a href='tuneFC.html'>tuneFC</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>trainMaxnet</span>(<span class='no'>presence</span>, <span class='no'>bg</span>)
+<span class='no'>reg_test</span> <span class='kw'>&lt;-</span> <span class='fu'>tuneREG</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"aicc"</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='no'>T</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
@@ -171,6 +198,10 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

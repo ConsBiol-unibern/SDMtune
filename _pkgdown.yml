@@ -31,7 +31,6 @@ reference:
 - title: Modeling
   desc: Function to train the model and get information from the model
   contents:
-  - '`modelOutput`'
   - '`modelReport`'
   - '`maxentTh`'
   - '`maxentVarImp`'
@@ -72,7 +71,7 @@ reference:
   - '`reduceVar`'
   - '`tuneBg`'
   - '`tuneFC`'
-  - '`tuneRM`'
+  - '`tuneReg`'
 - title: Utilities
   desc: Some utility functions
   contents:

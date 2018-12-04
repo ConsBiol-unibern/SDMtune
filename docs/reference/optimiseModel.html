@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train Maxnet model — trainMaxnet • SDMsel</title>
+<title>Optimise Model — optimiseModel • SDMsel</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Train Maxnet model — trainMaxnet" />
+<meta property="og:title" content="Optimise Model — optimiseModel" />
 
-<meta property="og:description" content="Train a Maxnet model using the maxnet package." />
+<meta property="og:description" content="Optimise Model" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -119,49 +119,109 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train Maxnet model</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/trainMaxnet.R'><code>R/trainMaxnet.R</code></a></small>
-    <div class="hidden name"><code>trainMaxnet.Rd</code></div>
+    <h1>Optimise Model</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/optimiseModel.R'><code>R/optimiseModel.R</code></a></small>
+    <div class="hidden name"><code>optimiseModel.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Train a Maxnet model using the maxnet package.</p>
+    <p>Optimise Model</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>trainMaxnet</span>(<span class='no'>presence</span>, <span class='no'>bg</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lqph"</span>)</pre>
+    <pre class="usage"><span class='fu'>optimiseModel</span>(<span class='no'>model</span>, <span class='no'>bg</span>, <span class='no'>regs</span>, <span class='no'>fcs</span>, <span class='no'>n_bgs</span>, <span class='no'>val</span>, <span class='no'>pop</span>, <span class='no'>gen</span>,
+  <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>keep_best</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>keep_random</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>mutation_chance</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>presence</th>
-      <td><p>SWD object with the presence locations.</p></td>
+      <th>model</th>
+      <td><p>SDMmodel object.</p></td>
     </tr>
     <tr>
       <th>bg</th>
-      <td><p>SWD object with the background locations.</p></td>
+      <td><p>SWD object. Background locations used to get subsamples.</p></td>
     </tr>
     <tr>
-      <th>reg</th>
-      <td><p>numeric. The value of the regularization intensity, default is 1.</p></td>
+      <th>regs</th>
+      <td><p>numeric vector with the regularization values to be tested.</p></td>
     </tr>
     <tr>
-      <th>fc</th>
-      <td><p>vector. The value of the feature combination, possible values are
-combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></td>
+      <th>fcs</th>
+      <td><p>character vector with the feature combunation values to be tested.</p></td>
+    </tr>
+    <tr>
+      <th>n_bgs</th>
+      <td><p>numeric vector with the number of background location to be
+tested.</p></td>
+    </tr>
+    <tr>
+      <th>val</th>
+      <td><p>SWD object containing the validation dataset.</p></td>
+    </tr>
+    <tr>
+      <th>pop</th>
+      <td><p>numeric. Size of the population.</p></td>
+    </tr>
+    <tr>
+      <th>gen</th>
+      <td><p>numeric. Number of generations.</p></td>
+    </tr>
+    <tr>
+      <th>metric</th>
+      <td><p>character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc", default is "auc".</p></td>
+    </tr>
+    <tr>
+      <th>env</th>
+      <td><p><a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a> or brick containing the environmental
+variables, used only with "aicc", default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>logical, if TRUE it uses parallel computation, deafult is
+FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>keep_best</th>
+      <td><p>numeric. Percentage of the best models in the population to be
+retained during each iteration, expressed as decimal number. Default is 0.4.</p></td>
+    </tr>
+    <tr>
+      <th>keep_random</th>
+      <td><p>numeric. Probability of retaining the excluded models
+during each iteration, expressed as decimal number. Default is 0.1.</p></td>
+    </tr>
+    <tr>
+      <th>mutation_chance</th>
+      <td><p>numeric. Probability of mutation of the child models,
+expressed as decimal number. Default is 0.2.</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>numeric. The value used to set the seed to have consistent
+results, default is NULL.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A SDMmodel object.</p>
+    <p>list containing the models of the last population.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>See vignette for a full explanation of the algorithm.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>trainMaxnet</span>(<span class='no'>presence</span>, <span class='no'>bg</span>)
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>optimiseModel</span>(<span class='no'>my_model</span>, <span class='no'>bg</span>, <span class='kw'>regs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>1</span>,
+<span class='fl'>1.5</span>), <span class='kw'>fcs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lq"</span>, <span class='st'>"lqp"</span>, <span class='st'>"lqph"</span>), <span class='kw'>n_bgs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5000</span>, <span class='fl'>10000</span>, <span class='fl'>15000</span>),
+<span class='kw'>val</span> <span class='kw'>=</span> <span class='no'>my_val</span>, <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
@@ -171,6 +231,8 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
