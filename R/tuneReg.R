@@ -50,17 +50,16 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
   pb$tick(0)
 
   presence <- model@presence
+  bg <- model@background
   old_model <- model
   if (class(model) == "SDMmodel") {
     rep <- 1
     method <- class(model@model)
-    bg <- model@background
     folds <- NULL
   } else {
     if (!is.logical(test))
       rep <- length(model@models)
     method <- class(model@models[[1]]@model)
-    bg <- model@models[[1]]@background
     folds <- model@folds
     model <- model@models[[1]]
     test = TRUE
