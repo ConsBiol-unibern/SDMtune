@@ -36,13 +36,16 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
 
   metric <- match.arg(metric)
 
+  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
+    stop("You must provide env argument if you want to use AICc metric!")
+
   if (class(model) == "SDMmodel") {
     if (is.null(test) & metric != "aicc")
       stop("You need to provide a test dataset!")
+  } else {
+    if (metric == "aicc")
+      stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
-
-  if (metric == "aicc" & is.null(env))
-    stop("You must provide the env argument if you want to use AICc metric!")
 
   pb <- progress::progress_bar$new(
     format = "Tune Reg [:bar] :percent in :elapsedfull", total = length(regs),

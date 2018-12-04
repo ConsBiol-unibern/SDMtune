@@ -45,13 +45,16 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     stop(paste("Maximum number of bgs cannot be more than!",
                nrow(bg4test@data)))
 
+  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
+    stop("You must provide env argument if you want to use AICc metric!")
+
   if (class(model) == "SDMmodel") {
     if (is.null(test) & metric != "aicc")
       stop("You need to provide a test dataset!")
+  } else {
+    if (metric == "aicc")
+      stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
-
-  if (metric == "aicc" & is.null(env))
-    stop("You must provide the env argument if you want to use AICc metric!")
 
   if (!is.null(seed))
     set.seed(seed)

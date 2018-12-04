@@ -36,12 +36,16 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
                  return_models = FALSE) {
 
   metric <- match.arg(metric)
-  if (metric == "aicc" & is.null(env))
+
+  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide env argument if you want to use AICc metric!")
 
   if (class(model) == "SDMmodel") {
     if (is.null(test) & metric != "aicc")
       stop("You need to provide a test dataset!")
+  } else {
+    if (metric == "aicc")
+      stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
 
   if (is.null(variables))
