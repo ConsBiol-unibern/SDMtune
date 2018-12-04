@@ -5,18 +5,6 @@
 
 using namespace Rcpp;
 
-// one_hot
-IntegerMatrix one_hot(NumericVector x, CharacterVector levels);
-RcppExport SEXP _SDMsel_one_hot(SEXP xSEXP, SEXP levelsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type levels(levelsSEXP);
-    rcpp_result_gen = Rcpp::wrap(one_hot(x, levels));
-    return rcpp_result_gen;
-END_RCPP
-}
 // clamp
 NumericVector clamp(NumericVector x, double lower, double upper);
 RcppExport SEXP _SDMsel_clamp(SEXP xSEXP, SEXP lowerSEXP, SEXP upperSEXP) {
@@ -32,7 +20,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_SDMsel_one_hot", (DL_FUNC) &_SDMsel_one_hot, 2},
     {"_SDMsel_clamp", (DL_FUNC) &_SDMsel_clamp, 3},
     {NULL, NULL, 0}
 };
