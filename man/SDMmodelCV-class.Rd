@@ -17,6 +17,8 @@ validation.}
 
 \item{\code{presence}}{SWD object. Full dataset used by the k-fold cross validation.}
 
+\item{\code{background}}{SWD. The backgorund locations used to train the model.}
+
 \item{\code{folds}}{numeric. Vector with the index of the k-fold.}
 }}
 

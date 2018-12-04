@@ -2,13 +2,13 @@
 #'
 #' Run the Jackknife test for variable importance removing one variable at time.
 #'
-#' @param model SDMmodel object.
+#' @param model SDMmodel or SDMmodelCV object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".
 #' @param variables vector. Variables used for the test, if not provided it
 #' takes all the variables used to train the model, default is NULL.
 #' @param test SWD. If provided it reports the result also for the test dataset.
-#' Not used for **aicc**.
+#' Not used for **aicc** or SDMmodelCV.
 #' @param with_only logical. If TRUE it runs the test also for each variable in
 #' isolation, default is TRUE.
 #' @param env \link{stack} or \link{brick} containing the environmental
@@ -39,8 +39,10 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
   if (metric == "aicc" & is.null(env))
     stop("You must provide env argument if you want to use AICc metric!")
 
-  if (!is.null(test) & class(test) != "SWD")
-    stop("test dataset must be a SWD object!")
+  if (class(model) == "SDMmodel") {
+    if (is.null(test) & metric != "aicc")
+      stop("You need to provide a test dataset!")
+  }
 
   if (is.null(variables))
     variables <- colnames(model@presence@data)

@@ -12,6 +12,8 @@
 #' @param folds numeric. Vector containing the inxes for the k-fold partition of
 #' the training data, if not provided the function uses the \link{k-fold}
 #' function of the \link{dismo} package, default is NULL.
+#' @param seed integer. The value used to set the seed in order to have
+#' consistent results. Used if **folds** is not provided, default is NULL.
 #' @param ... Arguments passed to the relative functions, see \link{trainMaxent}
 #' or \link{trainMaxnet} for details related to the different methods.
 #'
@@ -25,7 +27,7 @@
 #'
 #' @author Sergio Vignali
 train <- function(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
-                  verbose = TRUE, folds = NULL, ...) {
+                  verbose = TRUE, folds = NULL, seed = NULL, ...) {
   method = match.arg(method)
   f <- paste0("train", method)
 
@@ -40,6 +42,8 @@ train <- function(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
     }
     models <- vector("list", replicates)
     if (is.null(folds))
+      if (!is.null(seed))
+        set.seed(seed)
       folds <- dismo::kfold(presence@data, replicates)
     for (i in 1:replicates) {
       train <- presence
@@ -48,7 +52,8 @@ train <- function(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
       if (verbose)
         pb$tick(1)
     }
-    model <- SDMmodelCV(models = models, presence = presence, folds = folds)
+    model <- SDMmodelCV(models = models, presence = presence, background = bg,
+                        folds = folds)
   }
 
   return(model)

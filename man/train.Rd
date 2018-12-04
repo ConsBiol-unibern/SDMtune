@@ -5,7 +5,7 @@
 \title{Train}
 \usage{
 train(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
-  verbose = TRUE, folds = NULL, ...)
+  verbose = TRUE, folds = NULL, seed = NULL, ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
@@ -23,6 +23,9 @@ then 1, default is TRUE.}
 \item{folds}{numeric. Vector containing the inxes for the k-fold partition of
 the training data, if not provided the function uses the \link{k-fold}
 function of the \link{dismo} package, default is NULL.}
+
+\item{seed}{integer. The value used to set the seed in order to have
+consistent results. Used if \strong{folds} is not provided, default is NULL.}
 
 \item{...}{Arguments passed to the relative functions, see \link{trainMaxent}
 or \link{trainMaxnet} for details related to the different methods.}
