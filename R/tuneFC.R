@@ -3,7 +3,7 @@
 #' The function iterates among different Feature Classes combinations and for
 #' each of them performs trains a different MaxEnt model.
 #'
-#' @param model SDMmodel object.
+#' @param model SDMmodel or SWDmodelCV object.
 #' @param fcs vector with all the Feature Classes combination to be tested.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".

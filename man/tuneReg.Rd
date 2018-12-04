@@ -8,15 +8,15 @@ tuneReg(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
   env = NULL, parallel = FALSE)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{SDMmodel or SWDmodelCV object.}
 
 \item{regs}{vector. A sequence of regularization multipliers to test.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc,
-default is NULL. Used only with AICc.}
+\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc
+or SDMmodelCV objects, default is NULL.}
 
 \item{env}{\link{stack} or \link{brick} containing the environmental
 variables, used only with "aicc", default is NULL.}

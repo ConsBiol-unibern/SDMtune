@@ -8,7 +8,7 @@ tuneFC(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   env = NULL, parallel = FALSE)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{SDMmodel or SWDmodelCV object.}
 
 \item{fcs}{vector with all the Feature Classes combination to be tested.}
 
