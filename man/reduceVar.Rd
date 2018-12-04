@@ -35,7 +35,7 @@ default is FALSE.}
 The model trained using the selected variables.
 }
 \description{
-Remove variables whose contribution (permutation or percent) is less than the
+Remove variables whose permutation importance is less than the
 given threshold. The function removes one variable at time and after trains a
 new model to get the new variable contribution rank. If use_jk is TRUE the
 function checks if after removing the variable the model performance
