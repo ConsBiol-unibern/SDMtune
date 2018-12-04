@@ -10,8 +10,8 @@
 #' in bg4test.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".
-#' @param test SWD. Test dataset used to evaluate the model, not used with aicc,
-#' default is NULL.
+#' @param test SWD. est dataset used to evaluate the model, not used with aicc
+#' or SDMmodelCV objects, default is NULL.
 #' @param env \link{stack} or \link{brick} containing the environmental
 #' variables, used only with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
@@ -45,8 +45,11 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     stop(paste("Maximum number of bgs cannot be more than!",
                nrow(bg4test@data)))
 
-  if (is.null(test) & metric != "aicc")
-    stop("You need to provide a test dataset!")
+  if (class(model) == "SDMmodel") {
+    if (is.null(test) & metric != "aicc")
+      stop("You need to provide a test dataset!")
+  }
+
   if (metric == "aicc" & is.null(env))
     stop("You must provide the env argument if you want to use AICc metric!")
 
@@ -58,7 +61,20 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
-  method <- class(model@model)
+  presence <- model@presence
+  old_model <- model
+  if (class(model) == "SDMmodel") {
+    rep <- 1
+    method <- class(model@model)
+    folds <- NULL
+  } else {
+    if (!is.logical(test))
+      rep <- length(model@models)
+    method <- class(model@models[[1]]@model)
+    folds <- model@folds
+    model <- model@models[[1]]
+    test = TRUE
+  }
 
   if (metric == "auc") {
     labels <- c("train_AUC", "test_AUC", "diff_AUC")
@@ -75,24 +91,26 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   vars <- colnames(model@presence@data)
   bg4test@data <- bg4test@data[vars]
 
-  folds <- sample(nrow(bg4test@data))
+  folds_bg <- sample(nrow(bg4test@data))
 
   for (i in 1:length(bgs)) {
 
     if (bgs[i] == nrow(model@background@data)) {
-      new_model <- model
+      new_model <- old_model
     } else {
       bg <- bg4test
-      bg@data <- bg4test@data[folds[1:bgs[i]], ]
-      bg@coords <- bg4test@coords[folds[1:bgs[i]], ]
+      bg@data <- bg4test@data[folds_bg[1:bgs[i]], ]
+      bg@coords <- bg4test@coords[folds_bg[1:bgs[i]], ]
       if (method == "Maxent") {
-        new_model <- train(method = method, presence = model@presence,
-                           bg = bg, reg = model@model@reg, fc = model@model@fc,
+        new_model <- train(method = method, presence = presence, bg = bg,
+                           reg = model@model@reg, fc = model@model@fc,
+                           replicates = rep, verbose = FALSE, folds = folds,
                            iter = model@model@iter,
                            extra_args = model@model@extra_args)
       } else {
-        new_model <- train(method = method, presence = model@presence,
-                           bg = bg, reg = model@model@reg, fc = model@model@fc)
+        new_model <- train(method = method, presence = presence, bg = bg,
+                           reg = model@model@reg, fc = model@model@fc,
+                           replicates = rep, verbose = FALSE, folds = folds)
       }
     }
 

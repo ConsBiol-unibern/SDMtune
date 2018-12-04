@@ -20,8 +20,8 @@ in bg4test.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc,
-default is NULL.}
+\item{test}{SWD. est dataset used to evaluate the model, not used with aicc
+or SDMmodelCV objects, default is NULL.}
 
 \item{env}{\link{stack} or \link{brick} containing the environmental
 variables, used only with "aicc", default is NULL.}
