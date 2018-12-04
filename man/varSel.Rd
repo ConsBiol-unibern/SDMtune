@@ -5,7 +5,7 @@
 \title{Variable Selection}
 \usage{
 varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
-  env = NULL, parallel = FALSE, reg = 0.001, method = "spearman",
+  env = NULL, parallel = FALSE, reg = 0.1, method = "spearman",
   cor_th = 0.7, permut = 10)
 }
 \arguments{
@@ -18,7 +18,7 @@ between environmental variables.}
 values are: "auc", "tss" and "aicc", default is "auc".}
 
 \item{test}{SWD. Test dataset used to evaluate the model, not used with aicc
-or SDMmodelCV objects, default is NULL.}
+and SDMmodelCV objects, default is NULL.}
 
 \item{env}{\link{stack} or \link{brick} containing the environmental
 variables, used only with "aicc", default is NULL.}
@@ -27,7 +27,7 @@ variables, used only with "aicc", default is NULL.}
 FALSE. Used only with AICc.}
 
 \item{reg}{integer. The value of the regularization paramiter to use during
-computation, default is 0.001, see details.}
+computation, default is 0.1, see details.}
 
 \item{method}{character. The method used to comput the correlation matrix,
 default "spearman".}

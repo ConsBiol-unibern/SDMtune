@@ -21,7 +21,7 @@
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE. Used only with AICc.
 #' @param reg integer. The value of the regularization paramiter to use during
-#' computation, default is 0.001, see details.
+#' computation, default is 0.1, see details.
 #' @param method character. The method used to comput the correlation matrix,
 #' default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly
@@ -45,8 +45,8 @@
 #'
 #' @author Sergio Vignali
 varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
-                   env = NULL, parallel = FALSE, reg = 0.001,
-                   method = "spearman", cor_th = 0.7, permut = 10) {
+                   env = NULL, parallel = FALSE, reg = 0.1, method = "spearman",
+                   cor_th = 0.7, permut = 10) {
 
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide env argument if you want to use AICc metric!")

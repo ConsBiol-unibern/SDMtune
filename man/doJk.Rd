@@ -18,7 +18,7 @@ values are: "auc", "tss" and "aicc", default is "auc".}
 takes all the variables used to train the model, default is NULL.}
 
 \item{test}{SWD. If provided it reports the result also for the test dataset.
-Not used for \strong{aicc} or SDMmodelCV.}
+Not used for \strong{aicc} and SDMmodelCV.}
 
 \item{with_only}{logical. If TRUE it runs the test also for each variable in
 isolation, default is TRUE.}
