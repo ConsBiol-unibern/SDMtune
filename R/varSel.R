@@ -6,7 +6,7 @@
 #' correlated with other variables (according to the given method and threshold)
 #' it performs a Jackknife test and among the correlated variables it removes
 #' the one that results in the best performing model when removed (according to
-#' the given metric using the Train dataset). The process is repeated untill the
+#' the given metric using the test dataset). The process is repeated untill the
 #' remaining variables are not highly correlated anymore.
 #'
 #' @param model SDMmodel object.
@@ -14,6 +14,8 @@
 #' between environmental variables.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".
+#' @param test SWD. Test dataset used to evaluate the model, not used with aicc
+#' or SDMmodelCV objects, default is NULL.
 #' @param env \link{stack} or \link{brick} containing the environmental
 #' variables, used only with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
@@ -30,7 +32,8 @@
 #' computation increases the speed only for big datasets due to the time
 #' necessary to create the cluster. For **Maxnet** using a **reg** lower than
 #' 0.1 the model won't converge!
-#' We should write something more... I will refer to our paper for the explanations...
+#' We should write something more... I will refer to our paper for the
+#' explanations...
 #'
 #' @return The model with trained using the selected variables.
 #' @export
@@ -41,19 +44,41 @@
 #' varSel(model, bg, metric = "auc")}
 #'
 #' @author Sergio Vignali
-varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
-                   parallel = FALSE, reg = 0.001, method = "spearman",
-                   cor_th = 0.7, permut = 10) {
+varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
+                   env = NULL, parallel = FALSE, reg = 0.001,
+                   method = "spearman", cor_th = 0.7, permut = 10) {
 
-  if (class(bg4cor) != "SWD")
-    stop("bg4cort must be a SWD object!")
+  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
+    stop("You must provide env argument if you want to use AICc metric!")
 
-  model_method <- class(model@model)
+  if (class(model) == "SDMmodel") {
+    if (is.null(test) & metric != "aicc")
+      stop("You need to provide a test dataset!")
+  } else {
+    if (metric == "aicc")
+      stop("Metric aicc not allowed with SDMmodelCV objects!")
+  }
+
+  if (class(model) == "SDMmodel") {
+    rep <- 1
+    model_method <- class(model@model)
+    folds <- NULL
+    object <- model
+  } else {
+    rep <- length(model@models)
+    model_method <- class(model@models[[1]]@model)
+    folds <- model@folds
+    object <- model@models[[1]]
+    test = TRUE
+  }
+
   cor_vars <- corVar(bg4cor, method = method, cor_th = cor_th)
   cor_vars <- unique(c(as.character(cor_vars$Var1),
                        as.character(cor_vars$Var2)))
+  change_reg <- reg != object@model@reg
   total <- length(cor_vars)
-  change_reg = FALSE
+  if (change_reg)
+    total <- total + 2
 
   removed <- 0
 
@@ -67,15 +92,16 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
   initial_vars <- colnames(model@presence@data)
 
   if (change_reg) {
-    old_reg <- model@model@reg
     if (method == "Maxent") {
       model <- train(method = model_method, presence = model@presence,
-                     bg = model@background, reg = reg, fc = model@model@fc,
-                     iter = model@model@iter,
-                     extra_args = model@model@extra_args)
+                     bg = model@background, reg = reg, fc = object@model@fc,
+                     replicates = rep, verbose = FALSE, folds = folds,
+                     iter = object@model@iter,
+                     extra_args = object@model@extra_args)
     } else {
       model <- train(method = model_method, presence = model@presence,
-                     bg = model@background, reg = reg, fc = model@model@fc)
+                     bg = model@background, reg = reg, fc = object@model@fc,
+                     replicates = rep, verbose = FALSE, folds = folds)
     }
     pb$tick(1)
   }
@@ -102,14 +128,14 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
       hcv <- row.names(coeff)[abs(coeff) >= cor_th]
 
       if (length(hcv) > 1) {
-        jk_test <- suppressMessages(doJk(model, metric = metric,
+        jk_test <- suppressMessages(doJk(model, metric = metric, test = test,
                                          variables = hcv, with_only = FALSE,
                                          env = env, parallel = parallel,
                                          return_models = TRUE))
         if (metric != "aicc") {
           index <- which.max(jk_test$results[, 2])
         } else {
-          index <- which.min(jk_test$results[, 2])
+          index <- which.min(jk_test$results[, 3])
         }
 
         model <- jk_test$models_without[[index]]
@@ -129,12 +155,15 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
     pb$tick(total - removed - 2)
     if (method == "Maxent") {
       model <- train(method = model_method, presence = model@presence,
-                     bg = model@background, reg = old_reg, fc = model@model@fc,
-                     iter = model@model@iter,
-                     extra_args = model@model@extra_args)
+                     bg = object@background, reg = object@model@reg,
+                     fc = object@model@fc, replicates = rep, verbose = FALSE,
+                     folds = folds, iter = object@model@iter,
+                     extra_args = object@model@extra_args)
     } else {
       model <- train(method = model_method, presence = model@presence,
-                     bg = model@background, reg = old_reg, fc = model@model@fc)
+                     bg = model@background, reg = object@model@reg,
+                     fc = object@model@fc, replicates = rep, verbose = FALSE,
+                     folds = folds)
     }
     pb$tick(1)
   } else {

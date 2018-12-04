@@ -4,9 +4,9 @@
 \alias{varSel}
 \title{Variable Selection}
 \usage{
-varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE, reg = 0.001, method = "spearman", cor_th = 0.7,
-  permut = 10)
+varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
+  env = NULL, parallel = FALSE, reg = 0.001, method = "spearman",
+  cor_th = 0.7, permut = 10)
 }
 \arguments{
 \item{model}{SDMmodel object.}
@@ -16,6 +16,9 @@ between environmental variables.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
+
+\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc
+or SDMmodelCV objects, default is NULL.}
 
 \item{env}{\link{stack} or \link{brick} containing the environmental
 variables, used only with "aicc", default is NULL.}
@@ -44,7 +47,7 @@ with the highest contribution (permutation importance). If the variable is
 correlated with other variables (according to the given method and threshold)
 it performs a Jackknife test and among the correlated variables it removes
 the one that results in the best performing model when removed (according to
-the given metric using the Train dataset). The process is repeated untill the
+the given metric using the test dataset). The process is repeated untill the
 remaining variables are not highly correlated anymore.
 }
 \details{
@@ -52,7 +55,8 @@ You need package \pkg{snow} to use parallel computation. Parallel
 computation increases the speed only for big datasets due to the time
 necessary to create the cluster. For \strong{Maxnet} using a \strong{reg} lower than
 0.1 the model won't converge!
-We should write something more... I will refer to our paper for the explanations...
+We should write something more... I will refer to our paper for the
+explanations...
 }
 \examples{
 \dontrun{
