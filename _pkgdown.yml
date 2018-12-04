@@ -66,8 +66,9 @@ reference:
   - '`plotROC`'
   - '`plotVarImp`'
 - title: Tune
-  desc: Function for model tuning
+  desc: Function for model tuning and optimization
   contents:
+  - '`optimiseModel`'
   - '`reduceVar`'
   - '`tuneBg`'
   - '`tuneFC`'
@@ -76,12 +77,13 @@ reference:
   desc: Some utility functions
   contents:
   - '`mergeSWD`'
-  - '`SDMmodel2MaxEnt`'
+  - '`clamp`'
 - title: Classes
   desc: SDMsel classes and pkg description
   contents:
   - '`Maxent-class`'
   - '`Maxnet-class`'
   - '`SDMmodel-class`'
+  - '`SDMmodelCV-class`'
   - '`SDMtune-class`'
   - '`SWD-class`'
