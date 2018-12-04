@@ -8,7 +8,7 @@
 #' @param variables vector. Variables used for the test, if not provided it
 #' takes all the variables used to train the model, default is NULL.
 #' @param test SWD. If provided it reports the result also for the test dataset.
-#' Not used for **aicc** or SDMmodelCV.
+#' Not used for **aicc** and SDMmodelCV.
 #' @param with_only logical. If TRUE it runs the test also for each variable in
 #' isolation, default is TRUE.
 #' @param env \link{stack} or \link{brick} containing the environmental

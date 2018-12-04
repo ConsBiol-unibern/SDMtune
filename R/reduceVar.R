@@ -48,42 +48,43 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
 
     scores <- suppressMessages(varImp(model, permut = permut))
     scores <- scores[order(scores$Permutation_importance), ]
+    scores <- scores[scores$Permutation_importance <= th, ]
 
-    if (scores[1, 2] < th) {
-      jk_test <- suppressMessages(doJk(model,
-                                       variables = as.character(scores[1, 1]),
-                                       metric = metric, test = test,
-                                       with_only = FALSE,
-                                       return_models = TRUE, env = env,
-                                       parallel = parallel))
-      if (use_jk) {
-        if (metric == "auc") {
-          old_metric <- auc(model)
-          new_metric <- jk_test$results[1, 3]
-          if (new_metric >= old_metric) {
-            model <- jk_test$models_without[[1]]
+    if (nrow(scores) > 0) {
+      for (i in 1:nrow(scores)) {
+        jk_test <- suppressMessages(doJk(model,
+                                         variables = as.character(scores[i, 1]),
+                                         metric = metric, test = test,
+                                         with_only = FALSE,
+                                         return_models = TRUE, env = env,
+                                         parallel = parallel))
+        if (use_jk) {
+          if (metric == "auc") {
+            old_metric <- auc(model)
+            new_metric <- jk_test$results[1, 3]
+            if (new_metric >= old_metric) {
+              model <- jk_test$models_without[[1]]
+              break
+            }
+          } else if (metric == "tss") {
+            old_metric <- tss(model)
+            new_metric <- jk_test$results[1, 3]
+            if (new_metric >= old_metric) {
+              model <- jk_test$models_without[[1]]
+              break
+            }
           } else {
-            variables_reduced <- TRUE
-          }
-        } else if (metric == "tss") {
-          old_metric <- tss(model)
-          new_metric <- jk_test$results[1, 3]
-          if (new_metric >= old_metric) {
-            model <- jk_test$models_without[[1]]
-          } else {
-            variables_reduced <- TRUE
+            old_metric <- aicc(model, env = env, parallel = parallel)
+            new_metric <- jk_test$results[1, 2]
+            if (new_metric <= old_metric) {
+              model <- jk_test$models_without[[1]]
+              break
+            }
           }
         } else {
-          old_metric <- aicc(model, env = env, parallel = parallel)
-          new_metric <- jk_test$results[1, 2]
-          if (new_metric <= old_metric) {
-            model <- jk_test$models_without[[1]]
-          } else {
-            variables_reduced <- TRUE
-          }
+          model <- jk_test$models_without[[1]]
+          break
         }
-      } else {
-        model <- jk_test$models_without[[1]]
       }
     } else {
       variables_reduced <- TRUE
