@@ -57,8 +57,7 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
     method <- class(model@model)
     folds <- NULL
   } else {
-    if (!is.logical(test))
-      rep <- length(model@models)
+    rep <- length(model@models)
     method <- class(model@models[[1]]@model)
     folds <- model@folds
     model <- model@models[[1]]

@@ -41,13 +41,14 @@ train <- function(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
       pb$tick(0)
     }
     models <- vector("list", replicates)
-    if (is.null(folds))
+    if (is.null(folds)) {
       if (!is.null(seed))
         set.seed(seed)
       folds <- dismo::kfold(presence@data, replicates)
+    }
     for (i in 1:replicates) {
       train <- presence
-      train@data <- presence@data[folds != i, ]
+      train@data <- presence@data[folds != i, , drop = FALSE]
       models[[i]] <- do.call(f, args = list(presence = train, bg = bg, ...))
       if (verbose)
         pb$tick(1)

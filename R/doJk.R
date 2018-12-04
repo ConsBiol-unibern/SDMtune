@@ -59,7 +59,6 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
   pb$tick(0)
 
   models_without <- models_withonly <- c()
-  method <- class(model@model)
 
   res <- matrix(nrow = length(variables), ncol = 5)
   if (metric == "auc") {
@@ -72,20 +71,35 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     labels <- c("Variable", "AICc_without", "AICc_withonly", "-", "-")
   }
 
+  old_model <- model
+  if (class(model) == "SDMmodel") {
+    rep <- 1
+    method <- class(model@model)
+    folds <- NULL
+  } else {
+    rep <- length(model@models)
+    method <- class(model@models[[1]]@model)
+    folds <- model@folds
+    model <- model@models[[1]]
+    test = TRUE
+  }
+
   for (i in 1:length(variables)) {
-    presence <- model@presence
-    bg <- model@background
+    presence <- old_model@presence
+    bg <- old_model@background
     presence@data[variables[i]] <- NULL
     bg@data[variables[i]] <- NULL
 
     if (method == "Maxent") {
       jk_model <- train(method = method, presence = presence, bg = bg,
                         reg = model@model@reg, fc = model@model@fc,
+                        replicates = rep, verbose = FALSE, folds = folds,
                         iter = model@model@iter,
                         extra_args = model@model@extra_args)
     } else {
       jk_model <- train(method = method, presence = presence, bg = bg,
-                        reg = model@model@reg, fc = model@model@fc)
+                        reg = model@model@reg, fc = model@model@fc,
+                        replicates = rep, verbose = FALSE, folds = folds)
     }
 
 
@@ -104,19 +118,21 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     pb$tick()
 
     if (with_only) {
-      presence <- model@presence
-      bg <- model@background
+      presence <- old_model@presence
+      bg <- old_model@background
       presence@data <- presence@data[variables[i]]
       bg@data <- bg@data[variables[i]]
 
       if (method == "Maxent") {
         jk_model <- train(method = method, presence = presence, bg = bg,
                           reg = model@model@reg, fc = model@model@fc,
+                          replicates = rep, verbose = FALSE, folds = folds,
                           iter = model@model@iter,
                           extra_args = model@model@extra_args)
       } else {
         jk_model <- train(method = method, presence = presence, bg = bg,
-                          reg = model@model@reg, fc = model@model@fc)
+                          reg = model@model@reg, fc = model@model@fc,
+                          replicates = rep, verbose = FALSE, folds = folds)
       }
 
       if (metric == "auc") {

@@ -28,10 +28,10 @@ auc <- function(model, test = NULL, bg = NULL) {
     for (i in 1:length(model@models)) {
       if (is.null(test)) {
         data <- model@presence
-        data@data <- model@presence@data[model@folds != i, ]
+        data@data <- model@presence@data[model@folds != i,  , drop = FALSE]
       } else {
         data <- model@presence
-        data@data <- model@presence@data[model@folds == i, ]
+        data@data <- model@presence@data[model@folds == i,  , drop = FALSE]
       }
       aucs <- c(aucs, compute_auc(model@models[[i]], data, bg))
     }
