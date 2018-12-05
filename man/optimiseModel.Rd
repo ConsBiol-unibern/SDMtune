@@ -4,24 +4,25 @@
 \alias{optimiseModel}
 \title{Optimise Model}
 \usage{
-optimiseModel(model, bg, regs, fcs, n_bgs, val, pop, gen,
+optimiseModel(model, bg4test, regs, fcs, bgs, test, pop, gen,
   metric = c("auc", "tss", "aicc"), env = NULL, parallel = FALSE,
   keep_best = 0.4, keep_random = 0.1, mutation_chance = 0.2,
   seed = NULL)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{SDMmodel or SDMmodelCV object.}
 
-\item{bg}{SWD object. Background locations used to get subsamples.}
+\item{bg4test}{SWD object. Background locations used to get subsamples.}
 
 \item{regs}{numeric vector with the regularization values to be tested.}
 
 \item{fcs}{character vector with the feature combunation values to be tested.}
 
-\item{n_bgs}{numeric vector with the number of background location to be
+\item{bgs}{numeric vector with the number of background location to be
 tested.}
 
-\item{val}{SWD object containing the validation dataset.}
+\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc
+and SDMmodelCV objects, default is NULL.}
 
 \item{pop}{numeric. Size of the population.}
 
@@ -59,8 +60,8 @@ See vignette for a full explanation of the algorithm.
 }
 \examples{
 \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
-1.5), fcs = c("lq", "lqp", "lqph"), n_bgs = c(5000, 10000, 15000),
-val = my_val, pop = 20, gen = 10, seed = 25)}
+1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000),
+test = my_val, pop = 20, gen = 10, seed = 25)}
 
 }
 \author{

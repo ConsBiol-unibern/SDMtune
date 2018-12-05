@@ -1,12 +1,13 @@
 #' Optimise Model
 #'
-#' @param model SDMmodel object.
-#' @param bg SWD object. Background locations used to get subsamples.
+#' @param model SDMmodel or SDMmodelCV object.
+#' @param bg4test SWD object. Background locations used to get subsamples.
 #' @param regs numeric vector with the regularization values to be tested.
 #' @param fcs character vector with the feature combunation values to be tested.
-#' @param n_bgs numeric vector with the number of background location to be
+#' @param bgs numeric vector with the number of background location to be
 #' tested.
-#' @param val SWD object containing the validation dataset.
+#' @param test SWD. Test dataset used to evaluate the model, not used with aicc
+#' and SDMmodelCV objects, default is NULL.
 #' @param pop numeric. Size of the population.
 #' @param gen numeric. Number of generations.
 #' @param metric character. The metric used to evaluate the models, possible
@@ -32,14 +33,28 @@
 #' @importFrom stats rnorm
 #'
 #' @examples \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
-#' 1.5), fcs = c("lq", "lqp", "lqph"), n_bgs = c(5000, 10000, 15000),
-#' val = my_val, pop = 20, gen = 10, seed = 25)}
+#' 1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000),
+#' test = my_val, pop = 20, gen = 10, seed = 25)}
 #'
 #' @author Sergio Vignali
-optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
+optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                           metric = c("auc", "tss", "aicc"), env = NULL,
                           parallel = FALSE, keep_best = 0.4, keep_random = 0.1,
                           mutation_chance = 0.2, seed = NULL) {
+
+  metric <- match.arg(metric)
+
+  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
+    stop("You must provide env argument if you want to use AICc metric!")
+
+  if (class(model) == "SDMmodel") {
+    if (is.null(test) & metric != "aicc")
+      stop("You need to provide a test dataset!")
+  } else {
+    test = TRUE
+    if (metric == "aicc")
+      stop("Metric aicc not allowed with SDMmodelCV objects!")
+  }
 
   pb <- progress::progress_bar$new(
     format = "Optimise Model [:bar] :percent in :elapsedfull",
@@ -49,15 +64,16 @@ optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
   if (!is.null(seed))
     set.seed(seed)
 
-  metric <- match.arg(metric)
   vars <- colnames(model@presence@data)
-  bg@data <- bg@data[vars]
+  bg4test@data <- bg4test@data[vars]
+  bg_folds <- sample(nrow(bg4test@data))
 
-  models <- create_population(model, size = pop, bg = bg, regs = regs,
-                              fcs = fcs, n_bgs = n_bgs)
+  models <- create_population(model, size = pop, bg = bg4test,
+                              bg_folds = bg_folds, regs = regs, fcs = fcs,
+                              bgs = bgs)
 
   for (i in 1:gen) {
-    models <- rank_models(models, val, metric = metric, env = env,
+    models <- rank_models(models, test, metric = metric, env = env,
                           parallel = parallel)
     pb$tick(1)
     kept <- round((pop * keep_best), 0)
@@ -78,13 +94,14 @@ optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
       child <- breed(mother, father)
 
       if (mutation_chance > rnorm(1))
-        child <- mutate(child, bg = bg, regs = regs, fcs = fcs, n_bgs = n_bgs)
+        child <- mutate(child, bg = bg4test, bg_folds = bg_folds, regs = regs,
+                        fcs = fcs, bgs = bgs)
 
       new_models <- c(new_models, child)
     }
     models <- new_models
   }
-  models <- rank_models(models, val, metric = metric, env = env,
+  models <- rank_models(models, test, metric = metric, env = env,
                         parallel = parallel)
   pb$tick(1)
   gc()
@@ -92,23 +109,36 @@ optimiseModel <- function(model, bg, regs, fcs, n_bgs, val, pop, gen,
   return(models)
 }
 
-create_random_model <- function(model, bg, regs, fcs, n_bgs) {
+create_random_model <- function(model, bg, bg_folds, regs, fcs, bgs) {
 
-  method <- class(model@model)
+  if (class(model) == "SDMmodel") {
+    rep <- 1
+    method <- class(model@model)
+    folds <- NULL
+    object <- model
+  } else {
+    rep <- length(model@models)
+    method <- class(model@models[[1]]@model)
+    folds <- model@folds
+    object <- model@models[[1]]
+  }
+
   reg <- sample(regs, size = 1)
   fc <- sample(fcs, size = 1)
-  n_bg <- sample(n_bgs, size = 1)
+  n_bg <- sample(bgs, size = 1)
 
-  folds <- sample(nrow(bg@data))
-  bg@data <- bg@data[folds[1:n_bg], ]
+  bg@data <- bg@data[bg_folds[1:n_bg], ]
+  bg@coords <- bg@coords[bg_folds[1:n_bg], ]
 
   if (method == "Maxent") {
     new_model <- train(method = method, presence = model@presence, bg = bg,
-                       reg = reg, fc = fc, iter = model@model@iter,
-                       extra_args = model@model@extra_args)
+                       reg = reg, fc = fc, replicates = rep, verbose = FALSE,
+                       folds = folds, iter = object@model@iter,
+                       extra_args = object@model@extra_args)
   } else {
     new_model <- train(method = method, presence = model@presence, bg = bg,
-                       reg = reg, fc = fc)
+                       reg = reg, fc = fc, replicates = rep, verbose = FALSE,
+                       folds = folds)
   }
 
   gc()
@@ -116,12 +146,12 @@ create_random_model <- function(model, bg, regs, fcs, n_bgs) {
   return(new_model)
 }
 
-create_population <- function(model, size, bg, regs, fcs, n_bgs) {
+create_population <- function(model, size, bg, bg_folds, regs, fcs, bgs) {
   models <- vector("list", length = size)
 
   for (i in 1:size) {
-    models[[i]] <- create_random_model(model, bg = bg, regs = regs, fcs = fcs,
-                                       n_bgs = n_bgs)
+    models[[i]] <- create_random_model(model, bg = bg, bg_folds = bg_folds,
+                                       regs = regs, fcs = fcs, bgs = bgs)
   }
   return(models)
 }
@@ -173,18 +203,33 @@ rank_models <- function(models, test, metric, env, parallel) {
 
 breed <- function(mother, father) {
 
-  method <- class(mother@model)
-  reg <- sample(c(mother@model@reg, father@model@reg), size = 1)
-  fc <- sample(c(mother@model@fc, father@model@fc), size = 1)
-  bg <- sample(c(mother@background, father@background), size = 1)[[1]]
+  if (class(mother) == "SDMmodel") {
+    rep <- 1
+    method <- class(mother@model)
+    reg <- sample(c(mother@model@reg, father@model@reg), size = 1)
+    fc <- sample(c(mother@model@fc, father@model@fc), size = 1)
+    bg <- sample(c(mother@background, father@background), size = 1)[[1]]
+    object <- mother
+  } else {
+    rep <- length(mother@models)
+    method <- class(mother@models[[1]]@model)
+    reg <- sample(c(mother@models[[1]]@model@reg,
+                    father@models[[1]]@model@reg), size = 1)
+    fc <- sample(c(mother@models[[1]]@model@fc,
+                   father@models[[1]]@model@fc), size = 1)
+    bg <- sample(c(mother@models[[1]]@background,
+                   father@models[[1]]@background), size = 1)[[1]]
+    object <- mother@models[[1]]
+  }
 
   if (method == "Maxent") {
-    new_model <- train(method = method, presence = mother@presence, bg = bg,
-                       reg = reg, fc = fc, iter = mother@model@iter,
-                       extra_args = mother@model@extra_args)
+    new_model <- train(method = method, presence = object@presence, bg = bg,
+                       reg = reg, fc = fc, replicates = rep, verbose = FALSE,
+                       iter = object@model@iter,
+                       extra_args = object@model@extra_args)
   } else {
-    new_model <- train(method = method, presence = mother@presence, bg = bg,
-                       reg = reg, fc = fc)
+    new_model <- train(method = method, presence = object@presence, bg = bg,
+                       reg = reg, fc = fc, replicates = rep, verbose = FALSE)
   }
 
   gc()
@@ -192,34 +237,48 @@ breed <- function(mother, father) {
   return(new_model)
 }
 
-mutate <- function(model, bg, regs, fcs, n_bgs) {
+mutate <- function(model, bg, bg_folds, regs, fcs, bgs) {
 
   mutation <- sample(c("reg", "fc", "bg"), size = 1)
-  method <- class(model@model)
+
+  if (class(model) == "SDMmodel") {
+    rep <- 1
+    method <- class(model@model)
+    folds <- NULL
+    object <- model
+    reg <- model@model@reg
+    fc <- model@model@fc
+  } else {
+    rep <- length(model@models)
+    method <- class(model@models[[1]]@model)
+    folds <- model@folds
+    object <- model@models[[1]]
+    reg <- model@models[[1]]@model@reg
+    fc <- model@models[[1]]@model@fc
+  }
 
   if (mutation == "reg") {
+    regs <- regs[regs != reg]
     reg <- sample(regs, size = 1)
-    fc <- model@model@fc
-    bg <- model@background
   } else if (mutation == "fc") {
-    reg <- model@model@reg
+    fcs <- fcs[fcs != fc]
     fc <- sample(fcs, size = 1)
-    bg <- model@background
   } else {
-    reg <- model@model@reg
-    fc <- model@model@fc
-    n_bg <- sample(n_bgs, size = 1)
-    folds <- sample(nrow(bg@data))
-    bg@data <- bg@data[folds[1:n_bg], ]
+    bgs <- bgs[bgs != nrow(bg@data)]
+    n_bg <- sample(bgs, size = 1)
+    bg@data <- bg@data[bg_folds[1:n_bg], ]
+    bg@coords <- bg@coords[bg_folds[1:n_bg], ]
   }
 
   if (method == "Maxent") {
     new_model <- train(method = method, presence = model@presence, bg = bg,
-                       reg = reg, fc = fc, iter = model@model@iter,
-                       extra_args = model@model@extra_args)
+                       reg = reg, fc = fc, replicates = rep, verbose = FALSE,
+                       folds = folds, iter = object@model@iter,
+                       extra_args = object@model@extra_args)
   } else {
     new_model <- train(method = method, presence = model@presence, bg = bg,
-                       reg = reg, fc = fc)
+                       reg = reg, fc = fc, replicates = rep, verbose = FALSE,
+                       folds = folds)
   }
 
   gc()
