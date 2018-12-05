@@ -6,11 +6,12 @@
 \usage{
 optimiseModel(model, bg4test, regs, fcs, bgs, test, pop, gen,
   metric = c("auc", "tss", "aicc"), env = NULL, parallel = FALSE,
-  keep_best = 0.4, keep_random = 0.1, mutation_chance = 0.2,
+  keep_best = 0.4, keep_random = 0.1, mutation_chance = 0.4,
   seed = NULL)
 }
 \arguments{
-\item{model}{SDMmodel or SDMmodelCV object.}
+\item{model}{SDMmodel, SDMmodelCV object or a list containing models, see
+details.}
 
 \item{bg4test}{SWD object. Background locations used to get subsamples.}
 
@@ -37,14 +38,15 @@ variables, used only with "aicc", default is NULL.}
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE.}
 
-\item{keep_best}{numeric. Percentage of the best models in the population to be
-retained during each iteration, expressed as decimal number. Default is 0.4.}
+\item{keep_best}{numeric. Percentage of the best models in the population to
+be retained during each iteration, expressed as decimal number. Default
+is 0.4.}
 
 \item{keep_random}{numeric. Probability of retaining the excluded models
 during each iteration, expressed as decimal number. Default is 0.1.}
 
 \item{mutation_chance}{numeric. Probability of mutation of the child models,
-expressed as decimal number. Default is 0.2.}
+expressed as decimal number. Default is 0.4.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is NULL.}
@@ -56,7 +58,9 @@ list containing the models of the last population.
 Optimise Model
 }
 \details{
-See vignette for a full explanation of the algorithm.
+You can continue to breed the same population of models passing the
+output of the function (i.e. a list of models) as fist argument. See vignette
+for a full explanation of the algorithm.
 }
 \examples{
 \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,

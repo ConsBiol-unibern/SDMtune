@@ -1,6 +1,7 @@
 #' Optimise Model
 #'
-#' @param model SDMmodel or SDMmodelCV object.
+#' @param model SDMmodel, SDMmodelCV object or a list containing models, see
+#' details.
 #' @param bg4test SWD object. Background locations used to get subsamples.
 #' @param regs numeric vector with the regularization values to be tested.
 #' @param fcs character vector with the feature combunation values to be tested.
@@ -16,16 +17,19 @@
 #' variables, used only with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE.
-#' @param keep_best numeric. Percentage of the best models in the population to be
-#' retained during each iteration, expressed as decimal number. Default is 0.4.
+#' @param keep_best numeric. Percentage of the best models in the population to
+#' be retained during each iteration, expressed as decimal number. Default
+#' is 0.4.
 #' @param keep_random numeric. Probability of retaining the excluded models
 #' during each iteration, expressed as decimal number. Default is 0.1.
 #' @param mutation_chance numeric. Probability of mutation of the child models,
-#' expressed as decimal number. Default is 0.2.
+#' expressed as decimal number. Default is 0.4.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is NULL.
 #'
-#' @details See vignette for a full explanation of the algorithm.
+#' @details You can continue to breed the same population of models passing the
+#' output of the function (i.e. a list of models) as fist argument. See vignette
+#' for a full explanation of the algorithm.
 #'
 #' @return list containing the models of the last population.
 #' @export
@@ -40,7 +44,7 @@
 optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                           metric = c("auc", "tss", "aicc"), env = NULL,
                           parallel = FALSE, keep_best = 0.4, keep_random = 0.1,
-                          mutation_chance = 0.2, seed = NULL) {
+                          mutation_chance = 0.4, seed = NULL) {
 
   metric <- match.arg(metric)
 
@@ -64,13 +68,19 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   if (!is.null(seed))
     set.seed(seed)
 
-  vars <- colnames(model@presence@data)
-  bg4test@data <- bg4test@data[vars]
-  bg_folds <- sample(nrow(bg4test@data))
-
-  models <- create_population(model, size = pop, bg = bg4test,
-                              bg_folds = bg_folds, regs = regs, fcs = fcs,
-                              bgs = bgs)
+  if (typeof(model) != "list") {
+    vars <- colnames(model@presence@data)
+    bg4test@data <- bg4test@data[vars]
+    bg_folds <- sample(nrow(bg4test@data))
+    models <- create_population(model, size = pop, bg = bg4test,
+                                bg_folds = bg_folds, regs = regs, fcs = fcs,
+                                bgs = bgs)
+  } else {
+    vars <- colnames(model[[1]]@presence@data)
+    bg4test@data <- bg4test@data[vars]
+    bg_folds <- sample(nrow(bg4test@data))
+    models <- model
+  }
 
   for (i in 1:gen) {
     models <- rank_models(models, test, metric = metric, env = env,
