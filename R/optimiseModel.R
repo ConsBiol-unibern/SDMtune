@@ -55,7 +55,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     if (is.null(test) & metric != "aicc")
       stop("You need to provide a test dataset!")
   } else {
-    test = TRUE
+    test <- TRUE
     if (metric == "aicc")
       stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
@@ -72,7 +72,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     vars <- colnames(model@presence@data)
     bg4test@data <- bg4test@data[vars]
     bg_folds <- sample(nrow(bg4test@data))
-    models <- create_population(model, size = pop, bg = bg4test,
+    models <- create_population(model, size = pop, bg4test = bg4test,
                                 bg_folds = bg_folds, regs = regs, fcs = fcs,
                                 bgs = bgs)
   } else {
@@ -82,10 +82,17 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     models <- model
   }
 
+  rank <- rank_models(models, test, metric = metric, env = env,
+                      parallel = parallel)
+
+  if (!is.logical(rank)) {
+    models <- rank
+  } else {
+    stop("The models in the random population are all overfitting the validation dataset!")
+  }
+  pb$tick(1)
+
   for (i in 1:gen) {
-    models <- rank_models(models, test, metric = metric, env = env,
-                          parallel = parallel)
-    pb$tick(1)
     kept <- round((pop * keep_best), 0)
     parents <- models[1:kept]
 
@@ -104,22 +111,29 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       child <- breed(mother, father)
 
       if (mutation_chance > rnorm(1))
-        child <- mutate(child, bg = bg4test, bg_folds = bg_folds, regs = regs,
-                        fcs = fcs, bgs = bgs)
+        child <- mutate(child, bg4test = bg4test, bg_folds = bg_folds,
+                        regs = regs, fcs = fcs, bgs = bgs)
 
       new_models <- c(new_models, child)
     }
-    models <- new_models
-  }
-  models <- rank_models(models, test, metric = metric, env = env,
+    rank <- rank_models(models, test, metric = metric, env = env,
                         parallel = parallel)
-  pb$tick(1)
+    if (!is.logical(rank)) {
+      models <- new_models
+      pb$tick(1)
+    } else {
+      message(paste("Optimization algorithm interrupted at population", i,
+                    "because it starts to overfit validation dataset!"))
+      pb$tick(gen + 1 - i)
+    }
+
+  }
   gc()
 
   return(models)
 }
 
-create_random_model <- function(model, bg, bg_folds, regs, fcs, bgs) {
+create_random_model <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
 
   if (class(model) == "SDMmodel") {
     rep <- 1
@@ -137,8 +151,9 @@ create_random_model <- function(model, bg, bg_folds, regs, fcs, bgs) {
   fc <- sample(fcs, size = 1)
   n_bg <- sample(bgs, size = 1)
 
-  bg@data <- bg@data[bg_folds[1:n_bg], ]
-  bg@coords <- bg@coords[bg_folds[1:n_bg], ]
+  bg <- bg4test
+  bg@data <- bg4test@data[bg_folds[1:n_bg], ]
+  bg@coords <- bg4test@coords[bg_folds[1:n_bg], ]
 
   if (method == "Maxent") {
     new_model <- train(method = method, presence = model@presence, bg = bg,
@@ -156,12 +171,13 @@ create_random_model <- function(model, bg, bg_folds, regs, fcs, bgs) {
   return(new_model)
 }
 
-create_population <- function(model, size, bg, bg_folds, regs, fcs, bgs) {
+create_population <- function(model, size, bg4test, bg_folds, regs, fcs, bgs) {
   models <- vector("list", length = size)
 
   for (i in 1:size) {
-    models[[i]] <- create_random_model(model, bg = bg, bg_folds = bg_folds,
-                                       regs = regs, fcs = fcs, bgs = bgs)
+    models[[i]] <- create_random_model(model, bg4test = bg4test,
+                                       bg_folds = bg_folds, regs = regs,
+                                       fcs = fcs, bgs = bgs)
   }
   return(models)
 }
@@ -201,14 +217,19 @@ rank_models <- function(models, test, metric, env, parallel) {
   if (length(values) != 0) {
     index <- order(-values)
     models <- c(good_models[index], bad_models)
+    overfit <- FALSE
   } else {
-    index <- order(-values)
     models <- bad_models
+    overfit <- TRUE
   }
 
   gc()
 
-  return(models)
+  if (overfit) {
+    return(FALSE)
+  } else {
+    return(models)
+  }
 }
 
 breed <- function(mother, father) {
@@ -247,7 +268,7 @@ breed <- function(mother, father) {
   return(new_model)
 }
 
-mutate <- function(model, bg, bg_folds, regs, fcs, bgs) {
+mutate <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
 
   mutation <- sample(c("reg", "fc", "bg"), size = 1)
 
@@ -266,6 +287,7 @@ mutate <- function(model, bg, bg_folds, regs, fcs, bgs) {
     reg <- model@models[[1]]@model@reg
     fc <- model@models[[1]]@model@fc
   }
+  bg <- model@background
 
   if (mutation == "reg") {
     regs <- regs[regs != reg]
@@ -274,10 +296,10 @@ mutate <- function(model, bg, bg_folds, regs, fcs, bgs) {
     fcs <- fcs[fcs != fc]
     fc <- sample(fcs, size = 1)
   } else {
-    bgs <- bgs[bgs != nrow(bg@data)]
+    bgs <- bgs[bgs != nrow(model@background@data)]
     n_bg <- sample(bgs, size = 1)
-    bg@data <- bg@data[bg_folds[1:n_bg], ]
-    bg@coords <- bg@coords[bg_folds[1:n_bg], ]
+    bg@data <- bg4test@data[bg_folds[1:n_bg], ]
+    bg@coords <- bg4test@coords[bg_folds[1:n_bg], ]
   }
 
   if (method == "Maxent") {
