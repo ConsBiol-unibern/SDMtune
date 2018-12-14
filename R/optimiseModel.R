@@ -87,6 +87,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
 
   if (!is.logical(rank)) {
     models <- rank
+    pb$message(paste("Training AUC:", auc(models[[1]]), "Testing AUC:", auc(models[[1]], test)))
   } else {
     stop("The models in the random population are all overfitting the validation dataset!")
   }
@@ -120,6 +121,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                         parallel = parallel)
     if (!is.logical(rank)) {
       models <- new_models
+      pb$message(paste("Training AUC:", auc(models[[1]]), "Testing AUC:", auc(models[[1]], test)))
       pb$tick(1)
     } else {
       message(paste("Optimization algorithm interrupted at population", i,
