@@ -34,7 +34,7 @@
 #' @return list containing the models of the last population.
 #' @export
 #' @importFrom progress progress_bar
-#' @importFrom stats rnorm
+#' @importFrom stats runif
 #'
 #' @examples \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
 #' 1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000),
@@ -43,7 +43,7 @@
 #' @author Sergio Vignali
 optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                           metric = c("auc", "tss", "aicc"), env = NULL,
-                          parallel = FALSE, keep_best = 0.4, keep_random = 0.1,
+                          parallel = FALSE, keep_best = 0.4, keep_random = 0.2,
                           mutation_chance = 0.4, seed = NULL) {
 
   metric <- match.arg(metric)
@@ -51,7 +51,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide env argument if you want to use AICc metric!")
 
-  if (class(model) == "SDMmodel") {
+  if (class(model) %in% c("SDMmodel", "list")) {
     if (is.null(test) & metric != "aicc")
       stop("You need to provide a test dataset!")
   } else {
@@ -62,8 +62,10 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
 
   pb <- progress::progress_bar$new(
     format = "Optimise Model [:bar] :percent in :elapsedfull",
-    total = (gen + 1), clear = FALSE, width = 60, show_after = 0)
+    total = (gen + 1), clear = FALSE, width = 160, show_after = 0)
   pb$tick(0)
+  pb$message(paste("Starting model - Training AUC:", auc(model),
+                   "Testing AUC:", auc(model, test)))
 
   if (!is.null(seed))
     set.seed(seed)
@@ -87,41 +89,41 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
 
   if (!is.logical(rank)) {
     models <- rank
-    pb$message(paste("Training AUC:", auc(models[[1]]), "Testing AUC:", auc(models[[1]], test)))
+    pb$message(paste("Random population - Training AUC:", auc(models[[1]]),
+                     "Testing AUC:", auc(models[[1]], test)))
   } else {
     stop("The models in the random population are all overfitting the validation dataset!")
   }
   pb$tick(1)
 
+  kept_good <- round(pop * keep_best)
+  kept_bad <- round(pop * keep_random)
+  remaining <- pop - kept_good - kept_bad
+
   for (i in 1:gen) {
-    kept <- round((pop * keep_best), 0)
-    parents <- models[1:kept]
-
-    for (mod in models[(kept + 1):pop]) {
-      if (keep_random > rnorm(1))
-        parents <- c(parents, mod)
-    }
-
-    remaining <- pop - length(parents)
+    parents <- c(models[1:kept_good],
+                 sample(models[(kept_good + 1):pop], kept_bad))
     new_models <- parents
 
     for (j in 1:remaining) {
       couple <- sample(parents, size = 2)
       mother <- couple[[1]]
       father <- couple[[2]]
-      child <- breed(mother, father)
+      child <- breed(mother, father, bg4test, bg_folds, regs, fcs, bgs,
+                     mutation_chance)
 
-      if (mutation_chance > rnorm(1))
-        child <- mutate(child, bg4test = bg4test, bg_folds = bg_folds,
-                        regs = regs, fcs = fcs, bgs = bgs)
+      pb$message(paste("Mother:", get_model_hyperparams(mother), auc(mother, test),
+                       "Father:", get_model_hyperparams(father), auc(father, test),
+                       "Child:", get_model_hyperparams(child), auc(child, test)))
 
       new_models <- c(new_models, child)
     }
-    rank <- rank_models(models, test, metric = metric, env = env,
+    rank <- rank_models(new_models, test, metric = metric, env = env,
                         parallel = parallel)
     if (!is.logical(rank)) {
-      models <- new_models
-      pb$message(paste("Training AUC:", auc(models[[1]]), "Testing AUC:", auc(models[[1]], test)))
+      models <- rank
+      pb$message(paste("Generation", i, "- Training AUC:", auc(models[[1]]),
+                       "Testing AUC:", auc(models[[1]], test)))
       pb$tick(1)
     } else {
       message(paste("Optimization algorithm interrupted at population", i,
@@ -234,7 +236,8 @@ rank_models <- function(models, test, metric, env, parallel) {
   }
 }
 
-breed <- function(mother, father) {
+breed <- function(mother, father, bg4test, bg_folds, regs, fcs, bgs,
+                  mutation_chance) {
 
   if (class(mother) == "SDMmodel") {
     rep <- 1
@@ -255,6 +258,38 @@ breed <- function(mother, father) {
     object <- mother@models[[1]]
   }
 
+  if (mutation_chance > runif(1)) {
+    mutation <- sample(c("reg", "fc", "bg"), size = 1)
+    if (mutation == "reg") {
+      if (length(regs) > 2) {
+        parents_regs <- c(get_model_reg(mother), get_model_reg(father))
+        regs <- setdiff(regs, parents_regs)
+      } else {
+        regs <- setdiff(regs, reg)
+      }
+      reg <- sample(regs, size = 1)
+    } else if (mutation == "fc") {
+      if (length(fcs) > 2) {
+        parents_fcs <- c(get_model_fc(mother), get_model_fc(father))
+        fcs <- setdiff(fcs, parents_fcs)
+      } else {
+        fcs <- setdiff(fcs, fc)
+      }
+      fc <- sample(fcs, size = 1)
+    } else {
+      if (length(bgs) > 2) {
+        parents_bgs <- c(nrow(mother@background@data),
+                         nrow(father@background@data))
+        bgs <- setdiff(bgs, parents_bgs)
+      } else {
+        bgs <- setdiff(bgs, nrow(model@background@data))
+      }
+      n_bg <- sample(bgs, size = 1)
+      bg@data <- bg4test@data[bg_folds[1:n_bg], ]
+      bg@coords <- bg4test@coords[bg_folds[1:n_bg], ]
+    }
+  }
+
   if (method == "Maxent") {
     new_model <- train(method = method, presence = object@presence, bg = bg,
                        reg = reg, fc = fc, replicates = rep, verbose = FALSE,
@@ -270,7 +305,7 @@ breed <- function(mother, father) {
   return(new_model)
 }
 
-mutate <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
+mutate <- function(model, mother, father, bg4test, bg_folds, regs, fcs, bgs) {
 
   mutation <- sample(c("reg", "fc", "bg"), size = 1)
 
@@ -292,13 +327,29 @@ mutate <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
   bg <- model@background
 
   if (mutation == "reg") {
-    regs <- regs[regs != reg]
+    if (length(regs) > 2) {
+      parents_regs <- c(get_model_reg(mother), get_model_reg(father))
+      regs <- setdiff(regs, parents_regs)
+    } else {
+      regs <- setdiff(regs, reg)
+    }
     reg <- sample(regs, size = 1)
   } else if (mutation == "fc") {
-    fcs <- fcs[fcs != fc]
+    if (length(fcs) > 2) {
+      parents_fcs <- c(get_model_fc(mother), get_model_fc(father))
+      fcs <- setdiff(fcs, parents_fcs)
+    } else {
+      fcs <- setdiff(fcs, fc)
+    }
     fc <- sample(fcs, size = 1)
   } else {
-    bgs <- bgs[bgs != nrow(model@background@data)]
+    if (length(bgs) > 2) {
+      parents_bgs <- c(nrow(mother@background@data),
+                       nrow(father@background@data))
+      bgs <- setdiff(bgs, parents_bgs)
+    } else {
+      bgs <- setdiff(bgs, nrow(model@background@data))
+    }
     n_bg <- sample(bgs, size = 1)
     bg@data <- bg4test@data[bg_folds[1:n_bg], ]
     bg@coords <- bg4test@coords[bg_folds[1:n_bg], ]
@@ -318,4 +369,27 @@ mutate <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
   gc()
 
   return(new_model)
+}
+
+get_model_reg <- function(model) {
+  if (class(model) == "SDMmodel") {
+    return(model@model@reg)
+  } else {
+    return(model@models[[1]]@model@reg)
+  }
+}
+
+get_model_fc <- function(model) {
+  if (class(model) == "SDMmodel") {
+    return(model@model@fc)
+  } else {
+    return(model@models[[1]]@model@fc)
+  }
+}
+
+get_model_hyperparams <- function(model) {
+  if (class(model) == "SDMmodelCV")
+    model <- model@models[[1]]
+  return(paste("Reg:", model@model@reg, "FC:", model@model@fc,
+               "#Bg:", nrow(model@background@data)))
 }

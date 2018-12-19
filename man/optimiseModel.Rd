@@ -6,7 +6,7 @@
 \usage{
 optimiseModel(model, bg4test, regs, fcs, bgs, test, pop, gen,
   metric = c("auc", "tss", "aicc"), env = NULL, parallel = FALSE,
-  keep_best = 0.4, keep_random = 0.1, mutation_chance = 0.4,
+  keep_best = 0.4, keep_random = 0.2, mutation_chance = 0.4,
   seed = NULL)
 }
 \arguments{
