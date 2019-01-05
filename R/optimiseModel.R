@@ -110,7 +110,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     update_chart(folder, data = list(train = train_metric, val = val_metric,
                                      n = i, gen = 0, tooltips = tooltips,
                                      text = chart_data$text))
-    Sys.sleep(0.1)
+    Sys.sleep(0.2)
     pb$tick(1)
   }
 
@@ -134,7 +134,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     update_chart(folder, data = list(train = train_metric, val = val_metric,
                                      n = pop, gen = 0, tooltips = tooltips,
                                      text = text))
-    Sys.sleep(0.1)
+    Sys.sleep(0.2)
   } else {
     stop("The models in the random population are all overfitting the validation dataset!")
   }
@@ -154,7 +154,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     update_chart(folder, data = list(train = train_metric, val = val_metric,
                                      n = n, gen = i, tooltips = tooltips,
                                      text = text))
-    Sys.sleep(0.1)
+    Sys.sleep(0.2)
     parents <- models[index_kept]
     new_models <- parents
 
@@ -179,7 +179,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       update_chart(folder, data = list(train = train_metric, val = val_metric,
                                        n = n, gen = i, tooltips = tooltips,
                                        text = text))
-      Sys.sleep(0.1)
+      Sys.sleep(0.2)
       pb$tick(1)
     }
     metrics <- list(train_metric$y, val_metric$y)
@@ -203,14 +203,16 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       update_chart(folder, data = list(train = train_metric, val = val_metric,
                                        n = n, gen = i,
                                        tooltips = tooltips, text = text))
-      Sys.sleep(0.1)
+      Sys.sleep(0.2)
     } else {
       stop(paste("Optimization algorithm interrupted at population", i,
                  "because it starts to overfit validation dataset!"))
     }
   }
+  metrics <- list(train_metric$y, val_metric$y)
+  output <- create_optimise_output(models, metric, metrics)
   pb$tick(1)
-  return(models)
+  return(output)
 }
 
 create_random_model <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
@@ -439,7 +441,7 @@ render_chart <- function(folder, data, pop, tot_models, metric) {
 
   html <- whisker::whisker.render(template, data = context)
   writeLines(html, file.path(folder, "chart.html"))
-  Sys.sleep(0.1)
+  Sys.sleep(0.2)
 }
 
 update_chart <- function(folder, data) {

@@ -74,4 +74,36 @@ get_rank_index <- function(metric, metrics) {
   return(index)
 }
 
+create_optimise_output <- function(models, metric, metrics) {
+  if (metric == "auc") {
+    labels <- c("train_AUC", "val_AUC", "diff_AUC")
+  } else if (metric == "tss") {
+    labels <- c("train_TSS", "val_TSS", "diff_TSS")
+  } else {
+    labels <- c("AICc", "delta_AICc")
+  }
+  labels <- c("bg", "reg", "fc", labels)
 
+  res <- matrix(nrow = length(models), ncol = length(labels))
+  fcs <- vector("character", length = length(models))
+
+  for (i in 1:length(models)) {
+    res[i, 1] <- nrow(models[[i]]@background@data)
+    res[i, 2] <- get_model_reg(models[[i]])
+    fcs[i] <- get_model_fc(models[[i]])
+    res[i, 4] <- metrics[[1]][i]
+    if (metric != "aicc")
+      res[i, 5] <- metrics[[2]][i]
+  }
+
+  if (metric != "aicc") {
+    res[, 6] <- res[, 4] - res[, 5]
+  } else {
+    res[, 5] <- res[, 4] - min(res[, 4])
+  }
+  res <- as.data.frame(res)
+  colnames(res) <- labels
+  res$fc <- fcs
+  output <- SDMtune(results = res, models = models)
+  return(output)
+}
