@@ -22,8 +22,6 @@
 
 	<div class="row">
 		<canvas id="canvas"></canvas>
-		<hr>
-		<p id="text"></p>
 	</div>
 
 	<script>
@@ -125,7 +123,6 @@
 					}
 					window.myScatter.options.title.text = 'Model optimization - Generation ' + data.gen[0];
 					window.myScatter.update();
-					$('#text').html(data.text);
 					if (data.n[0] == totModels + 1) {
 						clearInterval(refresh);
 					}

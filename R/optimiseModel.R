@@ -87,8 +87,8 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     text <- get_metric_text(0, metric, get_metric(metric, model),
                             get_metric(metric, model, test = test))
   }
-  chart_data = list(train = {}, val = {}, gen = 0, n = 1, tooltips = "",
-                    text = text)
+  pb$message(text)
+  chart_data = list(train = {}, val = {}, gen = 0, n = 1, tooltips = "")
   folder <- create_chart(data = chart_data, pop = pop, tot_models = tot_models,
                          metric = metric_label)
 
@@ -108,8 +108,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       val_metric[i, ] <- list(i, get_metric(metric, models[[i]], test))
     tooltips[i] <- get_model_hyperparams(models[[i]])
     update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = i, gen = 0, tooltips = tooltips,
-                                     text = chart_data$text))
+                                     n = i, gen = 0, tooltips = tooltips))
     Sys.sleep(0.2)
     pb$tick(1)
   }
@@ -123,18 +122,15 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
     tooltips <- tooltips[rank_index]
     if (metric == "aicc") {
-      text <- paste0(text, "<br>",
-                     get_metric_text(0, metric, train_metric[1, 2],
-                                     text = text))
+      text <- get_metric_text(0, metric, train_metric[1, 2], text = text)
     } else {
-      text <- paste0(text, "<br>",
-                     get_metric_text(0, metric, train_metric[1, 2],
-                                     val_metric[1, 2], text = text))
+      text <- get_metric_text(0, metric, train_metric[1, 2], val_metric[1, 2],
+                              text = text)
     }
     update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = pop, gen = 0, tooltips = tooltips,
-                                     text = text))
+                                     n = pop, gen = 0, tooltips = tooltips))
     Sys.sleep(0.2)
+    pb$message(text)
   } else {
     stop("The models in the random population are all overfitting the validation dataset!")
   }
@@ -152,8 +148,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
 
     n <- pop + (remaining * (i - 1))
     update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = n, gen = i, tooltips = tooltips,
-                                     text = text))
+                                     n = n, gen = i, tooltips = tooltips))
     Sys.sleep(0.2)
     parents <- models[index_kept]
     new_models <- parents
@@ -177,8 +172,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       new_models <- c(new_models, child)
       n <- pop + (remaining * (i - 1)) + j
       update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                       n = n, gen = i, tooltips = tooltips,
-                                       text = text))
+                                       n = n, gen = i, tooltips = tooltips))
       Sys.sleep(0.2)
       pb$tick(1)
     }
@@ -191,19 +185,15 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
       tooltips <- tooltips[rank_index]
       if (metric == "aicc") {
-        text <- paste0(text, "<br>",
-                       get_metric_text(i, metric, train_metric[1, 2],
-                                       text = text))
+        text <- get_metric_text(i, metric, train_metric[1, 2])
       } else {
-        text <- paste0(text, "<br>",
-                       get_metric_text(i, metric, train_metric[1, 2],
-                                       val_metric[1, 2], text = text))
+        text <- get_metric_text(i, metric, train_metric[1, 2], val_metric[1, 2])
       }
       n <- tot_models + 1
       update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                       n = n, gen = i,
-                                       tooltips = tooltips, text = text))
+                                       n = n, gen = i, tooltips = tooltips))
       Sys.sleep(0.2)
+      pb$message(text)
     } else {
       stop(paste("Optimization algorithm interrupted at population", i,
                  "because it starts to overfit validation dataset!"))
