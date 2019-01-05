@@ -21,6 +21,7 @@ Imports: cli (>= 1.0.1),
          crayon (>= 1.3.4),
          dismo (>= 1.1-4),
          htmltools (>= 0.3.6),
+         jsonlite (>= 1.5),
          kableExtra (>= 0.9.0),
          maxnet (>= 0.1.2),
          prettydoc (>= 0.2.1),
@@ -32,7 +33,8 @@ Imports: cli (>= 1.0.1),
          rgdal (>= 1.3-6),
          rJava (>= 0.9-10),
          scales (>= 0.5.0),
-         stringr (>= 1.3.1)
+         stringr (>= 1.3.1),
+         whisker (>= 0.3-2)
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
@@ -85,6 +87,7 @@ Collate:
     'tuneBg.R'
     'tuneFC.R'
     'tuneReg.R'
+    'utils.R'
     'varImp.R'
     'varSel.R'
     'zzz.R'

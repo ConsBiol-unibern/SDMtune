@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="application/javascript">{{{ jQuery }}}</script>
+	<script type="application/javascript">{{{ chartJs }}}</script>
+	<title>Scatter Chart</title>
+	<style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+	<style type="text/css">{{{ style }}}</style>
+</head>
+
+<body>
+
+	<div class="row">
+		<canvas id="canvas"></canvas>
+		<hr>
+		<p id="text"></p>
+	</div>
+
+	<script>
+		var pop = {{ pop }};
+		var totModels = {{ tot_models }};
+		var data = {{{ data }}};
+		var scatterData = {
+			datasets: [{
+				label: 'Training',
+				pointRadius: 4,
+				pointHoverRadius: 6,
+				borderColor: 'rgb(75, 192, 192)',
+				backgroundColor: 'rgba(75, 192, 192, .7)',
+				data: []
+			}]
+		};
+		// Add Validation dataset if metric in not AICc
+		if ('{{ metric }}' !== 'AICc') {
+			scatterData.datasets.push({
+				label: 'Validation',
+				pointRadius: 4,
+				pointHoverRadius: 6,
+				borderColor: 'rgb(245, 132, 16)',
+				backgroundColor: 'rgba(245, 132, 16, .7)',
+				data: []
+			})
+		}
+
+		var scatterOption = {
+			responsive: true,
+			title: {
+				display: true,
+				fontFamily: 'sans-serif',
+				padding: 15,
+				text: 'Model optimization - Generation 0'
+			},
+			legend: {
+				position: 'bottom',
+				labels: {
+					fontFamily: 'sans-serif',
+					usePointStyle: true
+				}
+			},
+			scales: {
+				yAxes: [{
+					scaleLabel: {
+						display: true,
+						labelString: '{{ metric }}'
+					}
+				}],
+				xAxes: [{
+					scaleLabel: {
+						display: true,
+						labelString: 'Model'
+					},
+					ticks: {
+						max: parseInt('{{ pop }}'),
+						beginAtZero: true,
+						callback: function(value) {
+							if (value % 1 === 0) {
+								return value;
+							}
+						}
+					}
+				}]
+			},
+			tooltips: {
+				mode: 'x',
+				footerFontStyle: 'normal',
+				callbacks: {
+					label: function(tooltipItem, data) {
+						var label = data.datasets[tooltipItem.datasetIndex].label || '';
+						if (label) {
+							label += ': ';
+						}
+						label += tooltipItem.yLabel;
+						return label;
+					},
+					footer: function(tooltipItems, data) {
+						return window.data.tooltips[tooltipItems[0].index]
+					}
+				}
+			}
+		};
+
+		update = function() {
+			var refresh = setInterval(loadData, 1000);
+			function loadData() {
+				$.ajax({
+					method: "GET",
+					url: "metric.json",
+					cache: false
+				})
+				.done(function (json) {
+					data = JSON.parse(json);
+					window.myScatter.data.datasets[0].data = data.train;
+					if ('{{ metric }}' !== 'AICc') {
+						window.myScatter.data.datasets[1].data = data.val;
+					}
+					window.myScatter.options.title.text = 'Model optimization - Generation ' + data.gen[0];
+					window.myScatter.update();
+					$('#text').html(data.text);
+					if (data.n[0] == totModels + 1) {
+						clearInterval(refresh);
+					}
+				})
+			};
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myScatter = new Chart(ctx, {
+				type: 'scatter',
+				data: scatterData,
+				options: scatterOption,
+			});
+			update();
+		};
+
+	</script>
+</body>
+
+</html>

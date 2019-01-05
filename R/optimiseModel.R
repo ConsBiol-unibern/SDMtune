@@ -33,8 +33,10 @@
 #'
 #' @return list containing the models of the last population.
 #' @export
+#' @importFrom jsonlite write_json toJSON
 #' @importFrom progress progress_bar
 #' @importFrom stats runif
+#' @importFrom whisker whisker.render
 #'
 #' @examples \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
 #' 1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000),
@@ -60,80 +62,154 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
 
+  kept_good <- round(pop * keep_best)
+  kept_bad <- round(pop * keep_random)
+  kept <- kept_good + kept_bad
+  remaining <- pop - kept
+  tot_models <- get_total_models(pop, gen, remaining)
   pb <- progress::progress_bar$new(
     format = "Optimise Model [:bar] :percent in :elapsedfull",
-    total = (gen + 1), clear = FALSE, width = 160, show_after = 0)
+    total = (tot_models + 1), clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
-  pb$message(paste("Starting model - Training AUC:", auc(model),
-                   "Testing AUC:", auc(model, test)))
 
   if (!is.null(seed))
     set.seed(seed)
 
-  if (typeof(model) != "list") {
-    vars <- colnames(model@presence@data)
-    bg4test@data <- bg4test@data[vars]
-    bg_folds <- sample(nrow(bg4test@data))
-    models <- create_population(model, size = pop, bg4test = bg4test,
-                                bg_folds = bg_folds, regs = regs, fcs = fcs,
-                                bgs = bgs)
+  vars <- colnames(model@presence@data)
+  bg4test@data <- bg4test@data[vars]
+  bg_folds <- sample(nrow(bg4test@data))
+
+  metric_label <- get_metric_label(metric)
+  if (metric == "aicc") {
+    text <- get_metric_text(0, metric, get_metric(metric, model, env = env,
+                                                  parallel = parallel))
   } else {
-    vars <- colnames(model[[1]]@presence@data)
-    bg4test@data <- bg4test@data[vars]
-    bg_folds <- sample(nrow(bg4test@data))
-    models <- model
+    text <- get_metric_text(0, metric, get_metric(metric, model),
+                            get_metric(metric, model, test = test))
+  }
+  chart_data = list(train = {}, val = {}, gen = 0, n = 1, tooltips = "",
+                    text = text)
+  folder <- create_chart(data = chart_data, pop = pop, tot_models = tot_models,
+                         metric = metric_label)
+
+  # Create random population
+  models <- vector("list", length = pop)
+  train_metric <- data.frame(x = NA_real_, y = NA_real_)
+  val_metric <- data.frame(x = NA_real_, y = NA_real_)
+  tooltips <- vector("character", length = pop)
+
+  for (i in 1:pop) {
+    models[[i]] <- create_random_model(model, bg4test = bg4test,
+                                       bg_folds = bg_folds, regs = regs,
+                                       fcs = fcs, bgs = bgs)
+    train_metric[i, ] <- list(i, get_metric(metric, models[[i]], env = env,
+                                            parallel = parallel))
+    if (metric != "aicc")
+      val_metric[i, ] <- list(i, get_metric(metric, models[[i]], test))
+    tooltips[i] <- get_model_hyperparams(models[[i]])
+    update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                     n = i, gen = 0, tooltips = tooltips,
+                                     text = chart_data$text))
+    Sys.sleep(0.1)
+    pb$tick(1)
   }
 
-  rank <- rank_models(models, test, metric = metric, env = env,
-                      parallel = parallel)
+  metrics <- list(train_metric$y, val_metric$y)
+  rank_index <- get_rank_index(metric, metrics)
 
-  if (!is.logical(rank)) {
-    models <- rank
-    pb$message(paste("Random population - Training AUC:", auc(models[[1]]),
-                     "Testing AUC:", auc(models[[1]], test)))
+  if (!is.logical(rank_index)) {
+    models <- models[rank_index]
+    train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
+    val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
+    tooltips <- tooltips[rank_index]
+    if (metric == "aicc") {
+      text <- paste0(text, "<br>",
+                     get_metric_text(0, metric, train_metric[1, 2],
+                                     text = text))
+    } else {
+      text <- paste0(text, "<br>",
+                     get_metric_text(0, metric, train_metric[1, 2],
+                                     val_metric[1, 2], text = text))
+    }
+    update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                     n = pop, gen = 0, tooltips = tooltips,
+                                     text = text))
+    Sys.sleep(0.1)
   } else {
     stop("The models in the random population are all overfitting the validation dataset!")
   }
-  pb$tick(1)
-
-  kept_good <- round(pop * keep_best)
-  kept_bad <- round(pop * keep_random)
-  remaining <- pop - kept_good - kept_bad
 
   for (i in 1:gen) {
-    parents <- c(models[1:kept_good],
-                 sample(models[(kept_good + 1):pop], kept_bad))
+    index_kept <- c(1:kept_good, sample((kept + 1):pop,
+                                        kept_bad))
+    train_metric <- train_metric[index_kept, ]
+    train_metric$x <- 1:kept
+    if (metric != "aicc") {
+      val_metric <- val_metric[index_kept, ]
+      val_metric$x <- 1:kept
+    }
+    tooltips <- tooltips[index_kept]
+
+    n <- pop + (remaining * (i - 1))
+    update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                     n = n, gen = i, tooltips = tooltips,
+                                     text = text))
+    Sys.sleep(0.1)
+    parents <- models[index_kept]
     new_models <- parents
 
     for (j in 1:remaining) {
+
       couple <- sample(parents, size = 2)
       mother <- couple[[1]]
       father <- couple[[2]]
       child <- breed(mother, father, bg4test, bg_folds, regs, fcs, bgs,
                      mutation_chance)
-
-      pb$message(paste("Mother:", get_model_hyperparams(mother), auc(mother, test),
-                       "Father:", get_model_hyperparams(father), auc(father, test),
-                       "Child:", get_model_hyperparams(child), auc(child, test)))
+      train_metric[kept + j, ] <- list(kept + j, get_metric(metric, child,
+                                                            env = env,
+                                                            parallel = parallel)
+                                       )
+      if (metric != "aicc")
+        val_metric[kept + j, ] <- list(kept + j, get_metric(metric, child,
+                                                            test))
+      tooltips[kept + j] <- get_model_hyperparams(child)
 
       new_models <- c(new_models, child)
-    }
-    rank <- rank_models(new_models, test, metric = metric, env = env,
-                        parallel = parallel)
-    if (!is.logical(rank)) {
-      models <- rank
-      pb$message(paste("Generation", i, "- Training AUC:", auc(models[[1]]),
-                       "Testing AUC:", auc(models[[1]], test)))
+      n <- pop + (remaining * (i - 1)) + j
+      update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                       n = n, gen = i, tooltips = tooltips,
+                                       text = text))
+      Sys.sleep(0.1)
       pb$tick(1)
-    } else {
-      message(paste("Optimization algorithm interrupted at population", i,
-                    "because it starts to overfit validation dataset!"))
-      pb$tick(gen + 1 - i)
     }
+    metrics <- list(train_metric$y, val_metric$y)
+    rank_index <- get_rank_index(metric, metrics)
 
+    if (!is.logical(rank_index)) {
+      models <- new_models[rank_index]
+      train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
+      val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
+      tooltips <- tooltips[rank_index]
+      if (metric == "aicc") {
+        text <- paste0(text, "<br>",
+                       get_metric_text(i, metric, train_metric[1, 2],
+                                       text = text))
+      } else {
+        text <- paste0(text, "<br>",
+                       get_metric_text(i, metric, train_metric[1, 2],
+                                       val_metric[1, 2], text = text))
+      }
+      n <- tot_models + 1
+      update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                       n = n, gen = i,
+                                       tooltips = tooltips, text = text))
+      Sys.sleep(0.1)
+    } else {
+      stop(paste("Optimization algorithm interrupted at population", i,
+                 "because it starts to overfit validation dataset!"))
+    }
   }
-  gc()
-
+  pb$tick(1)
   return(models)
 }
 
@@ -173,67 +249,6 @@ create_random_model <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
   gc()
 
   return(new_model)
-}
-
-create_population <- function(model, size, bg4test, bg_folds, regs, fcs, bgs) {
-  models <- vector("list", length = size)
-
-  for (i in 1:size) {
-    models[[i]] <- create_random_model(model, bg4test = bg4test,
-                                       bg_folds = bg_folds, regs = regs,
-                                       fcs = fcs, bgs = bgs)
-  }
-  return(models)
-}
-
-rank_models <- function(models, test, metric, env, parallel) {
-
-  values <- c()
-  good_models <- c()
-  bad_models <- c()
-
-  for (i in 1:length((models))) {
-
-    if (metric == "auc") {
-      train_metric <- auc(models[[i]])
-      test_metric <- auc(models[[i]], test)
-      diff_metric <- train_metric - test_metric
-    } else if (metric == "tss") {
-      train_metric <- tss(models[[i]])
-      test_metric <- tss(models[[i]], test)
-      diff_metric <- train_metric - test_metric
-    } else {
-      values <- c(values, aicc(models[[i]], env, parallel))
-    }
-
-    if (metric != "aicc") {
-      if (diff_metric >= 0) {
-        good_models <- c(good_models, models[[i]])
-        values <- c(values, test_metric)
-      } else {
-        bad_models <- c(bad_models, models[[i]])
-      }
-    } else {
-      good_models <- c(good_models, models[[i]])
-    }
-  }
-
-  if (length(values) != 0) {
-    index <- order(-values)
-    models <- c(good_models[index], bad_models)
-    overfit <- FALSE
-  } else {
-    models <- bad_models
-    overfit <- TRUE
-  }
-
-  gc()
-
-  if (overfit) {
-    return(FALSE)
-  } else {
-    return(models)
-  }
 }
 
 breed <- function(mother, father, bg4test, bg_folds, regs, fcs, bgs,
@@ -392,4 +407,41 @@ get_model_hyperparams <- function(model) {
     model <- model@models[[1]]
   return(paste("Reg:", model@model@reg, "FC:", model@model@fc,
                "#Bg:", nrow(model@background@data)))
+}
+
+create_chart <- function(data, pop, tot_models, metric) {
+  # Create and render template for chart
+  folder <- tempfile("sdmsel")
+  dir.create(folder)
+  render_chart(folder, data, pop, tot_models, metric)
+
+  viewer <- getOption("viewer")
+  viewer(file.path(folder, "chart.html"), height = "maximize")  # Show chart
+
+  return(folder)
+}
+
+render_chart <- function(folder, data, pop, tot_models, metric) {
+
+  template <- get("optimiseTemplate", envir = .sdmsel)
+  style <- get("optimiseCss", envir = .sdmsel)
+  jQuery <- get("jQuery", envir = .sdmsel)
+  chartJs <- get("chartJs", envir = .sdmsel)
+
+  context = list(style = style,
+                 jQuery = jQuery,
+                 chartJs = chartJs,
+                 pop = pop,
+                 tot_models = tot_models,
+                 metric = metric,
+                 data = jsonlite::toJSON(data, dataframe = "columns",
+                                         na = "null"))
+
+  html <- whisker::whisker.render(template, data = context)
+  writeLines(html, file.path(folder, "chart.html"))
+  Sys.sleep(0.1)
+}
+
+update_chart <- function(folder, data) {
+  jsonlite::write_json(data, file.path(folder, "metric.json"))
 }

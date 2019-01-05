@@ -8,3 +8,20 @@
   packageStartupMessage("|________________________________________|")
   packageStartupMessage("")
 }
+.sdmsel <- new.env(parent = emptyenv())
+.sdmsel$jQuery <- paste(readLines(system.file("templates/library",
+                                              "jQuery.js",
+                                              package = "SDMsel"),
+                                  encoding = "UTF-8"), collapse = "\n")
+.sdmsel$chartJs <- paste(readLines(system.file("templates/library",
+                                               "Chart.bundle.js",
+                                               package = "SDMsel"),
+                                   encoding = "UTF-8"), collapse = "\n")
+.sdmsel$optimiseCss <- paste(readLines(system.file("templates",
+                                                   "optimiseModel.css",
+                                                   package = "SDMsel"),
+                             encoding = "UTF-8"), collapse = "\n")
+.sdmsel$optimiseTemplate <- paste(readLines(system.file("templates",
+                                                        "optimiseModel.html",
+                                                        package = "SDMsel"),
+                                   encoding = "UTF-8"), collapse = "\n")
