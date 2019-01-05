@@ -80,23 +80,25 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   bg_folds <- sample(nrow(bg4test@data))
 
   metric_label <- get_metric_label(metric)
-  if (metric == "aicc") {
-    text <- get_metric_text(0, metric, get_metric(metric, model, env = env,
-                                                  parallel = parallel))
+  best_train <- data.frame(x = 0, y = get_metric(metric, model, env = env,
+                                                 parallel = parallel))
+  if (metric != "aicc") {
+    best_val <- data.frame(x = 0, y = get_metric(metric, model, test = test))
   } else {
-    text <- get_metric_text(0, metric, get_metric(metric, model),
-                            get_metric(metric, model, test = test))
+    best_val = NULL
   }
-  pb$message(text)
-  chart_data = list(train = {}, val = {}, gen = 0, n = 1, tooltips = "")
-  folder <- create_chart(data = chart_data, pop = pop, tot_models = tot_models,
-                         metric = metric_label)
+  line_footer = "Starting model"
+  chart_data = list(train = NULL, val = NULL, gen = 0, n = 1,
+                    scatterFooter = "", best_train = best_train,
+                    best_val = best_val, lineFooter = line_footer)
+  folder <- create_chart(data = chart_data, pop = pop, gen = gen,
+                         tot_models = tot_models, metric = metric_label)
 
   # Create random population
   models <- vector("list", length = pop)
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
   val_metric <- data.frame(x = NA_real_, y = NA_real_)
-  tooltips <- vector("character", length = pop)
+  scatter_footer <- vector("character", length = pop)
 
   for (i in 1:pop) {
     models[[i]] <- create_random_model(model, bg4test = bg4test,
@@ -106,9 +108,13 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                             parallel = parallel))
     if (metric != "aicc")
       val_metric[i, ] <- list(i, get_metric(metric, models[[i]], test))
-    tooltips[i] <- get_model_hyperparams(models[[i]])
+    scatter_footer[i] <- get_model_hyperparams(models[[i]])
     update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = i, gen = 0, tooltips = tooltips))
+                                     n = i, gen = 0,
+                                     scatterFooter = scatter_footer,
+                                     best_train = best_train,
+                                     best_val = best_val,
+                                     lineFooter = line_footer))
     Sys.sleep(0.2)
     pb$tick(1)
   }
@@ -120,17 +126,18 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     models <- models[rank_index]
     train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
     val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
-    tooltips <- tooltips[rank_index]
-    if (metric == "aicc") {
-      text <- get_metric_text(0, metric, train_metric[1, 2], text = text)
-    } else {
-      text <- get_metric_text(0, metric, train_metric[1, 2], val_metric[1, 2],
-                              text = text)
-    }
+    scatter_footer <- scatter_footer[rank_index]
+    best_train[2, ] <- list(x = 1, y = train_metric[1, 2])
+    if (metric != "aicc")
+      best_val[2, ] <- list(x = 1, y = val_metric[1, 2])
+    line_footer <- c(line_footer, "Random generation")
     update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = pop, gen = 0, tooltips = tooltips))
+                                     n = pop, gen = 0,
+                                     scatterFooter = scatter_footer,
+                                     best_train = best_train,
+                                     best_val = best_val,
+                                     lineFooter = line_footer))
     Sys.sleep(0.2)
-    pb$message(text)
   } else {
     stop("The models in the random population are all overfitting the validation dataset!")
   }
@@ -144,11 +151,15 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       val_metric <- val_metric[index_kept, ]
       val_metric$x <- 1:kept
     }
-    tooltips <- tooltips[index_kept]
+    scatter_footer <- scatter_footer[index_kept]
 
     n <- pop + (remaining * (i - 1))
     update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = n, gen = i, tooltips = tooltips))
+                                     n = n, gen = i,
+                                     scatterFooter = scatter_footer,
+                                     best_train = best_train,
+                                     best_val = best_val,
+                                     lineFooter = line_footer))
     Sys.sleep(0.2)
     parents <- models[index_kept]
     new_models <- parents
@@ -167,12 +178,16 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       if (metric != "aicc")
         val_metric[kept + j, ] <- list(kept + j, get_metric(metric, child,
                                                             test))
-      tooltips[kept + j] <- get_model_hyperparams(child)
+      scatter_footer[kept + j] <- get_model_hyperparams(child)
 
       new_models <- c(new_models, child)
       n <- pop + (remaining * (i - 1)) + j
       update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                       n = n, gen = i, tooltips = tooltips))
+                                       n = n, gen = i,
+                                       scatterFooter = scatter_footer,
+                                       best_train = best_train,
+                                       best_val = best_val,
+                                       lineFooter = line_footer))
       Sys.sleep(0.2)
       pb$tick(1)
     }
@@ -183,17 +198,19 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       models <- new_models[rank_index]
       train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
       val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
-      tooltips <- tooltips[rank_index]
-      if (metric == "aicc") {
-        text <- get_metric_text(i, metric, train_metric[1, 2])
-      } else {
-        text <- get_metric_text(i, metric, train_metric[1, 2], val_metric[1, 2])
-      }
+      scatter_footer <- scatter_footer[rank_index]
       n <- tot_models + 1
+      best_train[i + 2, ] <- list(x = i + 1, y = train_metric[1, 2])
+      if (metric != "aicc")
+        best_val[i + 2, ] <- list(x = i + 1, y = val_metric[1, 2])
+      line_footer <- c(line_footer, paste("Generation", i))
       update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                       n = n, gen = i, tooltips = tooltips))
+                                       n = n, gen = i,
+                                       scatterFooter = scatter_footer,
+                                       best_train = best_train,
+                                       best_val = best_val,
+                                       lineFooter = line_footer))
       Sys.sleep(0.2)
-      pb$message(text)
     } else {
       stop(paste("Optimization algorithm interrupted at population", i,
                  "because it starts to overfit validation dataset!"))
@@ -401,11 +418,11 @@ get_model_hyperparams <- function(model) {
                "#Bg:", nrow(model@background@data)))
 }
 
-create_chart <- function(data, pop, tot_models, metric) {
+create_chart <- function(data, pop, gen, tot_models, metric) {
   # Create and render template for chart
   folder <- tempfile("sdmsel")
   dir.create(folder)
-  render_chart(folder, data, pop, tot_models, metric)
+  render_chart(folder, data, pop, gen, tot_models, metric)
 
   viewer <- getOption("viewer")
   viewer(file.path(folder, "chart.html"), height = "maximize")  # Show chart
@@ -413,7 +430,7 @@ create_chart <- function(data, pop, tot_models, metric) {
   return(folder)
 }
 
-render_chart <- function(folder, data, pop, tot_models, metric) {
+render_chart <- function(folder, data, pop, gen, tot_models, metric) {
 
   template <- get("optimiseTemplate", envir = .sdmsel)
   style <- get("optimiseCss", envir = .sdmsel)
@@ -424,6 +441,7 @@ render_chart <- function(folder, data, pop, tot_models, metric) {
                  jQuery = jQuery,
                  chartJs = chartJs,
                  pop = pop,
+                 gen = gen,
                  tot_models = tot_models,
                  metric = metric,
                  data = jsonlite::toJSON(data, dataframe = "columns",

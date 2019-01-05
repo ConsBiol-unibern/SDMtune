@@ -19,29 +19,6 @@ get_metric_label <- function(metric) {
   }
 }
 
-get_begin_text <- function(n, text = "") {
-  if (n == 0) {
-    if (text == "") {
-      return("Starting model - ")
-    } else {
-      return("Random population, best model - ")
-    }
-  } else {
-    return(paste("Generation", n, ", best model - "))
-  }
-}
-
-get_metric_text <- function(n, metric, train_metric, val_metric = NULL,
-                            text = "") {
-  begin_text <- get_begin_text(n, text)
-  metric_label <- get_metric_label(metric)
-  text <- paste0(begin_text, "Training ", metric_label, ": ", train_metric)
-  if (!is.null(val_metric))
-    text <- paste0(text, " | Validation ", metric_label, ": ", val_metric)
-
-  return(text)
-}
-
 get_total_models <- function(pop, gen, remaining) {
   tot <- pop + (gen * remaining)
 
