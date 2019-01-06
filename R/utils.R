@@ -1,3 +1,26 @@
+get_model_reg <- function(model) {
+  if (class(model) == "SDMmodel") {
+    return(model@model@reg)
+  } else {
+    return(model@models[[1]]@model@reg)
+  }
+}
+
+get_model_fc <- function(model) {
+  if (class(model) == "SDMmodel") {
+    return(model@model@fc)
+  } else {
+    return(model@models[[1]]@model@fc)
+  }
+}
+
+get_model_hyperparams <- function(model) {
+  if (class(model) == "SDMmodelCV")
+    model <- model@models[[1]]
+  return(paste("Reg:", model@model@reg, "FC:", model@model@fc,
+               "#Bg:", nrow(model@background@data)))
+}
+
 get_metric <- function(metric, model, test = NULL, env = NULL,
                        parallel = FALSE) {
   if (metric == "auc") {

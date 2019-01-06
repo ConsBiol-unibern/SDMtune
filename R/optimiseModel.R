@@ -91,8 +91,16 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   chart_data = list(train = NULL, val = NULL, gen = 0, n = 1,
                     scatterFooter = "", best_train = best_train,
                     best_val = best_val, lineFooter = line_footer)
-  folder <- create_chart(data = chart_data, pop = pop, gen = gen,
-                         tot_models = tot_models, metric = metric_label)
+
+  context = list(pop = pop,
+                 gen = gen,
+                 tot_models = tot_models,
+                 metric = get_metric_label(metric),
+                 data = jsonlite::toJSON(data, dataframe = "columns",
+                                         na = "null"))
+
+  folder <- create_chart(template = "optimiseTemplate",
+                         file_name = "chart.html", context = context)
 
   # Create random population
   models <- vector("list", length = pop)
@@ -255,8 +263,6 @@ create_random_model <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
                        folds = folds)
   }
 
-  gc()
-
   return(new_model)
 }
 
@@ -311,8 +317,6 @@ breed <- function(mother, father, bg4test, bg_folds, regs, fcs, bgs,
     new_model <- train(method = method, presence = object@presence, bg = bg,
                        reg = reg, fc = fc, replicates = rep, verbose = FALSE)
   }
-
-  gc()
 
   return(new_model)
 }
@@ -378,70 +382,37 @@ mutate <- function(model, mother, father, bg4test, bg_folds, regs, fcs, bgs) {
                        folds = folds)
   }
 
-  gc()
-
   return(new_model)
 }
 
-get_model_reg <- function(model) {
-  if (class(model) == "SDMmodel") {
-    return(model@model@reg)
-  } else {
-    return(model@models[[1]]@model@reg)
-  }
-}
-
-get_model_fc <- function(model) {
-  if (class(model) == "SDMmodel") {
-    return(model@model@fc)
-  } else {
-    return(model@models[[1]]@model@fc)
-  }
-}
-
-get_model_hyperparams <- function(model) {
-  if (class(model) == "SDMmodelCV")
-    model <- model@models[[1]]
-  return(paste("Reg:", model@model@reg, "FC:", model@model@fc,
-               "#Bg:", nrow(model@background@data)))
-}
-
-create_chart <- function(data, pop, gen, tot_models, metric) {
+create_chart <- function(template, file_name, context) {
   # Create and render template for chart
   folder <- tempfile("sdmsel")
   dir.create(folder)
-  render_chart(folder, data, pop, gen, tot_models, metric)
+  render_chart(folder, template, file_name, context)
 
-  path <- file.path(folder, "chart.html")
+  path <- file.path(folder, file_name)
   viewer <- getOption("viewer")
   if (!is.null(viewer)) {
     viewer(path, height = "maximize")  # Show chart in viewer pane
   } else {
-    start_server(folder, "/chart.html")  # Show chart in browser
+    start_server(folder, paste0("/", file_name))  # Show chart in browser
   }
 
   return(folder)
 }
 
-render_chart <- function(folder, data, pop, gen, tot_models, metric) {
+render_chart <- function(folder, template, file_name, context) {
 
-  template <- get("optimiseTemplate", envir = .sdmsel)
+  template <- get(template, envir = .sdmsel)
   style <- get("optimiseCss", envir = .sdmsel)
   jQuery <- get("jQuery", envir = .sdmsel)
   chartJs <- get("chartJs", envir = .sdmsel)
 
-  context = list(style = style,
-                 jQuery = jQuery,
-                 chartJs = chartJs,
-                 pop = pop,
-                 gen = gen,
-                 tot_models = tot_models,
-                 metric = metric,
-                 data = jsonlite::toJSON(data, dataframe = "columns",
-                                         na = "null"))
+  context = c(context, list(style = style, jQuery = jQuery, chartJs = chartJs))
 
   html <- whisker::whisker.render(template, data = context)
-  writeLines(html, file.path(folder, "chart.html"))
+  writeLines(html, file.path(folder, file_name))
   Sys.sleep(0.2)
 }
 

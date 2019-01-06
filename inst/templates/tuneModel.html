@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="application/javascript">{{{ jQuery }}}</script>
+	<script type="application/javascript">{{{ chartJs }}}</script>
+	<title>{{ title }}</title>
+	<style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+	<style type="text/css">{{{ style }}}</style>
+</head>
+
+<body>
+	<div class="content">
+		<div class="row">
+			<canvas id="line"></canvas>
+		</div>
+	</div>
+
+	<script>
+		var totModels = {{ tot_models }};
+		var data = {{{ data }}};
+
+		var lineData = {
+			datasets: [{
+				label: 'Training',
+				pointRadius: 4,
+				pointHoverRadius: 6,
+				borderColor: 'rgb(75, 192, 192)',
+				backgroundColor: 'rgba(75, 192, 192, .7)',
+				data: [],
+				fill: false,
+				lineTension: 0
+			}]
+		};
+		// Add Validation dataset if metric in not AICc
+		if ('{{ metric }}' !== 'AICc') {
+			lineData.datasets.push({
+				label: 'Validation',
+				pointRadius: 4,
+				pointHoverRadius: 6,
+				borderColor: 'rgb(245, 132, 16)',
+				backgroundColor: 'rgba(245, 132, 16, .7)',
+				data: [],
+				fill: false,
+				lineTension: 0
+			})
+		}
+
+
+		var lineOptions = {
+			responsive: true,
+			title: {
+				display: false
+			},
+			legend: {
+				position: 'bottom',
+				labels: {
+					fontFamily: 'sans-serif',
+					usePointStyle: true
+				}
+			},
+			scales: {
+				yAxes: [{
+					scaleLabel: {
+						display: true,
+						labelString: '{{ metric }}'
+					}
+				}],
+				xAxes: [{
+					type: 'linear',
+					scaleLabel: {
+						display: true,
+						labelString: '{{ x_label }}'
+					},
+					ticks: {
+						beginAtZero: true,
+						max: parseInt('{{ tot_models }}') + 1,
+						callback: function(value) {
+							if (value % 1 === 0) {
+								return value;
+							}
+						}
+					}
+				}]
+			},
+			tooltips: {
+				mode: 'x',
+				footerFontStyle: 'normal',
+				callbacks: {
+					label: function(tooltipItem, data) {
+						var label = data.datasets[tooltipItem.datasetIndex].label || '';
+						if (label) {
+							label += ': ';
+						}
+						label += tooltipItem.yLabel;
+						return label;
+					},
+					title: function(tooltipItems, data) {
+						return ""
+					},
+          footer: function(tooltipItems, data) {
+						return window.data.lineFooter[tooltipItems[0].index]
+					}
+				}
+			}
+		};
+
+		update = function() {
+			var refresh = setInterval(loadData, 500);
+			function loadData() {
+				$.ajax({
+					method: "GET",
+					url: "metric.json",
+					cache: false
+				})
+				.done(function (json) {
+					data = JSON.parse(json);
+
+					window.chartLine.data.datasets[0].data = data.train;
+					if ('{{ metric }}' !== 'AICc') {
+						window.chartLine.data.datasets[1].data = data.val;
+					}
+					window.chartLine.update();
+
+					if (data.n[0] == totModels + 1) {
+						clearInterval(refresh);
+					}
+				})
+			};
+		};
+
+		window.onload = function() {
+			// Set a wider content if page is displayed in the browser
+			if (window.location.href.search("[?&]viewer_pane=") === -1) {
+				document.querySelector('.content').style.maxWidth="600px";
+			}
+			var ctx = document.getElementById('line').getContext('2d');
+			window.chartLine = new Chart(ctx, {
+				type: 'line',
+				data: lineData,
+				options: lineOptions,
+			});
+			update();
+		};
+
+	</script>
+</body>
+
+</html>

@@ -20,8 +20,13 @@
 .sdmsel$optimiseCss <- paste(readLines(system.file("templates",
                                                    "optimiseModel.css",
                                                    package = "SDMsel"),
-                             encoding = "UTF-8"), collapse = "\n")
+                                       encoding = "UTF-8"), collapse = "\n")
 .sdmsel$optimiseTemplate <- paste(readLines(system.file("templates",
                                                         "optimiseModel.html",
                                                         package = "SDMsel"),
-                                   encoding = "UTF-8"), collapse = "\n")
+                                            encoding = "UTF-8"),
+                                  collapse = "\n")
+.sdmsel$tuneTemplate <- paste(readLines(system.file("templates",
+                                                    "tuneModel.html",
+                                                    package = "SDMsel"),
+                                        encoding = "UTF-8"), collapse = "\n")
