@@ -119,15 +119,9 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     }
 
     models <- c(models, new_model)
-    if (metric == "auc") {
-      res[i, 4] <- auc(new_model)
-      res[i, 5] <- auc(new_model, test)
-    } else if (metric == "tss") {
-      res[i, 4] <- tss(new_model)
-      res[i, 5] <- tss(new_model, test)
-    } else {
-      res[i, 4] <- aicc(new_model, env, parallel)
-    }
+    res[i, 4] <- get_metric(metric, new_model, env = env, parallel = parallel)
+    if (metric != "aicc")
+      res[i, 5] <- get_metric(metric, new_model, test = test)
 
     pb$tick(1)
   }
@@ -145,7 +139,6 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   res$fc <- object@model@fc
 
   output <- SDMtune(results = res, models = models)
-  gc()
 
   return(output)
 }

@@ -285,29 +285,17 @@ breed <- function(mother, father, bg4test, bg_folds, regs, fcs, bgs,
   if (mutation_chance > runif(1)) {
     mutation <- sample(c("reg", "fc", "bg"), size = 1)
     if (mutation == "reg") {
-      if (length(regs) > 2) {
-        parents_regs <- c(get_model_reg(mother), get_model_reg(father))
-        regs <- setdiff(regs, parents_regs)
-      } else {
-        regs <- setdiff(regs, reg)
-      }
+      parents_regs <- c(get_model_reg(mother), get_model_reg(father))
+      regs <- setdiff(regs, parents_regs)
       reg <- sample(regs, size = 1)
     } else if (mutation == "fc") {
-      if (length(fcs) > 2) {
-        parents_fcs <- c(get_model_fc(mother), get_model_fc(father))
-        fcs <- setdiff(fcs, parents_fcs)
-      } else {
-        fcs <- setdiff(fcs, fc)
-      }
+      parents_fcs <- c(get_model_fc(mother), get_model_fc(father))
+      fcs <- setdiff(fcs, parents_fcs)
       fc <- sample(fcs, size = 1)
     } else {
-      if (length(bgs) > 2) {
-        parents_bgs <- c(nrow(mother@background@data),
-                         nrow(father@background@data))
-        bgs <- setdiff(bgs, parents_bgs)
-      } else {
-        bgs <- setdiff(bgs, nrow(model@background@data))
-      }
+      parents_bgs <- c(nrow(mother@background@data),
+                       nrow(father@background@data))
+      bgs <- setdiff(bgs, parents_bgs)
       n_bg <- sample(bgs, size = 1)
       bg@data <- bg4test@data[bg_folds[1:n_bg], ]
       bg@coords <- bg4test@coords[bg_folds[1:n_bg], ]

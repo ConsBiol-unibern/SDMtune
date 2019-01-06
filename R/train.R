@@ -10,8 +10,7 @@
 #' @param verbose logical if TRUE shows a progress bar if replicates is greater
 #' then 1, default is TRUE.
 #' @param folds numeric. Vector containing the inxes for the k-fold partition of
-#' the training data, if not provided the function uses the \link{k-fold}
-#' function of the \link{dismo} package, default is NULL.
+#' the training data, if not provided the function randomly creates the folds.
 #' @param seed integer. The value used to set the seed in order to have
 #' consistent results. Used if **folds** is not provided, default is NULL.
 #' @param ... Arguments passed to the relative functions, see \link{trainMaxent}
@@ -44,7 +43,7 @@ train <- function(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
     if (is.null(folds)) {
       if (!is.null(seed))
         set.seed(seed)
-      folds <- dismo::kfold(presence@data, replicates)
+      folds <- cut(sample(1:nrow(presence@data)), replicates, labels = FALSE)
     }
     for (i in 1:replicates) {
       train <- presence

@@ -28,9 +28,11 @@ if (!isGeneric("plot"))
 #'
 #' Plot the result of a tune function or of the optimiseModel function.
 #'
-#' @param SDMtune SDMtune object.
+#' @param x SDMtune object.
 #'
 #' @export
+#' @docType methods
+#' @rdname plot-methods
 #'
 #' @examples
 #' \dontrun{plot(my_tuneBg)}
@@ -38,7 +40,7 @@ if (!isGeneric("plot"))
 #' @author Sergio Vignali
 setMethod("plot",
   signature(x = "SDMtune", y = "missing"),
-  definition = function(x, y, ...) {
+  definition = function(x) {
     res <- x@results
     n <- nrow(res)
 

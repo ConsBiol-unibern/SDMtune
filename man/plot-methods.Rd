@@ -5,10 +5,10 @@
 \alias{plot,SDMtune,missing-method}
 \title{Plot}
 \usage{
-\S4method{plot}{SDMtune,missing}(x, y, ...)
+\S4method{plot}{SDMtune,missing}(x)
 }
 \arguments{
-\item{SDMtune}{SDMtune object.}
+\item{x}{SDMtune object.}
 }
 \description{
 Plot the result of a tune function or of the optimiseModel function.

@@ -21,8 +21,7 @@ Default is 1, meaning no cross validation is performed.}
 then 1, default is TRUE.}
 
 \item{folds}{numeric. Vector containing the inxes for the k-fold partition of
-the training data, if not provided the function uses the \link{k-fold}
-function of the \link{dismo} package, default is NULL.}
+the training data, if not provided the function randomly creates the folds.}
 
 \item{seed}{integer. The value used to set the seed in order to have
 consistent results. Used if \strong{folds} is not provided, default is NULL.}
