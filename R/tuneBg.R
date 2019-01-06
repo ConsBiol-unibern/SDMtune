@@ -28,6 +28,7 @@
 #'
 #' @return A \link{SDMtune} object.
 #' @export
+#' @importFrom jsonlite toJSON
 #' @importFrom progress progress_bar
 #'
 #' @examples
@@ -100,7 +101,8 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
                  title = "Tune backgrounds",
                  x_label = "Backgrounds",
                  min = min(bgs),
-                 max = max(bgs))
+                 max = max(bgs),
+                 labels = jsonlite::toJSON(c("")))
 
   folder <- create_chart(template = "tuneTemplate", context = context)
 
@@ -140,7 +142,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
       res[i, 5] <- get_metric(metric, new_model, test = test)
       val_metric[i, ] <- list(bgs[i], res[i, 5])
     }
-    line_footer[i] <- get_model_hyperparams(models[[i]])
+    line_footer[i] <- get_model_hyperparams(new_model)
 
     update_chart(folder, data = list(train = train_metric, val = val_metric,
                                      n = i, lineFooter = line_footer))

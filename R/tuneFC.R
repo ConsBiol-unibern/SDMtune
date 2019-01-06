@@ -24,6 +24,7 @@
 #' @return A \link{SDMtune} object.
 #' @export
 #' @importFrom progress progress_bar
+#' @importFrom jsonlite toJSON
 #'
 #' @examples
 #' \dontrun{
@@ -77,6 +78,20 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   models <- list()
   res <- matrix(nrow = length(fcs), ncol = length(labels))
 
+  # Create chart
+  context = list(tot_models = length(fcs),
+                 metric = get_metric_label(metric),
+                 title = "Tune Feature Combination",
+                 x_label = "Feature Combination",
+                 labels = jsonlite::toJSON(fcs))
+
+  folder <- create_chart(template = "tuneTemplate", context = context)
+
+  # metric used for chart
+  train_metric <- rep(NA_real_, length(fcs))
+  val_metric <- rep(NA_real_, length(fcs))
+  line_footer <- vector("character", length = length(fcs))
+
   for (i in 1:length(fcs)) {
 
     if (fcs[i] == object@model@fc) {
@@ -97,15 +112,17 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
     }
 
     models <- c(models, new_model)
-    if (metric == "auc") {
-      res[i, 4] <- auc(new_model)
-      res[i, 5] <- auc(new_model, test)
-    } else if (metric == "tss") {
-      res[i, 4] <- tss(new_model)
-      res[i, 5] <- tss(new_model, test)
-    } else {
-      res[i, 4] <- aicc(new_model, env, parallel)
+    res[i, 4] <- get_metric(metric, new_model, env = env, parallel = parallel)
+    train_metric[i] <- res[i, 4]
+    if (metric != "aicc") {
+      res[i, 5] <- get_metric(metric, new_model, test = test)
+      val_metric[i] <- res[i, 5]
     }
+    line_footer[i] <- get_model_hyperparams(new_model)
+
+    update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                     n = i, lineFooter = line_footer))
+    Sys.sleep(0.2)
 
     pb$tick(1)
   }

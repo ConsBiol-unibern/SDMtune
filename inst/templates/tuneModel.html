@@ -55,7 +55,6 @@
 			})
 		}
 
-
 		var lineOptions = {
 			responsive: true,
 			title: {
@@ -79,19 +78,15 @@
 					}
 				}],
 				xAxes: [{
-					type: 'linear',
+				  type: 'linear',
 					scaleLabel: {
 						display: true,
-						labelString: '{{ x_label }}'
+						labelString: '{{ x_label }}',
 					},
 					ticks: {
 						suggestedMin: parseInt('{{ min }}'),
             suggestedMax: parseInt('{{ max }}'),
-						callback: function(value) {
-							if (value % 100 === 0) {
-								return value;
-							}
-						}
+            autoSkip: false
 					}
 				}]
 			},
@@ -116,6 +111,11 @@
 				}
 			}
 		};
+
+		if ('{{ x_label }}' === 'Feature Combination') {
+      lineOptions.scales.xAxes[0].type = 'category';
+      lineOptions.scales.xAxes[0].labels = {{{ labels }}};
+    }
 
 		update = function() {
 			var refresh = setInterval(loadData, 500);
