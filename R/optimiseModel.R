@@ -33,10 +33,8 @@
 #'
 #' @return list containing the models of the last population.
 #' @export
-#' @importFrom jsonlite write_json toJSON
 #' @importFrom progress progress_bar
 #' @importFrom stats runif
-#' @importFrom whisker whisker.render
 #'
 #' @examples \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
 #' 1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000),
@@ -88,19 +86,17 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     best_val = NULL
   }
   line_footer = "Starting model"
-  chart_data = list(train = NULL, val = NULL, gen = 0, n = 1,
-                    scatterFooter = "", best_train = best_train,
-                    best_val = best_val, lineFooter = line_footer)
 
   context = list(pop = pop,
                  gen = gen,
                  tot_models = tot_models,
-                 metric = get_metric_label(metric),
-                 data = jsonlite::toJSON(data, dataframe = "columns",
-                                         na = "null"))
+                 metric = get_metric_label(metric))
 
-  folder <- create_chart(template = "optimiseTemplate",
-                         file_name = "chart.html", context = context)
+  folder <- create_chart(template = "optimiseTemplate", context = context,
+                         height = "maximize")
+
+  update_chart(folder, data = list(best_train = best_train, best_val = best_val,
+                                   lineFooter = line_footer, n = 0))
 
   # Create random population
   models <- vector("list", length = pop)
@@ -383,39 +379,4 @@ mutate <- function(model, mother, father, bg4test, bg_folds, regs, fcs, bgs) {
   }
 
   return(new_model)
-}
-
-create_chart <- function(template, file_name, context) {
-  # Create and render template for chart
-  folder <- tempfile("sdmsel")
-  dir.create(folder)
-  render_chart(folder, template, file_name, context)
-
-  path <- file.path(folder, file_name)
-  viewer <- getOption("viewer")
-  if (!is.null(viewer)) {
-    viewer(path, height = "maximize")  # Show chart in viewer pane
-  } else {
-    start_server(folder, paste0("/", file_name))  # Show chart in browser
-  }
-
-  return(folder)
-}
-
-render_chart <- function(folder, template, file_name, context) {
-
-  template <- get(template, envir = .sdmsel)
-  style <- get("optimiseCss", envir = .sdmsel)
-  jQuery <- get("jQuery", envir = .sdmsel)
-  chartJs <- get("chartJs", envir = .sdmsel)
-
-  context = c(context, list(style = style, jQuery = jQuery, chartJs = chartJs))
-
-  html <- whisker::whisker.render(template, data = context)
-  writeLines(html, file.path(folder, file_name))
-  Sys.sleep(0.2)
-}
-
-update_chart <- function(folder, data) {
-  jsonlite::write_json(data, file.path(folder, "metric.json"))
 }

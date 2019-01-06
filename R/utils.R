@@ -113,3 +113,40 @@ start_server <- function(folder, name) {
   url <- paste0("http://127.0.0.1:", port, "/session/", basename(folder), name)
   utils::browseURL(url)
 }
+
+create_chart <- function(template, context, height = 300) {
+  # Create and render template for chart
+  folder <- tempfile("sdmsel")
+  dir.create(folder)
+  render_chart(folder, template, context)
+
+  path <- file.path(folder, "chart.html")
+  viewer <- getOption("viewer")
+  if (!is.null(viewer)) {
+    viewer(path, height = height)  # Show chart in viewer pane
+  } else {
+    start_server(folder, "/chart.html")  # Show chart in browser
+  }
+
+  return(folder)
+}
+
+#' @importFrom whisker whisker.render
+render_chart <- function(folder, template, context) {
+
+  template <- get(template, envir = .sdmsel)
+  style <- get("optimiseCss", envir = .sdmsel)
+  jQuery <- get("jQuery", envir = .sdmsel)
+  chartJs <- get("chartJs", envir = .sdmsel)
+
+  context = c(context, list(style = style, jQuery = jQuery, chartJs = chartJs))
+
+  html <- whisker::whisker.render(template, data = context)
+  writeLines(html, file.path(folder, "chart.html"))
+  Sys.sleep(0.2)
+}
+
+#' @importFrom jsonlite write_json
+update_chart <- function(folder, data) {
+  jsonlite::write_json(data, file.path(folder, "metric.json"))
+}

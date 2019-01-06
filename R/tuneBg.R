@@ -94,6 +94,21 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
 
   folds_bg <- sample(nrow(bg4test@data))
 
+  # Create chart
+  context = list(tot_models = length(bgs),
+                 metric = get_metric_label(metric),
+                 title = "Tune backgrounds",
+                 x_label = "Backgrounds",
+                 min = min(bgs),
+                 max = max(bgs))
+
+  folder <- create_chart(template = "tuneTemplate", context = context)
+
+  # metric used for chart
+  train_metric <- data.frame(x = NA_real_, y = NA_real_)
+  val_metric <- data.frame(x = NA_real_, y = NA_real_)
+  line_footer <- vector("character", length = length(bgs))
+
   for (i in 1:length(bgs)) {
 
     if (bgs[i] == nrow(model@background@data)) {
@@ -120,8 +135,16 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
 
     models <- c(models, new_model)
     res[i, 4] <- get_metric(metric, new_model, env = env, parallel = parallel)
-    if (metric != "aicc")
+    train_metric[i, ] <- list(bgs[i], res[i, 4])
+    if (metric != "aicc") {
       res[i, 5] <- get_metric(metric, new_model, test = test)
+      val_metric[i, ] <- list(bgs[i], res[i, 5])
+    }
+    line_footer[i] <- get_model_hyperparams(models[[i]])
+
+    update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                     n = i, lineFooter = line_footer))
+    Sys.sleep(0.2)
 
     pb$tick(1)
   }

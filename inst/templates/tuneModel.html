@@ -27,7 +27,7 @@
 
 	<script>
 		var totModels = {{ tot_models }};
-		var data = {{{ data }}};
+		var data = {};
 
 		var lineData = {
 			datasets: [{
@@ -59,7 +59,10 @@
 		var lineOptions = {
 			responsive: true,
 			title: {
-				display: false
+				display: true,
+				fontFamily: 'sans-serif',
+				padding: 15,
+				text: '{{ title }}'
 			},
 			legend: {
 				position: 'bottom',
@@ -82,10 +85,10 @@
 						labelString: '{{ x_label }}'
 					},
 					ticks: {
-						beginAtZero: true,
-						max: parseInt('{{ tot_models }}') + 1,
+						suggestedMin: parseInt('{{ min }}'),
+            suggestedMax: parseInt('{{ max }}'),
 						callback: function(value) {
-							if (value % 1 === 0) {
+							if (value % 100 === 0) {
 								return value;
 							}
 						}
@@ -131,7 +134,7 @@
 					}
 					window.chartLine.update();
 
-					if (data.n[0] == totModels + 1) {
+					if (data.n[0] === totModels) {
 						clearInterval(refresh);
 					}
 				})

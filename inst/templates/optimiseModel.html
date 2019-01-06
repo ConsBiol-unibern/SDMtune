@@ -31,7 +31,7 @@
 	<script>
 		var pop = {{ pop }};
 		var totModels = {{ tot_models }};
-		var data = {{{ data }}};
+		var data = {};
 		var scatterData = {
 			datasets: [{
 				label: 'Training',
@@ -210,7 +210,7 @@
 					}
 					window.chartLine.update();
 
-					if (data.n[0] == totModels + 1) {
+					if (data.n[0] === totModels + 1) {
 						clearInterval(refresh);
 					}
 				})
