@@ -55,19 +55,19 @@ setMethod("plot",
 
     if (length(unique(res$fc)) != 1 & length(unique(res$bg)) != 1) {
       #  Result of modelOptimise function
-      x_label <- "Model"
+      x_label <- "model"
       x <- 1:n
     } else if (length(unique(res$fc)) == 1 & length(unique(res$bg)) != 1) {
       #  Result of tuneBg function
-      x_label <- "Backgrounds"
+      x_label <- "backgrounds"
       x <- res[, 1]
     } else if (length(unique(res$fc)) != 1 & length(unique(res$bg)) == 1) {
       #  Result of tuneFC function
-      x_label <- "Feature Combination"
+      x_label <- "feature combination"
       x <- res[, 3]
     } else {
       #  Result of tuneReg function
-      x_label <- "Regularization"
+      x_label <- "regularization multiplier"
       x <- res[, 2]
     }
 

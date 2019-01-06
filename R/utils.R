@@ -42,6 +42,19 @@ get_metric_label <- function(metric) {
   }
 }
 
+get_tune_labels <- function(metric) {
+  if (metric == "auc") {
+    labels <- c("train_AUC", "test_AUC", "diff_AUC")
+  } else if (metric == "tss") {
+    labels <- c("train_TSS", "test_TSS", "diff_TSS")
+  } else {
+    labels <- c("AICc", "delta_AICc")
+  }
+  labels <- c("bg", "reg", "fc", labels)
+
+  return(labels)
+}
+
 get_total_models <- function(pop, gen, remaining) {
   tot <- pop + (gen * remaining)
 

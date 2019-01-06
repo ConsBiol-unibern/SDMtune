@@ -78,14 +78,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     test = TRUE
   }
 
-  if (metric == "auc") {
-    labels <- c("train_AUC", "test_AUC", "diff_AUC")
-  } else if (metric == "tss") {
-    labels <- c("train_TSS", "test_TSS", "diff_TSS")
-  } else {
-    labels <- c("AICc", "delta_AICc")
-  }
-  labels <- c("bg", "reg", "fc", labels)
+  labels <- get_tune_labels(metric)
 
   models <- list()
   res <- matrix(nrow = length(bgs), ncol = length(labels))
@@ -98,8 +91,8 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   # Create chart
   context = list(tot_models = length(bgs),
                  metric = get_metric_label(metric),
-                 title = "Tune backgrounds",
-                 x_label = "Backgrounds",
+                 title = "Tune Backgrounds",
+                 x_label = "backgrounds",
                  min = min(bgs),
                  max = max(bgs),
                  labels = jsonlite::toJSON(c("")))

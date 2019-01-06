@@ -66,14 +66,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
     test = TRUE
   }
 
-  if (metric == "auc") {
-    labels <- c("train_AUC", "test_AUC", "diff_AUC")
-  } else if (metric == "tss") {
-    labels <- c("train_TSS", "test_TSS", "diff_TSS")
-  } else {
-    labels <- c("AICc", "delta_AICc")
-  }
-  labels <- c("bg", "reg", "fc", labels)
+  labels <- get_tune_labels(metric)
 
   models <- list()
   res <- matrix(nrow = length(fcs), ncol = length(labels))
@@ -82,7 +75,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   context = list(tot_models = length(fcs),
                  metric = get_metric_label(metric),
                  title = "Tune Feature Combination",
-                 x_label = "Feature Combination",
+                 x_label = "feature combination",
                  labels = jsonlite::toJSON(fcs))
 
   folder <- create_chart(template = "tuneTemplate", context = context)
