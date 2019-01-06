@@ -1,4 +1,8 @@
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+
 .row {
-  margin-right: 10px;
-  margin-left: 10px;
+  margin: 10px;
 }

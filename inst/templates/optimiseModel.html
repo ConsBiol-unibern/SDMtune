@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script type="application/javascript">{{{ jQuery }}}</script>
 	<script type="application/javascript">{{{ chartJs }}}</script>
-	<title>Scatter Chart</title>
+	<title>Model optimization</title>
 	<style>
 	canvas {
 		-moz-user-select: none;
@@ -19,12 +19,13 @@
 </head>
 
 <body>
-
-	<div class="row">
-		<canvas id="scatter"></canvas>
-	</div>
-	<div class="row">
-		<canvas id="line"></canvas>
+	<div class="content">
+		<div class="row">
+			<canvas id="scatter"></canvas>
+		</div>
+		<div class="row">
+			<canvas id="line"></canvas>
+		</div>
 	</div>
 
 	<script>
@@ -125,7 +126,7 @@
 						return label;
 					},
 					footer: function(tooltipItems, data) {
-						return window.data.scatterFoter[tooltipItems[0].index]
+						return window.data.scatterFooter[tooltipItems[0].index]
 					}
 				}
 			}
@@ -187,7 +188,7 @@
 		};
 
 		update = function() {
-			var refresh = setInterval(loadData, 1000);
+			var refresh = setInterval(loadData, 500);
 			function loadData() {
 				$.ajax({
 					method: "GET",
@@ -217,6 +218,10 @@
 		};
 
 		window.onload = function() {
+			// Set a wider content if page is displayed in the browser
+			if (window.location.href.search("[?&]viewer_pane=") === -1) {
+				document.querySelector('.content').style.maxWidth="600px";
+			}
 			var ctx1 = document.getElementById('scatter').getContext('2d');
 			window.chartScatter = new Chart(ctx1, {
 				type: 'scatter',

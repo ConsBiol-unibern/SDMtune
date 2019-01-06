@@ -424,8 +424,13 @@ create_chart <- function(data, pop, gen, tot_models, metric) {
   dir.create(folder)
   render_chart(folder, data, pop, gen, tot_models, metric)
 
+  path <- file.path(folder, "chart.html")
   viewer <- getOption("viewer")
-  viewer(file.path(folder, "chart.html"), height = "maximize")  # Show chart
+  if (!is.null(viewer)) {
+    viewer(path, height = "maximize")  # Show chart in viewer pane
+  } else {
+    start_server(folder, "/chart.html")  # Show chart in browser
+  }
 
   return(folder)
 }

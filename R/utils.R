@@ -84,3 +84,9 @@ create_optimise_output <- function(models, metric, metrics) {
   output <- SDMtune(results = res, models = models)
   return(output)
 }
+
+start_server <- function(folder, name) {
+  port <- tools::startDynamicHelp(NA)
+  url <- paste0("http://127.0.0.1:", port, "/session/", basename(folder), name)
+  utils::browseURL(url)
+}
