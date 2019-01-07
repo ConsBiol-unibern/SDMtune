@@ -81,7 +81,7 @@ For demonstrating how to use `SDMsel` we download a dataset of [*Vultur gryphus*
 data <- gbif(genus = 'Vultur', species = 'gryphus*', geo = TRUE, removeZeros = TRUE, args = 'year=2015,2017')
 data <- data.frame(x = data$lon, y = data$lat)
 cleaned_data <- data[!duplicated(data), ]  # Remove duplicate rows
-cleaned_data <- cleaned_data[!is.na(cleaned_data$x) | !is.na(cleaned_data$y), ]  # Remove NA values
+cleaned_data <- cleaned_data[complete.cases(cleaned_data), ]  # Remove NA values
 ```
 
 We remove all but one location per raster cell using the function `thinData`:

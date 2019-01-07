@@ -9,18 +9,20 @@ thinData(coords, env)
 \arguments{
 \item{coords}{data.frame or matrix with the coordinates.}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables,
-or a single raster layer.}
+\item{env}{\link{stack} or \link{brick} containing the environmental
+variables, or a single raster layer.}
 }
 \value{
 a data frame with the thinned locations.
 }
 \description{
-Remove all but one location per raster cell. The function selects randomly one
-location if more than one fall within the same raster cell.
+Remove all but one location per raster cell. The function removes NAs and if
+more than one location falls within the same raster cell it selects randomly
+one.
 }
 \details{
-\strong{coords} and \strong{env} must have the same coordinate reference system.
+\strong{coords} and \strong{env} must have the same coordinate reference
+system.
 }
 \examples{
 \dontrun{

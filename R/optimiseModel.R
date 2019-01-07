@@ -33,6 +33,7 @@
 #'
 #' @return list containing the models of the last population.
 #' @export
+#' @importFrom jsonlite toJSON
 #' @importFrom progress progress_bar
 #' @importFrom stats runif
 #'

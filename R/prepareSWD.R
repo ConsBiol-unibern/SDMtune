@@ -4,9 +4,12 @@
 #' the function prepares a data frame in the SWD format (sample with data).
 #'
 #' @param species character. The name of the species.
-#' @param coords data.frame. The coordinates of the presence or background locations.
-#' @param env \link{stack} or \link{brick} containing the environmental variables used to train the model.
-#' @param categoricals vector indicating which of the environmental variable are categoricals, default is NULL.
+#' @param coords data.frame. The coordinates of the presence or background
+#' locations.
+#' @param env \link{stack} or \link{brick} containing the environmental
+#' variables used to train the model.
+#' @param categoricals vector indicating which of the environmental variable are
+#' categoricals, default is NULL.
 #'
 #' @return A SWD object
 #' @export
@@ -20,25 +23,24 @@
 prepareSWD <- function(species, coords, env, categoricals = NULL) {
 
   coords <- as.data.frame(coords)
-  colnames(coords) <- c("LON", "LAT")
 
   message("Extracting predictor information for given locations...")
   data <- as.data.frame(raster::extract(env, coords))
 
-  is_na <- is.na(rowSums(data))
-  if (any(is_na)) {
-    # Remove any occurrence point with NA for at least one variable
-    data <- data[-which(is_na), ]
-    coords <- coords[-which(is_na), ]
-    discarded_locations <- length(is_na[is_na == TRUE])
-    message(paste("Warning:",
-                  discarded_locations,
-                  ifelse(discarded_locations == 1, "location is", "locations are"),
+  # Remove any occurrence point with NA for at least one variable
+  index <- complete.cases(data)
+  discarded_locations <- nrow(data) - sum(index)
+  if (discarded_locations > 0) {
+    data <- data[index, ]
+    coords <- coords[index, ]
+    message(paste("Warning:", discarded_locations,
+                  ifelse(discarded_locations == 1, "location is",
+                         "locations are"),
                   "NA for some environmental variables,",
                   ifelse(discarded_locations == 1, "it", "they"),
-                  "will be discard!")
-            )
+                  "will be discard!"))
   }
+
   colnames(coords) <- c("X", "Y")
   # Set categorical variables as factors
   if (!is.null(categoricals)) {
