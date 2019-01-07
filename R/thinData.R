@@ -14,6 +14,7 @@
 #' @return a data frame with the thinned locations.
 #' @export
 #' @importFrom raster cellFromXY extract
+#' @importFrom stats complete.cases
 #'
 #' @examples \dontrun{
 #' thinData(my_coords, my_env)}

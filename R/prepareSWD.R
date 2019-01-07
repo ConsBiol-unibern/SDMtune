@@ -13,6 +13,7 @@
 #'
 #' @return A SWD object
 #' @export
+#' @importFrom stats complete.cases
 #'
 #' @examples
 #' \dontrun{
