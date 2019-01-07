@@ -29,7 +29,6 @@
 	</div>
 
 	<script>
-		var pop = {{ pop }};
 		var totModels = {{ tot_models }};
 		var data = {};
 		var scatterData = {
@@ -55,6 +54,7 @@
 		}
 
 		var lineData = {
+		    labels: {{{ labels }}},
 			datasets: [{
 				label: 'Training',
 				pointRadius: 4,
@@ -86,7 +86,7 @@
 				display: true,
 				fontFamily: 'sans-serif',
 				padding: 15,
-				text: 'Model optimization - Generation 0'
+				text: 'Model Optimization - Generation 0'
 			},
 			legend: {
 				display: false
@@ -152,19 +152,9 @@
 					}
 				}],
 				xAxes: [{
-					type: 'linear',
 					scaleLabel: {
 						display: true,
-						labelString: 'Iteration'
-					},
-					ticks: {
-						beginAtZero: true,
-						max: parseInt('{{ gen }}') + 1,
-						callback: function(value) {
-							if (value % 1 === 0) {
-								return value;
-							}
-						}
+						labelString: 'generation'
 					}
 				}]
 			},
@@ -181,7 +171,7 @@
 						return label;
 					},
 					title: function(tooltipItems, data) {
-						return window.data.lineFooter[tooltipItems[0].index]
+						return window.data.lineTitle[tooltipItems[0].index]
 					}
 				}
 			}

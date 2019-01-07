@@ -77,26 +77,28 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   bg4test@data <- bg4test@data[vars]
   bg_folds <- sample(nrow(bg4test@data))
 
-  metric_label <- get_metric_label(metric)
-  best_train <- data.frame(x = 0, y = get_metric(metric, model, env = env,
-                                                 parallel = parallel))
+  best_train <- rep(NA_real_, gen + 2)
+  best_val <- rep(NA_real_, gen + 2)
+  best_train[1] <- get_metric(metric, model, env = env, parallel = parallel)
   if (metric != "aicc") {
-    best_val <- data.frame(x = 0, y = get_metric(metric, model, test = test))
+    best_val[1] <- get_metric(metric, model, test = test)
   } else {
     best_val = NULL
   }
-  line_footer = "Starting model"
+  line_title = "Starting model"
+  labels <- jsonlite::toJSON(c("start", as.character(0:gen)))
 
   context = list(pop = pop,
                  gen = gen,
                  tot_models = tot_models,
-                 metric = get_metric_label(metric))
+                 metric = get_metric_label(metric),
+                 labels = labels)
 
   folder <- create_chart(template = "optimiseTemplate", context = context,
-                         height = "maximize")
+                         height = 500)
 
   update_chart(folder, data = list(best_train = best_train, best_val = best_val,
-                                   lineFooter = line_footer, n = 0))
+                                   lineTitle = line_title, n = 0))
 
   # Create random population
   models <- vector("list", length = pop)
@@ -118,7 +120,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                      scatterFooter = scatter_footer,
                                      best_train = best_train,
                                      best_val = best_val,
-                                     lineFooter = line_footer))
+                                     lineTitle = line_title))
     Sys.sleep(0.2)
     pb$tick(1)
   }
@@ -131,16 +133,16 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
     val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
     scatter_footer <- scatter_footer[rank_index]
-    best_train[2, ] <- list(x = 1, y = train_metric[1, 2])
+    best_train[2] <- train_metric[1, 2]
     if (metric != "aicc")
-      best_val[2, ] <- list(x = 1, y = val_metric[1, 2])
-    line_footer <- c(line_footer, "Random generation")
+      best_val[2] <- val_metric[1, 2]
+    line_title <- c(line_title, "Generation 0")
     update_chart(folder, data = list(train = train_metric, val = val_metric,
                                      n = pop, gen = 0,
                                      scatterFooter = scatter_footer,
                                      best_train = best_train,
                                      best_val = best_val,
-                                     lineFooter = line_footer))
+                                     lineTitle = line_title))
     Sys.sleep(0.2)
   } else {
     stop("The models in the random population are all overfitting the validation dataset!")
@@ -163,7 +165,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                      scatterFooter = scatter_footer,
                                      best_train = best_train,
                                      best_val = best_val,
-                                     lineFooter = line_footer))
+                                     lineTitle = line_title))
     Sys.sleep(0.2)
     parents <- models[index_kept]
     new_models <- parents
@@ -191,7 +193,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                        scatterFooter = scatter_footer,
                                        best_train = best_train,
                                        best_val = best_val,
-                                       lineFooter = line_footer))
+                                       lineTitle = line_title))
       Sys.sleep(0.2)
       pb$tick(1)
     }
@@ -204,16 +206,16 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
       scatter_footer <- scatter_footer[rank_index]
       n <- tot_models + 1
-      best_train[i + 2, ] <- list(x = i + 1, y = train_metric[1, 2])
+      best_train[i + 2] <- train_metric[1, 2]
       if (metric != "aicc")
-        best_val[i + 2, ] <- list(x = i + 1, y = val_metric[1, 2])
-      line_footer <- c(line_footer, paste("Generation", i))
+        best_val[i + 2] <- val_metric[1, 2]
+      line_title <- c(line_title, paste("Generation", i))
       update_chart(folder, data = list(train = train_metric, val = val_metric,
                                        n = n, gen = i,
                                        scatterFooter = scatter_footer,
                                        best_train = best_train,
                                        best_val = best_val,
-                                       lineFooter = line_footer))
+                                       lineTitle = line_title))
       Sys.sleep(0.2)
     } else {
       stop(paste("Optimization algorithm interrupted at population", i,

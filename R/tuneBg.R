@@ -57,13 +57,13 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
       stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
 
-  if (!is.null(seed))
-    set.seed(seed)
-
   pb <- progress::progress_bar$new(
     format = "Tune Bg [:bar] :percent in :elapsedfull", total = length(bgs),
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
+
+  if (!is.null(seed))
+    set.seed(seed)
 
   if (class(model) == "SDMmodel") {
     rep <- 1

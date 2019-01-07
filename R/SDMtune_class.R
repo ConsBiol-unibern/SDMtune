@@ -55,18 +55,22 @@ setMethod("plot",
 
     if (length(unique(res$fc)) != 1 & length(unique(res$bg)) != 1) {
       #  Result of modelOptimise function
+      title <- "Model Optimization"
       x_label <- "model"
       x <- 1:n
     } else if (length(unique(res$fc)) == 1 & length(unique(res$bg)) != 1) {
       #  Result of tuneBg function
+      title <- "Tune Backgrounds"
       x_label <- "backgrounds"
       x <- res[, 1]
     } else if (length(unique(res$fc)) != 1 & length(unique(res$bg)) == 1) {
       #  Result of tuneFC function
+      title <- "Tune Feature Combinations"
       x_label <- "feature combination"
       x <- res[, 3]
     } else {
       #  Result of tuneReg function
+      title <- "Tune Regularization"
       x_label <- "regularization multiplier"
       x <- res[, 2]
     }
@@ -82,13 +86,13 @@ setMethod("plot",
     p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
                                  group = "type")) +
       geom_point() +
-      labs(x = x_label, y = metric) +
+      labs(title = title, x = x_label, y = metric) +
       scale_colour_discrete(name = "") +
       theme_minimal() +
-      theme(legend.position = "bottom")
+      theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom")
 
     # Add line if is the rusult of a tune function
-    if (x_label != "Model")
+    if (x_label != "model")
       p <- p + geom_line()
 
     return(p)
