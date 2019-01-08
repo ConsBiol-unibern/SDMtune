@@ -37,14 +37,14 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
   result <- SDMmodel(presence = presence, background = bg)
   folder <- tempfile()
 
-  args <- .makeArgs(reg = reg, fc = fc, iter = iter, extra_args = extra_args)
+  args <- .make_args(reg = reg, fc = fc, iter = iter, extra_args = extra_args)
 
   x <- rbind(presence@data, bg@data)
   p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
   dismo_model <- dismo::maxent(x, p, args = args, path = folder)
 
-  l <- .getLambdas(paste0(folder, "/species.lambdas"), bg)
-  f <- .formulaFromLambdas(l$lambdas)
+  l <- .get_lambdas(paste0(folder, "/species.lambdas"), bg)
+  f <- .formula_from_lambdas(l$lambdas)
 
   model_object <- Maxent(results = dismo_model@results, reg = reg, fc = fc,
                          iter = iter, extra_args = extra_args,
@@ -55,15 +55,14 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
   result@model <- model_object
 
   unlink(folder, recursive = TRUE)
-  gc()
 
   return(result)
 }
 
-.makeArgs <- function(reg, fc, iter, extra_args) {
+.make_args <- function(reg, fc, iter, extra_args) {
 
   args <- c(paste0("betamultiplier=", reg), paste0("maximumiterations=", iter),
-            .getFeatureArgs(fc))
+            .get_feature_args(fc))
 
   args <- c(args, extra_args)
 
@@ -71,11 +70,13 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
 }
 
 
-.getFeatureArgs <- function(fc) {
+.get_feature_args <- function(fc) {
 
   for (letter in strsplit(fc, "")[[1]]) {
     if (!grepl(letter, "lqpht")) {
-      stop(paste0("Feature Class '", letter, "' not allawed, possible Feature Classes are: 'l', 'q', 'p', 'h' and 't'!"))
+      stop(paste0("Feature Class '", letter,
+                  "' not allawed, possible Feature Classes are: ",
+                  "'l', 'q', 'p', 'h' and 't'!"))
     }
   }
 
@@ -95,11 +96,11 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
   return(feature_args)
 }
 
-.getLambdas <- function(lambda_file, bg) {
+.get_lambdas <- function(lambda_file, bg) {
   lambdas <- read.csv(lambda_file, header = FALSE)
   lpn <- lambdas[(nrow(lambdas) - 3), 2]
   dn <- lambdas[(nrow(lambdas) - 2), 2]
-  entropy = lambdas[nrow(lambdas), 2]
+  entropy <- lambdas[nrow(lambdas), 2]
   lambdas <- as.data.frame(lambdas[1:(nrow(lambdas) - 4), ])
   names(lambdas) <- c("feature", "lambda", "min", "max")
   # Get min max values of variables
@@ -114,7 +115,7 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
   return(output)
 }
 
-.formulaFromLambdas <- function(l) {
+.formula_from_lambdas <- function(l) {
   fxs <- vector()
   for (i in 1:nrow(l)) {
     f <- l[i, ]
@@ -127,7 +128,8 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
     # Product
     else if (grepl("\\*", f$feature)) {
       vars <- strsplit(f$feature, "\\*")
-      fx <- paste0(".product(", vars[[1]][1], ", ", vars[[1]][2], ", ", f$min, ", ", f$max, ")")
+      fx <- paste0(".product(", vars[[1]][1], ", ", vars[[1]][2], ", ", f$min,
+                   ", ", f$max, ")")
       fxs <- append(fxs, fx)
     }
     # Hinge
@@ -151,7 +153,8 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
     # Categorical
     else if (grepl("=", f$feature)) {
       var_value <- strsplit(f$feature, "=")
-      fx <- paste0(".categorical(", var_value[[1]][1], ", ", var_value[[1]][2], ")")
+      fx <- paste0(".categorical(", var_value[[1]][1], ", ",
+                   var_value[[1]][2], ")")
       fxs <- append(fxs, fx)
     }
     # Linear
@@ -170,11 +173,11 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
 }
 
 .quadratic <- function(variable, var_min, var_max) {
-  (variable^2 - var_min) / (var_max - var_min)
+  (variable ^ 2 - var_min) / (var_max - var_min)
 }
 
 .product <- function(var1, var2, var_min, var_max) {
-  ((var1 * var2) - var_min) / (var_max - var_min)
+  ( (var1 * var2) - var_min) / (var_max - var_min)
 }
 
 .hinge <- function(variable, var_min, var_max) {

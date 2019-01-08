@@ -178,7 +178,7 @@
 		};
 
 		update = function() {
-			var refresh = setInterval(loadData, 500);
+			var refresh = setInterval(loadData, 1000);
 			function loadData() {
 				$.ajax({
 					method: "GET",
@@ -187,6 +187,7 @@
 				})
 				.done(function (json) {
 					data = JSON.parse(json);
+					console.log('Iteration - ' + data.n[0]);
 					window.chartScatter.data.datasets[0].data = data.train;
 					if ('{{ metric }}' !== 'AICc') {
 						window.chartScatter.data.datasets[1].data = data.val;
@@ -200,8 +201,9 @@
 					}
 					window.chartLine.update();
 
-					if (data.n[0] === totModels + 1) {
+					if (data.n[0] === totModels + 1 && data.stop) {
 						clearInterval(refresh);
+						console.log('Execution finished!');
 					}
 				})
 			};

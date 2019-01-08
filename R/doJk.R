@@ -85,7 +85,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     method <- class(model@models[[1]]@model)
     folds <- model@folds
     model <- model@models[[1]]
-    test = TRUE
+    test <- TRUE
   }
 
   for (i in 1:length(variables)) {
@@ -174,8 +174,6 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
   } else {
     output <- jk_test
   }
-
-  gc()
 
   return(output)
 }

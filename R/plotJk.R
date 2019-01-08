@@ -32,7 +32,7 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
     metric <- "tss"
     y_label <- paste(stringr::str_to_title(type), "TSS")
   } else {
-    metric = "aicc"
+    metric <- "aicc"
     y_label <- "AICc"
   }
 
@@ -75,7 +75,7 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
   df_plot$test <- c(rep("With only", nrow(df_with)),
                     rep("Whitout", nrow(df_without)))
   my_plot <- ggplot(df_plot, aes_(x = ~Variable, y = ~value, fill = ~test)) +
-    geom_bar(stat = 'identity', position = position_dodge()) +
+    geom_bar(stat = "identity", position = position_dodge()) +
     coord_flip() +
     xlab("") +
     ylab(y_label) +

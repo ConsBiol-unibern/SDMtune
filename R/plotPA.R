@@ -22,7 +22,7 @@
 #'
 #' @author Sergio Vignali
 plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
-                   format = 'GTiff', ...) {
+                   format = "GTiff", ...) {
 
   if (class(map) != "RasterLayer")
     stop("Prediction must be a RasterLayer object!")
@@ -32,11 +32,11 @@ plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
   if (!is.null(filename))
     raster::writeRaster(pa, filename, format, ...)
   if (is.null(colors))
-    colors <- c('#67a9cf', '#ef8a62')
+    colors <- c("#67a9cf", "#ef8a62")
   if (hr) {
-    maxpixels = pa@ncols * pa@nrows
+    maxpixels <- pa@ncols * pa@nrows
   } else {
-    maxpixels = 50000
+    maxpixels <- 50000
   }
 
   my_plot <- rasterVis::gplot(pa, maxpixels = maxpixels) +

@@ -29,11 +29,17 @@ setMethod("show",
           definition = function(object) {
             cat("Class                :", class(object), "\n")
             cat("Model                :", class(object@models[[1]]@model), "\n")
-            cat("Species              :", object@models[[1]]@presence@species, "\n")
+            cat("Species              :", object@models[[1]]@presence@species,
+                "\n")
             cat("Presence data        :", nrow(object@presence@data), "\n")
             cat("Background data      :", nrow(object@background@data), "\n")
+            cat("Reg                  :", object@models[[1]]@model@reg, "\n")
+            cat("FC                   :", object@models[[1]]@model@fc, "\n")
             cat("Replicates           :", length(object@models), "\n")
-            cat("Continuous variables :", names(Filter(is.numeric, object@models[[1]]@presence@data)), "\n")
-            cat("Categorical variables:", names(Filter(is.factor, object@models[[1]]@presence@data)))
+            cat("Continuous variables :",
+                names(Filter(is.numeric, object@models[[1]]@presence@data)),
+                "\n")
+            cat("Categorical variables:",
+                names(Filter(is.factor, object@models[[1]]@presence@data)))
           }
 )

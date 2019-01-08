@@ -65,7 +65,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   kept_bad <- round(pop * keep_random)
   kept <- kept_good + kept_bad
   remaining <- pop - kept
-  tot_models <- get_total_models(pop, gen, remaining)
+  tot_models <- .get_total_models(pop, gen, remaining)
   pb <- progress::progress_bar$new(
     format = "Optimise Model [:bar] :percent in :elapsedfull",
     total = (tot_models + 1), clear = FALSE, width = 60, show_after = 0)
@@ -80,26 +80,26 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
 
   best_train <- rep(NA_real_, gen + 2)
   best_val <- rep(NA_real_, gen + 2)
-  best_train[1] <- get_metric(metric, model, env = env, parallel = parallel)
+  best_train[1] <- .get_metric(metric, model, env = env, parallel = parallel)
   if (metric != "aicc") {
-    best_val[1] <- get_metric(metric, model, test = test)
+    best_val[1] <- .get_metric(metric, model, test = test)
   } else {
-    best_val = NULL
+    best_val <- NULL
   }
-  line_title = "Starting model"
+  line_title <- "Starting model"
   labels <- jsonlite::toJSON(c("start", as.character(0:gen)))
 
-  context = list(pop = pop,
-                 gen = gen,
-                 tot_models = tot_models,
-                 metric = get_metric_label(metric),
-                 labels = labels)
+  context <- list(pop = pop,
+                  gen = gen,
+                  tot_models = tot_models,
+                  metric = .get_metric_label(metric),
+                  labels = labels)
 
-  folder <- create_chart(template = "optimiseTemplate", context = context,
+  folder <- .create_chart(template = "optimiseTemplate", context = context,
                          height = 500)
 
-  update_chart(folder, data = list(best_train = best_train, best_val = best_val,
-                                   lineTitle = line_title, n = 0))
+  .update_chart(folder, data = list(best_train = best_train, best_val = best_val,
+                                    lineTitle = line_title, n = 0))
 
   # Create random population
   models <- vector("list", length = pop)
@@ -108,26 +108,26 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   scatter_footer <- vector("character", length = pop)
 
   for (i in 1:pop) {
-    models[[i]] <- create_random_model(model, bg4test = bg4test,
-                                       bg_folds = bg_folds, regs = regs,
-                                       fcs = fcs, bgs = bgs)
-    train_metric[i, ] <- list(i, get_metric(metric, models[[i]], env = env,
-                                            parallel = parallel))
+    models[[i]] <- .create_random_model(model, bg4test = bg4test,
+                                        bg_folds = bg_folds, regs = regs,
+                                        fcs = fcs, bgs = bgs)
+    train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env,
+                                             parallel = parallel))
     if (metric != "aicc")
-      val_metric[i, ] <- list(i, get_metric(metric, models[[i]], test))
-    scatter_footer[i] <- get_model_hyperparams(models[[i]])
-    update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = i, gen = 0,
-                                     scatterFooter = scatter_footer,
-                                     best_train = best_train,
-                                     best_val = best_val,
-                                     lineTitle = line_title))
+      val_metric[i, ] <- list(i, .get_metric(metric, models[[i]], test))
+    scatter_footer[i] <- .get_model_hyperparams(models[[i]])
+    .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                      n = i, gen = 0,
+                                      scatterFooter = scatter_footer,
+                                      best_train = best_train,
+                                      best_val = best_val,
+                                      lineTitle = line_title))
     Sys.sleep(0.2)
     pb$tick(1)
   }
 
   metrics <- list(train_metric$y, val_metric$y)
-  rank_index <- get_rank_index(metric, metrics)
+  rank_index <- .get_rank_index(metric, metrics)
 
   if (!is.logical(rank_index)) {
     models <- models[rank_index]
@@ -138,19 +138,20 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     if (metric != "aicc")
       best_val[2] <- val_metric[1, 2]
     line_title <- c(line_title, "Generation 0")
-    update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = pop, gen = 0,
-                                     scatterFooter = scatter_footer,
-                                     best_train = best_train,
-                                     best_val = best_val,
-                                     lineTitle = line_title))
+    .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                      n = pop, gen = 0,
+                                      scatterFooter = scatter_footer,
+                                      best_train = best_train,
+                                      best_val = best_val,
+                                      lineTitle = line_title))
     Sys.sleep(0.2)
   } else {
-    stop("The models in the random population are all overfitting the validation dataset!")
+    stop(paste("Optimization algorithm interrupted at generation", 0,
+               "because it starts to overfit validation dataset!"))
   }
 
   for (i in 1:gen) {
-    index_kept <- c(1:kept_good, sample((kept + 1):pop,
+    index_kept <- c(1:kept_good, sample( (kept + 1):pop,
                                         kept_bad))
     train_metric <- train_metric[index_kept, ]
     train_metric$x <- 1:kept
@@ -161,12 +162,12 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     scatter_footer <- scatter_footer[index_kept]
 
     n <- pop + (remaining * (i - 1))
-    update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = n, gen = i,
-                                     scatterFooter = scatter_footer,
-                                     best_train = best_train,
-                                     best_val = best_val,
-                                     lineTitle = line_title))
+    .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                      n = n, gen = i,
+                                      scatterFooter = scatter_footer,
+                                      best_train = best_train,
+                                      best_val = best_val,
+                                      lineTitle = line_title))
     Sys.sleep(0.2)
     parents <- models[index_kept]
     new_models <- parents
@@ -176,30 +177,29 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       couple <- sample(parents, size = 2)
       mother <- couple[[1]]
       father <- couple[[2]]
-      child <- breed(mother, father, bg4test, bg_folds, regs, fcs, bgs,
-                     mutation_chance)
-      train_metric[kept + j, ] <- list(kept + j, get_metric(metric, child,
-                                                            env = env,
-                                                            parallel = parallel)
-                                       )
+      child <- .breed(mother, father, bg4test, bg_folds, regs, fcs, bgs,
+                      mutation_chance)
+      train_metric[kept + j, ] <- list(kept + j,
+                                       .get_metric(metric, child, env = env,
+                                                   parallel = parallel))
       if (metric != "aicc")
-        val_metric[kept + j, ] <- list(kept + j, get_metric(metric, child,
-                                                            test))
-      scatter_footer[kept + j] <- get_model_hyperparams(child)
+        val_metric[kept + j, ] <- list(kept + j, .get_metric(metric, child,
+                                                             test))
+      scatter_footer[kept + j] <- .get_model_hyperparams(child)
 
       new_models <- c(new_models, child)
       n <- pop + (remaining * (i - 1)) + j
-      update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                       n = n, gen = i,
-                                       scatterFooter = scatter_footer,
-                                       best_train = best_train,
-                                       best_val = best_val,
-                                       lineTitle = line_title))
+      .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                        n = n, gen = i,
+                                        scatterFooter = scatter_footer,
+                                        best_train = best_train,
+                                        best_val = best_val,
+                                        lineTitle = line_title))
       Sys.sleep(0.2)
       pb$tick(1)
     }
     metrics <- list(train_metric$y, val_metric$y)
-    rank_index <- get_rank_index(metric, metrics)
+    rank_index <- .get_rank_index(metric, metrics)
 
     if (!is.logical(rank_index)) {
       models <- new_models[rank_index]
@@ -211,25 +211,25 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       if (metric != "aicc")
         best_val[i + 2] <- val_metric[1, 2]
       line_title <- c(line_title, paste("Generation", i))
-      update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                       n = n, gen = i,
-                                       scatterFooter = scatter_footer,
-                                       best_train = best_train,
-                                       best_val = best_val,
-                                       lineTitle = line_title))
+      .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                        n = n, gen = i,
+                                        scatterFooter = scatter_footer,
+                                        best_train = best_train,
+                                        best_val = best_val,
+                                        lineTitle = line_title))
       Sys.sleep(0.2)
     } else {
-      stop(paste("Optimization algorithm interrupted at population", i,
+      stop(paste("Optimization algorithm interrupted at generation", i,
                  "because it starts to overfit validation dataset!"))
     }
   }
   metrics <- list(train_metric$y, val_metric$y)
-  output <- create_optimise_output(models, metric, metrics)
+  output <- .create_optimise_output(models, metric, metrics)
   pb$tick(1)
   return(output)
 }
 
-create_random_model <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
+.create_random_model <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
 
   if (class(model) == "SDMmodel") {
     rep <- 1
@@ -265,7 +265,7 @@ create_random_model <- function(model, bg4test, bg_folds, regs, fcs, bgs) {
   return(new_model)
 }
 
-breed <- function(mother, father, bg4test, bg_folds, regs, fcs, bgs,
+.breed <- function(mother, father, bg4test, bg_folds, regs, fcs, bgs,
                   mutation_chance) {
 
   if (class(mother) == "SDMmodel") {
@@ -290,11 +290,11 @@ breed <- function(mother, father, bg4test, bg_folds, regs, fcs, bgs,
   if (mutation_chance > runif(1)) {
     mutation <- sample(c("reg", "fc", "bg"), size = 1)
     if (mutation == "reg") {
-      parents_regs <- c(get_model_reg(mother), get_model_reg(father))
+      parents_regs <- c(.get_model_reg(mother), .get_model_reg(father))
       regs <- setdiff(regs, parents_regs)
       reg <- sample(regs, size = 1)
     } else if (mutation == "fc") {
-      parents_fcs <- c(get_model_fc(mother), get_model_fc(father))
+      parents_fcs <- c(.get_model_fc(mother), .get_model_fc(father))
       fcs <- setdiff(fcs, parents_fcs)
       fc <- sample(fcs, size = 1)
     } else {
@@ -315,70 +315,6 @@ breed <- function(mother, father, bg4test, bg_folds, regs, fcs, bgs,
   } else {
     new_model <- train(method = method, presence = object@presence, bg = bg,
                        reg = reg, fc = fc, replicates = rep, verbose = FALSE)
-  }
-
-  return(new_model)
-}
-
-mutate <- function(model, mother, father, bg4test, bg_folds, regs, fcs, bgs) {
-
-  mutation <- sample(c("reg", "fc", "bg"), size = 1)
-
-  if (class(model) == "SDMmodel") {
-    rep <- 1
-    method <- class(model@model)
-    folds <- NULL
-    object <- model
-    reg <- model@model@reg
-    fc <- model@model@fc
-  } else {
-    rep <- length(model@models)
-    method <- class(model@models[[1]]@model)
-    folds <- model@folds
-    object <- model@models[[1]]
-    reg <- model@models[[1]]@model@reg
-    fc <- model@models[[1]]@model@fc
-  }
-  bg <- model@background
-
-  if (mutation == "reg") {
-    if (length(regs) > 2) {
-      parents_regs <- c(get_model_reg(mother), get_model_reg(father))
-      regs <- setdiff(regs, parents_regs)
-    } else {
-      regs <- setdiff(regs, reg)
-    }
-    reg <- sample(regs, size = 1)
-  } else if (mutation == "fc") {
-    if (length(fcs) > 2) {
-      parents_fcs <- c(get_model_fc(mother), get_model_fc(father))
-      fcs <- setdiff(fcs, parents_fcs)
-    } else {
-      fcs <- setdiff(fcs, fc)
-    }
-    fc <- sample(fcs, size = 1)
-  } else {
-    if (length(bgs) > 2) {
-      parents_bgs <- c(nrow(mother@background@data),
-                       nrow(father@background@data))
-      bgs <- setdiff(bgs, parents_bgs)
-    } else {
-      bgs <- setdiff(bgs, nrow(model@background@data))
-    }
-    n_bg <- sample(bgs, size = 1)
-    bg@data <- bg4test@data[bg_folds[1:n_bg], ]
-    bg@coords <- bg4test@coords[bg_folds[1:n_bg], ]
-  }
-
-  if (method == "Maxent") {
-    new_model <- train(method = method, presence = model@presence, bg = bg,
-                       reg = reg, fc = fc, replicates = rep, verbose = FALSE,
-                       folds = folds, iter = object@model@iter,
-                       extra_args = object@model@extra_args)
-  } else {
-    new_model <- train(method = method, presence = model@presence, bg = bg,
-                       reg = reg, fc = fc, replicates = rep, verbose = FALSE,
-                       folds = folds)
   }
 
   return(new_model)

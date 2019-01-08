@@ -41,7 +41,7 @@ modelReport <- function(model, type, folder, test = NULL,
     continue <- 1
   }
   if (continue == 1) {
-    template = system.file("templates", "modelReport.Rmd", package = "SDMsel")
+    template <- system.file("templates", "modelReport.Rmd", package = "SDMsel")
 
     dir.create(paste0(folder, "/plots"), recursive = TRUE, showWarnings = FALSE)
     folder <- paste0(getwd(), "/", folder)
@@ -64,9 +64,7 @@ modelReport <- function(model, type, folder, test = NULL,
     model@html <- html
     browseURL(html)
 
-    gc()
   }
 
   return(invisible(model))
 }
-

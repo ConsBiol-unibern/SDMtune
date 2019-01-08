@@ -27,7 +27,7 @@
 #' @author Sergio Vignali
 train <- function(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
                   verbose = TRUE, folds = NULL, seed = NULL, ...) {
-  method = match.arg(method)
+  method <- match.arg(method)
   f <- paste0("train", method)
 
   if (replicates == 1) {

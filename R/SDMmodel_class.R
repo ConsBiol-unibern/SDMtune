@@ -42,8 +42,12 @@ setMethod("show",
     cat("Species              :", object@presence@species, "\n")
     cat("Presence data        :", nrow(object@presence@data), "\n")
     cat("Background data      :", nrow(object@background@data), "\n")
-    cat("Continuous variables :", names(Filter(is.numeric, object@presence@data)), "\n")
-    cat("Categorical variables:", names(Filter(is.factor, object@presence@data)))
+    cat("Reg                  :", object@model@reg, "\n")
+    cat("FC                   :", object@model@fc, "\n")
+    cat("Continuous variables :", names(Filter(is.numeric,
+                                               object@presence@data)), "\n")
+    cat("Categorical variables:", names(Filter(is.factor,
+                                               object@presence@data)))
 
     if (!identical(object@html, character(0)))
       browseURL(object@html)

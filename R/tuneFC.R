@@ -63,22 +63,22 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
     method <- class(model@models[[1]]@model)
     folds <- model@folds
     object <- model@models[[1]]
-    test = TRUE
+    test <- TRUE
   }
 
-  labels <- get_tune_labels(metric)
+  labels <- .get_tune_labels(metric)
 
   models <- list()
   res <- matrix(nrow = length(fcs), ncol = length(labels))
 
   # Create chart
-  context = list(tot_models = length(fcs),
-                 metric = get_metric_label(metric),
-                 title = "Tune Feature Combinations",
-                 x_label = "feature combination",
-                 labels = jsonlite::toJSON(fcs))
+  context <- list(tot_models = length(fcs),
+                  metric = .get_metric_label(metric),
+                  title = "Tune Feature Combinations",
+                  x_label = "feature combination",
+                  labels = jsonlite::toJSON(fcs))
 
-  folder <- create_chart(template = "tuneTemplate", context = context)
+  folder <- .create_chart(template = "tuneTemplate", context = context)
 
   # metric used for chart
   train_metric <- rep(NA_real_, length(fcs))
@@ -105,16 +105,16 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
     }
 
     models <- c(models, new_model)
-    res[i, 4] <- get_metric(metric, new_model, env = env, parallel = parallel)
+    res[i, 4] <- .get_metric(metric, new_model, env = env, parallel = parallel)
     train_metric[i] <- res[i, 4]
     if (metric != "aicc") {
-      res[i, 5] <- get_metric(metric, new_model, test = test)
+      res[i, 5] <- .get_metric(metric, new_model, test = test)
       val_metric[i] <- res[i, 5]
     }
-    line_footer[i] <- get_model_hyperparams(new_model)
+    line_footer[i] <- .get_model_hyperparams(new_model)
 
-    update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = i, lineFooter = line_footer))
+    .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                      n = i, lineFooter = line_footer))
     Sys.sleep(0.2)
 
     pb$tick(1)
@@ -133,7 +133,6 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   res$fc <- fcs
 
   output <- SDMtune(results = res, models = models)
-  gc()
 
   return(output)
 }

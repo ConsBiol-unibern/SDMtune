@@ -26,7 +26,7 @@
 #' @author Sergio Vignali
 plotCor <- function(bg, method = "spearman", cor_th = NULL) {
 
-  if (class(bg) != 'SWD') stop("Input must be a SWD object!")
+  if (class(bg) != "SWD") stop("Input must be a SWD object!")
 
   df <- bg@data
 
@@ -50,9 +50,11 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
     scale_fill_gradient2(low = "blue", high = "red", mid = "white",
                          midpoint = 0, limit = c(-1, 1), space = "Lab",
                          name = paste0(toupper(substring(method, 1, 1)),
-                                       substring(method, 2), "'s\ncoefficient")) +
+                                       substring(method, 2),
+                                       "'s\ncoefficient")) +
     theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1)) +
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12,
+                                     hjust = 1)) +
     theme(axis.text.y = element_text(size = 12)) +
     coord_fixed() +
     theme(
@@ -65,11 +67,13 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
 
   if (is.null(cor_th)) {
     heat_map <- heat_map +
-      geom_text(data = cor_matrix, aes_(~Var2, ~Var1, label = round(cor_matrix$value, 2)),
+      geom_text(data = cor_matrix, aes_(~Var2, ~Var1,
+                                        label = round(cor_matrix$value, 2)),
                 color = "black", size = 3.5)
   } else {
     heat_map <- heat_map +
-      geom_text(data = highly_correlated, aes_(~Var2, ~Var1, label = round(highly_correlated$value, 2)),
+      geom_text(data = highly_correlated,
+                aes_(~Var2, ~Var1, label = round(highly_correlated$value, 2)),
                 color = "black", size = 3.5)
   }
 

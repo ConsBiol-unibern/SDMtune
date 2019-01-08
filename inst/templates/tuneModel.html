@@ -118,7 +118,7 @@
     }
 
 		update = function() {
-			var refresh = setInterval(loadData, 500);
+			var refresh = setInterval(loadData, 2000);
 			function loadData() {
 				$.ajax({
 					method: "GET",
@@ -127,7 +127,7 @@
 				})
 				.done(function (json) {
 					data = JSON.parse(json);
-
+					console.log('Iteration - ' + data.n[0]);
 					window.chartLine.data.datasets[0].data = data.train;
 					if ('{{ metric }}' !== 'AICc') {
 						window.chartLine.data.datasets[1].data = data.val;
@@ -136,6 +136,7 @@
 
 					if (data.n[0] === totModels) {
 						clearInterval(refresh);
+						console.log('Execution finished!');
 					}
 				})
 			};

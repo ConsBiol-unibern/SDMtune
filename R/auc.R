@@ -22,18 +22,18 @@
 auc <- function(model, test = NULL, bg = NULL) {
 
   if (class(model) == "SDMmodel") {
-    auc <- compute_auc(model, test, bg)
+    auc <- .compute_auc(model, test, bg)
   } else {
     aucs <- c()
     for (i in 1:length(model@models)) {
       if (is.null(test)) {
         data <- model@presence
-        data@data <- model@presence@data[model@folds != i,  , drop = FALSE]
+        data@data <- model@presence@data[model@folds != i, , drop = FALSE]
       } else {
         data <- model@presence
-        data@data <- model@presence@data[model@folds == i,  , drop = FALSE]
+        data@data <- model@presence@data[model@folds == i, , drop = FALSE]
       }
-      aucs <- c(aucs, compute_auc(model@models[[i]], data, bg))
+      aucs <- c(aucs, .compute_auc(model@models[[i]], data, bg))
     }
     auc <- mean(aucs)
   }
@@ -41,7 +41,7 @@ auc <- function(model, test = NULL, bg = NULL) {
   return(round(auc, 4))
 }
 
-compute_auc <- function(model, test, bg) {
+.compute_auc <- function(model, test, bg) {
 
   if (class(model@model) == "Maxent") {
     type <- "raw"

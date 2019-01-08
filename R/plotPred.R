@@ -26,9 +26,9 @@ plotPred <- function(map, lt = "", colorramp = NULL, hr = FALSE) {
     colorramp <- c("blue", "cyan", "green", "yellow", "red")
 
   if (hr) {
-    maxpixels = map@ncols * map@nrows
+    maxpixels <- map@ncols * map@nrows
   } else {
-    maxpixels = 50000
+    maxpixels <- 50000
   }
 
   my_plot <- rasterVis::gplot(map, maxpixels = maxpixels) +

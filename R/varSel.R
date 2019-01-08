@@ -69,7 +69,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     model_method <- class(model@models[[1]]@model)
     folds <- model@folds
     object <- model@models[[1]]
-    test = TRUE
+    test <- TRUE
   }
 
   cor_vars <- corVar(bg4cor, method = method, cor_th = cor_th)

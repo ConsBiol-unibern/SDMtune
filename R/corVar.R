@@ -28,7 +28,7 @@ corVar <- function(bg, method = "spearman", cor_th = NULL) {
   cor_matrix <- cor(df, method = method)
 
   cor_matrix[lower.tri(cor_matrix, diag = TRUE)] <- NA
-  if(!is.null(cor_th))
+  if (!is.null(cor_th))
     cor_matrix[abs(cor_matrix) < cor_th] <- NA
   df <- reshape2::melt(as.matrix(cor_matrix), na.rm = TRUE)
   df <- df[order(-abs(df$value)), ]

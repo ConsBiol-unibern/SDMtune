@@ -1,4 +1,4 @@
-get_model_reg <- function(model) {
+.get_model_reg <- function(model) {
   if (class(model) == "SDMmodel") {
     return(model@model@reg)
   } else {
@@ -6,7 +6,7 @@ get_model_reg <- function(model) {
   }
 }
 
-get_model_fc <- function(model) {
+.get_model_fc <- function(model) {
   if (class(model) == "SDMmodel") {
     return(model@model@fc)
   } else {
@@ -14,14 +14,14 @@ get_model_fc <- function(model) {
   }
 }
 
-get_model_hyperparams <- function(model) {
+.get_model_hyperparams <- function(model) {
   if (class(model) == "SDMmodelCV")
     model <- model@models[[1]]
   return(paste("Reg:", model@model@reg, "FC:", model@model@fc,
                "#Bg:", nrow(model@background@data)))
 }
 
-get_metric <- function(metric, model, test = NULL, env = NULL,
+.get_metric <- function(metric, model, test = NULL, env = NULL,
                        parallel = FALSE) {
   if (metric == "auc") {
     return(auc(model, test))
@@ -32,7 +32,7 @@ get_metric <- function(metric, model, test = NULL, env = NULL,
   }
 }
 
-get_metric_label <- function(metric) {
+.get_metric_label <- function(metric) {
   if (metric == "auc") {
     return("AUC")
   } else if (metric == "tss") {
@@ -42,7 +42,7 @@ get_metric_label <- function(metric) {
   }
 }
 
-get_tune_labels <- function(metric) {
+.get_tune_labels <- function(metric) {
   if (metric == "auc") {
     labels <- c("train_AUC", "test_AUC", "diff_AUC")
   } else if (metric == "tss") {
@@ -55,13 +55,13 @@ get_tune_labels <- function(metric) {
   return(labels)
 }
 
-get_total_models <- function(pop, gen, remaining) {
+.get_total_models <- function(pop, gen, remaining) {
   tot <- pop + (gen * remaining)
 
   return(tot)
 }
 
-get_rank_index <- function(metric, metrics) {
+.get_rank_index <- function(metric, metrics) {
   if (metric == "aicc") {
     # The best model is the one with the lowest AICc
     index <- order(metrics[[1]])
@@ -87,7 +87,7 @@ get_rank_index <- function(metric, metrics) {
   return(index)
 }
 
-create_optimise_output <- function(models, metric, metrics) {
+.create_optimise_output <- function(models, metric, metrics) {
   if (metric == "auc") {
     labels <- c("train_AUC", "val_AUC", "diff_AUC")
   } else if (metric == "tss") {
@@ -102,8 +102,8 @@ create_optimise_output <- function(models, metric, metrics) {
 
   for (i in 1:length(models)) {
     res[i, 1] <- nrow(models[[i]]@background@data)
-    res[i, 2] <- get_model_reg(models[[i]])
-    fcs[i] <- get_model_fc(models[[i]])
+    res[i, 2] <- .get_model_reg(models[[i]])
+    fcs[i] <- .get_model_fc(models[[i]])
     res[i, 4] <- metrics[[1]][i]
     if (metric != "aicc")
       res[i, 5] <- metrics[[2]][i]
@@ -121,38 +121,38 @@ create_optimise_output <- function(models, metric, metrics) {
   return(output)
 }
 
-start_server <- function(folder, name) {
+.start_server <- function(folder, name) {
   port <- tools::startDynamicHelp(NA)
   url <- paste0("http://127.0.0.1:", port, "/session/", basename(folder), name)
   utils::browseURL(url)
 }
 
-create_chart <- function(template, context, height = 300) {
+.create_chart <- function(template, context, height = 300) {
   # Create and render template for chart
   folder <- tempfile("sdmsel")
   dir.create(folder)
-  render_chart(folder, template, context)
+  .render_chart(folder, template, context)
 
   path <- file.path(folder, "chart.html")
   viewer <- getOption("viewer")
   if (!is.null(viewer)) {
     viewer(path, height = height)  # Show chart in viewer pane
   } else {
-    start_server(folder, "/chart.html")  # Show chart in browser
+    .start_server(folder, "/chart.html")  # Show chart in browser
   }
 
   return(folder)
 }
 
 #' @importFrom whisker whisker.render
-render_chart <- function(folder, template, context) {
+.render_chart <- function(folder, template, context) {
 
   template <- get(template, envir = .sdmsel)
   style <- get("optimiseCss", envir = .sdmsel)
   jQuery <- get("jQuery", envir = .sdmsel)
   chartJs <- get("chartJs", envir = .sdmsel)
 
-  context = c(context, list(style = style, jQuery = jQuery, chartJs = chartJs))
+  context <- c(context, list(style = style, jQuery = jQuery, chartJs = chartJs))
 
   html <- whisker::whisker.render(template, data = context)
   writeLines(html, file.path(folder, "chart.html"))
@@ -160,6 +160,6 @@ render_chart <- function(folder, template, context) {
 }
 
 #' @importFrom jsonlite write_json
-update_chart <- function(folder, data) {
+.update_chart <- function(folder, data) {
   jsonlite::write_json(data, file.path(folder, "metric.json"))
 }

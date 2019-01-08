@@ -78,7 +78,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
                                clamp, type, categ)
     colnames(plot_data) <- c("x", "y_1")
     for (i in 2:nf)
-      plot_data[paste0('y_', i)] <- get_plot_data(model@models[[i]], train, bg,
+      plot_data[paste0("y_", i)] <- get_plot_data(model@models[[i]], train, bg,
                                                   var, cont_vars, cat_vars,
                                                   n_rows, train_rug, fun,
                                                   marginal, clamp, type)$y
@@ -115,8 +115,6 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
       geom_rug(data = bg_rug, inherit.aes = FALSE, aes_string("x"),
                sides = "b", color = "#4C4C4C")
   }
-
-  gc()
 
   return(my_plot)
 }

@@ -75,10 +75,10 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     method <- class(model@models[[1]]@model)
     folds <- model@folds
     object <- model@models[[1]]
-    test = TRUE
+    test <- TRUE
   }
 
-  labels <- get_tune_labels(metric)
+  labels <- .get_tune_labels(metric)
 
   models <- list()
   res <- matrix(nrow = length(bgs), ncol = length(labels))
@@ -89,15 +89,15 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   folds_bg <- sample(nrow(bg4test@data))
 
   # Create chart
-  context = list(tot_models = length(bgs),
-                 metric = get_metric_label(metric),
-                 title = "Tune Backgrounds",
-                 x_label = "backgrounds",
-                 min = min(bgs),
-                 max = max(bgs),
-                 labels = jsonlite::toJSON(c("")))
+  context <- list(tot_models = length(bgs),
+                  metric = .get_metric_label(metric),
+                  title = "Tune Backgrounds",
+                  x_label = "backgrounds",
+                  min = min(bgs),
+                  max = max(bgs),
+                  labels = jsonlite::toJSON(c("")))
 
-  folder <- create_chart(template = "tuneTemplate", context = context)
+  folder <- .create_chart(template = "tuneTemplate", context = context)
 
   # metric used for chart
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
@@ -129,16 +129,16 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
     }
 
     models <- c(models, new_model)
-    res[i, 4] <- get_metric(metric, new_model, env = env, parallel = parallel)
+    res[i, 4] <- .get_metric(metric, new_model, env = env, parallel = parallel)
     train_metric[i, ] <- list(bgs[i], res[i, 4])
     if (metric != "aicc") {
-      res[i, 5] <- get_metric(metric, new_model, test = test)
+      res[i, 5] <- .get_metric(metric, new_model, test = test)
       val_metric[i, ] <- list(bgs[i], res[i, 5])
     }
-    line_footer[i] <- get_model_hyperparams(new_model)
+    line_footer[i] <- .get_model_hyperparams(new_model)
 
-    update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                     n = i, lineFooter = line_footer))
+    .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                      n = i, lineFooter = line_footer))
     Sys.sleep(0.2)
 
     pb$tick(1)

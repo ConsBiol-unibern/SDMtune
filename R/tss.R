@@ -23,7 +23,7 @@
 tss <- function(model, test = NULL) {
 
   if (class(model) == "SDMmodel") {
-    tss <- max(compute_tss(model, test))
+    tss <- max(.compute_tss(model, test))
   } else {
     tsss <- c()
     for (i in 1:length(model@models)) {
@@ -34,7 +34,7 @@ tss <- function(model, test = NULL) {
         data <- model@presence
         data@data <- model@presence@data[model@folds == i,  , drop = FALSE]
       }
-      tsss <- c(tsss, max(compute_tss(model@models[[i]], data)))
+      tsss <- c(tsss, max(.compute_tss(model@models[[i]], data)))
     }
     tss <- mean(tsss)
   }
@@ -42,7 +42,7 @@ tss <- function(model, test = NULL) {
   return(round(tss, 4))
 }
 
-compute_tss <- function(model, test) {
+.compute_tss <- function(model, test) {
 
   cm <- confMatrix(model, test = test, type = "logistic")
   tpr <- cm$tp / (cm$tp + cm$fn)

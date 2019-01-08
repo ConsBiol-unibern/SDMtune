@@ -42,7 +42,7 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
   if (use_jk == TRUE & metric == "aicc" & is.null(env))
     stop("You must provide the env argument if you want to use AICc metric!")
 
-  variables_reduced = FALSE
+  variables_reduced <- FALSE
 
   while (variables_reduced == FALSE) {
 
@@ -90,8 +90,6 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
       variables_reduced <- TRUE
     }
   }
-
-  gc()
 
   return(model)
 }

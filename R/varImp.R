@@ -28,7 +28,7 @@ varImp <- function(model, permut = 10) {
   set.seed(25)
   vars <- colnames(model@presence@data)
   model_auc <- auc(model)
-  permutedAUC <- matrix(nrow = permut, ncol = length(vars))
+  permuted_auc <- matrix(nrow = permut, ncol = length(vars))
 
   n_pres <- nrow(model@presence@data)
 
@@ -48,23 +48,23 @@ varImp <- function(model, permut = 10) {
       presence_copy@data[, vars[j]] <- data[1:n_pres]
       bg_copy <- model@background
       bg_copy@data[, vars[j]] <- data[(n_pres + 1):length(data)]
-      permutedAUC[i, j] <- auc(model, presence_copy, bg = bg_copy)
+      permuted_auc[i, j] <- auc(model, presence_copy, bg = bg_copy)
     }
     pb$tick(1)
   }
 
   if (permut > 1) {
-    sdAUC <- apply(permutedAUC, 2, sd)
-    permutedAUC <- apply(permutedAUC, 2, mean)
+    sd_auc <- apply(permuted_auc, 2, sd)
+    permuted_auc <- apply(permuted_auc, 2, mean)
   }
 
-  perm_imp <- pmax(0, (model_auc - permutedAUC))
+  perm_imp <- pmax(0, (model_auc - permuted_auc))
   perm_imp <- 100 * perm_imp / sum(perm_imp)
   perm_imp <- round(perm_imp, 1)
 
   output <- data.frame(Variable = vars, Permutation_importance = perm_imp)
   if (permut > 1)
-    output$sd <- round(sdAUC, 3)
+    output$sd <- round(sd_auc, 3)
   output <- output[order(output$Permutation_importance, decreasing = TRUE), ]
   row.names(output) <- NULL
 
