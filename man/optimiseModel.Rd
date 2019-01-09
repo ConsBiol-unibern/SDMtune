@@ -10,10 +10,10 @@ optimiseModel(model, bg4test, regs, fcs, bgs, test, pop, gen,
   seed = NULL)
 }
 \arguments{
-\item{model}{SDMmodel, SDMmodelCV object or a list containing models, see
-details.}
+\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
-\item{bg4test}{SWD object. Background locations used to get subsamples.}
+\item{bg4test}{\link{SWD} object. Background locations used to get
+subsamples.}
 
 \item{regs}{numeric vector with the regularization values to be tested.}
 
@@ -22,8 +22,8 @@ details.}
 \item{bgs}{numeric vector with the number of background location to be
 tested.}
 
-\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc
-and SDMmodelCV objects, default is NULL.}
+\item{test}{\link{SWD} object. Test dataset used to evaluate the model, not
+used with aicc and \link{SDMmodelCV} objects, default is \code{NULL}.}
 
 \item{pop}{numeric. Size of the population.}
 
@@ -56,11 +56,6 @@ list containing the models of the last population.
 }
 \description{
 Optimise Model
-}
-\details{
-You can continue to breed the same population of models passing the
-output of the function (i.e. a list of models) as fist argument. See vignette
-for a full explanation of the algorithm.
 }
 \examples{
 \dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,

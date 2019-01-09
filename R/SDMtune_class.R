@@ -14,13 +14,18 @@ SDMtune <- setClass("SDMtune",
 setMethod("show",
   signature = "SDMtune",
   definition = function(object) {
-    cat("An object of class   : ", class(object), "\n")
-    cat("Number of backgrounds: ",
-        paste(as.character(unique(object@results$bg)), collapse = ", "), "\n")
-    cat("Regularization       : ",
-        paste(as.character(unique(object@results$reg)), collapse = ", "), "\n")
-    cat("Feature Classes      : ",
-        paste(unique(object@results$fc), collapse = ", "), "\n")
+
+    regs <- paste(as.character(unique(object@results$reg)), collapse = ", ")
+    fcs <- paste(unique(object@results$fc), collapse = ", ")
+    bgs <- paste(as.character(unique(object@results$bg)), collapse = ", ")
+
+    cat("Object of class: ", class(object), "\n\n")
+
+    cat("Model hyperparameters:\n")
+    cat("---------------------\n")
+    cat("Reg         :", regs, "\n")
+    cat("FC          :", fcs, "\n")
+    cat("Bg locations:", bgs, "\n")
   }
 )
 

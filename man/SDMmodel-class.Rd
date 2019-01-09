@@ -12,11 +12,13 @@ related to the model.
 \section{Slots}{
 
 \describe{
-\item{\code{presence}}{SWD. The presence locations used to train the model.}
+\item{\code{presence}}{\link{SWD} object. The presence locations used to train the
+model.}
 
-\item{\code{background}}{SWD. The backgorund locations used to train the model.}
+\item{\code{background}}{\link{SWD} object. The backgorund locations used to train
+the model.}
 
-\item{\code{model}}{Maxent or Maxnet object.}
+\item{\code{model}}{\link{Maxent} or \link{Maxnet} object.}
 
 \item{\code{html}}{character. The path of the html file, available only after running
 the function \link{modelReport}.}

@@ -1,12 +1,13 @@
 #' Species With Data
 #'
-#' Object similar to the MAxEnt SWD format that hosts the species name, the coordinates
-#' of the locations and the value of the environmental variables at the location places.
+#' Object similar to the MAxEnt SWD format that hosts the species name, the
+#' coordinates of the locations and the value of the environmental variables at
+#' the location places.
 #'
 #' @slot species character. Name of the species.
 #' @slot coords data.frame. Coordinates of the locations.
-#' @slot data data.frame. Value of the environmental variables at location places.
-#' and "Test".
+#' @slot data data.frame. Value of the environmental variables at location
+#' places.
 #'
 #' @export
 #'
@@ -29,20 +30,25 @@ SWD <- setClass("SWD",
                 }
 )
 
-setMethod("show",
-          signature = "SWD",
-          definition = function(object) {
+setMethod(
+  "show",
+  signature = "SWD",
+  definition = function(object) {
 
-            cont_vars <- names(Filter(is.numeric, object@data))
-            if (identical(cont_vars, character(0)))
-              cont_vars <- NA_character_
-            cat_vars <- names(Filter(is.factor, object@data))
-            if (identical(cat_vars, character(0)))
-              cat_vars <- NA_character_
+    cont_vars <- names(Filter(is.numeric, object@data))
+    if (length(cont_vars) == 0)
+      cont_vars <- NA
+    cat_vars <- names(Filter(is.factor, object@data))
+    if (length(cat_vars) == 0)
+      cat_vars <- NA
 
-            cat("Class                :", class(object), "\n")
-            cat("Species              :", object@species, "\n")
-            cat("Locations            :", nrow(object@data), "\n")
-            cat("Continuous variables :", cont_vars, "\n")
-            cat("Categorical variables:", cat_vars)
-          })
+    cat("Object of class", class(object), "\n\n")
+
+    cat("Species:", object@species, "\n")
+    cat("Locations:", nrow(object@data), "\n\n")
+
+    cat("Variables:\n")
+    cat("---------\n")
+    cat("Continuous:", cont_vars, "\n")
+    cat("Categorical:", cat_vars)
+  })

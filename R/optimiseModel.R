@@ -1,14 +1,14 @@
 #' Optimise Model
 #'
-#' @param model SDMmodel, SDMmodelCV object or a list containing models, see
-#' details.
-#' @param bg4test SWD object. Background locations used to get subsamples.
+#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
+#' @param bg4test \link{SWD} object. Background locations used to get
+#' subsamples.
 #' @param regs numeric vector with the regularization values to be tested.
 #' @param fcs character vector with the feature combunation values to be tested.
 #' @param bgs numeric vector with the number of background location to be
 #' tested.
-#' @param test SWD. Test dataset used to evaluate the model, not used with aicc
-#' and SDMmodelCV objects, default is NULL.
+#' @param test \link{SWD} object. Test dataset used to evaluate the model, not
+#' used with aicc and \link{SDMmodelCV} objects, default is \code{NULL}.
 #' @param pop numeric. Size of the population.
 #' @param gen numeric. Number of generations.
 #' @param metric character. The metric used to evaluate the models, possible
@@ -26,10 +26,6 @@
 #' expressed as decimal number. Default is 0.4.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is NULL.
-#'
-#' @details You can continue to breed the same population of models passing the
-#' output of the function (i.e. a list of models) as fist argument. See vignette
-#' for a full explanation of the algorithm.
 #'
 #' @return list containing the models of the last population.
 #' @export

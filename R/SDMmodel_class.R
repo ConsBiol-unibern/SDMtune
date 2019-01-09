@@ -4,9 +4,11 @@ setClassUnion("model", c("Maxent", "Maxnet"))
 #' This Class represents a SDMmodel model object and hosts all the information
 #' related to the model.
 #'
-#' @slot presence SWD. The presence locations used to train the model.
-#' @slot background SWD. The backgorund locations used to train the model.
-#' @slot model Maxent or Maxnet object.
+#' @slot presence \link{SWD} object. The presence locations used to train the
+#' model.
+#' @slot background \link{SWD} object. The backgorund locations used to train
+#' the model.
+#' @slot model \link{Maxent} or \link{Maxnet} object.
 #' @slot html character. The path of the html file, available only after running
 #' the function \link{modelReport}.
 #'
@@ -34,20 +36,33 @@ SDMmodel <- setClass("SDMmodel",
  }
 )
 
-setMethod("show",
+setMethod(
+  "show",
   signature = "SDMmodel",
   definition = function(object) {
-    cat("Class                :", class(object), "\n")
-    cat("Model                :", class(object@model), "\n")
-    cat("Species              :", object@presence@species, "\n")
-    cat("Presence data        :", nrow(object@presence@data), "\n")
-    cat("Background data      :", nrow(object@background@data), "\n")
-    cat("Reg                  :", object@model@reg, "\n")
-    cat("FC                   :", object@model@fc, "\n")
-    cat("Continuous variables :", names(Filter(is.numeric,
-                                               object@presence@data)), "\n")
-    cat("Categorical variables:", names(Filter(is.factor,
-                                               object@presence@data)))
+
+    cont_vars <- names(Filter(is.numeric, object@presence@data))
+    if (length(cont_vars) == 0)
+      cont_vars <- NA
+    cat_vars <- names(Filter(is.factor, object@presence@data))
+    if (length(cat_vars) == 0)
+      cat_vars <- NA
+
+    cat("Object of class", class(object), "\n\n")
+
+    cat("Species:", object@presence@species, "\n")
+    cat("Presence locations:", nrow(object@presence@data), "\n\n")
+
+    cat("Model hyperparameters:\n")
+    cat("---------------------\n")
+    cat("Reg         :", object@model@reg, "\n")
+    cat("FC          :", object@model@fc, "\n")
+    cat("Bg locations:", nrow(object@background@data), "\n\n")
+
+    cat("Variables:\n")
+    cat("---------\n")
+    cat("Continuous:", cont_vars, "\n")
+    cat("Categorical:", cat_vars)
 
     if (!identical(object@html, character(0)))
       browseURL(object@html)
