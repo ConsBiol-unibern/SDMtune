@@ -23,7 +23,7 @@ Imports: cli (>= 1.0.1),
          jsonlite (>= 1.5),
          kableExtra (>= 0.9.0),
          maxnet (>= 0.1.2),
-         methods (>= 3.5.2),
+         methods,
          prettydoc (>= 0.2.1),
          progress (>= 1.2.0),
          raster (>= 2.8-4),
@@ -57,6 +57,7 @@ Collate:
     'SDMtune_class.R'
     'aicc.R'
     'auc.R'
+    'condor.R'
     'confMatrix.R'
     'corVar.R'
     'doJk.R'
