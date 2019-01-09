@@ -3,17 +3,26 @@
 #' Plot a presence absence map using the given threshold.
 #'
 #' @param map raster. The \link{raster} object with the prediction.
-#' @param th numeric. The threshold to convert the MaxEnt output in a presence/absence map.
-#' @param colors vector. Colors to be used, default is NULL and uses red and blue.
-#' @param hr logical, if TRUE produces an output with high resolution, default is FALSE.
-#' @param filename character, if provided the raster map is saved in a file, default is NULL.
-#' @param format character. The output format, see \link{writeRaster} for all the options,
+#' @param th numeric. The threshold to convert the output in a presence/absence
+#' map.
+#' @param colors vector. Colors to be used, default is NULL and uses red and
+#' blue.
+#' @param hr logical, if TRUE produces an output with high resolution, default
+#' is FALSE.
+#' @param filename character, if provided the raster map is saved in a file,
+#' default is NULL.
+#' @param format character. The output format, see \link{writeRaster} for all
+#' the options,
 #' default is Geotiff.
 #' @param ... Additional arguments, see \link{writeRaster} for all the options.
 #'
 #' @return A ggplot object.
 #' @export
+#' @importFrom ggplot2 geom_tile aes_ scale_fill_manual coord_equal labs
+#' scale_x_continuous scale_y_continuous theme_minimal theme element_text
+#' element_blank
 #' @importFrom raster writeRaster
+#' @importFrom rasterVis gplot
 #'
 #' @examples
 #' \dontrun{

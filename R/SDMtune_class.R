@@ -41,6 +41,8 @@ if (!isGeneric("plot"))
 #' @export
 #' @docType methods
 #' @rdname plot-methods
+#' @importFrom ggplot2 ggplot aes_string geom_point labs scale_colour_discrete
+#' theme_minimal theme element_text geom_line
 #'
 #' @examples
 #' \dontrun{plot(my_tuneBg)}

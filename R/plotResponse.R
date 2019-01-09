@@ -2,7 +2,7 @@
 #'
 #' Plot the Response Curve of the given environmental variable.
 #'
-#' @param model SDMmodel or SDMmodelCV object.
+#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param var character. Name of the variable to be plotted.
 #' @param type character. Output type, see \link{predict,Maxent-method} for
 #' Maxent models or \link{predict.maxnet} for Maxnet models.
@@ -22,7 +22,8 @@
 #' @return The plot model
 #' @export
 #' @include Maxent_class.R
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot aes_string geom_line geom_bar scale_x_continuous
+#' geom_ribbon geom_errorbar geom_rug
 #' @importFrom raster modal
 #'
 #' @examples

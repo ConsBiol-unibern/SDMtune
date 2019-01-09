@@ -1,21 +1,24 @@
 #' Plot Correlation
 #'
-#' Plot a correlation matrix heat map with the value of the correlation coefficients
-#' according with the given method. If cor_th is passed then it prints only the
-#' coefficients that are higher or lower than the given threshold.
+#' Plot a correlation matrix heat map with the value of the correlation
+#' coefficients according with the given method. If cor_th is passed then it
+#' prints only the coefficients that are higher or lower than the given
+#' threshold.
 #'
 #' @details The code is inspired by the \href{www.sthda.com/english/wiki/ggplot2-quick-correlation-matrix-heatmap-r-software-and-data-visualization}{STHDA}
 #' web page.
 #'
 #' @param bg SWD. The data frame used to compute the correlation matrix given as
 #' MaxentSWD object, defaul NULL.
-#' @param method character.  The method used to compute the correlation matrix, default is "spearman".
-#' @param cor_th numeric. If provided it prints only the coefficients that are higher or
-#' lower than the given threshold, default is NULL.
+#' @param method character.  The method used to compute the correlation matrix,
+#' default is "spearman".
+#' @param cor_th numeric. If provided it prints only the coefficients that are
+#' higher or lower than the given threshold, default is NULL.
 #'
 #' @return The plot object.
 #' @export
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot aes_ scale_fill_gradient2 theme_minimal theme
+#' element_text coord_fixed element_blank geom_text
 #' @importFrom reshape2 melt
 #' @importFrom stats cor
 #'
@@ -54,16 +57,15 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
                                        "'s\ncoefficient")) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12,
-                                     hjust = 1)) +
-    theme(axis.text.y = element_text(size = 12)) +
-    coord_fixed() +
-    theme(
-      axis.title.x = element_blank(),
-      axis.title.y = element_blank(),
-      panel.grid.major = element_blank(),
-      panel.border = element_blank(),
-      panel.background = element_blank(),
-      axis.ticks = element_blank())
+                                     hjust = 1),
+          axis.text.y = element_text(size = 12),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.border = element_blank(),
+          panel.background = element_blank(),
+          axis.ticks = element_blank())
+    coord_fixed()
 
   if (is.null(cor_th)) {
     heat_map <- heat_map +

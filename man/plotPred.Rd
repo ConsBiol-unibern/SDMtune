@@ -11,11 +11,13 @@ plotPred(map, lt = "", colorramp = NULL, hr = FALSE)
 
 \item{lt}{character. Legend title, default is an empty string.}
 
-\item{colorramp}{vector. A custom color ramp given as a vector of colors (see example),
-default is NULL and uses a colorramp similar to the original MaxEnt output.
-See \href{color brewer}{http://colorbrewer2.org/} to build nice colorramp.}
+\item{colorramp}{vector. A custom color ramp given as a vector of colors
+(see example), default is NULL and uses a colorramp similar to the original
+MaxEnt output. See \href{color brewer}{http://colorbrewer2.org/} to build
+nice colorramp.}
 
-\item{hr}{logical, if TRUE produces an output with high resolution, default is FALSE.}
+\item{hr}{logical, if TRUE produces an output with high resolution, default
+is FALSE.}
 }
 \value{
 A ggplot object.
@@ -25,7 +27,8 @@ Plot Prediction output.
 }
 \examples{
 \dontrun{
-plotPrediction(my_map, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))}
+plotPrediction(my_map, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf",
+"#fdae61", "#d7191c"))}
 
 }
 \author{

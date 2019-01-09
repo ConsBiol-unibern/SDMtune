@@ -10,15 +10,20 @@ plotPA(map, th, colors = NULL, hr = FALSE, filename = NULL,
 \arguments{
 \item{map}{raster. The \link{raster} object with the prediction.}
 
-\item{th}{numeric. The threshold to convert the MaxEnt output in a presence/absence map.}
+\item{th}{numeric. The threshold to convert the output in a presence/absence
+map.}
 
-\item{colors}{vector. Colors to be used, default is NULL and uses red and blue.}
+\item{colors}{vector. Colors to be used, default is NULL and uses red and
+blue.}
 
-\item{hr}{logical, if TRUE produces an output with high resolution, default is FALSE.}
+\item{hr}{logical, if TRUE produces an output with high resolution, default
+is FALSE.}
 
-\item{filename}{character, if provided the raster map is saved in a file, default is NULL.}
+\item{filename}{character, if provided the raster map is saved in a file,
+default is NULL.}
 
-\item{format}{character. The output format, see \link{writeRaster} for all the options,
+\item{format}{character. The output format, see \link{writeRaster} for all
+the options,
 default is Geotiff.}
 
 \item{...}{Additional arguments, see \link{writeRaster} for all the options.}

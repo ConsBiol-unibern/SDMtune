@@ -7,11 +7,11 @@
 plotROC(model, val = NULL, test = NULL)
 }
 \arguments{
-\item{model}{SDMmodel.}
+\item{model}{\link{SDMmodel} object.}
 
-\item{val}{SWD the validation dataset, default is NULL.}
+\item{val}{\link{SWD} object. The validation dataset, default is NULL.}
 
-\item{test}{SWD the test dataset, default is NULL.}
+\item{test}{\link{SWD} object. The test dataset, default is NULL.}
 }
 \value{
 The plot object.

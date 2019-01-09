@@ -2,13 +2,14 @@
 #'
 #' Plot the ROC curve of the given model and print the AUC value.
 #'
-#' @param model SDMmodel.
-#' @param val SWD the validation dataset, default is NULL.
-#' @param test SWD the test dataset, default is NULL.
+#' @param model \link{SDMmodel} object.
+#' @param val \link{SWD} object. The validation dataset, default is NULL.
+#' @param test \link{SWD} object. The test dataset, default is NULL.
 #'
 #' @return The plot object.
 #' @export
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot aes_ geom_line scale_colour_discrete geom_segment
+#' xlab ylab coord_fixed theme_minimal
 #'
 #' @examples
 #' \dontrun{

@@ -10,18 +10,20 @@ plotCor(bg, method = "spearman", cor_th = NULL)
 \item{bg}{SWD. The data frame used to compute the correlation matrix given as
 MaxentSWD object, defaul NULL.}
 
-\item{method}{character.  The method used to compute the correlation matrix, default is "spearman".}
+\item{method}{character.  The method used to compute the correlation matrix,
+default is "spearman".}
 
-\item{cor_th}{numeric. If provided it prints only the coefficients that are higher or
-lower than the given threshold, default is NULL.}
+\item{cor_th}{numeric. If provided it prints only the coefficients that are
+higher or lower than the given threshold, default is NULL.}
 }
 \value{
 The plot object.
 }
 \description{
-Plot a correlation matrix heat map with the value of the correlation coefficients
-according with the given method. If cor_th is passed then it prints only the
-coefficients that are higher or lower than the given threshold.
+Plot a correlation matrix heat map with the value of the correlation
+coefficients according with the given method. If cor_th is passed then it
+prints only the coefficients that are higher or lower than the given
+threshold.
 }
 \details{
 The code is inspired by the \href{www.sthda.com/english/wiki/ggplot2-quick-correlation-matrix-heatmap-r-software-and-data-visualization}{STHDA}

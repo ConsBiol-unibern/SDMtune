@@ -4,18 +4,24 @@
 #'
 #' @param map raster. The \link{raster} object with the prediction.
 #' @param lt character. Legend title, default is an empty string.
-#' @param colorramp vector. A custom color ramp given as a vector of colors (see example),
-#' default is NULL and uses a colorramp similar to the original MaxEnt output.
-#' See \href{color brewer}{http://colorbrewer2.org/} to build nice colorramp.
-#' @param hr logical, if TRUE produces an output with high resolution, default is FALSE.
+#' @param colorramp vector. A custom color ramp given as a vector of colors
+#' (see example), default is NULL and uses a colorramp similar to the original
+#' MaxEnt output. See \href{color brewer}{http://colorbrewer2.org/} to build
+#' nice colorramp.
+#' @param hr logical, if TRUE produces an output with high resolution, default
+#' is FALSE.
 #'
 #' @return A ggplot object.
 #' @export
+#' @importFrom ggplot2 geom_tile scale_fill_gradientn coord_equal labs
+#' scale_x_continuous scale_y_continuous theme_minimal theme element_text
+#' element_blank
 #' @importFrom rasterVis gplot
 #'
 #' @examples
 #' \dontrun{
-#' plotPrediction(my_map, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))}
+#' plotPrediction(my_map, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf",
+#' "#fdae61", "#d7191c"))}
 #'
 #' @author Sergio Vignali
 plotPred <- function(map, lt = "", colorramp = NULL, hr = FALSE) {

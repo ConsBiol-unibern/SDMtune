@@ -11,7 +11,8 @@
 #'
 #' @return The ggplot object.
 #' @export
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot aes_ geom_bar position_dodge coord_flip xlab ylab
+#' theme_minimal geom_hline
 #'
 #' @examples
 #' \dontrun{
