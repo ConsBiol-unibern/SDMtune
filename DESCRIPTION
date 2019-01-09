@@ -40,10 +40,12 @@ LazyData: true
 LinkingTo: Rcpp
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
-Suggests: knitr (>= 1.20),
+Suggests: 
+    knitr (>= 1.20),
     rmarkdown (>= 1.10),
     roxygen2 (>= 6.1.1),
-    snow (>= 0.4-3)
+    snow (>= 0.4-3),
+    testthat
 VignetteBuilder: knitr
 Collate: 
     'Maxent_class.R'
