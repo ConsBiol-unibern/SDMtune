@@ -114,11 +114,14 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
     line_footer[i] <- .get_model_hyperparams(new_model)
 
     .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                      n = i, lineFooter = line_footer))
-    Sys.sleep(0.2)
+                                      lineFooter = line_footer, stop = FALSE))
+    Sys.sleep(.1)
 
     pb$tick(1)
   }
+
+  .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                    lineFooter = line_footer, stop = TRUE))
 
   res[, 1] <- nrow(model@background@data)
   res[, 2] <- object@model@reg

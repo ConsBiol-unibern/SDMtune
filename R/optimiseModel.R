@@ -29,7 +29,6 @@
 #'
 #' @return list containing the models of the last population.
 #' @export
-#' @importFrom jsonlite toJSON
 #' @importFrom progress progress_bar
 #' @importFrom stats runif
 #'
@@ -94,8 +93,9 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   folder <- .create_chart(template = "optimiseTemplate", context = context,
                          height = 500)
 
-  .update_chart(folder, data = list(best_train = best_train, best_val = best_val,
-                                    lineTitle = line_title, n = 0))
+  .update_chart(folder, data = list(best_train = best_train,
+                                    best_val = best_val, lineTitle = line_title,
+                                    stop = FALSE))
 
   # Create random population
   models <- vector("list", length = pop)
@@ -113,12 +113,11 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       val_metric[i, ] <- list(i, .get_metric(metric, models[[i]], test))
     scatter_footer[i] <- .get_model_hyperparams(models[[i]])
     .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                      n = i, gen = 0,
-                                      scatterFooter = scatter_footer,
+                                      gen = 0, scatterFooter = scatter_footer,
                                       best_train = best_train,
                                       best_val = best_val,
-                                      lineTitle = line_title))
-    Sys.sleep(0.2)
+                                      lineTitle = line_title, stop = FALSE))
+    Sys.sleep(.1)
     pb$tick(1)
   }
 
@@ -135,12 +134,11 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       best_val[2] <- val_metric[1, 2]
     line_title <- c(line_title, "Generation 0")
     .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                      n = pop, gen = 0,
-                                      scatterFooter = scatter_footer,
+                                      gen = 0, scatterFooter = scatter_footer,
                                       best_train = best_train,
                                       best_val = best_val,
-                                      lineTitle = line_title))
-    Sys.sleep(0.2)
+                                      lineTitle = line_title, stop = FALSE))
+    Sys.sleep(.1)
   } else {
     stop(paste("Optimization algorithm interrupted at generation", 0,
                "because it starts to overfit validation dataset!"))
@@ -157,14 +155,12 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     }
     scatter_footer <- scatter_footer[index_kept]
 
-    n <- pop + (remaining * (i - 1))
     .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                      n = n, gen = i,
-                                      scatterFooter = scatter_footer,
+                                      gen = i, scatterFooter = scatter_footer,
                                       best_train = best_train,
                                       best_val = best_val,
-                                      lineTitle = line_title))
-    Sys.sleep(0.2)
+                                      lineTitle = line_title, stop = FALSE))
+    Sys.sleep(.1)
     parents <- models[index_kept]
     new_models <- parents
 
@@ -184,14 +180,12 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       scatter_footer[kept + j] <- .get_model_hyperparams(child)
 
       new_models <- c(new_models, child)
-      n <- pop + (remaining * (i - 1)) + j
       .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                        n = n, gen = i,
-                                        scatterFooter = scatter_footer,
+                                        gen = i, scatterFooter = scatter_footer,
                                         best_train = best_train,
                                         best_val = best_val,
-                                        lineTitle = line_title))
-      Sys.sleep(0.2)
+                                        lineTitle = line_title, stop = FALSE))
+      Sys.sleep(.1)
       pb$tick(1)
     }
     metrics <- list(train_metric$y, val_metric$y)
@@ -202,23 +196,28 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
       val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
       scatter_footer <- scatter_footer[rank_index]
-      n <- tot_models + 1
       best_train[i + 2] <- train_metric[1, 2]
       if (metric != "aicc")
         best_val[i + 2] <- val_metric[1, 2]
       line_title <- c(line_title, paste("Generation", i))
       .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                        n = n, gen = i,
-                                        scatterFooter = scatter_footer,
+                                        gen = i, scatterFooter = scatter_footer,
                                         best_train = best_train,
                                         best_val = best_val,
-                                        lineTitle = line_title))
-      Sys.sleep(0.2)
+                                        lineTitle = line_title, stop = FALSE))
+      Sys.sleep(.1)
     } else {
       stop(paste("Optimization algorithm interrupted at generation", i,
                  "because it starts to overfit validation dataset!"))
     }
   }
+
+  .update_chart(folder, data = list(train = train_metric, val = val_metric,
+                                    gen = i, scatterFooter = scatter_footer,
+                                    best_train = best_train,
+                                    best_val = best_val,
+                                    lineTitle = line_title, stop = TRUE))
+
   metrics <- list(train_metric$y, val_metric$y)
   output <- .create_optimise_output(models, metric, metrics)
   pb$tick(1)

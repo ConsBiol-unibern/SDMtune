@@ -161,5 +161,5 @@
 
 #' @importFrom jsonlite write_json
 .update_chart <- function(folder, data) {
-  jsonlite::write_json(data, file.path(folder, "metric.json"))
+  jsonlite::write_json(data, file.path(folder, "data.json"), auto_unbox = TRUE)
 }

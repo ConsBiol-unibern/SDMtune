@@ -124,7 +124,7 @@
 			function loadData() {
 				$.ajax({
 					method: "GET",
-					url: "metric.json",
+					url: "data.json",
 					cache: false
 				})
 				.done(function (json) {
@@ -135,7 +135,7 @@
 					}
 					window.chartLine.update();
 
-					if (data.n[0] === totModels) {
+					if (data.stop) {
 						clearInterval(refresh);
 					}
 				})

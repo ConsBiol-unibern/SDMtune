@@ -184,7 +184,7 @@
 			function loadData() {
 				$.ajax({
 					method: "GET",
-					url: "metric.json",
+					url: "data.json",
 					cache: false
 				})
 				.done(function (json) {
@@ -193,7 +193,7 @@
 					if ("{{ metric }}" !== "AICc") {
 						window.chartScatter.data.datasets[1].data = data.val;
 					}
-					window.chartScatter.options.title.text = "Model optimization - Generation " + data.gen[0];
+					window.chartScatter.options.title.text = "Model optimization - Generation " + data.gen;
 					window.chartScatter.update();
 
 					window.chartLine.data.datasets[0].data = data.best_train;
@@ -202,7 +202,7 @@
 					}
 					window.chartLine.update();
 
-					if (data.n[0] === totModels + 1) {
+					if (data.stop) {
 						clearInterval(refresh);
 					}
 				})
