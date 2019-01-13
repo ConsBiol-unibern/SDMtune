@@ -33,22 +33,22 @@
 		var data = {};
 		var scatterData = {
 			datasets: [{
-				label: 'Training',
-				pointRadius: 4,
-				pointHoverRadius: 6,
-				borderColor: 'rgb(75, 192, 192)',
-				backgroundColor: 'rgba(75, 192, 192, .7)',
+				label: "Training",
+				pointRadius: 3,
+				pointHoverRadius: 5,
+				borderColor: "rgb(75, 192, 192)",
+				backgroundColor: "rgba(75, 192, 192, .7)",
 				data: []
 			}]
 		};
 		// Add Validation dataset if metric in not AICc
-		if ('{{ metric }}' !== 'AICc') {
+		if ("{{ metric }}" !== "AICc") {
 			scatterData.datasets.push({
-				label: 'Validation',
-				pointRadius: 4,
-				pointHoverRadius: 6,
-				borderColor: 'rgb(245, 132, 16)',
-				backgroundColor: 'rgba(245, 132, 16, .7)',
+				label: "Validation",
+				pointRadius: 3,
+				pointHoverRadius: 5,
+				borderColor: "rgb(245, 132, 16)",
+				backgroundColor: "rgba(245, 132, 16, .7)",
 				data: []
 			})
 		}
@@ -56,24 +56,26 @@
 		var lineData = {
 		    labels: {{{ labels }}},
 			datasets: [{
-				label: 'Training',
-				pointRadius: 4,
-				pointHoverRadius: 6,
-				borderColor: 'rgb(75, 192, 192)',
-				backgroundColor: 'rgba(75, 192, 192, .7)',
+				label: "Training",
+				pointRadius: 3,
+				pointHoverRadius: 5,
+				borderWidth: .7,
+				borderColor: "rgb(75, 192, 192)",
+				backgroundColor: "rgba(75, 192, 192, .7)",
 				data: [],
 				fill: false,
 				lineTension: 0
 			}]
 		};
 		// Add Validation dataset if metric in not AICc
-		if ('{{ metric }}' !== 'AICc') {
+		if ("{{ metric }}" !== "AICc") {
 			lineData.datasets.push({
-				label: 'Validation',
-				pointRadius: 4,
-				pointHoverRadius: 6,
-				borderColor: 'rgb(245, 132, 16)',
-				backgroundColor: 'rgba(245, 132, 16, .7)',
+				label: "Validation",
+				pointRadius: 3,
+				pointHoverRadius: 5,
+				borderWidth: .5,
+				borderColor: "rgb(245, 132, 16)",
+				backgroundColor: "rgba(245, 132, 16, .7)",
 				data: [],
 				fill: false,
 				lineTension: 0
@@ -84,9 +86,9 @@
 			responsive: true,
 			title: {
 				display: true,
-				fontFamily: 'sans-serif',
+				fontFamily: "sans-serif",
 				padding: 15,
-				text: 'Model Optimization - Generation 0'
+				text: "Model Optimization - Generation 0"
 			},
 			legend: {
 				display: false
@@ -95,16 +97,16 @@
 				yAxes: [{
 					scaleLabel: {
 						display: true,
-						labelString: '{{ metric }}'
+						labelString: "{{ metric }}"
 					}
 				}],
 				xAxes: [{
 					scaleLabel: {
 						display: true,
-						labelString: 'model'
+						labelString: "model"
 					},
 					ticks: {
-						max: parseInt('{{ pop }}'),
+						max: parseInt("{{ pop }}"),
 						callback: function(value) {
 							if (value % 1 === 0) {
 								return value;
@@ -114,13 +116,13 @@
 				}]
 			},
 			tooltips: {
-				mode: 'x',
-				footerFontStyle: 'normal',
+				mode: "x",
+				footerFontStyle: "normal",
 				callbacks: {
 					label: function(tooltipItem, data) {
 						var label = data.datasets[tooltipItem.datasetIndex].label || '';
 						if (label) {
-							label += ': ';
+							label += ": ";
 						}
 						label += tooltipItem.yLabel;
 						return label;
@@ -138,9 +140,9 @@
 				display: false
 			},
 			legend: {
-				position: 'bottom',
+				position: "bottom",
 				labels: {
-					fontFamily: 'sans-serif',
+					fontFamily: "sans-serif",
 					usePointStyle: true
 				}
 			},
@@ -148,24 +150,24 @@
 				yAxes: [{
 					scaleLabel: {
 						display: true,
-						labelString: '{{ metric }}'
+						labelString: "{{ metric }}"
 					}
 				}],
 				xAxes: [{
 					scaleLabel: {
 						display: true,
-						labelString: 'generation'
+						labelString: "generation"
 					}
 				}]
 			},
 			tooltips: {
-				mode: 'x',
-				footerFontStyle: 'normal',
+				mode: "x",
+				footerFontStyle: "normal",
 				callbacks: {
 					label: function(tooltipItem, data) {
 						var label = data.datasets[tooltipItem.datasetIndex].label || '';
 						if (label) {
-							label += ': ';
+							label += ": ";
 						}
 						label += tooltipItem.yLabel;
 						return label;
@@ -187,23 +189,21 @@
 				})
 				.done(function (json) {
 					data = JSON.parse(json);
-					console.log('Iteration - ' + data.n[0]);
 					window.chartScatter.data.datasets[0].data = data.train;
-					if ('{{ metric }}' !== 'AICc') {
+					if ("{{ metric }}" !== "AICc") {
 						window.chartScatter.data.datasets[1].data = data.val;
 					}
-					window.chartScatter.options.title.text = 'Model optimization - Generation ' + data.gen[0];
+					window.chartScatter.options.title.text = "Model optimization - Generation " + data.gen[0];
 					window.chartScatter.update();
 
 					window.chartLine.data.datasets[0].data = data.best_train;
-					if ('{{ metric }}' !== 'AICc') {
+					if ("{{ metric }}" !== "AICc") {
 						window.chartLine.data.datasets[1].data = data.best_val;
 					}
 					window.chartLine.update();
 
 					if (data.n[0] === totModels + 1) {
 						clearInterval(refresh);
-						console.log('Execution finished!');
 					}
 				})
 			};
@@ -212,17 +212,17 @@
 		window.onload = function() {
 			// Set a wider content if page is displayed in the browser
 			if (window.location.href.search("[?&]viewer_pane=") === -1) {
-				document.querySelector('.content').style.maxWidth="600px";
+				document.querySelector(".content").style.maxWidth="600px";
 			}
-			var ctx1 = document.getElementById('scatter').getContext('2d');
+			var ctx1 = document.getElementById("scatter").getContext("2d");
 			window.chartScatter = new Chart(ctx1, {
-				type: 'scatter',
+				type: "scatter",
 				data: scatterData,
 				options: scatterOptions,
 			});
-			var ctx2 = document.getElementById('line').getContext('2d');
+			var ctx2 = document.getElementById("line").getContext("2d");
 			window.chartLine = new Chart(ctx2, {
-				type: 'line',
+				type: "line",
 				data: lineData,
 				options: lineOptions,
 			});
