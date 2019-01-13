@@ -141,10 +141,10 @@
 #' @importFrom whisker whisker.render
 .render_chart <- function(folder, template, context) {
 
-  template <- get(template, envir = .sdmsel)
-  style <- get("optimiseCss", envir = .sdmsel)
-  jQuery <- get("jQuery", envir = .sdmsel)
-  chartJs <- get("chartJs", envir = .sdmsel)
+  template <- get(template)
+  style <- get("optimiseCss")
+  jQuery <- get("jQuery")
+  chartJs <- get("chartJs")
 
   context <- c(context, list(style = style, jQuery = jQuery, chartJs = chartJs))
 

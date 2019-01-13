@@ -26,13 +26,13 @@ raster cell of the World Clime dataset.
 \references{
 Levatich T, Padilla F (2017). EOD - eBird Observation Dataset. Cornell Lab of
 Ornithology. Occurrence dataset \url{https://doi.org/10.15468/aomfnb}
-accessed via GBIF.org on 2019-01-09.
+accessed via GBIF.org on 2019-01-13.
 
 iNaturalist.org (2018). iNaturalist Research-grade Observations. Occurrence
 dataset \url{https://doi.org/10.15468/ab3s5x} accessed via GBIF.org on
-2019-01-09.
+2019-01-13.
 
 naturgucker.de. naturgucker. Occurrence dataset
-\url{https://doi.org/10.15468/uc1apo} accessed via GBIF.org on 2019-01-09.
+\url{https://doi.org/10.15468/uc1apo} accessed via GBIF.org on 2019-01-13.
 }
 \keyword{datasets}

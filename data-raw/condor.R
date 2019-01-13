@@ -54,17 +54,3 @@ for (key in unique(condor$datasetKey)) {
 
 # Save object in data folder
 usethis::use_data(condor, overwrite = TRUE)
-
-# Extract envaronmental condition at presence locations
-p <- prepareSWD(species = "Vultur gryphus", coords = condor[, 1:2],
-                env = predictors, categoricals = "biome")
-
-# Extract 9100 bg locations
-bg <- dismo::randomPoints(predictors, 9100)
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg,
-                 env = predictors, categoricals = "biome")
-# Take the first 9000 location, the previous function remove some NAs
-bg@data <- bg@data[1:9000, ]
-bg@coords <- bg@coords[1:9000, ]
-# save them as SWD objects in sysdata for internal use during testing
-usethis::use_data(bg, p, internal = TRUE, overwrite = TRUE)
