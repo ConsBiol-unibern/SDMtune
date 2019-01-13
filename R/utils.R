@@ -21,6 +21,12 @@
                "#Bg:", nrow(model@background@data)))
 }
 
+.get_total_models <- function(pop, gen, remaining) {
+  tot <- pop + (gen * remaining)
+
+  return(tot)
+}
+
 .get_metric <- function(metric, model, test = NULL, env = NULL,
                        parallel = FALSE) {
   if (metric == "auc") {
@@ -55,12 +61,6 @@
   return(labels)
 }
 
-.get_total_models <- function(pop, gen, remaining) {
-  tot <- pop + (gen * remaining)
-
-  return(tot)
-}
-
 .get_rank_index <- function(metric, metrics) {
   if (metric == "aicc") {
     # The best model is the one with the lowest AICc
@@ -88,14 +88,8 @@
 }
 
 .create_optimise_output <- function(models, metric, metrics) {
-  if (metric == "auc") {
-    labels <- c("train_AUC", "val_AUC", "diff_AUC")
-  } else if (metric == "tss") {
-    labels <- c("train_TSS", "val_TSS", "diff_TSS")
-  } else {
-    labels <- c("AICc", "delta_AICc")
-  }
-  labels <- c("bg", "reg", "fc", labels)
+
+  labels <- .get_tune_labels(metric)
 
   res <- matrix(nrow = length(models), ncol = length(labels))
   fcs <- vector("character", length = length(models))
@@ -161,5 +155,5 @@
 
 #' @importFrom jsonlite write_json
 .update_chart <- function(folder, data) {
-  jsonlite::write_json(data, file.path(folder, "data.json"), auto_unbox = TRUE)
+  jsonlite::write_json(data, file.path(folder, "data.json"))
 }

@@ -71,8 +71,7 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
   res <- matrix(nrow = length(regs), ncol = length(labels))
 
   # Create chart
-  context <- list(tot_models = length(regs),
-                  metric = .get_metric_label(metric),
+  context <- list(metric = .get_metric_label(metric),
                   title = "Tune Regularization",
                   x_label = "regularization multiplier",
                   min = min(regs),

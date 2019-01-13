@@ -82,11 +82,11 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     best_val <- NULL
   }
   line_title <- "Starting model"
+  line_footer <- .get_model_hyperparams(model)
   labels <- jsonlite::toJSON(c("start", as.character(0:gen)))
 
   context <- list(pop = pop,
                   gen = gen,
-                  tot_models = tot_models,
                   metric = .get_metric_label(metric),
                   labels = labels)
 
@@ -95,7 +95,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
 
   .update_chart(folder, data = list(best_train = best_train,
                                     best_val = best_val, lineTitle = line_title,
-                                    stop = FALSE))
+                                    lineFooter = line_footer, stop = FALSE))
 
   # Create random population
   models <- vector("list", length = pop)
@@ -116,7 +116,8 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                       gen = 0, scatterFooter = scatter_footer,
                                       best_train = best_train,
                                       best_val = best_val,
-                                      lineTitle = line_title, stop = FALSE))
+                                      lineTitle = line_title,
+                                      lineFooter = line_footer, stop = FALSE))
     Sys.sleep(.1)
     pb$tick(1)
   }
@@ -133,11 +134,13 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     if (metric != "aicc")
       best_val[2] <- val_metric[1, 2]
     line_title <- c(line_title, "Generation 0")
+    line_footer <- c(line_footer, .get_model_hyperparams(models[[1]]))
     .update_chart(folder, data = list(train = train_metric, val = val_metric,
                                       gen = 0, scatterFooter = scatter_footer,
                                       best_train = best_train,
                                       best_val = best_val,
-                                      lineTitle = line_title, stop = FALSE))
+                                      lineTitle = line_title,
+                                      lineFooter = line_footer, stop = FALSE))
     Sys.sleep(.1)
   } else {
     stop(paste("Optimization algorithm interrupted at generation", 0,
@@ -159,7 +162,8 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                       gen = i, scatterFooter = scatter_footer,
                                       best_train = best_train,
                                       best_val = best_val,
-                                      lineTitle = line_title, stop = FALSE))
+                                      lineTitle = line_title,
+                                      lineFooter = line_footer, stop = FALSE))
     Sys.sleep(.1)
     parents <- models[index_kept]
     new_models <- parents
@@ -184,7 +188,8 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                         gen = i, scatterFooter = scatter_footer,
                                         best_train = best_train,
                                         best_val = best_val,
-                                        lineTitle = line_title, stop = FALSE))
+                                        lineTitle = line_title,
+                                        lineFooter = line_footer, stop = FALSE))
       Sys.sleep(.1)
       pb$tick(1)
     }
@@ -200,11 +205,13 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       if (metric != "aicc")
         best_val[i + 2] <- val_metric[1, 2]
       line_title <- c(line_title, paste("Generation", i))
+      line_footer <- c(line_footer, .get_model_hyperparams(models[[1]]))
       .update_chart(folder, data = list(train = train_metric, val = val_metric,
                                         gen = i, scatterFooter = scatter_footer,
                                         best_train = best_train,
                                         best_val = best_val,
-                                        lineTitle = line_title, stop = FALSE))
+                                        lineTitle = line_title,
+                                        lineFooter = line_footer, stop = FALSE))
       Sys.sleep(.1)
     } else {
       stop(paste("Optimization algorithm interrupted at generation", i,
@@ -216,7 +223,8 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                     gen = i, scatterFooter = scatter_footer,
                                     best_train = best_train,
                                     best_val = best_val,
-                                    lineTitle = line_title, stop = TRUE))
+                                    lineTitle = line_title,
+                                    lineFooter = line_footer, stop = TRUE))
 
   metrics <- list(train_metric$y, val_metric$y)
   output <- .create_optimise_output(models, metric, metrics)

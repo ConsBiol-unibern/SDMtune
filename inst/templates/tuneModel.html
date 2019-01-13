@@ -26,7 +26,6 @@
 	</div>
 
 	<script>
-		var totModels = {{ tot_models }};
 		var data = {};
 
 		var lineData = {
@@ -135,7 +134,7 @@
 					}
 					window.chartLine.update();
 
-					if (data.stop) {
+					if (data.stop[0]) {
 						clearInterval(refresh);
 					}
 				})

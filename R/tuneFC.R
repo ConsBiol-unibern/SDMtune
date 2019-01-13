@@ -72,8 +72,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   res <- matrix(nrow = length(fcs), ncol = length(labels))
 
   # Create chart
-  context <- list(tot_models = length(fcs),
-                  metric = .get_metric_label(metric),
+  context <- list(metric = .get_metric_label(metric),
                   title = "Tune Feature Combinations",
                   x_label = "feature combination",
                   labels = jsonlite::toJSON(fcs))

@@ -89,8 +89,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   folds_bg <- sample(nrow(bg4test@data))
 
   # Create chart
-  context <- list(tot_models = length(bgs),
-                  metric = .get_metric_label(metric),
+  context <- list(metric = .get_metric_label(metric),
                   title = "Tune Backgrounds",
                   x_label = "backgrounds",
                   min = min(bgs),

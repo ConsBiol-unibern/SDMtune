@@ -29,7 +29,6 @@
 	</div>
 
 	<script>
-		var totModels = {{ tot_models }};
 		var data = {};
 		var scatterData = {
 			datasets: [{
@@ -164,7 +163,10 @@
 				mode: "x",
 				footerFontStyle: "normal",
 				callbacks: {
-					label: function(tooltipItem, data) {
+					title: function (tooltipItems, data) {
+						return window.data.lineTitle[tooltipItems[0].index]
+					},
+					label: function (tooltipItem, data) {
 						var label = data.datasets[tooltipItem.datasetIndex].label || '';
 						if (label) {
 							label += ": ";
@@ -172,8 +174,8 @@
 						label += tooltipItem.yLabel;
 						return label;
 					},
-					title: function(tooltipItems, data) {
-						return window.data.lineTitle[tooltipItems[0].index]
+					footer: function (tooltipItems, data) {
+						return window.data.lineFooter[tooltipItems[0].index];
 					}
 				}
 			}
@@ -193,7 +195,7 @@
 					if ("{{ metric }}" !== "AICc") {
 						window.chartScatter.data.datasets[1].data = data.val;
 					}
-					window.chartScatter.options.title.text = "Model optimization - Generation " + data.gen;
+					window.chartScatter.options.title.text = "Model optimization - Generation " + data.gen[0];
 					window.chartScatter.update();
 
 					window.chartLine.data.datasets[0].data = data.best_train;
@@ -202,7 +204,7 @@
 					}
 					window.chartLine.update();
 
-					if (data.stop) {
+					if (data.stop[0]) {
 						clearInterval(refresh);
 					}
 				})
