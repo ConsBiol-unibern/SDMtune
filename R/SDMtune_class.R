@@ -41,7 +41,7 @@ if (!isGeneric("plot"))
 #' @export
 #' @docType methods
 #' @rdname plot-methods
-#' @importFrom ggplot2 ggplot aes_string geom_point labs scale_colour_discrete
+#' @importFrom ggplot2 ggplot aes_string geom_point labs scale_color_manual
 #' theme_minimal theme element_text geom_line
 #'
 #' @examples
@@ -63,26 +63,29 @@ setMethod("plot",
       metric <- "AICc"
     }
 
-    if (length(unique(res$fc)) != 1 & length(unique(res$bg)) != 1) {
-      #  Result of modelOptimise function
-      title <- "Model Optimization"
-      x_label <- "model"
-      x <- 1:n
-    } else if (length(unique(res$fc)) == 1 & length(unique(res$bg)) != 1) {
+    if (length(unique(res$fc)) == 1 & length(unique(res$reg)) == 1
+               & length(unique(res$bg)) != 1) {
       #  Result of tuneBg function
       title <- "Tune Backgrounds"
       x_label <- "backgrounds"
       x <- res[, 1]
-    } else if (length(unique(res$fc)) != 1 & length(unique(res$bg)) == 1) {
+    } else if (length(unique(res$fc)) != 1 & length(unique(res$reg)) == 1
+               & length(unique(res$bg)) == 1) {
       #  Result of tuneFC function
       title <- "Tune Feature Combinations"
       x_label <- "feature combination"
       x <- res[, 3]
-    } else {
+    } else if (length(unique(res$fc)) == 1 & length(unique(res$reg)) != 1
+               & length(unique(res$bg)) == 1) {
       #  Result of tuneReg function
       title <- "Tune Regularization"
       x_label <- "regularization multiplier"
       x <- res[, 2]
+    } else {
+      #  Result of modelOptimise function
+      title <- "Model Optimization"
+      x_label <- "model"
+      x <- 1:n
     }
 
     if (metric != "AICc") {
@@ -97,7 +100,7 @@ setMethod("plot",
                                  group = "type")) +
       geom_point() +
       labs(title = title, x = x_label, y = metric) +
-      scale_colour_discrete(name = "") +
+      scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
       theme_minimal() +
       theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom")
 
