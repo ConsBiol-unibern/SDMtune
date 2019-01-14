@@ -46,3 +46,4 @@ tuneTemplate <- paste(readLines(system.file("templates",
 usethis::use_data(p, bg, jQuery, chartJs, optimiseCss, optimiseTemplate,
                   tuneTemplate,
                   internal = TRUE, overwrite = TRUE)
+

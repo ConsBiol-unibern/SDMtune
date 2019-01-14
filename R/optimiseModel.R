@@ -47,14 +47,17 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide env argument if you want to use AICc metric!")
 
-  if (class(model) %in% c("SDMmodel", "list")) {
-    if (is.null(test) & metric != "aicc")
+  if (class(model) == "SDMmodel" & is.null(test) & metric != "aicc") {
       stop("You need to provide a test dataset!")
-  } else {
+  }
+  if (class(model) == "SDMmodelCV") {
     test <- TRUE
     if (metric == "aicc")
       stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
+
+  # Check if at least two hyperparameters have more than one value
+  .check_hyperparams_validity(bgs, fcs, regs)
 
   kept_good <- round(pop * keep_best)
   kept_bad <- round(pop * keep_random)
@@ -246,9 +249,22 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     object <- model@models[[1]]
   }
 
-  reg <- sample(regs, size = 1)
-  fc <- sample(fcs, size = 1)
-  n_bg <- sample(bgs, size = 1)
+  # Sample hyperparameters only if length is more than one
+  if (length(regs) > 1) {
+    reg <- sample(regs, size = 1)
+  } else {
+    reg <- regs
+  }
+  if (length(fcs) > 1) {
+    fc <- sample(fcs, size = 1)
+  } else {
+    fc <- fcs
+  }
+  if (length(bgs) > 1) {
+    n_bg <- sample(bgs, size = 1)
+  } else {
+    n_bg <- bgs
+  }
 
   bg <- bg4test
   bg@data <- bg4test@data[bg_folds[1:n_bg], ]
@@ -291,10 +307,15 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   }
 
   if (mutation_chance > runif(1)) {
-    mutation <- sample(c("reg", "fc", "bg"), size = 1)
+    parents_regs <- c(.get_model_reg(mother), .get_model_reg(father))
+    regs <- setdiff(regs, parents_regs)
+    parents_fcs <- c(.get_model_fc(mother), .get_model_fc(father))
+    fcs <- setdiff(fcs, parents_fcs)
+    parents_bgs <- c(nrow(mother@background@data), nrow(father@background@data))
+    bgs <- setdiff(bgs, parents_bgs)
+    mutation_options <- .get_mutation_options(mother, father, bgs, fcs, regs)
+    mutation <- sample(mutation_options, size = 1)
     if (mutation == "reg") {
-      parents_regs <- c(.get_model_reg(mother), .get_model_reg(father))
-      regs <- setdiff(regs, parents_regs)
       reg <- sample(regs, size = 1)
     } else if (mutation == "fc") {
       parents_fcs <- c(.get_model_fc(mother), .get_model_fc(father))

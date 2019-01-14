@@ -127,7 +127,11 @@
 						return label;
 					},
 					footer: function(tooltipItems, data) {
-						return window.data.scatterFooter[tooltipItems[0].index]
+						var footer = window.data.scatterFooter[tooltipItems[0].index];
+						if ("{{ metric }}" !== "AICc") {
+							var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
+						}
+						return footer;
 					}
 				}
 			}
@@ -167,7 +171,7 @@
 						return window.data.lineTitle[tooltipItems[0].index]
 					},
 					label: function (tooltipItem, data) {
-						var label = data.datasets[tooltipItem.datasetIndex].label || '';
+						var label = data.datasets[tooltipItem.datasetIndex].label || "";
 						if (label) {
 							label += ": ";
 						}
@@ -175,7 +179,11 @@
 						return label;
 					},
 					footer: function (tooltipItems, data) {
-						return window.data.lineFooter[tooltipItems[0].index];
+						var footer = window.data.lineFooter[tooltipItems[0].index];
+						if ("{{ metric }}" !== "AICc") {
+							var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
+						}
+						return footer;
 					}
 				}
 			}

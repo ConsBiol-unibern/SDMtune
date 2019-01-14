@@ -87,6 +87,32 @@
   return(index)
 }
 
+.get_mutation_options <- function(mother, father, bgs, fcs, regs) {
+  options <- c()
+
+  if (length(regs) >= 1)
+    options <- c(options, "reg")
+
+  if (length(fcs) >= 1)
+    options <- c(options, "fc")
+
+  if (length(bgs) >= 1)
+    options <- c(options, "bg")
+
+  return(options)
+}
+
+.check_hyperparams_validity <- function(bgs, fcs, regs) {
+  l_bgs <- length(bgs) > 1
+  l_fcs <- length(fcs) > 1
+  l_regs <- length(regs) > 1
+
+  if (sum(l_bgs, l_fcs, l_regs) < 2) {
+    stop(paste("You must provide at least two hyperparameters to be tuned!",
+               "Use one of the tune functions to tune only one parameter."))
+  }
+}
+
 .create_optimise_output <- function(models, metric, metrics) {
 
   labels <- .get_tune_labels(metric)

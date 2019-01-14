@@ -107,7 +107,11 @@
 						return ""
 					},
           footer: function(tooltipItems, data) {
-						return window.data.lineFooter[tooltipItems[0].index]
+						var footer = window.data.lineFooter[tooltipItems[0].index];
+						if ("{{ metric }}" !== "AICc") {
+							var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
+						}
+						return footer;
 					}
 				}
 			}
