@@ -102,7 +102,9 @@ setMethod("plot",
       labs(title = title, x = x_label, y = metric) +
       scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
       theme_minimal() +
-      theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom")
+      theme(plot.title = element_text(hjust = 0.5),
+            text = element_text(colour = "#666666", family = "sans-serif"),
+            legend.position = "bottom")
 
     # Add line if is the rusult of a tune function
     if (x_label != "model")
