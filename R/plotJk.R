@@ -11,8 +11,8 @@
 #'
 #' @return The ggplot object.
 #' @export
-#' @importFrom ggplot2 ggplot aes_ geom_bar position_dodge coord_flip xlab ylab
-#' theme_minimal geom_hline
+#' @importFrom ggplot2 ggplot aes_ geom_bar position_dodge coord_flip labs
+#' theme_minimal geom_hline theme
 #'
 #' @examples
 #' \dontrun{
@@ -78,9 +78,9 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
   my_plot <- ggplot(df_plot, aes_(x = ~Variable, y = ~value, fill = ~test)) +
     geom_bar(stat = "identity", position = position_dodge()) +
     coord_flip() +
-    xlab("") +
-    ylab(y_label) +
-    theme_minimal()
+    labs(x = "", y = y_label) +
+    theme_minimal() +
+    theme(text = element_text(colour = "#666666", family = "sans-serif"))
 
   if (!is.null(ref))
     my_plot <- my_plot +

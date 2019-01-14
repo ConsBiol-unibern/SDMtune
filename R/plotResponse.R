@@ -23,7 +23,7 @@
 #' @export
 #' @include Maxent_class.R
 #' @importFrom ggplot2 ggplot aes_string geom_line geom_bar scale_x_continuous
-#' geom_ribbon geom_errorbar geom_rug
+#' geom_ribbon geom_errorbar geom_rug labs theme
 #' @importFrom raster modal
 #'
 #' @examples
@@ -105,9 +105,9 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   }
 
   my_plot <- my_plot +
-    xlab(var) +
-    ylab(paste(type, "output")) +
-    theme_minimal()
+    labs(x = var, y = paste(type, "output")) +
+    theme_minimal() +
+    theme(text = element_text(colour = "#666666", family = "sans-serif"))
 
   if (rug == TRUE & var %in% cont_vars) {
     my_plot <- my_plot +

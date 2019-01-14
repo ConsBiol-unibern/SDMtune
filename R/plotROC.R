@@ -9,7 +9,7 @@
 #' @return The plot object.
 #' @export
 #' @importFrom ggplot2 ggplot aes_ geom_line scale_colour_discrete geom_segment
-#' xlab ylab coord_fixed theme_minimal
+#' labs coord_fixed theme_minimal theme
 #'
 #' @examples
 #' \dontrun{
@@ -50,10 +50,10 @@ plotROC <- function(model, val = NULL, test = NULL) {
       scale_colour_discrete(name = "AUC", labels = labels) +
     geom_segment(aes_(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
                  linetype = 2) +
-    xlab("False Positive Rate") +
-    ylab("True Positive Rate") +
+    labs(x = "False Positive Rate", y = "True Positive Rate") +
     coord_fixed() +
-    theme_minimal()
+    theme_minimal() +
+    theme(text = element_text(colour = "#666666", family = "sans-serif"))
 
   return(my_plot)
 }

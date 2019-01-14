@@ -64,7 +64,8 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
           panel.grid.major = element_blank(),
           panel.border = element_blank(),
           panel.background = element_blank(),
-          axis.ticks = element_blank())
+          axis.ticks = element_blank(),
+          text = element_text(colour = "#666666", family = "sans-serif"))
     coord_fixed()
 
   if (is.null(cor_th)) {

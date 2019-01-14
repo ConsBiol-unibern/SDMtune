@@ -50,7 +50,8 @@ plotPred <- function(map, lt = "", colorramp = NULL, hr = FALSE) {
     theme_minimal() +
     theme(plot.title = element_text(hjust = 0.5),
           axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank())
+          axis.ticks.y = element_blank(),
+          text = element_text(colour = "#666666", family = "sans-serif"))
 
   return(my_plot)
 }
