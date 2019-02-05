@@ -86,19 +86,23 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   }
   line_title <- "Starting model"
   line_footer <- .get_model_hyperparams(model)
-  labels <- jsonlite::toJSON(c("start", as.character(0:gen)))
 
-  context <- list(pop = pop,
-                  gen = gen,
-                  metric = .get_metric_label(metric),
-                  labels = labels)
+  settings <- list(pop = pop,
+                   gen = gen,
+                   metric = .get_metric_label(metric),
+                   labels = labels,
+                   update = TRUE)
 
-  folder <- .create_chart(template = "optimiseTemplate", context = context,
-                         height = 500)
+  data = list(best_train = best_train,
+              best_val = best_val,
+              lineTitle = line_title,
+              lineFooter = line_footer,
+              stop = FALSE)
 
-  .update_chart(folder, data = list(best_train = best_train,
-                                    best_val = best_val, lineTitle = line_title,
-                                    lineFooter = line_footer, stop = FALSE))
+  folder <- tempfile("SDMtune")
+
+  .create_chart(folder = folder, script = "optimiseModel.js",
+                settings = settings, data = data, height = 500)
 
   # Create random population
   models <- vector("list", length = pop)

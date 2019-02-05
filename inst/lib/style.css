@@ -1,0 +1,9 @@
+.content {
+  min-width: 400px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.row {
+  margin: 10px;
+}

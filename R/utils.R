@@ -147,36 +147,47 @@
   utils::browseURL(url)
 }
 
-.create_chart <- function(template, context, height = 300) {
-  # Create and render template for chart
-  folder <- tempfile("sdmsel")
-  dir.create(folder)
-  .render_chart(folder, template, context)
+.create_chart <- function(folder, script, settings, data, height = 300) {
 
-  path <- file.path(folder, "chart.html")
+  dir.create(folder)
+
+  # Copy libraries and style files in lib directory
+  dir.create(paste0(folder, "/lib"))
+  files <- list.files(system.file("lib", package = "SDMsel"), full.names = TRUE)
+  file.copy(files, paste0(folder, "/lib"))
+
+  # Copy chart template
+  file.copy(paste0(system.file("templates/", package = "SDMsel"),
+                   "chart_template.html"),
+            folder)
+
+  # render script
+  .render_script(folder, script, settings, data)
+
+  path <- file.path(folder, "chart_template.html")
   viewer <- getOption("viewer")
   if (!is.null(viewer)) {
     viewer(path, height = height)  # Show chart in viewer pane
   } else {
     .start_server(folder, "/chart.html")  # Show chart in browser
   }
-
-  return(folder)
+  Sys.sleep(.1)
 }
 
+#' @importFrom jsonlite toJSON
 #' @importFrom whisker whisker.render
-.render_chart <- function(folder, template, context) {
+.render_script <- function(folder, script, settings, data) {
 
-  template <- get(template)
-  style <- get("optimiseCss")
-  jQuery <- get("jQuery")
-  chartJs <- get("chartJs")
+  template <- paste(readLines(paste0(system.file("scripts/", package = "SDMsel"),
+                                     script),
+                              encoding = "UTF-8"),
+                    collapse = "\n")
 
-  context <- c(context, list(style = style, jQuery = jQuery, chartJs = chartJs))
+  data <- list(settings = jsonlite::toJSON(settings),
+               data = jsonlite::toJSON(data))
 
-  html <- whisker::whisker.render(template, data = context)
-  writeLines(html, file.path(folder, "chart.html"))
-  Sys.sleep(0.2)
+  rendered_script <- whisker::whisker.render(template, data = data)
+  writeLines(rendered_script, file.path(folder, "lib/chart_script.js"))
 }
 
 #' @importFrom jsonlite write_json
