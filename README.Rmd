@@ -37,8 +37,11 @@ devtools::install_github("sgvignali/SDMtune")
 Load required packages:
 ```{r load packages}
 library(SDMtune)
+```
+```{r, message=FALSE}
 library(dismo)
 ```
+
 
 
 Obtain the data for the analysis, we use the dataset provided by `dismo`package:

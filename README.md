@@ -34,15 +34,11 @@ library(SDMtune)
 #>  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/
 #> /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.0.0.9000
 #> 
-#> Type citation("SDMtune") for citing this R package in publications.
+#> For citing this package in publications type: citation("SDMtune").
+```
+
+``` r
 library(dismo)
-#> Loading required package: raster
-#> Loading required package: sp
-#> 
-#> Attaching package: 'raster'
-#> The following object is masked from 'package:SDMtune':
-#> 
-#>     clamp
 ```
 
 Obtain the data for the analysis, we use the dataset provided by `dismo`package:
@@ -155,8 +151,8 @@ Print results:
 res
 #> Unit: milliseconds
 #>     expr      min       lq     mean   median       uq      max neval
-#>    dismo 243.5680 256.1140 268.1822 268.9184 275.6486 313.1623    10
-#>  SDMtune 110.1378 115.1582 120.3177 121.0679 123.5799 129.2342    10
+#>    dismo 244.1944 250.8699 266.5531 267.6568 279.5575 290.2783    10
+#>  SDMtune 113.9680 120.7058 123.4920 124.6516 126.9143 129.8717    10
 ```
 
 Plot results:
@@ -165,6 +161,6 @@ Plot results:
 boxplot(res)
 ```
 
-<img src="docs/reference/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="docs/reference/figures/README-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 **SDMtune** is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).
