@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-SDMsel <img src="logo.png" align="right" />
-===========================================
+SDMtune <img src="logo.png" align="right" />
+============================================
 
-**SDMsel** (Species Distribution Model selection) provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models). **SDMsel** uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the **AICc**.
+**SDMtune** provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models). **SDMtune** uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the **AICc**.
 
 Installation
 ------------
@@ -11,13 +11,13 @@ Installation
 You can get the latest stable version from CRAN:
 
 ``` r
-install.packages("SDMsel")
+install.packages("SDMtune")
 ```
 
 or the latest development version from github:
 
 ``` r
-devtools::install_github("sgvignali/SDMsel")
+devtools::install_github("sgvignali/SDMtune")
 ```
 
 Example
@@ -26,22 +26,21 @@ Example
 Load required packages:
 
 ``` r
-library(SDMsel)
-#> Loading required package: ggplot2
-#>  ________________________________________
-#> |   ____   ____   __  __             _   |
-#> |  / ___| |  _ \ |  \/  | ___   ___ | |  |
-#> |  \___ \ | | | || |\/| |/ __| / _ \| |  |
-#> |   ___) || |_| || |  | |\__ \|  __/| |  |
-#> |  |____/ |____/ |_|  |_||___/ \___||_|  |
-#> |________________________________________|
+library(SDMtune)
 #> 
+#>    _____  ____   __  ___ __
+#>   / ___/ / __ \ /  |/  // /_ __  __ ____   ___
+#>   \__ \ / / / // /|_/ // __// / / // __ \ / _ \
+#>  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/
+#> /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.0.0.9000
+#> 
+#> Type citation("SDMtune") for citing this R package in publications.
 library(dismo)
 #> Loading required package: raster
 #> Loading required package: sp
 #> 
 #> Attaching package: 'raster'
-#> The following object is masked from 'package:SDMsel':
+#> The following object is masked from 'package:SDMtune':
 #> 
 #>     clamp
 ```
@@ -58,7 +57,7 @@ set.seed(25)
 bg_coords <- randomPoints(predictors, 5000)  # Extract random points
 ```
 
-Prepare the data for the analysis with `SDMsel`:
+Prepare the data for the analysis with `SDMtune`:
 
 ``` r
 train <- prepareSWD(species = "Bradypus variegatus", coords = train_coords, env = predictors, categoricals = "biome")
@@ -122,7 +121,7 @@ plotPred(maxnet_pred, lt = "cloglog output")
 Speed test
 ==========
 
-We test now the difference in computation speed between the predict function of the **dismo** package that uses the Java software and the predict function of the **SDMsel** package. We also test if the results are equivalent.
+We test now the difference in computation speed between the predict function of the **dismo** package that uses the Java software and the predict function of the **SDMtune** package. We also test if the results are equivalent.
 
 The following code creates a function to test the equivalence of the results:
 
@@ -145,7 +144,7 @@ Run the test with 10 replicates:
 ``` r
 library(microbenchmark)
 res <- microbenchmark("dismo" = pred <- {predict(me_model, predictors)},
-                      "SDMsel" = pred <- {predict(maxent_model, predictors, type = "cloglog")},
+                      "SDMtune" = pred <- {predict(maxent_model, predictors, type = "cloglog")},
                       times = 10,
                       check = my_check)
 ```
@@ -155,18 +154,17 @@ Print results:
 ``` r
 res
 #> Unit: milliseconds
-#>    expr      min       lq     mean   median       uq      max neval
-#>   dismo 237.4585 238.8186 259.6385 264.0198 273.6772 293.8009    10
-#>  SDMsel 110.3205 113.7262 119.1561 117.2536 123.8524 133.3155    10
+#>     expr      min       lq     mean   median       uq      max neval
+#>    dismo 243.5680 256.1140 268.1822 268.9184 275.6486 313.1623    10
+#>  SDMtune 110.1378 115.1582 120.3177 121.0679 123.5799 129.2342    10
 ```
 
 Plot results:
 
 ``` r
-autoplot(res)
-#> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
+boxplot(res)
 ```
 
 <img src="docs/reference/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
-**SDMsel** is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).
+**SDMtune** is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).

@@ -7,7 +7,7 @@
 #' permutation importance. In case of more than one permutation (default is 10)
 #' the average of the decrease in training AUC is computed.
 #'
-#' @param model SDMsel object.
+#' @param model SDMmodel object.
 #' @param permut integer. Number of permutations, default is 10.
 #'
 #' @details Note that it could return values slightly different from MaxEnt java

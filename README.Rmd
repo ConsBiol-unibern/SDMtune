@@ -13,30 +13,30 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SDMsel <img src="logo.png" align="right" />
+# SDMtune <img src="logo.png" align="right" />
 
-**SDMsel** (Species Distribution Model selection) provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models).
-**SDMsel** uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the **AICc**. 
+**SDMtune** provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models).
+**SDMtune** uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the **AICc**. 
 
 ## Installation
 
 You can get the latest stable version from CRAN:
 
 ```{r CRAN-installation, eval=F}
-install.packages("SDMsel")
+install.packages("SDMtune")
 ```
 
 or the latest development version from github:
 
 ```{r gh-installation, eval = FALSE}
-devtools::install_github("sgvignali/SDMsel")
+devtools::install_github("sgvignali/SDMtune")
 ```
 
 ## Example
 
 Load required packages:
 ```{r load packages}
-library(SDMsel)
+library(SDMtune)
 library(dismo)
 ```
 
@@ -53,7 +53,7 @@ set.seed(25)
 bg_coords <- randomPoints(predictors, 5000)  # Extract random points
 ```
 
-Prepare the data for the analysis with `SDMsel`:
+Prepare the data for the analysis with `SDMtune`:
 
 ```{r prepare data}
 train <- prepareSWD(species = "Bradypus variegatus", coords = train_coords, env = predictors, categoricals = "biome")
@@ -106,7 +106,7 @@ plotPred(maxnet_pred, lt = "cloglog output")
 
 # Speed test
 
-We test now the difference in computation speed between the predict function of the **dismo** package that uses the Java software and the predict function of the **SDMsel** package. We also test if the results are equivalent.
+We test now the difference in computation speed between the predict function of the **dismo** package that uses the Java software and the predict function of the **SDMtune** package. We also test if the results are equivalent.
 
 The following code creates a function to test the equivalence of the results:
 
@@ -129,7 +129,7 @@ Run the test with 10 replicates:
 ```{r}
 library(microbenchmark)
 res <- microbenchmark("dismo" = pred <- {predict(me_model, predictors)},
-                      "SDMsel" = pred <- {predict(maxent_model, predictors, type = "cloglog")},
+                      "SDMtune" = pred <- {predict(maxent_model, predictors, type = "cloglog")},
                       times = 10,
                       check = my_check)
 ```
@@ -142,7 +142,7 @@ res
 Plot results:
 
 ```{r, fig.align="center"}
-autoplot(res)
+boxplot(res)
 ```
 
-**SDMsel** is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).
+**SDMtune** is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).

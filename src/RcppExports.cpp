@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // clamp
 NumericVector clamp(NumericVector x, double lower, double upper);
-RcppExport SEXP _SDMsel_clamp(SEXP xSEXP, SEXP lowerSEXP, SEXP upperSEXP) {
+RcppExport SEXP _SDMtune_clamp(SEXP xSEXP, SEXP lowerSEXP, SEXP upperSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,11 +20,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_SDMsel_clamp", (DL_FUNC) &_SDMsel_clamp, 3},
+    {"_SDMtune_clamp", (DL_FUNC) &_SDMtune_clamp, 3},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_SDMsel(DllInfo *dll) {
+RcppExport void R_init_SDMtune(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

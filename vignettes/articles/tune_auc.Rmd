@@ -22,7 +22,7 @@ options(java.parameters = "-Xmx2g" )
 Load the packages used in the vignette:
 
 ```{r, message=F}
-library(SDMsel)
+library(SDMtune)
 library(dismo)      # To download data used in the vignette
 library(plotly)     # For interactive graphs
 library(maps)       # For access useful maps
@@ -38,7 +38,7 @@ For the analysis we will use the climate data of [WorldClim](http://www.worldcli
 
 ```{r get predictors, fig.align="center"}
 files <- list.files(path = paste(system.file(package = 'dismo'), '/ex', sep = ''), pattern = 'grd', full.names = T)
-predictors <- stack(files)
+predictors <- raster::stack(files)
 ```
 
 Plot **bio1** using the [gplot](https://www.rdocumentation.org/packages/rasterVis/versions/0.43/topics/gplot-methods) function from the `rasterVis` package:
@@ -75,10 +75,10 @@ There are nine environmental variables:
 * Categorical variables
     + **biome** Terrestrial Ecoregions of the World
 
-For demonstrating how to use `SDMsel` we download a dataset of [*Vultur gryphus*](https://en.wikipedia.org/wiki/Andean_condor) from  the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/) using the [gbif](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/gbif) function of the `dismo` package. We download the data of the last 3 years.
+For demonstrating how to use `SDMsel` we download a dataset of [*Vultur gryphus*](https://en.wikipedia.org/wiki/Andean_condor) from  the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/) using the [gbif](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/gbif) function of the `dismo` package. We download the data from 2008 to 2018.
 
 ```{r get presence data}
-data <- gbif(genus = 'Vultur', species = 'gryphus*', geo = TRUE, removeZeros = TRUE, args = 'year=2015,2017')
+data <- gbif(genus = 'Vultur', species = 'gryphus*', geo = TRUE, removeZeros = TRUE, args = 'year=2008,2018')
 data <- data.frame(x = data$lon, y = data$lat)
 cleaned_data <- data[!duplicated(data), ]  # Remove duplicate rows
 cleaned_data <- cleaned_data[complete.cases(cleaned_data), ]  # Remove NA values

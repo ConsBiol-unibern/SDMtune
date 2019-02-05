@@ -1,4 +1,4 @@
 library(testthat)
-library(SDMsel)
+library(SDMtune)
 
-test_check("SDMsel")
+test_check("SDMtune")

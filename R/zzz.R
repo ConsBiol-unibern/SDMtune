@@ -1,10 +1,13 @@
+text <- paste0("
+   _____  ____   __  ___ __
+  / ___/ / __ \\ /  |/  // /_ __  __ ____   ___
+  \\__ \\ / / / // /|_/ // __// / / // __ \\ / _ \\
+ ___/ // /_/ // /  / // /_ / /_/ // / / //  __/
+/____//_____//_/  /_/ \\__/ \\__,_//_/ /_/ \\___/  version ",
+               packageVersion("SDMtune"),
+               "\n\nFor citing this package in publications type: citation(\"SDMtune\").")
+
+
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage(" ________________________________________")
-  packageStartupMessage("|   ____   ____   __  __             _   |")
-  packageStartupMessage("|  / ___| |  _ \\ |  \\/  | ___   ___ | |  |")
-  packageStartupMessage("|  \\___ \\ | | | || |\\/| |/ __| / _ \\| |  |")
-  packageStartupMessage("|   ___) || |_| || |  | |\\__ \\|  __/| |  |")
-  packageStartupMessage("|  |____/ |____/ |_|  |_||___/ \\___||_|  |")
-  packageStartupMessage("|________________________________________|")
-  packageStartupMessage("")
+  packageStartupMessage(text)
 }

@@ -10,7 +10,7 @@
   progress = "", ...)
 }
 \arguments{
-\item{object}{SDMsel object.}
+\item{object}{SDMmodel object.}
 
 \item{data}{data.frame, \link{SWD}, \link{stack} or \link{brick}.}
 
@@ -41,7 +41,7 @@ A vector with the prediction or a Raster object if data is a raster
 stack/brick.
 }
 \description{
-Predict output for a new dataset from a trained SDMsel model.
+Predict output for a new dataset from a trained model.
 }
 \details{
 You need package \pkg{snow} to use parallel computation and

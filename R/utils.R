@@ -153,11 +153,11 @@
 
   # Copy libraries and style files in lib directory
   dir.create(paste0(folder, "/lib"))
-  files <- list.files(system.file("lib", package = "SDMsel"), full.names = TRUE)
+  files <- list.files(system.file("lib", package = "SDMtune"), full.names = TRUE)
   file.copy(files, paste0(folder, "/lib"))
 
   # Copy chart template
-  file.copy(paste0(system.file("templates/", package = "SDMsel"),
+  file.copy(paste0(system.file("templates/", package = "SDMtune"),
                    "chart_template.html"),
             folder)
 
@@ -178,7 +178,7 @@
 #' @importFrom whisker whisker.render
 .render_script <- function(folder, script, settings, data) {
 
-  template <- paste(readLines(paste0(system.file("scripts/", package = "SDMsel"),
+  template <- paste(readLines(paste0(system.file("scripts/", package = "SDMtune"),
                                      script),
                               encoding = "UTF-8"),
                     collapse = "\n")

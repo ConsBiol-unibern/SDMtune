@@ -7,7 +7,7 @@
 varImp(model, permut = 10)
 }
 \arguments{
-\item{model}{SDMsel object.}
+\item{model}{SDMmodel object.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
 }

@@ -19,6 +19,6 @@
 #'
 #' @author Sergio Vignali
 clamp <- function(x, lower, upper) {
-    .Call('_SDMsel_clamp', PACKAGE = 'SDMsel', x, lower, upper)
+    .Call('_SDMtune_clamp', PACKAGE = 'SDMtune', x, lower, upper)
 }
 
