@@ -90,10 +90,11 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   settings <- list(pop = pop,
                    gen = gen,
                    metric = .get_metric_label(metric),
-                   labels = labels,
+                   labels = c("start", 1:gen),
                    update = TRUE)
 
-  data = list(best_train = best_train,
+  data = list(gen = 0,
+              best_train = best_train,
               best_val = best_val,
               lineTitle = line_title,
               lineFooter = line_footer,

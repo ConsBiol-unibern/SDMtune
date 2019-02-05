@@ -33,7 +33,9 @@ var lineData = {
     backgroundColor: "rgba(75, 192, 192, .7)",
     data: [],
     fill: false,
-    lineTension: 0
+    lineTension: 0,
+    borderWidth: 1,
+    borderDash: [5]
   }]
 };
 // Add Validation dataset if metric in not AICc
@@ -47,7 +49,9 @@ if (settings.metric[0] !== "AICc") {
     backgroundColor: "rgba(245, 132, 16, .7)",
     data: [],
     fill: false,
-    lineTension: 0
+    lineTension: 0,
+    borderWidth: 1,
+    borderDash: [5]
   })
 }
 
@@ -159,6 +163,21 @@ var lineOptions = {
   }
 };
 
+init = function() {
+  window.chartScatter.data.datasets[0].data = data.train;
+  if (settings.metric[0] !== "AICc") {
+    window.chartScatter.data.datasets[1].data = data.val;
+  }
+  window.chartScatter.options.title.text = "Model optimization - Generation " + data.gen[0];
+  window.chartScatter.update();
+
+  window.chartLine.data.datasets[0].data = data.best_train;
+  if (settings.metric[0] !== "AICc") {
+    window.chartLine.data.datasets[1].data = data.best_val;
+  }
+  window.chartLine.update();
+}
+
 update = function() {
   var refresh = setInterval(loadData, 1000);
   function loadData() {
@@ -166,25 +185,14 @@ update = function() {
       method: "GET",
       url: "data.json",
       cache: false
-    })
-    .done(function (json) {
+    }).done(function (json) {
       data = JSON.parse(json);
-      window.chartScatter.data.datasets[0].data = data.train;
-      if (settings.metric[0] !== "AICc") {
-        window.chartScatter.data.datasets[1].data = data.val;
-      }
-      window.chartScatter.options.title.text = "Model optimization - Generation " + data.gen[0];
-      window.chartScatter.update();
-
-      window.chartLine.data.datasets[0].data = data.best_train;
-      if (settings.metric[0] !== "AICc") {
-        window.chartLine.data.datasets[1].data = data.best_val;
-      }
-      window.chartLine.update();
+      init();
 
       if (data.stop[0]) {
         clearInterval(refresh);
       }
+
     })
   };
 };
@@ -206,5 +214,10 @@ window.onload = function() {
     data: lineData,
     options: lineOptions,
   });
-  update();
+  // Init charts
+  init();
+  // Update in case of real time chart
+  if (settings.update) {
+    update();
+  }
 };
