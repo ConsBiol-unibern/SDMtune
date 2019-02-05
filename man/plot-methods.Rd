@@ -5,7 +5,7 @@
 \alias{plot,SDMtune,missing-method}
 \title{Plot}
 \usage{
-\S4method{plot}{SDMtune,missing}(x)
+\S4method{plot}{SDMtune,missing}(x, interactive = FALSE)
 }
 \arguments{
 \item{x}{SDMtune object.}

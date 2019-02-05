@@ -95,6 +95,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
                    min = min(bgs),
                    max = max(bgs),
                    labels = c(""),
+                   show_line = TRUE,
                    update = TRUE)
 
   data = list()

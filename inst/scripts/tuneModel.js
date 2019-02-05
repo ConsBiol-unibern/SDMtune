@@ -10,9 +10,12 @@ var lineData = {
 		borderWidth: .7,
 		borderColor: "rgb(75, 192, 192)",
 		backgroundColor: "rgba(75, 192, 192, .7)",
-		data: [],
 		fill: false,
-		lineTension: 0
+    lineTension: 0,
+    borderWidth: .7,
+    borderDash: [5],
+		showLine: settings.show_line,
+		data: [],
 	}]
 };
 // Add Validation dataset if metric in not AICc
@@ -24,9 +27,12 @@ if (settings.metric[0] !== "AICc") {
 		borderWidth: .7,
 		borderColor: "rgb(245, 132, 16)",
 		backgroundColor: "rgba(245, 132, 16, .7)",
-		data: [],
 		fill: false,
-		lineTension: 0
+    lineTension: 0,
+    borderWidth: .7,
+    borderDash: [5],
+		showLine: settings.show_line,
+		data: [],
 	})
 }
 

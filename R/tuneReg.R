@@ -77,6 +77,7 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
                    min = min(regs),
                    max = max(regs),
                    labels = c(""),
+                   show_line = TRUE,
                    update = TRUE)
 
   data = list()

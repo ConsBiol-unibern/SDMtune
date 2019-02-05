@@ -50,7 +50,7 @@ if (!isGeneric("plot"))
 #' @author Sergio Vignali
 setMethod("plot",
   signature(x = "SDMtune", y = "missing"),
-  definition = function(x) {
+  definition = function(x, interactive = FALSE) {
     res <- x@results
     n <- nrow(res)
 
@@ -63,29 +63,40 @@ setMethod("plot",
       metric <- "AICc"
     }
 
+    show_line = TRUE
+
     if (length(unique(res$fc)) == 1 & length(unique(res$reg)) == 1
                & length(unique(res$bg)) != 1) {
       #  Result of tuneBg function
       title <- "Tune Backgrounds"
       x_label <- "backgrounds"
       x <- res[, 1]
+      min <- min(x)
+      max <- max(x)
     } else if (length(unique(res$fc)) != 1 & length(unique(res$reg)) == 1
                & length(unique(res$bg)) == 1) {
       #  Result of tuneFC function
       title <- "Tune Feature Combinations"
       x_label <- "feature combination"
       x <- res[, 3]
+      min <- 0
+      max <- 1
     } else if (length(unique(res$fc)) == 1 & length(unique(res$reg)) != 1
                & length(unique(res$bg)) == 1) {
       #  Result of tuneReg function
       title <- "Tune Regularization"
       x_label <- "regularization multiplier"
       x <- res[, 2]
+      min <- min(x)
+      max <- max(x)
     } else {
       #  Result of modelOptimise function
       title <- "Model Optimization"
       x_label <- "model"
       x <- 1:n
+      min <- min(x)
+      max <- max(x)
+      show_line = FALSE
     }
 
     if (metric != "AICc") {
@@ -95,20 +106,33 @@ setMethod("plot",
       data <- data.frame(x = x, y = res[, 4], type = rep("Training", n))
     }
 
-    #  Create scatterplot
-    p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
-                                 group = "type")) +
-      geom_point() +
-      labs(title = title, x = x_label, y = metric) +
-      scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
-      theme_minimal() +
-      theme(plot.title = element_text(hjust = 0.5),
-            text = element_text(colour = "#666666", family = "sans-serif"),
-            legend.position = "bottom")
+    if (interactive) {
+      settings <- list(metric = metric,
+                       title = title,
+                       x_label = x_label,
+                       min = min,
+                       max = max,
+                       labels = x,
+                       show_line = show_line,
+                       update = FALSE)
 
-    # Add line if is the rusult of a tune function
-    if (x_label != "model")
-      p <- p + geom_line()
+      chart_data <- list()
+    } else {
+      #  Create scatterplot
+      p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
+                                   group = "type")) +
+        geom_point() +
+        labs(title = title, x = x_label, y = metric) +
+        scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
+        theme_minimal() +
+        theme(plot.title = element_text(hjust = 0.5),
+              text = element_text(colour = "#666666", family = "sans-serif"),
+              legend.position = "bottom")
+
+      # Add line if is the rusult of a tune function
+      if (x_label != "model")
+        p <- p + geom_line(linetype = "dashed", size = .3)
+    }
 
     return(p)
   })

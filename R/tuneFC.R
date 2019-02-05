@@ -78,6 +78,7 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
                    min = 0,
                    max = 1,
                    labels = fcs,
+                   show_line = TRUE,
                    update = TRUE)
 
   data = list()
