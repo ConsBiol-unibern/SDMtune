@@ -113,7 +113,7 @@
   }
 }
 
-.create_optimise_output <- function(models, metric, metrics) {
+.create_optimise_output <- function(models, metric, train_metric, val_metric) {
 
   labels <- .get_tune_labels(metric)
 
@@ -124,9 +124,9 @@
     res[i, 1] <- nrow(models[[i]]@background@data)
     res[i, 2] <- .get_model_reg(models[[i]])
     fcs[i] <- .get_model_fc(models[[i]])
-    res[i, 4] <- metrics[[1]][i]
+    res[i, 4] <- train_metric[i, 2]
     if (metric != "aicc")
-      res[i, 5] <- metrics[[2]][i]
+      res[i, 5] <- val_metric[i, 2]
   }
 
   if (metric != "aicc") {

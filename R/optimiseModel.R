@@ -75,6 +75,11 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   if (!is.null(seed))
     set.seed(seed)
 
+  models <- vector("list", length = pop)
+  train_metric <- data.frame(x = NA_real_, y = NA_real_)
+  val_metric <- data.frame(x = NA_real_, y = NA_real_)
+  scatter_footer <- vector("character", length = pop)
+
   vars <- colnames(model@presence@data)
   bg4test@data <- bg4test@data[vars]
   bg_folds <- sample(nrow(bg4test@data))
@@ -109,11 +114,6 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                 settings = settings, data = data, height = 500)
 
   # Create random population
-  models <- vector("list", length = pop)
-  train_metric <- data.frame(x = NA_real_, y = NA_real_)
-  val_metric <- data.frame(x = NA_real_, y = NA_real_)
-  scatter_footer <- vector("character", length = pop)
-
   for (i in 1:pop) {
     models[[i]] <- .create_random_model(model, bg4test = bg4test,
                                         bg_folds = bg_folds, regs = regs,
@@ -176,7 +176,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                       lineFooter = line_footer, stop = FALSE))
     Sys.sleep(.1)
     parents <- models[index_kept]
-    new_models <- parents
+    models <- parents
 
     for (j in 1:remaining) {
 
@@ -193,7 +193,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                                              test))
       scatter_footer[kept + j] <- .get_model_hyperparams(child)
 
-      new_models <- c(new_models, child)
+      models <- c(models, child)
       .update_chart(folder, data = list(train = train_metric, val = val_metric,
                                         gen = i, scatterFooter = scatter_footer,
                                         best_train = best_train,
@@ -207,7 +207,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     rank_index <- .get_rank_index(metric, metrics)
 
     if (!is.logical(rank_index)) {
-      models <- new_models[rank_index]
+      models <- models[rank_index]
       train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
       val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
       scatter_footer <- scatter_footer[rank_index]
@@ -235,10 +235,9 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
                                     best_val = best_val,
                                     lineTitle = line_title,
                                     lineFooter = line_footer, stop = TRUE))
-
-  metrics <- list(train_metric$y, val_metric$y)
-  output <- .create_optimise_output(models, metric, metrics)
+  output <- .create_optimise_output(models, metric, train_metric, val_metric)
   pb$tick(1)
+
   return(output)
 }
 
