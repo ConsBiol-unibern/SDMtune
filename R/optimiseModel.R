@@ -56,6 +56,9 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
 
+  if (keep_best + keep_random > 1)
+    stop("Sum of 'keep_best' and 'keep_random' cannot be more than 1!")
+
   # Check if at least two hyperparameters have more than one value
   .check_hyperparams_validity(bgs, fcs, regs)
 
@@ -152,12 +155,11 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
     Sys.sleep(.1)
   } else {
     stop(paste("Optimization algorithm interrupted at generation", 0,
-               "because it starts to overfit validation dataset!"))
+               "because it overfits validation dataset!"))
   }
 
   for (i in 1:gen) {
-    index_kept <- c(1:kept_good, sample( (kept + 1):pop,
-                                        kept_bad))
+    index_kept <- c(1:kept_good, sample( (kept_good + 1):pop, kept_bad))
     train_metric <- train_metric[index_kept, ]
     train_metric$x <- 1:kept
     if (metric != "aicc") {
@@ -223,7 +225,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
       Sys.sleep(.1)
     } else {
       stop(paste("Optimization algorithm interrupted at generation", i,
-                 "because it starts to overfit validation dataset!"))
+                 "because it overfits validation dataset!"))
     }
   }
 
