@@ -71,14 +71,20 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
   res <- matrix(nrow = length(regs), ncol = length(labels))
 
   # Create chart
-  context <- list(metric = .get_metric_label(metric),
-                  title = "Tune Regularization",
-                  x_label = "regularization multiplier",
-                  min = min(regs),
-                  max = max(regs),
-                  labels = jsonlite::toJSON(c("")))
+  settings <- list(metric = .get_metric_label(metric),
+                   title = "Tune Regularization",
+                   x_label = "regularization multiplier",
+                   min = min(regs),
+                   max = max(regs),
+                   labels = c(""),
+                   update = TRUE)
 
-  folder <- .create_chart(template = "tuneTemplate", context = context)
+  data = list()
+
+  folder <- tempfile("SDMtune")
+
+  .create_chart(folder = folder, script = "tuneModel.js",
+                settings = settings, data = data)
 
   # metric used for chart
   train_metric <- data.frame(x = NA_real_, y = NA_real_)

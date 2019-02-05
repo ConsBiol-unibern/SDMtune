@@ -1,5 +1,7 @@
+// Variables rendered by Whisker
 var settings = {{{ settings }}};
 var data = {{{ data }}};
+
 var scatterData = {
   datasets: [{
     label: "Training",
@@ -180,7 +182,7 @@ init = function() {
     window.chartLine.data.datasets[1].data = data.best_val;
   }
   window.chartLine.update();
-}
+};
 
 update = function() {
   var refresh = setInterval(loadData, 1000);

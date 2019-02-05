@@ -89,14 +89,20 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   folds_bg <- sample(nrow(bg4test@data))
 
   # Create chart
-  context <- list(metric = .get_metric_label(metric),
-                  title = "Tune Backgrounds",
-                  x_label = "backgrounds",
-                  min = min(bgs),
-                  max = max(bgs),
-                  labels = jsonlite::toJSON(c("")))
+  settings <- list(metric = .get_metric_label(metric),
+                   title = "Tune Backgrounds",
+                   x_label = "backgrounds",
+                   min = min(bgs),
+                   max = max(bgs),
+                   labels = c(""),
+                   update = TRUE)
 
-  folder <- .create_chart(template = "tuneTemplate", context = context)
+  data = list()
+
+  folder <- tempfile("SDMtune")
+
+  .create_chart(folder = folder, script = "tuneModel.js",
+                settings = settings, data = data)
 
   # metric used for chart
   train_metric <- data.frame(x = NA_real_, y = NA_real_)

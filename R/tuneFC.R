@@ -72,12 +72,20 @@ tuneFC <- function(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   res <- matrix(nrow = length(fcs), ncol = length(labels))
 
   # Create chart
-  context <- list(metric = .get_metric_label(metric),
-                  title = "Tune Feature Combinations",
-                  x_label = "feature combination",
-                  labels = jsonlite::toJSON(fcs))
+  settings <- list(metric = .get_metric_label(metric),
+                   title = "Tune Feature Combinations",
+                   x_label = "feature combination",
+                   min = 0,
+                   max = 1,
+                   labels = fcs,
+                   update = TRUE)
 
-  folder <- .create_chart(template = "tuneTemplate", context = context)
+  data = list()
+
+  folder <- tempfile("SDMtune")
+
+  .create_chart(folder = folder, script = "tuneModel.js",
+                settings = settings, data = data)
 
   # metric used for chart
   train_metric <- rep(NA_real_, length(fcs))
