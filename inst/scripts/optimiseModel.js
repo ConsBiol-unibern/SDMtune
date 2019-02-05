@@ -7,6 +7,7 @@ var scatterData = {
     pointHoverRadius: 5,
     borderColor: "rgb(75, 192, 192)",
     backgroundColor: "rgba(75, 192, 192, .7)",
+    borderWidth: .7,
     data: []
   }]
 };
@@ -18,6 +19,7 @@ if (settings.metric[0] !== "AICc") {
     pointHoverRadius: 5,
     borderColor: "rgb(245, 132, 16)",
     backgroundColor: "rgba(245, 132, 16, .7)",
+    borderWidth: .7,
     data: []
   })
 }
@@ -28,14 +30,13 @@ var lineData = {
     label: "Training",
     pointRadius: 3,
     pointHoverRadius: 5,
-    borderWidth: .7,
     borderColor: "rgb(75, 192, 192)",
     backgroundColor: "rgba(75, 192, 192, .7)",
-    data: [],
     fill: false,
     lineTension: 0,
-    borderWidth: 1,
-    borderDash: [5]
+    borderWidth: .7,
+    borderDash: [5],
+    data: [],
   }]
 };
 // Add Validation dataset if metric in not AICc
@@ -44,14 +45,13 @@ if (settings.metric[0] !== "AICc") {
     label: "Validation",
     pointRadius: 3,
     pointHoverRadius: 5,
-    borderWidth: .5,
     borderColor: "rgb(245, 132, 16)",
     backgroundColor: "rgba(245, 132, 16, .7)",
-    data: [],
     fill: false,
     lineTension: 0,
-    borderWidth: 1,
-    borderDash: [5]
+    borderWidth: .7,
+    borderDash: [5],
+    data: [],
   })
 }
 
@@ -64,7 +64,11 @@ var scatterOptions = {
     text: "Model Optimization - Generation 0"
   },
   legend: {
-    display: false
+    position: "bottom",
+    labels: {
+      fontFamily: "sans-serif",
+      usePointStyle: true
+    }
   },
   scales: {
     yAxes: [{

@@ -93,7 +93,7 @@ optimiseModel <- function(model, bg4test, regs, fcs, bgs, test, pop, gen,
   settings <- list(pop = pop,
                    gen = gen,
                    metric = .get_metric_label(metric),
-                   labels = c("start", 1:gen),
+                   labels = c("start", 0:gen),
                    update = TRUE)
 
   data = list(gen = 0,
