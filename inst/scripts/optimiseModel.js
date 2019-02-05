@@ -223,7 +223,7 @@ window.onload = function() {
   // Init charts
   init();
   // Update in case of real time chart
-  if (settings.update) {
+  if (settings.update[0]) {
     update();
   }
 };

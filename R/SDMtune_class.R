@@ -34,9 +34,11 @@ if (!isGeneric("plot"))
 
 #' Plot
 #'
-#' Plot the result of a tune function or of the optimiseModel function.
+#' Plot the result of a tune function or of the optimiseModel function, use the
+#' interactive argument to create an interactive chart.
 #'
 #' @param x SDMtune object.
+#' @param interactive logical, if TRUE plot an iteractive chart.
 #'
 #' @export
 #' @docType methods
@@ -52,6 +54,8 @@ setMethod("plot",
   signature(x = "SDMtune", y = "missing"),
   definition = function(x, interactive = FALSE) {
     res <- x@results
+    models <- x@models
+
     n <- nrow(res)
 
     # Get metric
@@ -99,13 +103,6 @@ setMethod("plot",
       show_line = FALSE
     }
 
-    if (metric != "AICc") {
-      data <- data.frame(x = rep(x, 2), y = c(res[, 4], res[, 5]),
-                         type = c(rep("Training", n), rep("Validation", n)))
-    } else {
-      data <- data.frame(x = x, y = res[, 4], type = rep("Training", n))
-    }
-
     if (interactive) {
       settings <- list(metric = metric,
                        title = title,
@@ -116,8 +113,29 @@ setMethod("plot",
                        show_line = show_line,
                        update = FALSE)
 
-      chart_data <- list()
+      line_footer <- sapply(models, function(x) .get_model_hyperparams(x))
+      train_metric <- data.frame(x = x, y = res[, 4])
+      if (metric != "AICc") {
+        val_metric <- data.frame(x = x, y = res[, 5])
+      } else {
+        val_metric <- data.frame(x = NA_real_, y = NA_real_)
+      }
+
+      chart_data <- list(train = train_metric, val = val_metric,
+                         lineFooter = line_footer)
+
+      folder <- tempfile("SDMtune")
+
+      .create_chart(folder = folder, script = "tuneModel.js",
+                    settings = settings, data = chart_data)
     } else {
+      if (metric != "AICc") {
+        data <- data.frame(x = rep(x, 2), y = c(res[, 4], res[, 5]),
+                           type = c(rep("Training", n), rep("Validation", n)))
+      } else {
+        data <- data.frame(x = x, y = res[, 4], type = rep("Training", n))
+      }
+
       #  Create scatterplot
       p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
                                    group = "type")) +
@@ -132,7 +150,7 @@ setMethod("plot",
       # Add line if is the rusult of a tune function
       if (x_label != "model")
         p <- p + geom_line(linetype = "dashed", size = .3)
-    }
 
-    return(p)
+      return(p)
+    }
   })
