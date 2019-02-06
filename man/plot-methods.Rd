@@ -9,9 +9,12 @@
 }
 \arguments{
 \item{x}{SDMtune object.}
+
+\item{interactive}{logical, if TRUE plot an iteractive chart.}
 }
 \description{
-Plot the result of a tune function or of the optimiseModel function.
+Plot the result of a tune function or of the optimiseModel function, use the
+interactive argument to create an interactive chart.
 }
 \examples{
 \dontrun{plot(my_tuneBg)}

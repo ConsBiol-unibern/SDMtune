@@ -5,7 +5,7 @@ text <- paste0("
  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/
 /____//_____//_/  /_/ \\__/ \\__,_//_/ /_/ \\___/  version ",
                packageVersion("SDMtune"),
-               "\n\nFor citing this package in publications type: citation(\"SDMtune\").")
+               "\n\nTo cite this package in publications type: citation(\"SDMtune\").")
 
 
 .onAttach <- function(libname, pkgname) {
