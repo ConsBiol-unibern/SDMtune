@@ -91,6 +91,17 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
   correlation_removed <- FALSE
   initial_vars <- colnames(model@presence@data)
 
+  # Create chart
+  settings <- list(labels = initial_vars,
+                   update = TRUE)
+
+  data = list(data = c())
+
+  folder <- tempfile("SDMsel")
+
+  .create_chart(folder = folder, script = "varSelection.js",
+                settings = settings, data = data)
+
   if (change_reg) {
     if (method == "Maxent") {
       model <- train(method = model_method, presence = model@presence,
@@ -118,6 +129,9 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     scores <- suppressMessages(varImp(model, permut = permut))
     vars <- scores$Variable
     discarded_variable <- NULL
+
+    .update_chart(folder, data = list(data = scores[, 2], stop = FALSE))
+    Sys.sleep(.1)
 
     for (i in 1:length(vars)) {
 
@@ -150,6 +164,8 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     if (is.null(discarded_variable))
       correlation_removed <- TRUE
   }
+  .update_chart(folder, data = list(data = scores[, 2], stop = TRUE))
+  Sys.sleep(.1)
 
   if (change_reg) {
     pb$tick(total - removed - 2)

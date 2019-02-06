@@ -104,10 +104,10 @@ if (settings.x_label[0] === "feature combination") {
 
 init = function() {
   window.chartLine.data.datasets[0].data = data.train;
-			if (settings.metric[0] !== "AICc") {
-				window.chartLine.data.datasets[1].data = data.val;
-			}
-			window.chartLine.update();
+		if (settings.metric[0] !== "AICc") {
+			window.chartLine.data.datasets[1].data = data.val;
+		}
+	window.chartLine.update();
 };
 
 update = function() {
