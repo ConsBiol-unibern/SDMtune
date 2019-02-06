@@ -23,8 +23,8 @@ Not used for \strong{aicc} and SDMmodelCV.}
 \item{with_only}{logical. If TRUE it runs the test also for each variable in
 isolation, default is TRUE.}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental
-variables, used only with "aicc", default is NULL.}
+\item{env}{\link{stack} containing the environmental variables, used only
+with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE. Used only with AICc.}

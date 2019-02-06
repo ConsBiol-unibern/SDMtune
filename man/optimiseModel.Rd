@@ -32,8 +32,8 @@ used with aicc and \link{SDMmodelCV} objects, default is \code{NULL}.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental
-variables, used only with "aicc", default is NULL.}
+\item{env}{\link{stack} containing the environmental variables, used only
+with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE.}

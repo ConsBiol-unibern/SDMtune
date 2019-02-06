@@ -9,18 +9,21 @@ aicc(model, env, parallel = FALSE)
 \arguments{
 \item{model}{SDMmodel object.}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental variables.}
+\item{env}{\link{stack} containing the environmental variables.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is FALSE.}
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE.}
 }
 \value{
 The computed AICc
 }
 \description{
-Compute Akaike Information Criterion corrected for small samples size (Warren and Seifert 2011).
+Compute the Akaike Information Criterion corrected for small samples size
+(Warren and Seifert 2011).
 }
 \details{
-You need package \pkg{snow} to use parallel computation. Parallel computation increases the speed
+You need package \pkg{snow} to use parallel computation. Parallel
+computation increases the speed
 only for big datasets due to the time necessary to create the cluster.
 }
 \examples{
@@ -29,9 +32,9 @@ aicc(model, predictors, parallel = T)}
 
 }
 \references{
-Warren D.L., Seifert S.N., (2011). Ecological niche modeling in Maxent:
-the importance of model complexity and the performance of model selection criteria.
-Ecological Applications, 21(2), 335–342.
+Warren D.L., Seifert S.N., (2011). Ecological niche modeling in
+Maxent: the importance of model complexity and the performance of model
+selection criteria. Ecological Applications, 21(2), 335–342.
 }
 \author{
 Sergio Vignali

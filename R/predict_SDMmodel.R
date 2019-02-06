@@ -7,7 +7,7 @@ setGeneric("predict", function(object, ...)
 #' Predict output for a new dataset from a trained model.
 #'
 #' @param object SDMmodel object.
-#' @param data data.frame, \link{SWD}, \link{stack} or \link{brick}.
+#' @param data data.frame, \link{SWD}, \link{stack}.
 #' @param type character. Output type, see \link{predict,Maxent-method} for
 #' Maxent models or \link{predict.maxnet} for Maxnet models.
 #' @param clamp logical for clumping during prediction, default is TRUE.

@@ -13,8 +13,8 @@
 #' @param gen numeric. Number of generations.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".
-#' @param env \link{stack} or \link{brick} containing the environmental
-#' variables, used only with "aicc", default is NULL.
+#' @param env \link{stack} containing the environmental variables, used only
+#' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE.
 #' @param keep_best numeric. Percentage of the best models in the population to

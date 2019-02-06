@@ -6,8 +6,8 @@
 #' @param species character. The name of the species.
 #' @param coords data.frame. The coordinates of the presence or background
 #' locations.
-#' @param env \link{stack} or \link{brick} containing the environmental
-#' variables used to train the model.
+#' @param env \link{stack} containing the environmental variables used to train
+#' the model.
 #' @param categoricals vector indicating which of the environmental variable are
 #' categoricals, default is NULL.
 #'

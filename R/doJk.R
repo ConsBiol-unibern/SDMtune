@@ -11,8 +11,8 @@
 #' Not used for **aicc** and SDMmodelCV.
 #' @param with_only logical. If TRUE it runs the test also for each variable in
 #' isolation, default is TRUE.
-#' @param env \link{stack} or \link{brick} containing the environmental
-#' variables, used only with "aicc", default is NULL.
+#' @param env \link{stack} containing the environmental variables, used only
+#' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE. Used only with AICc.
 #' @param return_models logical, If TRUE returns all the models together with

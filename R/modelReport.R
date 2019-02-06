@@ -11,8 +11,8 @@
 #' @param response_curves logical, if TRUE it plots the response curves in the
 #' html output, default is FALSE.
 #' @param jk logical, if TRUE it runs the jackknife test, default FALSE.
-#' @param env \link{stack} or \link{brick}. If provided it computes and adds a
-#' prediction map to the output, default is NULL.
+#' @param env \link{stack}. If provided it computes and adds a prediction map to
+#' the output, default is NULL.
 #' @param clamp logical for clumping during prediction, used for response curves
 #' and when **env** is provided, default is TRUE.
 #'

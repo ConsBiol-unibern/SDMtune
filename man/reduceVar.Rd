@@ -19,8 +19,8 @@ values are: "auc", "tss" and "aicc", used only if use_jk is TRUE, default is
 \item{test}{SWD. Test dataset used to evaluate the model, not used with aicc,
 and if use_jk = FALSE, default is NULL.}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental
-variables, used only with "aicc", default is NULL.}
+\item{env}{\link{stack} containing the environmental variables, used only
+with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE. Used only with AICc.}

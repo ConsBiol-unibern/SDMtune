@@ -12,7 +12,7 @@
 \arguments{
 \item{object}{SDMmodel object.}
 
-\item{data}{data.frame, \link{SWD}, \link{stack} or \link{brick}.}
+\item{data}{data.frame, \link{SWD}, \link{stack}.}
 
 \item{type}{character. Output type, see \link{predict,Maxent-method} for
 Maxent models or \link{predict.maxnet} for Maxnet models.}
