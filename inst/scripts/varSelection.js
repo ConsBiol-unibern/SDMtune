@@ -7,8 +7,8 @@ var barData = {
 	datasets: [{
 		label: "Variable",
 		borderWidth: .7,
-		borderColor: "rgb(75, 192, 192)",
-		backgroundColor: "rgba(75, 192, 192, .7)",
+		borderColor: "rgb(245, 132, 16)",
+		backgroundColor: "rgba(245, 132, 16, .7)",
 		data: []
 	}]
 };

@@ -135,7 +135,6 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
       data = list(data = vals, stop = FALSE)
       .update_chart(folder, data = data)
     }
-
     Sys.sleep(.1)
 
     for (i in 1:length(vars)) {
