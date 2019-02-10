@@ -89,18 +89,6 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
 
   metric <- match.arg(metric)
   correlation_removed <- FALSE
-  initial_vars <- colnames(model@presence@data)
-
-  # Create chart
-  settings <- list(labels = initial_vars,
-                   update = TRUE)
-
-  data = list(data = c())
-
-  folder <- tempfile("SDMsel")
-
-  .create_chart(folder = folder, script = "varSelection.js",
-                settings = settings, data = data)
 
   if (change_reg) {
     if (method == "Maxent") {
@@ -130,7 +118,24 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     vars <- scores$Variable
     discarded_variable <- NULL
 
-    .update_chart(folder, data = list(data = scores[, 2], stop = FALSE))
+    if (!removed) {
+      # Create chart
+      initial_vars <- vars
+      settings <- list(labels = vars,
+                       update = TRUE)
+      data = list(data = scores[, 2], stop = FALSE)
+      folder <- tempfile("SDMsel")
+
+      .create_chart(folder = folder, script = "varSelection.js",
+                    settings = settings, data = data)
+    } else {
+      index <- match(initial_vars, vars)
+      vals <- scores[, 2][index]
+      vals[is.na(vals)] <- 0
+      data = list(data = vals, stop = FALSE)
+      .update_chart(folder, data = data)
+    }
+
     Sys.sleep(.1)
 
     for (i in 1:length(vars)) {
@@ -164,7 +169,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     if (is.null(discarded_variable))
       correlation_removed <- TRUE
   }
-  .update_chart(folder, data = list(data = scores[, 2], stop = TRUE))
+  .update_chart(folder, data = list(data = vals, stop = TRUE))
   Sys.sleep(.1)
 
   if (change_reg) {

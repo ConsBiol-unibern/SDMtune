@@ -42,7 +42,7 @@ var barOptions = {
 				if (label) {
 					label += ": ";
 				}
-				label += tooltipItem.y + "%";
+				label += tooltipItem.xLabel + "%";
 				return label;
 			},
 			title: function (tooltipItems, data) {
