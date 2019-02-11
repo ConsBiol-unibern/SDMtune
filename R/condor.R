@@ -20,7 +20,7 @@
 #' accessed via GBIF.org on 2019-02-11.
 #'
 #' naturgucker.de. naturgucker. Occurrence dataset
-#' https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2019-02-11.
+#' \url{https://doi.org/10.15468/uc1apo} accessed via GBIF.org on 2019-02-11.
 #'
 #' iNaturalist.org (2019). iNaturalist Research-grade Observations. Occurrence
 #' dataset \url{https://doi.org/10.15468/ab3s5x} accessed via GBIF.org on
@@ -29,15 +29,15 @@
 #' Karyakin I, Kamenskiy D, Grachev E, Bekmansurov R, Vazhov S, Barashkova A,
 #' Shnayder E, Ebel A, Shtol D, Kovalenko A, Nikolenko E, Pchelintsev V,
 #' Fedorenko V, Shukov P (2018). Raptors of the World. Version 1.6.
-#' Sibecocenter LLC. Occurrence dataset https://doi.org/10.15468/fggsfn accessed
-#' via GBIF.org on 2019-02-11.
+#' Sibecocenter LLC. Occurrence dataset \url{https://doi.org/10.15468/fggsfn}
+#' accessed via GBIF.org on 2019-02-11.
 #'
 #' Administración de Parques Nacionales, Argentina. VERTEBRADOS DE VALOR
 #' ESPECIAL EN ÁREAS PROTEGIDAS DE LA ARGENTINA. Occurrence dataset
-#' https://doi.org/10.15468/s5t7po accessed via GBIF.org on 2019-02-11.
+#' \url{https://doi.org/10.15468/s5t7po} accessed via GBIF.org on 2019-02-11.
 #'
 #' Zuñiga Hartley A, Gómez Rivero E (2017). Registro de Fauna Silvestre en el
 #' Inventario Nacional Forestal y de Fauna Silvestre-SERFOR, Perú. Servicio
 #' Nacional Forestal y de Fauna Silvestre. Sampling event dataset
-#' https://doi.org/10.15468/y9itpr accessed via GBIF.org on 2019-02-11.
+#' \url{https://doi.org/10.15468/y9itpr} accessed via GBIF.org on 2019-02-11.
 "condor"
