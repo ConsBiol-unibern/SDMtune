@@ -7,8 +7,8 @@ var scatterData = {
     label: "Training",
     pointRadius: 3,
     pointHoverRadius: 5,
-    borderColor: "rgb(75, 192, 192)",
-    backgroundColor: "rgba(75, 192, 192, .7)",
+    borderColor: "rgb(245, 132, 16)",
+    backgroundColor: "rgba(245, 132, 16, .7)",
     borderWidth: .7,
     data: []
   }]
@@ -19,21 +19,21 @@ if (settings.metric[0] !== "AICc") {
     label: "Validation",
     pointRadius: 3,
     pointHoverRadius: 5,
-    borderColor: "rgb(245, 132, 16)",
-    backgroundColor: "rgba(245, 132, 16, .7)",
+    borderColor: "rgb(75, 192, 192)",
+    backgroundColor: "rgba(75, 192, 192, .7)",
     borderWidth: .7,
     data: []
   })
 }
 
 var lineData = {
-    labels: settings.labels,
+  labels: settings.labels,
   datasets: [{
     label: "Training",
     pointRadius: 3,
     pointHoverRadius: 5,
-    borderColor: "rgb(75, 192, 192)",
-    backgroundColor: "rgba(75, 192, 192, .7)",
+    borderColor: "rgb(245, 132, 16)",
+    backgroundColor: "rgba(245, 132, 16, .7)",
     fill: false,
     lineTension: 0,
     borderWidth: .7,
@@ -47,8 +47,8 @@ if (settings.metric[0] !== "AICc") {
     label: "Validation",
     pointRadius: 3,
     pointHoverRadius: 5,
-    borderColor: "rgb(245, 132, 16)",
-    backgroundColor: "rgba(245, 132, 16, .7)",
+    borderColor: "rgb(75, 192, 192)",
+    backgroundColor: "rgba(75, 192, 192, .7)",
     fill: false,
     lineTension: 0,
     borderWidth: .7,

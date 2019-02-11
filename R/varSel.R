@@ -111,6 +111,26 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
   df[categorical] <- list(NULL)
   cor_matrix <- cor(df, method = method)
 
+  # metric used for chart
+  train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env,
+                                                    parallel = parallel))
+  if (metric != "aicc") {
+    val_metric <- data.frame(x = 0, y = .get_metric(metric, model, test = test))
+  } else {
+    val_metric <- data.frame(x = NA_real_, y = NA_real_)
+  }
+
+  # Create chart
+  initial_vars <- colnames(model@presence@data)
+  settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
+                   update = TRUE)
+  data = list(data = rep(0, length(initial_vars)), stop = FALSE)
+  folder <- tempfile("SDMsel")
+
+  .create_chart(folder = folder, script = "varSelection.js",
+                settings = settings, data = data, height = 600)
+  Sys.sleep(.1)
+
   while (correlation_removed == FALSE) {
 
     cor_matrix <- as.data.frame(cor_matrix)
@@ -118,23 +138,13 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     vars <- scores$Variable
     discarded_variable <- NULL
 
-    if (!removed) {
-      # Create chart
-      initial_vars <- vars
-      settings <- list(labels = vars,
-                       update = TRUE)
-      data = list(data = scores[, 2], stop = FALSE)
-      folder <- tempfile("SDMsel")
-
-      .create_chart(folder = folder, script = "varSelection.js",
-                    settings = settings, data = data)
-    } else {
-      index <- match(initial_vars, vars)
-      vals <- scores[, 2][index]
-      vals[is.na(vals)] <- 0
-      data = list(data = vals, stop = FALSE)
-      .update_chart(folder, data = data)
-    }
+    # Update chart
+    index <- match(initial_vars, vars)
+    vals <- scores[, 2][index]
+    vals[is.na(vals)] <- 0
+    data = list(data = vals, train = train_metric, val = val_metric,
+                stop = FALSE)
+    .update_chart(folder, data = data)
     Sys.sleep(.1)
 
     for (i in 1:length(vars)) {
@@ -150,10 +160,17 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
                                          variables = hcv, with_only = FALSE,
                                          env = env, parallel = parallel,
                                          return_models = TRUE))
+
+        # index for matric data frames
+        x <- nrow(train_metric) + 1
+
         if (metric != "aicc") {
           index <- which.max(jk_test$results[, 2])
+          train_metric[x, ] <- list(x = x - 1, y = jk_test$results[index, 2])
+          val_metric[x, ] <- list(x = x - 1, y = jk_test$results[index, 3])
         } else {
-          index <- which.min(jk_test$results[, 3])
+          index <- which.min(jk_test$results[, 2])
+          train_metric[x, ] <- list(x = x - 1, y = jk_test$results[index, 2])
         }
 
         model <- jk_test$models_without[[index]]
@@ -168,7 +185,8 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     if (is.null(discarded_variable))
       correlation_removed <- TRUE
   }
-  .update_chart(folder, data = list(data = vals, stop = TRUE))
+  .update_chart(folder, data = list(data = vals, train = train_metric,
+                                    val = val_metric, stop = TRUE))
   Sys.sleep(.1)
 
   if (change_reg) {

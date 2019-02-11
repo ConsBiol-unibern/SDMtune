@@ -31,6 +31,10 @@ var barOptions = {
 		xAxes: [{
 			ticks: {
 				min: 0,
+				suggestedMax: 50,
+        callback: function(value, index, values) {
+          return value + "%";
+        }
 			}
 		}]
 	},
@@ -52,9 +56,96 @@ var barOptions = {
 	}
 };
 
+var lineData = {
+  datasets: [{
+    label: "Training",
+    pointRadius: 3,
+    pointHoverRadius: 5,
+    borderColor: "rgb(245, 132, 16)",
+    backgroundColor: "rgba(245, 132, 16, .7)",
+    fill: false,
+    lineTension: 0,
+    borderWidth: .7,
+    borderDash: [5],
+    data: [],
+  }]
+};
+// Add Validation dataset if metric in not AICc
+if (settings.metric[0] !== "AICc") {
+  lineData.datasets.push({
+    label: "Validation",
+    pointRadius: 3,
+    pointHoverRadius: 5,
+    borderColor: "rgb(75, 192, 192)",
+    backgroundColor: "rgba(75, 192, 192, .7)",
+    fill: false,
+    lineTension: 0,
+    borderWidth: .7,
+    borderDash: [5],
+    data: [],
+  })
+}
+
+var lineOptions = {
+  responsive: true,
+  title: {
+    display: false
+  },
+  legend: {
+    position: "bottom",
+    labels: {
+      fontFamily: "sans-serif",
+      usePointStyle: true
+    }
+  },
+  scales: {
+    yAxes: [{
+      scaleLabel: {
+        display: true,
+        labelString: settings.metric[0]
+      }
+    }],
+    xAxes: [{
+			type: "linear",
+      scaleLabel: {
+				display: true,
+				labelString: "iteration",
+			},
+			ticks: {
+			  min: 0,
+        stepSize: 1
+      }
+		}]
+  },
+  tooltips: {
+    mode: "x",
+    footerFontStyle: "normal",
+    callbacks: {
+      title: function(tooltipItems, data) {
+				return "Iteration " + tooltipItems[0].index
+			},
+      label: function (tooltipItem, data) {
+        var label = data.datasets[tooltipItem.datasetIndex].label || "";
+        if (label) {
+          label += ": ";
+        }
+        label += tooltipItem.yLabel;
+        return label;
+      },
+    }
+  }
+};
+
 init = function() {
   window.chart1.data.datasets[0].data = data.data;
+
+  window.chart2.data.datasets[0].data = data.train;
+  if (settings.metric[0] !== "AICc") {
+    window.chart2.data.datasets[1].data = data.val;
+  }
+
   window.chart1.update();
+  window.chart2.update();
 };
 
 update = function() {
@@ -76,7 +167,6 @@ update = function() {
 	};
 };
 
-
 window.onload = function() {
   // Set a wider content if page is displayed in the browser
   if (window.location.href.search("[?&]viewer_pane=") === -1) {
@@ -87,6 +177,12 @@ window.onload = function() {
     type: "horizontalBar",
     data: barData,
     options: barOptions,
+  });
+  var ctx2 = document.getElementById("ctx2").getContext("2d");
+  window.chart2 = new Chart(ctx2, {
+    type: "line",
+    data: lineData,
+    options: lineOptions,
   });
   // Init charts
   init();
