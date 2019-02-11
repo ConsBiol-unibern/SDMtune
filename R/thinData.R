@@ -27,14 +27,16 @@ thinData <- function(coords, env) {
     coords <- as.matrix(coords)
   # Get the relative cell numbers of the coordinates
   cells <- raster::cellFromXY(env, coords)
-  unique_cells <- unique(cells)
   # Remove cells where coords are NA
   cells <- cells[complete.cases(raster::extract(env, coords))]
+
+  unique_cells <- unique(cells)
 
   output <- matrix(nrow = length(unique_cells), ncol = 2)
   for (i in 1:length(unique_cells)) {
     if (length(which(cells == unique_cells[i])) > 1) {
-      sample <- sample(nrow(coords[cells == unique_cells[i], ]), 1)
+      sample <- sample(
+        as.integer(row.names(coords[cells == unique_cells[i], ])), 1)
       output[i, ] <- unlist(coords[sample, ])
     } else {
       output[i, ] <- unlist(coords[i, ])

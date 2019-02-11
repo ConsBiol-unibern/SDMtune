@@ -10,8 +10,12 @@ condor_raw <- data.frame(x = condor_gbif$lon, y = condor_gbif$lat,
                          key = condor_gbif$key,
                          datasetKey = condor_gbif$datasetKey,
                          stringsAsFactors = FALSE)
-condor_raw <- condor_raw[!duplicated(condor_raw), ]  # Remove duplicate rows
-condor_raw <- condor_raw[complete.cases(condor_raw), ]  # Remove NA values
+# Remove duplicates
+condor_raw <- condor_raw[!duplicated(condor_raw[, 1:2]), ]
+# Remove NA values
+condor_raw <- condor_raw[complete.cases(condor_raw[, 1:2]), ]
+# Reset row names
+row.names(condor_raw) <- NULL
 
 # Thin data, same than thinData function but adapted to preserve the observation
 # key and the dataset key
@@ -19,16 +23,17 @@ condor_raw <- condor_raw[complete.cases(condor_raw), ]  # Remove NA values
 # Set seed to get always same data
 set.seed(25)
 cells <- raster::cellFromXY(predictors, condor_raw[, 1:2])
-unique_cells <- unique(cells)
 # Remove cells where coords are NA
 cells <- cells[complete.cases(raster::extract(predictors, condor_raw[, 1:2]))]
+unique_cells <- unique(cells)
 
 condor <- data.frame(x = double(), y = double(), key = character(),
                      datasetKey = character(), stringsAsFactors = FALSE)
 for (i in 1:length(unique_cells)) {
   if (length(which(cells == unique_cells[i])) > 1) {
     # Sample duplicates
-    sample <- sample(nrow(condor_raw[cells == unique_cells[i], ]), 1)
+    sample <- sample(
+      as.integer(row.names(condor_raw[cells == unique_cells[i], ])), 1)
     condor[i, ] <- unlist(condor_raw[sample, ])
   } else {
     condor[i, ] <- unlist(condor_raw[i, ])
@@ -39,6 +44,9 @@ for (i in 1:length(unique_cells)) {
 condor$x <- as.numeric(condor$x)
 condor$y <- as.numeric(condor$y)
 condor$key <- as.integer(condor$key)
+
+# Remove duplicates
+condor <- condor[!duplicated(condor[, 1:2]), ]
 
 # Collect citations for data documentation
 citations <- c()
