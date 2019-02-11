@@ -106,19 +106,11 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
                         replicates = rep, verbose = FALSE, folds = folds)
     }
 
+    res[i, 2] <- .get_metric(metric, jk_model, env = env, parallel = parallel)
+    if (metric != "aicc")
+      res[i, 4] <- .get_metric(metric, jk_model, test = test)
 
-    if (metric == "auc") {
-      res[i, 2] <- auc(jk_model)
-      if (!is.null(test))
-        res[i, 4] <- auc(jk_model, test)
-    } else if (metric == "tss") {
-      res[i, 2] <- tss(jk_model)
-      if (!is.null(test))
-        res[i, 4] <- tss(jk_model, test)
-    } else {
-      res[i, 2] <- aicc(jk_model, env, parallel)
-    }
-    models_without <- c(models_without, jk_model)
+        models_without <- c(models_without, jk_model)
     pb$tick()
 
     if (with_only) {
@@ -139,17 +131,9 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
                           replicates = rep, verbose = FALSE, folds = folds)
       }
 
-      if (metric == "auc") {
-        res[i, 3] <- auc(jk_model)
-        if (!is.null(test))
-          res[i, 5] <- auc(jk_model, test)
-      } else if (metric == "tss") {
-        res[i, 3] <- tss(jk_model)
-        if (!is.null(test))
-          res[i, 5] <- tss(jk_model, test)
-      } else {
-        res[i, 3] <- aicc(jk_model, env, parallel)
-      }
+      res[i, 3] <- .get_metric(metric, jk_model, env = env, parallel = parallel)
+      if (metric != "aicc")
+        res[i, 5] <- .get_metric(metric, jk_model, test = test)
 
       models_withonly <- c(models_withonly, jk_model)
       pb$tick()
