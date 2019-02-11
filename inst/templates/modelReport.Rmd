@@ -1,8 +1,8 @@
 ---
 output:
-  prettydoc::html_pretty:
-    theme: cayman
-    highlight: github
+  html_document:
+    toc: true
+    toc_float: true
     css: report.css
 params:
   model: model
@@ -16,14 +16,15 @@ params:
 ---
 
 ```{r, echo=F}
-library(SDMsel)
+library(SDMtune)
 library(kableExtra)
 options(crayon.enabled = TRUE)
 ```
 
-**`r class(params$model@model)`** output produced using **SDMsel** version `r packageVersion("SDMsel")` (Vignali S. *et al.*, 2018).
+**`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2019).
 
 ```{r, echo=FALSE, message=FALSE}
+message(cli::rule(left = "Model Report", right = params$model@presence@species, line_col = "#4bc0c0", col = "#f58410", width = 80))
 message("\r- Saving files...", appendLF = FALSE)
 saveRDS(params$model, file = paste0(params$folder, "/model.Rds"))
 swd2csv(params$model@presence, paste0(params$folder, "/presence.csv"))
@@ -41,7 +42,7 @@ Next we plot the ROC curve for `r model@presence@species`:
 ```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
 message("- Plotting ROC curve...", appendLF = FALSE)
 plot <- plotROC(params$model, test = params$test)
-suppressMessages(ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = plot_folder))
+suppressMessages(ggplot2::ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = plot_folder))
 element <- "<p><a href=\"./plots/ROC_curve.png\"><img src=\"./plots/ROC_curve.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
 htmltools::HTML(element)
 message("\r", crayon::green(cli::symbol$tick), " Plotting ROC curve...")
@@ -59,7 +60,7 @@ message("\r", crayon::green(cli::symbol$tick), " Computing thresholds...")
 `r if(!params$response_curves) {"<!--"}`
 # Response curves {#response}
 
-Marginal curves:
+### Marginal curves:
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 if (params$response_curves) {
@@ -67,8 +68,8 @@ if (params$response_curves) {
   vars <- sort(colnames(params$model@presence@data))
   elements <- c()
   for (var in vars) {
-    plot <- plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE, clamp = params$clamp)
-    suppressMessages(ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = plot_folder))
+    plot <- plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE, clamp = params$clamp, color = "#4bc0c0")
+    suppressMessages(ggplot2::ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = plot_folder))
     path <- paste0(plot_folder, "/", var, "_marginal.png")
     element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
     elements <- c(elements, element)
@@ -78,7 +79,7 @@ if (params$response_curves) {
 }
 ```
 
-Univariate curves:
+### Univariate curves:
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 if (params$response_curves) {
@@ -86,8 +87,8 @@ if (params$response_curves) {
   message("- Plotting univariate response curves...", appendLF = FALSE)
   elements <- c("")
   for (var in vars) {
-    plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = FALSE, rug = TRUE, clamp = params$clamp))
-    suppressMessages(ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = plot_folder))
+    plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = FALSE, rug = TRUE, clamp = params$clamp, color = "#4bc0c0"))
+    suppressMessages(ggplot2::ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = plot_folder))
     path <- paste0(plot_folder, "/", var, ".png")
     element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
     elements <- c(elements, element)
@@ -95,6 +96,12 @@ if (params$response_curves) {
   elements <- c(elements, "<p></p>")
   elements <- paste(elements, collapse = "")
   htmltools::HTML(elements)
+}
+```
+```{r, echo=FALSE, message=FALSE}
+# Leave this chunk outside to avoid deleting html...
+if (params$response_curves) {
+  message("\r", crayon::green(cli::symbol$tick), " Plotting univariate response curves...")
 }
 ```
 
@@ -108,7 +115,7 @@ if (!is.null(env)) {
   message("- Predicting distribution map...", appendLF = FALSE)
   pred <- predict(params$model, data = params$env, type = params$type, filename = paste0(params$folder, "/map"), overwrite = TRUE, clamp = params$clamp)
   plot <- plotPred(pred, lt = params$type, hr = TRUE, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
-suppressMessages(ggsave(filename = "map.png", plot = plot, device = "png", path = plot_folder))
+suppressMessages(ggplot2::ggsave(filename = "map.png", plot = plot, device = "png", path = plot_folder))
 element <- "<p><a href=\"./plots/map.png\"><img src=\"./plots/map.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
 htmltools::HTML(element)
 }
@@ -123,8 +130,6 @@ if (!is.null(env))
 # Variable importance
 
 ```{r, echo=FALSE, message=FALSE}
-if (params$response_curves)
-  message("\r", crayon::green(cli::symbol$tick), " Plotting univariate response curves...")
 message("- Computing variable importance...", appendLF = FALSE)
 knitr::kable(suppressMessages(varImp(params$model))) %>%
   kable_styling(bootstrap_options = c("responsive"), full_width = FALSE)
@@ -139,10 +144,10 @@ if (params$jk) {
   message("- Running Jackknife test...", appendLF = FALSE)
   jk <- suppressMessages(doJk(params$model, metric = "auc", test = params$test))
   plot <- plotJk(jk, type = "train", ref = auc(params$model))
-  suppressMessages(ggsave(filename = "train_jk.png", plot = plot, device = "png", path = plot_folder))
+  suppressMessages(ggplot2::ggsave(filename = "train_jk.png", plot = plot, device = "png", path = plot_folder))
   if (!is.null(test)) {
     plot <- plotJk(jk, type = "test", ref = auc(params$model, test))
-    suppressMessages(ggsave(filename = "test_jk.png", plot = plot, device = "png", path = plot_folder))
+    suppressMessages(ggplot2::ggsave(filename = "test_jk.png", plot = plot, device = "png", path = plot_folder))
     element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" width=50%></a><a href=\"./plots/test_jk.png\"><img src=\"./plots/test_jk.png\" width=50%></a></p>"
   } else {
     element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
@@ -183,4 +188,4 @@ message("\r", crayon::green(cli::symbol$tick)," Writing model settings...")
 
 ### Reference
 
-- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2018). SDMsel: Species Distribution Model Selection. R package version 0.0.0.9000
+- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2019). SDMtune: Species Distribution Model Selection. R package version `r packageVersion("SDMtune")`.

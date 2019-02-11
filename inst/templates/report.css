@@ -1,3 +1,25 @@
+body {
+  color: #606c71;
+  font-size: 18px;
+}
+
+h1 {
+  color: #f58410;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+  background-color: #f58410;
+  border-color: #f58410;
+}
+
+.title {
+  color: #fff;
+  text-align: center;
+  background-image: linear-gradient(135deg, #f3a44f, #d07324);
+  padding: 1.5rem 2rem;
+  line-height: 1.5;
+}
+
 #response figure {
   /*display: table;*/
   width: 25%;
@@ -10,7 +32,7 @@
   width: 100%;
 }
 
-#response p {
+#response h3 {
   clear: both;
 }
 
