@@ -4,10 +4,10 @@
 \alias{trainValTest}
 \title{Train, Validation and Test datasets}
 \usage{
-trainValTest(df, test, val = 0, seed = NULL)
+trainValTest(x, test, val = 0, seed = NULL)
 }
 \arguments{
-\item{df}{data.frame containing the data that have to be splitted in train,
+\item{x}{SWD object containing the data that have to be splitted in train,
 validation and test datasets.}
 
 \item{test}{numeric. The percentage of data withhold for testing.}
