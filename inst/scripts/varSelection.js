@@ -41,6 +41,9 @@ var barOptions = {
 	tooltips: {
 		footerFontStyle: "normal",
 		callbacks: {
+		  title: function (tooltipItems, data) {
+				return ""
+			},
 			label: function (tooltipItem, data) {
 				var label = tooltipItem.yLabel || "";
 				if (label) {
@@ -48,9 +51,6 @@ var barOptions = {
 				}
 				label += tooltipItem.xLabel + "%";
 				return label;
-			},
-			title: function (tooltipItems, data) {
-				return ""
 			}
 		}
 	}
@@ -132,6 +132,11 @@ var lineOptions = {
         label += tooltipItem.yLabel;
         return label;
       },
+      footer: function(tooltipItems, data) {
+				if (settings.metric[0] !== "AICc") {
+					return "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4);
+				}
+			}
     }
   }
 };
