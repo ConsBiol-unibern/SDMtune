@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Variable Selection — varSel • SDMsel</title>
+<title>Variable Selection — varSel • SDMtune</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@ with the highest contribution (permutation importance). If the variable is
 correlated with other variables (according to the given method and threshold)
 it performs a Jackknife test and among the correlated variables it removes
 the one that results in the best performing model when removed (according to
-the given metric using the Train dataset). The process is repeated untill the
+the given metric using the test dataset). The process is repeated untill the
 remaining variables are not highly correlated anymore." />
 
 <meta property="og:image" content="/logo.png" />
@@ -71,7 +71,7 @@ remaining variables are not highly correlated anymore." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">SDMsel</a>
+        <a class="navbar-link" href="../index.html">SDMtune</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
       </span>
     </div>
@@ -85,22 +85,10 @@ remaining variables are not highly correlated anymore." />
   </a>
 </li>
 <li>
-  <a href="../articles/SDMsel.html">Get started</a>
+  <a href="../articles/SDMtune.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/articles/tune_auc.html">Model tuning with SDMsel</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -109,7 +97,7 @@ remaining variables are not highly correlated anymore." />
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/sgvignali/SDMsel">
+  <a href="https://github.com/sgvignali/SDMtune">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -127,7 +115,7 @@ remaining variables are not highly correlated anymore." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Variable Selection</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/varSel.R'><code>R/varSel.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMtune/blob/master/R/varSel.R'><code>R/varSel.R</code></a></small>
     <div class="hidden name"><code>varSel.Rd</code></div>
     </div>
 
@@ -139,21 +127,21 @@ with the highest contribution (permutation importance). If the variable is
 correlated with other variables (according to the given method and threshold)
 it performs a Jackknife test and among the correlated variables it removes
 the one that results in the best performing model when removed (according to
-the given metric using the Train dataset). The process is repeated untill the
+the given metric using the test dataset). The process is repeated untill the
 remaining variables are not highly correlated anymore.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>varSel</span>(<span class='no'>model</span>, <span class='no'>bg4cor</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>, <span class='kw'>cor_th</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>varSel</span>(<span class='no'>model</span>, <span class='no'>bg4cor</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>,
+  <span class='kw'>cor_th</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>SDMmodel object.</p></td>
+      <td><p>SDMmodel or SDMmodelCV object.</p></td>
     </tr>
     <tr>
       <th>bg4cor</th>
@@ -166,9 +154,14 @@ between environmental variables.</p></td>
 values are: "auc", "tss" and "aicc", default is "auc".</p></td>
     </tr>
     <tr>
+      <th>test</th>
+      <td><p>SWD. Test dataset used to evaluate the model, not used with aicc
+and SDMmodelCV objects, default is NULL.</p></td>
+    </tr>
+    <tr>
       <th>env</th>
-      <td><p><a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a> or brick containing the environmental
-variables, used only with "aicc", default is NULL.</p></td>
+      <td><p><a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a> containing the environmental variables, used only
+with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -178,7 +171,7 @@ FALSE. Used only with AICc.</p></td>
     <tr>
       <th>reg</th>
       <td><p>integer. The value of the regularization paramiter to use during
-computation, default is 0.001, see details.</p></td>
+computation, default is 0.1, see details.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -206,7 +199,8 @@ correlated variables, default is 0.7.</p></td>
 computation increases the speed only for big datasets due to the time
 necessary to create the cluster. For <strong>Maxnet</strong> using a <strong>reg</strong> lower than
 0.1 the model won't converge!
-We should write something more... I will refer to our paper for the explanations...</p>
+We should write something more... I will refer to our paper for the
+explanations...</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -238,7 +232,7 @@ We should write something more... I will refer to our paper for the explanations
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

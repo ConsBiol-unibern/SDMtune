@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Optimise Model — optimiseModel • SDMsel</title>
+<title>Optimise Model — optimiseModel • SDMtune</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -64,7 +64,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">SDMsel</a>
+        <a class="navbar-link" href="../index.html">SDMtune</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
       </span>
     </div>
@@ -78,22 +78,10 @@
   </a>
 </li>
 <li>
-  <a href="../articles/SDMsel.html">Get started</a>
+  <a href="../articles/SDMtune.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/articles/tune_auc.html">Model tuning with SDMsel</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -102,7 +90,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/sgvignali/SDMsel">
+  <a href="https://github.com/sgvignali/SDMtune">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -120,7 +108,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Optimise Model</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/optimiseModel.R'><code>R/optimiseModel.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMtune/blob/master/R/optimiseModel.R'><code>R/optimiseModel.R</code></a></small>
     <div class="hidden name"><code>optimiseModel.Rd</code></div>
     </div>
 
@@ -130,9 +118,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>optimiseModel</span>(<span class='no'>model</span>, <span class='no'>bg</span>, <span class='no'>regs</span>, <span class='no'>fcs</span>, <span class='no'>n_bgs</span>, <span class='no'>val</span>, <span class='no'>pop</span>, <span class='no'>gen</span>,
+    <pre class="usage"><span class='fu'>optimiseModel</span>(<span class='no'>model</span>, <span class='no'>bg4test</span>, <span class='no'>regs</span>, <span class='no'>fcs</span>, <span class='no'>bgs</span>, <span class='no'>test</span>, <span class='no'>pop</span>, <span class='no'>gen</span>,
   <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auc"</span>, <span class='st'>"tss"</span>, <span class='st'>"aicc"</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>keep_best</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>keep_random</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>mutation_chance</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+  <span class='kw'>keep_best</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>keep_random</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>mutation_chance</span> <span class='kw'>=</span> <span class='fl'>0.4</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -140,11 +128,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>SDMmodel object.</p></td>
+      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
     </tr>
     <tr>
-      <th>bg</th>
-      <td><p>SWD object. Background locations used to get subsamples.</p></td>
+      <th>bg4test</th>
+      <td><p><a href='SWD-class.html'>SWD</a> object. Background locations used to get
+subsamples.</p></td>
     </tr>
     <tr>
       <th>regs</th>
@@ -155,13 +144,14 @@
       <td><p>character vector with the feature combunation values to be tested.</p></td>
     </tr>
     <tr>
-      <th>n_bgs</th>
+      <th>bgs</th>
       <td><p>numeric vector with the number of background location to be
 tested.</p></td>
     </tr>
     <tr>
-      <th>val</th>
-      <td><p>SWD object containing the validation dataset.</p></td>
+      <th>test</th>
+      <td><p><a href='SWD-class.html'>SWD</a> object. Test dataset used to evaluate the model, not
+used with aicc and <a href='SDMmodelCV-class.html'>SDMmodelCV</a> objects, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>pop</th>
@@ -178,8 +168,8 @@ values are: "auc", "tss" and "aicc", default is "auc".</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p><a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a> or brick containing the environmental
-variables, used only with "aicc", default is NULL.</p></td>
+      <td><p><a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a> containing the environmental variables, used only
+with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -188,8 +178,9 @@ FALSE.</p></td>
     </tr>
     <tr>
       <th>keep_best</th>
-      <td><p>numeric. Percentage of the best models in the population to be
-retained during each iteration, expressed as decimal number. Default is 0.4.</p></td>
+      <td><p>numeric. Percentage of the best models in the population to
+be retained during each iteration, expressed as decimal number. Default
+is 0.4.</p></td>
     </tr>
     <tr>
       <th>keep_random</th>
@@ -199,7 +190,7 @@ during each iteration, expressed as decimal number. Default is 0.1.</p></td>
     <tr>
       <th>mutation_chance</th>
       <td><p>numeric. Probability of mutation of the child models,
-expressed as decimal number. Default is 0.2.</p></td>
+expressed as decimal number. Default is 0.4.</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -212,16 +203,12 @@ results, default is NULL.</p></td>
 
     <p>list containing the models of the last population.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>See vignette for a full explanation of the algorithm.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>optimiseModel</span>(<span class='no'>my_model</span>, <span class='no'>bg</span>, <span class='kw'>regs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>1</span>,
-<span class='fl'>1.5</span>), <span class='kw'>fcs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lq"</span>, <span class='st'>"lqp"</span>, <span class='st'>"lqph"</span>), <span class='kw'>n_bgs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5000</span>, <span class='fl'>10000</span>, <span class='fl'>15000</span>),
-<span class='kw'>val</span> <span class='kw'>=</span> <span class='no'>my_val</span>, <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
+<span class='fl'>1.5</span>), <span class='kw'>fcs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lq"</span>, <span class='st'>"lqp"</span>, <span class='st'>"lqph"</span>), <span class='kw'>bgs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5000</span>, <span class='fl'>10000</span>, <span class='fl'>15000</span>),
+<span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>my_val</span>, <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
@@ -231,8 +218,6 @@ results, default is NULL.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -248,7 +233,7 @@ results, default is NULL.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

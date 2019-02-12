@@ -6,7 +6,7 @@ Date: 2019-02-06
 Authors@R: c(
 	person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",
 	       role = c("aut", "cre"), comment = c(ORCID = "00000-0002-3390-5442")),
-	person("Arnaud", "Barras", role = "aut"),
+	person("Arnaud", "Barras", role = "aut", comment = c(ORCID = "0000-0003-0850-6965")),
 	person("Veronika", "Braunisch", role = "aut", comment = c(ORCID = "00000-0001-7035-4662")),
 	person("Conservation Biology - University of Bern" , role = "fnd")
 	)

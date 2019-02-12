@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Thin Data — thinData • SDMsel</title>
+<title>Thin Data — thinData • SDMtune</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,8 +32,9 @@
 
 <meta property="og:title" content="Thin Data — thinData" />
 
-<meta property="og:description" content="Remove all but one location per raster cell. The function selects randomly one
-location if more than one fall within the same raster cell." />
+<meta property="og:description" content="Remove all but one location per raster cell. The function removes NAs and if
+more than one location falls within the same raster cell it selects randomly
+one." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -65,7 +66,7 @@ location if more than one fall within the same raster cell." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">SDMsel</a>
+        <a class="navbar-link" href="../index.html">SDMtune</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
       </span>
     </div>
@@ -79,22 +80,10 @@ location if more than one fall within the same raster cell." />
   </a>
 </li>
 <li>
-  <a href="../articles/SDMsel.html">Get started</a>
+  <a href="../articles/SDMtune.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/articles/tune_auc.html">Model tuning with SDMsel</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -103,7 +92,7 @@ location if more than one fall within the same raster cell." />
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/sgvignali/SDMsel">
+  <a href="https://github.com/sgvignali/SDMtune">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -121,14 +110,15 @@ location if more than one fall within the same raster cell." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Thin Data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMsel/blob/master/R/thinData.R'><code>R/thinData.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMtune/blob/master/R/thinData.R'><code>R/thinData.R</code></a></small>
     <div class="hidden name"><code>thinData.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Remove all but one location per raster cell. The function selects randomly one
-location if more than one fall within the same raster cell.</p>
+    <p>Remove all but one location per raster cell. The function removes NAs and if
+more than one location falls within the same raster cell it selects randomly
+one.</p>
     
     </div>
 
@@ -143,8 +133,8 @@ location if more than one fall within the same raster cell.</p>
     </tr>
     <tr>
       <th>env</th>
-      <td><p><a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a> or brick containing the environmental variables,
-or a single raster layer.</p></td>
+      <td><p><a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a> or brick containing the environmental
+variables, or a single raster layer.</p></td>
     </tr>
     </table>
     
@@ -154,7 +144,8 @@ or a single raster layer.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><strong>coords</strong> and <strong>env</strong> must have the same coordinate reference system.</p>
+    <p><strong>coords</strong> and <strong>env</strong> must have the same coordinate reference
+system.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -186,7 +177,7 @@ or a single raster layer.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

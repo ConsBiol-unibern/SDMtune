@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train, Validation and Test datasets — trainValTest • SDMtune</title>
+<title>Locations of Vultur gryphus. — condor • SDMtune</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,12 @@
 
 
 
-<meta property="og:title" content="Train, Validation and Test datasets — trainValTest" />
+<meta property="og:title" content="Locations of Vultur gryphus. — condor" />
 
-<meta property="og:description" content="Split a dataset randomly in train and test datasets or train, validation and
-test datasets." />
+<meta property="og:description" content="The dataset contains 509 locations of the Andean condor collected from 2008
+and 2018. The locations are downloaded from the Global Biodiversity Inventory
+Facility and filtered to remove douplicates and keep only one location per
+raster cell of the World Clime dataset." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -108,68 +110,78 @@ test datasets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train, Validation and Test datasets</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMtune/blob/master/R/trainValTest.R'><code>R/trainValTest.R</code></a></small>
-    <div class="hidden name"><code>trainValTest.Rd</code></div>
+    <h1>Locations of Vultur gryphus.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sgvignali/SDMtune/blob/master/R/condor.R'><code>R/condor.R</code></a></small>
+    <div class="hidden name"><code>condor.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Split a dataset randomly in train and test datasets or train, validation and
-test datasets.</p>
+    <p>The dataset contains 509 locations of the Andean condor collected from 2008
+and 2018. The locations are downloaded from the Global Biodiversity Inventory
+Facility and filtered to remove douplicates and keep only one location per
+raster cell of the World Clime dataset.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>trainValTest</span>(<span class='no'>x</span>, <span class='no'>test</span>, <span class='kw'>val</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>SWD object containing the data that have to be splitted in train,
-validation and test datasets.</p></td>
-    </tr>
-    <tr>
-      <th>test</th>
-      <td><p>numeric. The percentage of data withhold for testing.</p></td>
-    </tr>
-    <tr>
-      <th>val</th>
-      <td><p>numeric. The percentage of data withhold for validation, default
-is 0.</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>numeric. The value used to set the seed in order to have
-consistent results, default is NULL.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>condor</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A list with the train, validation and test data sets or train and
-test sets accordingly.</p>
+    <p>A data frame with 509 rows and 4 variables:</p><dl class='dl-horizontal'>
+<dt>x</dt><dd><p>Longitude of the observation</p></dd>
+<dt>y</dt><dd><p>Latitude of the observation</p></dd>
+<dt>key</dt><dd><p>Key of the single observation</p></dd>
+<dt>datasetKey</dt><dd><p>Key of the corresponding dataset</p></dd>
+</dl>
+    
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='http://www.gbif.org/'>http://www.gbif.org/</a></p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Levatich T, Padilla F (2017). EOD - eBird Observation Dataset. Cornell Lab of
+Ornithology. Occurrence dataset <a href='https://doi.org/10.15468/aomfnb'>https://doi.org/10.15468/aomfnb</a>
+accessed via GBIF.org on 2019-02-12.</p>
+<p>naturgucker.de. naturgucker. Occurrence dataset
+<a href='https://doi.org/10.15468/uc1apo'>https://doi.org/10.15468/uc1apo</a> accessed via GBIF.org on 2019-02-12.</p>
+<p>iNaturalist.org (2019). iNaturalist Research-grade Observations. Occurrence
+dataset <a href='https://doi.org/10.15468/ab3s5x'>https://doi.org/10.15468/ab3s5x</a> accessed via GBIF.org on
+2019-02-12.</p>
+<p>Karyakin I, Kamenskiy D, Grachev E, Bekmansurov R, Vazhov S, Barashkova A,
+Shnayder E, Ebel A, Shtol D, Kovalenko A, Nikolenko E, Pchelintsev V,
+Fedorenko V, Shukov P (2018). Raptors of the World. Version 1.6.
+Sibecocenter LLC. Occurrence dataset <a href='https://doi.org/10.15468/fggsfn'>https://doi.org/10.15468/fggsfn</a>
+accessed via GBIF.org on 2019-02-12.</p>
+<p>Administración de Parques Nacionales, Argentina. VERTEBRADOS DE VALOR
+ESPECIAL EN ÁREAS PROTEGIDAS DE LA ARGENTINA. Occurrence dataset
+<a href='https://doi.org/10.15468/s5t7po'>https://doi.org/10.15468/s5t7po</a> accessed via GBIF.org on 2019-02-12.</p>
+<p>Zuñiga Hartley A, Gómez Rivero E (2017). Registro de Fauna Silvestre en el
+Inventario Nacional Forestal y de Fauna Silvestre-SERFOR, Perú. Servicio
+Nacional Forestal y de Fauna Silvestre. Sampling event dataset
+<a href='https://doi.org/10.15468/y9itpr'>https://doi.org/10.15468/y9itpr</a> accessed via GBIF.org on 2019-02-12.</p>
+<p>Carrero D (2018). Estudios bióticos: Plantas, edafofauna epígea, anfibios y
+aves  del Complejo de Páramos  Almorzadero y Tamá. Instituto de Investigación
+de Recursos Biológicos Alexander von Humboldt. Occurrence dataset
+<a href='https://doi.org/10.15472/pz9uo6'>https://doi.org/10.15472/pz9uo6</a> accessed via GBIF.org on 2019-02-12.</p>
+<p>Red Nacional de Observadores de Aves (RNOA) (2018). DATAVES. Version 7.1.
+Occurrence dataset <a href='https://doi.org/10.15472/iqnpse'>https://doi.org/10.15472/iqnpse</a> accessed via
+GBIF.org on 2019-02-12.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>sets</span> <span class='kw'>&lt;-</span> <span class='fu'>trainValTest</span>(<span class='no'>presence</span>, <span class='kw'>val</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>set_seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#format">Format</a></li>
 
-    <h2>Author</h2>
-    <p>Sergio Vignali</p>
+      <li><a href="#source">Source</a></li>
+
+      <li><a href="#references">References</a></li>
+          </ul>
+
   </div>
 </div>
 

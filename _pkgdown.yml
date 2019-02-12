@@ -19,7 +19,7 @@ reference:
 - title: Package
   desc: Package description
   contents:
-  - '`SDMsel`'
+  - '`SDMtune`'
 - title: Prepare Data
   desc: Function to prepare data for SDMsel analysis
   contents:
