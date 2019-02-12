@@ -33,11 +33,11 @@ thinData <- function(coords, env) {
   unique_cells <- unique(cells)
 
   output <- matrix(nrow = length(unique_cells), ncol = 2)
+
   for (i in 1:length(unique_cells)) {
     if (length(which(cells == unique_cells[i])) > 1) {
-      sample <- sample(
-        as.integer(row.names(coords[cells == unique_cells[i], ])), 1)
-      output[i, ] <- unlist(coords[sample, ])
+      index <- sample(nrow(coords[cells == unique_cells[i], ]), 1)
+      output[i, ] <- unlist(coords[cells == unique_cells[i], ][index, ])
     } else {
       output[i, ] <- unlist(coords[i, ])
     }
