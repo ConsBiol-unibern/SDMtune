@@ -14,6 +14,8 @@ condor_raw <- data.frame(x = condor_gbif$lon, y = condor_gbif$lat,
 condor_raw <- condor_raw[!duplicated(condor_raw[, 1:2]), ]
 # Remove NA values
 condor_raw <- condor_raw[complete.cases(condor_raw[, 1:2]), ]
+# Remove coords where env are NA
+condor_raw <- condor_raw[complete.cases(raster::extract(predictors, condor_raw[, 1:2])), ]
 # Reset row names
 row.names(condor_raw) <- NULL
 
@@ -23,8 +25,6 @@ row.names(condor_raw) <- NULL
 # Set seed to get always same data
 set.seed(25)
 cells <- raster::cellFromXY(predictors, condor_raw[, 1:2])
-# Remove cells where coords are NA
-cells <- cells[complete.cases(raster::extract(predictors, condor_raw[, 1:2]))]
 unique_cells <- unique(cells)
 
 condor <- data.frame(x = double(), y = double(), key = character(),
@@ -32,11 +32,10 @@ condor <- data.frame(x = double(), y = double(), key = character(),
 for (i in 1:length(unique_cells)) {
   if (length(which(cells == unique_cells[i])) > 1) {
     # Sample duplicates
-    sample <- sample(
-      as.integer(row.names(condor_raw[cells == unique_cells[i], ])), 1)
-    condor[i, ] <- unlist(condor_raw[sample, ])
+    index <- sample(nrow(condor_raw[cells == unique_cells[i], ]), 1)
+    condor[i, ] <- unlist(condor_raw[cells == unique_cells[i], ][index, ])
   } else {
-    condor[i, ] <- unlist(condor_raw[i, ])
+    condor[i, ] <- unlist(condor_raw[cells == unique_cells[i], ])
   }
 }
 # Convert columns to the right data type, the list function coerces all to
@@ -44,9 +43,6 @@ for (i in 1:length(unique_cells)) {
 condor$x <- as.numeric(condor$x)
 condor$y <- as.numeric(condor$y)
 condor$key <- as.integer(condor$key)
-
-# Remove duplicates
-condor <- condor[!duplicated(condor[, 1:2]), ]
 
 # Collect citations for data documentation
 citations <- c()
