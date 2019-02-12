@@ -9,7 +9,7 @@ varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
   cor_th = 0.7, permut = 10)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{SDMmodel or SDMmodelCV object.}
 
 \item{bg4cor}{SWD object. Background locations used to test the correlation
 between environmental variables.}

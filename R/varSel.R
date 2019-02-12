@@ -9,7 +9,7 @@
 #' the given metric using the test dataset). The process is repeated untill the
 #' remaining variables are not highly correlated anymore.
 #'
-#' @param model SDMmodel object.
+#' @param model SDMmodel or SDMmodelCV object.
 #' @param bg4cor SWD object. Background locations used to test the correlation
 #' between environmental variables.
 #' @param metric character. The metric used to evaluate the models, possible
@@ -129,7 +129,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
 
   .create_chart(folder = folder, script = "varSelection.js",
                 settings = settings, data = data, height = 600)
-  Sys.sleep(.1)
+  Sys.sleep(1.5)
 
   while (correlation_removed == FALSE) {
 
@@ -161,7 +161,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
                                          env = env, parallel = parallel,
                                          return_models = TRUE))
 
-        # index for matric data frames
+        # index for metric data frames
         x <- nrow(train_metric) + 1
 
         if (metric != "aicc") {
@@ -182,12 +182,13 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
         break
       }
     }
-    if (is.null(discarded_variable))
+    if (is.null(discarded_variable)) {
       correlation_removed <- TRUE
+      .update_chart(folder, data = list(data = vals, train = train_metric,
+                                        val = val_metric, stop = TRUE))
+      Sys.sleep(.1)
+    }
   }
-  .update_chart(folder, data = list(data = vals, train = train_metric,
-                                    val = val_metric, stop = TRUE))
-  Sys.sleep(.1)
 
   if (change_reg) {
     pb$tick(total - removed - 2)

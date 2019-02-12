@@ -8,7 +8,7 @@ reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
   env = NULL, parallel = FALSE, use_jk = FALSE, permut = 10)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{SDMmodel or SDMmodelCV object.}
 
 \item{th}{numeric. The contribution threshold used to remove variables.}
 
