@@ -8,8 +8,8 @@
 \describe{
 \item{x}{Longitude of the observation}
 \item{y}{Latitude of the observation}
-\item{key}{Key of the single observation}
-\item{datasetKey}{Key of the corresponding dataset}
+\item{key}{GBIF Key of the single observation}
+\item{datasetKey}{GBIF Key of the corresponding dataset}
 }}
 \source{
 \url{http://www.gbif.org/}
