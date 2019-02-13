@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SDMtune <img src="logo.png" align="right" />
+# SDMtune <img src="logo.svg" align="right" alt="" width="120" />
 
 **SDMtune** provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models).
 **SDMtune** uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the **AICc**. 

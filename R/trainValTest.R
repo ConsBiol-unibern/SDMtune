@@ -36,16 +36,19 @@ trainValTest <- function(x, test, val = 0, seed = NULL) {
     train <- val <- test <- SWD()
     train@data <- x@data[permutation[1:(start_val - 1)], ]
     train@coords <- x@coords[permutation[1:(start_val - 1)], ]
+    train@species <- x@species
     # Reset row names
     rownames(train@data) <- NULL
     rownames(train@coords) <- NULL
     val@data <- x@data[permutation[start_val:(start_test - 1)], ]
     val@coords <- x@coords[permutation[start_val:(start_test - 1)], ]
+    val@species <- x@species
     # Reset row names
     rownames(val@data) <- NULL
     rownames(val@coords) <- NULL
     test@data <- x@data[permutation[start_test:n], ]
     test@coords <- x@coords[permutation[start_test:n], ]
+    test@species <- x@species
     # Reset row names
     rownames(test@data) <- NULL
     rownames(test@coords) <- NULL
@@ -57,11 +60,13 @@ trainValTest <- function(x, test, val = 0, seed = NULL) {
     train <- test <- SWD()
     train@data <- x@data[permutation[1:(start_test - 1)], ]
     train@coords <- x@coords[permutation[1:(start_test - 1)], ]
+    train@species <- x@species
     # Reset row names
     rownames(train@data) <- NULL
     rownames(train@coords) <- NULL
     test@data <- x@data[permutation[start_test:n], ]
     test@coords <- x@coords[permutation[start_test:n], ]
+    test@species <- x@species
     # Reset row names
     rownames(test@data) <- NULL
     rownames(test@coords) <- NULL

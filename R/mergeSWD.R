@@ -3,7 +3,7 @@
 #' @param swd1 SWD object.
 #' @param swd2 SWD object.
 #'
-#' @return The merged SW object.
+#' @return The merged SWD object.
 #' @export
 #'
 #' @examples\dontrun{

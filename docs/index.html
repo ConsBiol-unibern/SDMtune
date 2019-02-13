@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Species Distribution Model Selection • SDMtune</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -78,7 +84,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="sdmtune" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#sdmtune" class="anchor"></a>SDMtune <img src="logo.png" align="right">
+<a href="#sdmtune" class="anchor"></a>SDMtune <img src="logo.svg" align="right" alt="" width="120">
 </h1></div>
 <p><strong>SDMtune</strong> provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models). <strong>SDMtune</strong> uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the <strong>AICc</strong>.</p>
 <div id="installation" class="section level2">
@@ -159,8 +165,8 @@ res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;     expr      min       lq     mean   median       uq      max neval</span>
-<span class="co">#&gt;    dismo 226.0127 227.6562 251.8532 253.6056 257.5354 319.3243    10</span>
-<span class="co">#&gt;  SDMtune 109.1412 114.1723 119.0448 117.5950 124.5151 131.4118    10</span></code></pre></div>
+<span class="co">#&gt;    dismo 234.4828 247.6949 260.0786 260.4636 270.1022 297.1218    10</span>
+<span class="co">#&gt;  SDMtune 114.5320 116.6716 122.9643 122.1407 130.5729 132.5317    10</span></code></pre></div>
 <p>Plot results:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/boxplot">boxplot</a></span>(res)</code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -199,7 +205,8 @@ res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0850-6965" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
 <li>
 <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/00000-0001-7035-4662" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
-<li>Conservation Biology - University of Bern <br><small class="roles"> Funder </small>  </li>
+<li>
+<a href="http://www.cb.iee.unibe.ch/index_eng.html">Conservation Biology - University of Bern</a> <br><small class="roles"> Funder </small>  </li>
 </ul>
 </div>
 
@@ -209,7 +216,7 @@ res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/sgvignali">Sergio Vignali</a>, <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a>, <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a>, Conservation Biology - University of Bern.</p>
+  <p>Developed by <a href="https://github.com/sgvignali">Sergio Vignali</a>, <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a>, <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a>, <a href="http://www.cb.iee.unibe.ch/index_eng.html">Conservation Biology - University of Bern</a>.</p>
 </div>
 
 <div class="pkgdown">

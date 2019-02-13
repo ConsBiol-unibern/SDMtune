@@ -12,7 +12,7 @@ mergeSWD(swd1, swd2)
 \item{swd2}{SWD object.}
 }
 \value{
-The merged SW object.
+The merged SWD object.
 }
 \description{
 Merge SWD Objects

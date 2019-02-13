@@ -152,13 +152,14 @@
   dir.create(folder)
 
   # Copy libraries and style files in lib directory
-  dir.create(paste0(folder, "/lib"))
-  files <- list.files(system.file("lib", package = "SDMtune"), full.names = TRUE)
-  file.copy(files, paste0(folder, "/lib"))
+  dir.create(file.path(folder, "lib"))
+  files <- list.files(system.file("lib", package = "SDMtune"),
+                      full.names = TRUE)
+  file.copy(files, file.path(folder, "lib"))
 
   # Copy chart template
-  file.copy(paste0(system.file("templates/", package = "SDMtune"),
-                   "chart_template.html"),
+  file.copy(file.path(system.file("templates", package = "SDMtune"),
+                      "chart_template.html"),
             folder)
 
   # render script
@@ -178,8 +179,9 @@
 #' @importFrom whisker whisker.render
 .render_script <- function(folder, script, settings, data) {
 
-  template <- paste(readLines(paste0(system.file("scripts/", package = "SDMtune"),
-                                     script),
+  template <- paste(readLines(file.path(system.file("scripts",
+                                                    package = "SDMtune"),
+                                        script),
                               encoding = "UTF-8"),
                     collapse = "\n")
 
@@ -187,7 +189,7 @@
                data = jsonlite::toJSON(data))
 
   rendered_script <- whisker::whisker.render(template, data = data)
-  writeLines(rendered_script, file.path(folder, "lib/chart_script.js"))
+  writeLines(rendered_script, file.path(folder, "lib", "chart_script.js"))
 }
 
 #' @importFrom jsonlite write_json
