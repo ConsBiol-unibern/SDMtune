@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-SDMtune <img src="logo.png" align="right" />
-============================================
+SDMtune <img src="logo.svg" align="right" alt="" width="120" />
+===============================================================
 
 **SDMtune** provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models). **SDMtune** uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the **AICc**.
 
@@ -34,7 +34,7 @@ library(SDMtune)
 #>  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/
 #> /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.0.0.9000
 #> 
-#> For citing this package in publications type: citation("SDMtune").
+#> To cite this package in publications type: citation("SDMtune").
 ```
 
 ``` r
@@ -151,8 +151,8 @@ Print results:
 res
 #> Unit: milliseconds
 #>     expr      min       lq     mean   median       uq      max neval
-#>    dismo 244.1944 250.8699 266.5531 267.6568 279.5575 290.2783    10
-#>  SDMtune 113.9680 120.7058 123.4920 124.6516 126.9143 129.8717    10
+#>    dismo 238.2459 242.5511 261.7838 265.0459 275.8408 297.7056    10
+#>  SDMtune 109.5215 119.3036 123.3312 122.4815 123.8248 153.5336    10
 ```
 
 Plot results:
