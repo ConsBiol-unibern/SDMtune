@@ -1,7 +1,12 @@
 #' Merge SWD Objects
 #'
+#' Merge two SWD object.
+#'
 #' @param swd1 SWD object.
 #' @param swd2 SWD object.
+#'
+#' @details In case the two SWD objects have different columns, only the common
+#' columns are used in the merge object.
 #'
 #' @return The merged SWD object.
 #' @export
@@ -17,6 +22,18 @@ mergeSWD <- function(swd1, swd2) {
 
   if (swd1@species != swd2@species)
     stop("SWD1 and SWS2 have a different spwcies!")
+
+  if (length(colnames(swd1@data)) != length(colnames(swd2@data)) ||
+      length(intersect(colnames(swd1@data), colnames(swd2@data))) !=
+      length(colnames(swd1@data))) {
+    warning("The two SWD objects have different columns, only the common columns are used in the merge object!")
+    # Get common variables
+    vars <- intersect(colnames(swd1@data), colnames(swd2@data))
+    # Subset objects
+    swd1@data <- swd1@data[, vars]
+    swd2@data <- swd2@data[, vars]
+  }
+
 
   swd <- new("SWD")
   swd@species <- swd1@species

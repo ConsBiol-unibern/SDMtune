@@ -15,7 +15,11 @@ mergeSWD(swd1, swd2)
 The merged SWD object.
 }
 \description{
-Merge SWD Objects
+Merge two SWD object.
+}
+\details{
+In case the two SWD objects have different columns, only the common
+columns are used in the merge object.
 }
 \examples{
 \dontrun{
