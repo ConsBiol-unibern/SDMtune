@@ -25,7 +25,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -76,17 +76,13 @@
 
       
       </header><div class="row">
-  <div class="col-md-9 contents">
-    
-
-    
-    
+  <div class="contents col-md-9">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="sdmtune" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#sdmtune" class="anchor"></a>SDMtune <img src="logo.svg" align="right" alt="" width="120">
 </h1></div>
-<p><strong>SDMtune</strong> provides a framework that facilitates preparing data for analysis, train and evaluate models. It also includes functions for data driven variable selection and model tuning and utilities to display results (at the moment it implements MaxEnt and Maxnet models). <strong>SDMtune</strong> uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the <strong>AICc</strong>.</p>
+<p><strong>SDMtune</strong> provides a framework that facilitates preparing data for analysis, train and evaluate models (at the moment it implements MaxEnt and Maxnet models). It also includes utilities to display results and functions for variable selection and model tuning. <strong>SDMtune</strong> uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the <strong>AICc</strong>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -95,86 +91,18 @@
 <p>or the latest development version from github:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"sgvignali/SDMtune"</span>)</code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="real-time-charts" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>Load required packages:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    _____  ____   __  ___ __</span>
-<span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span>
-<span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span>
-<span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span>
-<span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.0.0.9000</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dismo)</code></pre></div>
-<p>Obtain the data for the analysis, we use the dataset provided by <code>dismo</code>package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">files &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"dismo"</span>), <span class="st">"/ex"</span>, <span class="dt">sep =</span> <span class="st">""</span>), <span class="dt">pattern =</span> <span class="st">"grd"</span>, <span class="dt">full.names =</span> T)
-predictors &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/stack">stack</a></span>(files)
-file &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"dismo"</span>), <span class="st">"/ex/bradypus.csv"</span>, <span class="dt">sep =</span> <span class="st">""</span>)
-bradypus &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/read.table">read.table</a></span>(file, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">sep =</span> <span class="st">","</span>)
-train_coords &lt;-<span class="st"> </span>bradypus[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)
-bg_coords &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/randomPoints">randomPoints</a></span>(predictors, <span class="dv">5000</span>)  <span class="co"># Extract random points</span></code></pre></div>
-<p>Prepare the data for the analysis with <code>SDMtune</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Bradypus variegatus"</span>, <span class="dt">coords =</span> train_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)
-<span class="co">#&gt; Extracting predictor information for given locations...</span>
-bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Bradypus variegatus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)
-<span class="co">#&gt; Extracting predictor information for given locations...</span>
-<span class="co">#&gt; Warning: 5 locations are NA for some environmental variables, they will be discard!</span></code></pre></div>
-<p>Train a MaxEnt model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxent_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">reg =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqph"</span>)
-<span class="co">#&gt; Loading required namespace: rJava</span></code></pre></div>
-<p>Train a Maxnet model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">presence =</span> train, <span class="dt">bg =</span> bg, <span class="dt">reg =</span> <span class="dv">1</span>, <span class="dt">fc =</span> <span class="st">"lqph"</span>)</code></pre></div>
-<p>Plot the ROC curve:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(maxent_model)</code></pre></div>
-<p><img src="reference/figures/README-plot-ROC-curve%20maxent-1.png" width="700" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotROC.html">plotROC</a></span>(maxnet_model)</code></pre></div>
-<p><img src="reference/figures/README-plot-ROC-curve%20maxnet-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>Make prediction:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxent_pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(maxent_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maxnet_pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(maxnet_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</code></pre></div>
-<p>Plot prediction:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(maxent_pred, <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
-<p><img src="reference/figures/README-plot-prediction%20maxent-1.png" width="700" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/plotPred.html">plotPred</a></span>(maxnet_pred, <span class="dt">lt =</span> <span class="st">"cloglog output"</span>)</code></pre></div>
-<p><img src="reference/figures/README-plot-prediction%20maxnet-1.png" width="700" style="display: block; margin: auto;"></p>
+<a href="#real-time-charts" class="anchor"></a>Real time charts</h2>
+<p>Real time charts displaying the training and validation metrics are displayed in the RStudio viewer pane during the execution of the tuning and variable selection functions.</p>
+<div style="text-align: center">
+<img src="realtime-chart.gif" alt="">
 </div>
 </div>
-<div id="speed-test" class="section level1">
-<h1 class="hasAnchor">
-<a href="#speed-test" class="anchor"></a>Speed test</h1>
-<p>We test now the difference in computation speed between the predict function of the <strong>dismo</strong> package that uses the Java software and the predict function of the <strong>SDMtune</strong> package. We also test if the results are equivalent.</p>
-<p>The following code creates a function to test the equivalence of the results:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_check &lt;-<span class="st"> </span><span class="cf">function</span>(values) {
-  error &lt;-<span class="st"> </span><span class="fl">1e-7</span> 
-  max_error &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(<span class="kw">values</span>(values[[<span class="dv">1</span>]]) <span class="op">-</span><span class="st"> </span><span class="kw">values</span>(values[[<span class="dv">2</span>]]), <span class="dt">na.rm =</span> T) 
-  max_error <span class="op">&lt;</span><span class="st"> </span>error
-}</code></pre></div>
-<p>If the results diverge more than <code>1e-7</code> the test will fail. The next function converts an object of class <code>Maxent</code> into an object of class <code>MaxEnt</code> (dismo pkg):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span>(maxent_model)</code></pre></div>
-<p>Run the test with 10 replicates:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(microbenchmark)
-res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark">microbenchmark</a></span>(<span class="st">"dismo"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(me_model, predictors)},
-                      <span class="st">"SDMtune"</span> =<span class="st"> </span>pred &lt;-<span class="st"> </span>{<span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/predict">predict</a></span>(maxent_model, predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)},
-                      <span class="dt">times =</span> <span class="dv">10</span>,
-                      <span class="dt">check =</span> my_check)</code></pre></div>
-<p>Print results:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res
-<span class="co">#&gt; Unit: milliseconds</span>
-<span class="co">#&gt;     expr      min       lq     mean   median       uq      max neval</span>
-<span class="co">#&gt;    dismo 233.5903 254.2939 262.5667 259.8378 266.5808 309.8673    10</span>
-<span class="co">#&gt;  SDMtune 114.1137 115.8224 121.1923 118.5685 123.3718 134.1815    10</span></code></pre></div>
-<p>Plot results:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/boxplot">boxplot</a></span>(res)</code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="700" style="display: block; margin: auto;"></p>
-<p><strong>SDMtune</strong> is at almost two times faster than the native Java software. The improvement in speed difference is even greater for large datasets when using parallel computation (i.e. see details in predict function).</p>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
@@ -210,8 +138,7 @@ res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 </ul>
 </div>
 
-      </div>
-
+  </div>
 </div>
 
 
@@ -220,7 +147,7 @@ res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
 </div>
       </footer>
 </div>
