@@ -48,7 +48,8 @@ setMethod(
     if (length(cat_vars) == 0)
       cat_vars <- NA
 
-    cat("Object of class", class(object), "\n\n")
+    cat("Object of class", class(object), "\n")
+    cat("Method:", class(object@model), "\n\n")
 
     cat("Species:", object@presence@species, "\n")
     cat("Presence locations:", nrow(object@presence@data), "\n\n")
