@@ -25,4 +25,4 @@ Real time charts
 
 Real time charts displaying the training and validation metrics are displayed in the RStudio viewer pane during the execution of the tuning and variable selection functions.
 
-<img src="realtime-chart.gif" alt="" />
+<div style="text-align: center"><img src="realtime-chart.gif" alt="" /></div>
