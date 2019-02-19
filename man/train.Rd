@@ -20,11 +20,12 @@ Default is 1, meaning no cross validation is performed.}
 \item{verbose}{logical if TRUE shows a progress bar if replicates is greater
 then 1, default is TRUE.}
 
-\item{folds}{numeric. Vector containing the inxes for the k-fold partition of
-the training data, if not provided the function randomly creates the folds.}
+\item{folds}{numeric. Vector containing the indexes for the k-fold partition
+of the training data, if not provided the function randomly creates the
+folds, default is NULL.}
 
-\item{seed}{integer. The value used to set the seed in order to have
-consistent results. Used if \strong{folds} is not provided, default is NULL.}
+\item{seed}{integer. The value used to set the seed for the fold partition,
+used if \strong{folds} is not provided, default is NULL.}
 
 \item{...}{Arguments passed to the relative functions, see \link{trainMaxent}
 or \link{trainMaxnet} for details related to the different methods.}
