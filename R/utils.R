@@ -196,3 +196,45 @@
 .update_chart <- function(folder, data) {
   jsonlite::write_json(data, file.path(folder, "data.json"))
 }
+
+.get_train_args <- function(model) {
+
+  args <- list(presence = model@presence, bg = model@background)
+
+  if (class(model) == "SDMmodelCV") {
+    args[["replicates"]] <- length(model@models)
+    args[["folds"]] <- model@folds
+    model <- model@models[[1]]@model
+  } else {
+    args[["replicates"]] <- 1
+    args[["folds"]] <- NULL
+    model <- model@model
+  }
+
+  args[["method"]] <- class(model)
+  args[["fc"]] <- model@fc
+  args[["reg"]] <- model@reg
+
+  if (args$method == "Maxent") {
+    args[["iter"]] <- model@iter
+    args[["extra_args"]] <- model@extra_args
+  }
+  return(args)
+}
+
+.get_tunable_args <- function(model) {
+
+  if (class(model) == "SDMmodelCV") {
+    method <- class(model@models[[1]]@model)
+  } else {
+    method <- class(model@model)
+  }
+
+  if (method == "Maxent") {
+    args <- c("bg", "fc", "reg", "iter")
+  } else {
+    args <- c("bg", "fc", "reg")
+  }
+
+  return(args)
+}
