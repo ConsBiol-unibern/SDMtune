@@ -69,6 +69,7 @@ Collate:
     'mergeSWD.R'
     'modelReport.R'
     'optimiseModel.R'
+    'optimiseModel1.R'
     'plotCor.R'
     'plotJk.R'
     'plotPA.R'

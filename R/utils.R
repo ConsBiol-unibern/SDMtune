@@ -202,22 +202,22 @@
   args <- list(presence = model@presence, bg = model@background)
 
   if (class(model) == "SDMmodelCV") {
-    args[["replicates"]] <- length(model@models)
-    args[["folds"]] <- model@folds
+    args$replicates <- length(model@models)
+    args$folds <- model@folds
     model <- model@models[[1]]@model
   } else {
-    args[["replicates"]] <- 1
-    args[["folds"]] <- NULL
+    args$replicates <- 1
+    args$folds <- NULL
     model <- model@model
   }
 
-  args[["method"]] <- class(model)
-  args[["fc"]] <- model@fc
-  args[["reg"]] <- model@reg
+  args$method <- class(model)
+  args$fc <- model@fc
+  args$reg <- model@reg
 
   if (args$method == "Maxent") {
-    args[["iter"]] <- model@iter
-    args[["extra_args"]] <- model@extra_args
+    args$iter <- model@iter
+    args$extra_args <- model@extra_args
   }
   return(args)
 }
