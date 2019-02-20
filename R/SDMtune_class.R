@@ -113,7 +113,7 @@ setMethod("plot",
                        show_line = show_line,
                        update = FALSE)
 
-      line_footer <- sapply(models, function(x) .get_model_hyperparams(x))
+      line_footer <- sapply(models, function(x) .get_footer(x))
       train_metric <- data.frame(x = x, y = res[, 4])
       if (metric != "AICc") {
         val_metric <- data.frame(x = x, y = res[, 5])

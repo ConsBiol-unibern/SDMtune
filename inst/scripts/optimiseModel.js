@@ -63,7 +63,7 @@ var scatterOptions = {
     display: true,
     fontFamily: "sans-serif",
     padding: 15,
-    text: "Model Optimization - Generation 0"
+    text: data.title[0]
   },
   legend: {
     position: "bottom",
@@ -174,7 +174,7 @@ init = function() {
   if (settings.metric[0] !== "AICc") {
     window.chartScatter.data.datasets[1].data = data.val;
   }
-  window.chartScatter.options.title.text = "Model optimization - Generation " + data.gen[0];
+  window.chartScatter.options.title.text = data.title[0];
   window.chartScatter.update();
 
   window.chartLine.data.datasets[0].data = data.best_train;

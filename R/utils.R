@@ -21,6 +21,22 @@
                "#Bg:", nrow(model@background@data)))
 }
 
+.get_footer <- function(model) {
+  footer <- c()
+  tuned_args <- .get_train_args(model)[get_tunable_args(model)]
+
+  for (i in 1:length(tuned_args)) {
+    if (names(tuned_args)[i] != "bg") {
+      footer <- c(footer, paste0(names(tuned_args)[i], ": ",
+                                 tuned_args[[i]]))
+    } else {
+      footer <- c(footer, paste0(names(tuned_args)[i], ": ",
+                                 nrow(tuned_args[[i]]@data)))
+    }
+  }
+  return(paste(footer, collapse = "\n"))
+}
+
 .get_total_models <- function(pop, gen, remaining) {
   tot <- pop + (gen * remaining)
 
@@ -61,31 +77,31 @@
   return(labels)
 }
 
-.get_rank_index <- function(metric, metrics) {
-  if (metric == "aicc") {
-    # The best model is the one with the lowest AICc
-    index <- order(metrics[[1]])
-  } else {
-    # The best model is the one with the highest AUC or TSS
-    diff_metric <- metrics[[1]] - metrics[[2]]
-    # Check if the models are all overfitting the validation dataset
-    if (!any(diff_metric > 0))
-      return(FALSE)
-    # Ordered index of dereasing validation metric
-    o <- order(-metrics[[2]])
-    # Good models are those not overfitting the validation dataset
-    good_models <- o[o %in% which(diff_metric > 0)]
-    # Bad models have diff_metric >= 0
-    bad_models <- o[!o %in% good_models]
-    # Ordered index of decreasomg diff_metric
-    odm <- order(-diff_metric)
-    # Ordered index of bad_models from the one less overfitting
-    bad_models <- odm[odm %in% bad_models]
-    # Combine indexes
-    index <- c(good_models, bad_models)
-  }
-  return(index)
-}
+# .get_rank_index <- function(metric, metrics) {
+#   if (metric == "aicc") {
+#     # The best model is the one with the lowest AICc
+#     index <- order(metrics[[1]])
+#   } else {
+#     # The best model is the one with the highest AUC or TSS
+#     diff_metric <- metrics[[1]] - metrics[[2]]
+#     # Check if the models are all overfitting the validation dataset
+#     if (!any(diff_metric > 0))
+#       return(FALSE)
+#     # Ordered index of dereasing validation metric
+#     o <- order(-metrics[[2]])
+#     # Good models are those not overfitting the validation dataset
+#     good_models <- o[o %in% which(diff_metric > 0)]
+#     # Bad models have diff_metric >= 0
+#     bad_models <- o[!o %in% good_models]
+#     # Ordered index of decreasomg diff_metric
+#     odm <- order(-diff_metric)
+#     # Ordered index of bad_models from the one less overfitting
+#     bad_models <- odm[odm %in% bad_models]
+#     # Combine indexes
+#     index <- c(good_models, bad_models)
+#   }
+#   return(index)
+# }
 
 .get_mutation_options <- function(mother, father, bgs, fcs, regs) {
   options <- c()
@@ -222,7 +238,20 @@
   return(args)
 }
 
-.get_tunable_args <- function(model) {
+#' Get Tunable Arguments
+#'
+#' Returns the name of all function arguments that can be tuned for a given
+#' model.
+#'
+#' @param model \link{SDMmodel} or \link{SVDmodelCV} object.
+#'
+#' @return character vector
+#' @export
+#'
+#' @examples \dontrun{get_tunable_args(my_model)}
+#'
+#' @author Sergio Vignali
+get_tunable_args <- function(model) {
 
   if (class(model) == "SDMmodelCV") {
     method <- class(model@models[[1]]@model)

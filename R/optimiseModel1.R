@@ -1,4 +1,46 @@
+#' Optimise Model
+#'
+#' The function can be used to run a random search or a genetic algorithm to
+#' optimise the model performance.
+#'
+#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
+#' @param hypers named list containing the values of the hyperpatameters that
+#' should be tuned, see details.
+#' @param bg4test \link{SWD} object or NULL. Background locations used to get
+#' subsamples, used only if bg hyperparameter is tuned, default is NULL.
+#' @param test \link{SWD} object. Test dataset used to evaluate the model, not
+#' used with aicc and \link{SDMmodelCV} objects, default is NULL.
+#' @param pop numeric. Size of the population, default is 20.
+#' @param gen numeric. Number of generations, default is 20.
+#' @param metric character. The metric used to evaluate the models, possible
+#' values are: "auc", "tss" and "aicc", default is "auc".
+#' @param env \link{stack} containing the environmental variables, used only
+#' with "aicc", default is NULL.
+#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' FALSE.
+#' @param keep_best numeric. Percentage of the best models in the population to
+#' be retained during each iteration, expressed as decimal number. Default
+#' is 0.4.
+#' @param keep_random numeric. Probability of retaining the excluded models
+#' during each iteration, expressed as decimal number. Default is 0.2.
+#' @param mutation_chance numeric. Probability of mutation of the child models,
+#' expressed as decimal number. Default is 0.4.
+#' @param seed numeric. The value used to set the seed to have consistent
+#' results, default is NULL.
+#'
+#' @details To know which hyperparameters can be tune you can use the output of
+#' the function \link{get_tunable_args}.
+#'
+#' @return \link{SDMtune} object.
 #' @export
+#' @importFrom progress progress_bar
+#' @importFrom stats runif
+#'
+#' @examples \dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =
+#' c(0.5, 1, 1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000)),
+#' bg4test = bg, test = my_val, pop = 20, gen = 10, seed = 25)}
+#'
+#' @author Sergio Vignali
 optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
                            pop = 20, gen = 5, metric = c("auc", "tss", "aicc"),
                            env = NULL, parallel = FALSE, keep_best = 0.4,
@@ -21,14 +63,11 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
   if (!is.null(hypers$bg) & is.null(bg4test))
     stop("bg4test must be provided to tune background locations!")
 
-  if (sum(lengths(hypers) > 2) < 1)
-    stop("One hyperparameter in hyoers should have more than two values to allow crossover!")
-
   if (keep_best + keep_random > 1)
     stop("Sum of 'keep_best' and 'keep_random' cannot be more than 1!")
 
   # Check if at least two hyperparameters have more than one value
-  # TODO.check_hyperparams_validity(bgs, fcs, regs)
+  .check_hypers_validity(hypers)
 
   kept_good <- round(pop * keep_best)
   kept_bad <- round(pop * keep_random)
@@ -65,7 +104,9 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
     best_val <- NULL
   }
   line_title <- "Starting model"
-  line_footer <- .get_model_hyperparams(model)
+  line_footer <- .get_footer(model)
+  chart_title <- ifelse(gen > 0, "Genetic Algorithm - Generation 0",
+                        "Grid Search")
 
   settings <- list(pop = pop,
                    gen = gen,
@@ -76,6 +117,7 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
   data = list(gen = 0,
               best_train = best_train,
               best_val = best_val,
+              title = chart_title,
               lineTitle = line_title,
               lineFooter = line_footer,
               stop = FALSE)
@@ -86,7 +128,7 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
                 settings = settings, data = data, height = 500)
 
   # Create data frame with all possible combinations of hyperparameters
-  tunable_args <- .get_train_args(model)[.get_tunable_args(model)]
+  tunable_args <- .get_train_args(model)[get_tunable_args(model)]
   tunable_args[names(hypers)] <- hypers
   if (is.null(hypers$bg))
     tunable_args$bg <- nrow(model@background@data)
@@ -94,7 +136,7 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
   # Get the index of n = pop random configurations
   index <- sample(nrow(settings))
 
-  # Create random population
+  # Random search, create random population
   for (i in 1:pop) {
     models[[i]] <- .create_random_model(model, settings[index[i], ],
                                         bg4test = bg4test, bg_folds = bg_folds)
@@ -102,11 +144,12 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
                                              parallel = parallel))
     if (metric != "aicc")
       val_metric[i, ] <- list(i, .get_metric(metric, models[[i]], test))
-    scatter_footer[i] <- .get_model_hyperparams(models[[i]])
+    scatter_footer[i] <- .get_footer(models[[i]])
     .update_chart(folder, data = list(train = train_metric, val = val_metric,
                                       gen = 0, scatterFooter = scatter_footer,
                                       best_train = best_train,
                                       best_val = best_val,
+                                      title = chart_title,
                                       lineTitle = line_title,
                                       lineFooter = line_footer, stop = FALSE))
     Sys.sleep(.1)
@@ -125,11 +168,12 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
     if (metric != "aicc")
       best_val[2] <- val_metric[1, 2]
     line_title <- c(line_title, "Generation 0")
-    line_footer <- c(line_footer, .get_model_hyperparams(models[[1]]))
+    line_footer <- c(line_footer, .get_footer(models[[1]]))
     .update_chart(folder, data = list(train = train_metric, val = val_metric,
                                       gen = 0, scatterFooter = scatter_footer,
                                       best_train = best_train,
                                       best_val = best_val,
+                                      title = chart_title,
                                       lineTitle = line_title,
                                       lineFooter = line_footer, stop = FALSE))
     Sys.sleep(.1)
@@ -138,74 +182,86 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
                "because it overfits validation dataset!"))
   }
 
-  for (i in 1:gen) {
-    index_kept <- c(1:kept_good, sample( (kept_good + 1):pop, kept_bad))
-    train_metric <- train_metric[index_kept, ]
-    train_metric$x <- 1:kept
-    if (metric != "aicc") {
-      val_metric <- val_metric[index_kept, ]
-      val_metric$x <- 1:kept
-    }
-    scatter_footer <- scatter_footer[index_kept]
+  # Optimise using Genetic Algorithm
+  if (gen > 0) {
+    for (i in 1:gen) {
+      index_kept <- c(1:kept_good, sample( (kept_good + 1):pop, kept_bad))
+      train_metric <- train_metric[index_kept, ]
+      train_metric$x <- 1:kept
+      if (metric != "aicc") {
+        val_metric <- val_metric[index_kept, ]
+        val_metric$x <- 1:kept
+      }
+      chart_title = paste("Genetic Algorithm - Generation", i)
+      scatter_footer <- scatter_footer[index_kept]
 
-    .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                      gen = i, scatterFooter = scatter_footer,
-                                      best_train = best_train,
-                                      best_val = best_val,
-                                      lineTitle = line_title,
-                                      lineFooter = line_footer, stop = FALSE))
-    Sys.sleep(.1)
-    parents <- models[index_kept]
-    models <- parents
-
-    for (j in 1:remaining) {
-
-      couple <- sample(parents, size = 2)
-      mother <- couple[[1]]
-      father <- couple[[2]]
-      child <- .breed(mother, father, hypers, bg4test, bg_folds,
-                      mutation_chance)
-      train_metric[kept + j, ] <- list(kept + j,
-                                       .get_metric(metric, child, env = env,
-                                                   parallel = parallel))
-      if (metric != "aicc")
-        val_metric[kept + j, ] <- list(kept + j, .get_metric(metric, child,
-                                                             test))
-      scatter_footer[kept + j] <- .get_model_hyperparams(child)
-
-      models <- c(models, child)
       .update_chart(folder, data = list(train = train_metric, val = val_metric,
                                         gen = i, scatterFooter = scatter_footer,
                                         best_train = best_train,
                                         best_val = best_val,
+                                        title = chart_title,
                                         lineTitle = line_title,
                                         lineFooter = line_footer, stop = FALSE))
       Sys.sleep(.1)
-      pb$tick(1)
-    }
-    metrics <- list(train_metric$y, val_metric$y)
-    rank_index <- .get_rank_index(metric, metrics)
+      parents <- models[index_kept]
+      models <- parents
 
-    if (!is.logical(rank_index)) {
-      models <- models[rank_index]
-      train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
-      val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
-      scatter_footer <- scatter_footer[rank_index]
-      best_train[i + 2] <- train_metric[1, 2]
-      if (metric != "aicc")
-        best_val[i + 2] <- val_metric[1, 2]
-      line_title <- c(line_title, paste("Generation", i))
-      line_footer <- c(line_footer, .get_model_hyperparams(models[[1]]))
-      .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                        gen = i, scatterFooter = scatter_footer,
-                                        best_train = best_train,
-                                        best_val = best_val,
-                                        lineTitle = line_title,
-                                        lineFooter = line_footer, stop = FALSE))
-      Sys.sleep(.1)
-    } else {
-      stop(paste("Optimization algorithm interrupted at generation", i,
-                 "because it overfits validation dataset!"))
+      for (j in 1:remaining) {
+
+        couple <- sample(parents, size = 2)
+        mother <- couple[[1]]
+        father <- couple[[2]]
+        child <- .breed(mother, father, hypers, bg4test, bg_folds,
+                        mutation_chance)
+        train_metric[kept + j, ] <- list(kept + j,
+                                         .get_metric(metric, child, env = env,
+                                                     parallel = parallel))
+        if (metric != "aicc")
+          val_metric[kept + j, ] <- list(kept + j, .get_metric(metric, child,
+                                                               test))
+        scatter_footer[kept + j] <- .get_footer(child)
+
+        models <- c(models, child)
+        .update_chart(folder, data = list(train = train_metric,
+                                          val = val_metric, gen = i,
+                                          scatterFooter = scatter_footer,
+                                          best_train = best_train,
+                                          best_val = best_val,
+                                          title = chart_title,
+                                          lineTitle = line_title,
+                                          lineFooter = line_footer,
+                                          stop = FALSE))
+        Sys.sleep(.1)
+        pb$tick(1)
+      }
+      metrics <- list(train_metric$y, val_metric$y)
+      rank_index <- .get_rank_index(metric, metrics)
+
+      if (!is.logical(rank_index)) {
+        models <- models[rank_index]
+        train_metric <- data.frame(x = seq(1, pop),
+                                   y = metrics[[1]][rank_index])
+        val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
+        scatter_footer <- scatter_footer[rank_index]
+        best_train[i + 2] <- train_metric[1, 2]
+        if (metric != "aicc")
+          best_val[i + 2] <- val_metric[1, 2]
+        line_title <- c(line_title, paste("Generation", i))
+        line_footer <- c(line_footer, .get_footer(models[[1]]))
+        .update_chart(folder, data = list(train = train_metric,
+                                          val = val_metric, gen = i,
+                                          scatterFooter = scatter_footer,
+                                          best_train = best_train,
+                                          best_val = best_val,
+                                          title = chart_title,
+                                          lineTitle = line_title,
+                                          lineFooter = line_footer,
+                                          stop = FALSE))
+        Sys.sleep(.1)
+      } else {
+        stop(paste("Optimization algorithm interrupted at generation", i,
+                   "because it overfits validation dataset!"))
+      }
     }
   }
 
@@ -213,6 +269,7 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
                                     gen = i, scatterFooter = scatter_footer,
                                     best_train = best_train,
                                     best_val = best_val,
+                                    title = chart_title,
                                     lineTitle = line_title,
                                     lineFooter = line_footer, stop = TRUE))
   output <- .create_optimise_output(models, metric, train_metric, val_metric)
@@ -273,4 +330,41 @@ optimiseModel1 <- function(model, hypers, bg4test = NULL, test = NULL,
   new_model <- do.call("train", model_args)
 
   return(new_model)
+}
+
+.check_hypers_validity <- function(hypers) {
+
+  if (sum(lengths(hypers) > 2) < 1)
+    stop("One hyperparameter in hypers should have more than two values to allow crossover!")
+
+  if (length(names(hypers)) < 2) {
+    stop(paste("You must provide at least two hyperparameters to be tuned!",
+               "Use one of the tune functions to tune only one parameter."))
+  }
+}
+
+.get_rank_index <- function(metric, metrics) {
+  if (metric == "aicc") {
+    # The best model is the one with the lowest AICc
+    index <- order(metrics[[1]])
+  } else {
+    # The best model is the one with the highest AUC or TSS
+    # Check if the models are all overfitting the validation dataset
+    diff_metric <- metrics[[1]] - metrics[[2]]
+    if (!any(diff_metric > 0))
+      return(FALSE)
+    # Ordered index of dereasing validation metric
+    o <- order(-metrics[[2]])
+    # Good models are those not overfitting the validation dataset
+    good_models <- o[o %in% which(diff_metric > 0)]
+    # Bad models have diff_metric >= 0
+    bad_models <- o[!o %in% good_models]
+    # Ordered index of decreasomg diff_metric
+    odm <- order(-diff_metric)
+    # Ordered index of bad_models from the one less overfitting
+    bad_models <- odm[odm %in% bad_models]
+    # Combine indexes
+    index <- c(good_models, bad_models)
+  }
+  return(index)
 }
