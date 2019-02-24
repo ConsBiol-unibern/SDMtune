@@ -19,22 +19,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
-  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
-    stop("You must provide env argument if you want to use AICc metric!")
-
-  if (class(model) == "SDMmodel" & is.null(test) & metric != "aicc") {
-    stop("You need to provide a test dataset!")
-  }
-  if (class(model) == "SDMmodelCV") {
-    test <- TRUE
-    if (metric == "aicc")
-      stop("Metric aicc not allowed with SDMmodelCV objects!")
-  }
-  if (!is.null(hypers$a) & is.null(bg4test))
-    stop("bg4test must be provided to tune background locations!")
-  if (!is.null(hypers$a) & max(hypers$a) > nrow(bg4test@data))
-    stop(paste("Maximum number of 'a' hyperparameter cannot be more than!",
-               nrow(bg4test@data)))
+  .checkGridSearchArgs(model, hypers, metric, test, bg4test, env)
 
   # Create data frame with all possible combinations of hyperparameters
   tunable_args <- .get_train_args(model)[get_tunable_args(model)]
@@ -52,4 +37,24 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   for (i in 1:nrow(grid)) {
     message(grid[i, ])
   }
+}
+
+.checkGridSearchArgs <- function(model, hypers, metric, test = NULL,
+                                 bg4test = NULL, env = NULL) {
+  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
+    stop("You must provide the 'env' argument if you want to use the AICc metric!")
+
+  if (class(model) == "SDMmodel" & is.null(test) & metric != "aicc") {
+    stop("You need to provide a test dataset!")
+  }
+  if (class(model) == "SDMmodelCV") {
+    test <- TRUE
+    if (metric == "aicc")
+      stop("Metric 'aicc' not allowed with SDMmodelCV objects!")
+  }
+  if (!is.null(hypers$a) & is.null(bg4test))
+    stop("bg4test must be provided to tune background locations!")
+  if (!is.null(hypers$a) & max(hypers$a) > nrow(bg4test@data))
+    stop(paste0("Maximum number of 'a' hyperparameter cannot be more than ",
+                nrow(bg4test@data), "!"))
 }
