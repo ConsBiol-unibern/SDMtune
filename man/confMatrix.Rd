@@ -8,13 +8,13 @@ confMatrix(model, type = c("cloglog", "logistic"), test = NULL,
   th = NULL)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{\link{SDMmodel} object.}
 
 \item{type}{character. The output type, possible values are "cloglog" and
 "logistic", default is "cloglog".}
 
-\item{test}{SWD test locations, if not provided it uses the train dataset,
-default is NULL.}
+\item{test}{\link{SWD} test locations, if not provided it uses the train
+dataset, default is NULL.}
 
 \item{th}{vector if provided it computes the evaluation at the given
 thresholds, default is NULL and it computes the evaluation for a sequence

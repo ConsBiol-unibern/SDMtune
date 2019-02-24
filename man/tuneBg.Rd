@@ -8,10 +8,10 @@ tuneBg(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   test = NULL, env = NULL, parallel = FALSE, seed = NULL)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{\link{SDMmodel} object.}
 
-\item{bg4test}{SWD. The dataset with the maximum number of background
-locations to be tested given as MaxentSWD object.}
+\item{bg4test}{\link{SWD}. The dataset with the maximum number of background
+locations to be tested given as \link{SWD} object.}
 
 \item{bgs}{vector. A sequence of number of background locations to test. The
 maximum number must be lower than the maximum number of background locations
@@ -20,8 +20,8 @@ in bg4test.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc
-and SDMmodelCV objects, default is NULL.}
+\item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
+with aicc and \link{SDMmodelCV} objects, default is NULL.}
 
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}

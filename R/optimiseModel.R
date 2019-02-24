@@ -88,7 +88,7 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
   scatter_footer <- vector("character", length = pop)
 
   if (!is.null(hypers$bg)) {
-    vars <- colnames(model@presence@data)
+    vars <- colnames(model@p@data)
     bg4test@data <- bg4test@data[vars]
     bg_folds <- sample(nrow(bg4test@data))
   } else {
@@ -130,11 +130,21 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
   # Create data frame with all possible combinations of hyperparameters
   tunable_args <- .get_train_args(model)[get_tunable_args(model)]
   tunable_args[names(hypers)] <- hypers
-  if (is.null(hypers$bg))
-    tunable_args$bg <- nrow(model@background@data)
+  if (is.null(hypers$a))
+    tunable_args$a <- nrow(model@a@data)
   settings <- expand.grid(tunable_args, stringsAsFactors = FALSE)
-  # Get the index of n = pop random configurations
-  index <- sample(nrow(settings))
+
+  # Check if possible random combinations < pop
+  if (nrow(settings) < pop) {
+    stop(paste("Number of possible random models is lewer than population",
+               "size, add more values to the 'hyper' argument!"))
+  } else if (pop == nrow(settings)) {
+    stop(paste("Number of possible random models is the same than population",
+               "size. Use gridSearch function!"))
+  } else {
+    # Get the index of n = pop random configurations
+    index <- sample(nrow(settings), size = pop)
+  }
 
   # Random search, create random population
   for (i in 1:pop) {
@@ -288,7 +298,9 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
     bg@coords <- bg4test@coords[bg_folds[1:settings$bg], ]
     row.names(bg@data) <- NULL
     row.names(bg@coords) <- NULL
-    args$bg <- bg
+    args$a <- bg
+  } else {
+    args$a <- model@a
   }
 
   random_model <- do.call("train", args)

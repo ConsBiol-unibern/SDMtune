@@ -4,13 +4,13 @@
 \alias{trainMaxent}
 \title{Train Maxent model}
 \usage{
-trainMaxent(presence, bg, reg = 1, fc = "lqph", iter = 500,
+trainMaxent(p, a, reg = 1, fc = "lqph", iter = 500,
   extra_args = "removeduplicates=false")
 }
 \arguments{
-\item{presence}{SWD object with the presence locations.}
+\item{p}{\link{SWD} object with the presence locations.}
 
-\item{bg}{SWD object with the background locations.}
+\item{a}{\link{SWD} object with the background locations.}
 
 \item{reg}{numeric. The value of the regularization multiplier, default is 1.}
 
@@ -24,11 +24,11 @@ default is 500.}
 "removeduplicates=false".}
 }
 \value{
-A SDMmodel object.
+A \link{SDMmodel} object.
 }
 \description{
-Train a MaxEnt model using the dismo package. The function runs Maxent model
-with a minimum setting of optional arguments (e.g. it doesn't make the
+Train a \link{MaxEnt} model using the dismo package. The function runs Maxent
+model with a minimum setting of optional arguments (e.g. it doesn't make the
 response curves) to speed up the computation time. Use \link{modelReport}
 function to set more arguments (i.e. response curves) and save the output
 permanently in a folder.
@@ -40,7 +40,7 @@ beaviour you can assign extra_args = "" or you can add any other additional
 arguments extending the previous vector.
 }
 \examples{
-\dontrun{model <- trainMaxent(presence, bg)}
+\dontrun{model <- trainMaxent(p, a)}
 
 }
 \author{

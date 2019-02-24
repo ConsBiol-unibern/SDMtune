@@ -18,7 +18,7 @@
   if (class(model) == "SDMmodelCV")
     model <- model@models[[1]]
   return(paste("Reg:", model@model@reg, "FC:", model@model@fc,
-               "#Bg:", nrow(model@background@data)))
+               "#Bg:", nrow(model@a@data)))
 }
 
 .get_footer <- function(model) {
@@ -26,12 +26,11 @@
   tuned_args <- .get_train_args(model)[get_tunable_args(model)]
 
   for (i in 1:length(tuned_args)) {
-    if (names(tuned_args)[i] != "bg") {
+    if (names(tuned_args)[i] != "a") {
       footer <- c(footer, paste0(names(tuned_args)[i], ": ",
                                  tuned_args[[i]]))
     } else {
-      footer <- c(footer, paste0(names(tuned_args)[i], ": ",
-                                 nrow(tuned_args[[i]]@data)))
+      footer <- c(footer, paste0("bg", ": ", nrow(tuned_args[[i]]@data)))
     }
   }
   return(paste(footer, collapse = "\n"))
@@ -137,7 +136,7 @@
   fcs <- vector("character", length = length(models))
 
   for (i in 1:length(models)) {
-    res[i, 1] <- nrow(models[[i]]@background@data)
+    res[i, 1] <- nrow(models[[i]]@a@data)
     res[i, 2] <- .get_model_reg(models[[i]])
     fcs[i] <- .get_model_fc(models[[i]])
     res[i, 4] <- train_metric[i, 2]
@@ -215,7 +214,7 @@
 
 .get_train_args <- function(model) {
 
-  args <- list(presence = model@presence, bg = model@background)
+  args <- list(p = model@p, a = model@a)
 
   if (class(model) == "SDMmodelCV") {
     args$replicates <- length(model@models)
@@ -260,9 +259,9 @@ get_tunable_args <- function(model) {
   }
 
   if (method == "Maxent") {
-    args <- c("bg", "fc", "reg", "iter")
+    args <- c("a", "fc", "reg", "iter")
   } else {
-    args <- c("bg", "fc", "reg")
+    args <- c("a", "fc", "reg")
   }
 
   return(args)

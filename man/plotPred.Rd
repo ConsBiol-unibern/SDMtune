@@ -7,7 +7,7 @@
 plotPred(map, lt = "", colorramp = NULL, hr = FALSE)
 }
 \arguments{
-\item{map}{raster. The \link{raster} object with the prediction.}
+\item{map}{\link{raster} object with the prediction.}
 
 \item{lt}{character. Legend title, default is an empty string.}
 
@@ -20,7 +20,7 @@ nice colorramp.}
 is FALSE.}
 }
 \value{
-A ggplot object.
+A ggplot2 object.
 }
 \description{
 Plot Prediction output.

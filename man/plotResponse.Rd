@@ -23,9 +23,9 @@ marginal curves, possible values are mean and median, default is mean.}
 
 \item{clamp}{logical for clumping during prediction, default is TRUE.}
 
-\item{rug}{logical, if TRUE it adds the rug plot for presence and background
-locations locations, available only for continuous variables, default is
-FALSE.}
+\item{rug}{logical, if TRUE it adds the rug plot for the presence and
+absence/background locations, available only for continuous variables,
+default is FALSE.}
 
 \item{color}{The color of the curve, default is "red".}
 }

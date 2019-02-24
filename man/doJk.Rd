@@ -9,7 +9,7 @@ doJk(model, metric = c("auc", "tss", "aicc"), variables = NULL,
   return_models = FALSE)
 }
 \arguments{
-\item{model}{SDMmodel or SDMmodelCV object.}
+\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
@@ -17,8 +17,8 @@ values are: "auc", "tss" and "aicc", default is "auc".}
 \item{variables}{vector. Variables used for the test, if not provided it
 takes all the variables used to train the model, default is NULL.}
 
-\item{test}{SWD. If provided it reports the result also for the test dataset.
-Not used for \strong{aicc} and SDMmodelCV.}
+\item{test}{\link{SWD}. If provided it reports the result also for the test
+dataset. Not used for \strong{aicc} and \link{SDMmodelCV}.}
 
 \item{with_only}{logical. If TRUE it runs the test also for each variable in
 isolation, default is TRUE.}

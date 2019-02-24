@@ -4,8 +4,8 @@
 #' the function prepares a data frame in the SWD format (sample with data).
 #'
 #' @param species character. The name of the species.
-#' @param coords data.frame. The coordinates of the presence or background
-#' locations.
+#' @param coords data.frame. The coordinates of the presence or
+#' absence/background locations.
 #' @param env \link{stack} containing the environmental variables used to train
 #' the model.
 #' @param categoricals vector indicating which of the environmental variable are
@@ -17,8 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' presence_swd <- prepareSWD(species = "Bradipus variegatus",
-#' coords = presence, env = env)}
+#' swd <- prepareSWD(species = "Vultur gryphus", coords = p, env = env)}
 #'
 #' @author Sergio Vignali
 prepareSWD <- function(species, coords, env, categoricals = NULL) {

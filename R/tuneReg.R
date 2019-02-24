@@ -3,12 +3,12 @@
 #' Given a sequence of regularization multipliers, the function runs several
 #' models increasing the regularization multiplier.
 #'
-#' @param model SDMmodel or SWDmodelCV object.
+#' @param model \link{SDMmodel} or \link{SWDmodelCV} object.
 #' @param regs vector. A sequence of regularization multipliers to test.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".
-#' @param test SWD. Test dataset used to evaluate the model, not used with aicc
-#' and SDMmodelCV objects, default is NULL.
+#' @param test \link{SWD}. Test dataset used to evaluate the model, not used
+#' with aicc and \link{SDMmodelCV} objects, default is NULL.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
@@ -98,15 +98,15 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
       new_model <- model
     } else {
       if (method == "Maxent") {
-        new_model <- train(method = method, presence = model@presence,
-                           bg = model@background, reg = regs[i],
+        new_model <- train(method = method, p = model@p,
+                           a = model@a, reg = regs[i],
                            fc = object@model@fc, replicates = rep,
                            verbose = FALSE, folds = folds,
                            iter = object@model@iter,
                            extra_args = object@model@extra_args)
       } else {
-        new_model <- train(method = method, presence = model@presence,
-                           bg = model@background, reg = regs[i],
+        new_model <- train(method = method, p = model@p,
+                           a = model@a, reg = regs[i],
                            fc = object@model@fc, replicates = rep,
                            verbose = FALSE, folds = folds)
       }
@@ -131,7 +131,7 @@ tuneReg <- function(model, regs, metric = c("auc", "tss", "aicc"), test = NULL,
   .update_chart(folder, data = list(train = train_metric, val = val_metric,
                                     lineFooter = line_footer, stop = TRUE))
 
-  res[, 1] <- nrow(model@background@data)
+  res[, 1] <- nrow(model@a@data)
   res[, 2] <- regs
 
   if (metric == "aicc") {

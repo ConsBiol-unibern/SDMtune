@@ -3,8 +3,8 @@
 #' Split a dataset randomly in train and test datasets or train, validation and
 #' test datasets.
 #'
-#' @param x SWD object containing the data that have to be splitted in train,
-#' validation and test datasets.
+#' @param x \link{SWD} object containing the data that have to be splitted in
+#' train, validation and test datasets.
 #' @param test numeric. The percentage of data withhold for testing.
 #' @param val numeric. The percentage of data withhold for validation, default
 #' is 0.
@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' sets <- trainValTest(presence, val = 0.2, test = 0.2, set_seed = 25)}
+#' sets <- trainValTest(p, val = 0.2, test = 0.2, set_seed = 25)}
 #'
 #' @author Sergio Vignali
 trainValTest <- function(x, test, val = 0, seed = NULL) {

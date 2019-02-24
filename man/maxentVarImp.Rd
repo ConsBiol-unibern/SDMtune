@@ -7,13 +7,14 @@
 maxentVarImp(model)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{\link{SDMmodel} object trained using the "Maxent" method.}
 }
 \value{
 A data frame with the variable importance.
 }
 \description{
-Shows the percent contribution and permutation importance of the variable used to train the model.
+Shows the percent contribution and permutation importance of the variable
+used to train the model.
 }
 \examples{
 \dontrun{

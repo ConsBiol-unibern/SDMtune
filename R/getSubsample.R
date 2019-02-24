@@ -1,17 +1,18 @@
 #' Get Dataset Subsample
 #'
-#' Get a random subsample of a SWD object.
+#' Get a random subsample of a \link{SWD} object.
 #'
-#' @param dataset SWD object.
+#' @param dataset \link{SWD} object.
 #' @param size numeric. The size of the sub sample.
-#' @param seed numeric. The value used to set the seed in order to have consistent results, default is NULL.
+#' @param seed numeric. The value used to set the seed in order to have
+#' consistent results, default is NULL.
 #'
-#' @return The sub sample as SWD object.
+#' @return The sub sample as \link{SWD} object.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' getSubsample(bg, value = 4500)}
+#' getSubsample(data, value = 4500)}
 #'
 #' @author Sergio Vignali
 getSubsample <- function(dataset, size, seed = NULL) {

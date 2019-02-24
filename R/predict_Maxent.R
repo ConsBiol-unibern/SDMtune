@@ -4,9 +4,9 @@ setGeneric("predict", function(object, ...)
 
 #' Predict Maxent
 #'
-#' Predict output for a new dataset from a trained Maxent model.
+#' Predict output for a new dataset from a trained \link{Maxent} model.
 #'
-#' @param object Maxent object.
+#' @param object \link{Maxent} object.
 #' @param data data.frame containing values used for the prediction.
 #' @param type character MaxEnt output type, possible values are "cloglog",
 #' "logistic" and "raw", default is "cloglog".

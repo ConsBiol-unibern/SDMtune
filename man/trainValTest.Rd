@@ -7,8 +7,8 @@
 trainValTest(x, test, val = 0, seed = NULL)
 }
 \arguments{
-\item{x}{SWD object containing the data that have to be splitted in train,
-validation and test datasets.}
+\item{x}{\link{SWD} object containing the data that have to be splitted in
+train, validation and test datasets.}
 
 \item{test}{numeric. The percentage of data withhold for testing.}
 
@@ -28,7 +28,7 @@ test datasets.
 }
 \examples{
 \dontrun{
-sets <- trainValTest(presence, val = 0.2, test = 0.2, set_seed = 25)}
+sets <- trainValTest(p, val = 0.2, test = 0.2, set_seed = 25)}
 
 }
 \author{

@@ -2,16 +2,16 @@
 #'
 #' Test different sizes of background locations.
 #'
-#' @param model SDMmodel object.
-#' @param bg4test SWD. The dataset with the maximum number of background
-#' locations to be tested given as MaxentSWD object.
+#' @param model \link{SDMmodel} object.
+#' @param bg4test \link{SWD}. The dataset with the maximum number of background
+#' locations to be tested given as \link{SWD} object.
 #' @param bgs vector. A sequence of number of background locations to test. The
 #' maximum number must be lower than the maximum number of background locations
 #' in bg4test.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".
-#' @param test SWD. Test dataset used to evaluate the model, not used with aicc
-#' and SDMmodelCV objects, default is NULL.
+#' @param test \link{SWD}. Test dataset used to evaluate the model, not used
+#' with aicc and \link{SDMmodelCV} objects, default is NULL.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
@@ -83,7 +83,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
   models <- list()
   res <- matrix(nrow = length(bgs), ncol = length(labels))
 
-  vars <- colnames(model@presence@data)
+  vars <- colnames(model@p@data)
   bg4test@data <- bg4test@data[vars]
 
   folds_bg <- sample(nrow(bg4test@data))
@@ -112,7 +112,7 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
 
   for (i in 1:length(bgs)) {
 
-    if (bgs[i] == nrow(model@background@data)) {
+    if (bgs[i] == nrow(model@a@data)) {
       new_model <- model
     } else {
       bg <- bg4test
@@ -122,13 +122,13 @@ tuneBg <- function(model, bg4test, bgs, metric = c("auc", "tss", "aicc"),
       rownames(bg@data) <- NULL
       rownames(bg@coords) <- NULL
       if (method == "Maxent") {
-        new_model <- train(method = method, presence = model@presence, bg = bg,
+        new_model <- train(method = method, p = model@p, a = bg,
                            reg = object@model@reg, fc = object@model@fc,
                            replicates = rep, verbose = FALSE, folds = folds,
                            iter = object@model@iter,
                            extra_args = object@model@extra_args)
       } else {
-        new_model <- train(method = method, presence = model@presence, bg = bg,
+        new_model <- train(method = method, p = model@p, a = bg,
                            reg = object@model@reg, fc = object@model@fc,
                            replicates = rep, verbose = FALSE, folds = folds)
       }

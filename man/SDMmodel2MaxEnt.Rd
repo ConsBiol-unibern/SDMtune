@@ -7,14 +7,14 @@
 SDMmodel2MaxEnt(model)
 }
 \arguments{
-\item{model}{SDMmodel object to be converted.}
+\item{model}{\link{SDMmodel} object to be converted.}
 }
 \value{
-The converted MaxEnt object.
+The converted \link{MaxEnt} object.
 }
 \description{
-Converts a SDMmodel object containing a Maxent model to a dismo MaxEnt
-object.
+Converts a \link{SDMmodel} object containing a \link{Maxent} model to a dismo
+\link{MaxEnt} object.
 }
 \examples{
 \dontrun{SDMmodel2MaxEnt(model)}

@@ -1,27 +1,27 @@
 #' Train Maxnet model
 #'
-#' Train a Maxnet model using the maxnet package.
+#' Train a \link{Maxnet} model using the maxnet package.
 #'
-#' @param presence SWD object with the presence locations.
-#' @param bg SWD object with the background locations.
+#' @param p \link{SWD} object with the presence locations.
+#' @param a \link{SWD} object with the background locations.
 #' @param reg numeric. The value of the regularization intensity, default is 1.
 #' @param fc vector. The value of the feature combination, possible values are
 #' combinations of "l", "q", "p", "h" and "t", default is "lqph".
 #'
-#' @return A SDMmodel object.
+#' @return A \link{SDMmodel} object.
 #' @export
 #' @importFrom maxnet maxnet maxnet.formula
 #'
 #' @examples
-#' \dontrun{model <- trainMaxnet(presence, bg)}
+#' \dontrun{model <- trainMaxnet(p, a)}
 #'
 #' @author Sergio Vignali
-trainMaxnet <- function(presence, bg, reg = 1, fc = "lqph") {
+trainMaxnet <- function(p, a, reg = 1, fc = "lqph") {
 
-  result <- SDMmodel(presence = presence, background = bg)
+  result <- SDMmodel(p = p, a = a)
 
-  x <- rbind(presence@data, bg@data)
-  p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
+  x <- rbind(p@data, a@data)
+  p <- c(rep(1, nrow(p@data)), rep(0, nrow(a@data)))
   model <- maxnet::maxnet(p, x, f = maxnet::maxnet.formula(p, x, classes = fc),
                           regmult = reg)
 

@@ -1,12 +1,15 @@
 #' Print Correlated Variables
 #'
-#' Utility that prints the name of correlated variables according with the provided
-#' method and correlation threashold
+#' Utility that prints the name of correlated variables according with the
+#' provided method and correlation threashold.
 #'
-#' @param bg SWD. Locations used to test the correlation between environmental variables.
-#' @param method character. The method used to compute the correlation matrix, default "spearman".
-#' @param cor_th numeric. If provided it prints only the variables whose correlation coefficient
-#' is higer or lover than the given threshold, default is NULL.
+#' @param bg \link{SWD}. Locations used to test the correlation between
+#' environmental variables.
+#' @param method character. The method used to compute the correlation matrix,
+#' default "spearman".
+#' @param cor_th numeric. If provided it prints only the variables whose
+#' correlation coefficient is higer or lover than the given threshold, default
+#' is NULL.
 #'
 #' @return The name of the correlated variables.
 #' @export

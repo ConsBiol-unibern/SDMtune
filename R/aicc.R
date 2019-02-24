@@ -3,7 +3,7 @@
 #' Compute the Akaike Information Criterion corrected for small samples size
 #' (Warren and Seifert 2011).
 #'
-#' @param model SDMmodel object.
+#' @param model \link{SDMmodel} object.
 #' @param env \link{stack} containing the environmental variables.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE.
@@ -34,15 +34,15 @@ aicc <- function(model, env, parallel = FALSE){
     type <- "exponential"
   }
 
-  if (k > nrow(model@presence@data)) {
+  if (k > nrow(model@p@data)) {
     aicc <- NA
   } else {
     raw <- predict(model, env, type = type, parallel = parallel)
     raw_sum <- raster::cellStats(raw, sum)
-    values <- raster::extract(raw, model@presence@coords)
+    values <- raster::extract(raw, model@p@coords)
     ll <- sum(log(values / raw_sum))
     aic <- 2 * k - 2 * ll
-    aicc <- aic + (2 * k * (k + 1) / (nrow(model@presence@data) - k - 1))
+    aicc <- aic + (2 * k * (k + 1) / (nrow(model@p@data) - k - 1))
     aicc <- round(aicc, 4)
   }
 

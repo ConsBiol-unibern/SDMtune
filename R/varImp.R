@@ -1,13 +1,14 @@
 #' Variable Importance
 #'
-#' The function randomly permutes one variable at time (using train and background
-#' datasets) and computes the decrease in training AUC. The result is normalized
-#' to percentages. Same implementation of MaxEnt java software but with the additional
-#' possibility of running several permutations to obtain a better estimate of the
-#' permutation importance. In case of more than one permutation (default is 10)
-#' the average of the decrease in training AUC is computed.
+#' The function randomly permutes one variable at time (using train and
+#' absence/background datasets) and computes the decrease in training AUC. The
+#' result is normalized to percentages. Same implementation of MaxEnt java
+#' software but with the additional possibility of running several permutations
+#' to obtain a better estimate of the permutation importance. In case of more
+#' than one permutation (default is 10) the average of the decrease in training
+#' AUC is computed.
 #'
-#' @param model SDMmodel object.
+#' @param model \link{SDMmodel} object.
 #' @param permut integer. Number of permutations, default is 10.
 #'
 #' @details Note that it could return values slightly different from MaxEnt java
@@ -26,11 +27,11 @@
 varImp <- function(model, permut = 10) {
 
   set.seed(25)
-  vars <- colnames(model@presence@data)
+  vars <- colnames(model@p@data)
   model_auc <- auc(model)
   permuted_auc <- matrix(nrow = permut, ncol = length(vars))
 
-  n_pres <- nrow(model@presence@data)
+  n_pres <- nrow(model@p@data)
 
   pb <- progress::progress_bar$new(
     format = "Variable importance [:bar] :percent in :elapsedfull",
@@ -40,15 +41,15 @@ varImp <- function(model, permut = 10) {
 
   for (j in 1:length(vars)) {
     for (i in 1:permut) {
-      data <- sample(c(model@presence@data[, vars[j]],
-                       model@background@data[, vars[j]]))
-      if (is.factor(model@presence@data[, vars[j]]))
+      data <- sample(c(model@p@data[, vars[j]],
+                       model@a@data[, vars[j]]))
+      if (is.factor(model@p@data[, vars[j]]))
         data <- as.factor(data)
-      presence_copy <- model@presence
-      presence_copy@data[, vars[j]] <- data[1:n_pres]
-      bg_copy <- model@background
-      bg_copy@data[, vars[j]] <- data[(n_pres + 1):length(data)]
-      permuted_auc[i, j] <- auc(model, presence_copy, bg = bg_copy)
+      p_copy <- model@p
+      p_copy@data[, vars[j]] <- data[1:n_pres]
+      a_copy <- model@a
+      a_copy@data[, vars[j]] <- data[(n_pres + 1):length(data)]
+      permuted_auc[i, j] <- auc(model, p_copy, a = a_copy)
     }
     pb$tick(1)
   }

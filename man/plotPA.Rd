@@ -8,7 +8,7 @@ plotPA(map, th, colors = NULL, hr = FALSE, filename = NULL,
   format = "GTiff", ...)
 }
 \arguments{
-\item{map}{raster. The \link{raster} object with the prediction.}
+\item{map}{\link{raster} object with the prediction.}
 
 \item{th}{numeric. The threshold to convert the output in a presence/absence
 map.}

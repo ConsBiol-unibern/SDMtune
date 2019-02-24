@@ -37,7 +37,7 @@ if (!isGeneric("plot"))
 #' Plot the result of a tune function or of the optimiseModel function, use the
 #' interactive argument to create an interactive chart.
 #'
-#' @param x SDMtune object.
+#' @param x \link{SDMtune} object.
 #' @param interactive logical, if TRUE plot an iteractive chart.
 #'
 #' @export
@@ -47,7 +47,7 @@ if (!isGeneric("plot"))
 #' theme_minimal theme element_text geom_line
 #'
 #' @examples
-#' \dontrun{plot(my_tuneBg)}
+#' \dontrun{plot(my_tune_object)}
 #'
 #' @author Sergio Vignali
 setMethod("plot",
@@ -78,7 +78,7 @@ setMethod("plot",
       min <- min(x)
       max <- max(x)
     } else if (length(unique(res$fc)) != 1 & length(unique(res$reg)) == 1
-               & length(unique(res$bg)) == 1) {
+               & length(unique(res$a)) == 1) {
       #  Result of tuneFC function
       title <- "Tune Feature Combinations"
       x_label <- "feature combination"

@@ -9,8 +9,8 @@ thinData(coords, env)
 \arguments{
 \item{coords}{data.frame or matrix with the coordinates.}
 
-\item{env}{\link{stack} or \link{brick} containing the environmental
-variables, or a single raster layer.}
+\item{env}{\link{stack} containing the environmental variables, or a single
+\link{raster} layer.}
 }
 \value{
 a data frame with the thinned locations.

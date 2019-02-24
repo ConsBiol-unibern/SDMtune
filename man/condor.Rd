@@ -19,9 +19,10 @@ condor
 }
 \description{
 The dataset contains 509 locations of the Andean condor collected from 2008
-and 2018. The locations are downloaded from the Global Biodiversity Inventory
+to 2018. The locations are downloaded from the Global Biodiversity Inventory
 Facility and filtered to remove douplicates and keep only one location per
-raster cell of the World Clime dataset.
+raster cell of the World Clime dataset. See references for the original
+databases containing the observations.
 }
 \references{
 Levatich T, Padilla F (2017). EOD - eBird Observation Dataset. Cornell Lab of

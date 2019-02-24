@@ -7,10 +7,9 @@
 plotCor(bg, method = "spearman", cor_th = NULL)
 }
 \arguments{
-\item{bg}{SWD. The data frame used to compute the correlation matrix given as
-MaxentSWD object, defaul NULL.}
+\item{bg}{\link{SWD} object used to compute the correlation matrix.}
 
-\item{method}{character.  The method used to compute the correlation matrix,
+\item{method}{character. The method used to compute the correlation matrix,
 default is "spearman".}
 
 \item{cor_th}{numeric. If provided it prints only the coefficients that are
@@ -31,7 +30,7 @@ web page.
 }
 \examples{
 \dontrun{
-my_plot <- plotCorrelation(mtcars, method = "spearman", cor_th = 0.7)}
+my_plot <- plotCorrelation(bgs, method = "spearman", cor_th = 0.7)}
 
 }
 \author{

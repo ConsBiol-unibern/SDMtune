@@ -4,15 +4,16 @@
 \alias{auc}
 \title{AUC}
 \usage{
-auc(model, test = NULL, bg = NULL)
+auc(model, test = NULL, a = NULL)
 }
 \arguments{
-\item{model}{SDMmodel or SDMmodelCV object.}
+\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
-\item{test}{SWD test locations for SDMmodel objects or logical for SDModelCV
-objects, if not provided it computes the train AUC, default is NULL.}
+\item{test}{\link{SWD} test locations for \link{SDMmodel} objects or logical
+for \link{SDModelCV} objects, if not provided it computes the train AUC,
+default is NULL.}
 
-\item{bg}{SWD backgroung locations used to compute the AUC
+\item{a}{\link{SWD} absence or background locations used to compute the AUC
 by the permutation importance function, defaul is NULL.}
 }
 \value{
@@ -22,8 +23,8 @@ The value of the AUC.
 Compute the AUC using the Man-Whitney U Test formula.
 }
 \details{
-If the model is a SDMmodelCV object, the function computes the mean
-of the training or testing AUC values of the different replicates.
+If the model is a \link{SDMmodelCV} object, the function computes
+the mean of the training or testing AUC values of the different replicates.
 }
 \examples{
 \dontrun{

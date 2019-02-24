@@ -4,15 +4,15 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("Maxent", "Maxnet"), presence, bg, replicates = 1,
+train(method = c("Maxent", "Maxnet"), p, a, replicates = 1,
   verbose = TRUE, folds = NULL, seed = NULL, ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
 
-\item{presence}{SWD object with the presence locations.}
+\item{p}{\link{SWD} object with the presence locations.}
 
-\item{bg}{SWD object with the background locations.}
+\item{a}{\link{SWD} object with the absence or background locations.}
 
 \item{replicates}{numeric. Number of replicates, used for cross validation.
 Default is 1, meaning no cross validation is performed.}
@@ -31,14 +31,14 @@ used if \strong{folds} is not provided, default is NULL.}
 or \link{trainMaxnet} for details related to the different methods.}
 }
 \value{
-A SWDmodel or SDMmodelCV object.
+A \link{SWDmodel} or \link{SDMmodelCV} object.
 }
 \description{
 Train a model using the given method.
 }
 \examples{
 \dontrun{
-model <- train("Maxnet", presence, bg, reg = 2, fc = "lqp")}
+model <- train("Maxnet", p, a, reg = 2, fc = "lqp")}
 
 }
 \author{

@@ -7,23 +7,23 @@
 mergeSWD(swd1, swd2)
 }
 \arguments{
-\item{swd1}{SWD object.}
+\item{swd1}{\link{SWD} object.}
 
-\item{swd2}{SWD object.}
+\item{swd2}{\link{SWD} object.}
 }
 \value{
-The merged SWD object.
+The merged \link{SWD} object.
 }
 \description{
-Merge two SWD object.
+Merge two \link{SWD} object.
 }
 \details{
-In case the two SWD objects have different columns, only the common
-columns are used in the merge object.
+In case the two \link{SWD} objects have different columns, only the
+common columns are used in the merge object.
 }
 \examples{
 \dontrun{
-mergeSWD(train, background)}
+mergeSWD(train, val)}
 
 }
 \author{

@@ -2,7 +2,7 @@
 #'
 #' Plot Prediction output.
 #'
-#' @param map raster. The \link{raster} object with the prediction.
+#' @param map \link{raster} object with the prediction.
 #' @param lt character. Legend title, default is an empty string.
 #' @param colorramp vector. A custom color ramp given as a vector of colors
 #' (see example), default is NULL and uses a colorramp similar to the original
@@ -11,7 +11,7 @@
 #' @param hr logical, if TRUE produces an output with high resolution, default
 #' is FALSE.
 #'
-#' @return A ggplot object.
+#' @return A ggplot2 object.
 #' @export
 #' @importFrom ggplot2 geom_tile scale_fill_gradientn coord_equal labs
 #' scale_x_continuous scale_y_continuous theme_minimal theme element_text

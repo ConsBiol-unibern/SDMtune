@@ -1,8 +1,9 @@
 #' Maxent Variable Importance
 #'
-#' Shows the percent contribution and permutation importance of the variable used to train the model.
+#' Shows the percent contribution and permutation importance of the variable
+#' used to train the model.
 #'
-#' @param model SDMmodel object.
+#' @param model \link{SDMmodel} object trained using the "Maxent" method.
 #'
 #' @return A data frame with the variable importance.
 #' @export
@@ -15,7 +16,7 @@
 maxentVarImp <- function(model) {
 
   if (class(model@model) != "Maxent")
-    stop("Model must be trained using Maxent!")
+    stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
 
   input <- model@model@results
   pc <- input[grepl("contribution", rownames(input)), ]

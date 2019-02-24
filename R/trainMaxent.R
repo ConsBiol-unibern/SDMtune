@@ -1,13 +1,13 @@
 #' Train Maxent model
 #'
-#' Train a MaxEnt model using the dismo package. The function runs Maxent model
-#' with a minimum setting of optional arguments (e.g. it doesn't make the
+#' Train a \link{MaxEnt} model using the dismo package. The function runs Maxent
+#' model with a minimum setting of optional arguments (e.g. it doesn't make the
 #' response curves) to speed up the computation time. Use \link{modelReport}
 #' function to set more arguments (i.e. response curves) and save the output
 #' permanently in a folder.
 #'
-#' @param presence SWD object with the presence locations.
-#' @param bg SWD object with the background locations.
+#' @param p \link{SWD} object with the presence locations.
+#' @param a \link{SWD} object with the background locations.
 #' @param reg numeric. The value of the regularization multiplier, default is 1.
 #' @param fc vector. The value of the feature combination, possible values are
 #' combinations of "l", "q", "p", "h" and "t", default is "lqph".
@@ -22,28 +22,28 @@
 #' beaviour you can assign extra_args = "" or you can add any other additional
 #' arguments extending the previous vector.
 #'
-#' @return A SDMmodel object.
+#' @return A \link{SDMmodel} object.
 #' @export
 #' @importFrom dismo maxent
 #' @importFrom utils packageVersion read.csv
 #'
 #' @examples
-#' \dontrun{model <- trainMaxent(presence, bg)}
+#' \dontrun{model <- trainMaxent(p, a)}
 #'
 #' @author Sergio Vignali
-trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
+trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
                         extra_args = "removeduplicates=false") {
 
-  result <- SDMmodel(presence = presence, background = bg)
+  result <- SDMmodel(p = p, a = a)
   folder <- tempfile()
 
   args <- .make_args(reg = reg, fc = fc, iter = iter, extra_args = extra_args)
 
-  x <- rbind(presence@data, bg@data)
-  p <- c(rep(1, nrow(presence@data)), rep(0, nrow(bg@data)))
+  x <- rbind(p@data, a@data)
+  p <- c(rep(1, nrow(p@data)), rep(0, nrow(a@data)))
   dismo_model <- dismo::maxent(x, p, args = args, path = folder)
 
-  l <- .get_lambdas(paste0(folder, "/species.lambdas"), bg)
+  l <- .get_lambdas(paste0(folder, "/species.lambdas"), a)
   f <- .formula_from_lambdas(l$lambdas)
 
   model_object <- Maxent(results = dismo_model@results, reg = reg, fc = fc,
@@ -96,7 +96,7 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
   return(feature_args)
 }
 
-.get_lambdas <- function(lambda_file, bg) {
+.get_lambdas <- function(lambda_file, a) {
   lambdas <- read.csv(lambda_file, header = FALSE)
   lpn <- lambdas[(nrow(lambdas) - 3), 2]
   dn <- lambdas[(nrow(lambdas) - 2), 2]
@@ -104,7 +104,7 @@ trainMaxent <- function(presence, bg, reg = 1, fc = "lqph", iter = 500,
   lambdas <- as.data.frame(lambdas[1:(nrow(lambdas) - 4), ])
   names(lambdas) <- c("feature", "lambda", "min", "max")
   # Get min max values of variables
-  min_max <- lambdas[lambdas$feature %in% names(bg@data), ]
+  min_max <- lambdas[lambdas$feature %in% names(a@data), ]
   min_max$lambda <- NULL
   names(min_max) <- c("variable", "min", "max")
   # Remove features where lambda = 0 and round braces

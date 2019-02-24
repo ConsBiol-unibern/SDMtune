@@ -7,10 +7,11 @@
 tss(model, test = NULL)
 }
 \arguments{
-\item{model}{SDMmodel or SDMmodelCV object.}
+\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
-\item{test}{SWD test locations for SDMmodel objects or logical for SDModelCV
-objects, if not provided it computes the train AUC, default is NULL.}
+\item{test}{\link{SWD} test locations for \link{SDMmodel} objects or logical
+for \link{SDModelCV} objects, if not provided it computes the train AUC,
+default is NULL.}
 }
 \value{
 The value of the TSS of the given model.
@@ -19,8 +20,8 @@ The value of the TSS of the given model.
 Compute the max TSS of a given model.
 }
 \details{
-If the model is a SDMmodelCV object, the function computes the mean
-of the training or testing TSS values of the different replicates.
+If the model is a \link{SDMmodelCV} object, the function computes
+the mean of the training or testing TSS values of the different replicates.
 }
 \examples{
 \dontrun{
@@ -28,8 +29,9 @@ tss(model, test = test_dataset)}
 
 }
 \references{
-Allouche O., Tsoar A., Kadmon R., (2006). Assessing the accuracy of species distribution models:
-prevalence, kappa and the true skill statistic (TSS). Journal of Applied Ecology, 43(6), 1223–1232.
+Allouche O., Tsoar A., Kadmon R., (2006). Assessing the accuracy of species
+distribution models: prevalence, kappa and the true skill statistic (TSS).
+Journal of Applied Ecology, 43(6), 1223–1232.
 }
 \author{
 Sergio Vignali

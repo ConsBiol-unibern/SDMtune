@@ -2,7 +2,7 @@
 #'
 #' Plot a presence absence map using the given threshold.
 #'
-#' @param map raster. The \link{raster} object with the prediction.
+#' @param map \link{raster} object with the prediction.
 #' @param th numeric. The threshold to convert the output in a presence/absence
 #' map.
 #' @param colors vector. Colors to be used, default is NULL and uses red and

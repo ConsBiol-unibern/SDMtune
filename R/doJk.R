@@ -2,13 +2,13 @@
 #'
 #' Run the Jackknife test for variable importance removing one variable at time.
 #'
-#' @param model SDMmodel or SDMmodelCV object.
+#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".
 #' @param variables vector. Variables used for the test, if not provided it
 #' takes all the variables used to train the model, default is NULL.
-#' @param test SWD. If provided it reports the result also for the test dataset.
-#' Not used for **aicc** and SDMmodelCV.
+#' @param test \link{SWD}. If provided it reports the result also for the test
+#' dataset. Not used for **aicc** and \link{SDMmodelCV}.
 #' @param with_only logical. If TRUE it runs the test also for each variable in
 #' isolation, default is TRUE.
 #' @param env \link{stack} containing the environmental variables, used only
@@ -49,7 +49,7 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
   }
 
   if (is.null(variables))
-    variables <- colnames(model@presence@data)
+    variables <- colnames(model@p@data)
 
   if (with_only) {
     tot <- length(variables) * 2
@@ -89,19 +89,19 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
   }
 
   for (i in 1:length(variables)) {
-    presence <- old_model@presence
-    bg <- old_model@background
-    presence@data[variables[i]] <- NULL
-    bg@data[variables[i]] <- NULL
+    p <- old_model@p
+    a <- old_model@a
+    p@data[variables[i]] <- NULL
+    a@data[variables[i]] <- NULL
 
     if (method == "Maxent") {
-      jk_model <- train(method = method, presence = presence, bg = bg,
+      jk_model <- train(method = method, p = p, a = a,
                         reg = model@model@reg, fc = model@model@fc,
                         replicates = rep, verbose = FALSE, folds = folds,
                         iter = model@model@iter,
                         extra_args = model@model@extra_args)
     } else {
-      jk_model <- train(method = method, presence = presence, bg = bg,
+      jk_model <- train(method = method, p = p, a = a,
                         reg = model@model@reg, fc = model@model@fc,
                         replicates = rep, verbose = FALSE, folds = folds)
     }
@@ -114,19 +114,19 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     pb$tick()
 
     if (with_only) {
-      presence <- old_model@presence
-      bg <- old_model@background
-      presence@data <- presence@data[variables[i]]
-      bg@data <- bg@data[variables[i]]
+      p <- old_model@p
+      a <- old_model@a
+      p@data <- p@data[variables[i]]
+      a@data <- a@data[variables[i]]
 
       if (method == "Maxent") {
-        jk_model <- train(method = method, presence = presence, bg = bg,
+        jk_model <- train(method = method, p = p, a = a,
                           reg = model@model@reg, fc = model@model@fc,
                           replicates = rep, verbose = FALSE, folds = folds,
                           iter = model@model@iter,
                           extra_args = model@model@extra_args)
       } else {
-        jk_model <- train(method = method, presence = presence, bg = bg,
+        jk_model <- train(method = method, p = p, a = a,
                           reg = model@model@reg, fc = model@model@fc,
                           replicates = rep, verbose = FALSE, folds = folds)
       }

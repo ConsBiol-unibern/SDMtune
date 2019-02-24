@@ -8,9 +8,8 @@
 #' @details The code is inspired by the \href{www.sthda.com/english/wiki/ggplot2-quick-correlation-matrix-heatmap-r-software-and-data-visualization}{STHDA}
 #' web page.
 #'
-#' @param bg SWD. The data frame used to compute the correlation matrix given as
-#' MaxentSWD object, defaul NULL.
-#' @param method character.  The method used to compute the correlation matrix,
+#' @param bg \link{SWD} object used to compute the correlation matrix.
+#' @param method character. The method used to compute the correlation matrix,
 #' default is "spearman".
 #' @param cor_th numeric. If provided it prints only the coefficients that are
 #' higher or lower than the given threshold, default is NULL.
@@ -24,7 +23,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' my_plot <- plotCorrelation(mtcars, method = "spearman", cor_th = 0.7)}
+#' my_plot <- plotCorrelation(bgs, method = "spearman", cor_th = 0.7)}
 #'
 #' @author Sergio Vignali
 plotCor <- function(bg, method = "spearman", cor_th = NULL) {

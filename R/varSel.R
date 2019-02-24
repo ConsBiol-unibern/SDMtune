@@ -9,13 +9,13 @@
 #' the given metric using the test dataset). The process is repeated untill the
 #' remaining variables are not highly correlated anymore.
 #'
-#' @param model SDMmodel or SDMmodelCV object.
+#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param bg4cor SWD object. Background locations used to test the correlation
 #' between environmental variables.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", default is "auc".
-#' @param test SWD. Test dataset used to evaluate the model, not used with aicc
-#' and SDMmodelCV objects, default is NULL.
+#' @param test \link{SWD}. Test dataset used to evaluate the model, not used
+#' with aicc and \link{SDMmodelCV} objects, default is NULL.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
@@ -35,7 +35,8 @@
 #' We should write something more... I will refer to our paper for the
 #' explanations...
 #'
-#' @return The model with trained using the selected variables.
+#' @return The \link{SDMmodel} or \link{SDMmodelCV} object trained using the
+#' selected variables.
 #' @export
 #' @importFrom progress progress_bar
 #' @importFrom stats cor
@@ -92,14 +93,14 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
 
   if (change_reg) {
     if (method == "Maxent") {
-      model <- train(method = model_method, presence = model@presence,
-                     bg = model@background, reg = reg, fc = object@model@fc,
+      model <- train(method = model_method, p = model@p,
+                     a = model@a, reg = reg, fc = object@model@fc,
                      replicates = rep, verbose = FALSE, folds = folds,
                      iter = object@model@iter,
                      extra_args = object@model@extra_args)
     } else {
-      model <- train(method = model_method, presence = model@presence,
-                     bg = model@background, reg = reg, fc = object@model@fc,
+      model <- train(method = model_method, p = model@p,
+                     a = model@a, reg = reg, fc = object@model@fc,
                      replicates = rep, verbose = FALSE, folds = folds)
     }
     pb$tick(1)
@@ -121,7 +122,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
   }
 
   # Create chart
-  initial_vars <- colnames(model@presence@data)
+  initial_vars <- colnames(model@p@data)
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
                    update = TRUE)
   data = list(data = rep(0, length(initial_vars)), stop = FALSE)
@@ -193,14 +194,14 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
   if (change_reg) {
     pb$tick(total - removed - 2)
     if (method == "Maxent") {
-      model <- train(method = model_method, presence = model@presence,
-                     bg = object@background, reg = object@model@reg,
+      model <- train(method = model_method, p = model@p,
+                     a = object@a, reg = object@model@reg,
                      fc = object@model@fc, replicates = rep, verbose = FALSE,
                      folds = folds, iter = object@model@iter,
                      extra_args = object@model@extra_args)
     } else {
-      model <- train(method = model_method, presence = model@presence,
-                     bg = model@background, reg = object@model@reg,
+      model <- train(method = model_method, p = model@p,
+                     a = model@a, reg = object@model@reg,
                      fc = object@model@fc, replicates = rep, verbose = FALSE,
                      folds = folds)
     }
@@ -209,7 +210,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     pb$tick(total - removed)
   }
 
-  removed_vars <- setdiff(initial_vars, colnames(model@presence@data))
+  removed_vars <- setdiff(initial_vars, colnames(model@p@data))
   message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
 
   return(model)

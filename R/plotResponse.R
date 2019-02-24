@@ -11,9 +11,9 @@
 #' @param fun function used to compute the level of the other variables for
 #' marginal curves, possible values are mean and median, default is mean.
 #' @param clamp logical for clumping during prediction, default is TRUE.
-#' @param rug logical, if TRUE it adds the rug plot for presence and background
-#' locations locations, available only for continuous variables, default is
-#' FALSE.
+#' @param rug logical, if TRUE it adds the rug plot for the presence and
+#' absence/background locations, available only for continuous variables,
+#' default is FALSE.
 #' @param color The color of the curve, default is "red".
 #'
 #' @details Note that fun is not a character argument, you must use mean and
@@ -34,31 +34,31 @@
 plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
                          clamp = TRUE, rug = FALSE, color = "red") {
 
-  if (!var %in% names(model@presence@data))
+  if (!var %in% names(model@p@data))
     stop(paste(var, "is not used to train the model!"))
 
   if (class(model) == "SDMmodel") {
-    bg <- model@background
+    a <- model@a
   } else {
-    bg <- model@models[[1]]@background
+    a <- model@models[[1]]@a
   }
 
-  train <- model@presence
-  cont_vars <- names(Filter(is.numeric, bg@data))
-  cat_vars <- names(Filter(is.factor, bg@data))
+  train <- model@p
+  cont_vars <- names(Filter(is.numeric, a@data))
+  cat_vars <- names(Filter(is.factor, a@data))
 
   if (var %in% cat_vars) {
-    categ <- unique(as.numeric(levels(bg@data[, var]))[bg@data[, var]])
+    categ <- unique(as.numeric(levels(a@data[, var]))[a@data[, var]])
     n_rows <- length(categ)
   } else {
     n_rows <- 100
   }
 
   train_rug <- data.frame(x = train@data[, var])
-  bg_rug <- data.frame(x = bg@data[, var])
+  a_rug <- data.frame(x = a@data[, var])
 
   if (class(model) == "SDMmodel") {
-    plot_data <- get_plot_data(model, train, bg, var, cont_vars, cat_vars,
+    plot_data <- get_plot_data(model, train, a, var, cont_vars, cat_vars,
                                n_rows, train_rug, fun, marginal, clamp, type,
                                categ)
 
@@ -74,12 +74,12 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     }
   } else {
     nf <- length(model@models)
-    plot_data <- get_plot_data(model@models[[1]], train, bg, var, cont_vars,
+    plot_data <- get_plot_data(model@models[[1]], train, a, var, cont_vars,
                                cat_vars, n_rows, train_rug, fun, marginal,
                                clamp, type, categ)
     colnames(plot_data) <- c("x", "y_1")
     for (i in 2:nf)
-      plot_data[paste0("y_", i)] <- get_plot_data(model@models[[i]], train, bg,
+      plot_data[paste0("y_", i)] <- get_plot_data(model@models[[i]], train, a,
                                                   var, cont_vars, cat_vars,
                                                   n_rows, train_rug, fun,
                                                   marginal, clamp, type)$y
@@ -113,7 +113,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     my_plot <- my_plot +
       geom_rug(data = train_rug, inherit.aes = FALSE, aes_string("x"),
                sides = "t", color = "#4C4C4C") +
-      geom_rug(data = bg_rug, inherit.aes = FALSE, aes_string("x"),
+      geom_rug(data = a_rug, inherit.aes = FALSE, aes_string("x"),
                sides = "b", color = "#4C4C4C")
   }
 
@@ -121,7 +121,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
 }
 
 
-get_plot_data <- function(model, train, bg, var, cont_vars, cat_vars, n_rows,
+get_plot_data <- function(model, train, a, var, cont_vars, cat_vars, n_rows,
                           train_rug, fun, marginal, clamp, type, categ) {
 
   data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(train@data)))
@@ -131,12 +131,12 @@ get_plot_data <- function(model, train, bg, var, cont_vars, cat_vars, n_rows,
   data <- do.call("rbind", replicate(n_rows, data, simplify = FALSE))
 
   if (clamp & var %in% cont_vars) {
-    var_min <- min(bg@data[var])
-    var_max <- max(bg@data[var])
+    var_min <- min(a@data[var])
+    var_max <- max(a@data[var])
     train_rug <- data.frame(x = clamp(train_rug$x, var_min, var_max))
   } else if (var %in% cont_vars) {
-    var_min <- min(rbind(train@data[var], bg@data[var]))
-    var_max <- max(rbind(train@data[var], bg@data[var]))
+    var_min <- min(rbind(train@data[var], a@data[var]))
+    var_max <- max(rbind(train@data[var], a@data[var]))
   }
 
   if (var %in% cont_vars) {
@@ -146,17 +146,17 @@ get_plot_data <- function(model, train, bg, var, cont_vars, cat_vars, n_rows,
   }
 
   if (!marginal) {
-    train@data <- model@presence@data[var]
-    bg@data <- model@background@data[var]
+    train@data <- model@p@data[var]
+    a@data <- model@a@data[var]
     method <- class(model@model)
 
     if (method == "Maxent") {
-      model <- train(method = method, presence = train, bg = bg,
+      model <- train(method = method, p = train, a = a,
                      reg = model@model@reg, fc = model@model@fc,
                      iter = model@model@iter,
                      extra_args = model@model@extra_args)
     } else {
-      model <- train(method = method, presence = train, bg = bg,
+      model <- train(method = method, p = train, a = a,
                      reg = model@model@reg, fc = model@model@fc)
     }
   }

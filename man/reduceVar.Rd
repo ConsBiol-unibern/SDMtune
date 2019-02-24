@@ -8,7 +8,7 @@ reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
   env = NULL, parallel = FALSE, use_jk = FALSE, permut = 10)
 }
 \arguments{
-\item{model}{SDMmodel or SDMmodelCV object.}
+\item{model}{S\link{DMmodel} or \link{SDMmodelCV} object.}
 
 \item{th}{numeric. The contribution threshold used to remove variables.}
 
@@ -16,8 +16,8 @@ reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
 values are: "auc", "tss" and "aicc", used only if use_jk is TRUE, default is
 "auc".}
 
-\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc,
-and if use_jk = FALSE, default is NULL.}
+\item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
+with aicc, and if use_jk = FALSE, default is NULL.}
 
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}

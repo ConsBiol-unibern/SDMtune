@@ -1,18 +1,18 @@
 #' Merge SWD Objects
 #'
-#' Merge two SWD object.
+#' Merge two \link{SWD} object.
 #'
-#' @param swd1 SWD object.
-#' @param swd2 SWD object.
+#' @param swd1 \link{SWD} object.
+#' @param swd2 \link{SWD} object.
 #'
-#' @details In case the two SWD objects have different columns, only the common
-#' columns are used in the merge object.
+#' @details In case the two \link{SWD} objects have different columns, only the
+#' common columns are used in the merge object.
 #'
-#' @return The merged SWD object.
+#' @return The merged \link{SWD} object.
 #' @export
 #'
 #' @examples\dontrun{
-#' mergeSWD(train, background)}
+#' mergeSWD(train, val)}
 #'
 #' @author Sergio Vignali
 mergeSWD <- function(swd1, swd2) {

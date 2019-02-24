@@ -7,21 +7,22 @@
 getSubsample(dataset, size, seed = NULL)
 }
 \arguments{
-\item{dataset}{SWD object.}
+\item{dataset}{\link{SWD} object.}
 
 \item{size}{numeric. The size of the sub sample.}
 
-\item{seed}{numeric. The value used to set the seed in order to have consistent results, default is NULL.}
+\item{seed}{numeric. The value used to set the seed in order to have
+consistent results, default is NULL.}
 }
 \value{
-The sub sample as SWD object.
+The sub sample as \link{SWD} object.
 }
 \description{
-Get a random subsample of a SWD object.
+Get a random subsample of a \link{SWD} object.
 }
 \examples{
 \dontrun{
-getSubsample(bg, value = 4500)}
+getSubsample(data, value = 4500)}
 
 }
 \author{

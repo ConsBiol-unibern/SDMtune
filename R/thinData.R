@@ -5,8 +5,8 @@
 #' one.
 #'
 #' @param coords data.frame or matrix with the coordinates.
-#' @param env \link{stack} or \link{brick} containing the environmental
-#' variables, or a single raster layer.
+#' @param env \link{stack} containing the environmental variables, or a single
+#' \link{raster} layer.
 #'
 #' @details **coords** and **env** must have the same coordinate reference
 #' system.

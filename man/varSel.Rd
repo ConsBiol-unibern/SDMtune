@@ -9,7 +9,7 @@ varSel(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
   cor_th = 0.7, permut = 10)
 }
 \arguments{
-\item{model}{SDMmodel or SDMmodelCV object.}
+\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
 \item{bg4cor}{SWD object. Background locations used to test the correlation
 between environmental variables.}
@@ -17,8 +17,8 @@ between environmental variables.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc
-and SDMmodelCV objects, default is NULL.}
+\item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
+with aicc and \link{SDMmodelCV} objects, default is NULL.}
 
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}
@@ -38,7 +38,8 @@ correlated variables, default is 0.7.}
 \item{permut}{integer. Number of permutations, default is 10.}
 }
 \value{
-The model with trained using the selected variables.
+The \link{SDMmodel} or \link{SDMmodelCV} object trained using the
+selected variables.
 }
 \description{
 The function performs a data-driven variable selection. Starting from the

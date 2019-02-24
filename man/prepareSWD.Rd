@@ -9,8 +9,8 @@ prepareSWD(species, coords, env, categoricals = NULL)
 \arguments{
 \item{species}{character. The name of the species.}
 
-\item{coords}{data.frame. The coordinates of the presence or background
-locations.}
+\item{coords}{data.frame. The coordinates of the presence or
+absence/background locations.}
 
 \item{env}{\link{stack} containing the environmental variables used to train
 the model.}
@@ -27,8 +27,7 @@ the function prepares a data frame in the SWD format (sample with data).
 }
 \examples{
 \dontrun{
-presence_swd <- prepareSWD(species = "Bradipus variegatus",
-coords = presence, env = env)}
+swd <- prepareSWD(species = "Vultur gryphus", coords = p, env = env)}
 
 }
 \author{

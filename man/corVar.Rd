@@ -7,19 +7,22 @@
 corVar(bg, method = "spearman", cor_th = NULL)
 }
 \arguments{
-\item{bg}{SWD. Locations used to test the correlation between environmental variables.}
+\item{bg}{\link{SWD}. Locations used to test the correlation between
+environmental variables.}
 
-\item{method}{character. The method used to compute the correlation matrix, default "spearman".}
+\item{method}{character. The method used to compute the correlation matrix,
+default "spearman".}
 
-\item{cor_th}{numeric. If provided it prints only the variables whose correlation coefficient
-is higer or lover than the given threshold, default is NULL.}
+\item{cor_th}{numeric. If provided it prints only the variables whose
+correlation coefficient is higer or lover than the given threshold, default
+is NULL.}
 }
 \value{
 The name of the correlated variables.
 }
 \description{
-Utility that prints the name of correlated variables according with the provided
-method and correlation threashold
+Utility that prints the name of correlated variables according with the
+provided method and correlation threashold.
 }
 \examples{
 \dontrun{

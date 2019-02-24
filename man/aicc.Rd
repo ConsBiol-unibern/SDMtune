@@ -7,7 +7,7 @@
 aicc(model, env, parallel = FALSE)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{\link{SDMmodel} object.}
 
 \item{env}{\link{stack} containing the environmental variables.}
 

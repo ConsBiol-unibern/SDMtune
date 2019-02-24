@@ -4,9 +4,9 @@ setGeneric("predict", function(object, ...)
 
 #' Predict
 #'
-#' Predict output for a new dataset from a trained model.
+#' Predict the output for a new dataset from a trained \link{SWDmodel} model.
 #'
-#' @param object SDMmodel object.
+#' @param object \link{SDMmodel} object.
 #' @param data data.frame, \link{SWD}, \link{stack}.
 #' @param type character. Output type, see \link{predict,Maxent-method} for
 #' Maxent models or \link{predict.maxnet} for Maxnet models.
@@ -39,7 +39,7 @@ setGeneric("predict", function(object, ...)
 #' @importFrom stats formula model.matrix
 #'
 #' @return A vector with the prediction or a Raster object if data is a raster
-#' stack/brick.
+#' stack.
 #' @exportMethod predict
 #'
 #' @examples\dontrun{
@@ -58,7 +58,7 @@ setMethod("predict",
               model <- object@model@model
             }
 
-            vars <- colnames(object@presence@data)
+            vars <- colnames(object@p@data)
 
             if (inherits(data, "Raster")) {
               data <- raster::subset(data, vars)

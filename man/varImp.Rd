@@ -7,7 +7,7 @@
 varImp(model, permut = 10)
 }
 \arguments{
-\item{model}{SDMmodel object.}
+\item{model}{\link{SDMmodel} object.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
 }
@@ -15,12 +15,13 @@ varImp(model, permut = 10)
 data.frame with the ordered permutation importance.
 }
 \description{
-The function randomly permutes one variable at time (using train and background
-datasets) and computes the decrease in training AUC. The result is normalized
-to percentages. Same implementation of MaxEnt java software but with the additional
-possibility of running several permutations to obtain a better estimate of the
-permutation importance. In case of more than one permutation (default is 10)
-the average of the decrease in training AUC is computed.
+The function randomly permutes one variable at time (using train and
+absence/background datasets) and computes the decrease in training AUC. The
+result is normalized to percentages. Same implementation of MaxEnt java
+software but with the additional possibility of running several permutations
+to obtain a better estimate of the permutation importance. In case of more
+than one permutation (default is 10) the average of the decrease in training
+AUC is computed.
 }
 \details{
 Note that it could return values slightly different from MaxEnt java

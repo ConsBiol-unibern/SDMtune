@@ -7,11 +7,11 @@
 #' specificity and maximum test sensitivity plus specificity thresholds and the
 #' p-values of the one-tailed binomial exact test.
 #'
-#' @param model SDMmodel object
+#' @param model \link{SDMmodel} object.
 #' @param type character. The output type, possible values are "cloglog" and
 #' "logistic", default is "cloglog".
-#' @param test SWD test locations, if not provided it returns the training and
-#' test thresholds, default is NULL.
+#' @param test \link{SWD} test locations, if not provided it returns the
+#' training and test thresholds, default is NULL.
 #'
 #' @details The equal training sensitivity and specificity minimizes the
 #' difference between sensitivity and specificity. The one-tailed binomial test
@@ -28,14 +28,14 @@
 #' @author Sergio Vignali
 thresholds <- function(model, type, test = NULL) {
 
-  n_pres <- nrow(model@presence@data)
+  n_pres <- nrow(model@p@data)
 
   cm_train <- confMatrix(model, type = type)
   tpr <- cm_train$tp / (cm_train$tp + cm_train$fn)
   tnr <- cm_train$tn / (cm_train$fp + cm_train$tn)
   fpr <- cm_train$fp / (cm_train$fp + cm_train$tn)
 
-  mtp <- min(predict(model, model@presence@data, type = type))
+  mtp <- min(predict(model, model@p@data, type = type))
   ess <- cm_train$th[which.min(abs(tpr - tnr))]
   mss <- cm_train$th[which.max(tpr + tnr)]
 

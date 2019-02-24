@@ -8,13 +8,13 @@
 #' removing the variable even if the contribution is lower than the given
 #' threshold.
 #'
-#' @param model SDMmodel or SDMmodelCV object.
+#' @param model S\link{DMmodel} or \link{SDMmodelCV} object.
 #' @param th numeric. The contribution threshold used to remove variables.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", used only if use_jk is TRUE, default is
 #' "auc".
-#' @param test SWD. Test dataset used to evaluate the model, not used with aicc,
-#'  and if use_jk = FALSE, default is NULL.
+#' @param test \link{SWD}. Test dataset used to evaluate the model, not used
+#' with aicc, and if use_jk = FALSE, default is NULL.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
@@ -54,7 +54,7 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
   }
 
   # Create chart
-  initial_vars <- colnames(model@presence@data)
+  initial_vars <- colnames(model@p@data)
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
                    update = TRUE)
   data = list(data = rep(0, length(initial_vars)), stop = FALSE)

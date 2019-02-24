@@ -8,15 +8,15 @@ tuneFC(model, fcs, metric = c("auc", "tss", "aicc"), test = NULL,
   env = NULL, parallel = FALSE)
 }
 \arguments{
-\item{model}{SDMmodel or SWDmodelCV object.}
+\item{model}{\link{SDMmodel} or \link{SWDmodelCV} object.}
 
 \item{fcs}{vector with all the Feature Classes combination to be tested.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
 
-\item{test}{SWD. Test dataset used to evaluate the model, not used with aicc
-and SDMmodelCV objects, default is NULL.}
+\item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
+with aicc and \link{SDMmodelCV} objects, default is NULL.}
 
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}

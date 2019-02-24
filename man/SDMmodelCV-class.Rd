@@ -15,13 +15,12 @@ the models trained during the cross validation.
 \item{\code{models}}{list. A list containing all the models trained during the cross
 validation.}
 
-\item{\code{presence}}{\link{SWD} object. Full dataset used by the k-fold cross
-validation.}
+\item{\code{p}}{\link{SWD} object. Full dataset used by the k-fold cross validation.}
 
-\item{\code{background}}{\link{SWD} object. The backgorund locations used to train
-the model.}
+\item{\code{a}}{\link{SWD} object. The absence/backgorund locations used to train the
+model.}
 
-\item{\code{folds}}{numeric. Vector with the index of the k-fold.}
+\item{\code{folds}}{numeric. Vector with the index for the k-fold partition.}
 }}
 
 \author{
