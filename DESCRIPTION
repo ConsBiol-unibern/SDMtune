@@ -79,6 +79,7 @@ Collate:
     'predict_Maxent.R'
     'predict_SDMmodel.R'
     'prepareSWD.R'
+    'randomSearch.R'
     'reduceVar.R'
     'swd2csv.R'
     'thinData.R'

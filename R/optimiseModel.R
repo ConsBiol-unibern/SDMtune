@@ -1,13 +1,13 @@
 #' Optimise Model
 #'
-#' The function can be used to run a random search or a genetic algorithm to
-#' optimise the model performance.
+#' The function uses a Genetic Algorithm implementation to optimise the model
+#' hyperparameter configuration according to the chosen metric.
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param hypers named list containing the values of the hyperpatameters that
 #' should be tuned, see details.
 #' @param bg4test \link{SWD} object or NULL. Background locations used to get
-#' subsamples, used only if bg hyperparameter is tuned, default is NULL.
+#' subsamples if **a** hyperparameter is tuned, default is NULL.
 #' @param test \link{SWD} object. Test dataset used to evaluate the model, not
 #' used with aicc and \link{SDMmodelCV} objects, default is NULL.
 #' @param pop numeric. Size of the population, default is 20.
@@ -37,7 +37,7 @@
 #' @importFrom stats runif
 #'
 #' @examples \dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =
-#' c(0.5, 1, 1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000)),
+#' c(0.5, 1, 1.5), "fc" = c("lq", "lqp", "lqph"), "a" = c(5000, 10000, 15000)),
 #' bg4test = bg, test = my_val, pop = 20, gen = 10, seed = 25)}
 #'
 #' @author Sergio Vignali

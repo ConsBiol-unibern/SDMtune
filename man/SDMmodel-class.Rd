@@ -19,9 +19,6 @@ model.}
 the model.}
 
 \item{\code{model}}{\link{Maxent} or \link{Maxnet} object.}
-
-\item{\code{html}}{character. The path of the html file, available only after running
-the function \link{modelReport}.}
 }}
 
 \author{
