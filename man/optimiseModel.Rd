@@ -4,30 +4,26 @@
 \alias{optimiseModel}
 \title{Optimise Model}
 \usage{
-optimiseModel(model, bg4test, regs, fcs, bgs, test, pop, gen,
-  metric = c("auc", "tss", "aicc"), env = NULL, parallel = FALSE,
-  keep_best = 0.4, keep_random = 0.2, mutation_chance = 0.4,
-  seed = NULL)
+optimiseModel(model, hypers, bg4test = NULL, test = NULL, pop = 20,
+  gen = 5, metric = c("auc", "tss", "aicc"), env = NULL,
+  parallel = FALSE, keep_best = 0.4, keep_random = 0.2,
+  mutation_chance = 0.4, seed = NULL)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
-\item{bg4test}{\link{SWD} object. Background locations used to get
-subsamples.}
+\item{hypers}{named list containing the values of the hyperpatameters that
+should be tuned, see details.}
 
-\item{regs}{numeric vector with the regularization values to be tested.}
-
-\item{fcs}{character vector with the feature combunation values to be tested.}
-
-\item{bgs}{numeric vector with the number of background location to be
-tested.}
+\item{bg4test}{\link{SWD} object or NULL. Background locations used to get
+subsamples, used only if bg hyperparameter is tuned, default is NULL.}
 
 \item{test}{\link{SWD} object. Test dataset used to evaluate the model, not
-used with aicc and \link{SDMmodelCV} objects, default is \code{NULL}.}
+used with aicc and \link{SDMmodelCV} objects, default is NULL.}
 
-\item{pop}{numeric. Size of the population.}
+\item{pop}{numeric. Size of the population, default is 20.}
 
-\item{gen}{numeric. Number of generations.}
+\item{gen}{numeric. Number of generations, default is 20.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", default is "auc".}
@@ -43,7 +39,7 @@ be retained during each iteration, expressed as decimal number. Default
 is 0.4.}
 
 \item{keep_random}{numeric. Probability of retaining the excluded models
-during each iteration, expressed as decimal number. Default is 0.1.}
+during each iteration, expressed as decimal number. Default is 0.2.}
 
 \item{mutation_chance}{numeric. Probability of mutation of the child models,
 expressed as decimal number. Default is 0.4.}
@@ -52,15 +48,20 @@ expressed as decimal number. Default is 0.4.}
 results, default is NULL.}
 }
 \value{
-list containing the models of the last population.
+\link{SDMtune} object.
 }
 \description{
-Optimise Model
+The function can be used to run a random search or a genetic algorithm to
+optimise the model performance.
+}
+\details{
+To know which hyperparameters can be tune you can use the output of
+the function \link{get_tunable_args}.
 }
 \examples{
-\dontrun{output <- optimiseModel(my_model, bg, regs = c(0.5, 1,
-1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000),
-test = my_val, pop = 20, gen = 10, seed = 25)}
+\dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =
+c(0.5, 1, 1.5), fcs = c("lq", "lqp", "lqph"), bgs = c(5000, 10000, 15000)),
+bg4test = bg, test = my_val, pop = 20, gen = 10, seed = 25)}
 
 }
 \author{
