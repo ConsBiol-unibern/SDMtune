@@ -1,13 +1,13 @@
 #' Model Report
 #'
-#' Make a model report that shows main results
+#' Make a report that shows the main results.
 #'
-#' @param model SDMmodel object
+#' @param model \link{SDMmodel} object.
 #' @param type character. Output type, see \link{predict,Maxent-method} for
-#' Maxent models or \link{predict.maxnet} for Maxnet models.
+#' \link{Maxent} models or \link{predict.maxnet} for \link{Maxnet} models.
 #' @param folder character. The name of the folder in which to save the output.
 #' The folder is created in the working directory.
-#' @param test SWD object with the test locations, default is NULL.
+#' @param test \link{SWD} object with the test locations, default is NULL.
 #' @param response_curves logical, if TRUE it plots the response curves in the
 #' html output, default is FALSE.
 #' @param jk logical, if TRUE it runs the jackknife test, default FALSE.
@@ -16,7 +16,7 @@
 #' @param clamp logical for clumping during prediction, used for response curves
 #' and when **env** is provided, default is TRUE.
 #'
-#' @details The function produces a report similar to the one created by Maxent
+#' @details The function produces a report similar to the one created by MaxEnt
 #' software.
 #'
 #' @export
@@ -45,8 +45,8 @@ modelReport <- function(model, type, folder, test = NULL,
 
     dir.create(paste0(folder, "/plots"), recursive = TRUE, showWarnings = FALSE)
     folder <- paste0(getwd(), "/", folder)
-    species <- gsub(" ", "_", tolower(model@presence@species))
-    title <- paste(class(model@model), "model for", model@presence@species)
+    species <- gsub(" ", "_", tolower(model@p@species))
+    title <- paste(class(model@model), "model for", model@p@species)
     args <- c(paste0("--metadata=title:\"", title, "\""))
 
     rmarkdown::render(template,

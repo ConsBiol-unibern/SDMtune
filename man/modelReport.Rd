@@ -8,15 +8,15 @@ modelReport(model, type, folder, test = NULL, response_curves = FALSE,
   jk = FALSE, env = NULL, clamp = TRUE)
 }
 \arguments{
-\item{model}{SDMmodel object}
+\item{model}{\link{SDMmodel} object.}
 
 \item{type}{character. Output type, see \link{predict,Maxent-method} for
-Maxent models or \link{predict.maxnet} for Maxnet models.}
+\link{Maxent} models or \link{predict.maxnet} for \link{Maxnet} models.}
 
 \item{folder}{character. The name of the folder in which to save the output.
 The folder is created in the working directory.}
 
-\item{test}{SWD object with the test locations, default is NULL.}
+\item{test}{\link{SWD} object with the test locations, default is NULL.}
 
 \item{response_curves}{logical, if TRUE it plots the response curves in the
 html output, default is FALSE.}
@@ -30,10 +30,10 @@ the output, default is NULL.}
 and when \strong{env} is provided, default is TRUE.}
 }
 \description{
-Make a model report that shows main results
+Make a report that shows the main results.
 }
 \details{
-The function produces a report similar to the one created by Maxent
+The function produces a report similar to the one created by MaxEnt
 software.
 }
 \examples{

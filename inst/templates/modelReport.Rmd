@@ -24,11 +24,11 @@ options(crayon.enabled = TRUE)
 **`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2019).
 
 ```{r, echo=FALSE, message=FALSE}
-message(paste0("\n", cli::rule(left = "Model Report", right = params$model@presence@species, line_col = "#4bc0c0", col = "#f58410", width = 80)))
+message(paste0("\n", cli::rule(left = "Model Report", right = params$model@p@species, line_col = "#4bc0c0", col = "#f58410", width = 80)))
 message("\r- Saving files...", appendLF = FALSE)
 saveRDS(params$model, file = paste0(params$folder, "/model.Rds"))
-swd2csv(params$model@presence, paste0(params$folder, "/presence.csv"))
-swd2csv(params$model@background, paste0(params$folder, "/background.csv"))
+swd2csv(params$model@p, paste0(params$folder, "/presence.csv"))
+swd2csv(params$model@a, paste0(params$folder, "/background.csv"))
 if (!is.null(params$test))
   swd2csv(params$test, paste0(params$folder, "/test.csv"))
 plot_folder <- paste0(params$folder, "/plots")
@@ -37,7 +37,7 @@ message("\r", crayon::green(cli::symbol$tick), " Saving files...")
 
 # ROC curve
 
-Next we plot the ROC curve for `r model@presence@species`:
+Next we plot the ROC curve for `r model@p@species`:
 
 ```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
 message("- Plotting ROC curve...", appendLF = FALSE)
@@ -65,7 +65,7 @@ message("\r", crayon::green(cli::symbol$tick), " Computing thresholds...")
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 if (params$response_curves) {
   message("- Plotting marginal response curves...", appendLF = FALSE)
-  vars <- sort(colnames(params$model@presence@data))
+  vars <- sort(colnames(params$model@p@data))
   elements <- c()
   for (var in vars) {
     plot <- plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE, clamp = params$clamp, color = "#4bc0c0")
@@ -173,10 +173,10 @@ Shown below the settings used to train the model:
 
 * Model type: `r class(params$model@model)`
 * Output type: `r params$type`
-* Train locations: `r nrow(params$model@presence@data)`
-* Background locations: `r nrow(params$model@background@data)``r if(!is.null(params$test)) {paste("\n* Test locations:", nrow(params$test@data))}`
-* Continuous variables: `r names(Filter(is.numeric, params$model@presence@data))`
-* Categorical variables: `r names(Filter(is.factor, params$model@presence@data))`
+* Train locations: `r nrow(params$model@p@data)`
+* Background locations: `r nrow(params$model@a@data)``r if(!is.null(params$test)) {paste("\n* Test locations:", nrow(params$test@data))}`
+* Continuous variables: `r names(Filter(is.numeric, params$model@p@data))`
+* Categorical variables: `r names(Filter(is.factor, params$model@p@data))`
 * Feature combination: `r params$model@model@fc`
 * Regularization multiplier: `r params$model@model@reg`
 * Do clamping: `r params$clamp``r if(class(params$model@model) == "Maxent") {paste("\n* Extra arguments:", paste(params$model@model@extra_args, collapse = ", "))}`
