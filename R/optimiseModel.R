@@ -60,7 +60,7 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
     if (metric == "aicc")
       stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
-  if (!is.null(hypers$bg) & is.null(bg4test))
+  if (!is.null(hypers$a) & is.null(bg4test))
     stop("bg4test must be provided to tune background locations!")
 
   if (keep_best + keep_random > 1)
@@ -74,8 +74,9 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
   kept <- kept_good + kept_bad
   remaining <- pop - kept
   tot_models <- .get_total_models(pop, gen, remaining)
+  algorithm <- ifelse(gen > 0, "Genetic Algorithm", "Random Search")
   pb <- progress::progress_bar$new(
-    format = "Optimise Model [:bar] :percent in :elapsedfull",
+    format = paste(algorithm, "[:bar] :percent in :elapsedfull"),
     total = (tot_models + 1), clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
@@ -87,7 +88,7 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
   val_metric <- data.frame(x = NA_real_, y = NA_real_)
   scatter_footer <- vector("character", length = pop)
 
-  if (!is.null(hypers$bg)) {
+  if (!is.null(hypers$a)) {
     vars <- colnames(model@p@data)
     bg4test@data <- bg4test@data[vars]
     bg_folds <- sample(nrow(bg4test@data))
@@ -105,8 +106,8 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
   }
   line_title <- "Starting model"
   line_footer <- .get_footer(model)
-  chart_title <- ifelse(gen > 0, "Genetic Algorithm - Generation 0",
-                        "Grid Search")
+  chart_title <- ifelse(gen > 0, paste(algorithm, "- Generation 0"),
+                        algorithm)
 
   settings <- list(pop = pop,
                    gen = gen,
@@ -132,23 +133,23 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
   tunable_args[names(hypers)] <- hypers
   if (is.null(hypers$a))
     tunable_args$a <- nrow(model@a@data)
-  settings <- expand.grid(tunable_args, stringsAsFactors = FALSE)
+  grid <- expand.grid(tunable_args, stringsAsFactors = FALSE)
 
   # Check if possible random combinations < pop
-  if (nrow(settings) < pop) {
+  if (nrow(grid) < pop) {
     stop(paste("Number of possible random models is lewer than population",
                "size, add more values to the 'hyper' argument!"))
-  } else if (pop == nrow(settings)) {
+  } else if (pop == nrow(grid)) {
     stop(paste("Number of possible random models is the same than population",
                "size. Use gridSearch function!"))
   } else {
     # Get the index of n = pop random configurations
-    index <- sample(nrow(settings), size = pop)
+    index <- sample(nrow(grid), size = pop)
   }
 
   # Random search, create random population
   for (i in 1:pop) {
-    models[[i]] <- .create_random_model(model, settings[index[i], ],
+    models[[i]] <- .create_random_model(model, grid[index[i], ],
                                         bg4test = bg4test, bg_folds = bg_folds)
     train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env,
                                              parallel = parallel))

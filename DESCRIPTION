@@ -64,6 +64,7 @@ Collate:
     'corVar.R'
     'doJk.R'
     'getSubsample.R'
+    'gridSearch.R'
     'maxentTh.R'
     'maxentVarImp.R'
     'mergeSWD.R'
