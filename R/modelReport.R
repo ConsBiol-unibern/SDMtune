@@ -59,12 +59,6 @@ modelReport <- function(model, type, folder, test = NULL,
                       output_options = list(pandoc_args = args),
                       quiet = TRUE
                       )
-
-    html <- paste0(folder, "/", species, ".html")
-    model@html <- html
-    browseURL(html)
-
   }
-
   return(invisible(model))
 }

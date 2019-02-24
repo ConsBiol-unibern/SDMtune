@@ -9,8 +9,6 @@ setClassUnion("model", c("Maxent", "Maxnet"))
 #' @slot a \link{SWD} object. The absence or backgorund locations used to train
 #' the model.
 #' @slot model \link{Maxent} or \link{Maxnet} object.
-#' @slot html character. The path of the html file, available only after running
-#' the function \link{modelReport}.
 #'
 #' @include SWD_class.R Maxent_class.R Maxnet_class.R
 #' @name SDMmodel-class
@@ -22,8 +20,7 @@ SDMmodel <- setClass("SDMmodel",
   representation(
     p = "SWD",
     a = "SWD",
-    model = "model",
-    html = "character"),
+    model = "model"),
   validity = function(object)	{
     if (ncol(object@p@data) != ncol(object@a@data))
       return("Arguments 'p' and 'a' have a different number of columns!")
@@ -64,8 +61,5 @@ setMethod(
     cat("---------\n")
     cat("Continuous:", cont_vars, "\n")
     cat("Categorical:", cat_vars)
-
-    if (!identical(object@html, character(0)))
-      browseURL(object@html)
   }
 )
