@@ -59,6 +59,7 @@ Collate:
     'SDMtune_class.R'
     'aicc.R'
     'auc.R'
+    'chart_utils.R'
     'condor.R'
     'confMatrix.R'
     'corVar.R'
