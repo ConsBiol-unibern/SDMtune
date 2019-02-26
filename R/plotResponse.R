@@ -148,17 +148,9 @@ get_plot_data <- function(model, train, a, var, cont_vars, cat_vars, n_rows,
   if (!marginal) {
     train@data <- model@p@data[var]
     a@data <- model@a@data[var]
-    method <- class(model@model)
+    settings <- list("p" = train, "a" = a)
 
-    if (method == "Maxent") {
-      model <- train(method = method, p = train, a = a,
-                     reg = model@model@reg, fc = model@model@fc,
-                     iter = model@model@iter,
-                     extra_args = model@model@extra_args)
-    } else {
-      model <- train(method = method, p = train, a = a,
-                     reg = model@model@reg, fc = model@model@fc)
-    }
+    model <- .create_model_from_settings(model, settings)
   }
 
   pred <- predict(model, data, type = type, clamp = clamp)

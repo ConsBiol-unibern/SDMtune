@@ -287,7 +287,7 @@ get_tunable_args <- function(model) {
     row.names(bg@data) <- NULL
     row.names(bg@coords) <- NULL
     args$a <- bg
-  } else {
+  } else if (!"a" %in% names(settings)) {
     args$a <- model@a
   }
 
