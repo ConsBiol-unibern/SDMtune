@@ -23,7 +23,7 @@ bg_model <- getSubsample(bg, size = 5000)
 
 # Train base models with default settings
 bm_maxent <- train("Maxent", p, bg_model)
-bm_maxent_cv <- train("Maxent", p, bg_model, replicates = 4)
+bm_maxent_cv <- train("Maxent", p, bg_model, rep = 4)
 bm_maxnet <- train("Maxnet", p, bg_model)
 
 # save objects in sysdata

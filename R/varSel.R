@@ -95,13 +95,13 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     if (method == "Maxent") {
       model <- train(method = model_method, p = model@p,
                      a = model@a, reg = reg, fc = object@model@fc,
-                     replicates = rep, verbose = FALSE, folds = folds,
+                     rep = rep, verbose = FALSE, folds = folds,
                      iter = object@model@iter,
                      extra_args = object@model@extra_args)
     } else {
       model <- train(method = model_method, p = model@p,
                      a = model@a, reg = reg, fc = object@model@fc,
-                     replicates = rep, verbose = FALSE, folds = folds)
+                     rep = rep, verbose = FALSE, folds = folds)
     }
     pb$tick(1)
   }
@@ -196,13 +196,13 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
     if (method == "Maxent") {
       model <- train(method = model_method, p = model@p,
                      a = object@a, reg = object@model@reg,
-                     fc = object@model@fc, replicates = rep, verbose = FALSE,
+                     fc = object@model@fc, rep = rep, verbose = FALSE,
                      folds = folds, iter = object@model@iter,
                      extra_args = object@model@extra_args)
     } else {
       model <- train(method = model_method, p = model@p,
                      a = model@a, reg = object@model@reg,
-                     fc = object@model@fc, replicates = rep, verbose = FALSE,
+                     fc = object@model@fc, rep = rep, verbose = FALSE,
                      folds = folds)
     }
     pb$tick(1)

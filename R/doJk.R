@@ -97,13 +97,13 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
     if (method == "Maxent") {
       jk_model <- train(method = method, p = p, a = a,
                         reg = model@model@reg, fc = model@model@fc,
-                        replicates = rep, verbose = FALSE, folds = folds,
+                        rep = rep, verbose = FALSE, folds = folds,
                         iter = model@model@iter,
                         extra_args = model@model@extra_args)
     } else {
       jk_model <- train(method = method, p = p, a = a,
                         reg = model@model@reg, fc = model@model@fc,
-                        replicates = rep, verbose = FALSE, folds = folds)
+                        rep = rep, verbose = FALSE, folds = folds)
     }
 
     res[i, 2] <- .get_metric(metric, jk_model, env = env, parallel = parallel)
@@ -122,13 +122,13 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
       if (method == "Maxent") {
         jk_model <- train(method = method, p = p, a = a,
                           reg = model@model@reg, fc = model@model@fc,
-                          replicates = rep, verbose = FALSE, folds = folds,
+                          rep = rep, verbose = FALSE, folds = folds,
                           iter = model@model@iter,
                           extra_args = model@model@extra_args)
       } else {
         jk_model <- train(method = method, p = p, a = a,
                           reg = model@model@reg, fc = model@model@fc,
-                          replicates = rep, verbose = FALSE, folds = folds)
+                          rep = rep, verbose = FALSE, folds = folds)
       }
 
       res[i, 3] <- .get_metric(metric, jk_model, env = env, parallel = parallel)

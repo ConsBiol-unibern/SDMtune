@@ -4,8 +4,8 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("Maxent", "Maxnet"), p, a, replicates = 1,
-  verbose = TRUE, folds = NULL, seed = NULL, ...)
+train(method = c("Maxent", "Maxnet"), p, a, rep = 1, verbose = TRUE,
+  folds = NULL, seed = NULL, ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
@@ -14,7 +14,7 @@ train(method = c("Maxent", "Maxnet"), p, a, replicates = 1,
 
 \item{a}{\link{SWD} object with the absence or background locations.}
 
-\item{replicates}{numeric. Number of replicates, used for cross validation.
+\item{rep}{numeric. Number of replicates, used for cross validation.
 Default is 1, meaning no cross validation is performed.}
 
 \item{verbose}{logical if TRUE shows a progress bar if replicates is greater

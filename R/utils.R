@@ -225,11 +225,11 @@
   args <- list(p = model@p, a = model@a)
 
   if (class(model) == "SDMmodelCV") {
-    args$replicates <- length(model@models)
+    args$rep <- length(model@models)
     args$folds <- model@folds
     model <- model@models[[1]]@model
   } else {
-    args$replicates <- 1
+    args$rep <- 1
     args$folds <- NULL
     model <- model@model
   }
