@@ -38,6 +38,7 @@ setMethod(
   signature = "SDMmodel",
   definition = function(object) {
 
+    tunable_hypers <- get_tunable_args(object)
     cont_vars <- names(Filter(is.numeric, object@p@data))
     if (length(cont_vars) == 0)
       cont_vars <- NA
@@ -51,13 +52,19 @@ setMethod(
     cat("Species:", object@p@species, "\n")
     cat("Presence locations:", nrow(object@p@data), "\n\n")
 
-    cat("Model hyperparameters:\n")
-    cat("---------------------\n")
-    cat("Reg         :", object@model@reg, "\n")
-    cat("FC          :", object@model@fc, "\n")
-    cat("Bg locations:", nrow(object@a@data), "\n\n")
+    cat("Model configurations:\n")
+    cat("--------------------\n")
 
-    cat("Variables:\n")
+    for (i in 1:length(tunable_hypers)) {
+      if (tunable_hypers[i] == "a") {
+        h <- nrow(object@a@data)
+      } else {
+        h <- slot(object@model, tunable_hypers[i])
+      }
+      cat(tunable_hypers[i], ": ", h, "\n", sep = "")
+    }
+
+    cat("\nVariables:\n")
     cat("---------\n")
     cat("Continuous:", cont_vars, "\n")
     cat("Categorical:", cat_vars)

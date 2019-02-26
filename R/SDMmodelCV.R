@@ -30,6 +30,7 @@ setMethod(
   signature = "SDMmodelCV",
   definition = function(object) {
 
+    tunable_hypers <- get_tunable_args(object@models[[1]])
     cont_vars <- names(Filter(is.numeric, object@p@data))
     if (length(cont_vars) == 0)
       cont_vars <- NA
@@ -44,13 +45,19 @@ setMethod(
     cat("Replicates:", length(object@models), "\n")
     cat("Presence locations:", nrow(object@p@data), "\n\n")
 
-    cat("Model hyperparameters:\n")
-    cat("---------------------\n")
-    cat("Reg         :", object@models[[1]]@model@reg, "\n")
-    cat("FC          :", object@models[[1]]@model@fc, "\n")
-    cat("Bg locations:", nrow(object@a@data), "\n\n")
+    cat("Model configurations:\n")
+    cat("--------------------\n")
 
-    cat("Variables:\n")
+    for (i in 1:length(tunable_hypers)) {
+      if (tunable_hypers[i] == "a") {
+        h <- nrow(object@a@data)
+      } else {
+        h <- slot(object@models[[1]]@model, tunable_hypers[i])
+      }
+      cat(tunable_hypers[i], ": ", h, "\n", sep = "")
+    }
+
+    cat("\nVariables:\n")
     cat("---------\n")
     cat("Continuous:", cont_vars, "\n")
     cat("Categorical:", cat_vars)
