@@ -44,7 +44,7 @@ modelReport <- function(model, type, folder, test = NULL,
     template <- system.file("templates", "modelReport.Rmd", package = "SDMtune")
 
     dir.create(paste0(folder, "/plots"), recursive = TRUE, showWarnings = FALSE)
-    folder <- paste0(getwd(), "/", folder)
+    folder <- file.path(getwd(), folder)
     species <- gsub(" ", "_", tolower(model@p@species))
     title <- paste(class(model@model), "model for", model@p@species)
     args <- c(paste0("--metadata=title:\"", title, "\""))

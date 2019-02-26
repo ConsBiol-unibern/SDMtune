@@ -24,7 +24,7 @@ options(crayon.enabled = TRUE)
 **`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2019).
 
 ```{r, echo=FALSE, message=FALSE}
-message(paste0("\n", cli::rule(left = "Model Report", right = params$model@p@species, line_col = "#4bc0c0", col = "#f58410", width = 80)))
+message(paste0("\n", cli::rule(left = paste("Model Report -", "method:", class(params$model@model)), right = params$model@p@species, line_col = "#4bc0c0", col = "#f58410", width = 80)))
 message("\r- Saving files...", appendLF = FALSE)
 saveRDS(params$model, file = paste0(params$folder, "/model.Rds"))
 swd2csv(params$model@p, paste0(params$folder, "/presence.csv"))
