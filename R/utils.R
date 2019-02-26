@@ -275,7 +275,8 @@ get_tunable_args <- function(model) {
   return(args)
 }
 
-.create_model_from_settings <- function(model, settings, bg4test, bg_folds) {
+.create_model_from_settings <- function(model, settings, bg4test = NULL,
+                                        bg_folds = NULL, verbose = FALSE) {
 
   args <- .get_train_args(model)
   args[names(settings)] <- settings
@@ -290,7 +291,9 @@ get_tunable_args <- function(model) {
     args$a <- model@a
   }
 
-  random_model <- do.call("train", args)
+  args$verbose = verbose
 
-  return(random_model)
+  output <- do.call("train", args)
+
+  return(output)
 }

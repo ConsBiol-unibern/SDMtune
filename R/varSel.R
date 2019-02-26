@@ -61,14 +61,8 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
   }
 
   if (class(model) == "SDMmodel") {
-    rep <- 1
-    model_method <- class(model@model)
-    folds <- NULL
     object <- model
   } else {
-    rep <- length(model@models)
-    model_method <- class(model@models[[1]]@model)
-    folds <- model@folds
     object <- model@models[[1]]
     test <- TRUE
   }
@@ -92,17 +86,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
   correlation_removed <- FALSE
 
   if (change_reg) {
-    if (method == "Maxent") {
-      model <- train(method = model_method, p = model@p,
-                     a = model@a, reg = reg, fc = object@model@fc,
-                     rep = rep, verbose = FALSE, folds = folds,
-                     iter = object@model@iter,
-                     extra_args = object@model@extra_args)
-    } else {
-      model <- train(method = model_method, p = model@p,
-                     a = model@a, reg = reg, fc = object@model@fc,
-                     rep = rep, verbose = FALSE, folds = folds)
-    }
+    model <- .create_model_from_settings(model, list("reg" = reg))
     pb$tick(1)
   }
 
@@ -193,18 +177,7 @@ varSel <- function(model, bg4cor, metric = c("auc", "tss", "aicc"), test = NULL,
 
   if (change_reg) {
     pb$tick(total - removed - 2)
-    if (method == "Maxent") {
-      model <- train(method = model_method, p = model@p,
-                     a = object@a, reg = object@model@reg,
-                     fc = object@model@fc, rep = rep, verbose = FALSE,
-                     folds = folds, iter = object@model@iter,
-                     extra_args = object@model@extra_args)
-    } else {
-      model <- train(method = model_method, p = model@p,
-                     a = model@a, reg = object@model@reg,
-                     fc = object@model@fc, rep = rep, verbose = FALSE,
-                     folds = folds)
-    }
+    model <- .create_model_from_settings(model, list("reg" = object@model@reg))
     pb$tick(1)
   } else {
     pb$tick(total - removed)
