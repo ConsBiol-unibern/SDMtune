@@ -76,35 +76,18 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
   }
 
   old_model <- model
-  if (class(model) == "SDMmodel") {
-    rep <- 1
-    method <- class(model@model)
-    folds <- NULL
-  } else {
-    rep <- length(model@models)
-    method <- class(model@models[[1]]@model)
-    folds <- model@folds
-    model <- model@models[[1]]
+
+  if (class(model) == "SDMmodelCV")
     test <- TRUE
-  }
 
   for (i in 1:length(variables)) {
     p <- old_model@p
     a <- old_model@a
     p@data[variables[i]] <- NULL
     a@data[variables[i]] <- NULL
+    settings <- list("p" = p, "a" = a)
 
-    if (method == "Maxent") {
-      jk_model <- train(method = method, p = p, a = a,
-                        reg = model@model@reg, fc = model@model@fc,
-                        rep = rep, verbose = FALSE, folds = folds,
-                        iter = model@model@iter,
-                        extra_args = model@model@extra_args)
-    } else {
-      jk_model <- train(method = method, p = p, a = a,
-                        reg = model@model@reg, fc = model@model@fc,
-                        rep = rep, verbose = FALSE, folds = folds)
-    }
+    jk_model <- .create_model_from_settings(model, settings)
 
     res[i, 2] <- .get_metric(metric, jk_model, env = env, parallel = parallel)
     if (metric != "aicc")
@@ -118,18 +101,9 @@ doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
       a <- old_model@a
       p@data <- p@data[variables[i]]
       a@data <- a@data[variables[i]]
+      settings <- list("p" = p, "a" = a)
 
-      if (method == "Maxent") {
-        jk_model <- train(method = method, p = p, a = a,
-                          reg = model@model@reg, fc = model@model@fc,
-                          rep = rep, verbose = FALSE, folds = folds,
-                          iter = model@model@iter,
-                          extra_args = model@model@extra_args)
-      } else {
-        jk_model <- train(method = method, p = p, a = a,
-                          reg = model@model@reg, fc = model@model@fc,
-                          rep = rep, verbose = FALSE, folds = folds)
-      }
+      jk_model <- .create_model_from_settings(model, settings)
 
       res[i, 3] <- .get_metric(metric, jk_model, env = env, parallel = parallel)
       if (metric != "aicc")
