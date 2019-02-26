@@ -30,7 +30,7 @@
       footer <- c(footer, paste0(names(tuned_args)[i], ": ",
                                  tuned_args[[i]]))
     } else {
-      footer <- c(footer, paste0("bg", ": ", nrow(tuned_args[[i]]@data)))
+      footer <- c(footer, paste0("a", ": ", nrow(tuned_args[[i]]@data)))
     }
   }
   return(paste(footer, collapse = "\n"))

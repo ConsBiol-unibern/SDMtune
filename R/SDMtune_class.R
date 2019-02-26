@@ -60,53 +60,29 @@ setMethod("plot",
     n <- nrow(res)
 
     # Get metric
-    if (colnames(res)[4] == "train_AUC") {
+    if (grepl("AUC", paste(colnames(res), collapse = ""))) {
       metric <- "AUC"
-    } else if (colnames(res)[4] == "train_TSS") {
+    } else if (grepl("TSS", paste(colnames(res), collapse = ""))) {
       metric <- "TSS"
     } else {
       metric <- "AICc"
     }
 
-    show_line = TRUE
+    # Check how many hypers have be tuned
+    tunable_hypers <- get_tunable_args(models[[1]])
+    hyper_cols <- length(tunable_hypers)
+    tuned_hypers <- rapply(res[, tunable_hypers], function(x) length(unique(x)))
+    #Show line only one one hyper has be tuned
+    show_line <- ifelse(sum(tuned_hypers > 1) == 1, TRUE, FALSE)
 
-    if (length(unique(res$fc)) == 1 & length(unique(res$reg)) == 1
-               & length(unique(res$bg)) != 1) {
-      #  Result of tuneBg function
-      title <- "Tune Backgrounds"
-      x_label <- "backgrounds"
-      x <- res[, 1]
-      min <- min(x)
-      max <- max(x)
-    } else if (length(unique(res$fc)) != 1 & length(unique(res$reg)) == 1
-               & length(unique(res$a)) == 1) {
-      #  Result of tuneFC function
-      title <- "Tune Feature Combinations"
-      x_label <- "feature combination"
-      x <- res[, 3]
-      min <- 0
-      max <- 1
-    } else if (length(unique(res$fc)) == 1 & length(unique(res$reg)) != 1
-               & length(unique(res$bg)) == 1) {
-      #  Result of tuneReg function
-      title <- "Tune Regularization"
-      x_label <- "regularization multiplier"
-      x <- res[, 2]
-      min <- min(x)
-      max <- max(x)
-    } else {
-      #  Result of modelOptimise function
-      title <- "Model Optimization"
-      x_label <- "model"
-      x <- 1:n
-      min <- min(x)
-      max <- max(x)
-      show_line = FALSE
-    }
+    x_label <- "model"
+    x <- 1:n
+    min <- min(x)
+    max <- max(x)
 
     if (interactive) {
       settings <- list(metric = metric,
-                       title = title,
+                       title = "",
                        x_label = x_label,
                        min = min,
                        max = max,
@@ -114,34 +90,37 @@ setMethod("plot",
                        show_line = show_line,
                        update = FALSE)
 
-      line_footer <- sapply(models, function(x) .get_footer(x))
-      train_metric <- data.frame(x = x, y = res[, 4])
+      grid_footer <- sapply(models, function(x) .get_footer(x))
+      train_metric <- data.frame(x = x, y = res[, hyper_cols + 1])
       if (metric != "AICc") {
-        val_metric <- data.frame(x = x, y = res[, 5])
+        val_metric <- data.frame(x = x, y = res[, hyper_cols + 2])
       } else {
         val_metric <- data.frame(x = NA_real_, y = NA_real_)
       }
 
       chart_data <- list(train = train_metric, val = val_metric,
-                         lineFooter = line_footer)
+                         gridFooter = grid_footer)
 
       folder <- tempfile("SDMtune")
 
-      .create_chart(folder = folder, script = "tuneModel.js",
+      .create_chart(folder = folder, script = "gridSearch.js",
                     settings = settings, data = chart_data)
     } else {
       if (metric != "AICc") {
-        data <- data.frame(x = rep(x, 2), y = c(res[, 4], res[, 5]),
+        data <- data.frame(x = rep(x, 2),
+                           y = c(res[, hyper_cols + 1], res[, hyper_cols + 2]),
                            type = c(rep("Training", n), rep("Validation", n)))
       } else {
-        data <- data.frame(x = x, y = res[, 4], type = rep("Training", n))
+        data <- data.frame(x = x,
+                           y = res[, hyper_cols + 1],
+                           type = rep("Training", n))
       }
 
       #  Create scatterplot
       p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
                                    group = "type")) +
         geom_point() +
-        labs(title = title, x = x_label, y = metric) +
+        labs(x = x_label, y = metric) +
         scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
         theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5),

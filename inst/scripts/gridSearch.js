@@ -42,7 +42,7 @@ var lineOptions = {
 		display: true,
 		fontFamily: "sans-serif",
 		padding: 15,
-		text: "Grid Search"
+		text: settings.title[0]
 	},
 	legend: {
 		position: "bottom",
