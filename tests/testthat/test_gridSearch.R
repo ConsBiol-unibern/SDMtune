@@ -17,28 +17,21 @@ test_that("Exceptions are thrown", {
   expect_error(.checkGridSearchArgs(model, h, metric = "auc"),
                "You need to provide a test dataset!")
   # Throws exception if hypers includes 'a' and bg4test is not provided
-  expect_error(.checkGridSearchArgs(model, h, "auc", t),
+  expect_error(.checkGridSearchArgs(model, h, metric = "auc", test = t),
                "bg4test must be provided to tune background locations!")
   # Throws exception if max hypers 'a' > than nrow bg4test
-  expect_error(.checkGridSearchArgs(model, h, "auc", t, bg4test = bg),
+  expect_error(.checkGridSearchArgs(model, h, metric = "auc", test = t,
+                                    bg4test = bg),
                "Maximum number of 'a' hyperparameter cannot be more than 9000!")
-  # doesn't throw exception if 'a' is not in hypers and bg4test is not provided
+  # Doesn't throw exception if 'a' is not in hypers and bg4test is not provided
   h$a <- NULL
-  expect_error(.checkGridSearchArgs(model, h, "auc", t), NA)
-})
-
-test_that("The correct x title is generated", {
-  h <- list("fc" = c("l", "lq", "lqp"), "reg" = seq(.2, 2., .2), "a" = 10000)
-  expect_equal(.get_x_grid_title(h), "model")
-  h <- list("fc" = c("l", "lq", "lqp"))
-  expect_equal(.get_x_grid_title(h), "fc")
-})
-
-test_that("The correct x labels are generated", {
-  h <- list("fc" = c("l", "lq", "lqp"), "reg" = seq(.2, 2., .2), "a" = 10000)
-  grid <- .get_hypers_grid(bm_maxent, h)
-  expect_equal(.get_x_grid_labels(h, grid), 1:nrow(grid))
-  h <- list("fc" = c("l", "lq", "lqp"))
-  grid <- .get_hypers_grid(bm_maxent, h)
-  expect_equal(.get_x_grid_labels(h, grid), h[[1]])
+  expect_error(.checkGridSearchArgs(model, h, metric = "auc", test = val), NA)
+  # Throws exception if provided hypers are not tunable
+  h <- list("fc" = c("l", "lq", "lqp"), "lambda" = c(500, 600))
+  expect_error(.checkGridSearchArgs(model, h, "auc", t),
+               "lambda non included in tunable hyperparameters")
+  h <- list("beta" = c(1, 2, 3), "lambda" = c(500, 600))
+  expect_error(.checkGridSearchArgs(model, h, "auc", t),
+               paste("beta non included in tunable hyperparameters,",
+                     "lambda non included in tunable hyperparameters"))
 })

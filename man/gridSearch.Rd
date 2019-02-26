@@ -8,8 +8,50 @@ gridSearch(model, hypers, metric, test = NULL, bg4test = NULL,
   env = NULL, parallel = FALSE, seed = NULL)
 }
 \arguments{
-\item{seed}{}
+\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
+
+\item{hypers}{named list containing the values of the hyperpatameters that
+should be tuned, see details.}
+
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc".}
+
+\item{test}{\link{SWD} object. Test dataset used to evaluate the model, not
+used with aicc and \link{SDMmodelCV} objects, default is NULL.}
+
+\item{bg4test}{\link{SWD} object or NULL. Background locations used to get
+subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
+
+\item{env}{\link{stack} containing the environmental variables, used only
+with "aicc", default is NULL.}
+
+\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+FALSE.}
+
+\item{seed}{numeric. The value used to set the seed to have consistent
+results, default is NULL.}
+}
+\value{
+\link{SDMtune} object.
 }
 \description{
-Grid Search
+Given a set of possible hyperparameter values, the function trains models
+with all the possible combinations of hyperparameters.
+}
+\details{
+To know which hyperparameters can be tune you can use the output of
+the function \link{get_tunable_args}.
+You need package \pkg{snow} to use parallel computation and
+\pkg{rgdal} to save the prediction in a raster file. Parallel computation
+increases the speed only for big datasets due to the time necessary to create
+the cluster.
+}
+\examples{
+\dontrun{output <- gridSearch(my_model, hypers = list( "reg" =
+c(0.5, 1, 1.5), "fc" = c("lq", "lqp", "lqph"), "a" = c(5000, 10000, 15000)),
+bg4test = bg, test = my_val)}
+
+}
+\author{
+Sergio Vignali
 }

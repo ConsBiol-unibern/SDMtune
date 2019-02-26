@@ -42,7 +42,7 @@ var lineOptions = {
 		display: true,
 		fontFamily: "sans-serif",
 		padding: 15,
-		text: settings.title[0]
+		text: "Grid Search"
 	},
 	legend: {
 		position: "bottom",
@@ -59,15 +59,17 @@ var lineOptions = {
 			}
 		}],
 		xAxes: [{
-			type: "linear",
 			scaleLabel: {
 				display: true,
-				labelString: settings.x_label[0],
+				labelString: "model",
 			},
 			ticks: {
-				suggestedMin: settings.min[0],
-				suggestedMax: settings.max[0],
-				autoSkip: false
+				max: settings.max[0],
+				callback: function(value) {
+          if (value % 1 === 0) {
+            return value;
+          }
+        }
 			}
 		}]
 	},
@@ -87,7 +89,7 @@ var lineOptions = {
 				return ""
 			},
 			footer: function(tooltipItems, data) {
-				var footer = window.data.lineFooter[tooltipItems[0].index];
+				var footer = window.data.gridFooter[tooltipItems[0].index];
 				if (settings.metric[0] !== "AICc") {
 					var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
 				}
@@ -96,11 +98,6 @@ var lineOptions = {
 		}
 	}
 };
-
-if (settings.x_label[0] === "feature combination") {
-	lineOptions.scales.xAxes[0].type = "category";
-	lineOptions.scales.xAxes[0].labels = settings.labels;
-}
 
 init = function() {
   window.chartLine.data.datasets[0].data = data.train;
@@ -136,7 +133,7 @@ window.onload = function() {
 	}
 	var ctx = document.getElementById("ctx1").getContext("2d");
 	window.chartLine = new Chart(ctx, {
-		type: "line",
+		type: "scatter",
 		data: lineData,
 		options: lineOptions,
 	});

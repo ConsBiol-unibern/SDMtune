@@ -63,17 +63,14 @@
   }
 }
 
-.get_tune_labels <- function(metric) {
+.get_sdmtune_colnames <- function(metric) {
   if (metric == "auc") {
-    labels <- c("train_AUC", "test_AUC", "diff_AUC")
+    return(c("train_AUC", "test_AUC", "diff_AUC"))
   } else if (metric == "tss") {
-    labels <- c("train_TSS", "test_TSS", "diff_TSS")
+    return(c("train_TSS", "test_TSS", "diff_TSS"))
   } else {
-    labels <- c("AICc", "delta_AICc")
+    return(c("AICc", "delta_AICc"))
   }
-  labels <- c("bg", "reg", "fc", labels)
-
-  return(labels)
 }
 
 # .get_rank_index <- function(metric, metrics) {
@@ -128,31 +125,42 @@
 #   }
 # }
 
-.create_optimise_output <- function(models, metric, train_metric, val_metric) {
+.create_sdmtune_output <- function(models, metric, train_metric, val_metric) {
 
-  labels <- .get_tune_labels(metric)
+  tunable_hypers <- get_tunable_args(models[[1]])
+  l <- length(tunable_hypers)
+  labels <- c(tunable_hypers, .get_sdmtune_colnames(metric))
 
   res <- matrix(nrow = length(models), ncol = length(labels))
+  colnames(res) <- labels
   fcs <- vector("character", length = length(models))
 
   for (i in 1:length(models)) {
-    res[i, 1] <- nrow(models[[i]]@a@data)
-    res[i, 2] <- .get_model_reg(models[[i]])
-    fcs[i] <- .get_model_fc(models[[i]])
-    res[i, 4] <- train_metric[i, 2]
+    for (j in 1:l) {
+      if (tunable_hypers[j] == "a") {
+        res[i, "a"] <- nrow(models[[1]]@a@data)
+      } else if (tunable_hypers[j] == "fc") {
+        fcs[i] <- models[[i]]@model@fc
+      } else {
+        res[i, tunable_hypers[j]] <- slot(models[[i]]@model, tunable_hypers[j])
+      }
+    }
+    res[i, l + 1] <- train_metric[i, 2]
     if (metric != "aicc")
-      res[i, 5] <- val_metric[i, 2]
+      res[i, l + 2] <- val_metric[i, 2]
   }
 
   if (metric != "aicc") {
-    res[, 6] <- res[, 4] - res[, 5]
+    res[, l + 3] <- res[, l + 1] - res[, l + 2]
   } else {
-    res[, 5] <- res[, 4] - min(res[, 4])
+    res[, l + 2] <- res[, l + 1] - min(res[, l + 1])
   }
-  res <- as.data.frame(res)
-  colnames(res) <- labels
-  res$fc <- fcs
+
+  res <- as.data.frame(res, stringsAsFactors = FALSE)
+  if ("fc" %in% tunable_hypers)
+    res$fc <- fcs
   output <- SDMtune(results = res, models = models)
+
   return(output)
 }
 
@@ -265,4 +273,24 @@ get_tunable_args <- function(model) {
   }
 
   return(args)
+}
+
+.create_model_from_settings <- function(model, settings, bg4test, bg_folds) {
+
+  args <- .get_train_args(model)
+  args[names(settings)] <- settings
+  if (!is.null(bg_folds)) {
+    bg <- bg4test
+    bg@data <- bg4test@data[bg_folds[1:settings$bg], ]
+    bg@coords <- bg4test@coords[bg_folds[1:settings$bg], ]
+    row.names(bg@data) <- NULL
+    row.names(bg@coords) <- NULL
+    args$a <- bg
+  } else {
+    args$a <- model@a
+  }
+
+  random_model <- do.call("train", args)
+
+  return(random_model)
 }

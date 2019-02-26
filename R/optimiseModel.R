@@ -30,6 +30,10 @@
 #'
 #' @details To know which hyperparameters can be tune you can use the output of
 #' the function \link{get_tunable_args}.
+#' You need package \pkg{snow} to use parallel computation and
+#' \pkg{rgdal} to save the prediction in a raster file. Parallel computation
+#' increases the speed only for big datasets due to the time necessary to create
+#' the cluster.
 #'
 #' @return \link{SDMtune} object.
 #' @export
@@ -129,11 +133,7 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
                 settings = settings, data = data, height = 500)
 
   # Create data frame with all possible combinations of hyperparameters
-  tunable_args <- .get_train_args(model)[get_tunable_args(model)]
-  tunable_args[names(hypers)] <- hypers
-  if (is.null(hypers$a))
-    tunable_args$a <- nrow(model@a@data)
-  grid <- expand.grid(tunable_args, stringsAsFactors = FALSE)
+  grid <- .get_hypers_grid(model, hypers)
 
   # Check if possible random combinations < pop
   if (nrow(grid) < pop) {
@@ -149,8 +149,9 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
 
   # Random search, create random population
   for (i in 1:pop) {
-    models[[i]] <- .create_random_model(model, grid[index[i], ],
-                                        bg4test = bg4test, bg_folds = bg_folds)
+    models[[i]] <- .create_model_from_settings(model, grid[index[i], ],
+                                               bg4test = bg4test,
+                                               bg_folds = bg_folds)
     train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env,
                                              parallel = parallel))
     if (metric != "aicc")
@@ -283,30 +284,10 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
                                     title = chart_title,
                                     lineTitle = line_title,
                                     lineFooter = line_footer, stop = TRUE))
-  output <- .create_optimise_output(models, metric, train_metric, val_metric)
+  output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
   pb$tick(1)
 
   return(output)
-}
-
-.create_random_model <- function(model, settings, bg4test, bg_folds) {
-
-  args <- .get_train_args(model)
-  args[names(settings)] <- settings
-  if (!is.null(bg_folds)) {
-    bg <- bg4test
-    bg@data <- bg4test@data[bg_folds[1:settings$bg], ]
-    bg@coords <- bg4test@coords[bg_folds[1:settings$bg], ]
-    row.names(bg@data) <- NULL
-    row.names(bg@coords) <- NULL
-    args$a <- bg
-  } else {
-    args$a <- model@a
-  }
-
-  random_model <- do.call("train", args)
-
-  return(random_model)
 }
 
 .breed <- function(mother, father, hypers, bg4test, bg_folds, mutation_chance) {
