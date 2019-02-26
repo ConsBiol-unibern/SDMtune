@@ -6,14 +6,14 @@
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param hypers named list containing the values of the hyperpatameters that
 #' should be tuned, see details.
-#' @param bg4test \link{SWD} object or NULL. Background locations used to get
-#' subsamples if **a** hyperparameter is tuned, default is NULL.
+#' @param metric character. The metric used to evaluate the models, possible
+#' values are: "auc", "tss" and "aicc".
 #' @param test \link{SWD} object. Test dataset used to evaluate the model, not
 #' used with aicc and \link{SDMmodelCV} objects, default is NULL.
+#' @param bg4test \link{SWD} object or NULL. Background locations used to get
+#' subsamples if **a** hyperparameter is tuned, default is NULL.
 #' @param pop numeric. Size of the population, default is 20.
 #' @param gen numeric. Number of generations, default is 20.
-#' @param metric character. The metric used to evaluate the models, possible
-#' values are: "auc", "tss" and "aicc", default is "auc".
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
@@ -45,33 +45,26 @@
 #' bg4test = bg, test = my_val, pop = 20, gen = 10, seed = 25)}
 #'
 #' @author Sergio Vignali
-optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
-                          pop = 20, gen = 5, metric = c("auc", "tss", "aicc"),
-                          env = NULL, parallel = FALSE, keep_best = 0.4,
-                          keep_random = 0.2, mutation_chance = 0.4,
-                          seed = NULL) {
+optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
+                          pop = 20, gen = 5, env = NULL, parallel = FALSE,
+                          keep_best = 0.4, keep_random = 0.2,
+                          mutation_chance = 0.4, seed = NULL) {
 
-  metric <- match.arg(metric)
+  metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
-  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
-    stop("You must provide env argument if you want to use AICc metric!")
+  # Create data frame with all possible combinations of hyperparameters
+  grid <- .get_hypers_grid(model, hypers)
 
-  if (class(model) == "SDMmodel" & is.null(test) & metric != "aicc") {
-    stop("You need to provide a test dataset!")
-  }
-  if (class(model) == "SDMmodelCV") {
-    test <- TRUE
-    if (metric == "aicc")
-      stop("Metric aicc not allowed with SDMmodelCV objects!")
-  }
-  if (!is.null(hypers$a) & is.null(bg4test))
-    stop("bg4test must be provided to tune background locations!")
+  # Check that areguments are correctly provided
+  .checkArgs(model, hypers, metric, test, bg4test, env)
+  # Check if at least two hyperparameters have more than one value
+  .check_optimise_args(hypers, grid, pop)
 
   if (keep_best + keep_random > 1)
     stop("Sum of 'keep_best' and 'keep_random' cannot be more than 1!")
 
-  # Check if at least two hyperparameters have more than one value
-  .check_hypers_validity(hypers)
+  if (class(model) == "SDMmodelCV")
+    test <- TRUE
 
   kept_good <- round(pop * keep_best)
   kept_bad <- round(pop * keep_random)
@@ -135,17 +128,7 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
   # Create data frame with all possible combinations of hyperparameters
   grid <- .get_hypers_grid(model, hypers)
 
-  # Check if possible random combinations < pop
-  if (nrow(grid) < pop) {
-    stop(paste("Number of possible random models is lewer than population",
-               "size, add more values to the 'hyper' argument!"))
-  } else if (pop == nrow(grid)) {
-    stop(paste("Number of possible random models is the same than population",
-               "size. Use gridSearch function!"))
-  } else {
-    # Get the index of n = pop random configurations
-    index <- sample(nrow(grid), size = pop)
-  }
+  index <- sample(nrow(grid), size = pop)
 
   # Random search, create random population
   for (i in 1:pop) {
@@ -326,14 +309,23 @@ optimiseModel <- function(model, hypers, bg4test = NULL, test = NULL,
   return(new_model)
 }
 
-.check_hypers_validity <- function(hypers) {
+.check_optimise_args <- function(hypers, grid, pop) {
 
   if (sum(lengths(hypers) > 2) < 1)
     stop("One hyperparameter in hypers should have more than two values to allow crossover!")
 
   if (length(names(hypers)) < 2) {
     stop(paste("You must provide at least two hyperparameters to be tuned!",
-               "Use one of the tune functions to tune only one parameter."))
+               "Use gridSearch to tune only one parameter."))
+  }
+
+  # Check if possible random combinations <= pop
+  if (nrow(grid) < pop) {
+    stop(paste("Number of possible random models is lewer than population",
+               "size, add more values to the 'hyper' argument!"))
+  } else if (nrow(grid) == pop) {
+    stop(paste("Number of possible random models is the same than population",
+               "size. Use gridSearch function!"))
   }
 }
 

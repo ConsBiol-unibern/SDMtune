@@ -4,10 +4,10 @@
 \alias{optimiseModel}
 \title{Optimise Model}
 \usage{
-optimiseModel(model, hypers, bg4test = NULL, test = NULL, pop = 20,
-  gen = 5, metric = c("auc", "tss", "aicc"), env = NULL,
-  parallel = FALSE, keep_best = 0.4, keep_random = 0.2,
-  mutation_chance = 0.4, seed = NULL)
+optimiseModel(model, hypers, metric, test = NULL, bg4test = NULL,
+  pop = 20, gen = 5, env = NULL, parallel = FALSE,
+  keep_best = 0.4, keep_random = 0.2, mutation_chance = 0.4,
+  seed = NULL)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
@@ -15,18 +15,18 @@ optimiseModel(model, hypers, bg4test = NULL, test = NULL, pop = 20,
 \item{hypers}{named list containing the values of the hyperpatameters that
 should be tuned, see details.}
 
-\item{bg4test}{\link{SWD} object or NULL. Background locations used to get
-subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc".}
 
 \item{test}{\link{SWD} object. Test dataset used to evaluate the model, not
 used with aicc and \link{SDMmodelCV} objects, default is NULL.}
 
+\item{bg4test}{\link{SWD} object or NULL. Background locations used to get
+subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
+
 \item{pop}{numeric. Size of the population, default is 20.}
 
 \item{gen}{numeric. Number of generations, default is 20.}
-
-\item{metric}{character. The metric used to evaluate the models, possible
-values are: "auc", "tss" and "aicc", default is "auc".}
 
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}

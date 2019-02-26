@@ -39,15 +39,14 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                        env = NULL, parallel = FALSE, seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
+  # Create a grid with all the possible combination of hyperparameters
+  grid <- .get_hypers_grid(model, hypers)
 
   # Check that areguments are correctly provided
-  .checkGridSearchArgs(model, hypers, metric, test, bg4test, env)
+  .checkArgs(model, hypers, metric, test, bg4test, env)
 
   if (class(model) == "SDMmodelCV")
     test <- TRUE
-
-  # Create a grid with all the possible combination of hyperparameters
-  grid <- .get_hypers_grid(model, hypers)
 
   pb <- progress::progress_bar$new(
     format = "Grid search [:bar] :percent in :elapsedfull",
@@ -108,7 +107,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   return(output)
 }
 
-.checkGridSearchArgs <- function(model, hypers, metric, test = NULL,
+.checkArgs <- function(model, hypers, metric, test = NULL,
                                  bg4test = NULL, env = NULL) {
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")

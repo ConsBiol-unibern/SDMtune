@@ -15,17 +15,18 @@ setMethod("show",
   signature = "SDMtune",
   definition = function(object) {
 
-    regs <- paste(as.character(unique(object@results$reg)), collapse = ", ")
-    fcs <- paste(unique(object@results$fc), collapse = ", ")
-    bgs <- paste(as.character(unique(object@results$bg)), collapse = ", ")
+    tunable_hypers <- get_tunable_args(object@models[[1]])
 
     cat("Object of class: ", class(object), "\n\n")
 
-    cat("Model hyperparameters:\n")
+    cat("Model configurations:\n")
     cat("---------------------\n")
-    cat("Reg         :", regs, "\n")
-    cat("FC          :", fcs, "\n")
-    cat("Bg locations:", bgs, "\n")
+
+    for (i in 1:length(tunable_hypers)) {
+      h <- paste(sort(unique(object@results[, tunable_hypers[i]])),
+                 collapse = ", ")
+      cat(tunable_hypers[i], ": ", h, "\n", sep = "")
+    }
   }
 )
 
