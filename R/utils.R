@@ -282,8 +282,8 @@ get_tunable_args <- function(model) {
   args[names(settings)] <- settings
   if (!is.null(bg_folds)) {
     bg <- bg4test
-    bg@data <- bg4test@data[bg_folds[1:settings$bg], ]
-    bg@coords <- bg4test@coords[bg_folds[1:settings$bg], ]
+    bg@data <- bg4test@data[bg_folds[1:settings$a], ]
+    bg@coords <- bg4test@coords[bg_folds[1:settings$a], ]
     row.names(bg@data) <- NULL
     row.names(bg@coords) <- NULL
     args$a <- bg

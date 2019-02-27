@@ -286,7 +286,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   if (mutation_chance > runif(1)) {
     # Only hypers with more than two values can be use for mutation
     mutation <- sample(names(hypers)[lengths(hypers) > 2], size = 1)
-    if (mutation != "bg") {
+    if (mutation != "a") {
       options <- setdiff(hypers[[mutation]], c(mother_args[[mutation]],
                                                father_args[[mutation]]))
       model_args[[mutation]] <- sample(options, size = 1)
@@ -300,7 +300,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
       bg@coords <- bg4test@coords[bg_folds[1:n_bgs], ]
       row.names(bg@data) <- NULL
       row.names(bg@coords) <- NULL
-      model_args$bg <- bg
+      model_args$a <- bg
     }
   }
 
