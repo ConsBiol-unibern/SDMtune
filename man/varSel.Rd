@@ -6,7 +6,7 @@
 \usage{
 varSel(model, metric, test = NULL, bg4cor, env = NULL,
   parallel = FALSE, reg = NULL, method = "spearman", cor_th = 0.7,
-  permut = 10)
+  permut = 10, use_pc = FALSE)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
@@ -36,6 +36,11 @@ default "spearman".}
 correlated variables, default is 0.7.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
+
+\item{use_pc}{logical, use percent contribution. If TRUE and the model is
+trained using the \link{Maxent} method, the algorithm uses the percent
+contribution computed by Maxent software to score the varialble importance,
+default is FALSE.}
 }
 \value{
 The \link{SDMmodel} or \link{SDMmodelCV} object trained using the

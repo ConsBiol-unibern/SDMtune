@@ -27,6 +27,10 @@
 #' @param cor_th numeric. The correlation threshold used to select highly
 #' correlated variables, default is 0.7.
 #' @param permut integer. Number of permutations, default is 10.
+#' @param use_pc logical, use percent contribution. If TRUE and the model is
+#' trained using the \link{Maxent} method, the algorithm uses the percent
+#' contribution computed by Maxent software to score the varialble importance,
+#' default is FALSE.
 #'
 #' @details You need package \pkg{snow} to use parallel computation. Parallel
 #' computation increases the speed only for big datasets due to the time
@@ -47,7 +51,7 @@
 #' @author Sergio Vignali
 varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
                    parallel = FALSE, reg = NULL, method = "spearman",
-                   cor_th = 0.7, permut = 10) {
+                   cor_th = 0.7, permut = 10, use_pc = FALSE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -61,6 +65,10 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
     if (metric == "aicc")
       stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
+
+  if (use_pc & .get_model_class(model) != "Maxent")
+    warning(paste("Percent contribution cannot be used with model of method",
+                  .get_model_class(model)))
 
   if (class(model) == "SDMmodelCV")
     test <- TRUE
@@ -109,7 +117,13 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
   initial_vars <- colnames(model@p@data)
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
                    update = TRUE)
-  scores <- suppressMessages(varImp(model, permut = permut))
+
+  if (use_pc) {
+    scores <- maxentVarImp(model)
+  } else {
+    scores <- suppressMessages(varImp(model, permut = permut))
+  }
+
   vals <- scores[, 2]
   line_title <- "Starting model"
   line_footer <- paste("reg: ", .get_model_reg(model))
@@ -126,7 +140,13 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
 
   if (change_reg) {
     model <- .create_model_from_settings(model, list("reg" = reg))
-    scores <- suppressMessages(varImp(model, permut = permut))
+
+    if (use_pc) {
+      scores <- maxentVarImp(model)
+    } else {
+      scores <- suppressMessages(varImp(model, permut = permut))
+    }
+
     vals <- scores[, 2]
     # index for metric data frames
     x <- nrow(train_metric)
@@ -149,7 +169,13 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
   while (correlation_removed == FALSE) {
 
     cor_matrix <- as.data.frame(cor_matrix)
-    scores <- suppressMessages(varImp(model, permut = permut))
+
+    if (use_pc) {
+      scores <- maxentVarImp(model)
+    } else {
+      scores <- suppressMessages(varImp(model, permut = permut))
+    }
+
     vars <- scores$Variable
     discarded_variable <- NULL
 
@@ -214,7 +240,13 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
   if (change_reg) {
     pb$tick(total - removed - 2)
     model <- .create_model_from_settings(model, list("reg" = old_reg))
-    scores <- suppressMessages(varImp(model, permut = permut))
+
+    if (use_pc) {
+      scores <- maxentVarImp(model)
+    } else {
+      scores <- suppressMessages(varImp(model, permut = permut))
+    }
+
     vars <- scores$Variable
     vals <- scores[, 2]
     # index for metric data frames

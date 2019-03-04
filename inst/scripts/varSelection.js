@@ -156,6 +156,7 @@ init = function() {
     window.chart2.data.datasets[1].data = data.val;
   }
 
+  // Add first vertical line//
   if (data.drawLine1[0]) {
     window.chart2.options.annotation.annotations[0] = {
       type: "line",
@@ -175,6 +176,7 @@ init = function() {
     }
   }
 
+  // Add second vertical line//
   if (data.drawLine2[0]) {
     window.chart2.options.annotation.annotations[1] = {
       type: "line",
@@ -185,7 +187,7 @@ init = function() {
       borderDash: [2],
       label: {
         backgroundColor: "rgb(204, 82, 79)",
-        content: "Set reg to " + data.reg[1],
+        content: "Set reg back to " + data.reg[1],
         fontStyle: "normal",
         enabled: true,
         position: "top",
@@ -219,9 +221,11 @@ update = function() {
 };
 
 window.onload = function() {
+  // Set row height for bar chart according to the number of bars
+  document.querySelector("#chart1").style.height = (settings.labels.length * 25).toString() + "px";
   // Set a wider content if page is displayed in the browser
   if (window.location.href.search("[?&]viewer_pane=") === -1) {
-    document.querySelector(".content").style.maxWidth="600px";
+    document.querySelector(".content").style.maxWidth = "600px";
   }
   var ctx1 = document.getElementById("ctx1").getContext("2d");
   window.chart1 = new Chart(ctx1, {

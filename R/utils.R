@@ -1,3 +1,11 @@
+.get_model_class <- function(model) {
+  if (class(model) == "SDMmodel") {
+    return(class(model@model))
+  } else {
+    return(class(model@models[[1]]@model))
+  }
+}
+
 .get_model_reg <- function(model) {
   if (class(model) == "SDMmodel") {
     return(model@model@reg)
@@ -72,58 +80,6 @@
     return(c("AICc", "delta_AICc"))
   }
 }
-
-# .get_rank_index <- function(metric, metrics) {
-#   if (metric == "aicc") {
-#     # The best model is the one with the lowest AICc
-#     index <- order(metrics[[1]])
-#   } else {
-#     # The best model is the one with the highest AUC or TSS
-#     diff_metric <- metrics[[1]] - metrics[[2]]
-#     # Check if the models are all overfitting the validation dataset
-#     if (!any(diff_metric > 0))
-#       return(FALSE)
-#     # Ordered index of dereasing validation metric
-#     o <- order(-metrics[[2]])
-#     # Good models are those not overfitting the validation dataset
-#     good_models <- o[o %in% which(diff_metric > 0)]
-#     # Bad models have diff_metric >= 0
-#     bad_models <- o[!o %in% good_models]
-#     # Ordered index of decreasomg diff_metric
-#     odm <- order(-diff_metric)
-#     # Ordered index of bad_models from the one less overfitting
-#     bad_models <- odm[odm %in% bad_models]
-#     # Combine indexes
-#     index <- c(good_models, bad_models)
-#   }
-#   return(index)
-# }
-
-# .get_mutation_options <- function(mother, father, bgs, fcs, regs) {
-#   options <- c()
-#
-#   if (length(regs) >= 1)
-#     options <- c(options, "reg")
-#
-#   if (length(fcs) >= 1)
-#     options <- c(options, "fc")
-#
-#   if (length(bgs) >= 1)
-#     options <- c(options, "bg")
-#
-#   return(options)
-# }
-#
-# .check_hyperparams_validity <- function(bgs, fcs, regs) {
-#   l_bgs <- length(bgs) > 1
-#   l_fcs <- length(fcs) > 1
-#   l_regs <- length(regs) > 1
-#
-#   if (sum(l_bgs, l_fcs, l_regs) < 2) {
-#     stop(paste("You must provide at least two hyperparameters to be tuned!",
-#                "Use one of the tune functions to tune only one parameter."))
-#   }
-# }
 
 .create_sdmtune_output <- function(models, metric, train_metric, val_metric) {
 
