@@ -15,6 +15,7 @@ var barData = {
 
 var barOptions = {
 	responsive: true,
+  maintainAspectRatio: false,
 	title: {
 		display: true,
 		fontFamily: "sans-serif",
@@ -113,6 +114,7 @@ var lineOptions = {
 			},
 			ticks: {
 			  min: 0,
+        suggestedMax: 2,
         stepSize: 1
       }
 		}]
@@ -121,9 +123,9 @@ var lineOptions = {
     mode: "x",
     footerFontStyle: "normal",
     callbacks: {
-      title: function(tooltipItems, data) {
-				return "Iteration " + tooltipItems[0].index
-			},
+      title: function (tooltipItems, data) {
+        return window.data.lineTitle[tooltipItems[0].index]
+      },
       label: function (tooltipItem, data) {
         var label = data.datasets[tooltipItem.datasetIndex].label || "";
         if (label) {
@@ -132,12 +134,17 @@ var lineOptions = {
         label += tooltipItem.yLabel;
         return label;
       },
-      footer: function(tooltipItems, data) {
-				if (settings.metric[0] !== "AICc") {
-					return "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4);
-				}
-			}
+      footer: function (tooltipItems, data) {
+        var footer = window.data.lineFooter[tooltipItems[0].index];
+        if (settings.metric[0] !== "AICc") {
+          var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
+        }
+        return footer;
+      }
     }
+  },
+  annotation: {
+    annotations: []
   }
 };
 
@@ -147,6 +154,45 @@ init = function() {
   window.chart2.data.datasets[0].data = data.train;
   if (settings.metric[0] !== "AICc") {
     window.chart2.data.datasets[1].data = data.val;
+  }
+
+  if (data.drawLine1[0]) {
+    window.chart2.options.annotation.annotations[0] = {
+      type: "line",
+      mode: "vertical",
+      scaleID: "x-axis-0",
+      value: "1",
+      borderColor: "rgb(204, 82, 79)",
+      borderDash: [2],
+      label: {
+        backgroundColor: "rgb(204, 82, 79)",
+        content: "Set reg to " + data.reg[0],
+        fontStyle: "normal",
+        enabled: true,
+        position: "bottom",
+        yAdjust: 6
+      }
+    }
+  }
+
+  if (data.drawLine2[0]) {
+    window.chart2.options.annotation.annotations[1] = {
+      type: "line",
+      mode: "vertical",
+      scaleID: "x-axis-0",
+      value: (data.train.length - 1).toString(),
+      borderColor: "rgb(204, 82, 79)",
+      borderDash: [2],
+      label: {
+        backgroundColor: "rgb(204, 82, 79)",
+        content: "Set reg to " + data.reg[1],
+        fontStyle: "normal",
+        enabled: true,
+        position: "top",
+        yAdjust: 6
+      }
+    };
+    window.chart2.options.scales.xAxes[0].ticks.max = data.train.length;
   }
 
   window.chart1.update();
@@ -162,7 +208,7 @@ update = function() {
 			cache: false
 		})
 		.done(function (json) {
-			data = JSON.parse(json)
+			data = JSON.parse(json);
 			init();
 
 			if (data.stop[0]) {

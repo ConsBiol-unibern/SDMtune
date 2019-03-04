@@ -12,4 +12,5 @@ canvas {
 
 .row {
   margin: 10px;
+  min-height: 290px;
 }

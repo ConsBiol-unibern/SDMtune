@@ -10,7 +10,7 @@
 #' remaining variables are not highly correlated anymore.
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
-#' #' @param metric character. The metric used to evaluate the models, possible
+#' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param test \link{SWD}. Test dataset used to evaluate the model, not used
 #' with aicc and \link{SDMmodelCV} objects, default is NULL.
@@ -21,7 +21,7 @@
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE. Used only with AICc.
 #' @param reg integer. The value of the regularization paramiter to use during
-#' computation, default is 0.1, see details.
+#' computation, default is NULL, see details.
 #' @param method character. The method used to comput the correlation matrix,
 #' default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly
@@ -46,7 +46,7 @@
 #'
 #' @author Sergio Vignali
 varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
-                   parallel = FALSE, reg = 0.1, method = "spearman",
+                   parallel = FALSE, reg = NULL, method = "spearman",
                    cor_th = 0.7, permut = 10) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
@@ -62,17 +62,21 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
       stop("Metric aicc not allowed with SDMmodelCV objects!")
   }
 
-  if (class(model) == "SDMmodel") {
-    object <- model
-  } else {
-    object <- model@models[[1]]
+  if (class(model) == "SDMmodelCV")
     test <- TRUE
-  }
 
   cor_vars <- corVar(bg4cor, method = method, cor_th = cor_th)
   cor_vars <- unique(c(as.character(cor_vars$Var1),
                        as.character(cor_vars$Var2)))
-  change_reg <- reg != object@model@reg
+
+  # Change reg if different from model reg
+  if (!is.null(reg)) {
+    old_reg <- .get_model_reg(model)
+    change_reg <- reg != old_reg
+  } else {
+    change_reg <- FALSE
+  }
+
   total <- length(cor_vars)
   if (change_reg)
     total <- total + 2
@@ -107,7 +111,13 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
                    update = TRUE)
   scores <- suppressMessages(varImp(model, permut = permut))
   vals <- scores[, 2]
-  data = list(data = rep(0, length(initial_vars)), stop = FALSE)
+  line_title <- "Starting model"
+  line_footer <- paste("reg: ", .get_model_reg(model))
+  draw_line_1 <- FALSE
+  data = list(data = rep(0, length(initial_vars)), train = train_metric,
+              val = val_metric, drawLine1 = draw_line_1, drawLine2 = FALSE,
+              reg = reg, lineTitle = line_title, lineFooter = line_footer,
+              stop = FALSE)
   folder <- tempfile("SDMsel")
 
   .create_chart(folder = folder, script = "varSelection.js",
@@ -119,15 +129,19 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
     scores <- suppressMessages(varImp(model, permut = permut))
     vals <- scores[, 2]
     # index for metric data frames
-    x <- nrow(train_metric) + 1
-    train_metric[x, ] <- list(x = x - 1, y = .get_metric(metric, model,
+    x <- nrow(train_metric)
+    train_metric[x + 1, ] <- list(x = x, y = .get_metric(metric, model,
                                                          env = env,
                                                          parallel = parallel))
     if (metric != "aicc")
-      val_metric[x, ] <- list(x = x - 1, y = .get_metric(metric, model,
+      val_metric[x + 1, ] <- list(x = x, y = .get_metric(metric, model,
                                                          test = test))
+    line_title <- c(line_title, "Change reg")
+    line_footer <- c(line_footer, paste("reg: ", reg))
+    draw_line_1 <- TRUE
     data = list(data = vals, train = train_metric, val = val_metric,
-                stop = FALSE)
+                drawLine1 = draw_line_1, drawLine2 = FALSE, reg = reg,
+                lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
     .update_chart(folder, data = data)
     pb$tick(1)
   }
@@ -144,7 +158,8 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
     vals <- scores[, 2][index]
     vals[is.na(vals)] <- 0
     data = list(data = vals, train = train_metric, val = val_metric,
-                stop = FALSE)
+                drawLine1 = draw_line_1, drawLine2 = FALSE, reg = reg,
+                lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
     .update_chart(folder, data = data)
     Sys.sleep(.1)
 
@@ -163,21 +178,23 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
                                          return_models = TRUE))
 
         # index for metric data frames
-        x <- nrow(train_metric) + 1
+        x <- nrow(train_metric)
 
         if (metric != "aicc") {
           index <- which.max(jk_test$results[, 2])
-          train_metric[x, ] <- list(x = x - 1, y = jk_test$results[index, 2])
-          val_metric[x, ] <- list(x = x - 1, y = jk_test$results[index, 3])
+          train_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 2])
+          val_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 3])
         } else {
           index <- which.min(jk_test$results[, 2])
-          train_metric[x, ] <- list(x = x - 1, y = jk_test$results[index, 2])
+          train_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 2])
         }
 
         model <- jk_test$models_without[[index]]
         discarded_variable <- as.character(jk_test$results$Variable[index])
         cor_matrix[discarded_variable] <- NULL
         cor_matrix <- cor_matrix[!(row.names(cor_matrix) == discarded_variable), ]
+        line_title <- c(line_title, paste("Removed", discarded_variable))
+        line_footer <- c(line_footer, paste("reg: ", reg))
         removed <- removed + 1
         pb$tick(1)
         break
@@ -186,31 +203,36 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
     if (is.null(discarded_variable)) {
       correlation_removed <- TRUE
       stop <- ifelse(change_reg, FALSE, TRUE)
-      .update_chart(folder, data = list(data = vals, train = train_metric,
-                                        val = val_metric, stop = stop))
+      data = list(data = vals, train = train_metric, val = val_metric,
+                  drawLine1 = draw_line_1, drawLine2 = FALSE,
+                  lineTitle = line_title, lineFooter = line_footer, stop = stop)
+      .update_chart(folder, data = data)
       Sys.sleep(.1)
     }
   }
 
   if (change_reg) {
     pb$tick(total - removed - 2)
-    model <- .create_model_from_settings(model, list("reg" = object@model@reg))
+    model <- .create_model_from_settings(model, list("reg" = old_reg))
     scores <- suppressMessages(varImp(model, permut = permut))
     vars <- scores$Variable
     vals <- scores[, 2]
     # index for metric data frames
-    x <- nrow(train_metric) + 1
-    train_metric[x, ] <- list(x = x - 1, y = .get_metric(metric, model,
+    x <- nrow(train_metric)
+    train_metric[x + 1, ] <- list(x = x, y = .get_metric(metric, model,
                                                          env = env,
                                                          parallel = parallel))
     if (metric != "aicc")
-      val_metric[x, ] <- list(x = x - 1, y = .get_metric(metric, model,
+      val_metric[x + 1, ] <- list(x = x, y = .get_metric(metric, model,
                                                          test = test))
     index <- match(initial_vars, vars)
     vals <- scores[, 2][index]
     vals[is.na(vals)] <- 0
+    line_title <- c(line_title, "Change reg")
+    line_footer <- c(line_footer, paste("reg: ", reg))
     data = list(data = vals, train = train_metric, val = val_metric,
-                stop = TRUE)
+                drawLine1 = draw_line_1, drawLine2 = TRUE, reg = c(reg, old_reg),
+                lineTitle = line_title, lineFooter = line_footer, stop = TRUE)
     .update_chart(folder, data = data)
     pb$tick(1)
   } else {
