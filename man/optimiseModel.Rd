@@ -7,7 +7,7 @@
 optimiseModel(model, hypers, metric, test = NULL, bg4test = NULL,
   pop = 20, gen = 5, env = NULL, parallel = FALSE,
   keep_best = 0.4, keep_random = 0.2, mutation_chance = 0.4,
-  seed = NULL)
+  include_sm = FALSE, seed = NULL)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
@@ -43,6 +43,9 @@ during each iteration, expressed as decimal number. Default is 0.2.}
 
 \item{mutation_chance}{numeric. Probability of mutation of the child models,
 expressed as decimal number. Default is 0.4.}
+
+\item{include_sm}{logical, include starting model. If TRUE the starting
+model is included in the random population, default is FALSE.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is NULL.}

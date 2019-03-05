@@ -4,9 +4,9 @@
 \alias{randomSearch}
 \title{Random Search}
 \usage{
-randomSearch(model, hypers, bg4test = NULL, test = NULL,
-  metric = c("auc", "tss", "aicc"), pop = 20, env = NULL,
-  parallel = FALSE, seed = NULL)
+randomSearch(model, hypers, metric, test = NULL, bg4test = NULL,
+  pop = 20, env = NULL, parallel = FALSE, include_sm = FALSE,
+  seed = NULL)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
@@ -14,14 +14,14 @@ randomSearch(model, hypers, bg4test = NULL, test = NULL,
 \item{hypers}{named list containing the values of the hyperpatameters that
 should be tuned, see details.}
 
-\item{bg4test}{\link{SWD} object or NULL. Background locations used to get
-subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
+\item{metric}{character. The metric used to evaluate the models, possible
+values are: "auc", "tss" and "aicc".}
 
 \item{test}{\link{SWD} object. Test dataset used to evaluate the model, not
 used with aicc and \link{SDMmodelCV} objects, default is NULL.}
 
-\item{metric}{character. The metric used to evaluate the models, possible
-values are: "auc", "tss" and "aicc", default is "auc".}
+\item{bg4test}{\link{SWD} object or NULL. Background locations used to get
+subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
 
 \item{pop}{numeric. Size of the population, default is 20.}
 
@@ -30,6 +30,9 @@ with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE.}
+
+\item{include_sm}{logical, include starting model. If TRUE the starting
+model is included in the random population, default is FALSE.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is NULL.}
