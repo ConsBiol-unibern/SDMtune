@@ -222,7 +222,7 @@ update = function() {
 
 window.onload = function() {
   // Set row height for bar chart according to the number of bars
-  document.querySelector("#chart1").style.height = (settings.labels.length * 25).toString() + "px";
+  document.querySelector("#chart1").style.height = (settings.labels.length * 20).toString() + "px";
   // Set a wider content if page is displayed in the browser
   if (window.location.href.search("[?&]viewer_pane=") === -1) {
     document.querySelector(".content").style.maxWidth = "600px";
