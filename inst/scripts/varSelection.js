@@ -171,6 +171,7 @@ init = function() {
         fontStyle: "normal",
         enabled: true,
         position: "bottom",
+        xAdjust: -45,
         yAdjust: 6
       }
     }
@@ -191,6 +192,7 @@ init = function() {
         fontStyle: "normal",
         enabled: true,
         position: "top",
+        xAdjust: 45,
         yAdjust: 6
       }
     };
@@ -222,7 +224,8 @@ update = function() {
 
 window.onload = function() {
   // Set row height for bar chart according to the number of bars
-  document.querySelector("#chart1").style.height = (settings.labels.length * 20).toString() + "px";
+  var l = settings.labels.length < 20 ? 25 : 15;
+  document.querySelector("#chart1").style.height = (settings.labels.length * l).toString() + "px";
   // Set a wider content if page is displayed in the browser
   if (window.location.href.search("[?&]viewer_pane=") === -1) {
     document.querySelector(".content").style.maxWidth = "600px";
