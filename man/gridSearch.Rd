@@ -5,7 +5,7 @@
 \title{Grid Search}
 \usage{
 gridSearch(model, hypers, metric, test = NULL, bg4test = NULL,
-  env = NULL, parallel = FALSE, seed = NULL)
+  env = NULL, parallel = FALSE, save_models = TRUE, seed = NULL)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
@@ -27,6 +27,11 @@ with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE.}
+
+\item{save_models}{logical, if FALSE the models are not saved and the output
+contains only a data frame with the metric values for each hyperparameter
+combination. Default is TRUE, set it to FALSE when there are many
+combinations to avoid R crashing for memory overload.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is NULL.}

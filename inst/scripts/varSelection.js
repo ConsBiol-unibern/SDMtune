@@ -159,6 +159,7 @@ init = function() {
   // Add first vertical line//
   if (data.drawLine1[0]) {
     window.chart2.options.annotation.annotations[0] = {
+      drawTime: "beforeDatasetsDraw",
       type: "line",
       mode: "vertical",
       scaleID: "x-axis-0",
@@ -172,7 +173,7 @@ init = function() {
         enabled: true,
         position: "bottom",
         xAdjust: -45,
-        yAdjust: 6
+        yAdjust: 2
       }
     }
   }
@@ -180,6 +181,7 @@ init = function() {
   // Add second vertical line//
   if (data.drawLine2[0]) {
     window.chart2.options.annotation.annotations[1] = {
+      drawTime: "beforeDatasetsDraw",
       type: "line",
       mode: "vertical",
       scaleID: "x-axis-0",
@@ -193,7 +195,7 @@ init = function() {
         enabled: true,
         position: "top",
         xAdjust: 45,
-        yAdjust: 6
+        yAdjust: 2
       }
     };
     window.chart2.options.scales.xAxes[0].ticks.max = data.train.length;

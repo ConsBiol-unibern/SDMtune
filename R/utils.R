@@ -81,6 +81,35 @@
   }
 }
 
+.create_sdmtune_result <- function(model, metric, train_metric, val_metric) {
+
+  tunable_hypers <- get_tunable_args(model)
+  l <- length(tunable_hypers)
+  labels <- c(tunable_hypers, .get_sdmtune_colnames(metric))
+
+  res <- list()
+
+  for (j in 1:l) {
+    if (tunable_hypers[j] == "a") {
+      res[[j]] <- nrow(model@a@data)
+    } else {
+      res[[j]] <- slot(model@model, tunable_hypers[j])
+    }
+  }
+  res[[j + 1]] <- train_metric
+
+  if (metric != "aicc") {
+    res[[l + 2]] <- val_metric
+    res[[l + 3]] <- res[[l + 1]] - res[[l + 2]]
+  } else {
+    res[[l + 2]] <- res[[l + 1]] - min(res[[l + 1]])
+  }
+
+  names(res) <- labels
+
+  return(res)
+}
+
 .create_sdmtune_output <- function(models, metric, train_metric, val_metric) {
 
   tunable_hypers <- get_tunable_args(models[[1]])
@@ -94,7 +123,7 @@
   for (i in 1:length(models)) {
     for (j in 1:l) {
       if (tunable_hypers[j] == "a") {
-        res[i, "a"] <- nrow(models[[1]]@a@data)
+        res[i, "a"] <- nrow(models[[i]]@a@data)
       } else if (tunable_hypers[j] == "fc") {
         fcs[i] <- models[[i]]@model@fc
       } else {
@@ -113,8 +142,10 @@
   }
 
   res <- as.data.frame(res, stringsAsFactors = FALSE)
+
   if ("fc" %in% tunable_hypers)
     res$fc <- fcs
+
   output <- SDMtune(results = res, models = models)
 
   return(output)
