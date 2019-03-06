@@ -5,7 +5,8 @@
 \title{Reduce Variables}
 \usage{
 reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
-  env = NULL, parallel = FALSE, use_jk = FALSE, permut = 10)
+  env = NULL, parallel = FALSE, use_jk = FALSE, permut = 10,
+  use_pc = FALSE)
 }
 \arguments{
 \item{model}{S\link{DMmodel} or \link{SDMmodelCV} object.}
@@ -30,6 +31,11 @@ selection, if FALSE the function uses the percent variable contribution,
 default is FALSE.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
+
+\item{use_pc}{logical, use percent contribution. If TRUE and the model is
+trained using the \link{Maxent} method, the algorithm uses the percent
+contribution computed by Maxent software to score the varialble importance,
+default is FALSE.}
 }
 \value{
 The model trained using the selected variables.

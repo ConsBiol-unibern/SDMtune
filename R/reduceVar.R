@@ -23,6 +23,10 @@
 #' selection, if FALSE the function uses the percent variable contribution,
 #' default is FALSE.
 #' @param permut integer. Number of permutations, default is 10.
+#' @param use_pc logical, use percent contribution. If TRUE and the model is
+#' trained using the \link{Maxent} method, the algorithm uses the percent
+#' contribution computed by Maxent software to score the varialble importance,
+#' default is FALSE.
 #'
 #' @return The model trained using the selected variables.
 #' @export
@@ -33,7 +37,7 @@
 #' @author Sergio Vignali
 reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
                       test = NULL, env = NULL, parallel = FALSE,
-                      use_jk = FALSE, permut = 10) {
+                      use_jk = FALSE, permut = 10, use_pc = FALSE) {
 
   metric <- match.arg(metric)
 
@@ -41,6 +45,9 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
     stop("You need to provide a test dataset!")
   if (use_jk == TRUE & metric == "aicc" & is.null(env))
     stop("You must provide the env argument if you want to use AICc metric!")
+  if (use_pc & .get_model_class(model) != "Maxent")
+    warning(paste("Percent contribution cannot be used with model of method",
+                  .get_model_class(model)))
 
   variables_reduced <- FALSE
 
@@ -55,9 +62,13 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
 
   # Create chart
   initial_vars <- colnames(model@p@data)
+  line_title <- "Starting model"
+  line_footer <- ""
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
                    update = TRUE)
-  data = list(data = rep(0, length(initial_vars)), stop = FALSE)
+  data = list(data = rep(0, length(initial_vars)), train = train_metric,
+              val = val_metric, drawLine1 = FALSE, drawLine2 = FALSE,
+              lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
   folder <- tempfile("SDMsel")
 
   .create_chart(folder = folder, script = "varSelection.js",
@@ -67,19 +78,25 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
   while (variables_reduced == FALSE) {
 
     continue_jk <- FALSE
-    scores <- suppressMessages(varImp(model, permut = permut))
+
+    if (use_pc) {
+      scores <- maxentVarImp(model)
+    } else {
+      scores <- suppressMessages(varImp(model, permut = permut))
+    }
 
     # Update chart
     index <- match(initial_vars, scores[, 1])
     vals <- scores[, 2][index]
     vals[is.na(vals)] <- 0
     data = list(data = vals, train = train_metric, val = val_metric,
-                stop = FALSE)
+                drawLine1 = FALSE, drawLine2 = FALSE, lineTitle = line_title,
+                lineFooter = line_footer, stop = FALSE)
     .update_chart(folder, data = data)
     Sys.sleep(.1)
 
-    scores <- scores[order(scores$Permutation_importance), ]
-    scores <- scores[scores$Permutation_importance <= th, ]
+    scores <- scores[order(scores[, 2]), ]
+    scores <- scores[scores[, 2] <= th, ]
 
     # index for metric data frames
     x <- nrow(train_metric) + 1
@@ -102,6 +119,8 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
               train_metric[x, ] <- list(x = x - 1, y = new_metric)
               val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
               continue_jk <- TRUE
+              line_title <- c(line_title, paste("Removed", scores[i, 1]))
+              line_footer <- c(line_footer, "")
               break
             }
           } else {
@@ -109,6 +128,8 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
               model <- jk_test$models_without[[1]]
               train_metric[x, ] <- list(x = x - 1, y = new_metric)
               continue_jk <- TRUE
+              line_title <- c(line_title, paste("Removed", scores[i, 1]))
+              line_footer <- c(line_footer, "")
               break
             }
           }
@@ -116,7 +137,12 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
         if (continue_jk) {
           next
         } else {
-          scores <- suppressMessages(varImp(model, permut = permut))
+
+          if (use_pc) {
+            scores <- maxentVarImp(model)
+          } else {
+            scores <- suppressMessages(varImp(model, permut = permut))
+          }
 
           # Update chart
           index <- match(initial_vars, scores[, 1])
@@ -137,6 +163,8 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
         train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
         if (metric != "aicc")
           val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
+        line_title <- c(line_title, paste("Removed", scores[1, 1]))
+        line_footer <- c(line_footer, "")
       }
     } else {
       variables_reduced <- TRUE
@@ -144,7 +172,9 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
   }
 
   .update_chart(folder, data = list(data = vals, train = train_metric,
-                                    val = val_metric, stop = TRUE))
+                                    val = val_metric, drawLine1 = FALSE,
+                                    drawLine2 = FALSE, lineTitle = line_title,
+                                    lineFooter = line_footer, stop = TRUE))
   Sys.sleep(.1)
 
   return(model)
