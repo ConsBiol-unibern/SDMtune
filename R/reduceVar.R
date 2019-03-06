@@ -111,10 +111,9 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
                                            return_models = TRUE, env = env,
                                            parallel = parallel))
 
-          new_metric <- jk_test$results[1, 2]
-
           if (metric  != "aicc") {
-            if (new_metric >= train_metric[x - 1, 2]) {
+            new_metric <- jk_test$results[1, 3]
+            if (new_metric >= val_metric[x - 1, 2]) {
               model <- jk_test$models_without[[1]]
               train_metric[x, ] <- list(x = x - 1, y = new_metric)
               val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
@@ -124,6 +123,7 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
               break
             }
           } else {
+            new_metric <- jk_test$results[1, 2]
             if (new_metric <= train_metric[x - 1, 2]) {
               model <- jk_test$models_without[[1]]
               train_metric[x, ] <- list(x = x - 1, y = new_metric)
