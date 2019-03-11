@@ -305,12 +305,13 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
     if (mutation != "a") {
       options <- setdiff(hypers[[mutation]], c(mother_args[[mutation]],
                                                father_args[[mutation]]))
-      model_args[[mutation]] <- sample(options, size = 1)
+      model_args[[mutation]] <- ifelse(length(options) > 1,
+                                       sample(options, size = 1), options)
     } else {
       options <- setdiff(hypers[[mutation]],
                          c(nrow(mother_args[[mutation]]@data),
                            nrow(father_args[[mutation]]@data)))
-      n_bgs <- sample(options, size = 1)
+      n_bgs <- ifelse(length(options) > 1, sample(options, size = 1), options)
       bg <- bg4test
       bg@data <- bg4test@data[bg_folds[1:n_bgs], ]
       bg@coords <- bg4test@coords[bg_folds[1:n_bgs], ]
