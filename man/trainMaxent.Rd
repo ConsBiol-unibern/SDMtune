@@ -5,7 +5,8 @@
 \title{Train Maxent model}
 \usage{
 trainMaxent(p, a, reg = 1, fc = "lqph", iter = 500,
-  extra_args = "removeduplicates=false")
+  extra_args = c("removeduplicates=false",
+  "addsamplestobackground=false"))
 }
 \arguments{
 \item{p}{\link{SWD} object with the presence locations.}
@@ -21,7 +22,7 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 default is 500.}
 
 \item{extra_args}{vector. Extra arguments used to run MaxEnt, default is
-"removeduplicates=false".}
+"removeduplicates=false" and "addsamplestobackground=false".}
 }
 \value{
 A \link{SDMmodel} object.
@@ -35,9 +36,9 @@ permanently in a folder.
 }
 \details{
 By default the function uses
-\strong{extra_args = "removeduplicates=false"}. In case this is not your expected
-beaviour you can assign extra_args = "" or you can add any other additional
-arguments extending the previous vector.
+\strong{extra_args = c("removeduplicates=false, addsamplestobackground=false)"}.
+In case this is not your expected beaviour you can assign extra_args = "" or
+you can add any other additional arguments extending the previous vector.
 }
 \examples{
 \dontrun{model <- trainMaxent(p, a)}

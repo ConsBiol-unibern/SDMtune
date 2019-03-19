@@ -61,6 +61,10 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   if (!is.null(seed))
     set.seed(seed)
 
+  # Set bg4test as NULL if hypers doesn't contain "a"
+  if (!"a" %in% names(hypers))
+    bg4test <- NULL
+
   models <- vector("list", length = nrow(grid))
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
   val_metric <- data.frame(x = NA_real_, y = NA_real_)

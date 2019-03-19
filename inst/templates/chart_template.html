@@ -6,6 +6,8 @@
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/Chart.min.js"></script>
 	<script src="lib/chartjs-plugin-annotation.min.js"></script>
+	<script src="lib/chartjs-plugin-zoom.min.js"></script>
+	<script src="lib/hammer.min.js"></script>
 	<script src="lib/chart_script.js"></script>
 	<link href="lib/style.css" rel="stylesheet" />
 	<title>Chart</title>
@@ -13,6 +15,9 @@
 
 <body>
 	<div class="content">
+        <div>
+            <button id="reset-zoom">Reset zoom</button>
+        </div>
 		<div class="row" id="chart1">
 			<canvas id="ctx1"></canvas>
 		</div>

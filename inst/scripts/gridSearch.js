@@ -64,7 +64,8 @@ var lineOptions = {
 				labelString: "model",
 			},
 			ticks: {
-				max: settings.max[0],
+				max: settings.max[0] * 1.01,
+				min: 1 - (settings.max[0] * 0.01),
 				callback: function(value) {
           if (value % 1 === 0) {
             return value;
@@ -89,11 +90,24 @@ var lineOptions = {
 				return ""
 			},
 			footer: function(tooltipItems, data) {
-				var footer = window.data.gridFooter[tooltipItems[0].index];
+				var footer = window.data.gridFooter.length > 1 ? window.data.gridFooter[tooltipItems[0].index] : "";
 				if (settings.metric[0] !== "AICc") {
 					var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
 				}
 				return footer;
+			}
+		}
+	},
+	plugins: {
+		zoom: {
+			zoom: {
+				enabled: true,
+				drag: {
+				 borderColor: 'rgb(196, 29, 29)',
+				 borderWidth: 1,
+				 backgroundColor: 'rgb(225,225,225)'
+			},
+				mode: 'xy',
 			}
 		}
 	}
@@ -129,7 +143,7 @@ update = function() {
 window.onload = function() {
 	// Set a wider content if page is displayed in the browser
 	if (window.location.href.search("[?&]viewer_pane=") === -1) {
-		document.querySelector(".content").style.maxWidth="600px";
+		document.querySelector(".content").style.maxWidth = "600px";
 	}
 	var ctx = document.getElementById("ctx1").getContext("2d");
 	window.chartLine = new Chart(ctx, {
@@ -143,4 +157,9 @@ window.onload = function() {
   if (settings.update[0]) {
     update();
   }
+
+  // Reset zoom function
+  $('#reset-zoom').click(function(){
+    window.chartLine.resetZoom();
+});
 };
