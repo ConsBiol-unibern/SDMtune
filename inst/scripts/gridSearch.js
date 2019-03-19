@@ -12,7 +12,6 @@ var lineData = {
 		backgroundColor: "rgba(245, 132, 16, .7)",
 		fill: false,
     lineTension: 0,
-    borderWidth: .7,
     borderDash: [5],
 		showLine: settings.show_line[0],
 		data: [],
@@ -29,7 +28,6 @@ if (settings.metric[0] !== "AICc") {
 		backgroundColor: "rgba(75, 192, 192, .7)",
 		fill: false,
     lineTension: 0,
-    borderWidth: .7,
     borderDash: [5],
 		showLine: settings.show_line[0],
 		data: [],
@@ -64,8 +62,8 @@ var lineOptions = {
 				labelString: "model",
 			},
 			ticks: {
-				max: settings.max[0] * 1.01,
-				min: 1 - (settings.max[0] * 0.01),
+				max: settings.max[0],
+				min: 1,
 				callback: function(value) {
           if (value % 1 === 0) {
             return value;
@@ -95,19 +93,6 @@ var lineOptions = {
 					var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
 				}
 				return footer;
-			}
-		}
-	},
-	plugins: {
-		zoom: {
-			zoom: {
-				enabled: true,
-				drag: {
-				 borderColor: 'rgb(196, 29, 29)',
-				 borderWidth: 1,
-				 backgroundColor: 'rgb(225,225,225)'
-			},
-				mode: 'xy',
 			}
 		}
 	}
@@ -157,9 +142,4 @@ window.onload = function() {
   if (settings.update[0]) {
     update();
   }
-
-  // Reset zoom function
-  $('#reset-zoom').click(function(){
-    window.chartLine.resetZoom();
-});
 };
