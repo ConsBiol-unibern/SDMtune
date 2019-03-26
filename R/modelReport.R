@@ -48,9 +48,10 @@ modelReport <- function(model, type, folder, test = NULL,
     species <- gsub(" ", "_", tolower(model@p@species))
     title <- paste(class(model@model), "model for", model@p@species)
     args <- c(paste0("--metadata=title:\"", title, "\""))
+    output_file = paste0(species, ".html")
 
     rmarkdown::render(template,
-                      output_file = paste0(species, ".html"),
+                      output_file = output_file,
                       output_dir = folder,
                       params = list(model = model, type = type, test = test,
                                     folder = folder, env = env, jk = jk,
