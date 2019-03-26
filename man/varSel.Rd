@@ -5,8 +5,8 @@
 \title{Variable Selection}
 \usage{
 varSel(model, metric, test = NULL, bg4cor, env = NULL,
-  parallel = FALSE, reg = NULL, method = "spearman", cor_th = 0.7,
-  permut = 10, use_pc = FALSE)
+  parallel = FALSE, method = "spearman", cor_th = 0.7, permut = 10,
+  use_pc = FALSE)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
@@ -25,9 +25,6 @@ with "aicc", default is NULL.}
 
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE. Used only with AICc.}
-
-\item{reg}{integer. The value of the regularization paramiter to use during
-computation, default is NULL, see details.}
 
 \item{method}{character. The method used to comput the correlation matrix,
 default "spearman".}
@@ -49,20 +46,17 @@ selected variables.
 \description{
 The function performs a data-driven variable selection. Starting from the
 provided model it iterates through all the variables starting from the one
-with the highest contribution (permutation importance). If the variable is
-correlated with other variables (according to the given method and threshold)
-it performs a Jackknife test and among the correlated variables it removes
-the one that results in the best performing model when removed (according to
-the given metric using the test dataset). The process is repeated untill the
-remaining variables are not highly correlated anymore.
+with the highest contribution (permutation importance or maxent percent
+contribution). If the variable is correlated with other variables (according
+to the given method and threshold) it performs a Jackknife test and among the
+correlated variables it removes the one that results in the best performing
+model when removed (according to the given metric). The process is repeated
+untill the remaining variables are not highly correlated anymore.
 }
 \details{
 You need package \pkg{snow} to use parallel computation. Parallel
 computation increases the speed only for big datasets due to the time
-necessary to create the cluster. For \strong{Maxnet} using a \strong{reg} lower than
-0.1 the model won't converge!
-We should write something more... I will refer to our paper for the
-explanations...
+necessary to create the cluster.
 }
 \examples{
 \dontrun{

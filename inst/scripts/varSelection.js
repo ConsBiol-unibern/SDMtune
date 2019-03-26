@@ -114,7 +114,7 @@ var lineOptions = {
 			},
 			ticks: {
 			  min: 0,
-        suggestedMax: 2,
+        suggestedMax: 1,
         stepSize: 1
       }
 		}]
@@ -133,18 +133,8 @@ var lineOptions = {
         }
         label += tooltipItem.yLabel;
         return label;
-      },
-      footer: function (tooltipItems, data) {
-        var footer = window.data.lineFooter[tooltipItems[0].index];
-        if (settings.metric[0] !== "AICc") {
-          var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
-        }
-        return footer;
       }
     }
-  },
-  annotation: {
-    annotations: []
   }
 };
 
@@ -154,51 +144,6 @@ init = function() {
   window.chart2.data.datasets[0].data = data.train;
   if (settings.metric[0] !== "AICc") {
     window.chart2.data.datasets[1].data = data.val;
-  }
-
-  // Add first vertical line//
-  if (data.drawLine1[0]) {
-    window.chart2.options.annotation.annotations[0] = {
-      drawTime: "beforeDatasetsDraw",
-      type: "line",
-      mode: "vertical",
-      scaleID: "x-axis-0",
-      value: "1",
-      borderColor: "rgb(204, 82, 79)",
-      borderDash: [2],
-      label: {
-        backgroundColor: "rgb(204, 82, 79)",
-        content: "Set reg to " + data.reg[0],
-        fontStyle: "normal",
-        enabled: true,
-        position: "bottom",
-        xAdjust: -45,
-        yAdjust: 2
-      }
-    }
-  }
-
-  // Add second vertical line//
-  if (data.drawLine2[0]) {
-    window.chart2.options.annotation.annotations[1] = {
-      drawTime: "beforeDatasetsDraw",
-      type: "line",
-      mode: "vertical",
-      scaleID: "x-axis-0",
-      value: (data.train.length - 1).toString(),
-      borderColor: "rgb(204, 82, 79)",
-      borderDash: [2],
-      label: {
-        backgroundColor: "rgb(204, 82, 79)",
-        content: "Set reg back to " + data.reg[1],
-        fontStyle: "normal",
-        enabled: true,
-        position: "top",
-        xAdjust: 45,
-        yAdjust: 2
-      }
-    };
-    window.chart2.options.scales.xAxes[0].ticks.max = data.train.length;
   }
 
   window.chart1.update();
