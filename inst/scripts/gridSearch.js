@@ -12,7 +12,6 @@ var lineData = {
 		backgroundColor: "rgba(245, 132, 16, .7)",
 		fill: false,
     lineTension: 0,
-    borderWidth: .7,
     borderDash: [5],
 		showLine: settings.show_line[0],
 		data: [],
@@ -29,7 +28,6 @@ if (settings.metric[0] !== "AICc") {
 		backgroundColor: "rgba(75, 192, 192, .7)",
 		fill: false,
     lineTension: 0,
-    borderWidth: .7,
     borderDash: [5],
 		showLine: settings.show_line[0],
 		data: [],
@@ -65,6 +63,7 @@ var lineOptions = {
 			},
 			ticks: {
 				max: settings.max[0],
+				min: 1,
 				callback: function(value) {
           if (value % 1 === 0) {
             return value;
@@ -89,7 +88,7 @@ var lineOptions = {
 				return ""
 			},
 			footer: function(tooltipItems, data) {
-				var footer = window.data.gridFooter[tooltipItems[0].index];
+				var footer = window.data.gridFooter.length > 1 ? window.data.gridFooter[tooltipItems[0].index] : "";
 				if (settings.metric[0] !== "AICc") {
 					var footer = "Diff: " + (tooltipItems[0].yLabel - tooltipItems[1].yLabel).toFixed(4) + "\n" + footer;
 				}
@@ -129,7 +128,7 @@ update = function() {
 window.onload = function() {
 	// Set a wider content if page is displayed in the browser
 	if (window.location.href.search("[?&]viewer_pane=") === -1) {
-		document.querySelector(".content").style.maxWidth="600px";
+		document.querySelector(".content").style.maxWidth = "600px";
 	}
 	var ctx = document.getElementById("ctx1").getContext("2d");
 	window.chartLine = new Chart(ctx, {

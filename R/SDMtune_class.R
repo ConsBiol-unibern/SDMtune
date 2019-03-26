@@ -90,7 +90,10 @@ setMethod("plot",
                        show_line = show_line,
                        update = FALSE)
 
-      grid_footer <- sapply(models, function(x) .get_footer(x))
+      cols <- get_tunable_args(models[[1]])
+      grid_footer <- apply(res[, cols], 1,
+                           function(x) paste0(names(x), ": ", x,
+                                              collapse = "\n"))
       train_metric <- data.frame(x = x, y = res[, hyper_cols + 1])
       if (metric != "AICc") {
         val_metric <- data.frame(x = x, y = res[, hyper_cols + 2])

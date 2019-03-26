@@ -5,12 +5,13 @@
 \title{Variable Selection}
 \usage{
 varSel(model, metric, test = NULL, bg4cor, env = NULL,
-  parallel = FALSE, reg = 0.1, method = "spearman", cor_th = 0.7,
-  permut = 10)
+  parallel = FALSE, reg = NULL, method = "spearman", cor_th = 0.7,
+  permut = 10, use_pc = FALSE)
 }
 \arguments{
-\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.
-#' @param metric character. The metric used to evaluate the models, possible
+\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
+
+\item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
 \item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
@@ -26,7 +27,7 @@ with "aicc", default is NULL.}
 FALSE. Used only with AICc.}
 
 \item{reg}{integer. The value of the regularization paramiter to use during
-computation, default is 0.1, see details.}
+computation, default is NULL, see details.}
 
 \item{method}{character. The method used to comput the correlation matrix,
 default "spearman".}
@@ -35,6 +36,11 @@ default "spearman".}
 correlated variables, default is 0.7.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
+
+\item{use_pc}{logical, use percent contribution. If TRUE and the model is
+trained using the \link{Maxent} method, the algorithm uses the percent
+contribution computed by Maxent software to score the varialble importance,
+default is FALSE.}
 }
 \value{
 The \link{SDMmodel} or \link{SDMmodelCV} object trained using the

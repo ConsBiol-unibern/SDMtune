@@ -22,7 +22,7 @@ plotVarImp <- function(df, color = "grey") {
   df[, 2] <- df[, 2] / 100
   df[, 1] <- factor(df[, 1], levels = df[, 1])
   my_plot <- ggplot(df, aes_(x = ~Variable, y = ~Permutation_importance)) +
-    labs(x = "", y = "Permutation Importance") +
+    labs(x = "", y = sub("_", " ", colnames(df)[2])) +
     scale_y_continuous(labels = scales::percent) +
     geom_bar(position = "dodge", stat = "identity", fill = color) +
     coord_flip() +

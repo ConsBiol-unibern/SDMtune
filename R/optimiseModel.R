@@ -25,6 +25,8 @@
 #' during each iteration, expressed as decimal number. Default is 0.2.
 #' @param mutation_chance numeric. Probability of mutation of the child models,
 #' expressed as decimal number. Default is 0.4.
+#' @param include_sm logical, include starting model. If TRUE the starting
+#' model is included in the random population, default is FALSE.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is NULL.
 #'
@@ -48,7 +50,8 @@
 optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                           pop = 20, gen = 5, env = NULL, parallel = FALSE,
                           keep_best = 0.4, keep_random = 0.2,
-                          mutation_chance = 0.4, seed = NULL) {
+                          mutation_chance = 0.4, include_sm = FALSE,
+                          seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -132,9 +135,22 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
 
   # Random search, create random population
   for (i in 1:pop) {
-    models[[i]] <- .create_model_from_settings(model, grid[index[i], ],
-                                               bg4test = bg4test,
-                                               bg_folds = bg_folds)
+
+    if (include_sm & i == 1) {
+      models[[1]] <- model
+      model_hypers <- .get_train_args(model)[get_tunable_args(model)]
+      if ("a" %in% names(model_hypers)) {
+        model_hypers$a <- nrow(model@a@data)
+      }
+      # Remove same hypers configuration from grid
+      ind_duplicates <- duplicated(rbind(model_hypers, grid))[2:(nrow(grid) + 1)]
+      grid <- grid[!ind_duplicates, ]
+    } else {
+      models[[i]] <- .create_model_from_settings(model, grid[index[i], ],
+                                                 bg4test = bg4test,
+                                                 bg_folds = bg_folds)
+    }
+
     train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env,
                                              parallel = parallel))
     if (metric != "aicc")
@@ -289,12 +305,13 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
     if (mutation != "a") {
       options <- setdiff(hypers[[mutation]], c(mother_args[[mutation]],
                                                father_args[[mutation]]))
-      model_args[[mutation]] <- sample(options, size = 1)
+      model_args[[mutation]] <- ifelse(length(options) > 1,
+                                       sample(options, size = 1), options)
     } else {
       options <- setdiff(hypers[[mutation]],
                          c(nrow(mother_args[[mutation]]@data),
                            nrow(father_args[[mutation]]@data)))
-      n_bgs <- sample(options, size = 1)
+      n_bgs <- ifelse(length(options) > 1, sample(options, size = 1), options)
       bg <- bg4test
       bg@data <- bg4test@data[bg_folds[1:n_bgs], ]
       bg@coords <- bg4test@coords[bg_folds[1:n_bgs], ]

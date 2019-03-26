@@ -16,6 +16,10 @@
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE.
+#' @param save_models logical, if FALSE the models are not saved and the output
+#' contains only a data frame with the metric values for each hyperparameter
+#' combination. Default is TRUE, set it to FALSE when there are many
+#' combinations to avoid R crashing for memory overload.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is NULL.
 #'
@@ -36,7 +40,8 @@
 #'
 #' @author Sergio Vignali
 gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
-                       env = NULL, parallel = FALSE, seed = NULL) {
+                       env = NULL, parallel = FALSE, save_models = TRUE,
+                       seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
   # Create a grid with all the possible combination of hyperparameters
@@ -55,6 +60,10 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
 
   if (!is.null(seed))
     set.seed(seed)
+
+  # Set bg4test as NULL if hypers doesn't contain "a"
+  if (!"a" %in% names(hypers))
+    bg4test <- NULL
 
   models <- vector("list", length = nrow(grid))
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
@@ -88,21 +97,44 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
 
   # Loop through all the settings in grid
   for (i in 1:nrow(grid)) {
-    models[[i]] <- .create_model_from_settings(model, settings = grid[i, ],
-                                               bg4test = bg4test,
-                                               bg_folds = bg_folds)
-    train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env,
+
+    obj <- .create_model_from_settings(model, settings = grid[i, ],
+                                       bg4test = bg4test,
+                                       bg_folds = bg_folds)
+
+
+    train_metric[i, ] <- list(i, .get_metric(metric, obj, env = env,
                                              parallel = parallel))
     if (metric != "aicc")
-      val_metric[i, ] <- list(i, .get_metric(metric, models[[i]], test))
-    footer[i] <- .get_footer(models[[i]])
+      val_metric[i, ] <- list(i, .get_metric(metric, obj, test))
+
+    if (save_models) {
+      models[[i]] <- obj
+    } else {
+      if (i == 1) {
+        output <- .create_sdmtune_output(list(obj), metric, train_metric,
+                                         val_metric)
+      } else {
+        output@results[i, ] <- .create_sdmtune_result(obj, metric,
+                                                      train_metric[i, 2],
+                                                      val_metric[i, 2])
+      }
+    }
+
+    footer[i] <- .get_footer(obj)
     stop <- ifelse(i == nrow(grid), TRUE, FALSE)
     .update_chart(folder, data = list(train = train_metric, val = val_metric,
                                       gridFooter = footer, stop = stop))
     Sys.sleep(.1)
     pb$tick(1)
   }
-  output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
+
+  if (save_models) {
+    output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
+  } else {
+    output@models <- list(model)
+  }
+
   pb$tick(1)
 
   return(output)

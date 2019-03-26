@@ -14,13 +14,13 @@
 #' @param iter numeric. Number of iterations used by the Maxent alghoritm,
 #' default is 500.
 #' @param extra_args vector. Extra arguments used to run MaxEnt, default is
-#' "removeduplicates=false".
+#' "removeduplicates=false" and "addsamplestobackground=false".
 #'
 #'
 #' @details By default the function uses
-#' **extra_args = "removeduplicates=false"**. In case this is not your expected
-#' beaviour you can assign extra_args = "" or you can add any other additional
-#' arguments extending the previous vector.
+#' **extra_args = c("removeduplicates=false, addsamplestobackground=false)"**.
+#' In case this is not your expected beaviour you can assign extra_args = "" or
+#' you can add any other additional arguments extending the previous vector.
 #'
 #' @return A \link{SDMmodel} object.
 #' @export
@@ -32,7 +32,8 @@
 #'
 #' @author Sergio Vignali
 trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
-                        extra_args = "removeduplicates=false") {
+                        extra_args = c("removeduplicates=false",
+                                       "addsamplestobackground=false")) {
 
   result <- SDMmodel(p = p, a = a)
   folder <- tempfile()

@@ -1,3 +1,11 @@
+.get_model_class <- function(model) {
+  if (class(model) == "SDMmodel") {
+    return(class(model@model))
+  } else {
+    return(class(model@models[[1]]@model))
+  }
+}
+
 .get_model_reg <- function(model) {
   if (class(model) == "SDMmodel") {
     return(model@model@reg)
@@ -73,57 +81,34 @@
   }
 }
 
-# .get_rank_index <- function(metric, metrics) {
-#   if (metric == "aicc") {
-#     # The best model is the one with the lowest AICc
-#     index <- order(metrics[[1]])
-#   } else {
-#     # The best model is the one with the highest AUC or TSS
-#     diff_metric <- metrics[[1]] - metrics[[2]]
-#     # Check if the models are all overfitting the validation dataset
-#     if (!any(diff_metric > 0))
-#       return(FALSE)
-#     # Ordered index of dereasing validation metric
-#     o <- order(-metrics[[2]])
-#     # Good models are those not overfitting the validation dataset
-#     good_models <- o[o %in% which(diff_metric > 0)]
-#     # Bad models have diff_metric >= 0
-#     bad_models <- o[!o %in% good_models]
-#     # Ordered index of decreasomg diff_metric
-#     odm <- order(-diff_metric)
-#     # Ordered index of bad_models from the one less overfitting
-#     bad_models <- odm[odm %in% bad_models]
-#     # Combine indexes
-#     index <- c(good_models, bad_models)
-#   }
-#   return(index)
-# }
+.create_sdmtune_result <- function(model, metric, train_metric, val_metric) {
 
-# .get_mutation_options <- function(mother, father, bgs, fcs, regs) {
-#   options <- c()
-#
-#   if (length(regs) >= 1)
-#     options <- c(options, "reg")
-#
-#   if (length(fcs) >= 1)
-#     options <- c(options, "fc")
-#
-#   if (length(bgs) >= 1)
-#     options <- c(options, "bg")
-#
-#   return(options)
-# }
-#
-# .check_hyperparams_validity <- function(bgs, fcs, regs) {
-#   l_bgs <- length(bgs) > 1
-#   l_fcs <- length(fcs) > 1
-#   l_regs <- length(regs) > 1
-#
-#   if (sum(l_bgs, l_fcs, l_regs) < 2) {
-#     stop(paste("You must provide at least two hyperparameters to be tuned!",
-#                "Use one of the tune functions to tune only one parameter."))
-#   }
-# }
+  tunable_hypers <- get_tunable_args(model)
+  l <- length(tunable_hypers)
+  labels <- c(tunable_hypers, .get_sdmtune_colnames(metric))
+
+  res <- list()
+
+  for (j in 1:l) {
+    if (tunable_hypers[j] == "a") {
+      res[[j]] <- nrow(model@a@data)
+    } else {
+      res[[j]] <- slot(model@model, tunable_hypers[j])
+    }
+  }
+  res[[j + 1]] <- train_metric
+
+  if (metric != "aicc") {
+    res[[l + 2]] <- val_metric
+    res[[l + 3]] <- res[[l + 1]] - res[[l + 2]]
+  } else {
+    res[[l + 2]] <- res[[l + 1]] - min(res[[l + 1]])
+  }
+
+  names(res) <- labels
+
+  return(res)
+}
 
 .create_sdmtune_output <- function(models, metric, train_metric, val_metric) {
 
@@ -138,7 +123,7 @@
   for (i in 1:length(models)) {
     for (j in 1:l) {
       if (tunable_hypers[j] == "a") {
-        res[i, "a"] <- nrow(models[[1]]@a@data)
+        res[i, "a"] <- nrow(models[[i]]@a@data)
       } else if (tunable_hypers[j] == "fc") {
         fcs[i] <- models[[i]]@model@fc
       } else {
@@ -157,8 +142,10 @@
   }
 
   res <- as.data.frame(res, stringsAsFactors = FALSE)
+
   if ("fc" %in% tunable_hypers)
     res$fc <- fcs
+
   output <- SDMtune(results = res, models = models)
 
   return(output)
@@ -287,7 +274,7 @@ get_tunable_args <- function(model) {
     row.names(bg@data) <- NULL
     row.names(bg@coords) <- NULL
     args$a <- bg
-  } else if (!"a" %in% names(settings)) {
+  } else if ("a" %in% names(settings) & class(settings$a) != "SWD") {
     args$a <- model@a
   }
 
