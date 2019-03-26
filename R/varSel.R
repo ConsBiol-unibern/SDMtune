@@ -2,15 +2,15 @@
 #'
 #' The function performs a data-driven variable selection. Starting from the
 #' provided model it iterates through all the variables starting from the one
-#' with the highest contribution (permutation importance). If the variable is
-#' correlated with other variables (according to the given method and threshold)
-#' it performs a Jackknife test and among the correlated variables it removes
-#' the one that results in the best performing model when removed (according to
-#' the given metric using the test dataset). The process is repeated untill the
-#' remaining variables are not highly correlated anymore.
+#' with the highest contribution (permutation importance or maxent percent
+#' contribution). If the variable is correlated with other variables (according
+#' to the given method and threshold) it performs a Jackknife test and among the
+#' correlated variables it removes the one that results in the best performing
+#' model when removed (according to the given metric). The process is repeated
+#' untill the remaining variables are not highly correlated anymore.
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
-#' #' @param metric character. The metric used to evaluate the models, possible
+#' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param test \link{SWD}. Test dataset used to evaluate the model, not used
 #' with aicc and \link{SDMmodelCV} objects, default is NULL.
