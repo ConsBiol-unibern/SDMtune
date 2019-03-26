@@ -37,8 +37,6 @@ message("\r", crayon::green(cli::symbol$tick), " Saving files...")
 
 # ROC curve
 
-Next we plot the ROC curve for `r model@p@species`:
-
 ```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
 message("- Plotting ROC curve...", appendLF = FALSE)
 plot <- plotROC(params$model, test = params$test)
