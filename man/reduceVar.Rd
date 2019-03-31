@@ -4,9 +4,8 @@
 \alias{reduceVar}
 \title{Reduce Variables}
 \usage{
-reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
-  env = NULL, parallel = FALSE, use_jk = FALSE, permut = 10,
-  use_pc = FALSE)
+reduceVar(model, th, metric, test = NULL, env = NULL,
+  parallel = FALSE, use_jk = FALSE, permut = 10, use_pc = FALSE)
 }
 \arguments{
 \item{model}{S\link{DMmodel} or \link{SDMmodelCV} object.}
@@ -14,8 +13,7 @@ reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
 \item{th}{numeric. The contribution threshold used to remove variables.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
-values are: "auc", "tss" and "aicc", used only if use_jk is TRUE, default is
-"auc".}
+values are: "auc", "tss" and "aicc", used only if use_jk is TRUE.}
 
 \item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
 with aicc, and if use_jk = FALSE, default is NULL.}

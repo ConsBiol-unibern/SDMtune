@@ -26,7 +26,7 @@ mergeSWD <- function(swd1, swd2) {
   if (length(colnames(swd1@data)) != length(colnames(swd2@data)) ||
       length(intersect(colnames(swd1@data), colnames(swd2@data))) !=
       length(colnames(swd1@data))) {
-    warning("The two SWD objects have different columns, only the common columns are used in the merge object!")
+    warning("The two SWD objects have different columns, only the common columns are used in the merged object!")
     # Get common variables
     vars <- intersect(colnames(swd1@data), colnames(swd2@data))
     # Subset objects
