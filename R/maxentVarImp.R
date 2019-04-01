@@ -1,7 +1,7 @@
 #' Maxent Variable Importance
 #'
-#' Shows the percent contribution and permutation importance of the variable
-#' used to train the model.
+#' Shows the percent contribution and permutation importance of the
+#' environmental variables used to train the model.
 #'
 #' @param model \link{SDMmodel} object trained using the "Maxent" method.
 #'

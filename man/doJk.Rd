@@ -4,15 +4,14 @@
 \alias{doJk}
 \title{Jackknife Test}
 \usage{
-doJk(model, metric = c("auc", "tss", "aicc"), variables = NULL,
-  test = NULL, with_only = TRUE, env = NULL, parallel = FALSE,
-  return_models = FALSE)
+doJk(model, metric, variables = NULL, test = NULL, with_only = TRUE,
+  env = NULL, parallel = FALSE, return_models = FALSE)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
-values are: "auc", "tss" and "aicc", default is "auc".}
+values are: "auc", "tss" and "aicc".}
 
 \item{variables}{vector. Variables used for the test, if not provided it
 takes all the variables used to train the model, default is NULL.}

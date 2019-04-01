@@ -1,6 +1,6 @@
 #' Train Maxnet model
 #'
-#' Train a \link{Maxnet} model using the maxnet package.
+#' Train a \link{Maxnet} model using the \link{maxnet} package.
 #'
 #' @param p \link{SWD} object with the presence locations.
 #' @param a \link{SWD} object with the background locations.

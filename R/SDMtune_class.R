@@ -1,5 +1,8 @@
 #' SDMtune class
 #'
+#' Class used to save the results of one of the following functions:
+#' \link{gridSearch}, \link{randomSearch} or \link{optimiseModel}.
+#'
 #' @slot results data.frame. Results with the evaluation of the models.
 #' @slot models list. List of \link{Maxent} objects
 #'
@@ -35,8 +38,8 @@ if (!isGeneric("plot"))
 
 #' Plot
 #'
-#' Plot the result of a tune function or of the optimiseModel function, use the
-#' interactive argument to create an interactive chart.
+#' Plot a \link{SDMtune} object. Use the interactive argument to create an
+#' interactive chart.
 #'
 #' @param x \link{SDMtune} object.
 #' @param interactive logical, if TRUE plot an iteractive chart.

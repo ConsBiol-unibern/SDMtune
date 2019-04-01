@@ -10,7 +10,7 @@ plotJk(jk, type = c("train", "test"), ref = NULL)
 \item{jk}{data.frame with the output of the \strong{doJk} function.}
 
 \item{type}{character, "train" or "test" to plot the result of the test on
-the train or test dataset.}
+the train or testing dataset.}
 
 \item{ref}{numeric. The value of the chosen metric for the model trained
 using all the variables. If provided it plots a vertical line showing the

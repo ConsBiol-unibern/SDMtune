@@ -1,12 +1,12 @@
 #' Reduce Variables
 #'
-#' Remove variables whose permutation importance is less than the
-#' given threshold. The function removes one variable at time and after trains a
-#' new model to get the new variable contribution rank. If use_jk is TRUE the
-#' function checks if after removing the variable the model performance
-#' decreases (according to the given metric and based on the starting model). In
-#' this case the function stops removing the variable even if the contribution
-#' is lower than the given threshold.
+#' Remove variables whose importance is less than the given threshold. The
+#' function removes one variable at time and after trains a new model to get the
+#' new variable contribution rank. If use_jk is TRUE the function checks if
+#' after removing the variable the model performance decreases (according to the
+#' given metric and based on the starting model). In this case the function
+#' stops removing the variable even if the contribution is lower than the given
+#' threshold.
 #'
 #' @param model S\link{DMmodel} or \link{SDMmodelCV} object.
 #' @param th numeric. The contribution threshold used to remove variables.
@@ -21,7 +21,8 @@
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
 #' selection, if FALSE the function uses the percent variable contribution,
 #' default is FALSE.
-#' @param permut integer. Number of permutations, default is 10.
+#' @param permut integer. Number of permutations, used if use_pc is FALSE,
+#' default is 10.
 #' @param use_pc logical, use percent contribution. If TRUE and the model is
 #' trained using the \link{Maxent} method, the algorithm uses the percent
 #' contribution computed by Maxent software to score the varialble importance,

@@ -3,8 +3,8 @@
 #' Plot a presence absence map using the given threshold.
 #'
 #' @param map \link{raster} object with the prediction.
-#' @param th numeric. The threshold to convert the output in a presence/absence
-#' map.
+#' @param th numeric. The threshold used to convert the output in a
+#' presence/absence map.
 #' @param colors vector. Colors to be used, default is NULL and uses red and
 #' blue.
 #' @param hr logical, if TRUE produces an output with high resolution, default
@@ -12,8 +12,7 @@
 #' @param filename character, if provided the raster map is saved in a file,
 #' default is NULL.
 #' @param format character. The output format, see \link{writeRaster} for all
-#' the options,
-#' default is Geotiff.
+#' the options, default is Geotiff.
 #' @param ... Additional arguments, see \link{writeRaster} for all the options.
 #'
 #' @return A ggplot object.

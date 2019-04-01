@@ -1,9 +1,11 @@
 setOldClass("maxnet")
 #' Maxnet
 #'
-#' This Class represents a Maxnet model objects and hosts all the information related to the model.
+#' This Class represents a Maxnet model objects and hosts all the information
+#' related to the model.
 #'
-#' @slot reg numeric. The value of the regularization multiplier used to train the model.
+#' @slot reg numeric. The value of the regularization multiplier used to train
+#' the model.
 #' @slot fc character. The feature class combination used to train the model.
 #' @slot model maxnet. The maxnet model object.
 #'

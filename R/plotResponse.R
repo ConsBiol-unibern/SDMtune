@@ -6,7 +6,7 @@
 #' @param var character. Name of the variable to be plotted.
 #' @param type character. Output type, see \link{predict,Maxent-method} for
 #' Maxent models or \link{predict.maxnet} for Maxnet models.
-#' @param marginal logical, if TRUE it plots the marginal response courve,
+#' @param marginal logical, if TRUE it plots the marginal response curve,
 #' default is FALSE.
 #' @param fun function used to compute the level of the other variables for
 #' marginal curves, possible values are mean and median, default is mean.
@@ -19,7 +19,7 @@
 #' @details Note that fun is not a character argument, you must use mean and
 #' not "mean".
 #'
-#' @return The plot model
+#' @return The ggplot2 object
 #' @export
 #' @include Maxent_class.R
 #' @importFrom ggplot2 ggplot aes_string geom_line geom_bar scale_x_continuous

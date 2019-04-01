@@ -14,7 +14,7 @@
 #' @param env \link{stack}. If provided it computes and adds a prediction map to
 #' the output, default is NULL.
 #' @param clamp logical for clumping during prediction, used for response curves
-#' and when **env** is provided, default is TRUE.
+#' and for the prediction map, default is TRUE.
 #'
 #' @details The function produces a report similar to the one created by MaxEnt
 #' software.

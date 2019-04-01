@@ -11,7 +11,7 @@ plotROC(model, val = NULL, test = NULL)
 
 \item{val}{\link{SWD} object. The validation dataset, default is NULL.}
 
-\item{test}{\link{SWD} object. The test dataset, default is NULL.}
+\item{test}{\link{SWD} object. The testing dataset, default is NULL.}
 }
 \value{
 The plot object.

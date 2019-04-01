@@ -11,18 +11,18 @@ corVar(bg, method = "spearman", cor_th = NULL)
 environmental variables.}
 
 \item{method}{character. The method used to compute the correlation matrix,
-default "spearman".}
+default is "spearman".}
 
 \item{cor_th}{numeric. If provided it prints only the variables whose
-correlation coefficient is higer or lover than the given threshold, default
+correlation coefficient is higher or lower than the given threshold, default
 is NULL.}
 }
 \value{
 The name of the correlated variables.
 }
 \description{
-Utility that prints the name of correlated variables according with the
-provided method and correlation threashold.
+Utility that prints the name of correlated variables and the relative
+correlation coefficient value.
 }
 \examples{
 \dontrun{

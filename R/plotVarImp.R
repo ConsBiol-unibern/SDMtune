@@ -1,8 +1,9 @@
 #' Plot Varible Importance
 #'
-#' Plot the permutation variable importance as a bar plot.
+#' Plot the variable importance as a bar plot.
 #'
-#' @param df data.frame. The result of varImp function.
+#' @param df data.frame. A data.frame containing the the name of the variabels
+#' as first column and the value of the varible importance as second column.
 #' @param color character. The color of the bar plot, default is grey.
 #'
 #' @return The ggplot object.

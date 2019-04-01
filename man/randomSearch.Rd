@@ -5,8 +5,7 @@
 \title{Random Search}
 \usage{
 randomSearch(model, hypers, metric, test = NULL, bg4test = NULL,
-  pop = 20, env = NULL, parallel = FALSE, include_sm = FALSE,
-  seed = NULL)
+  pop = 20, env = NULL, parallel = FALSE, seed = NULL)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
@@ -31,9 +30,6 @@ with "aicc", default is NULL.}
 \item{parallel}{logical, if TRUE it uses parallel computation, deafult is
 FALSE.}
 
-\item{include_sm}{logical, include starting model. If TRUE the starting
-model is included in the random population, default is FALSE.}
-
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is NULL.}
 }
@@ -46,8 +42,10 @@ a population of random models each one with a random combination of the
 provided hyperparameters values.
 }
 \details{
-To know which hyperparameters can be tune you can use the output of
-the function \link{get_tunable_args}.
+To know which hyperparameters can be tuned you can use the output of
+the function \link{get_tunable_args}. You need package \pkg{snow} to use
+parallel computation. Parallel computation increases the speed only for big
+datasets due to the time necessary to create the cluster.
 }
 \examples{
 \dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =

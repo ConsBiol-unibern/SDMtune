@@ -23,8 +23,8 @@ Compute the Akaike Information Criterion corrected for small samples size
 }
 \details{
 You need package \pkg{snow} to use parallel computation. Parallel
-computation increases the speed
-only for big datasets due to the time necessary to create the cluster.
+computation increases the speed only for big datasets due to the time
+necessary to create the cluster.
 }
 \examples{
 \dontrun{

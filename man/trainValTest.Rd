@@ -8,7 +8,7 @@ trainValTest(x, test, val = 0, seed = NULL)
 }
 \arguments{
 \item{x}{\link{SWD} object containing the data that have to be splitted in
-train, validation and test datasets.}
+training, validation and testing datasets.}
 
 \item{test}{numeric. The percentage of data withhold for testing.}
 
@@ -19,12 +19,12 @@ is 0.}
 consistent results, default is NULL.}
 }
 \value{
-A list with the train, validation and test data sets or train and
-test sets accordingly.
+A list with the training, validation and testing data sets or
+training and testing data sets accordingly.
 }
 \description{
-Split a dataset randomly in train and test datasets or train, validation and
-test datasets.
+Split a dataset randomly in training and testing datasets or training,
+validation and testing datasets.
 }
 \examples{
 \dontrun{

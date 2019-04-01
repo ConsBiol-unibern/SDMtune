@@ -20,7 +20,7 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 A \link{SDMmodel} object.
 }
 \description{
-Train a \link{Maxnet} model using the maxnet package.
+Train a \link{Maxnet} model using the \link{maxnet} package.
 }
 \examples{
 \dontrun{model <- trainMaxnet(p, a)}

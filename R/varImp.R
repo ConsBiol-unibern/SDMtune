@@ -1,6 +1,6 @@
 #' Variable Importance
 #'
-#' The function randomly permutes one variable at time (using train and
+#' The function randomly permutes one variable at time (using training and
 #' absence/background datasets) and computes the decrease in training AUC. The
 #' result is normalized to percentages. Same implementation of MaxEnt java
 #' software but with the additional possibility of running several permutations

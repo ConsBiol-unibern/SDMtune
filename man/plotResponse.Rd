@@ -15,7 +15,7 @@ plotResponse(model, var, type, marginal = FALSE, fun = mean,
 \item{type}{character. Output type, see \link{predict,Maxent-method} for
 Maxent models or \link{predict.maxnet} for Maxnet models.}
 
-\item{marginal}{logical, if TRUE it plots the marginal response courve,
+\item{marginal}{logical, if TRUE it plots the marginal response curve,
 default is FALSE.}
 
 \item{fun}{function used to compute the level of the other variables for
@@ -30,7 +30,7 @@ default is FALSE.}
 \item{color}{The color of the curve, default is "red".}
 }
 \value{
-The plot model
+The ggplot2 object
 }
 \description{
 Plot the Response Curve of the given environmental variable.

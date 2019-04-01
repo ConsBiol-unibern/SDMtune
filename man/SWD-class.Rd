@@ -6,7 +6,7 @@
 \alias{SWD}
 \title{Sample With Data}
 \description{
-Object similar to the MAxEnt SWD format that hosts the species name, the
+Object similar to the MaxEnt SWD format that hosts the species name, the
 coordinates of the locations and the value of the environmental variables at
 the location places.
 }

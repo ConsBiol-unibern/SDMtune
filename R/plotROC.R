@@ -4,7 +4,7 @@
 #'
 #' @param model \link{SDMmodel} object.
 #' @param val \link{SWD} object. The validation dataset, default is NULL.
-#' @param test \link{SWD} object. The test dataset, default is NULL.
+#' @param test \link{SWD} object. The testing dataset, default is NULL.
 #'
 #' @return The plot object.
 #' @export

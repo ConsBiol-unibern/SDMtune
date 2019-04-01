@@ -1,6 +1,6 @@
 #' Locations of Vultur gryphus.
 #'
-#' The dataset contains 509 locations of the Andean condor collected from 2008
+#' The dataset contains 509 locations of the *Andean condor* collected from 2008
 #' to 2018. The locations are downloaded from the Global Biodiversity Inventory
 #' Facility and filtered to remove douplicates and keep only one location per
 #' raster cell of the World Clime dataset. See references for the original

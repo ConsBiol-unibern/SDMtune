@@ -1,17 +1,17 @@
-#' Prepare a SWD data set for MaxEnt models
+#' Prepare a SWD data set
 #'
 #' Given the coordinates, the species' name and the environmental variables,
-#' the function prepares a data frame in the SWD format (sample with data).
+#' the function creates a \link{SWD} object (sample with data).
 #'
 #' @param species character. The name of the species.
 #' @param coords data.frame. The coordinates of the presence or
 #' absence/background locations.
-#' @param env \link{stack} containing the environmental variables used to train
-#' the model.
+#' @param env \link{stack} containing the environmental variables used to
+#' extract the values at coordinate locations.
 #' @param categoricals vector indicating which of the environmental variable are
 #' categoricals, default is NULL.
 #'
-#' @return A SWD object
+#' @return A \link{SWD} object
 #' @export
 #' @importFrom stats complete.cases
 #'
