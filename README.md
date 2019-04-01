@@ -3,7 +3,7 @@
 SDMtune <img src="logo.svg" align="right" alt="" width="120" />
 ===============================================================
 
-**SDMtune** provides a framework that facilitates preparing data for analysis, train and evaluate models (at the moment it implements MaxEnt and Maxnet models). It also includes utilities to display results and functions for variable selection and model tuning. **SDMtune** uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the **AICc**.
+**SDMtune** provides a framework that facilitates preparing data for analysis, train and evaluate models (at the moment it implements MaxEnt and Maxnet models). It also includes utilities to display results and functions for variable selection and model tuning. All the functions used to select variables or to tune the model hyperparameters have a real-time chart that is displayed in the RStudio viewer pane during the function execution. **SDMtune** uses its own script to predict MaxEnt models that performs much faster for large datasets than native predictions made using Java software. This reduces considerably the computation time when tuning the model, especially when optimizing the **AICc**.
 
 Installation
 ------------
@@ -25,4 +25,4 @@ Real time charts
 
 Real time charts displaying the training and validation metrics are displayed in the RStudio viewer pane during the execution of the tuning and variable selection functions.
 
-<div style="text-align: center"><img src="realtime-chart.gif" alt="" /></div>
+<img src="realtime-chart.gif" alt="" />

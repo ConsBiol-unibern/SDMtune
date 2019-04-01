@@ -69,7 +69,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   kept <- kept_good + kept_bad
   remaining <- pop - kept
   tot_models <- .get_total_models(pop, gen, remaining)
-  algorithm <- ifelse(gen > 0, "Genetic Algorithm", "Random Search")
+  algorithm <- ifelse(gen > 0, "Optimise Model", "Random Search")
   pb <- progress::progress_bar$new(
     format = paste(algorithm, "[:bar] :percent in :elapsedfull"),
     total = (tot_models + 1), clear = FALSE, width = 60, show_after = 0)
