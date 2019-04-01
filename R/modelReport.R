@@ -23,6 +23,7 @@
 #' @importFrom utils menu
 #' @importFrom crayon red green
 #' @importFrom cli symbol
+#' @importFrom utils browseURL
 #'
 #' @examples \dontrun{
 #' modelReport(model, "cloglog", folder = "my_folder", response_curves = T)}
@@ -43,8 +44,9 @@ modelReport <- function(model, type, folder, test = NULL,
   if (continue == 1) {
     template <- system.file("templates", "modelReport.Rmd", package = "SDMtune")
 
-    dir.create(paste0(folder, "/plots"), recursive = TRUE, showWarnings = FALSE)
     folder <- file.path(getwd(), folder)
+    dir.create(file.path(folder, "/plots"), recursive = TRUE,
+               showWarnings = FALSE)
     species <- gsub(" ", "_", tolower(model@p@species))
     title <- paste(class(model@model), "model for", model@p@species)
     args <- c(paste0("--metadata=title:\"", title, "\""))
@@ -61,5 +63,5 @@ modelReport <- function(model, type, folder, test = NULL,
                       quiet = TRUE
                       )
   }
-  return(invisible(model))
+  utils::browseURL(file.path(folder, output_file))
 }

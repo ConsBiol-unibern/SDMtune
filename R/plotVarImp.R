@@ -7,8 +7,8 @@
 #'
 #' @return The ggplot object.
 #' @export
-#' @importFrom ggplot2 ggplot aes_ ylab scale_y_continuous geom_bar coord_flip
-#' labs theme_minimal theme
+#' @importFrom ggplot2 ggplot aes_string ylab scale_y_continuous geom_bar
+#' coord_flip labs theme_minimal theme element_text
 #' @importFrom scales percent
 #'
 #' @examples
@@ -21,7 +21,7 @@ plotVarImp <- function(df, color = "grey") {
   df <- df[order(df[, 2]), ]
   df[, 2] <- df[, 2] / 100
   df[, 1] <- factor(df[, 1], levels = df[, 1])
-  my_plot <- ggplot(df, aes_(x = ~Variable, y = ~Permutation_importance)) +
+  my_plot <- ggplot(df, aes_string(x = "Variable", y = colnames(df)[2])) +
     labs(x = "", y = sub("_", " ", colnames(df)[2])) +
     scale_y_continuous(labels = scales::percent) +
     geom_bar(position = "dodge", stat = "identity", fill = color) +

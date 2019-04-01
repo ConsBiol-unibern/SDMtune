@@ -101,7 +101,7 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
   # Create chart
   initial_vars <- colnames(model@p@data)
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
-                   update = TRUE)
+                   title = "Variable Selection", update = TRUE)
 
   line_title <- "Starting model"
   folder <- tempfile("SDMsel")

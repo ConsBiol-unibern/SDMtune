@@ -4,9 +4,9 @@
 #' given threshold. The function removes one variable at time and after trains a
 #' new model to get the new variable contribution rank. If use_jk is TRUE the
 #' function checks if after removing the variable the model performance
-#' decreases (according to the given metric). In this case the function stops
-#' removing the variable even if the contribution is lower than the given
-#' threshold.
+#' decreases (according to the given metric and based on the starting model). In
+#' this case the function stops removing the variable even if the contribution
+#' is lower than the given threshold.
 #'
 #' @param model S\link{DMmodel} or \link{SDMmodelCV} object.
 #' @param th numeric. The contribution threshold used to remove variables.
@@ -50,6 +50,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
 
   variables_reduced <- FALSE
   first_iter <- TRUE
+  removed_vars <- c()
 
   # metric used for chart
   train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env,
@@ -65,7 +66,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
   line_title <- "Starting model"
   line_footer <- ""
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
-                   update = TRUE)
+                   title = "Reduce Variable", update = TRUE)
   folder <- tempfile("SDMsel")
 
   while (variables_reduced == FALSE) {
@@ -111,22 +112,24 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                                            parallel = parallel))
 
           if (metric  != "aicc") {
-            if (jk_test$results[1, 3] >= val_metric[x - 1, 2]) {
+            if (jk_test$results[1, 3] >= val_metric[1, 2]) {
               model <- jk_test$models_without[[1]]
               train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
               val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
               continue_jk <- TRUE
               line_title <- c(line_title, paste("Removed", scores[i, 1]))
               line_footer <- c(line_footer, "")
+              removed_vars <- c(removed_vars, scores[i, 1])
               break
             }
           } else {
-            if (jk_test$results[1, 2] <= train_metric[x - 1, 2]) {
+            if (jk_test$results[1, 2] <= train_metric[1, 2]) {
               model <- jk_test$models_without[[1]]
               train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
               continue_jk <- TRUE
               line_title <- c(line_title, paste("Removed", scores[i, 1]))
               line_footer <- c(line_footer, "")
+              removed_vars <- c(removed_vars, scores[i, 1])
               break
             }
           }
@@ -162,6 +165,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
           val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
         line_title <- c(line_title, paste("Removed", scores[1, 1]))
         line_footer <- c(line_footer, "")
+        removed_vars <- c(removed_vars, scores[1, 1])
       }
     } else {
       variables_reduced <- TRUE
@@ -173,6 +177,8 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                                     lineTitle = line_title,
                                     lineFooter = line_footer, stop = TRUE))
   Sys.sleep(.1)
+
+  message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
 
   return(model)
 }

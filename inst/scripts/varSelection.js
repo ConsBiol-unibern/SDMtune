@@ -20,7 +20,7 @@ var barOptions = {
 		display: true,
 		fontFamily: "sans-serif",
 		padding: 15,
-		text: "Variable Selection"
+		text: settings.title[0]
 	},
 	legend: {
 		position: "bottom",
