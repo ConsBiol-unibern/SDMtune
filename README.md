@@ -8,7 +8,7 @@ SDMtune <img src="man/figures/logo.svg" align="right" alt="" width="120" />
 Installation
 ------------
 
-You can get the latest development version from github:
+You can install the latest development version from github:
 
 ``` r
 devtools::install_github("sgvignali/SDMtune")
@@ -17,6 +17,6 @@ devtools::install_github("sgvignali/SDMtune")
 Real-time charts
 ----------------
 
-Real time charts displaying the training and validation metrics are displayed in the RStudio viewer pane during the execution of the tuning and variable selection functions.
+Real-time charts displaying the training and the validation metrics are displayed in the RStudio viewer pane during the execution of the tuning and variable selection functions.
 
 <img src="man/figures/realtime-chart.gif" alt="" />
