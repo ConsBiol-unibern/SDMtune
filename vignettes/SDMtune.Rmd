@@ -35,12 +35,6 @@ system.file(package="dismo")
 
 If you are an Ubuntu user you have to install **java** (e.g. install java openjdk with `sudo apt install openjdk-11-jdk`), check it with `java --version`, and then configure java for `R` using the command `sudo R CMD javareconf`.
 
-Before loading `SDMtune` you have to increase the RAM that **MaxEnt** can use. You should leave around 2G for your OS and make the rest available for MaxEnt (e.g. if you have 4GB RAM make 2G available using `-Xmx2g`): 
-
-```{r java option}
-options(java.parameters = "-Xmx2g" )
-```
-
 Import `SDMtune`:
 ```{r import}
 library(SDMtune)
@@ -51,9 +45,5 @@ Check if maxent is correctly configured for `dismo`:
 ```{r check maxent, eval=F}
 dismo::maxent()
 ```
-
-Now everything is set up and you can start your analysis. A good starting point to learn how to use **SDMtune** is the article [Tune model using AUC]() in the package website.
-
-(**TODO: I will add the right link when we release the pkg!**)
 
 # References
