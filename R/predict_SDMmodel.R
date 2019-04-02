@@ -4,7 +4,7 @@ setGeneric("predict", function(object, ...)
 
 #' Predict
 #'
-#' Predict the output for a new dataset from a trained \link{SWDmodel} model.
+#' Predict the output for a new dataset from a trained \link{SDMmodel} model.
 #'
 #' @param object \link{SDMmodel} object.
 #' @param data data.frame, \link{SWD}, \link{stack}.

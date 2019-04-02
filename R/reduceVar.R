@@ -8,7 +8,7 @@
 #' stops removing the variable even if the contribution is lower than the given
 #' threshold.
 #'
-#' @param model S\link{DMmodel} or \link{SDMmodelCV} object.
+#' @param model S\link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param th numeric. The contribution threshold used to remove variables.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", used only if use_jk is TRUE.

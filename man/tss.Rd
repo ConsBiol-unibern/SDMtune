@@ -10,7 +10,7 @@ tss(model, test = NULL)
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
 \item{test}{\link{SWD} test locations for \link{SDMmodel} objects or logical
-for \link{SDModelCV} objects, if not provided it computes the training AUC,
+for \link{SDMmodelCV} objects, if not provided it computes the training AUC,
 default is NULL.}
 }
 \value{

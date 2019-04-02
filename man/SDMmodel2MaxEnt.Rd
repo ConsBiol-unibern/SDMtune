@@ -10,7 +10,7 @@ SDMmodel2MaxEnt(model)
 \item{model}{\link{SDMmodel} object to be converted.}
 }
 \value{
-The converted \link{MaxEnt} object.
+The converted dismo MaxEnt object.
 }
 \description{
 Converts a \link{SDMmodel} object containing a \link{Maxent} model to a dismo

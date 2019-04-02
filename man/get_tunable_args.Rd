@@ -7,7 +7,7 @@
 get_tunable_args(model)
 }
 \arguments{
-\item{model}{\link{SDMmodel} or \link{SVDmodelCV} object.}
+\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 }
 \value{
 character vector

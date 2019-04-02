@@ -181,7 +181,7 @@
 #' Returns the name of all function arguments that can be tuned for a given
 #' model.
 #'
-#' @param model \link{SDMmodel} or \link{SVDmodelCV} object.
+#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #'
 #' @return character vector
 #' @export

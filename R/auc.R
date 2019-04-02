@@ -4,7 +4,7 @@
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param test \link{SWD} test locations for \link{SDMmodel} objects or logical
-#' for \link{SDModelCV} objects, if not provided it computes the train AUC,
+#' for \link{SDMmodelCV} objects, if not provided it computes the train AUC,
 #' default is NULL.
 #' @param a \link{SWD} absence or background locations used to compute the AUC
 #' by the permutation importance function, defaul is NULL.

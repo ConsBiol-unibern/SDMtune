@@ -41,7 +41,7 @@ A vector with the prediction or a Raster object if data is a raster
 stack.
 }
 \description{
-Predict the output for a new dataset from a trained \link{SWDmodel} model.
+Predict the output for a new dataset from a trained \link{SDMmodel} model.
 }
 \details{
 You need package \pkg{snow} to use parallel computation and

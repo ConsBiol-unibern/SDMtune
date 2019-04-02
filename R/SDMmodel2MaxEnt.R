@@ -1,11 +1,11 @@
 #' SDMmodel2MaxEnt
 #'
 #' Converts a \link{SDMmodel} object containing a \link{Maxent} model to a dismo
-#' \link{MaxEnt} object.
+#' MaxEnt object.
 #'
 #' @param model \link{SDMmodel} object to be converted.
 #'
-#' @return The converted \link{MaxEnt} object.
+#' @return The converted dismo MaxEnt object.
 #' @export
 #'
 #' @examples

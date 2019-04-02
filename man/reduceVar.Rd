@@ -8,7 +8,7 @@ reduceVar(model, th, metric, test = NULL, env = NULL,
   parallel = FALSE, use_jk = FALSE, permut = 10, use_pc = FALSE)
 }
 \arguments{
-\item{model}{S\link{DMmodel} or \link{SDMmodelCV} object.}
+\item{model}{S\link{SDMmodel} or \link{SDMmodelCV} object.}
 
 \item{th}{numeric. The contribution threshold used to remove variables.}
 

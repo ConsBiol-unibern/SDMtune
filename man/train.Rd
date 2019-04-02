@@ -31,7 +31,7 @@ used if \strong{folds} is not provided, default is NULL.}
 or \link{trainMaxnet} for details related to the different methods.}
 }
 \value{
-A \link{SWDmodel} or \link{SDMmodelCV} object.
+A \link{SDMmodel} or \link{SDMmodelCV} object.
 }
 \description{
 Train a model using the given method.

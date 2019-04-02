@@ -17,7 +17,7 @@
 #' @param ... Arguments passed to the relative functions, see \link{trainMaxent}
 #' or \link{trainMaxnet} for details related to the different methods.
 #'
-#' @return A \link{SWDmodel} or \link{SDMmodelCV} object.
+#' @return A \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @export
 #' @importFrom dismo kfold
 #' @importFrom progress progress_bar

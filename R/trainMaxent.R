@@ -1,6 +1,6 @@
 #' Train Maxent model
 #'
-#' Train a \link{MaxEnt} model using the dismo package. The function runs Maxent
+#' Train a \link{Maxent} model using the dismo package. The function runs Maxent
 #' model with a minimum setting of optional arguments (e.g. it doesn't make the
 #' response curves) to speed up the computation time. Use \link{modelReport}
 #' function to set more arguments (i.e. response curves) and save the output
