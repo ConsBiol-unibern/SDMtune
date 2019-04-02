@@ -14,7 +14,7 @@ The converted dismo MaxEnt object.
 }
 \description{
 Converts a \link{SDMmodel} object containing a \link{Maxent} model to a dismo
-\link{MaxEnt} object.
+MaxEnt object.
 }
 \examples{
 \dontrun{SDMmodel2MaxEnt(model)}
