@@ -10,5 +10,6 @@
 ^README-.*\.png$
 ^cran-comments\.md$
 ^vignettes/articles\.Rmd$
-^logo\.png$
 ^.idea$
+^tests/testthat/test_maxent_prediction\.R$
+^pkgdown$

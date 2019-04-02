@@ -30,9 +30,8 @@
 #' contribution computed by Maxent software to score the varialble importance,
 #' default is FALSE.
 #'
-#' @details You need package \pkg{snow} to use parallel computation. Parallel
-#' computation increases the speed only for big datasets due to the time
-#' necessary to create the cluster.
+#' @details Parallel computation increases the speed only for big datasets due
+#' to the time necessary to create the cluster.
 #'
 #' @return The \link{SDMmodel} or \link{SDMmodelCV} object trained using the
 #' selected variables.

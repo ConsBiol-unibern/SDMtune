@@ -1,7 +1,7 @@
 #' SDMtune: A package for tuning Species Distribution Models.
 #'
 #' **SDMtune** provides a framework that facilitates users in preparing data for
-#' analysis, train and evaluate models. It also implements functions for data
+#' analysis, train and evaluate SDMs. It also implements functions for data
 #' driven variable selection and model tuning and includes some utilities to
 #' display results (at the moment only the Maximum Entropy method is available
 #' using the Java implementation through the "dismo" package and the R
@@ -11,7 +11,7 @@
 #' function execution. SDMtune uses its own script to predict MaxEnt models that
 #' results to be much faster for large datasets than native prediction made
 #' using the Java software. This reduces considerably the computation time when
-#' tuninig the model using the AICc.
+#' tuning the model using the AICc.
 #'
 #' @docType package
 #' @name SDMtune-pkg

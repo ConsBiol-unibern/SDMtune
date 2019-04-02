@@ -54,9 +54,8 @@ model when removed (according to the given metric). The process is repeated
 untill the remaining variables are not highly correlated anymore.
 }
 \details{
-You need package \pkg{snow} to use parallel computation. Parallel
-computation increases the speed only for big datasets due to the time
-necessary to create the cluster.
+Parallel computation increases the speed only for big datasets due
+to the time necessary to create the cluster.
 }
 \examples{
 \dontrun{

@@ -12,9 +12,8 @@
 #' @export
 #' @importFrom raster extract cellStats
 #'
-#' @details You need package \pkg{snow} to use parallel computation. Parallel
-#' computation increases the speed only for big datasets due to the time
-#' necessary to create the cluster.
+#' @details Parallel computation increases the speed only for big datasets due
+#' to the time necessary to create the cluster.
 #'
 #' @references Warren D.L., Seifert S.N., (2011). Ecological niche modeling in
 #' Maxent: the importance of model complexity and the performance of model

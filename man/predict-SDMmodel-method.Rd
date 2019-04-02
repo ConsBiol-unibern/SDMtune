@@ -44,12 +44,10 @@ stack.
 Predict the output for a new dataset from a trained \link{SDMmodel} model.
 }
 \details{
-You need package \pkg{snow} to use parallel computation and
-\pkg{rgdal} to save the prediction in a raster file. Parallel computation
-increases the speed only for big datasets due to the time necessary to create
-the cluster. For \strong{Maxent} models the function performs the prediction in
-\strong{R} without calling the \strong{MaxEnt} java software. This results is a faster
-computation for large datasets.
+Parallel computation increases the speed only for big datasets due
+to the time necessary to create the cluster. For \strong{Maxent} models the
+function performs the prediction in \strong{R} without calling the \strong{MaxEnt} java
+software. This results is a faster computation for large datasets.
 }
 \examples{
 \dontrun{

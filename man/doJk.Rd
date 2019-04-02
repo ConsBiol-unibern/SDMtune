@@ -39,9 +39,8 @@ returns a list containing the test results together with the models.
 Run the Jackknife test for variable importance removing one variable at time.
 }
 \details{
-You need package \pkg{snow} to use parallel computation. Parallel
-computation increases the speed only for big datasets due to the time
-necessary to create the cluster.
+Parallel computation increases the speed only for big datasets due
+to the time necessary to create the cluster.
 }
 \examples{
 \dontrun{

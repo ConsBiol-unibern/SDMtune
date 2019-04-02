@@ -18,9 +18,8 @@
 #' @param return_models logical, If TRUE returns all the models together with
 #' the test result, default is FALSE.
 #'
-#' @details You need package \pkg{snow} to use parallel computation. Parallel
-#' computation increases the speed only for big datasets due to the time
-#' necessary to create the cluster.
+#' @details Parallel computation increases the speed only for big datasets due
+#' to the time necessary to create the cluster.
 #'
 #' @return A data frame with the test results. If **return_model = TRUE** it
 #' returns a list containing the test results together with the models.
