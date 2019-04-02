@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepareSWD.R
 \name{prepareSWD}
 \alias{prepareSWD}
-\title{Prepare a SWD data set for MaxEnt models}
+\title{Prepare a SWD data set}
 \usage{
 prepareSWD(species, coords, env, categoricals = NULL)
 }
@@ -12,18 +12,18 @@ prepareSWD(species, coords, env, categoricals = NULL)
 \item{coords}{data.frame. The coordinates of the presence or
 absence/background locations.}
 
-\item{env}{\link{stack} containing the environmental variables used to train
-the model.}
+\item{env}{\link{stack} containing the environmental variables used to
+extract the values at coordinate locations.}
 
 \item{categoricals}{vector indicating which of the environmental variable are
 categoricals, default is NULL.}
 }
 \value{
-A SWD object
+A \link{SWD} object
 }
 \description{
 Given the coordinates, the species' name and the environmental variables,
-the function prepares a data frame in the SWD format (sample with data).
+the function creates a \link{SWD} object (sample with data).
 }
 \examples{
 \dontrun{

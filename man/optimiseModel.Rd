@@ -7,7 +7,7 @@
 optimiseModel(model, hypers, metric, test = NULL, bg4test = NULL,
   pop = 20, gen = 5, env = NULL, parallel = FALSE,
   keep_best = 0.4, keep_random = 0.2, mutation_chance = 0.4,
-  include_sm = FALSE, seed = NULL)
+  seed = NULL)
 }
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
@@ -22,7 +22,7 @@ values are: "auc", "tss" and "aicc".}
 used with aicc and \link{SDMmodelCV} objects, default is NULL.}
 
 \item{bg4test}{\link{SWD} object or NULL. Background locations used to get
-subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
+subsamples if the \strong{a} hyperparameter is tuned, default is NULL.}
 
 \item{pop}{numeric. Size of the population, default is 20.}
 
@@ -44,9 +44,6 @@ during each iteration, expressed as decimal number. Default is 0.2.}
 \item{mutation_chance}{numeric. Probability of mutation of the child models,
 expressed as decimal number. Default is 0.4.}
 
-\item{include_sm}{logical, include starting model. If TRUE the starting
-model is included in the random population, default is FALSE.}
-
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is NULL.}
 }
@@ -58,12 +55,10 @@ The function uses a Genetic Algorithm implementation to optimise the model
 hyperparameter configuration according to the chosen metric.
 }
 \details{
-To know which hyperparameters can be tune you can use the output of
-the function \link{get_tunable_args}.
-You need package \pkg{snow} to use parallel computation and
-\pkg{rgdal} to save the prediction in a raster file. Parallel computation
-increases the speed only for big datasets due to the time necessary to create
-the cluster.
+To know which hyperparameters can be tuned you can use the output of
+the function \link{get_tunable_args}. You need package \pkg{snow} to use
+parallel computation. Parallel computation increases the speed only for big
+datasets due to the time necessary to create the cluster.
 }
 \examples{
 \dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =

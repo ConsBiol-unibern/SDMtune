@@ -6,12 +6,14 @@
 \alias{Maxnet}
 \title{Maxnet}
 \description{
-This Class represents a Maxnet model objects and hosts all the information related to the model.
+This Class represents a Maxnet model objects and hosts all the information
+related to the model.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{reg}}{numeric. The value of the regularization multiplier used to train the model.}
+\item{\code{reg}}{numeric. The value of the regularization multiplier used to train
+the model.}
 
 \item{\code{fc}}{character. The feature class combination used to train the model.}
 

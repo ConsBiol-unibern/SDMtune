@@ -14,8 +14,8 @@
 #' values are: "auc", "tss" and "aicc".
 #' @param test \link{SWD}. Test dataset used to evaluate the model, not used
 #' with aicc and \link{SDMmodelCV} objects, default is NULL.
-#' @param bg4cor SWD object. Background locations used to test the correlation
-#' between environmental variables.
+#' @param bg4cor \link{SWD} object. Background locations used to test the
+#' correlation between environmental variables.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
@@ -101,7 +101,7 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
   # Create chart
   initial_vars <- colnames(model@p@data)
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
-                   update = TRUE)
+                   title = "Variable Selection", update = TRUE)
 
   line_title <- "Starting model"
   folder <- tempfile("SDMsel")

@@ -4,9 +4,8 @@
 \alias{reduceVar}
 \title{Reduce Variables}
 \usage{
-reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
-  env = NULL, parallel = FALSE, use_jk = FALSE, permut = 10,
-  use_pc = FALSE)
+reduceVar(model, th, metric, test = NULL, env = NULL,
+  parallel = FALSE, use_jk = FALSE, permut = 10, use_pc = FALSE)
 }
 \arguments{
 \item{model}{S\link{DMmodel} or \link{SDMmodelCV} object.}
@@ -14,8 +13,7 @@ reduceVar(model, th, metric = c("auc", "tss", "aicc"), test = NULL,
 \item{th}{numeric. The contribution threshold used to remove variables.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
-values are: "auc", "tss" and "aicc", used only if use_jk is TRUE, default is
-"auc".}
+values are: "auc", "tss" and "aicc", used only if use_jk is TRUE.}
 
 \item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
 with aicc, and if use_jk = FALSE, default is NULL.}
@@ -30,7 +28,8 @@ FALSE. Used only with AICc.}
 selection, if FALSE the function uses the percent variable contribution,
 default is FALSE.}
 
-\item{permut}{integer. Number of permutations, default is 10.}
+\item{permut}{integer. Number of permutations, used if use_pc is FALSE,
+default is 10.}
 
 \item{use_pc}{logical, use percent contribution. If TRUE and the model is
 trained using the \link{Maxent} method, the algorithm uses the percent
@@ -41,12 +40,12 @@ default is FALSE.}
 The model trained using the selected variables.
 }
 \description{
-Remove variables whose permutation importance is less than the
-given threshold. The function removes one variable at time and after trains a
-new model to get the new variable contribution rank. If use_jk is TRUE the
-function checks if after removing the variable the model performance
-decreases (according to the given metric). In this case the function stops
-removing the variable even if the contribution is lower than the given
+Remove variables whose importance is less than the given threshold. The
+function removes one variable at time and after trains a new model to get the
+new variable contribution rank. If use_jk is TRUE the function checks if
+after removing the variable the model performance decreases (according to the
+given metric and based on the starting model). In this case the function
+stops removing the variable even if the contribution is lower than the given
 threshold.
 }
 \examples{

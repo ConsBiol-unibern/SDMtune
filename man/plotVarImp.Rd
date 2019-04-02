@@ -7,7 +7,8 @@
 plotVarImp(df, color = "grey")
 }
 \arguments{
-\item{df}{data.frame. The result of varImp function.}
+\item{df}{data.frame. A data.frame containing the the name of the variabels
+as first column and the value of the varible importance as second column.}
 
 \item{color}{character. The color of the bar plot, default is grey.}
 }
@@ -15,7 +16,7 @@ plotVarImp(df, color = "grey")
 The ggplot object.
 }
 \description{
-Plot the permutation variable importance as a bar plot.
+Plot the variable importance as a bar plot.
 }
 \examples{
 \dontrun{

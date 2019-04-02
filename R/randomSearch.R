@@ -18,13 +18,13 @@
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, deafult is
 #' FALSE.
-#' @param include_sm logical, include starting model. If TRUE the starting
-#' model is included in the random population, default is FALSE.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is NULL.
 #'
-#' @details To know which hyperparameters can be tune you can use the output of
-#' the function \link{get_tunable_args}.
+#' @details To know which hyperparameters can be tuned you can use the output of
+#' the function \link{get_tunable_args}. You need package \pkg{snow} to use
+#' parallel computation. Parallel computation increases the speed only for big
+#' datasets due to the time necessary to create the cluster.
 #'
 #' @return \link{SDMtune} object.
 #' @export
@@ -35,15 +35,13 @@
 #'
 #' @author Sergio Vignali
 randomSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
-                         pop = 20, env = NULL, parallel = FALSE,
-                         include_sm = FALSE, seed = NULL) {
+                         pop = 20, env = NULL, parallel = FALSE, seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
   output <- optimiseModel(model = model, hypers = hypers, bg4test = bg4test,
                           test = test, metric = metric, gen = 0, env = env,
-                          parallel = parallel, include_sm = include_sm,
-                          seed = seed)
+                          parallel = parallel, seed = seed)
 
   return(output)
 }

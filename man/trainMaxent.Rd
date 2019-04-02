@@ -18,7 +18,7 @@ trainMaxent(p, a, reg = 1, fc = "lqph", iter = 500,
 \item{fc}{vector. The value of the feature combination, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 
-\item{iter}{numeric. Number of iterations used by the Maxent alghoritm,
+\item{iter}{numeric. Number of iterations used by the MaxEnt alghoritm,
 default is 500.}
 
 \item{extra_args}{vector. Extra arguments used to run MaxEnt, default is

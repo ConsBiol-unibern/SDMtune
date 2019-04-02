@@ -1,18 +1,17 @@
 #' Reduce Variables
 #'
-#' Remove variables whose permutation importance is less than the
-#' given threshold. The function removes one variable at time and after trains a
-#' new model to get the new variable contribution rank. If use_jk is TRUE the
-#' function checks if after removing the variable the model performance
-#' decreases (according to the given metric). In this case the function stops
-#' removing the variable even if the contribution is lower than the given
+#' Remove variables whose importance is less than the given threshold. The
+#' function removes one variable at time and after trains a new model to get the
+#' new variable contribution rank. If use_jk is TRUE the function checks if
+#' after removing the variable the model performance decreases (according to the
+#' given metric and based on the starting model). In this case the function
+#' stops removing the variable even if the contribution is lower than the given
 #' threshold.
 #'
 #' @param model S\link{DMmodel} or \link{SDMmodelCV} object.
 #' @param th numeric. The contribution threshold used to remove variables.
 #' @param metric character. The metric used to evaluate the models, possible
-#' values are: "auc", "tss" and "aicc", used only if use_jk is TRUE, default is
-#' "auc".
+#' values are: "auc", "tss" and "aicc", used only if use_jk is TRUE.
 #' @param test \link{SWD}. Test dataset used to evaluate the model, not used
 #' with aicc, and if use_jk = FALSE, default is NULL.
 #' @param env \link{stack} containing the environmental variables, used only
@@ -22,7 +21,8 @@
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
 #' selection, if FALSE the function uses the percent variable contribution,
 #' default is FALSE.
-#' @param permut integer. Number of permutations, default is 10.
+#' @param permut integer. Number of permutations, used if use_pc is FALSE,
+#' default is 10.
 #' @param use_pc logical, use percent contribution. If TRUE and the model is
 #' trained using the \link{Maxent} method, the algorithm uses the percent
 #' contribution computed by Maxent software to score the varialble importance,
@@ -35,11 +35,11 @@
 #' \dontrun{model <- reduveVar(model = model, th = 2)}
 #'
 #' @author Sergio Vignali
-reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
-                      test = NULL, env = NULL, parallel = FALSE,
-                      use_jk = FALSE, permut = 10, use_pc = FALSE) {
+reduceVar <- function(model, th, metric, test = NULL, env = NULL,
+                      parallel = FALSE, use_jk = FALSE, permut = 10,
+                      use_pc = FALSE) {
 
-  metric <- match.arg(metric)
+  metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
   if (use_jk == TRUE & is.null(test) & metric != "aicc")
     stop("You need to provide a test dataset!")
@@ -50,6 +50,8 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
                   .get_model_class(model)))
 
   variables_reduced <- FALSE
+  first_iter <- TRUE
+  removed_vars <- c()
 
   # metric used for chart
   train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env,
@@ -65,15 +67,8 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
   line_title <- "Starting model"
   line_footer <- ""
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
-                   update = TRUE)
-  data = list(data = rep(0, length(initial_vars)), train = train_metric,
-              val = val_metric, drawLine1 = FALSE, drawLine2 = FALSE,
-              lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
+                   title = "Reduce Variable", update = TRUE)
   folder <- tempfile("SDMsel")
-
-  .create_chart(folder = folder, script = "varSelection.js",
-                settings = settings, data = data, height = 600)
-  Sys.sleep(1.5)
 
   while (variables_reduced == FALSE) {
 
@@ -90,9 +85,15 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
     vals <- scores[, 2][index]
     vals[is.na(vals)] <- 0
     data = list(data = vals, train = train_metric, val = val_metric,
-                drawLine1 = FALSE, drawLine2 = FALSE, lineTitle = line_title,
-                lineFooter = line_footer, stop = FALSE)
-    .update_chart(folder, data = data)
+                lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
+
+    if (first_iter) {
+      .create_chart(folder = folder, script = "varSelection.js",
+                    settings = settings, data = data, height = 600)
+      first_iter = FALSE
+    } else {
+      .update_chart(folder, data = data)
+    }
     Sys.sleep(.1)
 
     scores <- scores[order(scores[, 2]), ]
@@ -110,25 +111,26 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
                                            with_only = FALSE,
                                            return_models = TRUE, env = env,
                                            parallel = parallel))
-          new_metric <- jk_test$results[1, 2]
 
           if (metric  != "aicc") {
-            if (new_metric >= train_metric[x - 1, 2]) {
+            if (jk_test$results[1, 3] >= val_metric[1, 2]) {
               model <- jk_test$models_without[[1]]
-              train_metric[x, ] <- list(x = x - 1, y = new_metric)
+              train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
               val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
               continue_jk <- TRUE
               line_title <- c(line_title, paste("Removed", scores[i, 1]))
               line_footer <- c(line_footer, "")
+              removed_vars <- c(removed_vars, scores[i, 1])
               break
             }
           } else {
-            if (new_metric <= train_metric[x - 1, 2]) {
+            if (jk_test$results[1, 2] <= train_metric[1, 2]) {
               model <- jk_test$models_without[[1]]
-              train_metric[x, ] <- list(x = x - 1, y = new_metric)
+              train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
               continue_jk <- TRUE
               line_title <- c(line_title, paste("Removed", scores[i, 1]))
               line_footer <- c(line_footer, "")
+              removed_vars <- c(removed_vars, scores[i, 1])
               break
             }
           }
@@ -164,6 +166,7 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
           val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
         line_title <- c(line_title, paste("Removed", scores[1, 1]))
         line_footer <- c(line_footer, "")
+        removed_vars <- c(removed_vars, scores[1, 1])
       }
     } else {
       variables_reduced <- TRUE
@@ -172,9 +175,11 @@ reduceVar <- function(model, th, metric = c("auc", "tss", "aicc"),
 
   .update_chart(folder, data = list(data = vals, train = train_metric,
                                     val = val_metric, drawLine1 = FALSE,
-                                    drawLine2 = FALSE, lineTitle = line_title,
+                                    lineTitle = line_title,
                                     lineFooter = line_footer, stop = TRUE))
   Sys.sleep(.1)
+
+  message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
 
   return(model)
 }

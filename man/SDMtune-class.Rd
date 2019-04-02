@@ -6,7 +6,8 @@
 \alias{SDMtune}
 \title{SDMtune class}
 \description{
-SDMtune class
+Class used to save the results of one of the following functions:
+\link{gridSearch}, \link{randomSearch} or \link{optimiseModel}.
 }
 \section{Slots}{
 

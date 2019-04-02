@@ -4,7 +4,7 @@
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param metric character. The metric used to evaluate the models, possible
-#' values are: "auc", "tss" and "aicc", default is "auc".
+#' values are: "auc", "tss" and "aicc".
 #' @param variables vector. Variables used for the test, if not provided it
 #' takes all the variables used to train the model, default is NULL.
 #' @param test \link{SWD}. If provided it reports the result also for the test
@@ -31,11 +31,11 @@
 #' doJk(model, variable = c('bio1', 'bio12'), with_only = TRUE)}
 #'
 #' @author Sergio Vignali
-doJk <- function(model, metric = c("auc", "tss", "aicc"), variables = NULL,
+doJk <- function(model, metric, variables = NULL,
                  test = NULL, with_only = TRUE, env = NULL, parallel = FALSE,
                  return_models = FALSE) {
 
-  metric <- match.arg(metric)
+  metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide env argument if you want to use AICc metric!")

@@ -19,7 +19,7 @@ Merge two \link{SWD} object.
 }
 \details{
 In case the two \link{SWD} objects have different columns, only the
-common columns are used in the merge object.
+common columns are used in the merged object.
 }
 \examples{
 \dontrun{

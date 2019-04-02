@@ -17,7 +17,7 @@ should be tuned, see details.}
 values are: "auc", "tss" and "aicc".}
 
 \item{test}{\link{SWD} object. Test dataset used to evaluate the model, not
-used with aicc and \link{SDMmodelCV} objects, default is NULL.}
+used with \link{aicc} and \link{SDMmodelCV} objects, default is NULL.}
 
 \item{bg4test}{\link{SWD} object or NULL. Background locations used to get
 subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
@@ -46,10 +46,9 @@ with all the possible combinations of hyperparameters.
 \details{
 To know which hyperparameters can be tune you can use the output of
 the function \link{get_tunable_args}.
-You need package \pkg{snow} to use parallel computation and
-\pkg{rgdal} to save the prediction in a raster file. Parallel computation
-increases the speed only for big datasets due to the time necessary to create
-the cluster.
+You need the package \pkg{snow} to use parallel computation. Parallel
+computation increases the speed only for big datasets due to the time
+necessary to create the cluster.
 }
 \examples{
 \dontrun{output <- gridSearch(my_model, hypers = list( "reg" =

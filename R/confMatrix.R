@@ -7,7 +7,7 @@
 #' "logistic", default is "cloglog".
 #' @param test \link{SWD} test locations, if not provided it uses the train
 #' dataset, default is NULL.
-#' @param th vector if provided it computes the evaluation at the given
+#' @param th numeric vector, if provided it computes the evaluation at the given
 #' thresholds, default is NULL and it computes the evaluation for a sequence
 #' from 0 to 1 with steps of 0.0001.
 #'

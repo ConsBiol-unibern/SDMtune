@@ -11,7 +11,7 @@
 #' @param test \link{SWD} object. Test dataset used to evaluate the model, not
 #' used with aicc and \link{SDMmodelCV} objects, default is NULL.
 #' @param bg4test \link{SWD} object or NULL. Background locations used to get
-#' subsamples if **a** hyperparameter is tuned, default is NULL.
+#' subsamples if the **a** hyperparameter is tuned, default is NULL.
 #' @param pop numeric. Size of the population, default is 20.
 #' @param gen numeric. Number of generations, default is 20.
 #' @param env \link{stack} containing the environmental variables, used only
@@ -25,17 +25,13 @@
 #' during each iteration, expressed as decimal number. Default is 0.2.
 #' @param mutation_chance numeric. Probability of mutation of the child models,
 #' expressed as decimal number. Default is 0.4.
-#' @param include_sm logical, include starting model. If TRUE the starting
-#' model is included in the random population, default is FALSE.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is NULL.
 #'
-#' @details To know which hyperparameters can be tune you can use the output of
-#' the function \link{get_tunable_args}.
-#' You need package \pkg{snow} to use parallel computation and
-#' \pkg{rgdal} to save the prediction in a raster file. Parallel computation
-#' increases the speed only for big datasets due to the time necessary to create
-#' the cluster.
+#' @details To know which hyperparameters can be tuned you can use the output of
+#' the function \link{get_tunable_args}. You need package \pkg{snow} to use
+#' parallel computation. Parallel computation increases the speed only for big
+#' datasets due to the time necessary to create the cluster.
 #'
 #' @return \link{SDMtune} object.
 #' @export
@@ -50,8 +46,7 @@
 optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                           pop = 20, gen = 5, env = NULL, parallel = FALSE,
                           keep_best = 0.4, keep_random = 0.2,
-                          mutation_chance = 0.4, include_sm = FALSE,
-                          seed = NULL) {
+                          mutation_chance = 0.4, seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -74,7 +69,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   kept <- kept_good + kept_bad
   remaining <- pop - kept
   tot_models <- .get_total_models(pop, gen, remaining)
-  algorithm <- ifelse(gen > 0, "Genetic Algorithm", "Random Search")
+  algorithm <- ifelse(gen > 0, "Optimise Model", "Random Search")
   pb <- progress::progress_bar$new(
     format = paste(algorithm, "[:bar] :percent in :elapsedfull"),
     total = (tot_models + 1), clear = FALSE, width = 60, show_after = 0)
@@ -136,20 +131,9 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   # Random search, create random population
   for (i in 1:pop) {
 
-    if (include_sm & i == 1) {
-      models[[1]] <- model
-      model_hypers <- .get_train_args(model)[get_tunable_args(model)]
-      if ("a" %in% names(model_hypers)) {
-        model_hypers$a <- nrow(model@a@data)
-      }
-      # Remove same hypers configuration from grid
-      ind_duplicates <- duplicated(rbind(model_hypers, grid))[2:(nrow(grid) + 1)]
-      grid <- grid[!ind_duplicates, ]
-    } else {
-      models[[i]] <- .create_model_from_settings(model, grid[index[i], ],
-                                                 bg4test = bg4test,
-                                                 bg_folds = bg_folds)
-    }
+    models[[i]] <- .create_model_from_settings(model, grid[index[i], ],
+                                               bg4test = bg4test,
+                                               bg_folds = bg_folds)
 
     train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env,
                                              parallel = parallel))

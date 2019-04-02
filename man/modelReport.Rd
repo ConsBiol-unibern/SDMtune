@@ -27,7 +27,7 @@ html output, default is FALSE.}
 the output, default is NULL.}
 
 \item{clamp}{logical for clumping during prediction, used for response curves
-and when \strong{env} is provided, default is TRUE.}
+and for the prediction map, default is TRUE.}
 }
 \description{
 Make a report that shows the main results.

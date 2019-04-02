@@ -1,18 +1,18 @@
 #' Train, Validation and Test datasets
 #'
-#' Split a dataset randomly in train and test datasets or train, validation and
-#' test datasets.
+#' Split a dataset randomly in training and testing datasets or training,
+#' validation and testing datasets.
 #'
 #' @param x \link{SWD} object containing the data that have to be splitted in
-#' train, validation and test datasets.
+#' training, validation and testing datasets.
 #' @param test numeric. The percentage of data withhold for testing.
 #' @param val numeric. The percentage of data withhold for validation, default
 #' is 0.
 #' @param seed numeric. The value used to set the seed in order to have
 #' consistent results, default is NULL.
 #'
-#' @return A list with the train, validation and test data sets or train and
-#' test sets accordingly.
+#' @return A list with the training, validation and testing data sets or
+#' training and testing data sets accordingly.
 #' @export
 #'
 #' @examples

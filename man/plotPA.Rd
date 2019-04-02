@@ -10,8 +10,8 @@ plotPA(map, th, colors = NULL, hr = FALSE, filename = NULL,
 \arguments{
 \item{map}{\link{raster} object with the prediction.}
 
-\item{th}{numeric. The threshold to convert the output in a presence/absence
-map.}
+\item{th}{numeric. The threshold used to convert the output in a
+presence/absence map.}
 
 \item{colors}{vector. Colors to be used, default is NULL and uses red and
 blue.}
@@ -23,8 +23,7 @@ is FALSE.}
 default is NULL.}
 
 \item{format}{character. The output format, see \link{writeRaster} for all
-the options,
-default is Geotiff.}
+the options, default is Geotiff.}
 
 \item{...}{Additional arguments, see \link{writeRaster} for all the options.}
 }
