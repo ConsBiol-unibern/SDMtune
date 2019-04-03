@@ -4,6 +4,7 @@
 ^\.Rproj\.user$
 ^LICENSE$
 ^_pkgdown\.yml$
+^.travis.yml$
 ^docs$
 ^README\.Rmd$
 ^README\.md$

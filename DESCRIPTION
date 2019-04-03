@@ -44,7 +44,7 @@ Suggests:
     microbenchmark (>= 1.4-6),
     rmarkdown (>= 1.12),
     roxygen2 (>= 6.1.1),
-    rstudioapi (>= 1.10),
+    rstudioapi (>= 0.10),
     testthat
 VignetteBuilder: knitr
 Collate: 
