@@ -45,7 +45,8 @@ Suggests:
     rmarkdown (>= 1.12),
     roxygen2 (>= 6.1.1),
     rstudioapi (>= 0.10),
-    testthat
+    testthat,
+    covr
 VignetteBuilder: knitr
 Collate: 
     'Maxent_class.R'
