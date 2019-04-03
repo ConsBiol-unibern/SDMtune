@@ -31,6 +31,7 @@ reference:
 - title: Modeling
   desc: Function to train the model and get information from the model
   contents:
+  - '`get_tunable_args`'
   - '`modelReport`'
   - '`maxentTh`'
   - '`maxentVarImp`'
@@ -53,6 +54,7 @@ reference:
   desc: Function to perform Data-driven Variable selection
   contents:
   - '`corVar`'
+  - '`reduceVar`'
   - '`varSel`'
 - title: Plot
   desc: Function to plot results
@@ -67,11 +69,9 @@ reference:
 - title: Tune
   desc: Function for model tuning and optimization
   contents:
+  - '`gridSearch`'
   - '`optimiseModel`'
-  - '`reduceVar`'
-  - '`tuneBg`'
-  - '`tuneFC`'
-  - '`tuneReg`'
+  - '`randomSearch`'
 - title: Utilities
   desc: Some utility functions
   contents:
