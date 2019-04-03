@@ -39,14 +39,15 @@ LazyData: true
 LinkingTo: Rcpp
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
-Suggests: 
+Suggests:
+    covr,
     knitr (>= 1.22),
     microbenchmark (>= 1.4-6),
+    pkgdown,
     rmarkdown (>= 1.12),
     roxygen2 (>= 6.1.1),
     rstudioapi (>= 0.10),
-    testthat,
-    covr
+    testthat
 VignetteBuilder: knitr
 Collate: 
     'Maxent_class.R'
