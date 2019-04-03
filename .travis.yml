@@ -7,7 +7,7 @@ before_install:
   - sudo apt-get install libgdal-dev
 
 after_success:
-  - Rscript -e 'library(covr); codecov()'
+  - Rscript -e 'library(covr); codecov(exclusions = "tests/testthat/test_maxent_prediction.R")'
 
 deploy:
   provider: script
