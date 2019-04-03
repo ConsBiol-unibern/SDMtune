@@ -15,4 +15,3 @@
 ^.idea$
 ^tests/testthat/test_maxent_prediction\.R$
 ^pkgdown$
-^.covrignore$
