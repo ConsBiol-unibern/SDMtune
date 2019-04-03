@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-You can install the latest development version from github:
+You can install the latest development version from GitHub:
 
 ```{r gh-installation, eval = FALSE}
 devtools::install_github("sgvignali/SDMtune")

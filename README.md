@@ -8,7 +8,7 @@ SDMtune <img src="man/figures/logo.svg" align="right" alt="" width="120" />
 Installation
 ------------
 
-You can install the latest development version from github:
+You can install the latest development version from GitHub:
 
 ``` r
 devtools::install_github("sgvignali/SDMtune")
