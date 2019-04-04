@@ -1,6 +1,11 @@
+url: https://sgvignali.github.io/SDMtune
+
 template:
   params:
     bootswatch: flatly
+    docsearch:
+      api_key: f5b56329d14fa0bab34fea62e13b450d
+      index_name: sgvignali-sdmtune
 
 development:
   mode: unreleased
