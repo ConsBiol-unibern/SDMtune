@@ -24,7 +24,7 @@ reference:
 - title: Package
   desc: Package description
   contents:
-  - '`SDMtune`'
+  - '`SDMtune-pkg`'
 - title: Prepare Data
   desc: Function to prepare data for SDMsel analysis
   contents:
@@ -80,8 +80,13 @@ reference:
 - title: Utilities
   desc: Some utility functions
   contents:
-  - '`mergeSWD`'
   - '`clamp`'
+  - '`mergeSWD`'
+  - '`SDMmodel2MaxEnt`'
+- title: Dataset
+  desc: Dataset provided with the package
+  contents:
+  - '`condor`'
 - title: Classes
   desc: SDMsel classes and pkg description
   contents:
