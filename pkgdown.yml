@@ -3,4 +3,7 @@ pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
   SDMtune: SDMtune.html
+urls:
+  reference: https://sgvignali.github.io/SDMtune/reference
+  article: https://sgvignali.github.io/SDMtune/articles
 
