@@ -8,7 +8,7 @@ template:
       index_name: sgvignali-sdmtune
 
 development:
-  mode: unreleased
+  mode: auto
 
 authors:
   Sergio Vignali:

@@ -1,0 +1,209 @@
+---
+title: "Prepare data for the analysis"
+bibliography: ../library.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+## Intro
+
+In this article you will learn how to prepare your data to train models using `SDMtune`. We will use the [condor](../../reference/condor.html) dataset included in the package and environmental predictors from the  [WorldClim](http://www.worldclim.org/) dataset.
+
+## Set working environment
+
+Load the required packages for the analysis:
+
+```{r load pkgs, message=FALSE, warning=FALSE}
+library(SDMtune)
+library(ggplot2)    # To plot locations
+library(maps)       # To access useful maps
+library(rasterVis)  # To plot raster objects
+```
+
+## Acquire environmental variables
+
+For the analysis we use the climate data of [WorldClim](http://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestian ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
+
+```{r get predictors, fig.align="center"}
+files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+```
+
+We convert the files in a [raster stack](https://www.rdocumentation.org/packages/raster/versions/2.8-19/topics/stack) object that will be used later in the analysis:
+```{r create raster stack}
+predictors <- stack(files)
+```
+
+There are nine environmental variables, eight continuos and one categorical:
+```{r names predicrtors}
+names(predictors)
+```
+
+* Continuous variables
+    + **bio1** Annual Mean Temperature
+    + **bio5** Max Temperature of Warmest Month
+    + **bio6** Min Temperature of Coldest Month
+    + **bio7** Temperature Annual Range (bio5-bio6)
+    + **bio8** Mean Temperature of Wettest Quarter
+    + **bio12** Annual Precipitation
+    + **bio16** Precipitation of Wettest Quarter
+    + **bio17** Precipitation of Driest Quarter
+* Categorical variables
+    + **biome** Terrestrial Ecoregions of the World
+
+We can plot **bio1** using the [gplot](https://www.rdocumentation.org/packages/rasterVis/versions/0.43/topics/gplot-methods) function from the `rasterVis` package:
+
+```{r plot bio1, fig.align="center"}
+gplot(predictors$bio1) +
+    geom_tile(aes(fill = value)) +
+    coord_equal() +
+    scale_fill_gradientn(colours = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"),
+                         na.value = "transparent",
+                         name = "°C x 10") +
+    labs(title = "Annual Mean Temperature",
+         x = "longitude",
+         y = "latitude") +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    theme_minimal() +
+    theme(plot.title = element_text(hjust = 0.5),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank())
+```
+
+## Prepare presence locations
+
+For demonstrating how to use `SDMtune` we use the [condor](../../reference/condor.html) dataset included in the package. The dataset contains `r nrow(condor)` locations of the Andean condor [*Vultur gryphus*](https://en.wikipedia.org/wiki/Andean_condor) downloaded from the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/).
+```{r preview condor}
+help(condor)
+head(condor)
+```
+
+We select the the first two columns that contain the coordinates of the locations:
+```{r prepare presence}
+p_coords <- condor[, 1:2]
+```
+
+Plot the study area together with the presence locations:
+```{r plot presence, fig.align="center"}
+ggplot(map_data("world"), aes(long, lat)) +
+    geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
+    geom_jitter(data = p_coords, aes(x = x, y = y), color = "red",
+                alpha = 0.4, size = 1) +
+    labs(x = "longitude", y = "latitude") +
+    theme_minimal() +
+    theme(legend.position = "none") +
+    coord_fixed() +
+    scale_x_continuous(limits = c(-125, -32)) +
+    scale_y_continuous(limits = c(-56, 40))
+```
+In this tutorial we don't check the validity of the locations, instead we assume they are correct and we model the distribution only for demonstration purpose.
+
+## Prepare background locations
+
+We extract 10000 background locations (default number in the MaxEnt software ) using the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function included in the `dismo` package (we set the seed to have reproducible results).
+
+```{r prepare background}
+set.seed(25)
+bg_coords <- dismo::randomPoints(predictors, 10000)
+```
+
+The environmental variables we downloaded have a coarse resolution and the function can extract only `r nrow(bg_coords)` instead of 10000 background locations (see the warning message).
+
+## Create an SWD object
+
+Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (you can pass a vector if you have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
+
+```{r prepare presence SWD}
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categoricals = "biome")
+
+```
+```{r prepare bg SWD}
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categoricals = "biome")
+```
+
+The warning message reports that in the background dataset `r nrow(bg_coords) - nrow(bg@data)`  locations were discarded. The final number of background locations is `r nrow(bg@data)`.
+
+## Explore an SWD object
+
+Let's have a look at the created `SWD()` object:
+
+```{r show SWD object}
+presence
+```
+
+When you print an `SWD()` object you get a bunch of information:
+
+* the name of the class;
+* the name of the species;
+* the number of locations;
+* the name of the continuous environmental variables, if any;
+* the name of the categorical environmental variables, if any.
+
+The object contains three slots: `species`, `coords` and `data`. To visualize the data we run:
+
+```{r show presence data}
+head(presence@data)
+```
+
+We can visualize the coordinates with:
+
+```{r show presence coords data}
+head(presence@coords)
+```
+
+or the name of the species with:
+```{r show presence species}
+presence@species
+```
+
+We can save an `SWD()` object in a **.csv** file using the function `swd2csv()` (the function saves the file in the working directory):
+```{r save SWD, eval=F}
+swd2csv(presence, file_name = "presence.csv")
+```
+
+## Subset the background locations:
+
+We will use a sub sample of the background locations to train the model and the full dataset to explore the correlation between the environmental variables. We extract the sub sample using the function `getSubsample()`:
+
+```{r get bg subsample}
+bg_model <- getSubsample(bg, 5000, seed = 25)
+```
+
+To plot the retained background locations run the following code:
+
+```{r plot bg_model locations, fig.align="center"}
+ggplot(map_data("world"), aes(long, lat)) +
+    geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
+    geom_jitter(data = bg_model@coords, aes(x = X, y = Y),
+                color = "blue", alpha = 0.4, size = 0.5) +
+    labs(x = "longitude", y = "latitude") +
+    theme_minimal() +
+    theme(legend.position = "none") +
+    coord_fixed() +
+    scale_x_continuous(limits = c(-125, -32)) +
+    scale_y_continuous(limits = c(-56, 40))
+```
+
+## Conclusion
+
+In this article you have learnt:
+
+* how to create a raster `stack` object;
+* how to plot a raster object using the `gplot` function of the `rasterVis` package;
+* how to create an `SWD()` objects;
+* how to extract information from an `SWD()` object;
+* how to save an `SWD()` object in a **.csv** file;
+* how to extract a sub sample of an `SWD()` object;
+* how to plot locations using the `ggplot` and the `maps` packages.
+
+Move on to the second article to learn how to train models using `SDMtune`.
+
+
+
+## References

@@ -17,5 +17,7 @@ predictions for large datasets compared to native predictions from the use of
 the Java software. This reduces considerably the computation time when tuning
 the model using the AICc. At the moment only the Maximum Entropy method is
 available using the Java implementation through the \link{dismo} package and
-the R implementation through the \link{maxnet} package.
+the R implementation through the \link{maxnet} package. Visit the
+\href{https://sgvignali.github.io/SDMtune/}{package website} to learn how to use
+\strong{SDMtune}.
 }
