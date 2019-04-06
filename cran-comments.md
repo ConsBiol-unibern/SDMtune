@@ -1,11 +1,8 @@
 ## Test environments
-* ubuntu 18.04 install, R 3.4.4
+* local ubuntu 18.04 install, R 3.4.4
 * win-builder (devel and release)
+* Travis-ci R 3.5.2
+* AppVeyor-ci R 3.5.3
 
 ## R CMD check results
-There were no ERRORs or WARNINGs or NOTES.
-
-## Downstream dependencies
-I have also run R CMD check on downstream dependencies using
-`devtools::revdep_check()`:
-No ERRORs or WARNINGs found
+0 errors | 0 warnings | 0 notes
