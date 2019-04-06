@@ -31,6 +31,7 @@ Imports: cli (>= 1.1.0),
          reshape2 (>= 1.4.3),
          rgdal (>= 1.3-6),
          rJava (>= 0.9-11),
+         rstudioapi (>= 0.10),
          scales (>= 0.5.0),
          stringr (>= 1.4.0),
          whisker (>= 0.3-2)
@@ -40,14 +41,13 @@ LinkingTo: Rcpp
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 Suggests:
-    covr,
+    covr (>= 3.2.1),
     knitr (>= 1.22),
-    microbenchmark (>= 1.4-6),
-    pkgdown,
+    maps (>= 3.3.0),
+    pkgdown (>= 1.3.0),
     rmarkdown (>= 1.12),
     roxygen2 (>= 6.1.1),
-    rstudioapi (>= 0.10),
-    testthat
+    testthat (>= 2.0.1)
 VignetteBuilder: knitr
 Collate: 
     'Maxent_class.R'
