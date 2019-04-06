@@ -57,6 +57,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/articles/prepare_data.html">Prepare data for the analysis</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -95,7 +107,7 @@
 <a href="#sdmtune" class="anchor"></a>SDMtune <img src="reference/figures/logo.svg" align="right" alt="" width="120">
 </h1></div>
 
-<p><strong>SDMtune</strong> provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation through the “dismo” package and the R implementation through the “maxnet” package.</p>
+<p><strong>SDMtune</strong> provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation through the “dismo” package and the R implementation through the “maxnet” package. Visit the <a href="https://sgvignali.github.io/SDMtune/">package website</a> to learn how to use <strong>SDMtune</strong>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -154,6 +166,7 @@
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/sgvignali/SDMtune"><img src="https://travis-ci.org/sgvignali/SDMtune.svg?branch=master" alt="Travis-CI build status"></a></li>
 <li><a href="https://codecov.io/github/sgvignali/SDMtune?branch=master"><img src="https://codecov.io/gh/sgvignali/SDMtune/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://cran.r-project.org/package=SDMtune"><img src="https://www.r-pkg.org/badges/version/SDMtune" alt="CRAN Status"></a></li>
 </ul>
 </div>
 </div>
