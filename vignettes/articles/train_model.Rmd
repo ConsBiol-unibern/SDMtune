@@ -131,6 +131,6 @@ In this article you have learnt:
 * how to train a model changing the default settings;
 * how to train a model using the **Maxnet** method.
 
-In the next article you will learn how to make prediction.
+In the [next article](./make_predictions.html) you will learn how to make prediction.
 
 ## References

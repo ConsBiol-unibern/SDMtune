@@ -1,6 +1,6 @@
 context("Tune hyperparameters")
 
-val <- SDMtune:::t
+val <- SDMtune:::p
 bg <- SDMtune:::bg
 model <- SDMtune:::bm_maxent
 model_cv <- SDMtune:::bm_maxent_cv
@@ -19,10 +19,10 @@ test_that("Exceptions are thrown", {
   expect_error(.checkArgs(model, h, metric = "auc"),
                "You need to provide a test dataset!")
   # Throws exception if hypers includes 'a' and bg4test is not provided
-  expect_error(.checkArgs(model, h, metric = "auc", test = t),
+  expect_error(.checkArgs(model, h, metric = "auc", test = val),
                "bg4test must be provided to tune background locations!")
   # Throws exception if max hypers 'a' > than nrow bg4test
-  expect_error(.checkArgs(model, h, metric = "auc", test = t,
+  expect_error(.checkArgs(model, h, metric = "auc", test = val,
                                     bg4test = bg),
                "Maximum number of 'a' hyperparameter cannot be more than 9766!")
   # Doesn't throw exception if 'a' is not in hypers and bg4test is not provided
@@ -30,10 +30,10 @@ test_that("Exceptions are thrown", {
   expect_error(.checkArgs(model, h, metric = "auc", test = val), NA)
   # Throws exception if provided hypers are not tunable
   h <- list("fc" = c("l", "lq", "lqp"), "lambda" = c(500, 600))
-  expect_error(.checkArgs(model, h, "auc", t),
+  expect_error(.checkArgs(model, h, "auc", val),
                "lambda non included in tunable hyperparameters")
   h <- list("beta" = c(1, 2, 3), "lambda" = c(500, 600))
-  expect_error(.checkArgs(model, h, "auc", t),
+  expect_error(.checkArgs(model, h, "auc", val),
                paste("beta non included in tunable hyperparameters,",
                      "lambda non included in tunable hyperparameters"))
 

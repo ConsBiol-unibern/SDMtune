@@ -1,0 +1,14 @@
+---
+title: "Make predictions"
+bibliography: ../library.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+## Intro

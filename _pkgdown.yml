@@ -20,6 +20,11 @@ authors:
   Conservation Biology - University of Bern:
     href: http://www.cb.iee.unibe.ch/index_eng.html
 
+articles:
+- title: Prepare data for the analysis
+- title: Train a model
+- title: Make predictions
+
 reference:
 - title: Package
   desc: Package description
