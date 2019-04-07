@@ -5,9 +5,8 @@ files <- list.files(path = paste0(system.file(package = "dismo"), "/ex"),
 predictors <- raster::stack(files)
 
 # Extract envaronmental condition at presence locations
-data <- prepareSWD(species = "Vultur gryphus", coords = condor[, 1:2],
-                   env = predictors, categoricals = "biome")
-c(p, t) %<-% trainValTest(data, .2)
+p <- prepareSWD(species = "Vultur gryphus", coords = condor[, 1:2],
+                env = predictors, categoricals = "biome")
 
 # Extract 9100 bg locations
 set.seed(25)
@@ -24,5 +23,5 @@ bm_maxent_cv <- train("Maxent", p, bg_model, rep = 4)
 bm_maxnet <- train("Maxnet", p, bg_model)
 
 # save objects in sysdata
-usethis::use_data(p, t, bg, bm_maxent, bm_maxent_cv, bm_maxnet, internal = TRUE,
-                  overwrite = TRUE)
+usethis::use_data(p, bg, bg_model, bm_maxent, bm_maxent_cv, bm_maxnet,
+                  internal = TRUE, overwrite = TRUE)

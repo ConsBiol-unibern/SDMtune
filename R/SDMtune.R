@@ -11,9 +11,10 @@
 #' the Java software. This reduces considerably the computation time when tuning
 #' the model using the AICc. At the moment only the Maximum Entropy method is
 #' available using the Java implementation through the \link{dismo} package and
-#' the R implementation through the \link{maxnet} package. Visit the
-#' [package website](https://sgvignali.github.io/SDMtune/) to learn how to use
-#' **SDMtune**.
+#' the R implementation through the \link{maxnet} package.
+#' Visit the [package website](https://sgvignali.github.io/SDMtune/) and learn
+#' how to use **SDMtune** starting from the first article
+#' [Prepare data for the analysis](https://sgvignali.github.io/SDMtune/articles/articles/prepare_data.html).
 #'
 #' @docType package
 #' @name SDMtune-pkg

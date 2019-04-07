@@ -117,7 +117,7 @@ The environmental variables we downloaded have a coarse resolution and the funct
 
 ## Create an SWD object
 
-Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (you can pass a vector if you have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
+Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
 
 ```{r prepare presence SWD}
 presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categoricals = "biome")
@@ -137,13 +137,14 @@ Let's have a look at the created `SWD()` object:
 presence
 ```
 
-When you print an `SWD()` object you get a bunch of information:
+When we print an `SWD()` object we get a bunch of information:
 
 * the name of the class;
 * the name of the species;
 * the number of locations;
-* the name of the continuous environmental variables, if any;
-* the name of the categorical environmental variables, if any.
+* the environmental variables available in the dataset:
+    + the name of the continuous environmental variables, if any;
+    + the name of the categorical environmental variables, if any.
 
 The object contains three slots: `species`, `coords` and `data`. To visualize the data we run:
 
@@ -202,7 +203,7 @@ In this article you have learnt:
 * how to extract a sub sample of an `SWD()` object;
 * how to plot locations using the `ggplot` and the `maps` packages.
 
-Move on to the second article to learn how to train models using `SDMtune`.
+Move on to the [second article](./train_model.html) and learn how to train models using `SDMtune`.
 
 
 
