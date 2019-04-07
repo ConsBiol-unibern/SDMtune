@@ -20,10 +20,28 @@ authors:
   Conservation Biology - University of Bern:
     href: http://www.cb.iee.unibe.ch/index_eng.html
 
-articles:
-- title: Prepare data for the analysis
-- title: Train a model
-- title: Make predictions
+navbar:
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: Get started
+    href: articles/SDMtune.html
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: Prepare data for the analysis
+      href: articles/articles/prepare_data.html
+    - text: Train a model
+      href: articles/articles/train_model.html
+    - text: Make predictions
+      href: articles/articles/make_predictions.html
+  - text: Changelog
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/sgvignali/SDMtune
 
 reference:
 - title: Package

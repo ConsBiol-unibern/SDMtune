@@ -39,7 +39,7 @@ returns a list containing the test results together with the models.
 Run the Jackknife test for variable importance removing one variable at time.
 }
 \details{
-Parallel computation increases the speed only for big datasets due
+Parallel computation increases the speed only for large datasets due
 to the time necessary to create the cluster.
 }
 \examples{

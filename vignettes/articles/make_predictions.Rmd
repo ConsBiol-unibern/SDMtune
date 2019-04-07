@@ -1,0 +1,144 @@
+---
+title: "Make predictions"
+bibliography: ../library.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+```{r load data, echo=FALSE}
+default_model <- SDMtune:::bm_maxent
+presence <- SDMtune:::p
+bg_model <- SDMtune:::bg_model
+files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+predictors <- raster::stack(files)
+```
+
+## Intro
+
+In the previous articles you have learnt how to [prepare the data](./prepare_data.html) for the analysis and how to [train a model](./train_model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of Andean condor.
+
+## Make prediction
+
+First we load the **SDMtune** package:
+
+```{r load SDMtune}
+library(SDMtune)
+```
+
+New locations are predicted with the function [predict()](../../reference/predict-SDMmodel-method.html). The function takes three main arguments:
+
+* a trained `SDMmodel()` object;
+* a new dataset, used to make prediction, can be a `data.frame`, an `SWD()` object or a raster `stack` object;
+* the output type, that for **Maxent** models can be: **raw**, **logistic** or **cloglog**.
+
+We get the prediction for our `presence` locations using the **cloglog** output type:
+
+```{r predict presence}
+pred <- predict(default_model, data = presence, type = "cloglog")
+```
+
+The output in this case is a vector containing all the predicted values for the presence locations:
+
+```{r print pred}
+head(pred)
+```
+
+## Create a distribution map
+
+We can use the same function to create a distribution map starting from the `predictors` raster `stack' object we created in the [first article](./prepare_data.html#acquire-environmental-variables).
+
+```{r predict raster}
+map <- predict(default_model, data = predictors, type = "cloglog")
+```
+
+In this case the output is a `raster` object:
+
+```{r print raster output}
+map
+```
+
+The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the [predict()](../../reference/predict-SDMmodel-method.html) function. In the next example we save the map in a file called "**my_file**" in the **GeoTIFF** format:
+
+```{r save map, eval=FALSE}
+map <- predict(default_model, data = predictors, type = "cloglog", file = "my_map", format = "GTiff")
+```
+
+The [predict()](../../reference/predict-SDMmodel-method.html) function has other arguments usefull when predicting large datasets:
+
+* **progress**: can be set to `"text"` to visualize a progress bar;
+* **parallel**: can be set to `TRUE` for parallel computation;
+* **extent**: can be passed to reduce the prediction to the given extent.
+
+Note that the parallel computation works well only for large datasets due to the time necessary to create the cluster.
+
+## Plot a distribution map
+
+To plot the distribution map we can use the function `plotPred()`:
+
+```{r plot map default, fig.align="center"}
+plotPred(map)
+```
+
+The `plotPred()` function plots a map using a color ramp similar to the one used by the Maxent Java software. We can pass additional arguments to customise the map. In the next example we provide a custom color ramp and we add a title to the legend:
+
+```{r plot map custom, fig.align="center"}
+plotPred(map, lt = "Habitat\nsuitability", colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
+```
+
+### Try yourself
+
+Restrict the prediction to Cile and plot the prediction. To see the solution highlight the following cell:
+
+```{r exercise, eval = FALSE, class.source='exercise'}
+# First create the extent that surrounds Cile
+e = raster::extent(c(-77, -60, -56, -15))
+# Now use the extent to make the prediction
+map_E <- predict(default_model, data = predictors, type = "cloglog", extent = e)
+# And finally plot the prediction
+plotPred(map_e)
+```
+
+
+## Plot a presence/absence map
+
+To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function `thresholds()` returns some commonly used threshold values starting from a `SDMmodel()` object. In the next example we print the threshold values for the `default_model` object using the type `"cloglog"`:
+
+```{r thresholds}
+thresholds(default_model, type = "cloglog")
+```
+
+For example we want to create a presence/absence map using the threshold that maximise the training sensitivity plus spesificity. We use the function `plotPA()` passing the threshold value as argument:
+
+```{r plot pa, fig.align="center"}
+plotPA(map, th = 0.258)
+```
+
+We can also save the map in a file with the following code:
+
+```{r plot and save pa, eval=FALSE}
+plotPA(map, th = 0.258, filename = "my_pa_map", format = "GTiff")
+```
+
+Both functions `plotPred()` and `plotPA()` have the argument `hr`to plot the the map with high resolution, useful when the map is used in a scientific publication. For all the arguments of the functions that we have used in this article please refer to the [documentation](../..//reference/index.html).
+
+### Try yourself
+
+Repeat the same analysis using a model trained with the **Maxnet** method.
+
+## Conclusion
+
+In this article you have learnt:
+
+* how to make prediction for datasets;
+* how to create and save a distribution map;
+* how to plot a distribution map;
+* how to get thresholds values to create a presence/absence map;
+* how to plot and save a presence/absence map.
+
+In the next article you will learn how evaluate your model.

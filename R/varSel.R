@@ -30,7 +30,7 @@
 #' contribution computed by Maxent software to score the varialble importance,
 #' default is FALSE.
 #'
-#' @details Parallel computation increases the speed only for big datasets due
+#' @details Parallel computation increases the speed only for large datasets due
 #' to the time necessary to create the cluster.
 #'
 #' @return The \link{SDMmodel} or \link{SDMmodelCV} object trained using the

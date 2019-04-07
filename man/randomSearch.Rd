@@ -44,7 +44,8 @@ provided hyperparameters values.
 \details{
 To know which hyperparameters can be tuned you can use the output of
 the function \link{get_tunable_args}. Parallel computation increases the
-speed only for big datasets due to the time necessary to create the cluster.
+speed only for large datasets due to the time necessary to create the
+cluster.
 }
 \examples{
 \dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =

@@ -23,7 +23,7 @@ setGeneric("predict", function(object, ...)
 #' (default) for no progress bar.
 #' @param ... Additional arguments to pass to the \link{writeRaster} function.
 #'
-#' @details Parallel computation increases the speed only for big datasets due
+#' @details Parallel computation increases the speed only for large datasets due
 #' to the time necessary to create the cluster. For **Maxent** models the
 #' function performs the prediction in **R** without calling the **MaxEnt** java
 #' software. This results is a faster computation for large datasets.

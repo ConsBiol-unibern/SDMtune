@@ -32,6 +32,13 @@ In case you get an error, check the [Get Started](../SDMtune.html) page to see h
 
 ## Train a model with default settings
 
+First we load the **SDMtune** package:
+
+```{r load SDMtune}
+library(SDMtune)
+```
+
+
 We use the function `train()` to train a **Maxent** model. We need to provide three arguments:
 
 * `method`: "Maxent" in our case;
@@ -131,6 +138,6 @@ In this article you have learnt:
 * how to train a model changing the default settings;
 * how to train a model using the **Maxnet** method.
 
-In the [next article](./make_predictions.html) you will learn how to make prediction.
+In the [next article](./make_predictions.html) you will learn how to use the model that you have just trained to get the predicted value for new localities.
 
 ## References

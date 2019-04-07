@@ -44,7 +44,7 @@ stack.
 Predict the output for a new dataset from a trained \link{SDMmodel} model.
 }
 \details{
-Parallel computation increases the speed only for big datasets due
+Parallel computation increases the speed only for large datasets due
 to the time necessary to create the cluster. For \strong{Maxent} models the
 function performs the prediction in \strong{R} without calling the \strong{MaxEnt} java
 software. This results is a faster computation for large datasets.

@@ -18,7 +18,7 @@
 #' @param return_models logical, If TRUE returns all the models together with
 #' the test result, default is FALSE.
 #'
-#' @details Parallel computation increases the speed only for big datasets due
+#' @details Parallel computation increases the speed only for large datasets due
 #' to the time necessary to create the cluster.
 #'
 #' @return A data frame with the test results. If **return_model = TRUE** it

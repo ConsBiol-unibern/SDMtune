@@ -54,7 +54,7 @@ model when removed (according to the given metric). The process is repeated
 untill the remaining variables are not highly correlated anymore.
 }
 \details{
-Parallel computation increases the speed only for big datasets due
+Parallel computation increases the speed only for large datasets due
 to the time necessary to create the cluster.
 }
 \examples{

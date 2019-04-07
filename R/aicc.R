@@ -12,7 +12,7 @@
 #' @export
 #' @importFrom raster extract cellStats
 #'
-#' @details Parallel computation increases the speed only for big datasets due
+#' @details Parallel computation increases the speed only for large datasets due
 #' to the time necessary to create the cluster.
 #'
 #' @references Warren D.L., Seifert S.N., (2011). Ecological niche modeling in

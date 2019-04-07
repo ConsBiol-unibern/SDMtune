@@ -20,7 +20,6 @@ In this article you will learn how to prepare your data to train models using `S
 Load the required packages for the analysis:
 
 ```{r load pkgs, message=FALSE, warning=FALSE}
-library(SDMtune)
 library(ggplot2)    # To plot locations
 library(maps)       # To access useful maps
 library(rasterVis)  # To plot raster objects
@@ -31,7 +30,7 @@ library(rasterVis)  # To plot raster objects
 For the analysis we use the climate data of [WorldClim](http://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestian ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
 
 ```{r get predictors, fig.align="center"}
-files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = TRUE)
 ```
 
 We convert the files in a [raster stack](https://www.rdocumentation.org/packages/raster/versions/2.8-19/topics/stack) object that will be used later in the analysis:
@@ -77,6 +76,12 @@ gplot(predictors$bio1) +
 ```
 
 ## Prepare presence locations
+
+Let's load the **SDMtune** package:
+
+```{r load SDMtune}
+library(SDMtune)
+```
 
 For demonstrating how to use `SDMtune` we use the [condor](../../reference/condor.html) dataset included in the package. The dataset contains `r nrow(condor)` locations of the Andean condor [*Vultur gryphus*](https://en.wikipedia.org/wiki/Andean_condor) downloaded from the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/).
 ```{r preview condor}
