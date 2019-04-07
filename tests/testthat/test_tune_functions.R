@@ -24,7 +24,7 @@ test_that("Exceptions are thrown", {
   # Throws exception if max hypers 'a' > than nrow bg4test
   expect_error(.checkArgs(model, h, metric = "auc", test = t,
                                     bg4test = bg),
-               "Maximum number of 'a' hyperparameter cannot be more than 9000!")
+               "Maximum number of 'a' hyperparameter cannot be more than 9766!")
   # Doesn't throw exception if 'a' is not in hypers and bg4test is not provided
   h$a <- NULL
   expect_error(.checkArgs(model, h, metric = "auc", test = val), NA)
