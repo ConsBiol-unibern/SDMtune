@@ -43,6 +43,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 <meta property="og:title" content="Random Search — randomSearch" />
 
 <meta property="og:description" content="The function performs a random search in the hyperparameters space, creating
@@ -107,6 +109,12 @@ provided hyperparameters values." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/prepare_data.html">Prepare data for the analysis</a>
+    </li>
+    <li>
+      <a href="../articles/articles/train_model.html">Train a model</a>
+    </li>
+    <li>
+      <a href="../articles/articles/make_predictions.html">Make predictions</a>
     </li>
   </ul>
 </li>
@@ -212,7 +220,8 @@ results, default is NULL.</p></td>
 
     <p>To know which hyperparameters can be tuned you can use the output of
 the function <a href='get_tunable_args.html'>get_tunable_args</a>. Parallel computation increases the
-speed only for big datasets due to the time necessary to create the cluster.</p>
+speed only for large datasets due to the time necessary to create the
+cluster.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

@@ -1,0 +1,16 @@
+::selection {
+  background: #e74c3c; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #e74c3c; /* Gecko Browsers */
+}
+
+.exercise code {
+  color: #f8f8f8;
+}
+.exercise code a {
+  color: #f8f8f8;
+}
+.exercise span {
+  color: #f8f8f8;
+}

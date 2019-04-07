@@ -3,7 +3,9 @@ pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
   SDMtune: SDMtune.html
+  make_predictions: articles/make_predictions.html
   prepare_data: articles/prepare_data.html
+  train_model: articles/train_model.html
 urls:
   reference: https://sgvignali.github.io/SDMtune/reference
   article: https://sgvignali.github.io/SDMtune/articles
