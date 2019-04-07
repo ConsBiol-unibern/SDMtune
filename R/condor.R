@@ -3,7 +3,7 @@
 #' The dataset contains 510 locations of the Andean condor (*Vultur gryphus*)
 #' collected from 2008 to 2018. The locations are downloaded from the Global
 #' Biodiversity Inventory Facility and filtered to remove douplicates and keep
-#' only one location per raster cell of the World Clime dataset. See references
+#' only one location per raster cell of the WorldClim dataset. See references
 #' for the original databases containing the observations.
 #'
 #' @format A data frame with 509 rows and 4 variables:
