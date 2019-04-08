@@ -121,7 +121,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the previous articles you have learnt how to <a href="./prepare_data.html">prepare the data</a> for the analysis, how to <a href="./train_model.html">train a model</a> and how to <a href="./make_predictions.html">make predictions</a> using <strong>SDMtune</strong>. In this article you will learn how to evaluate your model using thre different metrics. We will compute the value of the metrics on the training dataset using the <code>default model</code> that we trained in a previous article and explain how to evaluate the model in the testing dataset later in another article.</p>
+<p>In the previous articles you have learnt how to <a href="./prepare_data.html">prepare the data</a> for the analysis, how to <a href="./train_model.html">train a model</a> and how to <a href="./make_predictions.html">make predictions</a> using <strong>SDMtune</strong>. In this article you will learn how to evaluate your model using three different metrics. We will compute the value of the metrics on the training dataset using the <code>default model</code> that we trained in a previous article.</p>
 </div>
 <div id="auc" class="section level2">
 <h2 class="hasAnchor">
@@ -153,7 +153,7 @@
 <div id="aicc" class="section level2">
 <h2 class="hasAnchor">
 <a href="#aicc" class="anchor"></a>AICc</h2>
-<p>For the Akaike Information Criterion corrected for small sample size we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass the ‘predictors’ raster <code>stack</code> object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a> to the <code>env</code> argument:</p>
+<p>For the Akaike Information Criterion corrected for small sample size we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument, the ‘predictors’ raster <code>stack</code> object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../../reference/aicc.html">aicc</a></span>(default_model, <span class="dt">env =</span> predictors)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; [1] 8495.432</span></a></code></pre></div>
 <p>We can pass the argument <code>parallel=TRUE</code> to speed up the computation for large datasets.</p>
