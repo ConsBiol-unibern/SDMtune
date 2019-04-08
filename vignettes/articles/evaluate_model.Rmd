@@ -70,4 +70,4 @@ In this article you have learnt:
 * how to calculate the TSS;
 * how to calculate the AICc.
 
-In the next article you will learn how to display the variable importance and how to plot the response curve.
+In the next article you will learn how to display the [variable importance](./variable_importance.html) and how to plot the response curve.

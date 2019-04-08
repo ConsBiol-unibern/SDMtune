@@ -1,0 +1,110 @@
+---
+title: "Variable Importance"
+bibliography: ../library.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+```{r load data, echo=FALSE}
+maxnet_model <- SDMtune:::bm_maxnet
+default_model <- SDMtune:::bm_maxent
+presence <- SDMtune:::p
+bg_model <- SDMtune:::bg_model
+files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+predictors <- raster::stack(files)
+```
+
+## Intro
+
+In the previous articles you have learnt how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html) and how to [make predictions](./make_predictions.html) and how to [evaluate a model](./evaluate_model.html) using **SDMtune**. In this article you will learn how to display and plot the variable importance and how to plot the response courves.
+
+## Variable importance for Maxent models
+
+First we load the **SDMtune** package:
+
+```{r load SDMtune}
+library(SDMtune)
+```
+
+For a **Maxent** model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be extracted using the following command:
+```{r maxent results}
+default_model@model@results
+```
+
+The function `maxentVarImp()` extracts the variable importance values from the previous output and formats them in a more human readable way:
+```{r maxent var importance}
+vi <- maxentVarImp(default_model)
+vi
+```
+
+As you can see the function returns a `data.frame` with the variable name, the percent contribution and the permutation importance.
+
+You can plot the variable importance as a bar chart using the function `plotVarImp()`. For example you can plot the percent contribution using:
+```{r maxent percent contribution plot, fig.align="center"}
+plotVarImp(vi[, 1:2])
+```
+
+### Try yourself
+
+Plot the permutation importance as a bar chart. To see the solution highlight the following cell:
+```{r maxent permutation importance plot, eval=FALSE, class.source='exercise'}
+# The function accepts a data.frame with 2 columns: one with the variable name
+# and one with the values, so it is enough to select the first and the third
+# columns from the vi data.frame
+plotVarImp(vi[, c(1,3)])
+```
+
+**SDmtune** has its own function to compute the permutation importance that iterates through several permutations and return an averaged value together with the standard deviation. We will use this function to compute the permutation importance of a **Maxnet** model.
+
+## Variable importance for Maxnet models
+
+We first need to train a **Maxnet** model using the [condor](../../reference/condor.html) dataset and the predictors we created in the [first article](./prepare_data.html#acquire-environmental-variables). We train the model using the default settings (i.e. feature combinations equal to linear, quadratic, product and hinge; regularization multiplier equal to 1):
+```{r train maxnet}
+maxnet_model <- train("Maxnet", p = presence, a = bg_model)
+```
+
+Now we can calculate the variable importance with the function `varImp()` using 5 permutations:
+```{r}
+vi_maxnet <- varImp(maxnet_model, permut = 5)
+vi_maxnet
+```
+
+And plot it with:
+```{r plot var imp, fig.align="center"}
+plotVarImp(vi_maxnet)
+```
+
+## Response curves
+
+With the function `plotResponse()` is possible to plot the marginal and the univariate response curve. Let's plot the **cloglog** univariate response curve of **bio1**:
+```{r plot bio1, fig.align="center"}
+plotResponse(maxnet_model, var = "bio1", type = "cloglog", marginal = FALSE, rug = TRUE)
+```
+
+On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the **logistic** marginal response curve of **biome** that is a categorical variable, keeping the other variables at the mean value:
+```{r plot biome, fig.align="center"}
+plotResponse(maxnet_model, var = "biome", type = "logistic", marginal = TRUE, fun = mean, color = "blue")
+```
+
+### Try yourself
+
+Plot in green the univariate cloglog response curve of **bio17** removing the rug and using the `default_model`, to see the solution highlight the following cell:
+```{r plot exercise, eval=FALSE, eval=FALSE, class.source='exercise'}
+plotResponse(default_model, var = "bio17", type = "cloglog", marginal = FALSE, color = "green")
+```
+
+## Conclusion
+
+In this article you have learnt:
+
+* how to get and plot the variable importance for **Maxent** models;
+* how to compute and plot the permutation importance for **Maxnet** models;
+* how to plot the marginal and the univariate response curve.
+
+In the next article you will learn two different strategies that can be used to correctly evaluate your model performance.
