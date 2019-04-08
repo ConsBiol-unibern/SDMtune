@@ -74,6 +74,9 @@
     <li>
       <a href="../../articles/articles/make_predictions.html">Make predictions</a>
     </li>
+    <li>
+      <a href="../../articles/articles/evaluate_model.html">Evaluate a model</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -189,7 +192,7 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># First create the extent that surrounds Cile</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">e =<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">77</span>, <span class="dv">-60</span>, <span class="dv">-56</span>, <span class="dv">-15</span>))</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># Now use the extent to make the prediction</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">map_E &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">extent =</span> e)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">map_e &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">extent =</span> e)</a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># And finally plot the prediction</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map_e)</a></code></pre></div>
 </div>
@@ -230,7 +233,7 @@
 <li>how to get thresholds values to create a presence/absence map;</li>
 <li>how to plot and save a presence/absence map.</li>
 </ul>
-<p>In the next article you will learn how evaluate your model.</p>
+<p>In the <a href="./evaluate_model.html">next article</a> you will learn how evaluate your model.</p>
 </div>
   </div>
 
