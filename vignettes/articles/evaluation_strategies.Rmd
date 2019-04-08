@@ -1,0 +1,112 @@
+---
+title: "Evaluation strategies"
+bibliography: ../library.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+```{r load data, echo=FALSE}
+maxnet_model <- SDMtune:::bm_maxnet
+default_model <- SDMtune:::bm_maxent
+presence <- SDMtune:::p
+bg_model <- SDMtune:::bg_model
+files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+predictors <- raster::stack(files)
+```
+
+## Intro
+
+In the previous articles you have learnt how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html), how to [evaluate a model](./evaluate_model.html) and how to [print and plot](,/variable_importance.html) the variable importance of a model using **SDMtune**. In this article you will learn different evaluation strategies to achieve a better estimate of your model performance.
+
+## Train and testing datasets
+
+First we load the **SDMtune** package:
+
+```{r load SDMtune}
+library(SDMtune)
+```
+
+It's always a good practice to split the presesence locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest()` function for this purpose. Let's say we want to use 80\% of the presence locations to train our model and 20\% as testing dataset to evaluate it:
+```{r train test}
+library(zeallot)  # For unpacking assignment
+c(train, test) %<-% trainValTest(presence, test = 0.2, seed = 25)
+maxnet_model <- train("Maxnet", p = train, a = bg_model)
+```
+
+We can now evaluate the model using the testing dataset that has not been used to train the model:
+```{r evaluate test}
+cat("Training auc: ", auc(maxnet_model))
+cat("Testing auc: ", auc(maxnet_model, test = test))
+```
+
+This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we splitted our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the auc:
+```{r experiment}
+output <- data.frame(matrix(NA, nrow = 10, ncol = 3)) # Create an empty data.frame
+colnames(output) <- c("seed", "trainAUC", "testAUC")
+set.seed(25)
+seeds <- sample.int(1000, 10) # Create 10 different random seeds
+for (i in 1:length(seeds)) { # Loop through the seeds
+  c(train, test) %<-% trainValTest(presence, test = 0.2, seed = seeds[i]) # Make the train/test split
+  m <- train("Maxent", p = train, a = bg_model) # train the model
+  # Populate the output data.frame
+  output[i, 1] <- seeds[i]
+  output[i, 2] <- auc(m)
+  output[i, 3] <- auc(m, test = test)
+}
+# Print the output
+output
+
+# compute the range of the testing AUC
+range(output[, 3])
+```
+
+The testing AUC varies from `r min(output[, 3])` to `r max(output[, 3])`. When we have to deal with a small dataset a better approach is the cross validation.
+
+### Try yourself
+
+Repeat the same analysis using the TSS instead of the AUC.
+
+## Cross validation
+
+To perform a cross validation in **SDMtune** we have to pass the `rep` argument to the `train()` function. Let's perform a 4 fold cross validation using the **Maxnet** method:
+```{r cv, eval=FALSE}
+cv_model <- train("Maxnet", p = presence, a = bg_model, rep = 4)
+cv_model
+```
+```{r cv bis, echo=FALSE}
+cv_model <- train("Maxnet", p = presence, a = bg_model, rep = 4, verbose = FALSE)
+cv_model
+```
+
+The output in this case is a `SDMmodelCV()` object. It contains the four trained models in the `models` slot and the index of the fold partition in the `folds` slot. We can compute the AUC of a `SDMmodelCV()` object using:
+```{r}
+cat("Training AUC: ", auc(cv_model))
+cat("Testing AUC: ", auc(cv_model, test = TRUE))
+```
+
+this return the AUC value averaged across the four different models. We can also plot the reposnse courve of a `SDMmodelCV()` object but with **SDMtune** is not possible to make predictions:
+```{r plot cv response curve, fig.align="center"}
+plotResponse(cv_model, var = "bio1", type = "cloglog", marginal = FALSE, fun = mean, rug = TRUE)
+```
+
+### Try yourself
+
+Repeat the analysis using the `default_model` that we created in the [train a model](./model_training.html#train-a-model-with-default-settings) article.
+
+## Conclusion
+
+In this article you have learnt:
+
+* how to split the presence dataset in training and testing folds;
+* how to evaluate the model using the held out testing dataset;
+* how to perform a cross validation;
+* how to evaluate an `SDMmodelCV()` object;
+* how to plot the response courve of an `SDMmodelCV()` object.
+
+In the next article you will learn how to perform data-driven variable selection.

@@ -41,6 +41,8 @@ navbar:
       href: articles/articles/evaluate_model.html
     - text: Variable importance
       href: articles/articles/variable_importance.html
+    - text: Evaluation strategies
+      href: articles/artcles/evaluation_strategies.html
   - text: Changelog
     href: news/index.html
   right:
