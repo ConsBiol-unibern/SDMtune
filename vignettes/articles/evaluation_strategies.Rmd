@@ -12,8 +12,6 @@ options(knitr.table.format = "html")
 ```
 
 ```{r load data, echo=FALSE}
-maxnet_model <- SDMtune:::bm_maxnet
-default_model <- SDMtune:::bm_maxent
 presence <- SDMtune:::p
 bg_model <- SDMtune:::bg_model
 files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
@@ -53,7 +51,7 @@ set.seed(25)
 seeds <- sample.int(1000, 10) # Create 10 different random seeds
 for (i in 1:length(seeds)) { # Loop through the seeds
   c(train, test) %<-% trainValTest(presence, test = 0.2, seed = seeds[i]) # Make the train/test split
-  m <- train("Maxent", p = train, a = bg_model) # train the model
+  m <- train("Maxnet", p = train, a = bg_model) # train the model
   # Populate the output data.frame
   output[i, 1] <- seeds[i]
   output[i, 2] <- auc(m)
