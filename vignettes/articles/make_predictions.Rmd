@@ -99,7 +99,7 @@ Restrict the prediction to Cile and plot the prediction. To see the solution hig
 # First create the extent that surrounds Cile
 e = raster::extent(c(-77, -60, -56, -15))
 # Now use the extent to make the prediction
-map_E <- predict(default_model, data = predictors, type = "cloglog", extent = e)
+map_e <- predict(default_model, data = predictors, type = "cloglog", extent = e)
 # And finally plot the prediction
 plotPred(map_e)
 ```
@@ -141,4 +141,4 @@ In this article you have learnt:
 * how to get thresholds values to create a presence/absence map;
 * how to plot and save a presence/absence map.
 
-In the next article you will learn how evaluate your model.
+In the [next article](./evaluate_model.html) you will learn how evaluate your model.

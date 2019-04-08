@@ -1,0 +1,73 @@
+---
+title: "Evaluate a model"
+bibliography: ../library.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+```{r load data, echo=FALSE}
+default_model <- SDMtune:::bm_maxent
+presence <- SDMtune:::p
+bg_model <- SDMtune:::bg_model
+files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+predictors <- raster::stack(files)
+```
+
+## Intro
+
+In the previous articles you have learnt how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html) and how to [make predictions](./make_predictions.html) using **SDMtune**. In this article you will learn how to evaluate your model using thre different metrics. We will compute the value of the metrics on the training dataset using the `default model` that we trained in a previous article and explain how to evaluate the model in the testing dataset later in another article.
+
+## AUC
+
+As usually we first load the **SDMtune** package:
+
+```{r load SDMtune}
+library(SDMtune)
+```
+
+The Area Under the ROC curve can be calculated using the function `auc()`:
+```{r auc}
+auc(default_model)
+```
+
+We can also plot the ROC curve using the function `plotROC()`:
+```{r plot roc, fig.align="center"}
+plotROC(default_model)
+```
+
+## TSS
+
+The True Skill Statistic is computed with the `tss()` function:
+```{r tss}
+tss(default_model)
+```
+
+## AICc
+
+For the Akaike Information Criterion corrected for small sample size we use the function `aicc()`. In this case we need to pass the 'predictors' raster `stack` object we created in the [first article](./prepare_data.html#acquire-environmental-variables) to the `env` argument:
+```{r aicc}
+aicc(default_model, env = predictors)
+```
+
+We can pass the argument `parallel=TRUE` to speed up the computation for large datasets.
+
+### Try yourself
+
+Try to compute the three metrics using a model trained using the **Maxnet** method.
+
+## Conclusion
+
+In this article you have learnt:
+
+* how to calculate the AUC;
+* how to plot the ROC curve;
+* how to calculate the TSS;
+* how to calculate the AICc.
+
+In the next article you will learn how to display the variable importance and how to plot the response curve.

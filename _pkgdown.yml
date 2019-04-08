@@ -37,6 +37,8 @@ navbar:
       href: articles/articles/train_model.html
     - text: Make predictions
       href: articles/articles/make_predictions.html
+    - text: Evaluate a model
+      href: articles/articles/evaluate_model.html
   - text: Changelog
     href: news/index.html
   right:
