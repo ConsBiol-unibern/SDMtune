@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   SDMtune: SDMtune.html
   evaluate_model: articles/evaluate_model.html
+  evaluation_strategies: articles/evaluation_strategies.html
   make_predictions: articles/make_predictions.html
   prepare_data: articles/prepare_data.html
   train_model: articles/train_model.html
