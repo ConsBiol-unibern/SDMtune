@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 # SDMtune <img src="man/figures/logo.svg" align="right" alt="" width="120" />
 
-[![Travis-CI build status](https://travis-ci.org/sgvignali/SDMtune.svg?branch=master)](https://travis-ci.org/sgvignali/SDMtune)
+[![Travis-CI build status](https://travis-ci.org/ConsBiol-unibern/SDMtune.svg?branch=master)](https://travis-ci.org/ConsBiol-unibern/SDMtune)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/sgvignali/SDMtune?branch=master&svg=true)](https://ci.appveyor.com/project/sgvignali/SDMtune)
 [![Coverage status](https://codecov.io/gh/sgvignali/SDMtune/branch/master/graph/badge.svg)](https://codecov.io/github/sgvignali/SDMtune?branch=master)
 [![CRAN Status](https://www.r-pkg.org/badges/version/SDMtune)](https://cran.r-project.org/package=SDMtune)

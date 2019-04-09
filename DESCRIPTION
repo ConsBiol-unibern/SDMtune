@@ -4,7 +4,7 @@ Title: Species Distribution Model Selection
 Version: 0.0.0.9000
 Date: 2019-04-02
 Authors@R: c(
-	person("Sergio", "Vignali",  email = "SDMtune@outlook.com",
+	person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",
 	       role = c("aut", "cre"), comment = c(ORCID = "00000-0002-3390-5442")),
 	person("Arnaud", "Barras", role = "aut", comment = c(ORCID = "0000-0003-0850-6965")),
 	person("Veronika", "Braunisch", role = "aut", comment = c(ORCID = "00000-0001-7035-4662")),
