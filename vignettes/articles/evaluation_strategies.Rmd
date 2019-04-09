@@ -88,7 +88,7 @@ cat("Training AUC: ", auc(cv_model))
 cat("Testing AUC: ", auc(cv_model, test = TRUE))
 ```
 
-this return the AUC value averaged across the four different models. We can also plot the reposnse courve of a `SDMmodelCV()` object but with **SDMtune** is not possible to make predictions:
+this return the AUC value averaged across the four different models. We can also plot the response curve of a `SDMmodelCV()` object but with **SDMtune** is not possible to make predictions:
 ```{r plot cv response curve, fig.align="center"}
 plotResponse(cv_model, var = "bio1", type = "cloglog", marginal = FALSE, fun = mean, rug = TRUE)
 ```
