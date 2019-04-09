@@ -10,6 +10,6 @@ articles:
   train_model: articles/train_model.html
   variable_importance: articles/variable_importance.html
 urls:
-  reference: https://sgvignali.github.io/SDMtune/reference
-  article: https://sgvignali.github.io/SDMtune/articles
+  reference: https://consbiol-unibern.github.io/SDMtune//reference
+  article: https://consbiol-unibern.github.io/SDMtune//articles
 
