@@ -32,8 +32,7 @@
 #' the function \link{get_tunable_args}. Parallel computation increases the
 #' speed only for large datasets due to the time necessary to create the
 #' cluster. Part of the code is inspired by
-#' \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-genetic
-#' algorithm-code-included-8809bece164}{this post}
+#' \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164}{this post}
 #'
 #' @return \link{SDMtune} object.
 #' @export

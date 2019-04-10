@@ -67,7 +67,7 @@ auc <- function(model, test = NULL, a = NULL) {
   n_pres <- length(p_pred)
   n_a <- length(a_pred)
 
-  # AUC using the Mann-Whitney U Test (taken from dismo pkg)
+  # AUC using the Mann-Whitney U Test (inspired by dismo pkg)
   U <- sum(rank(c(p_pred, a_pred))[seq(p_pred)]) - (n_pres * (n_pres + 1) / 2)
   auc <- U / (n_a * n_pres)
 
