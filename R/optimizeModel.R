@@ -1,6 +1,6 @@
-#' Optimise Model
+#' Optimize Model
 #'
-#' The function uses a Genetic Algorithm implementation to optimise the model
+#' The function uses a Genetic Algorithm implementation to optimize the model
 #' hyperparameter configuration according to the chosen metric.
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
@@ -40,12 +40,12 @@
 #' @importFrom progress progress_bar
 #' @importFrom stats runif
 #'
-#' @examples \dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =
+#' @examples \dontrun{output <- optimizeModel(my_model, hypers = list( "reg" =
 #' c(0.5, 1, 1.5), "fc" = c("lq", "lqp", "lqph"), "a" = c(5000, 10000, 15000)),
 #' bg4test = bg, test = my_val, pop = 20, gen = 10, seed = 25)}
 #'
 #' @author Sergio Vignali
-optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
+optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                           pop = 20, gen = 5, env = NULL, parallel = FALSE,
                           keep_best = 0.4, keep_random = 0.2,
                           mutation_chance = 0.4, seed = NULL) {
@@ -58,7 +58,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   # Check that areguments are correctly provided
   .checkArgs(model, hypers, metric, test, bg4test, env)
   # Check if at least two hyperparameters have more than one value
-  .check_optimise_args(hypers, grid, pop)
+  .check_optimize_args(hypers, grid, pop)
 
   if (keep_best + keep_random > 1)
     stop("Sum of 'keep_best' and 'keep_random' cannot be more than 1!")
@@ -71,7 +71,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   kept <- kept_good + kept_bad
   remaining <- pop - kept
   tot_models <- .get_total_models(pop, gen, remaining)
-  algorithm <- ifelse(gen > 0, "Optimise Model", "Random Search")
+  algorithm <- ifelse(gen > 0, "Optimize Model", "Random Search")
   pb <- progress::progress_bar$new(
     format = paste(algorithm, "[:bar] :percent in :elapsedfull"),
     total = (tot_models + 1), clear = FALSE, width = 60, show_after = 0)
@@ -122,7 +122,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
 
   folder <- tempfile("SDMtune")
 
-  .create_chart(folder = folder, script = "optimiseModel.js",
+  .create_chart(folder = folder, script = "optimizeModel.js",
                 settings = settings, data = data, height = 500)
 
   # Create data frame with all possible combinations of hyperparameters
@@ -179,7 +179,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                "because it overfits validation dataset!"))
   }
 
-  # Optimise using Genetic Algorithm
+  # Optimize using Genetic Algorithm
   if (gen > 0) {
     for (i in 1:gen) {
       index_kept <- c(1:kept_good, sample( (kept_good + 1):pop, kept_bad))
@@ -312,7 +312,7 @@ optimiseModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   return(new_model)
 }
 
-.check_optimise_args <- function(hypers, grid, pop) {
+.check_optimize_args <- function(hypers, grid, pop) {
 
   if (sum(lengths(hypers) > 2) < 1)
     stop("One hyperparameter in hypers should have more than two values to allow crossover!")

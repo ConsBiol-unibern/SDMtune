@@ -1,7 +1,7 @@
 #' SDMtune class
 #'
 #' Class used to save the results of one of the following functions:
-#' \link{gridSearch}, \link{randomSearch} or \link{optimiseModel}.
+#' \link{gridSearch}, \link{randomSearch} or \link{optimizeModel}.
 #'
 #' @slot results data.frame. Results with the evaluation of the models.
 #' @slot models list. List of \link{Maxent} objects

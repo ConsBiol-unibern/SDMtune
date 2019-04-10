@@ -104,7 +104,7 @@ reference:
   desc: Function for model tuning and optimization
   contents:
   - '`gridSearch`'
-  - '`optimiseModel`'
+  - '`optimizeModel`'
   - '`randomSearch`'
 - title: Utilities
   desc: Some utility functions

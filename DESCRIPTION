@@ -73,7 +73,7 @@ Collate:
     'maxentVarImp.R'
     'mergeSWD.R'
     'modelReport.R'
-    'optimiseModel.R'
+    'optimizeModel.R'
     'plotCor.R'
     'plotJk.R'
     'plotPA.R'

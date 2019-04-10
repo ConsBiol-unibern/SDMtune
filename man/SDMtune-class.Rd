@@ -7,7 +7,7 @@
 \title{SDMtune class}
 \description{
 Class used to save the results of one of the following functions:
-\link{gridSearch}, \link{randomSearch} or \link{optimiseModel}.
+\link{gridSearch}, \link{randomSearch} or \link{optimizeModel}.
 }
 \section{Slots}{
 

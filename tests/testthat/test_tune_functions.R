@@ -37,22 +37,22 @@ test_that("Exceptions are thrown", {
                paste("beta non included in tunable hyperparameters,",
                      "lambda non included in tunable hyperparameters"))
 
-  # .check_optimise_hypers function
+  # .check_optimize_hypers function
   # Throws exception if less than two hypers have more than two values
   h <- list("fc" = c("l", "lq"), "reg" = c(.2, .4), "a" = 10000)
   grid <- .get_hypers_grid(model, h)
-  expect_error(.check_optimise_args(h, grid, pop = 5),
+  expect_error(.check_optimize_args(h, grid, pop = 5),
                "One hyperparameter in hypers should have more than two values to allow crossover!")
   # Throws exception if there are less than two hypers to be tuned
   h <- list("fc" = c("l", "lq", "lqp"))
-  expect_error(.check_optimise_args(h, pop = 5),
+  expect_error(.check_optimize_args(h, pop = 5),
                "You must provide at least two hyperparameters to be tuned! Use gridSearch to tune only one parameter.")
   # Throws exception if possible random combinations < pop
   h <- list("fc" = c("l", "lq", "lqp"), "reg" = c(.2, .4), "a" = 10000)
   grid <- .get_hypers_grid(model, h)
-  expect_error(.check_optimise_args(h, grid, pop = 7),
+  expect_error(.check_optimize_args(h, grid, pop = 7),
                "Number of possible random models is lewer than population size, add more values to the 'hyper' argument!")
   # Throws exception if possible random combinations < pop
-  expect_error(.check_optimise_args(h, grid, pop = 6),
+  expect_error(.check_optimize_args(h, grid, pop = 6),
                "Number of possible random models is the same than population size. Use gridSearch function!")
 })

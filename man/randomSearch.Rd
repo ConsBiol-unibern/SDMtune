@@ -48,9 +48,11 @@ speed only for large datasets due to the time necessary to create the
 cluster.
 }
 \examples{
-\dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =
-c(0.5, 1, 1.5), "fc" = c("lq", "lqp", "lqph"), "a" = c(5000, 10000, 15000)),
-bg4test = bg, test = my_val, pop = 30, seed = 25)}
+\dontrun{
+h <- list( "reg" = c(0.5, 1, 1.5), "fc" = c("lq", "lqp", "lqph"),
+"a" = c(5000, 10000, 15000))
+output <- gridSearch(my_model, hypers = h, bg4test = bg, test = my_val,
+pop = 30, seed = 25)}
 
 }
 \author{
