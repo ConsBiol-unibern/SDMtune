@@ -124,12 +124,12 @@
 </h1></div>
 
 <p><strong>SDMtune</strong> provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation through the “dismo” package and the R implementation through the “maxnet” package.<br>
-Visit the <a href="https://sgvignali.github.io/SDMtune/">package website</a> and learn how to use <strong>SDMtune</strong> starting from the first article <a href="https://sgvignali.github.io/SDMtune/articles/articles/prepare_data.html">Prepare data for the analysis</a>.</p>
+Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website</a> and learn how to use <strong>SDMtune</strong> starting from the first article <a href="https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html">Prepare data for the analysis</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the latest development version from GitHub:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"sgvignali/SDMtune"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"sgvignali/SDMtune"</span>)</a></code></pre></div>
 </div>
 <div id="real-time-charts" class="section level2">
 <h2 class="hasAnchor">
@@ -138,6 +138,42 @@ Visit the <a href="https://sgvignali.github.io/SDMtune/">package website</a> and
 <div style="text-align: center">
 <img src="reference/figures/realtime-chart.gif" alt="">
 </div>
+</div>
+<div id="speed-test" class="section level2">
+<h2 class="hasAnchor">
+<a href="#speed-test" class="anchor"></a>Speed test</h2>
+<p>Let’s see <strong>SDMtune</strong> in action. If the following code is not clear, please check the articles in the <a href="https://consbiol-unibern.github.io/SDMtune/">website</a>. Here we prepare the data and we train a <strong>Maxent</strong> model using <strong>SDMtune</strong>: <!-- The next code is not evaluated because MaxEnt jar file is bundled in the package and Travis will not execute it! --> <!-- the plot is saved as an image in the man/figures forlder --></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Acquire environmental variables</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">files &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"dismo"</span>), <span class="st">"/ex"</span>, <span class="dt">sep =</span> <span class="st">""</span>), <span class="dt">pattern =</span> <span class="st">"grd"</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">predictors &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/stack">stack</a></span>(files)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Prepare presence locations</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">p_coords &lt;-<span class="st"> </span>condor[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># Prepare background locations</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">bg_coords &lt;-<span class="st"> </span>dismo<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/randomPoints">randomPoints</a></span>(predictors, <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># Create SWD object</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">presence &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> p_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># Train a model</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">sdmtune_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">p =</span> presence, <span class="dt">a =</span> bg)</a></code></pre></div>
+<p>We want to compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> that calls the MaxEnt Java software. We first convert the <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">maxent_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span>(sdmtune_model)</a></code></pre></div>
+<p>Here a function to test that the results are equal, with a tolerance of <code>1e-7</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">my_check &lt;-<span class="st"> </span><span class="cf">function</span>(values) {</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(values[[<span class="dv">1</span>]], values[[<span class="dv">2</span>]], <span class="dt">tolerance =</span> <span class="fl">1e-7</span>))</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">}</a></code></pre></div>
+<p>Now we test the execution time using the <strong>microbenckmark</strong> package:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">bench &lt;-<span class="st"> </span>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="st">"SDMtune"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(sdmtune_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>),</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="st">"dismo"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(maxent_model, predictors),</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">check =</span> my_check</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">)</a></code></pre></div>
+<p>Plot the output:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/autoplot">autoplot</a></span>(bench, <span class="dt">log =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div style="text-align: center">
+<img src="reference/figures/bench.png" alt="">
+</div>
+<p>The execution time is in average about two time faster!</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
