@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -140,11 +140,11 @@
 <div id="acquire-environmental-variables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#acquire-environmental-variables" class="anchor"></a>Acquire environmental variables</h2>
-<p>For the analysis we use the climate data of <a href="http://www.worldclim.org/">WorldClim</a> version 1.4 <span class="citation">(Hijmans et al. 2005)</span> and the <a href="https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world">terrestian ecoregions</a> from WWF <span class="citation">(Olson et al. 2001)</span> included in the <code>dismo</code> package:</p>
+<p>For the analysis we use the climate data of <a href="http://www.worldclim.org/">WorldClim</a> version 1.4 <span class="citation">(Hijmans et al. 2005)</span> and the <a href="https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world">terrestrial ecoregions</a> from WWF <span class="citation">(Olson et al. 2001)</span> included in the <code>dismo</code> package:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">files &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"dismo"</span>), <span class="st">"/ex"</span>, <span class="dt">sep =</span> <span class="st">""</span>), <span class="dt">pattern =</span> <span class="st">"grd"</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>We convert the files in a <a href="https://www.rdocumentation.org/packages/raster/versions/2.8-19/topics/stack">raster stack</a> object that will be used later in the analysis:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">predictors &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/stack">stack</a></span>(files)</a></code></pre></div>
-<p>There are nine environmental variables, eight continuos and one categorical:</p>
+<p>There are nine environmental variables, eight continuous and one categorical:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(predictors)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] "bio1"  "bio12" "bio16" "bio17" "bio5"  "bio6"  "bio7"  "bio8"  "biome"</span></a></code></pre></div>
 <ul>
@@ -203,7 +203,7 @@
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.0.0.9000</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a>
 <a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; </span></a>
@@ -249,10 +249,10 @@
 <div id="create-an-swd-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-an-swd-object" class="anchor"></a>Create an SWD object</h2>
-<p>Before training a model we have to prepare the data in the correct format. The <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function creates an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument <code>categoricals</code> indicates which environmental variables are categorical. In our example <strong>biome</strong> is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have <code>NA</code> value for at least one environmental variable.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">presence &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> p_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)</a>
+<p>Before training a model we have to prepare the data in the correct format. The <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function creates an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument <code>categorical</code> indicates which environmental variables are categorical. In our example <strong>biome</strong> is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have <code>NA</code> value for at least one environmental variable.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">presence &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> p_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; Extracting predictor information for given locations...</span></a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bg &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categoricals =</span> <span class="st">"biome"</span>)</a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bg &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; Extracting predictor information for given locations...</span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; Warning: 9 locations are NA for some environmental variables, they will be discard!</span></a></code></pre></div>
 <p>The warning message reports that in the background dataset 9 locations were discarded. The final number of background locations is 9766.</p>
@@ -328,7 +328,7 @@
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h2>
-<p>In this article you have learnt:</p>
+<p>In this article you have learned:</p>
 <ul>
 <li>how to create a raster <code>stack</code> object;</li>
 <li>how to plot a raster object using the <code>gplot</code> function of the <code>rasterVis</code> package;</li>

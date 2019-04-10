@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -127,7 +127,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the previous articles you have learnt how to <a href="./prepare_data.html">prepare the data</a> for the analysis and how to <a href="./train_model.html">train a model</a> using <strong>SDMtune</strong>. In this article you will learn how to use a trained model to make predictions. We will use the <code>default model</code> that we trained in the previous article to predict the distribution of Andean condor.</p>
+<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis and how to <a href="./train_model.html">train a model</a> using <strong>SDMtune</strong>. In this article you will learn how to use a trained model to make predictions. We will use the <code>default model</code> that we trained in the previous article to predict the distribution of Andean condor.</p>
 </div>
 <div id="make-prediction" class="section level2">
 <h2 class="hasAnchor">
@@ -139,7 +139,7 @@
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.0.0.9000</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>New locations are predicted with the function <a href="../../reference/predict-SDMmodel-method.html">predict()</a>. The function takes three main arguments:</p>
@@ -171,7 +171,7 @@
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; values      : 1.065108e-06, 1  (min, max)</span></a></code></pre></div>
 <p>The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function. In the next example we save the map in a file called “<strong>my_file</strong>” in the <strong>GeoTIFF</strong> format:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">map &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">file =</span> <span class="st">"my_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
-<p>The <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function has other arguments usefull when predicting large datasets:</p>
+<p>The <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function has other arguments useful when predicting large datasets:</p>
 <ul>
 <li>
 <strong>progress</strong>: can be set to <code>"text"</code> to visualize a progress bar;</li>
@@ -188,13 +188,13 @@
 <p>To plot the distribution map we can use the function <code><a href="../../reference/plotPred.html">plotPred()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map)</a></code></pre></div>
 <p><img src="make_predictions_files/figure-html/plot%20map%20default-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>The <code><a href="../../reference/plotPred.html">plotPred()</a></code> function plots a map using a color ramp similar to the one used by the Maxent Java software. We can pass additional arguments to customise the map. In the next example we provide a custom color ramp and we add a title to the legend:</p>
+<p>The <code><a href="../../reference/plotPred.html">plotPred()</a></code> function plots a map using a color ramp similar to the one used by the Maxent Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map, <span class="dt">lt =</span> <span class="st">"Habitat</span><span class="ch">\n</span><span class="st">suitability"</span>, <span class="dt">colorramp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#2c7bb6"</span>, <span class="st">"#abd9e9"</span>, <span class="st">"#ffffbf"</span>, <span class="st">"#fdae61"</span>, <span class="st">"#d7191c"</span>))</a></code></pre></div>
 <p><img src="make_predictions_files/figure-html/plot%20map%20custom-1.png" width="700" style="display: block; margin: auto;"></p>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
-<p>Restrict the prediction to Cile and plot the prediction. To see the solution highlight the following cell:</p>
+<p>Restrict the prediction to Chile and plot the prediction. To see the solution highlight the following cell:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># First create the extent that surrounds Cile</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">e =<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">77</span>, <span class="dv">-60</span>, <span class="dv">-56</span>, <span class="dv">-15</span>))</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># Now use the extent to make the prediction</span></a>
@@ -216,7 +216,7 @@
 <a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 1                     0.673                  0.000</span></a>
 <a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 2                     0.122                  0.122</span></a>
 <a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3                     0.162                  0.071</span></a></code></pre></div>
-<p>For example we want to create a presence/absence map using the threshold that maximise the training sensitivity plus spesificity. We use the function <code><a href="../../reference/plotPA.html">plotPA()</a></code> passing the threshold value as argument:</p>
+<p>For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function <code><a href="../../reference/plotPA.html">plotPA()</a></code> passing the threshold value as argument:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.258</span>)</a></code></pre></div>
 <p><img src="make_predictions_files/figure-html/plot%20pa-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>We can also save the map in a file with the following code:</p>
@@ -231,7 +231,7 @@
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h2>
-<p>In this article you have learnt:</p>
+<p>In this article you have learned:</p>
 <ul>
 <li>how to make prediction for datasets;</li>
 <li>how to create and save a distribution map;</li>

@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -127,7 +127,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the previous articles you have learnt how to <a href="./prepare_data.html">prepare the data</a> for the analysis, how to <a href="./train_model.html">train a model</a>, how to <a href="./make_predictions.html">make predictions</a>, how to <a href="./evaluate_model.html">evaluate a model</a> and how to <a href=",/variable_importance.html">print and plot</a> the variable importance of a model using <strong>SDMtune</strong>. In this article you will learn different evaluation strategies to achieve a better estimate of your model performance.</p>
+<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis, how to <a href="./train_model.html">train a model</a>, how to <a href="./make_predictions.html">make predictions</a>, how to <a href="./evaluate_model.html">evaluate a model</a> and how to <a href=",/variable_importance.html">print and plot</a> the variable importance of a model using <strong>SDMtune</strong>. In this article you will learn different evaluation strategies to achieve a better estimate of your model performance.</p>
 </div>
 <div id="train-and-testing-datasets" class="section level2">
 <h2 class="hasAnchor">
@@ -139,10 +139,10 @@
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.0.0.9000</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
-<p>It’s always a good practice to split the presesence locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> function for this purpose. Let’s say we want to use 80% of the presence locations to train our model and 20% as testing dataset to evaluate it:</p>
+<p>It’s always a good practice to split the presence locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> function for this purpose. Let’s say we want to use 80% of the presence locations to train our model and 20% as testing dataset to evaluate it:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(zeallot)  <span class="co"># For unpacking assignment</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(presence, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">seed =</span> <span class="dv">25</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">p =</span> train, <span class="dt">a =</span> bg_model)</a></code></pre></div>
@@ -151,7 +151,7 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Training auc:  0.9359</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Testing auc:  0.9211</span></a></code></pre></div>
-<p>This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we splitted our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the auc:</p>
+<p>This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the auc:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">output &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">10</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)) <span class="co"># Create an empty data.frame</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(output) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span>)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)</a>
@@ -228,13 +228,13 @@
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h2>
-<p>In this article you have learnt:</p>
+<p>In this article you have learned:</p>
 <ul>
 <li>how to split the presence dataset in training and testing folds;</li>
 <li>how to evaluate the model using the held out testing dataset;</li>
 <li>how to perform a cross validation;</li>
 <li>how to evaluate an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object;</li>
-<li>how to plot the response courve of an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object.</li>
+<li>how to plot the response curve of an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object.</li>
 </ul>
 <p>In the next article you will learn how to perform data-driven variable selection.</p>
 </div>

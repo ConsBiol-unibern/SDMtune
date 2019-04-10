@@ -54,7 +54,7 @@ contribution). If the variable is correlated with other variables (according
 to the given method and threshold) it performs a Jackknife test and among the
 correlated variables it removes the one that results in the best performing
 model when removed (according to the given metric). The process is repeated
-untill the remaining variables are not highly correlated anymore." />
+until the remaining variables are not highly correlated anymore." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -87,7 +87,7 @@ untill the remaining variables are not highly correlated anymore." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -176,7 +176,7 @@ contribution). If the variable is correlated with other variables (according
 to the given method and threshold) it performs a Jackknife test and among the
 correlated variables it removes the one that results in the best performing
 model when removed (according to the given metric). The process is repeated
-untill the remaining variables are not highly correlated anymore.</p>
+until the remaining variables are not highly correlated anymore.</p>
     
     </div>
 
@@ -213,12 +213,12 @@ with "aicc", default is NULL.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical, if TRUE it uses parallel computation, deafult is
+      <td><p>logical, if TRUE it uses parallel computation, default is
 FALSE. Used only with AICc.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>character. The method used to comput the correlation matrix,
+      <td><p>character. The method used to compute the correlation matrix,
 default "spearman".</p></td>
     </tr>
     <tr>
@@ -234,7 +234,7 @@ correlated variables, default is 0.7.</p></td>
       <th>use_pc</th>
       <td><p>logical, use percent contribution. If TRUE and the model is
 trained using the <a href='Maxent-class.html'>Maxent</a> method, the algorithm uses the percent
-contribution computed by Maxent software to score the varialble importance,
+contribution computed by Maxent software to score the variable importance,
 default is FALSE.</p></td>
     </tr>
     </table>
