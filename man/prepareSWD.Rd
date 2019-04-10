@@ -4,7 +4,7 @@
 \alias{prepareSWD}
 \title{Prepare a SWD data set}
 \usage{
-prepareSWD(species, coords, env, categoricals = NULL)
+prepareSWD(species, coords, env, categorical = NULL)
 }
 \arguments{
 \item{species}{character. The name of the species.}
@@ -15,8 +15,8 @@ absence/background locations.}
 \item{env}{\link{stack} containing the environmental variables used to
 extract the values at coordinate locations.}
 
-\item{categoricals}{vector indicating which of the environmental variable are
-categoricals, default is NULL.}
+\item{categorical}{vector indicating which of the environmental variable are
+categorical, default is NULL.}
 }
 \value{
 A \link{SWD} object

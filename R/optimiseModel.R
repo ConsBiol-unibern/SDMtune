@@ -4,7 +4,7 @@
 #' hyperparameter configuration according to the chosen metric.
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
-#' @param hypers named list containing the values of the hyperpatameters that
+#' @param hypers named list containing the values of the hyperparameters that
 #' should be tuned, see details.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
@@ -16,7 +16,7 @@
 #' @param gen numeric. Number of generations, default is 20.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' @param parallel logical, if TRUE it uses parallel computation, default is
 #' FALSE.
 #' @param keep_best numeric. Percentage of the best models in the population to
 #' be retained during each iteration, expressed as decimal number. Default
@@ -31,7 +31,9 @@
 #' @details To know which hyperparameters can be tuned you can use the output of
 #' the function \link{get_tunable_args}. Parallel computation increases the
 #' speed only for large datasets due to the time necessary to create the
-#' cluster.
+#' cluster. Part of the code is inspired by
+#' \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-genetic
+#' algorithm-code-included-8809bece164}{this post}
 #'
 #' @return \link{SDMtune} object.
 #' @export

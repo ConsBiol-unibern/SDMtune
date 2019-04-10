@@ -5,7 +5,7 @@
 #'
 #' @param model \link{SDMmodel} object.
 #' @param env \link{stack} containing the environmental variables.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' @param parallel logical, if TRUE it uses parallel computation, default is
 #' FALSE.
 #'
 #' @return The computed AICc

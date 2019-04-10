@@ -12,7 +12,7 @@ optimiseModel(model, hypers, metric, test = NULL, bg4test = NULL,
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
-\item{hypers}{named list containing the values of the hyperpatameters that
+\item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
@@ -31,7 +31,7 @@ subsamples if the \strong{a} hyperparameter is tuned, default is NULL.}
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+\item{parallel}{logical, if TRUE it uses parallel computation, default is
 FALSE.}
 
 \item{keep_best}{numeric. Percentage of the best models in the population to
@@ -58,7 +58,9 @@ hyperparameter configuration according to the chosen metric.
 To know which hyperparameters can be tuned you can use the output of
 the function \link{get_tunable_args}. Parallel computation increases the
 speed only for large datasets due to the time necessary to create the
-cluster.
+cluster. Part of the code is inspired by
+\href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-genetic
+algorithm-code-included-8809bece164}{this post}
 }
 \examples{
 \dontrun{output <- optimiseModel(my_model, hypers = list( "reg" =

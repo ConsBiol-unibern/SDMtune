@@ -2,13 +2,13 @@
 % Please edit documentation in R/plotVarImp.R
 \name{plotVarImp}
 \alias{plotVarImp}
-\title{Plot Varible Importance}
+\title{Plot Variable Importance}
 \usage{
 plotVarImp(df, color = "grey")
 }
 \arguments{
-\item{df}{data.frame. A data.frame containing the the name of the variabels
-as first column and the value of the varible importance as second column.}
+\item{df}{data.frame. A data.frame containing the the name of the variables
+as first column and the value of the variable importance as second column.}
 
 \item{color}{character. The color of the bar plot, default is grey.}
 }

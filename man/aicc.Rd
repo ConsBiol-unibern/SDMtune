@@ -11,7 +11,7 @@ aicc(model, env, parallel = FALSE)
 
 \item{env}{\link{stack} containing the environmental variables.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+\item{parallel}{logical, if TRUE it uses parallel computation, default is
 FALSE.}
 }
 \value{

@@ -15,7 +15,7 @@ related to the model.
 \item{\code{p}}{\link{SWD} object. The presence locations used to train the
 model.}
 
-\item{\code{a}}{\link{SWD} object. The absence or backgorund locations used to train
+\item{\code{a}}{\link{SWD} object. The absence or background locations used to train
 the model.}
 
 \item{\code{model}}{\link{Maxent} or \link{Maxnet} object.}

@@ -11,7 +11,7 @@
 #' @param reg numeric. The value of the regularization multiplier, default is 1.
 #' @param fc vector. The value of the feature combination, possible values are
 #' combinations of "l", "q", "p", "h" and "t", default is "lqph".
-#' @param iter numeric. Number of iterations used by the MaxEnt alghoritm,
+#' @param iter numeric. Number of iterations used by the MaxEnt algorithm,
 #' default is 500.
 #' @param extra_args vector. Extra arguments used to run MaxEnt, default is
 #' "removeduplicates=false" and "addsamplestobackground=false".
@@ -19,7 +19,7 @@
 #'
 #' @details By default the function uses
 #' **extra_args = c("removeduplicates=false, addsamplestobackground=false)"**.
-#' In case this is not your expected beaviour you can assign extra_args = "" or
+#' In case this is not your expected behavior you can assign extra_args = "" or
 #' you can add any other additional arguments extending the previous vector.
 #'
 #' @return A \link{SDMmodel} object.

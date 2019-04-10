@@ -22,7 +22,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learnt how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html) and how to [evaluate a model](./evaluate_model.html) using **SDMtune**. In this article you will learn how to display and plot the variable importance and how to plot the response courves.
+In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html) and how to [evaluate a model](./evaluate_model.html) using **SDMtune**. In this article you will learn how to display and plot the variable importance and how to plot the response curves.
 
 ## Variable importance for Maxent models
 
@@ -101,7 +101,7 @@ plotResponse(default_model, var = "bio17", type = "cloglog", marginal = FALSE, c
 
 ## Conclusion
 
-In this article you have learnt:
+In this article you have learned:
 
 * how to get and plot the variable importance for **Maxent** models;
 * how to compute and plot the permutation importance for **Maxnet** models;

@@ -7,7 +7,7 @@
 trainValTest(x, test, val = 0, seed = NULL)
 }
 \arguments{
-\item{x}{\link{SWD} object containing the data that have to be splitted in
+\item{x}{\link{SWD} object containing the data that have to be split in
 training, validation and testing datasets.}
 
 \item{test}{numeric. The percentage of data withhold for testing.}

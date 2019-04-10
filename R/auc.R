@@ -7,7 +7,7 @@
 #' for \link{SDMmodelCV} objects, if not provided it computes the train AUC,
 #' default is NULL.
 #' @param a \link{SWD} absence or background locations used to compute the AUC
-#' by the permutation importance function, defaul is NULL.
+#' by the permutation importance function, default is NULL.
 #'
 #' @details If the model is a \link{SDMmodelCV} object, the function computes
 #' the mean of the training or testing AUC values of the different replicates.

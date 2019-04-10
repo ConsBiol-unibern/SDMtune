@@ -7,7 +7,7 @@
 #' to the given method and threshold) it performs a Jackknife test and among the
 #' correlated variables it removes the one that results in the best performing
 #' model when removed (according to the given metric). The process is repeated
-#' untill the remaining variables are not highly correlated anymore.
+#' until the remaining variables are not highly correlated anymore.
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param metric character. The metric used to evaluate the models, possible
@@ -18,16 +18,16 @@
 #' correlation between environmental variables.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' @param parallel logical, if TRUE it uses parallel computation, default is
 #' FALSE. Used only with AICc.
-#' @param method character. The method used to comput the correlation matrix,
+#' @param method character. The method used to compute the correlation matrix,
 #' default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly
 #' correlated variables, default is 0.7.
 #' @param permut integer. Number of permutations, default is 10.
 #' @param use_pc logical, use percent contribution. If TRUE and the model is
 #' trained using the \link{Maxent} method, the algorithm uses the percent
-#' contribution computed by Maxent software to score the varialble importance,
+#' contribution computed by Maxent software to score the variable importance,
 #' default is FALSE.
 #'
 #' @details Parallel computation increases the speed only for large datasets due

@@ -8,8 +8,8 @@
 #' absence/background locations.
 #' @param env \link{stack} containing the environmental variables used to
 #' extract the values at coordinate locations.
-#' @param categoricals vector indicating which of the environmental variable are
-#' categoricals, default is NULL.
+#' @param categorical vector indicating which of the environmental variable are
+#' categorical, default is NULL.
 #'
 #' @return A \link{SWD} object
 #' @export
@@ -20,7 +20,7 @@
 #' swd <- prepareSWD(species = "Vultur gryphus", coords = p, env = env)}
 #'
 #' @author Sergio Vignali
-prepareSWD <- function(species, coords, env, categoricals = NULL) {
+prepareSWD <- function(species, coords, env, categorical = NULL) {
 
   coords <- as.data.frame(coords)
 
@@ -43,8 +43,8 @@ prepareSWD <- function(species, coords, env, categoricals = NULL) {
 
   colnames(coords) <- c("X", "Y")
   # Set categorical variables as factors
-  if (!is.null(categoricals)) {
-    for (i in categoricals) {
+  if (!is.null(categorical)) {
+    for (i in categorical) {
       data[, i] <- as.factor(data[, i])
     }
 

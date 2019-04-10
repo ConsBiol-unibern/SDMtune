@@ -42,7 +42,7 @@ if (!isGeneric("plot"))
 #' interactive chart.
 #'
 #' @param x \link{SDMtune} object.
-#' @param interactive logical, if TRUE plot an iteractive chart.
+#' @param interactive logical, if TRUE plot an interactive chart.
 #'
 #' @export
 #' @docType methods

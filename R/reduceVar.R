@@ -16,7 +16,7 @@
 #' with aicc, and if use_jk = FALSE, default is NULL.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' @param parallel logical, if TRUE it uses parallel computation, default is
 #' FALSE. Used only with AICc.
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
 #' selection, if FALSE the function uses the percent variable contribution,
@@ -25,7 +25,7 @@
 #' default is 10.
 #' @param use_pc logical, use percent contribution. If TRUE and the model is
 #' trained using the \link{Maxent} method, the algorithm uses the percent
-#' contribution computed by Maxent software to score the varialble importance,
+#' contribution computed by Maxent software to score the variable importance,
 #' default is FALSE.
 #'
 #' @return The model trained using the selected variables.

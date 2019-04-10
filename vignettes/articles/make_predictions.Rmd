@@ -21,7 +21,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learnt how to [prepare the data](./prepare_data.html) for the analysis and how to [train a model](./train_model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of Andean condor.
+In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis and how to [train a model](./train_model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of Andean condor.
 
 ## Make prediction
 
@@ -69,7 +69,7 @@ The map can be saved in a file directly when running the prediction, we just hav
 map <- predict(default_model, data = predictors, type = "cloglog", file = "my_map", format = "GTiff")
 ```
 
-The [predict()](../../reference/predict-SDMmodel-method.html) function has other arguments usefull when predicting large datasets:
+The [predict()](../../reference/predict-SDMmodel-method.html) function has other arguments useful when predicting large datasets:
 
 * **progress**: can be set to `"text"` to visualize a progress bar;
 * **parallel**: can be set to `TRUE` for parallel computation;
@@ -85,7 +85,7 @@ To plot the distribution map we can use the function `plotPred()`:
 plotPred(map)
 ```
 
-The `plotPred()` function plots a map using a color ramp similar to the one used by the Maxent Java software. We can pass additional arguments to customise the map. In the next example we provide a custom color ramp and we add a title to the legend:
+The `plotPred()` function plots a map using a color ramp similar to the one used by the Maxent Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
 
 ```{r plot map custom, fig.align="center"}
 plotPred(map, lt = "Habitat\nsuitability", colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
@@ -93,7 +93,7 @@ plotPred(map, lt = "Habitat\nsuitability", colorramp = c("#2c7bb6", "#abd9e9", "
 
 ### Try yourself
 
-Restrict the prediction to Cile and plot the prediction. To see the solution highlight the following cell:
+Restrict the prediction to Chile and plot the prediction. To see the solution highlight the following cell:
 
 ```{r exercise, eval = FALSE, class.source='exercise'}
 # First create the extent that surrounds Cile
@@ -113,7 +113,7 @@ To plot a presence/absence map we need a threshold value that splits the predict
 thresholds(default_model, type = "cloglog")
 ```
 
-For example we want to create a presence/absence map using the threshold that maximise the training sensitivity plus spesificity. We use the function `plotPA()` passing the threshold value as argument:
+For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function `plotPA()` passing the threshold value as argument:
 
 ```{r plot pa, fig.align="center"}
 plotPA(map, th = 0.258)
@@ -133,7 +133,7 @@ Repeat the same analysis using a model trained with the **Maxnet** method.
 
 ## Conclusion
 
-In this article you have learnt:
+In this article you have learned:
 
 * how to make prediction for datasets;
 * how to create and save a distribution map;

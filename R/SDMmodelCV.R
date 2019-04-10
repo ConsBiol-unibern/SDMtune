@@ -6,7 +6,7 @@
 #' @slot models list. A list containing all the models trained during the cross
 #' validation.
 #' @slot p \link{SWD} object. Full dataset used by the k-fold cross validation.
-#' @slot a \link{SWD} object. The absence/backgorund locations used to train the
+#' @slot a \link{SWD} object. The absence/background locations used to train the
 #' model.
 #' @slot folds numeric. Vector with the index for the k-fold partition.
 #'

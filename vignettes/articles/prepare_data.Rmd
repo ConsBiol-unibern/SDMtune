@@ -27,7 +27,7 @@ library(rasterVis)  # To plot raster objects
 
 ## Acquire environmental variables
 
-For the analysis we use the climate data of [WorldClim](http://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestian ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
+For the analysis we use the climate data of [WorldClim](http://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestrial ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
 
 ```{r get predictors, fig.align="center"}
 files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = TRUE)
@@ -38,7 +38,7 @@ We convert the files in a [raster stack](https://www.rdocumentation.org/packages
 predictors <- stack(files)
 ```
 
-There are nine environmental variables, eight continuos and one categorical:
+There are nine environmental variables, eight continuous and one categorical:
 ```{r names predicrtors}
 names(predictors)
 ```
@@ -122,14 +122,14 @@ The environmental variables we downloaded have a coarse resolution and the funct
 
 ## Create an SWD object
 
-Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument `categoricals` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
+Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
 
 ```{r prepare presence SWD}
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categoricals = "biome")
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categorical = "biome")
 
 ```
 ```{r prepare bg SWD}
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categoricals = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categorical = "biome")
 ```
 
 The warning message reports that in the background dataset `r nrow(bg_coords) - nrow(bg@data)`  locations were discarded. The final number of background locations is `r nrow(bg@data)`.
@@ -198,7 +198,7 @@ ggplot(map_data("world"), aes(long, lat)) +
 
 ## Conclusion
 
-In this article you have learnt:
+In this article you have learned:
 
 * how to create a raster `stack` object;
 * how to plot a raster object using the `gplot` function of the `rasterVis` package;

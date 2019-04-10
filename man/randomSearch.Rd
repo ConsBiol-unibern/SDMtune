@@ -10,7 +10,7 @@ randomSearch(model, hypers, metric, test = NULL, bg4test = NULL,
 \arguments{
 \item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
 
-\item{hypers}{named list containing the values of the hyperpatameters that
+\item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
@@ -27,7 +27,7 @@ subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+\item{parallel}{logical, if TRUE it uses parallel computation, default is
 FALSE.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent

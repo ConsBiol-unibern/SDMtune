@@ -23,10 +23,10 @@ correlation between environmental variables.}
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, deafult is
+\item{parallel}{logical, if TRUE it uses parallel computation, default is
 FALSE. Used only with AICc.}
 
-\item{method}{character. The method used to comput the correlation matrix,
+\item{method}{character. The method used to compute the correlation matrix,
 default "spearman".}
 
 \item{cor_th}{numeric. The correlation threshold used to select highly
@@ -36,7 +36,7 @@ correlated variables, default is 0.7.}
 
 \item{use_pc}{logical, use percent contribution. If TRUE and the model is
 trained using the \link{Maxent} method, the algorithm uses the percent
-contribution computed by Maxent software to score the varialble importance,
+contribution computed by Maxent software to score the variable importance,
 default is FALSE.}
 }
 \value{
@@ -51,7 +51,7 @@ contribution). If the variable is correlated with other variables (according
 to the given method and threshold) it performs a Jackknife test and among the
 correlated variables it removes the one that results in the best performing
 model when removed (according to the given metric). The process is repeated
-untill the remaining variables are not highly correlated anymore.
+until the remaining variables are not highly correlated anymore.
 }
 \details{
 Parallel computation increases the speed only for large datasets due

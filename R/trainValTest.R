@@ -3,7 +3,7 @@
 #' Split a dataset randomly in training and testing datasets or training,
 #' validation and testing datasets.
 #'
-#' @param x \link{SWD} object containing the data that have to be splitted in
+#' @param x \link{SWD} object containing the data that have to be split in
 #' training, validation and testing datasets.
 #' @param test numeric. The percentage of data withhold for testing.
 #' @param val numeric. The percentage of data withhold for validation, default

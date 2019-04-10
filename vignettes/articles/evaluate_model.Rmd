@@ -21,7 +21,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learnt how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html) and how to [make predictions](./make_predictions.html) using **SDMtune**. In this article you will learn how to evaluate your model using three different metrics. We will compute the value of the metrics on the training dataset using the `default model` that we trained in a previous article.
+In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html) and how to [make predictions](./make_predictions.html) using **SDMtune**. In this article you will learn how to evaluate your model using three different metrics. We will compute the value of the metrics on the training dataset using the `default model` that we trained in a previous article.
 
 ## AUC
 
@@ -63,7 +63,7 @@ Try to compute the three metrics using a model trained using the **Maxnet** meth
 
 ## Conclusion
 
-In this article you have learnt:
+In this article you have learned:
 
 * how to calculate the AUC;
 * how to plot the ROC curve;

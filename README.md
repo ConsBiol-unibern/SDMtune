@@ -3,7 +3,7 @@
 SDMtune <img src="man/figures/logo.svg" align="right" alt="" width="120" />
 ===========================================================================
 
-[![Travis-CI build status](https://travis-ci.org/ConsBiol-unibern/SDMtune.svg?branch=master)](https://travis-ci.org/ConsBiol-unibern/SDMtune) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/sgvignali/SDMtune?branch=master&svg=true)](https://ci.appveyor.com/project/sgvignali/SDMtune) [![Coverage status](https://codecov.io/gh/sgvignali/SDMtune/branch/master/graph/badge.svg)](https://codecov.io/github/sgvignali/SDMtune?branch=master) [![CRAN Status](https://www.r-pkg.org/badges/version/SDMtune)](https://cran.r-project.org/package=SDMtune) [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](code-of-conduct.md)
+[![Travis-CI build status](https://travis-ci.org/ConsBiol-unibern/SDMtune.svg?branch=master)](https://travis-ci.org/ConsBiol-unibern/SDMtune) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/sgvignali/SDMtune?branch=master&svg=true)](https://ci.appveyor.com/project/sgvignali/SDMtune) [![Coverage status](https://codecov.io/gh/sgvignali/SDMtune/branch/master/graph/badge.svg)](https://codecov.io/github/sgvignali/SDMtune?branch=master) [![CRAN Status](https://www.r-pkg.org/badges/version/SDMtune)](https://cran.r-project.org/package=SDMtune) [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](.github/CODE_OF_CONDUCT.md)
 
 **SDMtune** provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation through the “dismo” package and the R implementation through the “maxnet” package.
 Visit the [package website](https://consbiol-unibern.github.io/SDMtune/) and learn how to use **SDMtune** starting from the first article [Prepare data for the analysis](https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html).
@@ -39,8 +39,8 @@ p_coords <- condor[, 1:2]
 set.seed(25)
 bg_coords <- dismo::randomPoints(predictors, 10000)
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categoricals = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categoricals = "biome")
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categorical = "biome")
 # Train a model
 sdmtune_model <- train(method = "Maxent", p = presence, a = bg)
 ```

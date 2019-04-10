@@ -4,7 +4,7 @@
 #' with all the possible combinations of hyperparameters.
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
-#' @param hypers named list containing the values of the hyperpatameters that
+#' @param hypers named list containing the values of the hyperparameters that
 #' should be tuned, see details.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
@@ -14,7 +14,7 @@
 #' subsamples if **a** hyperparameter is tuned, default is NULL.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' @param parallel logical, if TRUE it uses parallel computation, default is
 #' FALSE.
 #' @param save_models logical, if FALSE the models are not saved and the output
 #' contains only a data frame with the metric values for each hyperparameter

@@ -5,7 +5,7 @@
 #' provided hyperparameters values.
 #'
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
-#' @param hypers named list containing the values of the hyperpatameters that
+#' @param hypers named list containing the values of the hyperparameters that
 #' should be tuned, see details.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
@@ -16,7 +16,7 @@
 #' @param pop numeric. Size of the population, default is 20.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' @param parallel logical, if TRUE it uses parallel computation, default is
 #' FALSE.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is NULL.

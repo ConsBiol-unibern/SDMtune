@@ -14,7 +14,7 @@ for \link{SDMmodelCV} objects, if not provided it computes the train AUC,
 default is NULL.}
 
 \item{a}{\link{SWD} absence or background locations used to compute the AUC
-by the permutation importance function, defaul is NULL.}
+by the permutation importance function, default is NULL.}
 }
 \value{
 The value of the AUC.

@@ -10,7 +10,7 @@
 \arguments{
 \item{x}{\link{SDMtune} object.}
 
-\item{interactive}{logical, if TRUE plot an iteractive chart.}
+\item{interactive}{logical, if TRUE plot an interactive chart.}
 }
 \description{
 Plot a \link{SDMtune} object. Use the interactive argument to create an

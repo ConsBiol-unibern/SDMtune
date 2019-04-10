@@ -13,7 +13,7 @@
 #' isolation, default is TRUE.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, deafult is
+#' @param parallel logical, if TRUE it uses parallel computation, default is
 #' FALSE. Used only with AICc.
 #' @param return_models logical, If TRUE returns all the models together with
 #' the test result, default is FALSE.

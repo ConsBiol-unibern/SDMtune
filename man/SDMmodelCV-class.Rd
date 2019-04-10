@@ -17,7 +17,7 @@ validation.}
 
 \item{\code{p}}{\link{SWD} object. Full dataset used by the k-fold cross validation.}
 
-\item{\code{a}}{\link{SWD} object. The absence/backgorund locations used to train the
+\item{\code{a}}{\link{SWD} object. The absence/background locations used to train the
 model.}
 
 \item{\code{folds}}{numeric. Vector with the index for the k-fold partition.}

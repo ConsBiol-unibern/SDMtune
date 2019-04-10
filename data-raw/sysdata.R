@@ -6,13 +6,13 @@ predictors <- raster::stack(files)
 
 # Extract envaronmental condition at presence locations
 p <- prepareSWD(species = "Vultur gryphus", coords = condor[, 1:2],
-                env = predictors, categoricals = "biome")
+                env = predictors, categorical = "biome")
 
 # Extract 9100 bg locations
 set.seed(25)
 bg <- dismo::randomPoints(predictors, 10000)
 bg <- prepareSWD(species = "Vultur gryphus", coords = bg,
-                 env = predictors, categoricals = "biome")
+                 env = predictors, categorical = "biome")
 
 # Get subsample to train models
 bg_model <- getSubsample(bg, size = 5000, seed = 25)

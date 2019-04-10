@@ -6,7 +6,7 @@ setClassUnion("model", c("Maxent", "Maxnet"))
 #'
 #' @slot p \link{SWD} object. The presence locations used to train the
 #' model.
-#' @slot a \link{SWD} object. The absence or backgorund locations used to train
+#' @slot a \link{SWD} object. The absence or background locations used to train
 #' the model.
 #' @slot model \link{Maxent} or \link{Maxnet} object.
 #'
