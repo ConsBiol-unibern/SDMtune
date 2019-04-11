@@ -8,12 +8,6 @@
   return(grid)
 }
 
-.start_server <- function(folder, name) {
-  port <- tools::startDynamicHelp(NA)
-  url <- paste0("http://127.0.0.1:", port, "/session/", basename(folder), name)
-  utils::browseURL(url)
-}
-
 .create_chart <- function(folder, script, settings, data, height = 300) {
 
   dir.create(folder)
@@ -34,11 +28,8 @@
 
   path <- file.path(folder, "chart_template.html")
   viewer <- getOption("viewer")
-  if (!is.null(viewer)) {
-    viewer(path, height = height)  # Show chart in viewer pane
-  } else {
-    .start_server(folder, "/chart_template.html")  # Show chart in browser
-  }
+  # Show chart in viewer pane
+  if (!is.null(viewer)) viewer(path, height = height)
   Sys.sleep(.1)
 }
 

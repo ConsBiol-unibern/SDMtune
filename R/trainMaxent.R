@@ -73,26 +73,24 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
 
 .get_feature_args <- function(fc) {
 
+  feature_args <- c("noautofeature")
+  fc_map = list(
+    "l" = "linear=true",
+    "q" = "quadratic=true",
+    "p" = "product=true",
+    "h" = "hinge=true",
+    "t" = "threshold=true"
+  )
+
   for (letter in strsplit(fc, "")[[1]]) {
     if (!grepl(letter, "lqpht")) {
       stop(paste0("Feature Class '", letter,
                   "' not allawed, possible Feature Classes are: ",
                   "'l', 'q', 'p', 'h' and 't'!"))
+    } else {
+      feature_args <- c(feature_args, fc_map[[letter]])
     }
   }
-
-  feature_args <- c("noautofeature")
-
-  if (!grepl("l", fc))
-    feature_args <- append(feature_args, "nolinear")
-  if (!grepl("q", fc))
-    feature_args <- append(feature_args, "noquadratic")
-  if (!grepl("p", fc))
-    feature_args <- append(feature_args, "noproduct")
-  if (!grepl("h", fc))
-    feature_args <- append(feature_args, "nohinge")
-  if (grepl("t", fc))
-    feature_args <- append(feature_args, "threshold=true")
 
   return(feature_args)
 }
