@@ -14,6 +14,7 @@
 #'
 #' @return The value of the AUC.
 #' @export
+#' @importFrom stats wilcox.test
 #'
 #' @examples
 #' \dontrun{

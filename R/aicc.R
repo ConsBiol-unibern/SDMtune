@@ -25,6 +25,7 @@
 #' @author Sergio Vignali
 aicc <- function(model, env, parallel = FALSE){
 
+  # k is the number of non-zero parameter in the model
   if (class(model@model) == "Maxent") {
     k <- nrow(model@model@coeff)
     type <- "raw"
@@ -39,9 +40,12 @@ aicc <- function(model, env, parallel = FALSE){
     raw <- predict(model, env, type = type, parallel = parallel)
     raw_sum <- raster::cellStats(raw, sum)
     values <- raster::extract(raw, model@p@coords)
-    ll <- sum(log(values / raw_sum))
-    aic <- 2 * k - 2 * ll
-    aicc <- aic + (2 * k * (k + 1) / (nrow(model@p@data) - k - 1))
+    # log-likelihood of standardized presence probabilities
+    loglike <- sum(log(values / raw_sum))
+    # n is the number of presence observations
+    n <- nrow(model@p@data)
+    aic <- 2 * k - 2 * loglike
+    aicc <- aic + (2 * k * (k + 1) / (n - k - 1))
     aicc <- round(aicc, 4)
   }
 

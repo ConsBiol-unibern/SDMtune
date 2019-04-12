@@ -44,7 +44,7 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
   p <- c(rep(1, nrow(p@data)), rep(0, nrow(a@data)))
   dismo_model <- dismo::maxent(x, p, args = args, path = folder)
 
-  l <- .get_lambdas(paste0(folder, "/species.lambdas"), a)
+  l <- .get_lambdas(file.path(folder, "species.lambdas"), a)
   f <- .formula_from_lambdas(l$lambdas)
 
   model_object <- Maxent(results = dismo_model@results, reg = reg, fc = fc,
@@ -63,7 +63,7 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
 .make_args <- function(reg, fc, iter, extra_args) {
 
   args <- c(paste0("betamultiplier=", reg), paste0("maximumiterations=", iter),
-            .get_feature_args(fc))
+            .get_fc_args(fc))
 
   args <- c(args, extra_args)
 
@@ -71,7 +71,7 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
 }
 
 
-.get_feature_args <- function(fc) {
+.get_fc_args <- function(fc) {
 
   feature_args <- c("noautofeature")
   fc_map = list(

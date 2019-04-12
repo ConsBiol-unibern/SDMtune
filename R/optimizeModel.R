@@ -141,14 +141,13 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
     if (metric != "aicc")
       val_metric[i, ] <- list(i, .get_metric(metric, models[[i]], test))
     scatter_footer[i] <- .get_footer(models[[i]])
-    .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                      gen = 0, scatterFooter = scatter_footer,
-                                      best_train = best_train,
-                                      best_val = best_val,
-                                      title = chart_title,
-                                      lineTitle = line_title,
-                                      lineFooter = line_footer, stop = FALSE))
-    Sys.sleep(.1)
+    .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                     gen = 0, scatterFooter = scatter_footer,
+                                     best_train = best_train,
+                                     best_val = best_val,
+                                     title = chart_title,
+                                     lineTitle = line_title,
+                                     lineFooter = line_footer, stop = FALSE))
     pb$tick(1)
   }
 
@@ -165,14 +164,13 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
       best_val[2] <- val_metric[1, 2]
     line_title <- c(line_title, "Generation 0")
     line_footer <- c(line_footer, .get_footer(models[[1]]))
-    .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                      gen = 0, scatterFooter = scatter_footer,
-                                      best_train = best_train,
-                                      best_val = best_val,
-                                      title = chart_title,
-                                      lineTitle = line_title,
-                                      lineFooter = line_footer, stop = FALSE))
-    Sys.sleep(.1)
+    .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                     gen = 0, scatterFooter = scatter_footer,
+                                     best_train = best_train,
+                                     best_val = best_val,
+                                     title = chart_title,
+                                     lineTitle = line_title,
+                                     lineFooter = line_footer, stop = FALSE))
   } else {
     stop(paste("Optimization algorithm interrupted at generation", 0,
                "because it overfits validation dataset!"))
@@ -191,14 +189,13 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
       chart_title = paste("Genetic Algorithm - Generation", i)
       scatter_footer <- scatter_footer[index_kept]
 
-      .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                        gen = i, scatterFooter = scatter_footer,
-                                        best_train = best_train,
-                                        best_val = best_val,
-                                        title = chart_title,
-                                        lineTitle = line_title,
-                                        lineFooter = line_footer, stop = FALSE))
-      Sys.sleep(.1)
+      .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                       gen = i, scatterFooter = scatter_footer,
+                                       best_train = best_train,
+                                       best_val = best_val,
+                                       title = chart_title,
+                                       lineTitle = line_title,
+                                       lineFooter = line_footer, stop = FALSE))
       parents <- models[index_kept]
       models <- parents
 
@@ -218,16 +215,15 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
         scatter_footer[kept + j] <- .get_footer(child)
 
         models <- c(models, child)
-        .update_chart(folder, data = list(train = train_metric,
-                                          val = val_metric, gen = i,
-                                          scatterFooter = scatter_footer,
-                                          best_train = best_train,
-                                          best_val = best_val,
-                                          title = chart_title,
-                                          lineTitle = line_title,
-                                          lineFooter = line_footer,
-                                          stop = FALSE))
-        Sys.sleep(.1)
+        .update_data(folder, data = list(train = train_metric,
+                                         val = val_metric, gen = i,
+                                         scatterFooter = scatter_footer,
+                                         best_train = best_train,
+                                         best_val = best_val,
+                                         title = chart_title,
+                                         lineTitle = line_title,
+                                         lineFooter = line_footer,
+                                         stop = FALSE))
         pb$tick(1)
       }
       metrics <- list(train_metric$y, val_metric$y)
@@ -244,16 +240,15 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
           best_val[i + 2] <- val_metric[1, 2]
         line_title <- c(line_title, paste("Generation", i))
         line_footer <- c(line_footer, .get_footer(models[[1]]))
-        .update_chart(folder, data = list(train = train_metric,
-                                          val = val_metric, gen = i,
-                                          scatterFooter = scatter_footer,
-                                          best_train = best_train,
-                                          best_val = best_val,
-                                          title = chart_title,
-                                          lineTitle = line_title,
-                                          lineFooter = line_footer,
-                                          stop = FALSE))
-        Sys.sleep(.1)
+        .update_data(folder, data = list(train = train_metric,
+                                         val = val_metric, gen = i,
+                                         scatterFooter = scatter_footer,
+                                         best_train = best_train,
+                                         best_val = best_val,
+                                         title = chart_title,
+                                         lineTitle = line_title,
+                                         lineFooter = line_footer,
+                                         stop = FALSE))
       } else {
         stop(paste("Optimization algorithm interrupted at generation", i,
                    "because it overfits validation dataset!"))
@@ -261,13 +256,13 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
     }
   }
 
-  .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                    gen = i, scatterFooter = scatter_footer,
-                                    best_train = best_train,
-                                    best_val = best_val,
-                                    title = chart_title,
-                                    lineTitle = line_title,
-                                    lineFooter = line_footer, stop = TRUE))
+  .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                   gen = i, scatterFooter = scatter_footer,
+                                   best_train = best_train,
+                                   best_val = best_val,
+                                   title = chart_title,
+                                   lineTitle = line_title,
+                                   lineFooter = line_footer, stop = TRUE))
   output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
   pb$tick(1)
 

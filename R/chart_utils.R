@@ -51,6 +51,7 @@
 }
 
 #' @importFrom jsonlite write_json
-.update_chart <- function(folder, data) {
+.update_data <- function(folder, data) {
   jsonlite::write_json(data, file.path(folder, "data.json"))
+  Sys.sleep(.1)
 }

@@ -62,7 +62,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     val_metric <- data.frame(x = NA_real_, y = NA_real_)
   }
 
-  # Create chart
+  # Setup chart
   initial_vars <- colnames(model@p@data)
   line_title <- "Starting model"
   line_footer <- ""
@@ -92,9 +92,8 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                     settings = settings, data = data, height = 600)
       first_iter = FALSE
     } else {
-      .update_chart(folder, data = data)
+      .update_data(folder, data = data)
     }
-    Sys.sleep(.1)
 
     scores <- scores[order(scores[, 2]), ]
     scores <- scores[scores[, 2] <= th, ]
@@ -173,11 +172,10 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     }
   }
 
-  .update_chart(folder, data = list(data = vals, train = train_metric,
-                                    val = val_metric, drawLine1 = FALSE,
-                                    lineTitle = line_title,
-                                    lineFooter = line_footer, stop = TRUE))
-  Sys.sleep(.1)
+  .update_data(folder, data = list(data = vals, train = train_metric,
+                                   val = val_metric, drawLine1 = FALSE,
+                                   lineTitle = line_title,
+                                   lineFooter = line_footer, stop = TRUE))
 
   message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
 

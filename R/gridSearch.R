@@ -81,7 +81,6 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   # Create chart
   settings <- list(metric = .get_metric_label(metric),
                    max = nrow(grid),
-                   labels = c(""),
                    show_line = show_line,
                    title = "Grid Search",
                    update = TRUE)
@@ -90,8 +89,8 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
 
   folder <- tempfile("SDMtune")
 
-  .create_chart(folder = folder, script = "gridSearch.js",
-                settings = settings, data = data)
+  .create_chart(folder = folder, script = "gridSearch.js", settings = settings,
+                data = data)
 
   # Loop through all the settings in grid
   for (i in 1:nrow(grid)) {
@@ -121,9 +120,8 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
 
     footer[i] <- .get_footer(obj)
     stop <- ifelse(i == nrow(grid), TRUE, FALSE)
-    .update_chart(folder, data = list(train = train_metric, val = val_metric,
-                                      gridFooter = footer, stop = stop))
-    Sys.sleep(.1)
+    .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                     gridFooter = footer, stop = stop))
     pb$tick(1)
   }
 

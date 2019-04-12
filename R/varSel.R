@@ -130,9 +130,8 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
                     settings = settings, data = data, height = "maximize")
       first_iter <- FALSE
     } else {
-      .update_chart(folder, data = data)
+      .update_data(folder, data = data)
     }
-    Sys.sleep(.1)
 
     for (i in 1:length(vars)) {
 
@@ -175,8 +174,7 @@ varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
       stop <- TRUE
       data = list(data = vals, train = train_metric, val = val_metric,
                   lineTitle = line_title, stop = stop)
-      .update_chart(folder, data = data)
-      Sys.sleep(.1)
+      .update_data(folder, data = data)
     }
   }
 

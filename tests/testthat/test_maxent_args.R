@@ -1,0 +1,13 @@
+context("Maxent arguments")
+
+test_that("The correct fc arguments are created", {
+  expect_equal(.get_fc_args("lqpht"),
+               c("noautofeature", "linear=true", "quadratic=true",
+                 "product=true", "hinge=true", "threshold=true"))
+  expect_error(.get_fc_args("lb"))
+  })
+test_that("The correct arguments are created", {
+  expect_equal(.make_args(1, "l", 500, "removeduplicates=false"),
+               c("betamultiplier=1", "maximumiterations=500", "noautofeature",
+                 "linear=true", "removeduplicates=false"))
+  })
