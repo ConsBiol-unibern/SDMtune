@@ -39,7 +39,7 @@ You can select a different correlation method or set a different correlation thr
 corVar(bg, method = "spearman", cor_th = 0.7)
 ```
 
-As you can see there are few variables that have a correlation coefficient higher than 0.7 in absolute value.
+As you can see there are few variables that have a correlation coefficient greater than 0.7 in absolute value.
 
 
 ## Remove highly correlated variables
@@ -49,14 +49,14 @@ As you can see there are few variables that have a correlation coefficient highe
 * ranks the variables according to the permutation importance or the percent contribution ( the last method is available only for Maxent models).
 * checks if the variable ranked as most important is highly correlated with other variables, according to the given method and correlation threshold. If the algorithm finds correlated variables it moves to the next step, otherwise checks the other variables in the rank;
 * performs a leave one out Jackknife test among the correlated variables;
-* remove the variable that decreases the model performance the less when removed, according to the given metric on the training dataset.
+* remove the variable that decreases the less the model performance when removed, according to the given metric on the training dataset.
 
 The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a **Spearman** correlation coefficient $|r_s|\leq0.7$ and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:
 ```{r varSel}
 selected_variables_model <- varSel(maxnet_model, metric = "auc", test = test, bg4cor = bg, method = "spearman", cor_th = 0.7, permut = 1)
 ```
 
-As you can see the variables `bio1`, `bio16` and `bio6` have been removed and the output of the function is the model trained with the selected variables:
+As you can see the variables `bio1`, `bio16` and `bio6` have been removed, The output of the function is the model trained with the selected variables:
 ```{r output varSel}
 selected_variables_model
 ```
@@ -66,7 +66,7 @@ The following picture is a screenshot of the interactive real-time chart display
 
 ### Try yourself
 
-Remove highly correlated variables using the `default_model`, ranking the variables with the percent contribution and using the AICc as metric. Check the help of the function `varSel()` and highlight the next cell to see the solution:
+Remove highly correlated variables using the `default_model`, ranking the variables with the percent contribution and using the AICc as evaluation metric. Check the help of the function `varSel()` and highlight the next cell to see the solution:
 ```{r exercise 1, eval=FALSE, eval=FALSE, class.source='exercise'}
 # You need to pass the env argument for the AICc and the use_pc argument to use the percent contribution
 selected_variables_model <- varSel(default_model, metric = "aicc", bg4cor = bg, method = "spearman", cor_th = 0.7, env = predictors, use_pc = TRUE)
