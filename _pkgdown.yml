@@ -43,6 +43,8 @@ navbar:
       href: articles/articles/evaluation_strategies.html
     - text: Variable importance
       href: articles/articles/variable_importance.html
+    - text: Data-driven variable selection
+      href: articles/articles/variable_selection.html
   - text: Changelog
     href: news/index.html
   right:

@@ -11,7 +11,6 @@ options(knitr.table.format = "html")
 ```
 
 ```{r load data, echo=FALSE}
-maxnet_model <- SDMtune:::bm_maxnet
 default_model <- SDMtune:::bm_maxent
 presence <- SDMtune:::p
 bg_model <- SDMtune:::bg_model
@@ -144,6 +143,24 @@ cv_model <- SDMtune:::bm_maxnet_cv
 plotResponse(cv_model, var = "bio1", type = "cloglog", marginal = TRUE, fun = mean, rug = TRUE)
 ```
 
+## Model report
+
+All what you have learned till now con be saved and summarized calling the function `modelReport()`. The function will create a folder with the provided name and:
+
+* save the training, background and testing locations in separated csv files;
+* train and evaluate the model;
+* create a report in a html format with the ROC curve, threshold values, response curves, predicted map and Jackknife test;
+* save the predicted distribution map;
+* save all the curves in the plot folder;
+* save the model with `.Rds` extension that can be loaded in R using the `read.RDS` function.
+
+The function is totally inspired by the default output of the MaxEnt Java software [@Phillips2006] and extends it to other methods (for the moment only **Maxnet**). You can decide what to include in the report using dedicated function arguments, like `response_curves`, `jk` and `env` but the function cannot be used with `SDMmodelCV()` objects. Run the following code to create a report of the **Maxnet** model we trained before:
+```{r report, eval=FALSE}
+modelReport(maxnet_model, type = "cloglog", folder = "condor", test = test, response_curves = TRUE, jk = TRUE, env = predictors)
+```
+
+The output is displayed in the browser and all the files are saved in the **condor** folder.
+
 ## Conclusion
 
 In this article you have learned:
@@ -151,6 +168,7 @@ In this article you have learned:
 * how to get and plot the variable importance for **Maxent** models;
 * how to compute and plot the permutation importance;
 * how to perform the leave one out Jackknife test;
-* how to plot the marginal and the univariate response curve.
+* how to plot the marginal and the univariate response curve;
+* how to create a model report.
 
-In the next article you will learn how to perform data-driven variable selection.
+In the [next article](./variable_selection.html) you will learn how to perform data-driven variable selection.

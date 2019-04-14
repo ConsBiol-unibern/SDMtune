@@ -67,7 +67,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
   line_title <- "Starting model"
   line_footer <- ""
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
-                   title = "Reduce Variable", update = TRUE)
+                   title = "Reduce Variables", update = TRUE)
   folder <- tempfile("SDMsel")
 
   while (variables_reduced == FALSE) {

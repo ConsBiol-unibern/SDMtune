@@ -63,7 +63,8 @@ varImp <- function(model, permut = 10) {
   perm_imp <- 100 * perm_imp / sum(perm_imp)
   perm_imp <- round(perm_imp, 1)
 
-  output <- data.frame(Variable = vars, Permutation_importance = perm_imp)
+  output <- data.frame(Variable = vars, Permutation_importance = perm_imp,
+                       stringsAsFactors = FALSE)
   if (permut > 1)
     output$sd <- round(sd_auc, 3)
   output <- output[order(output$Permutation_importance, decreasing = TRUE), ]
