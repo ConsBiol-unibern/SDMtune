@@ -83,6 +83,9 @@
     <li>
       <a href="../../articles/articles/variable_importance.html">Variable importance</a>
     </li>
+    <li>
+      <a href="../../articles/articles/variable_selection.html">Data-driven variable selection</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -328,6 +331,22 @@
 <p><img src="variable_importance_files/figure-html/plot%20cv%20response-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
+<div id="model-report" class="section level2">
+<h2 class="hasAnchor">
+<a href="#model-report" class="anchor"></a>Model report</h2>
+<p>All what you have learned till now con be saved and summarized calling the function <code><a href="../../reference/modelReport.html">modelReport()</a></code>. The function will create a folder with the provided name and:</p>
+<ul>
+<li>save the training, background and testing locations in separated csv files;</li>
+<li>train and evaluate the model;</li>
+<li>create a report in a html format with the ROC curve, threshold values, response curves, predicted map and Jackknife test;</li>
+<li>save the predicted distribution map;</li>
+<li>save all the curves in the plot folder;</li>
+<li>save the model with <code>.Rds</code> extension that can be loaded in R using the <code>read.RDS</code> function.</li>
+</ul>
+<p>The function is totally inspired by the default output of the MaxEnt Java software <span class="citation">[@Phillips2006]</span> and extends it to other methods (for the moment only <strong>Maxnet</strong>). You can decide what to include in the report using dedicated function arguments, like <code>response_curves</code>, <code>jk</code> and <code>env</code> but the function cannot be used with <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> objects. Run the following code to create a report of the <strong>Maxnet</strong> model we trained before:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../../reference/modelReport.html">modelReport</a></span>(maxnet_model, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">folder =</span> <span class="st">"condor"</span>, <span class="dt">test =</span> test, <span class="dt">response_curves =</span> <span class="ot">TRUE</span>, <span class="dt">jk =</span> <span class="ot">TRUE</span>, <span class="dt">env =</span> predictors)</a></code></pre></div>
+<p>The output is displayed in the browser and all the files are saved in the <strong>condor</strong> folder.</p>
+</div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h2>
@@ -336,9 +355,10 @@
 <li>how to get and plot the variable importance for <strong>Maxent</strong> models;</li>
 <li>how to compute and plot the permutation importance;</li>
 <li>how to perform the leave one out Jackknife test;</li>
-<li>how to plot the marginal and the univariate response curve.</li>
+<li>how to plot the marginal and the univariate response curve;</li>
+<li>how to create a model report.</li>
 </ul>
-<p>In the next article you will learn how to perform data-driven variable selection.</p>
+<p>In the <a href="./variable_selection.html">next article</a> you will learn how to perform data-driven variable selection.</p>
 </div>
   </div>
 
@@ -352,6 +372,7 @@
       <li><a href="#permutation-importance">Permutation importance</a></li>
       <li><a href="#jackknife-test-for-variable-importance">Jackknife test for variable importance</a></li>
       <li><a href="#response-curves">Response curves</a></li>
+      <li><a href="#model-report">Model report</a></li>
       <li><a href="#conclusion">Conclusion</a></li>
       </ul>
 </div>
