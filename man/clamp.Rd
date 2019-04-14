@@ -20,7 +20,7 @@ numeric. The clamped vector.
 Clamp a given vector between the provided lower and upper values.
 }
 \details{
-The code is taken from
+The code is inspired by
 \url{http://gallery.rcpp.org/articles/sugar-function-clamp/}.
 }
 \examples{

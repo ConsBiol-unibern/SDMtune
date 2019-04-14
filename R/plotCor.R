@@ -38,32 +38,24 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
 
   cor_matrix <- cor(df, method = method)
   cor_matrix[lower.tri(cor_matrix)] <- NA
-
-  if (!is.null(cor_th)) {
-    highly_correlated <- cor_matrix
-    highly_correlated[abs(highly_correlated) < cor_th] <- NA
-    highly_correlated <- reshape2::melt(highly_correlated, na.rm = TRUE)
-  }
+  highly_correlated <- cor_matrix
 
   cor_matrix <- reshape2::melt(cor_matrix, na.rm = TRUE)
 
   heat_map <- ggplot(data = cor_matrix, aes_(~Var2, ~Var1, fill = ~value)) +
     geom_tile(color = "white") +
-    scale_fill_gradient2(low = "blue", high = "red", mid = "white",
+    scale_fill_gradient2(low = "#2c7bb6", mid = "#ffffbf", high = "#d7191c",
                          midpoint = 0, limit = c(-1, 1), space = "Lab",
                          name = paste0(toupper(substring(method, 1, 1)),
                                        substring(method, 2),
                                        "'s\ncoefficient")) +
     theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12,
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 10,
                                      hjust = 1),
-          axis.text.y = element_text(size = 12),
+          axis.text.y = element_text(size = 10),
           axis.title.x = element_blank(),
           axis.title.y = element_blank(),
           panel.grid.major = element_blank(),
-          panel.border = element_blank(),
-          panel.background = element_blank(),
-          axis.ticks = element_blank(),
           text = element_text(colour = "#666666", family = "sans-serif"))
     coord_fixed()
 
@@ -73,10 +65,12 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
                                         label = round(cor_matrix$value, 2)),
                 color = "black", size = 3.5)
   } else {
+    highly_correlated[abs(highly_correlated) < cor_th] <- NA
+    highly_correlated <- reshape2::melt(highly_correlated, na.rm = TRUE)
     heat_map <- heat_map +
       geom_text(data = highly_correlated,
                 aes_(~Var2, ~Var1, label = round(highly_correlated$value, 2)),
-                color = "black", size = 3.5)
+                color = "black", size = 3)
   }
 
   return(heat_map)

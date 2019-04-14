@@ -10,7 +10,7 @@ using namespace Rcpp;
 //' @param lower numeric. The lowest value used to clamp.
 //' @param upper numeric. The highest value used to clamp
 //'
-//' @details The code is taken from
+//' @details The code is inspired by
 //' \url{http://gallery.rcpp.org/articles/sugar-function-clamp/}.
 //'
 //' @return numeric. The clamped vector.
