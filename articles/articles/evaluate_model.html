@@ -78,10 +78,10 @@
       <a href="../../articles/articles/evaluate_model.html">Evaluate a model</a>
     </li>
     <li>
-      <a href="../../articles/articles/variable_importance.html">Variable importance</a>
+      <a href="../../articles/articles/evaluation_strategies.html">Evaluation strategies</a>
     </li>
     <li>
-      <a href="../../articles/articles/evaluation_strategies.html">Evaluation strategies</a>
+      <a href="../../articles/articles/variable_importance.html">Variable importance</a>
     </li>
   </ul>
 </li>
@@ -142,7 +142,7 @@
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
-<p>The Area Under the ROC curve can be calculated using the function <code><a href="../../reference/auc.html">auc()</a></code>:</p>
+<p>The Area Under the ROC curve <span class="citation">(Fielding and Bell 1997)</span> can be calculated using the function <code><a href="../../reference/auc.html">auc()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../../reference/auc.html">auc</a></span>(default_model)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] 0.934</span></a></code></pre></div>
 <p>We can also plot the ROC curve using the function <code><a href="../../reference/plotROC.html">plotROC()</a></code>:</p>
@@ -152,14 +152,14 @@
 <div id="tss" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tss" class="anchor"></a>TSS</h2>
-<p>The True Skill Statistic is computed with the <code><a href="../../reference/tss.html">tss()</a></code> function:</p>
+<p>The True Skill Statistic <span class="citation">(Allouche, Tsoar, and Kadmon 2006)</span> is computed with the <code><a href="../../reference/tss.html">tss()</a></code> function:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../../reference/tss.html">tss</a></span>(default_model)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 0.767</span></a></code></pre></div>
 </div>
 <div id="aicc" class="section level2">
 <h2 class="hasAnchor">
 <a href="#aicc" class="anchor"></a>AICc</h2>
-<p>For the Akaike Information Criterion corrected for small sample size we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument, the ‘predictors’ raster <code>stack</code> object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>:</p>
+<p>For the Akaike Information Criterion corrected for small sample size <span class="citation">(Warren and Seifert 2011)</span> we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument, the ‘predictors’ raster <code>stack</code> object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../../reference/aicc.html">aicc</a></span>(default_model, <span class="dt">env =</span> predictors)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; [1] 8495.432</span></a></code></pre></div>
 <p>We can pass the argument <code>parallel=TRUE</code> to speed up the computation for large datasets.</p>
@@ -179,7 +179,22 @@
 <li>how to calculate the TSS;</li>
 <li>how to calculate the AICc.</li>
 </ul>
-<p>In the next article you will learn how to display the <a href="./variable_importance.html">variable importance</a> and how to plot the response curve.</p>
+<p>In the next article you will learn two different strategies that can be used to correctly evaluate your model performance.</p>
+<div id="references" class="section level3 unnumbered">
+<h3 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h3>
+<div id="refs" class="references">
+<div id="ref-ALLOUCHE2006">
+<p>Allouche, Omri, Asaf Tsoar, and Ronen Kadmon. 2006. “Assessing the accuracy of species distribution models: prevalence, kappa and the true skill statistic (TSS).” <em>Journal of Applied Ecology</em> 43 (6). Wiley/Blackwell (10.1111): 1223–32. <a href="https://doi.org/10.1111/j.1365-2664.2006.01214.x" class="uri">https://doi.org/10.1111/j.1365-2664.2006.01214.x</a>.</p>
+</div>
+<div id="ref-Fielding1997">
+<p>Fielding, Alan H., and John F. Bell. 1997. “A review of methods for the assessment of prediction errors in conservation presence/absence models.” <em>Environmental Conservation</em> 24 (1): 38–49. <a href="http://www.dpi.inpe.br/referata/arq/14.Camilo/fielding%7B%5C_%7DBell%7B%5C_%7D1997.pdf" class="uri">http://www.dpi.inpe.br/referata/arq/14.Camilo/fielding{\_}Bell{\_}1997.pdf</a>.</p>
+</div>
+<div id="ref-Warren2011a">
+<p>Warren, Dan L., and Stephanie N. Seifert. 2011. “Ecological niche modeling in Maxent: the importance of model complexity and the performance of model selection criteria.” <em>Ecological Applications</em> 21 (2). John Wiley &amp; Sons, Ltd: 335–42. <a href="https://doi.org/10.1890/10-1171.1" class="uri">https://doi.org/10.1890/10-1171.1</a>.</p>
+</div>
+</div>
+</div>
 </div>
   </div>
 

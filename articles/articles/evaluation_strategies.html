@@ -78,10 +78,10 @@
       <a href="../../articles/articles/evaluate_model.html">Evaluate a model</a>
     </li>
     <li>
-      <a href="../../articles/articles/variable_importance.html">Variable importance</a>
+      <a href="../../articles/articles/evaluation_strategies.html">Evaluation strategies</a>
     </li>
     <li>
-      <a href="../../articles/articles/evaluation_strategies.html">Evaluation strategies</a>
+      <a href="../../articles/articles/variable_importance.html">Variable importance</a>
     </li>
   </ul>
 </li>
@@ -127,7 +127,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis, how to <a href="./train_model.html">train a model</a>, how to <a href="./make_predictions.html">make predictions</a>, how to <a href="./evaluate_model.html">evaluate a model</a> and how to <a href=",/variable_importance.html">print and plot</a> the variable importance of a model using <strong>SDMtune</strong>. In this article you will learn different evaluation strategies to achieve a better estimate of your model performance.</p>
+<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis, how to <a href="./train_model.html">train a model</a>, how to <a href="./make_predictions.html">make predictions</a> and how to <a href="./evaluate_model.html">evaluate a model</a> using <strong>SDMtune</strong>. In this article you will learn different evaluation strategies to achieve a better estimate of your model performance.</p>
 </div>
 <div id="train-and-testing-datasets" class="section level2">
 <h2 class="hasAnchor">
@@ -151,7 +151,7 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Training auc:  0.9359</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Testing auc:  0.9211</span></a></code></pre></div>
-<p>This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the auc:</p>
+<p>This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the AUC:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">output &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">10</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)) <span class="co"># Create an empty data.frame</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(output) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span>)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)</a>
@@ -213,12 +213,10 @@
 #&gt; Categorical: biome</code></pre>
 <p>The output in this case is a <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object. It contains the four trained models in the <code>models</code> slot and the index of the fold partition in the <code>folds</code> slot. We can compute the AUC of a <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object using:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model))</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Training AUC:  0.9356</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Training AUC:  0.9353</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model, <span class="dt">test =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Testing AUC:  0.9258</span></a></code></pre></div>
-<p>this return the AUC value averaged across the four different models. We can also plot the response curve of a <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object but with <strong>SDMtune</strong> is not possible to make predictions:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../../reference/plotResponse.html">plotResponse</a></span>(cv_model, <span class="dt">var =</span> <span class="st">"bio1"</span>, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">marginal =</span> <span class="ot">FALSE</span>, <span class="dt">fun =</span> mean, <span class="dt">rug =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="evaluation_strategies_files/figure-html/plot%20cv%20response%20curve-1.png" width="700" style="display: block; margin: auto;"></p>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Testing AUC:  0.927</span></a></code></pre></div>
+<p>this returns the AUC value averaged across the four different models.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself-1" class="anchor"></a>Try yourself</h3>
@@ -233,10 +231,9 @@
 <li>how to split the presence dataset in training and testing folds;</li>
 <li>how to evaluate the model using the held out testing dataset;</li>
 <li>how to perform a cross validation;</li>
-<li>how to evaluate an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object;</li>
-<li>how to plot the response curve of an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object.</li>
+<li>how to evaluate an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object.</li>
 </ul>
-<p>In the next article you will learn how to perform data-driven variable selection.</p>
+<p>In the next article you will learn how to display the <a href="./variable_importance.html">variable importance</a> and how to plot the response curve.</p>
 </div>
   </div>
 

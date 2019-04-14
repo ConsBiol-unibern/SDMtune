@@ -78,10 +78,10 @@
       <a href="../../articles/articles/evaluate_model.html">Evaluate a model</a>
     </li>
     <li>
-      <a href="../../articles/articles/variable_importance.html">Variable importance</a>
+      <a href="../../articles/articles/evaluation_strategies.html">Evaluation strategies</a>
     </li>
     <li>
-      <a href="../../articles/articles/evaluation_strategies.html">Evaluation strategies</a>
+      <a href="../../articles/articles/variable_importance.html">Variable importance</a>
     </li>
   </ul>
 </li>
@@ -127,7 +127,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis, how to <a href="./train_model.html">train a model</a>, how to <a href="./make_predictions.html">make predictions</a> and how to <a href="./evaluate_model.html">evaluate a model</a> using <strong>SDMtune</strong>. In this article you will learn how to display and plot the variable importance and how to plot the response curves.</p>
+<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis, how to <a href="./train_model.html">train a model</a>, how to <a href="./make_predictions.html">make predictions</a>, how to <a href="./evaluate_model.html">evaluate a model</a> and two different <a href="./evaluation_strategies.html">evaluation strategies</a> using <strong>SDMtune</strong>. In this article you will learn how to display and plot the variable importance and how to plot the response curves.</p>
 </div>
 <div id="variable-importance-for-maxent-models" class="section level2">
 <h2 class="hasAnchor">
@@ -232,45 +232,100 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co"># and one with the values, so it is enough to select the first and the third</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co"># columns from the vi data.frame</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw"><a href="../../reference/plotVarImp.html">plotVarImp</a></span>(vi[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>)])</a></code></pre></div>
-<p><strong>SDmtune</strong> has its own function to compute the permutation importance that iterates through several permutations and return an averaged value together with the standard deviation. We will use this function to compute the permutation importance of a <strong>Maxnet</strong> model.</p>
+<p><strong>SDMtune</strong> has its own function to compute the permutation importance that iterates through several permutations and return an averaged value together with the standard deviation. We will use this function to compute the permutation importance of a <strong>Maxnet</strong> model.</p>
 </div>
 </div>
-<div id="variable-importance-for-maxnet-models" class="section level2">
+<div id="permutation-importance" class="section level2">
 <h2 class="hasAnchor">
-<a href="#variable-importance-for-maxnet-models" class="anchor"></a>Variable importance for Maxnet models</h2>
-<p>We first need to train a <strong>Maxnet</strong> model using the <a href="../../reference/condor.html">condor</a> dataset and the predictors we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>. We train the model using the default settings (i.e. feature combinations equal to linear, quadratic, product and hinge; regularization multiplier equal to 1):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">p =</span> presence, <span class="dt">a =</span> bg_model)</a></code></pre></div>
+<a href="#permutation-importance" class="anchor"></a>Permutation importance</h2>
+<p>For this example will use a <strong>Maxnet</strong> model and a training/testing validation strategy like in the <a href="./evaluation_strategies.html#train-and-testing-datasets">previous article</a>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(zeallot)  <span class="co"># For unpacking assignment</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(presence, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">seed =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">p =</span> train, <span class="dt">a =</span> bg_model)</a></code></pre></div>
 <p>Now we can calculate the variable importance with the function <code><a href="../../reference/varImp.html">varImp()</a></code> using 5 permutations:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_maxnet &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/varImp.html">varImp</a></span>(maxnet_model, <span class="dt">permut =</span> <span class="dv">5</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">vi_maxnet</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;   Variable Permutation_importance    sd</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 1     bio1                   37.0 0.005</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 2     bio5                   19.6 0.004</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 3     bio6                    9.8 0.007</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 4    bio17                    9.0 0.003</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 5    biome                    8.5 0.003</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 6     bio7                    8.1 0.006</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 7     bio8                    5.7 0.003</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 8    bio16                    2.3 0.002</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 9    bio12                    0.2 0.000</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 1     bio1                   37.1 0.006</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 2     bio5                   14.2 0.002</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 3     bio7                    9.4 0.004</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 4    biome                    9.4 0.007</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 5     bio6                    8.9 0.003</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 6     bio8                    5.6 0.002</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 7    bio17                    5.5 0.003</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 8    bio12                    5.4 0.003</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 9    bio16                    4.5 0.003</span></a></code></pre></div>
 <p>And plot it with:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../../reference/plotVarImp.html">plotVarImp</a></span>(vi_maxnet)</a></code></pre></div>
 <p><img src="variable_importance_files/figure-html/plot%20var%20imp-1.png" width="700" style="display: block; margin: auto;"></p>
+<div id="try-yourself-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#try-yourself-1" class="anchor"></a>Try yourself</h3>
+<p>Use the <code><a href="../../reference/varImp.html">varImp()</a></code> function to compute the permutation importance for the <code>default_model</code> using 10 permutations and compare the results with the Maxent output. To see the solution highlight the following cell:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Compute the permutation importance</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">vi_maxent &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/varImp.html">varImp</a></span>(default_model, <span class="dt">permut =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># Print it</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">vi_maxent</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># Compare with Maxent output</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw"><a href="../../reference/maxentVarImp.html">maxentVarImp</a></span>(default_model)</a></code></pre></div>
+<p>The difference is probably due to a different shuffling of the presence and background locations during the permutation process and because in this example we performed 10 permutations and averaged the values.</p>
+</div>
+</div>
+<div id="jackknife-test-for-variable-importance" class="section level2">
+<h2 class="hasAnchor">
+<a href="#jackknife-test-for-variable-importance" class="anchor"></a>Jackknife test for variable importance</h2>
+<p>Another method to estimate the variable importance is the leave one out Jackknife test. The test removes one variable at time and records the change in the chosen metric. We use the function <code><a href="../../reference/doJk.html">doJk()</a></code>, the AUC as evaluation metric and the <code>maxnet_model</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">jk &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/doJk.html">doJk</a></span>(maxnet_model, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">jk</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;   Variable Train_AUC_without Train_AUC_withonly Test_AUC_without</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; 1     bio1            0.9345             0.8574           0.9190</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 2    bio12            0.9354             0.7346           0.9211</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 3    bio16            0.9336             0.7172           0.9203</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 4    bio17            0.9348             0.6554           0.9199</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 5     bio5            0.9336             0.8770           0.9181</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 6     bio6            0.9336             0.8106           0.9187</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 7     bio7            0.9321             0.7313           0.9194</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 8     bio8            0.9341             0.8494           0.9162</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 9    biome            0.9288             0.7725           0.9091</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;   Test_AUC_withonly</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 1            0.8245</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 2            0.7137</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 3            0.6873</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 4            0.6617</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 5            0.8452</span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 6            0.7817</span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 7            0.7450</span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 8            0.8135</span></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; 9            0.7656</span></a></code></pre></div>
+<p>We can also plot the output using the function <code><a href="../../reference/plotJk.html">plotJk()</a></code>. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../../reference/plotJk.html">plotJk</a></span>(jk, <span class="dt">type =</span> <span class="st">"train"</span>, <span class="dt">ref =</span> <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model))</a></code></pre></div>
+<p><img src="variable_importance_files/figure-html/plot%20jk%20train-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>and the Jackknife test for the testing AUC:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../../reference/plotJk.html">plotJk</a></span>(jk, <span class="dt">type =</span> <span class="st">"train"</span>, <span class="dt">ref =</span> <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a></code></pre></div>
+<p><img src="variable_importance_files/figure-html/plot%20jk%20test-1.png" width="700" style="display: block; margin: auto;"></p>
+<div id="try-yourself-2" class="section level3">
+<h3 class="hasAnchor">
+<a href="#try-yourself-2" class="anchor"></a>Try yourself</h3>
+<p>Repeat the Jackknife part using the TSS and the AICc as evaluation metric and using the <code>dafult_model</code></p>
+</div>
 </div>
 <div id="response-curves" class="section level2">
 <h2 class="hasAnchor">
 <a href="#response-curves" class="anchor"></a>Response curves</h2>
 <p>With the function <code><a href="../../reference/plotResponse.html">plotResponse()</a></code> is possible to plot the marginal and the univariate response curve. Let’s plot the <strong>cloglog</strong> univariate response curve of <strong>bio1</strong>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../../reference/plotResponse.html">plotResponse</a></span>(maxnet_model, <span class="dt">var =</span> <span class="st">"bio1"</span>, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">marginal =</span> <span class="ot">FALSE</span>, <span class="dt">rug =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../../reference/plotResponse.html">plotResponse</a></span>(maxnet_model, <span class="dt">var =</span> <span class="st">"bio1"</span>, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">marginal =</span> <span class="ot">FALSE</span>, <span class="dt">rug =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="variable_importance_files/figure-html/plot%20bio1-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the <strong>logistic</strong> marginal response curve of <strong>biome</strong> that is a categorical variable, keeping the other variables at the mean value:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../../reference/plotResponse.html">plotResponse</a></span>(maxnet_model, <span class="dt">var =</span> <span class="st">"biome"</span>, <span class="dt">type =</span> <span class="st">"logistic"</span>, <span class="dt">marginal =</span> <span class="ot">TRUE</span>, <span class="dt">fun =</span> mean, <span class="dt">color =</span> <span class="st">"blue"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../../reference/plotResponse.html">plotResponse</a></span>(maxnet_model, <span class="dt">var =</span> <span class="st">"biome"</span>, <span class="dt">type =</span> <span class="st">"logistic"</span>, <span class="dt">marginal =</span> <span class="ot">TRUE</span>, <span class="dt">fun =</span> mean, <span class="dt">color =</span> <span class="st">"blue"</span>)</a></code></pre></div>
 <p><img src="variable_importance_files/figure-html/plot%20biome-1.png" width="700" style="display: block; margin: auto;"></p>
-<div id="try-yourself-1" class="section level3">
+<div id="try-yourself-3" class="section level3">
 <h3 class="hasAnchor">
-<a href="#try-yourself-1" class="anchor"></a>Try yourself</h3>
+<a href="#try-yourself-3" class="anchor"></a>Try yourself</h3>
 <p>Plot in green the univariate cloglog response curve of <strong>bio17</strong> removing the rug and using the <code>default_model</code>, to see the solution highlight the following cell:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../../reference/plotResponse.html">plotResponse</a></span>(default_model, <span class="dt">var =</span> <span class="st">"bio17"</span>, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">marginal =</span> <span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">"green"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../../reference/plotResponse.html">plotResponse</a></span>(default_model, <span class="dt">var =</span> <span class="st">"bio17"</span>, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">marginal =</span> <span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">"green"</span>)</a></code></pre></div>
+<p>In the case of an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> the response curve shows the averaged value of the prediction together with the one Standard Deviation error interval. We use the cross validation model trained in the <a href="./evaluation_strategies.html#cross-validation">previous article</a></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../../reference/plotResponse.html">plotResponse</a></span>(cv_model, <span class="dt">var =</span> <span class="st">"bio1"</span>, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">marginal =</span> <span class="ot">TRUE</span>, <span class="dt">fun =</span> mean, <span class="dt">rug =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="variable_importance_files/figure-html/plot%20cv%20response-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div id="conclusion" class="section level2">
@@ -279,10 +334,11 @@
 <p>In this article you have learned:</p>
 <ul>
 <li>how to get and plot the variable importance for <strong>Maxent</strong> models;</li>
-<li>how to compute and plot the permutation importance for <strong>Maxnet</strong> models;</li>
+<li>how to compute and plot the permutation importance;</li>
+<li>how to perform the leave one out Jackknife test;</li>
 <li>how to plot the marginal and the univariate response curve.</li>
 </ul>
-<p>In the next article you will learn two different strategies that can be used to correctly evaluate your model performance.</p>
+<p>In the next article you will learn how to perform data-driven variable selection.</p>
 </div>
   </div>
 
@@ -293,7 +349,8 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#intro">Intro</a></li>
       <li><a href="#variable-importance-for-maxent-models">Variable importance for Maxent models</a></li>
-      <li><a href="#variable-importance-for-maxnet-models">Variable importance for Maxnet models</a></li>
+      <li><a href="#permutation-importance">Permutation importance</a></li>
+      <li><a href="#jackknife-test-for-variable-importance">Jackknife test for variable importance</a></li>
       <li><a href="#response-curves">Response curves</a></li>
       <li><a href="#conclusion">Conclusion</a></li>
       </ul>

@@ -19,7 +19,7 @@
 <link href="docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Species Distribution Model Selection">
-<meta property="og:description" content="This package provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation through the “dismo” package and the R implementation through the “maxnet” package.">
+<meta property="og:description" content="User-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. 'SDMtune' uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation through the 'dismo' package and the R implementation through the 'maxnet' package.">
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -78,10 +78,10 @@
       <a href="articles/articles/evaluate_model.html">Evaluate a model</a>
     </li>
     <li>
-      <a href="articles/articles/variable_importance.html">Variable importance</a>
+      <a href="articles/articles/evaluation_strategies.html">Evaluation strategies</a>
     </li>
     <li>
-      <a href="articles/articles/evaluation_strategies.html">Evaluation strategies</a>
+      <a href="articles/articles/variable_importance.html">Variable importance</a>
     </li>
   </ul>
 </li>
@@ -156,7 +156,7 @@ Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website<
 <a class="sourceLine" id="cb2-11" data-line-number="11">bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># Train a model</span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13">sdmtune_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">p =</span> presence, <span class="dt">a =</span> bg)</a></code></pre></div>
-<p>We want to compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> that calls the MaxEnt Java software. We first convert the <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
+<p>We want to compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> <span class="citation">(Hijmans et al. 2017)</span> that calls the MaxEnt Java software. We first convert the <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">maxent_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span>(sdmtune_model)</a></code></pre></div>
 <p>Here a function to test that the results are equal, with a tolerance of <code>1e-7</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">my_check &lt;-<span class="st"> </span><span class="cf">function</span>(values) {</a>
@@ -179,6 +179,15 @@ Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website<
 <h2 class="hasAnchor">
 <a href="#code-of-conduct" class="anchor"></a>Code of conduct</h2>
 <p>Please note that this project follows a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>.</p>
+<div id="references" class="section level3 unnumbered">
+<h3 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h3>
+<div id="refs" class="references">
+<div id="ref-Hijmans2017">
+<p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “dismo: Species Distribution Modeling.” <a href="https://cran.r-project.org/package=dismo" class="uri">https://cran.r-project.org/package=dismo</a>.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
   </div>
