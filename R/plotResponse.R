@@ -58,9 +58,9 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   a_rug <- data.frame(x = a@data[, var])
 
   if (class(model) == "SDMmodel") {
-    plot_data <- get_plot_data(model, train, a, var, cont_vars, cat_vars,
-                               n_rows, train_rug, fun, marginal, clamp, type,
-                               categ)
+    plot_data <- .get_plot_data(model, train, a, var, cont_vars, cat_vars,
+                                n_rows, train_rug, fun, marginal, clamp, type,
+                                categ)
 
     if (var %in% cont_vars) {
       my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
@@ -74,15 +74,15 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     }
   } else {
     nf <- length(model@models)
-    plot_data <- get_plot_data(model@models[[1]], train, a, var, cont_vars,
-                               cat_vars, n_rows, train_rug, fun, marginal,
-                               clamp, type, categ)
+    plot_data <- .get_plot_data(model@models[[1]], train, a, var, cont_vars,
+                                cat_vars, n_rows, train_rug, fun, marginal,
+                                clamp, type, categ)
     colnames(plot_data) <- c("x", "y_1")
     for (i in 2:nf)
-      plot_data[paste0("y_", i)] <- get_plot_data(model@models[[i]], train, a,
-                                                  var, cont_vars, cat_vars,
-                                                  n_rows, train_rug, fun,
-                                                  marginal, clamp, type)$y
+      plot_data[paste0("y_", i)] <- .get_plot_data(model@models[[i]], train, a,
+                                                   var, cont_vars, cat_vars,
+                                                   n_rows, train_rug, fun,
+                                                   marginal, clamp, type)$y
     plot_data$y <- rowMeans(plot_data[, -1])
     plot_data$sd <- apply(plot_data[, 2:(nf + 1)], 1, sd, na.rm = TRUE)
     plot_data$y_min <- plot_data$y - plot_data$sd
@@ -121,8 +121,8 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
 }
 
 
-get_plot_data <- function(model, train, a, var, cont_vars, cat_vars, n_rows,
-                          train_rug, fun, marginal, clamp, type, categ) {
+.get_plot_data <- function(model, train, a, var, cont_vars, cat_vars, n_rows,
+                           train_rug, fun, marginal, clamp, type, categ) {
 
   data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(train@data)))
   colnames(data) <- colnames(train@data)

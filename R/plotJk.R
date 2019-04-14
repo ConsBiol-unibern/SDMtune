@@ -74,13 +74,15 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
   names(df_with) <- names(df_without) <- c("Variable", "value")
   df_plot <- rbind(df_with, df_without)
   df_plot$test <- c(rep("With only", nrow(df_with)),
-                    rep("Whitout", nrow(df_without)))
+                    rep("Without", nrow(df_without)))
   my_plot <- ggplot(df_plot, aes_(x = ~Variable, y = ~value, fill = ~test)) +
     geom_bar(stat = "identity", position = position_dodge()) +
     coord_flip() +
     labs(x = "", y = y_label) +
     theme_minimal() +
-    theme(text = element_text(colour = "#666666", family = "sans-serif"))
+    theme(text = element_text(colour = "#666666", family = "sans-serif"),
+          legend.title = element_blank())
+
 
   if (!is.null(ref))
     my_plot <- my_plot +
