@@ -19,9 +19,12 @@ bg_model <- getSubsample(bg, size = 5000, seed = 25)
 
 # Train base models with default settings
 bm_maxent <- train("Maxent", p, bg_model)
+set.seed(25)
 bm_maxent_cv <- train("Maxent", p, bg_model, rep = 4)
 bm_maxnet <- train("Maxnet", p, bg_model)
+set.seed(25)
+bm_maxnet_cv <- train("Maxnet", p, bg_model, rep = 4)
 
 # save objects in sysdata
 usethis::use_data(p, bg, bg_model, bm_maxent, bm_maxent_cv, bm_maxnet,
-                  internal = TRUE, overwrite = TRUE)
+                  bm_maxnet_cv, internal = TRUE, overwrite = TRUE)

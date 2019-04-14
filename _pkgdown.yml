@@ -39,10 +39,10 @@ navbar:
       href: articles/articles/make_predictions.html
     - text: Evaluate a model
       href: articles/articles/evaluate_model.html
-    - text: Variable importance
-      href: articles/articles/variable_importance.html
     - text: Evaluation strategies
       href: articles/articles/evaluation_strategies.html
+    - text: Variable importance
+      href: articles/articles/variable_importance.html
   - text: Changelog
     href: news/index.html
   right:

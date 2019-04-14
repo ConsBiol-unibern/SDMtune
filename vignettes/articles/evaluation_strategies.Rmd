@@ -1,6 +1,6 @@
 ---
 title: "Evaluation strategies"
-bibliography: ../library.bib
+bibliography: ../SDMtune.bib
 ---
 
 ```{r setup, include = FALSE}
@@ -20,7 +20,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html), how to [evaluate a model](./evaluate_model.html) and how to [print and plot](,/variable_importance.html) the variable importance of a model using **SDMtune**. In this article you will learn different evaluation strategies to achieve a better estimate of your model performance.
+In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html) and how to [evaluate a model](./evaluate_model.html) using **SDMtune**. In this article you will learn different evaluation strategies to achieve a better estimate of your model performance.
 
 ## Train and testing datasets
 
@@ -43,7 +43,7 @@ cat("Training auc: ", auc(maxnet_model))
 cat("Testing auc: ", auc(maxnet_model, test = test))
 ```
 
-This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the auc:
+This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the AUC:
 ```{r experiment}
 output <- data.frame(matrix(NA, nrow = 10, ncol = 3)) # Create an empty data.frame
 colnames(output) <- c("seed", "trainAUC", "testAUC")
@@ -78,7 +78,7 @@ cv_model <- train("Maxnet", p = presence, a = bg_model, rep = 4)
 cv_model
 ```
 ```{r cv bis, echo=FALSE}
-cv_model <- train("Maxnet", p = presence, a = bg_model, rep = 4, verbose = FALSE)
+cv_model <- SDMtune:::bm_maxnet_cv
 cv_model
 ```
 
@@ -88,10 +88,7 @@ cat("Training AUC: ", auc(cv_model))
 cat("Testing AUC: ", auc(cv_model, test = TRUE))
 ```
 
-this return the AUC value averaged across the four different models. We can also plot the response curve of a `SDMmodelCV()` object but with **SDMtune** is not possible to make predictions:
-```{r plot cv response curve, fig.align="center"}
-plotResponse(cv_model, var = "bio1", type = "cloglog", marginal = FALSE, fun = mean, rug = TRUE)
-```
+this returns the AUC value averaged across the four different models.
 
 ### Try yourself
 
@@ -104,7 +101,6 @@ In this article you have learned:
 * how to split the presence dataset in training and testing folds;
 * how to evaluate the model using the held out testing dataset;
 * how to perform a cross validation;
-* how to evaluate an `SDMmodelCV()` object;
-* how to plot the response curve of an `SDMmodelCV()` object.
+* how to evaluate an `SDMmodelCV()` object.
 
-In the next article you will learn how to perform data-driven variable selection.
+In the next article you will learn how to display the [variable importance](./variable_importance.html) and how to plot the response curve.

@@ -45,7 +45,7 @@ bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictor
 sdmtune_model <- train(method = "Maxent", p = presence, a = bg)
 ```
 
-We want to compare the execution time of the `predict` function between **SDMtune** that uses its own algorithm and **dismo** that calls the MaxEnt Java software. We first convert the `sdmtune_model` in a object that is accepted by **dismo**:
+We want to compare the execution time of the `predict` function between **SDMtune** that uses its own algorithm and **dismo** (Hijmans et al. 2017) that calls the MaxEnt Java software. We first convert the `sdmtune_model` in a object that is accepted by **dismo**:
 
 ``` r
 maxent_model <- SDMmodel2MaxEnt(sdmtune_model)
@@ -83,3 +83,7 @@ Code of conduct
 ---------------
 
 Please note that this project follows a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md).
+
+### References
+
+Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “dismo: Species Distribution Modeling.” <https://cran.r-project.org/package=dismo>.

@@ -1,6 +1,7 @@
 ---
 output:
   github_document
+bibliography: ./vignettes/SDMtune.bib
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -60,7 +61,7 @@ bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictor
 sdmtune_model <- train(method = "Maxent", p = presence, a = bg)
 ```
 
-We want to compare the execution time of the `predict` function between **SDMtune** that uses its own algorithm and **dismo** that calls the MaxEnt Java software. We first convert the `sdmtune_model` in a object that is accepted by **dismo**:
+We want to compare the execution time of the `predict` function between **SDMtune** that uses its own algorithm and **dismo** [@Hijmans2017] that calls the MaxEnt Java software. We first convert the `sdmtune_model` in a object that is accepted by **dismo**:
 ```{r sdmtune2maxent, eval=FALSE}
 maxent_model <- SDMmodel2MaxEnt(sdmtune_model)
 ```
@@ -89,11 +90,9 @@ ggplot2::autoplot(bench, log = FALSE)
 
 The execution time is in average about two time faster!
 
-
-
-
-
-
 ## Code of conduct
 
 Please note that this project follows a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md).
+
+### References
+

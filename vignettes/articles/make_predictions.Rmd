@@ -1,6 +1,5 @@
 ---
 title: "Make predictions"
-bibliography: ../library.bib
 ---
 
 ```{r setup, include = FALSE}

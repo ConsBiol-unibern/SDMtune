@@ -1,6 +1,6 @@
 ---
 title: "Evaluate a model"
-bibliography: ../library.bib
+bibliography: ../SDMtune.bib
 ---
 
 ```{r setup, include = FALSE}
@@ -31,7 +31,7 @@ As usually we first load the **SDMtune** package:
 library(SDMtune)
 ```
 
-The Area Under the ROC curve can be calculated using the function `auc()`:
+The Area Under the ROC curve [@Fielding1997] can be calculated using the function `auc()`:
 ```{r auc}
 auc(default_model)
 ```
@@ -43,14 +43,14 @@ plotROC(default_model)
 
 ## TSS
 
-The True Skill Statistic is computed with the `tss()` function:
+The True Skill Statistic [@ALLOUCHE2006] is computed with the `tss()` function:
 ```{r tss}
 tss(default_model)
 ```
 
 ## AICc
 
-For the Akaike Information Criterion corrected for small sample size we use the function `aicc()`. In this case we need to pass to the `env` argument, the 'predictors' raster `stack` object we created in the [first article](./prepare_data.html#acquire-environmental-variables):
+For the Akaike Information Criterion corrected for small sample size [@Warren2011a] we use the function `aicc()`. In this case we need to pass to the `env` argument, the 'predictors' raster `stack` object we created in the [first article](./prepare_data.html#acquire-environmental-variables):
 ```{r aicc}
 aicc(default_model, env = predictors)
 ```
@@ -70,4 +70,6 @@ In this article you have learned:
 * how to calculate the TSS;
 * how to calculate the AICc.
 
-In the next article you will learn how to display the [variable importance](./variable_importance.html) and how to plot the response curve.
+In the next article you will learn two different strategies that can be used to correctly evaluate your model performance.
+
+### References

@@ -1,6 +1,6 @@
 ---
 title: "Train a model"
-bibliography: ../library.bib
+bibliography: ../SDMtune.bib
 ---
 
 ```{r setup, include = FALSE}
@@ -140,4 +140,4 @@ In this article you have learned:
 
 In the [next article](./make_predictions.html) you will learn how to use the model that you have just trained to get the predicted value for new localities.
 
-## References
+### References

@@ -1,6 +1,5 @@
 ---
 title: "Variable Importance"
-bibliography: ../library.bib
 ---
 
 ```{r setup, include = FALSE}
@@ -22,7 +21,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html) and how to [evaluate a model](./evaluate_model.html) using **SDMtune**. In this article you will learn how to display and plot the variable importance and how to plot the response curves.
+In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html), how to [evaluate a model](./evaluate_model.html) and two different [evaluation strategies](./evaluation_strategies.html) using **SDMtune**. In this article you will learn how to display and plot the variable importance and how to plot the response curves.
 
 ## Variable importance for Maxent models
 
@@ -60,13 +59,16 @@ Plot the permutation importance as a bar chart. To see the solution highlight th
 plotVarImp(vi[, c(1,3)])
 ```
 
-**SDmtune** has its own function to compute the permutation importance that iterates through several permutations and return an averaged value together with the standard deviation. We will use this function to compute the permutation importance of a **Maxnet** model.
+**SDMtune** has its own function to compute the permutation importance that iterates through several permutations and return an averaged value together with the standard deviation. We will use this function to compute the permutation importance of a **Maxnet** model.
 
 ## Variable importance for Maxnet models
 
 We first need to train a **Maxnet** model using the [condor](../../reference/condor.html) dataset and the predictors we created in the [first article](./prepare_data.html#acquire-environmental-variables). We train the model using the default settings (i.e. feature combinations equal to linear, quadratic, product and hinge; regularization multiplier equal to 1):
-```{r train maxnet}
+```{r train maxnet, eval=FALSE}
 maxnet_model <- train("Maxnet", p = presence, a = bg_model)
+```
+```{r train maxnet bis, echo=FALSE}
+maxnet_model <- SDMtune:::bm_maxnet
 ```
 
 Now we can calculate the variable importance with the function `varImp()` using 5 permutations:
@@ -79,6 +81,23 @@ And plot it with:
 ```{r plot var imp, fig.align="center"}
 plotVarImp(vi_maxnet)
 ```
+
+### Try yourself
+
+Use the `varImp()` function to compute the permutation importance for the `default_model` using 10 permutations and compare the results with the Maxent output. To see the solution highlight the following cell:
+```{r permut exercise, eval=FALSE, class.source='exercise'}
+# Compute the permutation importance
+vi_maxent <- varImp(default_model, permut = 10)
+# Print it
+vi_maxent
+# Compare with Maxent output
+maxentVarImp(default_model)
+```
+The difference is probably due to a different shuffling of the presence and background locations during the permutation process and because in this example we performed 10 permutations and averaged the values.
+
+## Jackknife test for variable importance
+
+Another method to estimate the variable importance is the leave one out Jackknife test. Here we remove one variable at time and we record the change in the chosen metric. 
 
 ## Response curves
 
@@ -107,4 +126,4 @@ In this article you have learned:
 * how to compute and plot the permutation importance for **Maxnet** models;
 * how to plot the marginal and the univariate response curve.
 
-In the next article you will learn two different strategies that can be used to correctly evaluate your model performance.
+In the next article you will learn how to perform data-driven variable selection.

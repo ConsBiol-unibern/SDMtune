@@ -1,6 +1,6 @@
 ---
 title: "Prepare data for the analysis"
-bibliography: ../library.bib
+bibliography: ../SDMtune.bib
 ---
 
 ```{r setup, include = FALSE}
@@ -210,6 +210,4 @@ In this article you have learned:
 
 Move on to the [second article](./train_model.html) and learn how to train models using `SDMtune`.
 
-
-
-## References
+### References
