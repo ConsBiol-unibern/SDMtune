@@ -113,4 +113,4 @@ In this article you have learned:
 * a possible approach to remove highly correlated environmental variables;
 * two possible methods to remove environmental variables with low importance.
 
-In the next article you will learn how to tune the model hyperparameters.
+In the next article you will learn how to tune the [model hyperparameters](./tune_hyperparameters.html).

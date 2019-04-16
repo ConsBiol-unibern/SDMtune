@@ -134,7 +134,7 @@ setMethod("plot",
               legend.position = "bottom")
 
       # Add line if is the rusult of a tune function
-      if (x_label != "model")
+      if (show_line)
         p <- p + geom_line(linetype = "dashed", size = .3)
 
       return(p)

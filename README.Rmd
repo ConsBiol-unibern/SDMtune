@@ -31,7 +31,7 @@ Visit the [package website](https://consbiol-unibern.github.io/SDMtune/) and lea
 You can install the latest development version from GitHub:
 
 ```{r gh-installation, eval = FALSE}
-devtools::install_github("sgvignali/SDMtune")
+devtools::install_github("ConsBiol-unibern/SDMtune")
 ```
 
 ## Real-time charts

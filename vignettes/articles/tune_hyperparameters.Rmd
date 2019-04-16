@@ -1,0 +1,165 @@
+---
+title: "Tune model hyperparameters"
+bibliography: ../SDMtune.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+```{r load data, echo=FALSE, message=FALSE}
+library(SDMtune)
+presence <- SDMtune:::p
+bg <- SDMtune:::bg
+bg_model <- SDMtune:::bg_model
+presence <- SDMtune:::p
+files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+predictors <- raster::stack(files)
+```
+
+## Intro
+
+In the previous articles you have learned the core functions of **SDMtune** and how to perform [data-driven variable selection](./variable_selection.html). In this article you will learn how to tune the model hyperparameters.
+
+## Training, validation and testing split
+
+When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn't represent anymore an independent set to evaluate the model [@Muller2016, @Chollet2018]. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function `trainValTest()` allows to split the data in three folds containing the provided percentage of data. For illustration purpose let's split the presence locations in training (60\%), validation (20\%) and testing (20\%) datasets:
+```{r train val test}
+library(zeallot)  # For unpacking assignment
+c(train, val, test) %<-% trainValTest(presence, val = 0.2, test = 0.2, seed = 25)
+cat("# Training  : ", nrow(train@data))
+cat("# Validation: ", nrow(val@data))
+cat("# Testing   : ", nrow(test@data))
+```
+
+We now train a **Maxnet** model with default settings and using the training dataset:
+```{r train model}
+model <- train("Maxnet", p = train, a = bg_model)
+```
+
+
+Another approach would be to split the data in two folds: training and testing, use the cross validation strategy with the training dataset to tune the model hyperparameters, and evaluate the tuned model with the unseen held apart testing dataset. For execution time reason we demonstrate the first approach but you are free to try out the second one.
+
+## Check the effect of varying one hyperparameter
+
+To see the effect of varying one hyperparameter on the model performance we can use the function `gridSearch()`. The function iterates through a set of predefined hyperparameter values, train the model and displays in real-time the evaluation metric in the RStudio viewer pane (hover over the points to get a tooltip with extra information). Let's see how the AUC changes varying the number of background locations. First we have to define the values for the hyperparameter that we want to test. For that we create a named list that we will use as an argument for the function `gridSearch()`:
+```{r tune bg}
+# Define the values for bg
+h <- list("a" = seq(4000, 9000, 1000))
+# Call the gridSearch function
+exp_1 <- gridSearch(model, hypers = h, metric = "auc", test = val, bg4test = bg, seed = 2525)
+```
+
+As you noticed we used the validation dataset as test argument, and the total number of background locations as bg4test argument. The `bg` datasets contains almost 10000 locations and is used to randomly get the number of backgrounds defined in `h`. We also set the seed to get the same result. The output of the function is an object of class `SDMtune()`. Let's print it:
+```{r print exp_1}
+exp_1
+```
+When you print the output, the text contains the model configurations that have been used during the execution of the function. In our case, only the number of backgrounds `a` has multiple values. You can plot the `SDMtune()` object:
+```{r plot exp_1, fig.align="center"}
+plot(exp_1)
+``` 
+
+and you can also recreate the interactive chart using:
+```{r plot exp_1 iter, eval=FALSE}
+plot(exp_1, interactive = TRUE)
+```
+
+### Try yourself
+Try to see how TSS changes varying the regularization multiplier from 0.5 to 3 with increments of 0.5 (highlight to see the solution):
+```{r exercise 1, eval=FALSE, class.source='exercise'}
+# Define the values for reg
+h <- list("reg" = seq(0.5, 3, 0.5))
+# Call the gridSearch function
+exp_2 <- gridSearch(model, hypers = h, metric = "tss", test = val, seed = 68468)
+```
+
+
+and how AUC changes varying the feature combinations using the following values: l, lq, lh, lqp, lqph and lqpht (highlight to see the solution):
+```{r exercise 2, eval=FALSE, class.source='exercise'}
+# Define the values for fc
+h <- list("fc" = c("l", "lq", "lh", "lqp", "lqph", "lqpht"))
+# Call the gridSearch function
+exp_3 <- gridSearch(model, hypers = h, metric = "auc", test = val, seed = 9948)
+```
+
+Train a **Maxent** model and see how the AUC changes varying the number of iterations from 300 to 1100 with increments of 200 (highlight to see the solution):
+```{r exercise 3, eval=FALSE, class.source='exercise'}
+maxent_model <- train("Maxent", p = train, a = bg_model)
+# Define the values for fc
+h <- list("iter" = seq(300, 1100, 200))
+# Call the gridSearch function
+exp_4 <- gridSearch(maxent_model, hypers = h, metric = "auc", test = val, seed = 3516)
+```
+
+To see which hyperparameters can be tuned in a given model use the function `get_tunable_args()`. For example:
+```{r get hypers}
+get_tunable_args(model)
+```
+
+## Tune hyperparameters
+
+To tune the model hyperparameters you should run all the possible combinations of hyperparameters. Here is an example using combinations of regularization multiplier and feature combinations:
+```{r exp 5, eval=FALSE}
+h <- list("reg" = seq(0.5, 5, 0.5), "fc" = c("l", "lq", "lh", "lqp", "lqph", "lqpht"))
+exp_5 <- gridSearch(model, hypers = h, metric = "auc", test = val, seed = 5165)
+```
+
+This code takes already quite long as it has to train 60 models. Imagine if you want to check also for different number of background locations, decrease the increments for the regularization multiplier values and maybe add the number of iterations (in the case of a **Maxent** model). The number of models to be trained increases exponentially and consequently the execution time. In the next two paragraphs we will present two possible alternative to the `gridSearch()` function.
+
+## Random search
+
+The function `randomSearch()` trains models taking a random sample of the predefined configurations. In the next example we select 20 random configurations:
+```{r random search}
+h <- list("a" = seq(4000, 9000, 500), "reg" = seq(0.2, 5, 0.2), "fc" = c("l", "lq", "lh", "lp", "lqp", "lqph"))
+exp_6 <- randomSearch(model, hypers = h, metric = "auc", test = val, bg4test = bg, pop = 20, seed = 65651)
+```
+
+The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 20 instead of `r nrow(expand.grid(h))` models. The results includes the 20 trained model. If you are not happy with the solution, you can read the best hyperparameter combinations and this gives you an idea of which one are the hyperparameters to "refine" using the function `gridSearch()`. The `SDMtune()` object stores the results in a `data.frame` than can be accessed with the following command:
+```{r sdmtune results}
+exp_6@results
+```
+
+## Optimize Model
+
+The previous function doesn't learn anything from the trained models, it just selects n random combinations of hyperparameters. The function `optimizeModel()` uses a genetic algorithm to find an optimum solution. Check the function documentation to understand how it works, here we provide the code to execute it:
+```{r optimize model, eval=FALSE}
+exp_7 <- optimizeModel(model, hypers = h, metric = "auc", test = val, bg4test = bg, pop = 20, gen = 5, keep_best = 0.4, keep_random = 0.2, mutation_chance = 0.4, seed = 65651)
+```
+
+## Evaluate final model
+
+Let's say we want to use the best tuned model found by the `randomSearch()` function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train the model with the merged observations and the tuned configuration. We merge the two datasets using the `mergeSWD()` function:
+```{r merge}
+merged_data <- mergeSWD(train, val)
+```
+
+Then we get the model configuration from the experiment 6:
+```{r configuration}
+head(exp_6@results)
+```
+
+The best model was trained using 5000 background locations (we can select the same background locations with `exp_6@models[[1]]@a`), `lh` as feature combinations and a regularization multiplier equal to 0.8:
+```{r final model}
+final_model <- train("Maxnet", p = merged_data, a = exp_6@models[[1]]@a, fc = "lh", reg = 0.8)
+```
+
+Now we can evaluate it using the held apart testing dataset:
+```{r final evaluation}
+auc(final_model, test = test)
+```
+
+## Conclusion
+
+In this article you have learned:
+
+* the training/validation/testing evaluation strategy;
+* how to explore the effect of changing one model hyperparameter at time;
+* how to tune model hyperparameters using three different functions;
+* how to merge two `SWD()` objects;
+* how to evaluate a final model using the held apart testing dataset.
+
+### References
