@@ -186,7 +186,7 @@ until the remaining variables are not highly correlated anymore.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>varSel</span>(<span class='no'>model</span>, <span class='no'>metric</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>bg4cor</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>varSel</span>(<span class='no'>model</span>, <span class='no'>metric</span>, <span class='no'>bg4cor</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>, <span class='kw'>cor_th</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>use_pc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
@@ -203,14 +203,14 @@ until the remaining variables are not highly correlated anymore.</p>
 values are: "auc", "tss" and "aicc".</p></td>
     </tr>
     <tr>
-      <th>test</th>
-      <td><p><a href='SWD-class.html'>SWD</a>. Test dataset used to evaluate the model, not used
-with aicc and <a href='SDMmodelCV-class.html'>SDMmodelCV</a> objects, default is NULL.</p></td>
-    </tr>
-    <tr>
       <th>bg4cor</th>
       <td><p><a href='SWD-class.html'>SWD</a> object. Background locations used to test the
 correlation between environmental variables.</p></td>
+    </tr>
+    <tr>
+      <th>test</th>
+      <td><p><a href='SWD-class.html'>SWD</a>. Test dataset used to evaluate the model, not used
+with aicc and <a href='SDMmodelCV-class.html'>SDMmodelCV</a> objects, default is NULL.</p></td>
     </tr>
     <tr>
       <th>env</th>
