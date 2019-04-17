@@ -12,10 +12,10 @@
 #' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param test \link{SWD}. Test dataset used to evaluate the model, not used
-#' with aicc and \link{SDMmodelCV} objects, default is NULL.
 #' @param bg4cor \link{SWD} object. Background locations used to test the
 #' correlation between environmental variables.
+#' @param test \link{SWD}. Test dataset used to evaluate the model, not used
+#' with aicc and \link{SDMmodelCV} objects, default is NULL.
 #' @param env \link{stack} containing the environmental variables, used only
 #' with "aicc", default is NULL.
 #' @param parallel logical, if TRUE it uses parallel computation, default is
@@ -43,26 +43,17 @@
 #' varSel(model, bg, metric = "auc")}
 #'
 #' @author Sergio Vignali
-varSel <- function(model, metric, test = NULL, bg4cor, env = NULL,
+varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
                    parallel = FALSE, method = "spearman", cor_th = 0.7,
                    permut = 10, use_pc = FALSE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
-  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
-    stop("You must provide env argument if you want to use AICc metric!")
-
-  if (class(model) == "SDMmodel") {
-    if (is.null(test) & metric != "aicc")
-      stop("You need to provide a test dataset!")
-  } else {
-    if (metric == "aicc")
-      stop("Metric aicc not allowed with SDMmodelCV objects!")
-  }
+  .checkArgs(model, metric = metric, test = test, env = env)
 
   if (use_pc & .get_model_class(model) != "Maxent")
-    warning(paste("Percent contribution cannot be used with model of method",
-                  .get_model_class(model)))
+    stop(paste("Percent contribution cannot be used with model of method",
+               .get_model_class(model)))
 
   if (class(model) == "SDMmodelCV")
     test <- TRUE

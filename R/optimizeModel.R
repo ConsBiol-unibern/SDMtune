@@ -55,7 +55,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   grid <- .get_hypers_grid(model, hypers)
 
   # Check that areguments are correctly provided
-  .checkArgs(model, hypers, metric, test, bg4test, env)
+  .checkArgs(model, metric, test, bg4test, env, hypers)
   # Check if at least two hyperparameters have more than one value
   .check_optimize_args(hypers, grid, pop)
 

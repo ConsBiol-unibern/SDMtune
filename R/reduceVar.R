@@ -41,13 +41,11 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
-  if (use_jk == TRUE & is.null(test) & metric != "aicc")
-    stop("You need to provide a test dataset!")
-  if (use_jk == TRUE & metric == "aicc" & is.null(env))
-    stop("You must provide the env argument if you want to use AICc metric!")
+  if (use_jk == TRUE)
+    .checkArgs(model, metric = metric, test = test, env = env)
   if (use_pc & .get_model_class(model) != "Maxent")
-    warning(paste("Percent contribution cannot be used with model of method",
-                  .get_model_class(model)))
+    stop(paste("Percent contribution cannot be used with model of method",
+               .get_model_class(model)))
 
   variables_reduced <- FALSE
   first_iter <- TRUE

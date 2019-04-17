@@ -228,3 +228,34 @@ get_tunable_args <- function(model) {
 
   return(output)
 }
+
+.checkArgs <- function(model, metric, test = NULL, bg4test = NULL, env = NULL,
+                       hypers = NULL) {
+  # Throws exception if metric is aicc and env is not provided
+  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
+    stop("You must provide the 'env' argument if you want to use the AICc metric!")
+  # Throws exception if model is SDMmodel metric is not aicc and test is not provided
+  if (class(model) == "SDMmodel" & is.null(test) & metric != "aicc") {
+    stop("You need to provide a test dataset!")
+  }
+  # Throws exception if metric is aicc and model is SDMmodelCV
+  if (class(model) == "SDMmodelCV" & metric == "aicc")
+    stop("Metric 'aicc' not allowed with SDMmodelCV objects!")
+  # Check hypers
+  if (!is.null(hypers)) {
+    # Throws exception if hypers includes 'a' and bg4test is not provided
+    if (!is.null(hypers$a) & is.null(bg4test))
+      stop("bg4test must be provided to tune background locations!")
+    # Throws exception if max hypers 'a' > than nrow bg4test
+    if (!is.null(hypers$a)) {
+      if (max(hypers$a) > nrow(bg4test@data))
+        stop(paste0("Maximum number of 'a' hyperparameter cannot be more than ",
+                    nrow(bg4test@data), "!"))
+    }
+    # Throws exception if provided hypers are not tunable
+    diff <- setdiff(names(hypers), get_tunable_args(model))
+    if (length(diff) > 0)
+      stop(paste(diff, "non included in tunable hyperparameters",
+                 collapse = ", "))
+  }
+}

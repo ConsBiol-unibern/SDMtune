@@ -4,7 +4,7 @@
 \alias{varSel}
 \title{Variable Selection}
 \usage{
-varSel(model, metric, test = NULL, bg4cor, env = NULL,
+varSel(model, metric, bg4cor, test = NULL, env = NULL,
   parallel = FALSE, method = "spearman", cor_th = 0.7, permut = 10,
   use_pc = FALSE)
 }
@@ -14,11 +14,11 @@ varSel(model, metric, test = NULL, bg4cor, env = NULL,
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
-with aicc and \link{SDMmodelCV} objects, default is NULL.}
-
 \item{bg4cor}{\link{SWD} object. Background locations used to test the
 correlation between environmental variables.}
+
+\item{test}{\link{SWD}. Test dataset used to evaluate the model, not used
+with aicc and \link{SDMmodelCV} objects, default is NULL.}
 
 \item{env}{\link{stack} containing the environmental variables, used only
 with "aicc", default is NULL.}

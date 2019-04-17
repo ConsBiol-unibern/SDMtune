@@ -8,7 +8,7 @@ test_that("The function clamps correctly", {
   expect_equal(length(data), 10)
 })
 
-# test_that("Exceptions are thrown", {
-#   #Function throws exception if called with a data frames as first argument
-#   expect_that(clamp(as.data.frame(v), 3, 7), throws_error())
-# })
+test_that("Exceptions are thrown", {
+  #Function throws exception if called with a data frames as first argument
+  expect_that(clamp(as.data.frame(v), 3, 7), throws_error())
+})
