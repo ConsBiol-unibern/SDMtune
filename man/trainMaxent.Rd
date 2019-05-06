@@ -15,7 +15,7 @@ trainMaxent(p, a, reg = 1, fc = "lqph", iter = 500,
 
 \item{reg}{numeric. The value of the regularization multiplier, default is 1.}
 
-\item{fc}{vector. The value of the feature combination, possible values are
+\item{fc}{vector. The value of the feature classes, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 
 \item{iter}{numeric. Number of iterations used by the MaxEnt algorithm,

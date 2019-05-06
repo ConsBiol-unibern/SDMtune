@@ -175,7 +175,7 @@ Shown below the settings used to train the model:
 * Background locations: `r nrow(params$model@a@data)``r if(!is.null(params$test)) {paste("\n* Test locations:", nrow(params$test@data))}`
 * Continuous variables: `r names(Filter(is.numeric, params$model@p@data))`
 * Categorical variables: `r names(Filter(is.factor, params$model@p@data))`
-* Feature combination: `r params$model@model@fc`
+* Feature Class combination: `r params$model@model@fc`
 * Regularization multiplier: `r params$model@model@reg`
 * Do clamping: `r params$clamp``r if(class(params$model@model) == "Maxent") {paste("\n* Extra arguments:", paste(params$model@model@extra_args, collapse = ", "))}`
 

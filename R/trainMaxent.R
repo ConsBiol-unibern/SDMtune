@@ -9,7 +9,7 @@
 #' @param p \link{SWD} object with the presence locations.
 #' @param a \link{SWD} object with the background locations.
 #' @param reg numeric. The value of the regularization multiplier, default is 1.
-#' @param fc vector. The value of the feature combination, possible values are
+#' @param fc vector. The value of the feature classes, possible values are
 #' combinations of "l", "q", "p", "h" and "t", default is "lqph".
 #' @param iter numeric. Number of iterations used by the MaxEnt algorithm,
 #' default is 500.
@@ -74,13 +74,6 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
 .get_fc_args <- function(fc) {
 
   feature_args <- c("noautofeature")
-  fc_map = list(
-    "l" = "linear=true",
-    "q" = "quadratic=true",
-    "p" = "product=true",
-    "h" = "hinge=true",
-    "t" = "threshold=true"
-  )
 
   for (letter in strsplit(fc, "")[[1]]) {
     if (!grepl(letter, "lqpht")) {
@@ -88,7 +81,7 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
                   "' not allawed, possible Feature Classes are: ",
                   "'l', 'q', 'p', 'h' and 't'!"))
     } else {
-      feature_args <- c(feature_args, fc_map[[letter]])
+      feature_args <- c(feature_args, SDMtune:::fc_map[[letter]])
     }
   }
 
@@ -176,7 +169,7 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
 }
 
 .product <- function(var1, var2, var_min, var_max) {
-  ( (var1 * var2) - var_min) / (var_max - var_min)
+  ((var1 * var2) - var_min) / (var_max - var_min)
 }
 
 .hinge <- function(variable, var_min, var_max) {

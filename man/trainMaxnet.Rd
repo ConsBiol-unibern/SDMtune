@@ -13,7 +13,7 @@ trainMaxnet(p, a, reg = 1, fc = "lqph")
 
 \item{reg}{numeric. The value of the regularization intensity, default is 1.}
 
-\item{fc}{vector. The value of the feature combination, possible values are
+\item{fc}{vector. The value of the feature classes, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".}
 }
 \value{

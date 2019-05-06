@@ -54,7 +54,7 @@ default_model <- train(method = "Maxent", p = presence, a = bg_model)
 
 The function trains the model using default settings that are:
 
-* linear, quadratic, product and hinge feature combinations;
+* linear, quadratic, product and hinge feature class combinations;
 * regularization multiplier equal to 1;
 * 500 algorithm iterations.
 
@@ -75,7 +75,7 @@ When we print an `SDMmodel` object we get the following information:
 * the number of presence locations;
 * the model configurations:
     + a: the number of background locations;
-    + fc: the feature combinations;
+    + fc: the feature class combinations;
     + reg: the regularization multiplier;
     + iter: the number of iterations;
 * the environmental variables used to train the model:
@@ -111,7 +111,7 @@ default_model <- train(method = "Maxent", p = presence, a = bg_model, fc = "lqph
 ```
 
 ### Try yourself
-Try to change the default settings  and train a model using linear and hinge as feature combinations, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:
+Try to change the default settings  and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:
 
 ```{r exercise1, eval = FALSE, class.source='exercise'}
 model <- train(method = "Maxent", p = presence, a = bg_model, fc = "lh", reg = 0.5, iter = 700)

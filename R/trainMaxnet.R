@@ -5,7 +5,7 @@
 #' @param p \link{SWD} object with the presence locations.
 #' @param a \link{SWD} object with the background locations.
 #' @param reg numeric. The value of the regularization intensity, default is 1.
-#' @param fc vector. The value of the feature combination, possible values are
+#' @param fc vector. The value of the feature classes, possible values are
 #' combinations of "l", "q", "p", "h" and "t", default is "lqph".
 #'
 #' @return A \link{SDMmodel} object.

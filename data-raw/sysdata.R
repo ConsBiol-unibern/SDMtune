@@ -25,6 +25,15 @@ bm_maxnet <- train("Maxnet", p, bg_model)
 set.seed(25)
 bm_maxnet_cv <- train("Maxnet", p, bg_model, rep = 4)
 
+# Feature Class mapping
+fc_map = list(
+  "l" = "linear=true",
+  "q" = "quadratic=true",
+  "p" = "product=true",
+  "h" = "hinge=true",
+  "t" = "threshold=true"
+)
+
 # save objects in sysdata
 usethis::use_data(p, bg, bg_model, bm_maxent, bm_maxent_cv, bm_maxnet,
-                  bm_maxnet_cv, internal = TRUE, overwrite = TRUE)
+                  bm_maxnet_cv, fc_map, internal = TRUE, overwrite = TRUE)
