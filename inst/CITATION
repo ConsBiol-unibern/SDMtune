@@ -10,6 +10,6 @@ citEntry(entry = "Manual",
   title = "SDMtune: Species Distribution Model Selection",
   year = year,
   note = note,
-  url = "https://github.com/sgvignali/SDMtune",
+  url = "https://github.com/ConsBiol-unibern/SDMtune",
   textVersion = "Vignali S, Barras A, Braunisch V, 2019. SDMtune: Species Distribution Model Selection."
 )
