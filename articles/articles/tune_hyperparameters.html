@@ -200,7 +200,7 @@
 <div id="tune-hyperparameters" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tune-hyperparameters" class="anchor"></a>Tune hyperparameters</h2>
-<p>To tune the model hyperparameters you should run all the possible combinations of hyperparameters. Here is an example using combinations of regularization multiplier and feature combinations:</p>
+<p>To tune the model hyperparameters you should run all the possible combinations of hyperparameters. Here is an example using combinations of regularization multiplier and feature classes:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"reg"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">0.5</span>, <span class="dv">5</span>, <span class="fl">0.5</span>), <span class="st">"fc"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span>))</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">exp_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/gridSearch.html">gridSearch</a></span>(model, <span class="dt">hypers =</span> h, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> val, <span class="dt">seed =</span> <span class="dv">5165</span>)</a></code></pre></div>
 <p>This code takes already quite long as it has to train 60 models. Imagine if you want to check also for different number of background locations, decrease the increments for the regularization multiplier values and maybe add the number of iterations (in the case of a <strong>Maxent</strong> model). The number of models to be trained increases exponentially and consequently the execution time. In the next two paragraphs we will present two possible alternative to the <code><a href="../../reference/gridSearch.html">gridSearch()</a></code> function.</p>
@@ -214,26 +214,26 @@
 <p>The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 20 instead of 1650 models. The results includes the 20 trained model. If you are not happy with the solution, you can read the best hyperparameter combinations and this gives you an idea of which one are the hyperparameters to “refine” using the function <code><a href="../../reference/gridSearch.html">gridSearch()</a></code>. The <code><a href="../../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in a <code>data.frame</code> than can be accessed with the following command:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">exp_<span class="dv">6</span><span class="op">@</span>results</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt;       a   fc reg train_AUC test_AUC diff_AUC</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; 1  5000   lh 0.8    0.9348   0.9344   0.0004</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; 2  6500 lqph 1.8    0.9331   0.9259   0.0072</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; 3  4500   lh 1.6    0.9277   0.9255   0.0022</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; 4  4500 lqph 3.0    0.9298   0.9237   0.0061</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; 5  4000   lp 1.0    0.9316   0.9221   0.0095</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; 6  6500   lh 3.0    0.9246   0.9212   0.0034</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; 7  7000   lp 0.6    0.9304   0.9209   0.0095</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; 8  8500   lh 3.4    0.9244   0.9204   0.0040</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; 9  6500 lqph 5.0    0.9252   0.9195   0.0057</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; 10 4000  lqp 5.0    0.9257   0.9189   0.0068</span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; 11 5500  lqp 2.6    0.9272   0.9183   0.0089</span></a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; 12 6000   lh 4.6    0.9222   0.9178   0.0044</span></a>
-<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt; 13 5500   lp 1.6    0.9282   0.9178   0.0104</span></a>
-<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt; 14 4500   lp 3.0    0.9249   0.9150   0.0099</span></a>
-<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="co">#&gt; 15 7000   lq 1.8    0.9211   0.9150   0.0061</span></a>
-<a class="sourceLine" id="cb13-18" data-line-number="18"><span class="co">#&gt; 16 5500   lp 4.0    0.9244   0.9148   0.0096</span></a>
-<a class="sourceLine" id="cb13-19" data-line-number="19"><span class="co">#&gt; 17 7000   lq 2.8    0.9198   0.9133   0.0065</span></a>
-<a class="sourceLine" id="cb13-20" data-line-number="20"><span class="co">#&gt; 18 5000   lq 3.4    0.9190   0.9125   0.0065</span></a>
-<a class="sourceLine" id="cb13-21" data-line-number="21"><span class="co">#&gt; 19 7000    l 4.0    0.9137   0.9000   0.0137</span></a>
-<a class="sourceLine" id="cb13-22" data-line-number="22"><span class="co">#&gt; 20 7500    l 2.2    0.9152   0.8984   0.0168</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; 1  8000   lh 0.8    0.9400   0.9155   0.0245</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; 2  8500 lqph 1.8    0.9340   0.9139   0.0201</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; 3  7500   lh 1.4    0.9351   0.9132   0.0219</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; 4  5000 lqph 2.2    0.9319   0.9113   0.0206</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; 5  6000   lh 3.2    0.9228   0.9090   0.0138</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; 6  8000   lh 4.6    0.9195   0.9088   0.0107</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; 7  7000  lqp 1.4    0.9281   0.9072   0.0209</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; 8  7500   lp 3.4    0.9185   0.9070   0.0115</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; 9  6500  lqp 2.0    0.9257   0.9067   0.0190</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; 10 7000  lqp 0.8    0.9309   0.9061   0.0248</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; 11 7000   lp 4.0    0.9169   0.9056   0.0113</span></a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; 12 4500  lqp 2.6    0.9227   0.9054   0.0173</span></a>
+<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt; 13 7000  lqp 0.4    0.9324   0.9052   0.0272</span></a>
+<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt; 14 7500  lqp 5.0    0.9160   0.9044   0.0116</span></a>
+<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="co">#&gt; 15 6000  lqp 3.0    0.9207   0.9041   0.0166</span></a>
+<a class="sourceLine" id="cb13-18" data-line-number="18"><span class="co">#&gt; 16 6000   lp 3.6    0.9162   0.9041   0.0121</span></a>
+<a class="sourceLine" id="cb13-19" data-line-number="19"><span class="co">#&gt; 17 4000   lp 4.2    0.9156   0.9039   0.0117</span></a>
+<a class="sourceLine" id="cb13-20" data-line-number="20"><span class="co">#&gt; 18 5500  lqp 0.6    0.9314   0.9036   0.0278</span></a>
+<a class="sourceLine" id="cb13-21" data-line-number="21"><span class="co">#&gt; 19 9000  lqp 5.0    0.9141   0.9023   0.0118</span></a>
+<a class="sourceLine" id="cb13-22" data-line-number="22"><span class="co">#&gt; 20 5000    l 0.2    0.9069   0.8871   0.0198</span></a></code></pre></div>
 </div>
 <div id="optimize-model" class="section level2">
 <h2 class="hasAnchor">
@@ -249,17 +249,17 @@
 <p>Then we get the model configuration from the experiment 6:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(exp_<span class="dv">6</span><span class="op">@</span>results)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;      a   fc reg train_AUC test_AUC diff_AUC</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1 5000   lh 0.8    0.9348   0.9344   0.0004</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2 6500 lqph 1.8    0.9331   0.9259   0.0072</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3 4500   lh 1.6    0.9277   0.9255   0.0022</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4 4500 lqph 3.0    0.9298   0.9237   0.0061</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5 4000   lp 1.0    0.9316   0.9221   0.0095</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6 6500   lh 3.0    0.9246   0.9212   0.0034</span></a></code></pre></div>
-<p>The best model was trained using 5000 background locations (we can select the same background locations with <code>exp_6@models[[1]]@a</code>), <code>lh</code> as feature combinations and a regularization multiplier equal to 0.8:</p>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1 8000   lh 0.8    0.9400   0.9155   0.0245</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2 8500 lqph 1.8    0.9340   0.9139   0.0201</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3 7500   lh 1.4    0.9351   0.9132   0.0219</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4 5000 lqph 2.2    0.9319   0.9113   0.0206</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5 6000   lh 3.2    0.9228   0.9090   0.0138</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6 8000   lh 4.6    0.9195   0.9088   0.0107</span></a></code></pre></div>
+<p>The best model was trained using 5000 background locations (we can select the same background locations with <code>exp_6@models[[1]]@a</code>), <code>lh</code> as feature class combination and a regularization multiplier equal to 0.8:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">final_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">p =</span> merged_data, <span class="dt">a =</span> exp_<span class="dv">6</span><span class="op">@</span>models[[<span class="dv">1</span>]]<span class="op">@</span>a, <span class="dt">fc =</span> <span class="st">"lh"</span>, <span class="dt">reg =</span> <span class="fl">0.8</span>)</a></code></pre></div>
 <p>Now we can evaluate it using the held apart testing dataset:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../../reference/auc.html">auc</a></span>(final_model, <span class="dt">test =</span> test)</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co">#&gt; [1] 0.9263</span></a></code></pre></div>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co">#&gt; [1] 0.9365</span></a></code></pre></div>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">

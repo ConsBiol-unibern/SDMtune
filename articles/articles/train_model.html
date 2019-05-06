@@ -154,14 +154,19 @@
 <a href="#train-a-model-with-default-settings" class="anchor"></a>Train a model with default settings</h2>
 <p>First we load the <strong>SDMtune</strong> package:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Registered S3 methods overwritten by 'ggplot2':</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;   method         from </span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   [.quosures     rlang</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   c.quosures     rlang</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   print.quosures rlang</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>We use the function <code><a href="../../reference/train.html">train()</a></code> to train a <strong>Maxent</strong> model. We need to provide three arguments:</p>
 <ul>
 <li>
@@ -174,7 +179,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">default_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">p =</span> presence, <span class="dt">a =</span> bg_model)</a></code></pre></div>
 <p>The function trains the model using default settings that are:</p>
 <ul>
-<li>linear, quadratic, product and hinge feature combinations;</li>
+<li>linear, quadratic, product and hinge feature class combinations;</li>
 <li>regularization multiplier equal to 1;</li>
 <li>500 algorithm iterations.</li>
 </ul>
@@ -211,7 +216,7 @@
 <li>the model configurations:
 <ul>
 <li>a: the number of background locations;</li>
-<li>fc: the feature combinations;</li>
+<li>fc: the feature class combinations;</li>
 <li>reg: the regularization multiplier;</li>
 <li>iter: the number of iterations;</li>
 </ul>
@@ -250,7 +255,7 @@
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
-<p>Try to change the default settings and train a model using linear and hinge as feature combinations, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:</p>
+<p>Try to change the default settings and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">p =</span> presence, <span class="dt">a =</span> bg_model, <span class="dt">fc =</span> <span class="st">"lh"</span>, <span class="dt">reg =</span> <span class="fl">0.5</span>, <span class="dt">iter =</span> <span class="dv">700</span>)</a></code></pre></div>
 </div>
 </div>
