@@ -81,7 +81,7 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
                   "' not allawed, possible Feature Classes are: ",
                   "'l', 'q', 'p', 'h' and 't'!"))
     } else {
-      feature_args <- c(feature_args, SDMtune:::fc_map[[letter]])
+      feature_args <- c(feature_args, get("fc_map")[[letter]])
     }
   }
 
