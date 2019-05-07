@@ -97,7 +97,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/sgvignali/SDMtune">
+  <a href="https://github.com/ConsBiol-unibern/SDMtune">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -138,7 +138,7 @@
 <div id="training-validation-and-testing-split" class="section level2">
 <h2 class="hasAnchor">
 <a href="#training-validation-and-testing-split" class="anchor"></a>Training, validation and testing split</h2>
-<p>When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn’t represent anymore an independent set to evaluate the model <span class="citation">(Müller and Guido 2016, <span class="citation">@Chollet2018</span>)</span>. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> allows to split the data in three folds containing the provided percentage of data. For illustration purpose let’s split the presence locations in training (60%), validation (20%) and testing (20%) datasets:</p>
+<p>When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn’t represent anymore an independent set to evaluate the model <span class="citation">(<span class="citeproc-not-found" data-reference-id="Muller2016"><strong>???</strong></span>, <span class="citation">@Chollet2018</span>)</span>. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> allows to split the data in three folds containing the provided percentage of data. For illustration purpose let’s split the presence locations in training (60%), validation (20%) and testing (20%) datasets:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(zeallot)  <span class="co"># For unpacking assignment</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, val, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(presence, <span class="dt">val =</span> <span class="fl">0.2</span>, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">seed =</span> <span class="dv">25</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"# Training  : "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(train<span class="op">@</span>data))</a>
@@ -272,17 +272,9 @@
 <li>how to merge two <code><a href="../../reference/SWD-class.html">SWD()</a></code> objects;</li>
 <li>how to evaluate a final model using the held apart testing dataset.</li>
 </ul>
-<div id="references" class="section level3 unnumbered">
+<div id="references" class="section level3">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>
-<div id="refs" class="references">
-<div id="ref-Chollet2018">
-<p>Chollet, François, and J. J. Allaire. 2018. <em>Deep learning with R</em>. 1st ed. Manning Publications Co.</p>
-</div>
-<div id="ref-Muller2016">
-<p>Müller, Andreas C., and Sarah Guido. 2016. <em>Introduction to machine learning with Python : a guide for data scientists</em>.</p>
-</div>
-</div>
 </div>
 </div>
   </div>
