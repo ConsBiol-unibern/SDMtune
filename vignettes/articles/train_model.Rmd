@@ -17,7 +17,7 @@ In the [previous article](./prepare_data.html) you have learned how to prepare t
 **SDMtune** at the moment supports only the Maximum Entropy method with two different implementations:
 
 * **Maxent** using the `dismo` package [@Hijmans2017];
-* **Maxnet** using the `maxnet` package [@Phillips2017].
+* **Maxnet** using the `maxnet` package [@Phillips2017a].
 
 The code necessary to train a model is the same for both implementations.
 
