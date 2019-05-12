@@ -24,3 +24,48 @@ test_that("The function predicts raw correctly", {
                predict(maxent_model, data@data, args = "outputformat=raw"),
                tolerance = 1e-7)
 })
+
+model <- train("Maxent", SDMtune:::p, SDMtune:::bg_model, fc = "l")
+maxent_model <- SDMmodel2MaxEnt(model)
+
+test_that("The function predicts fc l correctly", {
+  expect_equal(predict(model, data, type = "cloglog"),
+               predict(maxent_model, data@data),
+               tolerance = 1e-7)
+})
+
+model <- train("Maxent", SDMtune:::p, SDMtune:::bg_model, fc = "q")
+maxent_model <- SDMmodel2MaxEnt(model)
+
+test_that("The function predicts fc q correctly", {
+  expect_equal(predict(model, data, type = "cloglog"),
+               predict(maxent_model, data@data),
+               tolerance = 1e-7)
+})
+
+model <- train("Maxent", SDMtune:::p, SDMtune:::bg_model, fc = "p")
+maxent_model <- SDMmodel2MaxEnt(model)
+
+test_that("The function predicts fc p correctly", {
+  expect_equal(predict(model, data, type = "cloglog"),
+               predict(maxent_model, data@data),
+               tolerance = 1e-7)
+})
+
+model <- train("Maxent", SDMtune:::p, SDMtune:::bg_model, fc = "h")
+maxent_model <- SDMmodel2MaxEnt(model)
+
+test_that("The function predicts fc h correctly", {
+  expect_equal(predict(model, data, type = "cloglog"),
+               predict(maxent_model, data@data),
+               tolerance = 1e-7)
+})
+
+model <- train("Maxent", SDMtune:::p, SDMtune:::bg_model, fc = "t")
+maxent_model <- SDMmodel2MaxEnt(model)
+
+test_that("The function predicts fc t correctly", {
+  expect_equal(predict(model, data, type = "cloglog"),
+               predict(maxent_model, data@data),
+               tolerance = 1e-7)
+})
