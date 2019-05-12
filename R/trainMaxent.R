@@ -80,13 +80,11 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
   feature_args <- c("noautofeature")
 
   # Add threshold feature class if included
-  if (grepl("t", fc)) {
+  if (grepl("t", fc))
     feature_args <- c(feature_args, "threshold")
-    fc <- gsub("t", "", fc)
-  }
 
   # Remove not included feature classes
-  no_fc <- Reduce(setdiff, strsplit(c("lqph", fc), ""))
+  no_fc <- Reduce(setdiff, strsplit(c("lqph", gsub("t", "", fc)), ""))
 
   for (letter in no_fc) {
     feature_args <- c(feature_args, get("fc_map")[[letter]])
