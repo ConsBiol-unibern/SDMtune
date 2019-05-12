@@ -73,16 +73,23 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
 
 .get_fc_args <- function(fc) {
 
+  # Check if fc includes characters different from lqpht
+  if (grepl("[^lqpht]", fc))
+    stop(paste(fc, "feature classes not allowed, possible values are 'lqpht'!"))
+
   feature_args <- c("noautofeature")
 
-  for (letter in strsplit(fc, "")[[1]]) {
-    if (!grepl(letter, "lqpht")) {
-      stop(paste0("Feature Class '", letter,
-                  "' not allawed, possible Feature Classes are: ",
-                  "'l', 'q', 'p', 'h' and 't'!"))
-    } else {
-      feature_args <- c(feature_args, get("fc_map")[[letter]])
-    }
+  # Add threshold feature class if included
+  if (grepl("t", fc)) {
+    feature_args <- c(feature_args, "threshold")
+    fc <- gsub("t", "", fc)
+  }
+
+  # Remove not included feature classes
+  no_fc <- Reduce(setdiff, strsplit(c("lqph", fc), ""))
+
+  for (letter in no_fc) {
+    feature_args <- c(feature_args, get("fc_map")[[letter]])
   }
 
   return(feature_args)

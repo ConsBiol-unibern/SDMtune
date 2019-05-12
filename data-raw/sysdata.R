@@ -27,11 +27,10 @@ bm_maxnet_cv <- train("Maxnet", p, bg_model, rep = 4)
 
 # Feature Class mapping
 fc_map = list(
-  "l" = "linear=true",
-  "q" = "quadratic=true",
-  "p" = "product=true",
-  "h" = "hinge=true",
-  "t" = "threshold=true"
+  "l" = "nolinear",
+  "q" = "noquadratic",
+  "p" = "noproduct",
+  "h" = "nohinge"
 )
 
 # save objects in sysdata
