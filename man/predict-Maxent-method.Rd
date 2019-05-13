@@ -26,7 +26,7 @@ Predict output for a new dataset from a trained \link{Maxent} model.
 }
 \details{
 The function performs the prediction in \strong{R} without calling the
-\strong{MaxEnt} java software. This results is a faster computation for large
+\strong{MaxEnt} Java software. This results in a faster computation for large
 datasets.
 }
 \examples{

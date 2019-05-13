@@ -13,7 +13,7 @@ setGeneric("predict", function(object, ...)
 #' @param clamp logical for clumping during prediction, default is TRUE.
 #'
 #' @details The function performs the prediction in **R** without calling the
-#' **MaxEnt** java software. This results is a faster computation for large
+#' **MaxEnt** Java software. This results in a faster computation for large
 #' datasets.
 #'
 #' @references Wilson P.D., (2009). Guidelines for computing MaxEnt model output

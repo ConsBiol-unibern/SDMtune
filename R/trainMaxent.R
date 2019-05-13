@@ -178,15 +178,15 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
 }
 
 .hinge <- function(variable, var_min, var_max) {
-  ifelse(variable <= var_min, 0, (variable - var_min) / (var_max - var_min))
+  ifelse(variable < var_min, 0, (variable - var_min) / (var_max - var_min))
 }
 
 .revHinge <- function(variable, var_min, var_max) {
-  ifelse(variable <= var_max, (var_max -  variable) / (var_max - var_min), 0)
+  ifelse(variable < var_max, (var_max -  variable) / (var_max - var_min), 0)
 }
 
 .threshold <- function(variable, th) {
-  ifelse(variable <= th, 0, 1)
+  ifelse(variable < th, 0, 1)
 }
 
 .categorical <- function(variable, category) {
