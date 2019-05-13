@@ -1,6 +1,6 @@
 #' Get Dataset Subsample
 #'
-#' Get a random subsample of a \link{SWD} object.
+#' Get a random subsample of an \link{SWD} object.
 #'
 #' @param dataset \link{SWD} object.
 #' @param size numeric. The size of the sub sample.
@@ -17,10 +17,10 @@
 #' @author Sergio Vignali
 getSubsample <- function(dataset, size, seed = NULL) {
 
+  if (class(dataset) != "SWD")
+    stop("Data set must be an SWD object!")
   if (size > nrow(dataset@data))
     stop(paste(size, "is bigger than dataset observations!"))
-  if (class(dataset) != "SWD")
-    stop("Data set must be a SWD object!")
   if (!is.null(seed))
     set.seed(seed)
 

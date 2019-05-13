@@ -18,7 +18,7 @@ consistent results, default is NULL.}
 The sub sample as \link{SWD} object.
 }
 \description{
-Get a random subsample of a \link{SWD} object.
+Get a random subsample of an \link{SWD} object.
 }
 \examples{
 \dontrun{
