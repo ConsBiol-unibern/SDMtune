@@ -74,3 +74,8 @@ test_that("Produce right formula and output for categorical feature", {
   # Variable different from category
   expect_equal(.categorical(2, 1), 0)
 })
+
+test_that("Produce right formula with multiple features", {
+  expect_equal(.formula_from_lambdas(rbind(linear, categ)),
+               formula("~.linear(bio1, 0, 1) + .categorical(biome, 1) - 1"))
+})

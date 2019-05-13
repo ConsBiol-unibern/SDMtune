@@ -94,7 +94,7 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
 }
 
 .get_lambdas <- function(lambda_file, a) {
-  lambdas <- read.csv(lambda_file, header = FALSE)
+  lambdas <- read.csv(lambda_file, header = FALSE, stringsAsFactors = FALSE)
   lpn <- lambdas[(nrow(lambdas) - 3), 2]
   dn <- lambdas[(nrow(lambdas) - 2), 2]
   entropy <- lambdas[nrow(lambdas), 2]
