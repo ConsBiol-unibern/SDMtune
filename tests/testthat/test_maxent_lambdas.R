@@ -8,8 +8,8 @@ lambdas <- data.frame(V1 = c("(biome=1.0)", "bio1", "linearPredictorNormalizer",
                       V3 = c(0.0, 5, NA, NA, NA, NA),
                       V4 = c(1.0, 6, NA, NA, NA, NA),
                       stringsAsFactors = FALSE)
-write.table(lambdas, file = file, row.names = FALSE, col.names = FALSE,
-            quote = FALSE, na = "", sep = ",")
+setup(write.table(lambdas, file = file, row.names = FALSE, col.names = FALSE,
+                  quote = FALSE, na = "", sep = ","))
 lambdas <- .get_lambdas(file, SDMtune:::bg_model)
 
 test_that("Lambda file is parsed correctly", {
@@ -33,4 +33,4 @@ test_that("Lambda file is parsed correctly", {
   expect_named(lambdas, c("lambdas", "lpn", "dn", "entropy", "min_max"))
 })
 
-unlink(file)
+teardown(unlink(file))

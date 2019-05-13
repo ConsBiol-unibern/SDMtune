@@ -11,7 +11,7 @@
 maxentTh <- function(model) {
 
   if (class(model@model) != "Maxent")
-    stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
+    stop("model must be an SDMmodel object trained using the 'Maxent' method!")
 
   thresholds <- grep(".threshold", rownames(model@model@results), value = TRUE)
   thresholds <- grep("cumulative.threshold", thresholds, value = TRUE,
