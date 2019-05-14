@@ -49,6 +49,24 @@ test_that(".get_sdmtune_colnames", {
   expect_equal(.get_sdmtune_colnames("aicc"), c("AICc", "delta_AICc"))
 })
 
+test_that(".create_sdmtune_result", {
+  # Produce the correct result with auc
+  expect_equal(.create_sdmtune_result(model, metric = "auc", train_metric = 0.9,
+                                      val_metric = 0.8),
+               list(a = 5000, fc = "lqph", reg = 1, train_AUC = 0.9,
+                    test_AUC = 0.8, diff_AUC = 0.1))
+  # Produce the correct result with tss
+  expect_equal(.create_sdmtune_result(model, metric = "tss", train_metric = 0.9,
+                                      val_metric = 0.8),
+               list(a = 5000, fc = "lqph", reg = 1, train_TSS = 0.9,
+                    test_TSS = 0.8, diff_TSS = 0.1))
+  # Produce the correct result with aicc
+  # expect_equal(.create_sdmtune_result(model, metric = "aicc",
+  #                                     train_metric = 0.9, val_metric = NA),
+  #              list(a = 5000, fc = "lqph", reg = 1, AICc = 0.9,
+  #                   delta_AICc = 0.8))
+})
+
 test_that("The function .get_hypers_grid generates the correct grid", {
   expect_type(.get_hypers_grid(model, h)$a, "integer")
 })

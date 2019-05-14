@@ -129,6 +129,9 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
     output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
   } else {
     output@models <- list(model)
+    if (metric == "aicc") {
+      output@results$delta_AICc <- output@results$AICc - min(output@results$AICc)
+    }
   }
 
   pb$tick(1)
