@@ -106,6 +106,25 @@ test_that(".create_sdm_output", {
                c(0, .1))
 })
 
+test_that(".get_train_args", {
+  # Give the correct output using maxnet
+  expect_named(.get_train_args(model),
+               c("p", "a", "rep", "method", "fc", "reg"))
+  # Give the correct output using maxent
+  expect_named(.get_train_args(model_mx),
+               c("p", "a", "rep", "method", "fc", "reg", "iter", "extra_args"))
+  # Give corret rep argument
+  expect_equal(.get_train_args(model)$rep, 1)
+  expect_equal(.get_train_args(model_cv)$rep, 4)
+  # Give the correct output type
+  expect_type(.get_train_args(model), "list")
+})
+
+test_that("get_tunable_args", {
+  expect_equal(get_tunable_args(model_mx), c("a", "fc", "reg", "iter"))
+  expect_equal(get_tunable_args(model), c("a", "fc", "reg"))
+})
+
 test_that("The function .get_hypers_grid generates the correct grid", {
   expect_type(.get_hypers_grid(model, h)$a, "integer")
 })
