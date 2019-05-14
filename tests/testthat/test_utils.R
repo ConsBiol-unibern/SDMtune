@@ -61,10 +61,49 @@ test_that(".create_sdmtune_result", {
                list(a = 5000, fc = "lqph", reg = 1, train_TSS = 0.9,
                     test_TSS = 0.8, diff_TSS = 0.1))
   # Produce the correct result with aicc
-  # expect_equal(.create_sdmtune_result(model, metric = "aicc",
-  #                                     train_metric = 0.9, val_metric = NA),
-  #              list(a = 5000, fc = "lqph", reg = 1, AICc = 0.9,
-  #                   delta_AICc = 0.8))
+  expect_equal(.create_sdmtune_result(model, metric = "aicc",
+                                      train_metric = 0.9, val_metric = NA),
+               list(a = 5000, fc = "lqph", reg = 1, AICc = 0.9,
+                    delta_AICc = NA))
+  # Produce the correct output type
+  expect_type(.create_sdmtune_result(model, metric = "aicc",
+                                     train_metric = 0.9, val_metric = NA),
+              "list")
+})
+
+test_that(".create_sdm_output", {
+  # Produce the correct output type
+  expect_s4_class(.create_sdmtune_output(list(model, model), metric = "auc",
+                                         train_metric = data.frame(x = c(1, 2),
+                                                                   y = c(.8, .9)),
+                                         val_metric = data.frame(x = c(1, 2),
+                                                                 y = c(.6, .8))),
+                                         "SDMtune")
+  # Produce the correct result with aicc
+  expect_length(.create_sdmtune_output(list(model, model), metric = "aicc",
+                                      train_metric = data.frame(x = c(1, 2),
+                                                                y = c(.8, .9)),
+                                      val_metric = NA)@models, 2)
+  # Produce the correct result with auc
+  expect_equal(.create_sdmtune_output(list(model, model), metric = "auc",
+                                      train_metric = data.frame(x = c(1, 2),
+                                                                y = c(.8, .9)),
+                                      val_metric = data.frame(x = c(1, 2),
+                                                              y = c(.6, .8))
+                                      )@results$diff_AUC, c(.2, .1))
+  # Produce the correct result with tss
+  expect_equal(.create_sdmtune_output(list(model, model), metric = "tss",
+                                      train_metric = data.frame(x = c(1, 2),
+                                                                y = c(.8, .9)),
+                                      val_metric = data.frame(x = c(1, 2),
+                                                              y = c(.6, .8))
+  )@results$diff_TSS, c(.2, .1))
+  # Produce the correct result with aicc
+  expect_equal(.create_sdmtune_output(list(model, model), metric = "aicc",
+                                      train_metric = data.frame(x = c(1, 2),
+                                                                y = c(.8, .9)),
+                                      val_metric = NA)@results$delta_AICc,
+               c(0, .1))
 })
 
 test_that("The function .get_hypers_grid generates the correct grid", {

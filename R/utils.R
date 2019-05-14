@@ -98,7 +98,7 @@
     res[[l + 2]] <- val_metric
     res[[l + 3]] <- res[[l + 1]] - res[[l + 2]]
   } else {
-    res[[l + 2]] <- res[[l + 1]] - min(res[[l + 1]])
+    res[[l + 2]] <- NA
   }
 
   names(res) <- labels
