@@ -85,7 +85,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                    title = "Grid Search",
                    update = TRUE)
 
-  data = list()
+  data <- list()
 
   folder <- tempfile("SDMtune")
 
