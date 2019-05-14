@@ -1,25 +1,22 @@
 .get_model_class <- function(model) {
-  if (class(model) == "SDMmodel") {
-    return(class(model@model))
-  } else {
-    return(class(model@models[[1]]@model))
+  if (class(model) == "SDMmodelCV") {
+    model <- model@models[[1]]
   }
+  return(class(model@model))
 }
 
 .get_model_reg <- function(model) {
-  if (class(model) == "SDMmodel") {
-    return(model@model@reg)
-  } else {
-    return(model@models[[1]]@model@reg)
+  if (class(model) == "SDMmodelCV") {
+    model <- model@models[[1]]
   }
+  return(model@model@reg)
 }
 
 .get_model_fc <- function(model) {
-  if (class(model) == "SDMmodel") {
-    return(model@model@fc)
-  } else {
-    return(model@models[[1]]@model@fc)
+  if (class(model) == "SDMmodelCV") {
+    model <- model@models[[1]]
   }
+  return(model@model@fc)
 }
 
 .get_model_hyperparams <- function(model) {
