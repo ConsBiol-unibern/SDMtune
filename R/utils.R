@@ -43,7 +43,6 @@
 
 .get_total_models <- function(pop, gen, remaining) {
   tot <- pop + (gen * remaining)
-
   return(tot)
 }
 
