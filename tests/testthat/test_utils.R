@@ -138,6 +138,8 @@ test_that(".create_model_from_settings", {
                                    bg4test = SDMtune:::bg,
                                    bg_folds = sample(1:nrow(SDMtune:::bg@data)))
   expect_equal(nrow(m@a@data), 6000)
+  expect_equal(rownames(m@a@data), as.character(1:6000))
+  expect_equal(rownames(m@a@coords), as.character(1:6000))
 })
 
 test_that("The function .get_hypers_grid generates the correct grid", {

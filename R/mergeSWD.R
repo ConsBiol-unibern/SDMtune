@@ -34,7 +34,6 @@ mergeSWD <- function(swd1, swd2) {
     swd2@data <- swd2@data[, vars]
   }
 
-
   swd <- new("SWD")
   swd@species <- swd1@species
   swd@coords <- rbind(swd1@coords, swd2@coords)
