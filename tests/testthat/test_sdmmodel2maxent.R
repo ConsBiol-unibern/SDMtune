@@ -10,3 +10,7 @@ test_that("The function creates the cirrect output", {
                SDMtune:::bm_maxent@model@lambdas)
   expect_true(SDMmodel2MaxEnt(SDMtune:::bm_maxent)@hasabsence)
 })
+
+test_that("The function raises errors", {
+  expect_error(SDMmodel2MaxEnt(SDMtune:::bm_maxnet))
+})

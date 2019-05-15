@@ -1,6 +1,6 @@
 context("Get subsamples")
 
-s <- getSubsample(SDMtune:::bg_model, 3000)
+s <- getSubsample(SDMtune:::bg_model, 3000, seed = 25)
 
 test_that("The function rises errors", {
   expect_error(getSubsample(SDMtune:::bg_model, 6000),

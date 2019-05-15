@@ -20,4 +20,8 @@ test_that("The output is correct", {
   expect_equal(sum(cm$tp, cm$fn), nrow(SDMtune:::bm_maxnet@p@data))
   # Sum of tn and fp is equal to number of background locations
   expect_equal(sum(cm$tn, cm$fp), nrow(SDMtune:::bm_maxnet@a@data))
+  # Correct output with test argument
+  expect_equal(nrow(confMatrix(SDMtune:::bm_maxnet,
+                               test = getSubsample(SDMtune:::p, 50, seed = 2))),
+               5021)
 })

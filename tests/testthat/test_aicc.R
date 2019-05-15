@@ -14,3 +14,7 @@ m <- train("Maxnet", p = p, a = bg, fc = "h")
 test_that("NA is returned if k > obs", {
   expect_equal(aicc(m, env), NA)
 })
+
+test_that("The correct output is produced", {
+  expect_type(aicc(SDMtune:::bm_maxent, env), "double")
+})
