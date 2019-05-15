@@ -125,6 +125,22 @@ test_that("get_tunable_args", {
   expect_equal(get_tunable_args(model), c("a", "fc", "reg"))
 })
 
+test_that(".create_model_from_settings", {
+  m <- .create_model_from_settings(model, list(fc = "l", reg = 2))
+  expect_s4_class(m, "SDMmodel")
+  expect_s4_class(m@model, "Maxnet")
+  expect_equal(m@model@fc, "l")
+  expect_equal(m@model@reg, 2)
+  expect_warning(
+    .create_model_from_settings(model, list(fc = "l", reg = 2, a = 6000)),
+    "Ignored number of 'a' in settings!")
+  m <- .create_model_from_settings(model, list(fc = "l", reg = 2, a = 6000),
+                                   bg4test = SDMtune:::bg,
+                                   bg_folds = sample(1:nrow(SDMtune:::bg@data)))
+  expect_equal(nrow(m@a@data), 6000)
+})
+
 test_that("The function .get_hypers_grid generates the correct grid", {
   expect_type(.get_hypers_grid(model, h)$a, "integer")
+  expect_type(.get_hypers_grid(model, h), "list")
 })

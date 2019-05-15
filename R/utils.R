@@ -215,6 +215,8 @@ get_tunable_args <- function(model) {
     row.names(bg@coords) <- NULL
     args$a <- bg
   } else if ("a" %in% names(settings) & class(settings$a) != "SWD") {
+    if (settings$a != nrow(model@a@data))
+      warning("Ignored number of 'a' in settings!")
     args$a <- model@a
   }
 
