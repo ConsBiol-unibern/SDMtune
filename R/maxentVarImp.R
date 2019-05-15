@@ -15,6 +15,9 @@
 #' @author Sergio Vignali
 maxentVarImp <- function(model) {
 
+  if (class(model) == "SDMmodelCV")
+    stop("Function not available for SDMmodelCV!")
+
   if (class(model@model) != "Maxent")
     stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
 
