@@ -49,7 +49,7 @@ Another approach would be to split the data in two folds: training and testing, 
 To see the effect of varying one hyperparameter on the model performance we can use the function `gridSearch()`. The function iterates through a set of predefined hyperparameter values, train the model and displays in real-time the evaluation metric in the RStudio viewer pane (hover over the points to get a tooltip with extra information). Let's see how the AUC changes varying the number of background locations. First we have to define the values for the hyperparameter that we want to test. For that we create a named list that we will use as an argument for the function `gridSearch()`:
 ```{r tune bg}
 # Define the values for bg
-h <- list("a" = seq(4000, 9000, 1000))
+h <- list(a = seq(4000, 9000, 1000))
 # Call the gridSearch function
 exp_1 <- gridSearch(model, hypers = h, metric = "auc", test = val, bg4test = bg, seed = 2525)
 ```
@@ -72,7 +72,7 @@ plot(exp_1, interactive = TRUE)
 Try to see how TSS changes varying the regularization multiplier from 0.5 to 3 with increments of 0.5 (highlight to see the solution):
 ```{r exercise 1, eval=FALSE, class.source='exercise'}
 # Define the values for reg
-h <- list("reg" = seq(0.5, 3, 0.5))
+h <- list(reg = seq(0.5, 3, 0.5))
 # Call the gridSearch function
 exp_2 <- gridSearch(model, hypers = h, metric = "tss", test = val, seed = 68468)
 ```
@@ -81,7 +81,7 @@ exp_2 <- gridSearch(model, hypers = h, metric = "tss", test = val, seed = 68468)
 and how AUC changes varying the feature combinations using the following values: l, lq, lh, lqp, lqph and lqpht (highlight to see the solution):
 ```{r exercise 2, eval=FALSE, class.source='exercise'}
 # Define the values for fc
-h <- list("fc" = c("l", "lq", "lh", "lqp", "lqph", "lqpht"))
+h <- list(fc = c("l", "lq", "lh", "lqp", "lqph", "lqpht"))
 # Call the gridSearch function
 exp_3 <- gridSearch(model, hypers = h, metric = "auc", test = val, seed = 9948)
 ```
@@ -104,7 +104,7 @@ get_tunable_args(model)
 
 To tune the model hyperparameters you should run all the possible combinations of hyperparameters. Here is an example using combinations of regularization multiplier and feature classes:
 ```{r exp 5, eval=FALSE}
-h <- list("reg" = seq(0.5, 5, 0.5), "fc" = c("l", "lq", "lh", "lqp", "lqph", "lqpht"))
+h <- list(reg = seq(0.5, 5, 0.5), fc = c("l", "lq", "lh", "lqp", "lqph", "lqpht"))
 exp_5 <- gridSearch(model, hypers = h, metric = "auc", test = val, seed = 5165)
 ```
 
@@ -114,7 +114,7 @@ This code takes already quite long as it has to train 60 models. Imagine if you 
 
 The function `randomSearch()` trains models taking a random sample of the predefined configurations. In the next example we select 20 random configurations:
 ```{r random search}
-h <- list("a" = seq(4000, 9000, 500), "reg" = seq(0.2, 5, 0.2), "fc" = c("l", "lq", "lh", "lp", "lqp", "lqph"))
+h <- list(a = seq(4000, 9000, 500), reg = seq(0.2, 5, 0.2), fc = c("l", "lq", "lh", "lp", "lqp", "lqph"))
 exp_6 <- randomSearch(model, hypers = h, metric = "auc", test = val, bg4test = bg, pop = 20, seed = 65651)
 ```
 
