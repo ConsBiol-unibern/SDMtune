@@ -172,14 +172,14 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">map &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a></code></pre></div>
 <p>In this case the output is a <code>raster</code> object:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">map</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; class       : RasterLayer </span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; dimensions  : 192, 186, 35712  (nrow, ncol, ncell)</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; resolution  : 0.5, 0.5  (x, y)</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; extent      : -125, -32, -56, 40  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; coord. ref. : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; data source : in memory</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; names       : layer </span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; values      : 1.065108e-06, 1  (min, max)</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; class      : RasterLayer </span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; dimensions : 192, 186, 35712  (nrow, ncol, ncell)</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; extent     : -125, -32, -56, 40  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; source     : memory</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; names      : layer </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; values     : 1.065108e-06, 1  (min, max)</span></a></code></pre></div>
 <p>The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function. In the next example we save the map in a file called “<strong>my_file</strong>” in the <strong>GeoTIFF</strong> format:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">map &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">file =</span> <span class="st">"my_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
 <p>The <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function has other arguments useful when predicting large datasets:</p>
