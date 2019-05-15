@@ -18,7 +18,7 @@ test_that("The function raises errors", {
 })
 
 test_that("The function warns if datasets have different variables", {
-  x <- SDMtune::p
+  x <- SDMtune:::p
   x@data$biome <- NULL
   expect_warning(mergeSWD(x, SDMtune:::p))
   # Check that common columns are merged
