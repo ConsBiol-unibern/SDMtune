@@ -7,12 +7,12 @@ env <- raster::stack(files)
 
 test_that("Warning is raised", {
   expect_warning(prepareSWD("Gypaetus barbatus",
-                            dismo::randomPoints(predictors, 10000), env,
+                            dismo::randomPoints(env, 10000), env,
                             categorical = "biome"))
 })
 
 test_that("Output is correct", {
-  swd <- prepareSWD("Gypaetus barbatus", SDMtune:::p@coords, predictors,
+  swd <- prepareSWD("Gypaetus barbatus", SDMtune:::p@coords, env,
                     categorical = "biome")
   expect_s4_class(swd, "SWD")
   expect_equal(swd@species, "Gypaetus barbatus")
