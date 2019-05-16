@@ -4,8 +4,7 @@ setClassUnion("model", c("Maxent", "Maxnet"))
 #' This Class represents a SDMmodel model object and hosts all the information
 #' related to the model.
 #'
-#' @slot p \link{SWD} object. The presence locations used to train the
-#' model.
+#' @slot p \link{SWD} object. The presence locations used to train the model.
 #' @slot a \link{SWD} object. The absence or background locations used to train
 #' the model.
 #' @slot model \link{Maxent} or \link{Maxnet} object.

@@ -1,0 +1,17 @@
+context("Maxent class")
+
+test_that("Maxent object contains the correct fields", {
+  expect_s4_class(Maxent(), "Maxent")
+  expect_true(is.matrix(Maxent()@results))
+  expect_true(is.numeric(Maxent()@reg))
+  expect_true(is.character(Maxent()@fc))
+  expect_true(is.numeric(Maxent()@iter))
+  expect_true(is.character(Maxent()@extra_args))
+  expect_true(is.vector(Maxent()@lambdas))
+  expect_s4_class(Maxent()@coeff, "data.frame")
+  expect_s4_class(Maxent()@formula, "formula")
+  expect_true(is.numeric(Maxent()@lpn))
+  expect_true(is.numeric(Maxent()@dn))
+  expect_true(is.numeric(Maxent()@entropy))
+  expect_s4_class(Maxent()@min_max, "data.frame")
+})
