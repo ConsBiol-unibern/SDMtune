@@ -9,9 +9,9 @@ test_that("Crossover is executed", {
   set.seed(30, kind = "Mersenne-Twister", sample.kind = "Rejection")
   x <- .breed(mother, father, h, bg4test = NULL, bg_folds = NULL,
               mutation_chance = 0)
-  # fc comes from mother
+  # fc comes from father
   expect_equal(x@model@fc, father@model@fc)
-  # reg comes from father
+  # reg comes from mother
   expect_equal(x@model@reg, mother@model@reg)
 })
 
