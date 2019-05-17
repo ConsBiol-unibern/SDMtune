@@ -81,7 +81,8 @@ thresholds <- function(model, type, test = NULL) {
     }
   }
 
-  output <- data.frame(th = rownames, val = ths, fpa = fpa, or = or_train)
+  output <- data.frame(th = rownames, val = ths, fpa = fpa, or = or_train,
+                       stringsAsFactors = FALSE)
   output[, 2:4] <- round(output[, 2:4], 3)
 
   if (!is.null(test)) {
