@@ -274,11 +274,12 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   mother_args <- .get_train_args(mother)
   model_args <- mother_args
   father_args <- .get_train_args(father)
+  # Crossover
   for (arg in names(hypers)) {
     model_args[[arg]] <- sample(c(mother_args[[arg]], father_args[[arg]]),
                                 size = 1)[[1]]
   }
-
+  # Mutation
   if (mutation_chance > runif(1)) {
     # Only hypers with more than two values can be use for mutation
     mutation <- sample(names(hypers)[lengths(hypers) > 2], size = 1)
