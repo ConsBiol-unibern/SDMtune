@@ -55,7 +55,9 @@ until the remaining variables are not highly correlated anymore.
 }
 \details{
 Parallel computation increases the speed only for large datasets due
-to the time necessary to create the cluster.
+to the time necessary to create the cluster.\cr
+To find highly correlated variables the following formula is used:
+\deqn{| coeff | \le cor_th}
 }
 \examples{
 \dontrun{
