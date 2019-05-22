@@ -43,7 +43,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     a <- model@models[[1]]@a
   }
 
-  train <- model@p
+  p <- model@p
   cont_vars <- names(Filter(is.numeric, a@data))
   cat_vars <- names(Filter(is.factor, a@data))
 
@@ -54,12 +54,12 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     n_rows <- 100
   }
 
-  train_rug <- data.frame(x = train@data[, var])
+  p_rug <- data.frame(x = p@data[, var])
   a_rug <- data.frame(x = a@data[, var])
 
   if (class(model) == "SDMmodel") {
-    plot_data <- .get_plot_data(model, train, a, var, cont_vars, cat_vars,
-                                n_rows, train_rug, fun, marginal, clamp, type,
+    plot_data <- .get_plot_data(model, p, a, var, cont_vars, cat_vars,
+                                n_rows, p_rug, fun, marginal, clamp, type,
                                 categ)
 
     if (var %in% cont_vars) {
@@ -74,14 +74,14 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
     }
   } else {
     nf <- length(model@models)
-    plot_data <- .get_plot_data(model@models[[1]], train, a, var, cont_vars,
-                                cat_vars, n_rows, train_rug, fun, marginal,
+    plot_data <- .get_plot_data(model@models[[1]], p, a, var, cont_vars,
+                                cat_vars, n_rows, p_rug, fun, marginal,
                                 clamp, type, categ)
     colnames(plot_data) <- c("x", "y_1")
     for (i in 2:nf)
-      plot_data[paste0("y_", i)] <- .get_plot_data(model@models[[i]], train, a,
+      plot_data[paste0("y_", i)] <- .get_plot_data(model@models[[i]], p, a,
                                                    var, cont_vars, cat_vars,
-                                                   n_rows, train_rug, fun,
+                                                   n_rows, p_rug, fun,
                                                    marginal, clamp, type)$y
     plot_data$y <- rowMeans(plot_data[, -1])
     plot_data$sd <- apply(plot_data[, 2:(nf + 1)], 1, sd, na.rm = TRUE)
@@ -111,7 +111,7 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
 
   if (rug == TRUE & var %in% cont_vars) {
     my_plot <- my_plot +
-      geom_rug(data = train_rug, inherit.aes = FALSE, aes_string("x"),
+      geom_rug(data = p_rug, inherit.aes = FALSE, aes_string("x"),
                sides = "t", color = "#4C4C4C") +
       geom_rug(data = a_rug, inherit.aes = FALSE, aes_string("x"),
                sides = "b", color = "#4C4C4C")
@@ -121,22 +121,22 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
 }
 
 
-.get_plot_data <- function(model, train, a, var, cont_vars, cat_vars, n_rows,
-                           train_rug, fun, marginal, clamp, type, categ) {
+.get_plot_data <- function(model, p, a, var, cont_vars, cat_vars, n_rows,
+                           p_rug, fun, marginal, clamp, type, categ) {
 
-  data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(train@data)))
-  colnames(data) <- colnames(train@data)
-  data[cont_vars] <- apply(train@data[cont_vars], 2, fun)
-  data[cat_vars] <- as.factor(apply(train@data[cat_vars], 2, raster::modal))
+  data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(p@data)))
+  colnames(data) <- colnames(p@data)
+  data[cont_vars] <- apply(p@data[cont_vars], 2, fun)
+  data[cat_vars] <- as.factor(apply(p@data[cat_vars], 2, raster::modal))
   data <- do.call("rbind", replicate(n_rows, data, simplify = FALSE))
 
   if (clamp & var %in% cont_vars) {
     var_min <- min(a@data[var])
     var_max <- max(a@data[var])
-    train_rug <- data.frame(x = clamp(train_rug$x, var_min, var_max))
+    p_rug <- data.frame(x = clamp(p_rug$x, var_min, var_max))
   } else if (var %in% cont_vars) {
-    var_min <- min(rbind(train@data[var], a@data[var]))
-    var_max <- max(rbind(train@data[var], a@data[var]))
+    var_min <- min(rbind(p@data[var], a@data[var]))
+    var_max <- max(rbind(p@data[var], a@data[var]))
   }
 
   if (var %in% cont_vars) {
@@ -146,9 +146,9 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   }
 
   if (!marginal) {
-    train@data <- model@p@data[var]
+    p@data <- model@p@data[var]
     a@data <- model@a@data[var]
-    settings <- list("p" = train, "a" = a)
+    settings <- list(p = p, a = a)
 
     model <- .create_model_from_settings(model, settings)
   }
