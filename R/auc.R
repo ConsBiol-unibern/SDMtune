@@ -31,12 +31,11 @@ auc <- function(model, test = NULL, a = NULL) {
     auc <- .compute_auc(model, test, a)
   } else {
     aucs <- c()
+    data <- model@p
     for (i in 1:length(model@models)) {
       if (is.null(test)) {
-        data <- model@p
         data@data <- model@p@data[model@folds != i, , drop = FALSE]
       } else {
-        data <- model@p
         data@data <- model@p@data[model@folds == i, , drop = FALSE]
       }
       aucs <- c(aucs, .compute_auc(model@models[[i]], data, a))
