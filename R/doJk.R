@@ -36,7 +36,7 @@ doJk <- function(model, metric, variables = NULL,
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
-  .checkArgs(model, metric = metric, test = test, env = env)
+  .check_args(model, metric = metric, test = test, env = env)
 
   if (is.null(variables))
     variables <- colnames(model@p@data)

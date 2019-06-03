@@ -46,7 +46,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   grid <- .get_hypers_grid(model, hypers)
 
   # Check that areguments are correctly provided
-  .checkArgs(model, metric, test, bg4test, env, hypers)
+  .check_args(model, metric, test, bg4test, env, hypers)
 
   if (class(model) == "SDMmodelCV")
     test <- TRUE

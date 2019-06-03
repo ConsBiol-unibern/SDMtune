@@ -72,8 +72,8 @@ auc <- function(model, test = NULL, a = NULL) {
   n_a <- nrow(a)
 
   # AUC using the Mann-Whitney U Test
-  Rp = sum(rank(pred)[1:n_p])  # Sum of rank of positive cases
-  Up = Rp - (n_p * (n_p + 1) / 2)  # U test for positive cases
+  Rp <- sum(rank(pred)[1:n_p])  # Sum of rank of positive cases
+  Up <- Rp - (n_p * (n_p + 1) / 2)  # U test for positive cases
   auc <- Up / (n_p * n_a)
 
   return(auc)

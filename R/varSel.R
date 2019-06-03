@@ -51,7 +51,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
-  .checkArgs(model, metric = metric, test = test, env = env)
+  .check_args(model, metric = metric, test = test, env = env)
 
   if (use_pc & .get_model_class(model) != "Maxent")
     stop(paste("Percent contribution cannot be used with model of method",
@@ -114,8 +114,8 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     index <- match(initial_vars, vars)
     vals <- scores[, 2][index]
     vals[is.na(vals)] <- 0
-    data = list(data = vals, train = train_metric, val = val_metric,
-                lineTitle = line_title, stop = FALSE)
+    data <- list(data = vals, train = train_metric, val = val_metric,
+                 lineTitle = line_title, stop = FALSE)
 
     if (first_iter) {
       .create_chart(folder = folder, script = "varSelection.js",
@@ -164,8 +164,8 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     if (is.null(discarded_variable)) {
       correlation_removed <- TRUE
       stop <- TRUE
-      data = list(data = vals, train = train_metric, val = val_metric,
-                  lineTitle = line_title, stop = stop)
+      data <- list(data = vals, train = train_metric, val = val_metric,
+                   lineTitle = line_title, stop = stop)
       .update_data(folder, data = data)
     }
   }

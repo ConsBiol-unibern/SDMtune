@@ -45,12 +45,12 @@ modelReport <- function(model, type, folder, test = NULL,
     template <- system.file("templates", "modelReport.Rmd", package = "SDMtune")
 
     folder <- file.path(getwd(), folder)
-    dir.create(file.path(folder, "/plots"), recursive = TRUE,
+    dir.create(file.path(folder, "plots"), recursive = TRUE,
                showWarnings = FALSE)
     species <- gsub(" ", "_", tolower(model@p@species))
     title <- paste(class(model@model), "model for", model@p@species)
     args <- c(paste0("--metadata=title:\"", title, "\""))
-    output_file = paste0(species, ".html")
+    output_file <- paste0(species, ".html")
 
     rmarkdown::render(template,
                       output_file = output_file,

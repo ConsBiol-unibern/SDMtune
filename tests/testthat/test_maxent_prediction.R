@@ -2,8 +2,7 @@ context("Maxent Prediction")
 
 model <- SDMtune:::bm_maxent
 maxent_model <- SDMmodel2MaxEnt(model)
-files <- list.files(path = paste(system.file(package = "dismo"),
-                                 "/ex", sep = ""),
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 env <- raster::stack(files)
 p <- p_cont <- p_cat <- SDMtune:::p

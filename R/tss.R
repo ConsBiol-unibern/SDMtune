@@ -31,10 +31,10 @@ tss <- function(model, test = NULL) {
     for (i in 1:length(model@models)) {
       if (is.null(test)) {
         data <- model@p
-        data@data <- model@p@data[model@folds != i,  , drop = FALSE]
+        data@data <- model@p@data[model@folds != i, , drop = FALSE]
       } else {
         data <- model@p
-        data@data <- model@p@data[model@folds == i,  , drop = FALSE]
+        data@data <- model@p@data[model@folds == i, , drop = FALSE]
       }
       tsss <- c(tsss, max(.compute_tss(model@models[[i]], data)))
     }

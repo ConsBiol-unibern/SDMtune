@@ -65,7 +65,7 @@ the data and we train a **Maxent** model using **SDMtune**:
 
 ``` r
 # Acquire environmental variables
-files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = TRUE)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 # Prepare presence locations
 p_coords <- condor[, 1:2]
@@ -101,8 +101,8 @@ Now we test the execution time using the **microbenckmark** package:
 
 ``` r
 bench <- microbenchmark::microbenchmark(
-  "SDMtune" = predict(sdmtune_model, data = predictors, type = "cloglog"),
-  "dismo" = predict(maxent_model, predictors),
+  SDMtune = predict(sdmtune_model, data = predictors, type = "cloglog"),
+  dismo = predict(maxent_model, predictors),
   check = my_check
 )
 ```

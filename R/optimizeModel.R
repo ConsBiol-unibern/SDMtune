@@ -55,7 +55,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   grid <- .get_hypers_grid(model, hypers)
 
   # Check that areguments are correctly provided
-  .checkArgs(model, metric, test, bg4test, env, hypers)
+  .check_args(model, metric, test, bg4test, env, hypers)
   # Check if at least two hyperparameters have more than one value
   .check_optimize_args(hypers, grid, pop)
 
@@ -111,13 +111,13 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                    labels = c("start", 0:gen),
                    update = TRUE)
 
-  data = list(gen = 0,
-              best_train = best_train,
-              best_val = best_val,
-              title = chart_title,
-              lineTitle = line_title,
-              lineFooter = line_footer,
-              stop = FALSE)
+  data <- list(gen = 0,
+               best_train = best_train,
+               best_val = best_val,
+               title = chart_title,
+               lineTitle = line_title,
+               lineFooter = line_footer,
+               stop = FALSE)
 
   folder <- tempfile("SDMtune")
 
@@ -186,7 +186,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
         val_metric <- val_metric[index_kept, ]
         val_metric$x <- 1:kept
       }
-      chart_title = paste("Genetic Algorithm - Generation", i)
+      chart_title <- paste("Genetic Algorithm - Generation", i)
       scatter_footer <- scatter_footer[index_kept]
 
       .update_data(folder, data = list(train = train_metric, val = val_metric,

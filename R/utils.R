@@ -220,15 +220,15 @@ get_tunable_args <- function(model) {
     args$a <- model@a
   }
 
-  args$verbose = verbose
+  args$verbose <- verbose
 
   output <- do.call("train", args)
 
   return(output)
 }
 
-.checkArgs <- function(model, metric, test = NULL, bg4test = NULL, env = NULL,
-                       hypers = NULL) {
+.check_args <- function(model, metric, test = NULL, bg4test = NULL, env = NULL,
+                        hypers = NULL) {
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide the 'env' argument if you want to use the AICc metric!")

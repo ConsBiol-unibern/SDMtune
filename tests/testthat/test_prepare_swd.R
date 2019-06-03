@@ -1,7 +1,6 @@
 context("Prepare SWD")
 
-files <- list.files(path = paste(system.file(package = "dismo"),
-                                 "/ex", sep = ""),
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 env <- raster::stack(files)
 

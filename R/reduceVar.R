@@ -42,7 +42,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
   if (use_jk == TRUE)
-    .checkArgs(model, metric = metric, test = test, env = env)
+    .check_args(model, metric = metric, test = test, env = env)
   if (use_pc & .get_model_class(model) != "Maxent")
     stop(paste("Percent contribution cannot be used with model of method",
                .get_model_class(model)))
@@ -82,13 +82,13 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     index <- match(initial_vars, scores[, 1])
     vals <- scores[, 2][index]
     vals[is.na(vals)] <- 0
-    data = list(data = vals, train = train_metric, val = val_metric,
-                lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
+    data <- list(data = vals, train = train_metric, val = val_metric,
+                 lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
 
     if (first_iter) {
       .create_chart(folder = folder, script = "varSelection.js",
                     settings = settings, data = data, height = 600)
-      first_iter = FALSE
+      first_iter <- FALSE
     } else {
       .update_data(folder, data = data)
     }
@@ -146,8 +146,8 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
           index <- match(initial_vars, scores[, 1])
           vals <- scores[, 2][index]
           vals[is.na(vals)] <- 0
-          data = list(data = vals, train = train_metric, val = val_metric,
-                      stop = FALSE)
+          data <- list(data = vals, train = train_metric, val = val_metric,
+                       stop = FALSE)
           variables_reduced <- TRUE
         }
       } else {
