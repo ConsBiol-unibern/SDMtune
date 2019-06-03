@@ -5,9 +5,6 @@
 #' prints only the coefficients that are higher or lower than the given
 #' threshold.
 #'
-#' @details The code is inspired by the \href{www.sthda.com/english/wiki/ggplot2-quick-correlation-matrix-heatmap-r-software-and-data-visualization}{STHDA}
-#' web page.
-#'
 #' @param bg \link{SWD} object used to compute the correlation matrix.
 #' @param method character. The method used to compute the correlation matrix,
 #' default is "spearman".
@@ -20,6 +17,7 @@
 #' element_text coord_fixed element_blank geom_text
 #' @importFrom reshape2 melt
 #' @importFrom stats cor
+#' @importFrom stringr str_to_title
 #'
 #' @examples
 #' \dontrun{
@@ -37,18 +35,17 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
   df[categorical] <- list(NULL)
 
   cor_matrix <- cor(df, method = method)
-  cor_matrix[lower.tri(cor_matrix)] <- NA
+  cor_matrix[lower.tri(cor_matrix)] <- NA  # Remove lower triangle
   highly_correlated <- cor_matrix
 
+  # Convert matrix to long form
   cor_matrix <- reshape2::melt(cor_matrix, na.rm = TRUE)
+  label <- paste0(stringr::str_to_title(method), "'s\ncoefficient")
 
   heat_map <- ggplot(data = cor_matrix, aes_(~Var2, ~Var1, fill = ~value)) +
-    geom_tile(color = "white") +
+    geom_tile() +
     scale_fill_gradient2(low = "#2c7bb6", mid = "#ffffbf", high = "#d7191c",
-                         midpoint = 0, limit = c(-1, 1), space = "Lab",
-                         name = paste0(toupper(substring(method, 1, 1)),
-                                       substring(method, 2),
-                                       "'s\ncoefficient")) +
+                         limit = c(-1, 1), name = label) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 10,
                                      hjust = 1),
@@ -56,7 +53,7 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
           axis.title.x = element_blank(),
           axis.title.y = element_blank(),
           panel.grid.major = element_blank(),
-          text = element_text(colour = "#666666", family = "sans-serif"))
+          text = element_text(colour = "#666666", family = "sans-serif")) +
     coord_fixed()
 
   if (is.null(cor_th)) {

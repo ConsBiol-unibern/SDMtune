@@ -24,10 +24,6 @@ coefficients according with the given method. If cor_th is passed then it
 prints only the coefficients that are higher or lower than the given
 threshold.
 }
-\details{
-The code is inspired by the \href{www.sthda.com/english/wiki/ggplot2-quick-correlation-matrix-heatmap-r-software-and-data-visualization}{STHDA}
-web page.
-}
 \examples{
 \dontrun{
 my_plot <- plotCorrelation(bgs, method = "spearman", cor_th = 0.7)}
