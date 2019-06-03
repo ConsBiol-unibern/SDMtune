@@ -172,7 +172,7 @@
 <a href="#aicc" class="anchor"></a>AICc</h2>
 <p>For the Akaike Information Criterion corrected for small sample size <span class="citation">(Warren and Seifert 2011)</span> we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument, the ‘predictors’ raster <code>stack</code> object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../../reference/aicc.html">aicc</a></span>(default_model, <span class="dt">env =</span> predictors)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] 8495.432</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] 8272.29</span></a></code></pre></div>
 <p>We can pass the argument <code>parallel=TRUE</code> to speed up the computation for large datasets.</p>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
