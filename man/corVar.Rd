@@ -4,7 +4,8 @@
 \alias{corVar}
 \title{Print Correlated Variables}
 \usage{
-corVar(bg, method = "spearman", cor_th = NULL)
+corVar(bg, method = "spearman", cor_th = NULL, order = TRUE,
+  remove_diagonal = TRUE)
 }
 \arguments{
 \item{bg}{\link{SWD}. Locations used to test the correlation between
@@ -16,6 +17,12 @@ default is "spearman".}
 \item{cor_th}{numeric. If provided it prints only the variables whose
 correlation coefficient is higher or lower than the given threshold, default
 is NULL.}
+
+\item{order}{logical, if TRUE the variable are ordered from the most to the
+less highly correlated, default is TRUE.}
+
+\item{remove_diagonal}{logical, if TRUE the values in the diagonal are,
+removed, default is TRUE.}
 }
 \value{
 The name of the correlated variables.

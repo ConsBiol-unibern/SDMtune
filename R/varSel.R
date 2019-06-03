@@ -61,8 +61,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     test <- TRUE
 
   cor_vars <- corVar(bg4cor, method = method, cor_th = cor_th)
-  cor_vars <- unique(c(as.character(cor_vars$Var1),
-                       as.character(cor_vars$Var2)))
+  cor_vars <- unique(c(cor_vars$Var1, cor_vars$Var2))
 
   total <- length(cor_vars)
   removed <- 0

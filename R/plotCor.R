@@ -26,20 +26,8 @@
 #' @author Sergio Vignali
 plotCor <- function(bg, method = "spearman", cor_th = NULL) {
 
-  if (class(bg) != "SWD") stop("Input must be a SWD object!")
-
-  df <- bg@data
-
-  # Remove categorical environmental variables
-  categorical <- names(Filter(is.factor, df))
-  df[categorical] <- list(NULL)
-
-  cor_matrix <- cor(df, method = method)
-  cor_matrix[lower.tri(cor_matrix)] <- NA  # Remove lower triangle
-  highly_correlated <- cor_matrix
-
-  # Convert matrix to long form
-  cor_matrix <- reshape2::melt(cor_matrix, na.rm = TRUE)
+  cor_matrix <- corVar(bg, method = method, order = FALSE,
+                       remove_diagonal = FALSE)
   label <- paste0(stringr::str_to_title(method), "'s\ncoefficient")
 
   heat_map <- ggplot(data = cor_matrix, aes_(~Var2, ~Var1, fill = ~value)) +
@@ -60,10 +48,10 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
     heat_map <- heat_map +
       geom_text(data = cor_matrix, aes_(~Var2, ~Var1,
                                         label = round(cor_matrix$value, 2)),
-                color = "black", size = 3.5)
+                color = "black", size = 3)
   } else {
-    highly_correlated[abs(highly_correlated) < cor_th] <- NA
-    highly_correlated <- reshape2::melt(highly_correlated, na.rm = TRUE)
+    highly_correlated <- corVar(bg, method = method, cor_th = cor_th,
+                                order = FALSE, remove_diagonal = FALSE)
     heat_map <- heat_map +
       geom_text(data = highly_correlated,
                 aes_(~Var2, ~Var1, label = round(highly_correlated$value, 2)),
