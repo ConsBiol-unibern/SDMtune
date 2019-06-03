@@ -2,7 +2,7 @@ Package: SDMtune
 Type: Package
 Title: Species Distribution Model Selection
 Version: 0.1.0
-Date: 2019-04-02
+Date: 2019-06-03
 Authors@R: c(
 	person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",
 	       role = c("aut", "cre"), comment = c(ORCID = "00000-0002-3390-5442")),
@@ -22,7 +22,7 @@ Description: User-friendly framework that enables the training and the
     tuning the model using the AICc. At the moment only the Maximum Entropy
     method is available using the Java implementation through the 'dismo'
     package and the R implementation through the 'maxnet' package.
-License: GPL-3 + file LICENSE
+License: GPL-3 | file LICENSE
 URL: https://consbiol-unibern.github.io/SDMtune/
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
 Depends: R (>= 3.2.0)

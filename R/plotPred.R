@@ -6,8 +6,7 @@
 #' @param lt character. Legend title, default is an empty string.
 #' @param colorramp vector. A custom color ramp given as a vector of colors
 #' (see example), default is NULL and uses a color ramp similar to the original
-#' MaxEnt output. See \href{color brewer}{http://colorbrewer2.org/} to make
-#' nice color ramps.
+#' MaxEnt output.
 #' @param hr logical, if TRUE produces an output with high resolution, default
 #' is FALSE.
 #'

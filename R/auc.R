@@ -12,9 +12,13 @@
 #' @details If the model is a \link{SDMmodelCV} object, the function computes
 #' the mean of the training or testing AUC values of the different replicates.
 #'
+#' @references Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative
+#' operating characteristics (ROC) and relative operating levels (ROL) curves:
+#' Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
+#' 2145-2166.
+#'
 #' @return The value of the AUC.
 #' @export
-#' @importFrom stats wilcox.test
 #'
 #' @examples
 #' \dontrun{
@@ -52,22 +56,26 @@ auc <- function(model, test = NULL, a = NULL) {
   }
 
   if (is.null(test)) {
-    p_pred <- predict(model, model@p@data, type = type)
+    p <- model@p@data
   } else {
-    p_pred <- predict(model, test@data[colnames(model@p@data)],
-                      type = type)
+    p <- test@data[colnames(model@p@data)]
   }
 
   # a is used for permutation importance
   if (is.null(a)) {
-    a_pred <- predict(model, model@a@data, type = type)
+    a <- model@a@data
   } else {
-    a_pred <- predict(model, a@data, type = type)
+    a <- a@data
   }
 
-  # AUC using the Mann-Whitney U Test (inspired by dismo pkg)
-  U <- as.numeric(wilcox.test(p_pred, a_pred)$statistic)
-  auc <- U / (length(p_pred) * length(a_pred))
+  pred <- predict(model, rbind(p, a), type = type)
+  n_p <- nrow(p)
+  n_a <- nrow(a)
+
+  # AUC using the Mann-Whitney U Test
+  Rp = sum(rank(pred)[1:n_p])  # Sum of rank of positive cases
+  Up = Rp - (n_p * (n_p + 1) / 2)  # U test for positive cases
+  auc <- Up / (n_p * n_a)
 
   return(auc)
 }

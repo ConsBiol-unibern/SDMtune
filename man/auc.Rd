@@ -31,6 +31,12 @@ the mean of the training or testing AUC values of the different replicates.
 auc(my_model, test = test_dataset)}
 
 }
+\references{
+Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative
+operating characteristics (ROC) and relative operating levels (ROL) curves:
+Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
+2145-2166.
+}
 \author{
 Sergio Vignali
 }
