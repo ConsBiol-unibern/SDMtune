@@ -27,7 +27,7 @@ tss <- function(model, test = NULL) {
   if (class(model) == "SDMmodel") {
     tss <- max(.compute_tss(model, test))
   } else {
-    tsss <- c()
+    tsss <- vector("numeric", length = length(model@models))
     for (i in 1:length(model@models)) {
       if (is.null(test)) {
         data <- model@p
@@ -36,7 +36,7 @@ tss <- function(model, test = NULL) {
         data <- model@p
         data@data <- model@p@data[model@folds == i, , drop = FALSE]
       }
-      tsss <- c(tsss, max(.compute_tss(model@models[[i]], data)))
+      tsss[i] <- max(.compute_tss(model@models[[i]], data))
     }
     tss <- mean(tsss)
   }
@@ -46,7 +46,7 @@ tss <- function(model, test = NULL) {
 
 .compute_tss <- function(model, test) {
 
-  cm <- confMatrix(model, test = test, type = "logistic")
+  cm <- confMatrix(model, test = test, type = "cloglog")
   tpr <- cm$tp / (cm$tp + cm$fn)
   tnr <- cm$tn / (cm$fp + cm$tn)
   tss <- tpr + tnr - 1

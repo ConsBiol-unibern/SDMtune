@@ -30,7 +30,7 @@ auc <- function(model, test = NULL, a = NULL) {
   if (class(model) == "SDMmodel") {
     auc <- .compute_auc(model, test, a)
   } else {
-    aucs <- c()
+    aucs <- vector("numeric", length = length(model@models))
     data <- model@p
     for (i in 1:length(model@models)) {
       if (is.null(test)) {
@@ -38,7 +38,7 @@ auc <- function(model, test = NULL, a = NULL) {
       } else {
         data@data <- model@p@data[model@folds == i, , drop = FALSE]
       }
-      aucs <- c(aucs, .compute_auc(model@models[[i]], data, a))
+      aucs[i] <- .compute_auc(model@models[[i]], data, a)
     }
     auc <- mean(aucs)
   }
