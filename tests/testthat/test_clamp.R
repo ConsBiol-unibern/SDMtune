@@ -1,14 +1,25 @@
-context("Clamp")
-
-v <- c(1:9, 0)
-data <- clamp(v, 3, 7)
+context("Scale and Clamp")
 
 test_that("The function clamps correctly", {
-  expect_identical(data, c(3, 3, 3, 4, 5, 6, 7, 7, 7, 3))
-  expect_equal(length(data), 10)
+  m <- matrix(c(0, 5, 10, 10, 15, 20), ncol = 2)
+  data <- scaleClamp(m, c(2, 12), c(9, 18), TRUE, FALSE)
+  expect_equal(data, matrix(c(2, 5, 9, 12, 15, 18), ncol = 2))
+  expect_equal(length(data), 6)
+  expect_equal(ncol(data), 2)
 })
 
-test_that("Exceptions are thrown", {
-  #Function throws exception if called with a data frames as first argument
-  expect_that(clamp(as.data.frame(v), 3, 7), throws_error())
+test_that("The function scales correctly", {
+  m <- matrix(c(0, 5, 10, 10, 15, 20), ncol = 2)
+  data <- scaleClamp(m, c(0, 10), c(10, 20), FALSE, TRUE)
+  expect_equal(data, matrix(c(0.0, 0.5, 1.0, 0.0, 0.5, 1.0), ncol = 2))
+  expect_equal(length(data), 6)
+  expect_equal(ncol(data), 2)
+})
+
+test_that("The function scales and clamps correctly", {
+  m <- matrix(c(-1, 5, 12, 9, 15, 22), ncol = 2)
+  data <- scaleClamp(m, c(0, 10), c(10, 20), TRUE, TRUE)
+  expect_equal(data, matrix(c(0.0, 0.5, 1.0, 0.0, 0.5, 1.0), ncol = 2))
+  expect_equal(length(data), 6)
+  expect_equal(ncol(data), 2)
 })

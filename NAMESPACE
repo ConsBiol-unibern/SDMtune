@@ -3,7 +3,6 @@
 export(SDMmodel2MaxEnt)
 export(aicc)
 export(auc)
-export(clamp)
 export(confMatrix)
 export(corVar)
 export(doJk)

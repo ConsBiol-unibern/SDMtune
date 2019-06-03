@@ -110,7 +110,11 @@ bench <- microbenchmark::microbenchmark(
 Plot the output:
 
 ``` r
-ggplot2::autoplot(bench, log = FALSE)
+library(ggplot2)
+ggplot(bench, aes(x = expr, y = time/1000000, fill = expr)) +
+  geom_boxplot() +
+  labs(fill = "", x = "Package", y = "time (milliseconds)") +
+  theme_minimal()
 ```
 
 <div style="text-align: center">

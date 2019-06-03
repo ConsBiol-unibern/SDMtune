@@ -44,8 +44,8 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
   p <- c(rep(1, nrow(p@data)), rep(0, nrow(a@data)))
   dismo_model <- dismo::maxent(x, p, args = args, path = folder)
 
-  l <- .get_lambdas(file.path(folder, "species.lambdas"), a)
-  f <- .formula_from_lambdas(l$lambdas)
+  l <- .get_lambdas(dismo_model@lambdas)
+  f <- formula(paste("~", paste(l$lambdas$feature, collapse = " + "), "- 1"))
 
   model_object <- Maxent(results = dismo_model@results, reg = reg, fc = fc,
                          iter = iter, extra_args = extra_args,
@@ -93,96 +93,53 @@ trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
   return(feature_args)
 }
 
-.get_lambdas <- function(lambda_file, a) {
-  lambdas <- read.csv(lambda_file, header = FALSE, stringsAsFactors = FALSE)
-  lpn <- lambdas[(nrow(lambdas) - 3), 2]
-  dn <- lambdas[(nrow(lambdas) - 2), 2]
-  entropy <- lambdas[nrow(lambdas), 2]
-  lambdas <- as.data.frame(lambdas[1:(nrow(lambdas) - 4), ])
-  names(lambdas) <- c("feature", "lambda", "min", "max")
+.get_lambdas <- function(lambda) {
+  l <- as.data.frame(stringr::str_split(lambda, ", ", simplify = TRUE),
+                     stringsAsFactors = FALSE)
+  l[, 2:4] <- sapply(l[, 2:4], as.numeric)
+  n_row <- nrow(l)
+  lpn <- l[(n_row - 3), 2]
+  dn <- l[(n_row - 2), 2]
+  entropy <- l[n_row, 2]
+  l <- l[1:(n_row - 4), ]
+  names(l) <- c("feature", "lambda", "min", "max")
+
+  # Create feature
+  l$feature <- gsub("\\((.*)=(.*)\\)", ".categorical\\(\\1, \\2\\)", l$feature)
+  l$feature <- gsub("\\((.*)<(.*)\\)", ".threshold\\(\\2, \\1\\)", l$feature)
+  l$feature <- gsub("(.*)\\^2", "I\\(\\1\\^2\\)", l$feature)
+  l$feature <- gsub("(.*)\\*(.*)", "I\\(\\1*\\2\\)", l$feature)
+  l$feature <- ifelse(grepl("'", l$feature),
+                      paste0(".hinge(", sub("'", "", l$feature), ", ", l$min,
+                             ", ", l$max, ")"),
+                      l$feature)
+  l$feature <- ifelse(grepl("`", l$feature),
+                      paste0(".rev_hinge(", sub("`", "", l$feature), ", ",
+                             l$min, ", ", l$max, ")"),
+                      l$feature)
+
   # Get min max values of variables
-  min_max <- lambdas[lambdas$feature %in% names(a@data), ]
+  min_max <- l[!grepl("[(]", l$feature), ]
   min_max$lambda <- NULL
   names(min_max) <- c("variable", "min", "max")
+
   # Remove features where lambda = 0 and round braces
-  lambdas <- lambdas[lambdas$lambda != 0, ]
-  lambdas$feature <- gsub("\\(|\\)", "", lambdas$feature)
-  output <- list(lambdas, lpn, dn, entropy, min_max)
-  names(output) <- c("lambdas", "lpn", "dn", "entropy", "min_max")
+  l <- l[l$lambda != 0, ]
+  # Reset row names
+  rownames(l) <- NULL
+  rownames(min_max) <- NULL
+
+  output <- list(lambdas = l, lpn = lpn, dn = dn, entropy = entropy,
+                 min_max = min_max)
   return(output)
 }
 
-.formula_from_lambdas <- function(l) {
-  fxs <- vector()
-  for (i in 1:nrow(l)) {
-    f <- l[i, ]
-    # Quadratic
-    if (grepl("\\^", f$feature)) {
-      var <- sub("\\^2", "", f$feature)
-      fx <- paste0(".quadratic(", var, ", ", f$min, ", ", f$max, ")")
-      fxs <- append(fxs, fx)
-    }
-    # Product
-    else if (grepl("\\*", f$feature)) {
-      vars <- strsplit(f$feature, "\\*")
-      fx <- paste0(".product(", vars[[1]][1], ", ", vars[[1]][2], ", ", f$min,
-                   ", ", f$max, ")")
-      fxs <- append(fxs, fx)
-    }
-    # Hinge
-    else if (grepl("\\'", f$feature)) {
-      var <- sub("\\'", "", f$feature)
-      fx <- paste0(".hinge(", var, ", ", f$min, ", ", f$max, ")")
-      fxs <- append(fxs, fx)
-    }
-    # Reverse hinge
-    else if (grepl("\\`", f$feature)) {
-      var <- sub("\\`", "", f$feature)
-      fx <- paste0(".revHinge(", var, ", ", f$min, ", ", f$max, ")")
-      fxs <- append(fxs, fx)
-    }
-    # Threshold
-    else if (grepl("<", f$feature)) {
-      vars <- strsplit(f$feature, "<")
-      fx <- paste0(".threshold(", vars[[1]][2], ", ", vars[[1]][1], ")")
-      fxs <- append(fxs, fx)
-    }
-    # Categorical
-    else if (grepl("=", f$feature)) {
-      var_value <- strsplit(f$feature, "=")
-      fx <- paste0(".categorical(", var_value[[1]][1], ", ",
-                   var_value[[1]][2], ")")
-      fxs <- append(fxs, fx)
-    }
-    # Linear
-    else {
-      fx <- paste0(".linear(", f$feature, ", ", f$min, ", ", f$max, ")")
-      fxs <- append(fxs, fx)
-    }
-  }
-  f <- formula(paste("~", paste(fxs, collapse = " + "), "- 1"))
-
-  return(f)
-}
-
-.linear <- function(variable, var_min, var_max) {
-  (variable - var_min) / (var_max - var_min)
-}
-
-.quadratic <- function(variable, var_min, var_max) {
-  (variable ^ 2 - var_min) / (var_max - var_min)
-}
-
-.product <- function(var1, var2, var_min, var_max) {
-  ((var1 * var2) - var_min) / (var_max - var_min)
-}
-
 .hinge <- function(variable, var_min, var_max) {
-  ifelse(variable < var_min, 0, (variable - var_min) / (var_max - var_min))
+  ifelse(variable <= var_min, 0, (variable - var_min) / (var_max - var_min))
 }
 
-.revHinge <- function(variable, var_min, var_max) {
-  ifelse(variable < var_max, (var_max -  variable) / (var_max - var_min), 0)
+.rev_hinge <- function(variable, var_min, var_max) {
+  ifelse(variable <= var_max, (var_max -  variable) / (var_max - var_min), 0)
 }
 
 .threshold <- function(variable, th) {

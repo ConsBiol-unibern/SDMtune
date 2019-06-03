@@ -5,22 +5,24 @@
 
 using namespace Rcpp;
 
-// clamp
-NumericVector clamp(NumericVector x, double lower, double upper);
-RcppExport SEXP _SDMtune_clamp(SEXP xSEXP, SEXP lowerSEXP, SEXP upperSEXP) {
+// scaleClamp
+NumericMatrix scaleClamp(NumericMatrix x, NumericVector min, NumericVector max, LogicalVector do_clamp, LogicalVector scale);
+RcppExport SEXP _SDMtune_scaleClamp(SEXP xSEXP, SEXP minSEXP, SEXP maxSEXP, SEXP do_clampSEXP, SEXP scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type lower(lowerSEXP);
-    Rcpp::traits::input_parameter< double >::type upper(upperSEXP);
-    rcpp_result_gen = Rcpp::wrap(clamp(x, lower, upper));
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type min(minSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type max(maxSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type do_clamp(do_clampSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type scale(scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(scaleClamp(x, min, max, do_clamp, scale));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_SDMtune_clamp", (DL_FUNC) &_SDMtune_clamp, 3},
+    {"_SDMtune_scaleClamp", (DL_FUNC) &_SDMtune_scaleClamp, 5},
     {NULL, NULL, 0}
 };
 

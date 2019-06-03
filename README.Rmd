@@ -84,7 +84,11 @@ bench <- microbenchmark::microbenchmark(
 
 Plot the output:
 ```{r plot bench, eval=FALSE}
-ggplot2::autoplot(bench, log = FALSE)
+library(ggplot2)
+ggplot(bench, aes(x = expr, y = time/1000000, fill = expr)) +
+  geom_boxplot() +
+  labs(fill = "", x = "Package", y = "time (milliseconds)") +
+  theme_minimal()
 ```
 <div style="text-align: center"><img src="man/figures/bench.png" alt="" /></div>
 

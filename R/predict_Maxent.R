@@ -36,23 +36,28 @@ setMethod("predict",
 
     type <- match.arg(type)
 
+    # Clamp observations
     if (clamp) {
-      for (variable in object@min_max$variable) {
-        data[variable] <- raster::clamp(data[, variable],
-                                        object@min_max$min[object@min_max$variable == variable],
-                                        object@min_max$max[object@min_max$variable == variable])
-      }
+      cont_vars <- as.character(object@min_max$variable)
+      data[, cont_vars] <- scaleClamp(as.matrix(data[, cont_vars]),
+                                      object@min_max$min,
+                                      object@min_max$max,
+                                      do_clamp = clamp, scale = FALSE)
     }
 
     f <- object@formula
     # Make the design matrix
     dm <- model.matrix(f, data)
-    # Clamp feature if outside fo the scaling normalization
-    if (clamp) dm <- t(pmin(pmax(t(dm), 0), 1))
+    # Scale features and clamp if clamp is TRUE
+    cols <- !grepl("categorical.*|hinge.*|threshold.*", colnames(dm))
+    dm[, cols] <- scaleClamp(dm[, cols], object@coeff$min[cols],
+                             object@coeff$max[cols],
+                             do_clamp = clamp, scale = TRUE)
 
     S <- (dm %*% object@coeff$lambda) - object@lpn
     raw <- exp(S) / object@dn
-    raw[raw == Inf] <- 1
+    raw[raw == Inf | raw > 1] <- 1
+
     if (type == "raw") {
       return(raw)
     } else if (type == "logistic") {
