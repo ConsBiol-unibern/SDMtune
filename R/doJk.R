@@ -41,10 +41,12 @@ doJk <- function(model, metric, variables = NULL,
   if (is.null(variables))
     variables <- colnames(model@p@data)
 
+  n <- length(variables)
+
   if (with_only) {
-    tot <- length(variables) * 2
+    tot <- n * 2
   } else {
-    tot <- length(variables)
+    tot <- n
   }
 
   pb <- progress::progress_bar$new(
@@ -52,9 +54,10 @@ doJk <- function(model, metric, variables = NULL,
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
-  models_without <- models_withonly <- c()
+  models_without <- vector("list", length = n)
+  models_withonly <- vector("list", length = n)
 
-  res <- matrix(nrow = length(variables), ncol = 5)
+  res <- matrix(nrow = n, ncol = 5)
   if (metric == "auc") {
     labels <- c("Variable", "Train_AUC_without", "Train_AUC_withonly",
                 "Test_AUC_without", "Test_AUC_withonly")
@@ -70,7 +73,7 @@ doJk <- function(model, metric, variables = NULL,
   if (class(model) == "SDMmodelCV")
     test <- TRUE
 
-  for (i in 1:length(variables)) {
+  for (i in 1:n) {
     p <- old_model@p
     a <- old_model@a
     p@data[variables[i]] <- NULL
@@ -89,7 +92,7 @@ doJk <- function(model, metric, variables = NULL,
     if (metric != "aicc")
       res[i, 4] <- .get_metric(metric, jk_model, test = t)
 
-        models_without <- c(models_without, jk_model)
+        models_without[[i]] <- jk_model
     pb$tick()
 
     if (with_only) {
@@ -111,7 +114,7 @@ doJk <- function(model, metric, variables = NULL,
       if (metric != "aicc")
         res[i, 5] <- .get_metric(metric, jk_model, test = t)
 
-      models_withonly <- c(models_withonly, jk_model)
+      models_withonly[[i]] <- jk_model
       pb$tick()
     }
   }
@@ -124,11 +127,10 @@ doJk <- function(model, metric, variables = NULL,
 
   if (return_models) {
     if (with_only) {
-      output <- list(jk_test, models_without, models_withonly)
-      names(output) <- c("results", "models_without", "models_withonly")
+      output <- list(results = jk_test, models_without =  models_without,
+                     models_withonly = models_withonly)
     } else {
-      output <- list(jk_test, models_without)
-      names(output) <- c("results", "models_without")
+      output <- list(results = jk_test, models_without = models_without)
     }
 
   } else {
