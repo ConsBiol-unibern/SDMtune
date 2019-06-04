@@ -42,8 +42,8 @@ randomSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
   output <- optimizeModel(model = model, hypers = hypers, bg4test = bg4test,
-                          test = test, metric = metric, gen = 0, env = env,
-                          parallel = parallel, seed = seed)
+                          test = test, metric = metric, pop = pop, gen = 0,
+                          env = env, parallel = parallel, seed = seed)
 
   return(output)
 }
