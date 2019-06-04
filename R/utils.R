@@ -86,10 +86,15 @@
   res <- list()
 
   for (j in 1:l) {
-    if (tunable_hypers[j] == "a") {
-      res[[j]] <- nrow(model@a@data)
+    if (class(model) == "SDMmodel") {
+      m <- model
     } else {
-      res[[j]] <- slot(model@model, tunable_hypers[j])
+      m <- model@models[[1]]
+    }
+    if (tunable_hypers[j] == "a") {
+      res[[j]] <- nrow(m@a@data)
+    } else {
+      res[[j]] <- slot(m@model, tunable_hypers[j])
     }
   }
   res[[j + 1]] <- train_metric
@@ -117,13 +122,18 @@
   fcs <- vector("character", length = length(models))
 
   for (i in 1:length(models)) {
+    if (class(models[[i]]) == "SDMmodel") {
+      m <- models[[i]]
+    } else {
+      m <- models[[i]]@models[[1]]
+    }
     for (j in 1:l) {
       if (tunable_hypers[j] == "a") {
-        res[i, "a"] <- nrow(models[[i]]@a@data)
+        res[i, "a"] <- nrow(m@a@data)
       } else if (tunable_hypers[j] == "fc") {
-        fcs[i] <- models[[i]]@model@fc
+        fcs[i] <- m@model@fc
       } else {
-        res[i, tunable_hypers[j]] <- slot(models[[i]]@model, tunable_hypers[j])
+        res[i, tunable_hypers[j]] <- slot(m@model, tunable_hypers[j])
       }
     }
     res[i, l + 1] <- train_metric[i, 2]

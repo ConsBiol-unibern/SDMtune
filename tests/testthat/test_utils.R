@@ -69,6 +69,11 @@ test_that(".create_sdmtune_result", {
   expect_type(.create_sdmtune_result(model, metric = "aicc",
                                      train_metric = 0.9, val_metric = NA),
               "list")
+  # Produce the correct result with SDMmodelCV
+  expect_equal(.create_sdmtune_result(model_cv, metric = "aicc",
+                                      train_metric = 0.9, val_metric = NA),
+               list(a = 5000, fc = "lqph", reg = 1, AICc = 0.9,
+                    delta_AICc = NA))
 })
 
 test_that(".create_sdm_output", {
@@ -104,6 +109,12 @@ test_that(".create_sdm_output", {
                                                                 y = c(.8, .9)),
                                       val_metric = NA)@results$delta_AICc,
                c(0, .1))
+  # Produce the correct result with SDMmodelCV
+  expect_length(.create_sdmtune_output(list(model_cv, model_cv),
+                                       metric = "aicc",
+                                       train_metric = data.frame(x = c(1, 2),
+                                                                 y = c(.8, .9)),
+                                       val_metric = NA)@models, 2)
 })
 
 test_that(".get_train_args", {
