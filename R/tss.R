@@ -25,7 +25,7 @@
 tss <- function(model, test = NULL) {
 
   if (class(model) == "SDMmodel") {
-    tss <- max(.compute_tss(model, test))
+    tss <- .compute_tss(model, test)
   } else {
     tsss <- vector("numeric", length = length(model@models))
     for (i in 1:length(model@models)) {
@@ -36,7 +36,7 @@ tss <- function(model, test = NULL) {
         data <- model@p
         data@data <- model@p@data[model@folds == i, , drop = FALSE]
       }
-      tsss[i] <- max(.compute_tss(model@models[[i]], data))
+      tsss[i] <- .compute_tss(model@models[[i]], data)
     }
     tss <- mean(tsss)
   }
@@ -51,5 +51,5 @@ tss <- function(model, test = NULL) {
   tnr <- cm$tn / (cm$fp + cm$tn)
   tss <- tpr + tnr - 1
 
-  return(tss)
+  return(max(tss))
 }

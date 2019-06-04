@@ -23,14 +23,17 @@ confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
   type <- match.arg(type)
 
   if (is.null(test)) {
-    p_pred <- predict(model, model@p@data, type = type)
+    p <- model@p@data
   } else {
-    p_pred <- predict(model, test@data, type = type)
+    p <- test@data
   }
-  a_pred <- predict(model, model@a@data, type = type)
+  a <- model@a@data
 
-  n_pres <- length(p_pred)
-  n_a <- length(a_pred)
+  n_p <- nrow(p)
+  n_a <- nrow(a)
+  pred <- predict(model, rbind(p, a), type = type)
+  p_pred <- pred[1:n_p]
+  a_pred <- pred[(n_p + 1):(n_p + n_a)]
 
   if (is.null(th)) {
     th <- sort(unique(c(p_pred, a_pred)))
@@ -43,7 +46,7 @@ confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
     fp[i] <- sum(a_pred >= th[i])
   }
 
-  fn <- n_pres - tp
+  fn <- n_p - tp
   tn <- n_a - fp
   conf_matrix <- data.frame(th = th, tp = tp, fp = fp, fn = fn, tn = tn)
 
