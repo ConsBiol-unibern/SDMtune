@@ -25,6 +25,6 @@ setMethod("show",
           signature = "Maxnet",
           definition = function(object) {
             cat("Class:", class(object), "\n")
-            cat("Reg :", object@reg, "\n")
+            cat("Reg  :", object@reg, "\n")
             cat("FCs  :", object@fc, "\n")
           })
