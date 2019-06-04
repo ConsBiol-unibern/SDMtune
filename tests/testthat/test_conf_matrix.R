@@ -23,5 +23,5 @@ test_that("The output is correct", {
   # Correct output with test argument
   expect_equal(nrow(confMatrix(SDMtune:::bm_maxnet,
                                test = getSubsample(SDMtune:::p, 50, seed = 2))),
-               5022) # 5022 is the number of unique prediction values
+               5021) # 5021 is the number of unique prediction values
 })
