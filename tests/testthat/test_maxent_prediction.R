@@ -95,3 +95,11 @@ test_that("The function predicts fc categorical correctly", {
                predict(maxent_model, p_cat@data),
                tolerance = 1e-7)
 })
+
+p@data <- p@data[, "bio1", drop = FALSE]
+bg@data <- bg@data[, "bio1", drop = FALSE]
+m <- train("Maxent", p, bg, fc = "l")
+
+test_that("The function works when using a single variable and a single FC", {
+  expect_length(predict(m, p, type = "raw"), nrow(p@data))
+})
