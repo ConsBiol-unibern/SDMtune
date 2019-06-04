@@ -12,7 +12,7 @@ files <- list.files(path = paste(system.file(package = "dismo"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-m_cv <- SDMtune:::bm_maxnet_cv
+m_cv <- train("Maxnet", t, a, fc = "lq", rep = 2)
 
 test_that("The function returns the correct output", {
   # Metric AUC
@@ -27,6 +27,18 @@ test_that("The function returns the correct output", {
                  "Test_AUC_without", "Test_AUC_withonly"))
   expect_length(jk$results[, 1], 2)
   expect_equal(class(jk$results), "data.frame")
+  expect_length(jk$models_without, 2)
+  expect_length(jk$models_withonly, 2)
+  expect_named(jk$models_without[[1]]@p@data, "bio12")
+  expect_named(jk$models_without[[2]]@p@data, "bio1")
+  expect_named(jk$models_withonly[[1]]@p@data, "bio1")
+  expect_named(jk$models_withonly[[2]]@p@data, "bio12")
+  # with_only = FALSE and return models
+  jk <- doJk(m, metric = "auc", variables = v, test = t, with_only = FALSE,
+             return_models = TRUE)
+  expect_type(jk, "list")
+  expect_length(jk, 2)
+  expect_named(jk, c("results", "models_without"))
   # with_only and return models = FALSE
   jk <- doJk(m, metric = "auc", variables = v, test = t, with_only = TRUE,
              return_models = FALSE)
@@ -36,6 +48,18 @@ test_that("The function returns the correct output", {
   expect_length(jk[, 1], 2)
   # with_only = FALSE and return models = FALSE
   jk <- doJk(m, metric = "auc", variables = v, test = t, with_only = FALSE,
+             return_models = FALSE)
+  expect_equal(class(jk), "data.frame")
+  expect_named(jk, c("Variable", "Train_AUC_without", "Test_AUC_without"))
+  expect_length(jk[, 1], 2)
+  # cross validation model, with_only = FALSE and return models = FALSE
+  jk <- doJk(m_cv, metric = "auc", variables = v, test = t, with_only = FALSE,
+             return_models = FALSE)
+  expect_equal(class(jk), "data.frame")
+  expect_named(jk, c("Variable", "Train_AUC_without", "Test_AUC_without"))
+  expect_length(jk[, 1], 2)
+  # all variables, with_only = FALSE and return models = FALSE
+  jk <- doJk(m, metric = "auc", test = t, with_only = FALSE,
              return_models = FALSE)
   expect_equal(class(jk), "data.frame")
   expect_named(jk, c("Variable", "Train_AUC_without", "Test_AUC_without"))

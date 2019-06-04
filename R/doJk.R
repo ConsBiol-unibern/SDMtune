@@ -76,7 +76,7 @@ doJk <- function(model, metric, variables = NULL,
     p@data[variables[i]] <- NULL
     a@data[variables[i]] <- NULL
 
-    if (metric != "aicc") {
+    if (metric != "aicc" & class(model) != "SDMmodelCV") {
       t <- test
       t@data[variables[i]] <- NULL
     }
@@ -98,7 +98,7 @@ doJk <- function(model, metric, variables = NULL,
       p@data <- p@data[variables[i]]
       a@data <- a@data[variables[i]]
 
-      if (metric != "aicc") {
+      if (metric != "aicc" & class(model) != "SDMmodelCV") {
         t <- test
         t@data <- t@data[variables[i]]
       }
