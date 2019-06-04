@@ -75,13 +75,19 @@ doJk <- function(model, metric, variables = NULL,
     a <- old_model@a
     p@data[variables[i]] <- NULL
     a@data[variables[i]] <- NULL
+
+    if (metric != "aicc") {
+      t <- test
+      t@data[variables[i]] <- NULL
+    }
+
     settings <- list("p" = p, "a" = a)
 
     jk_model <- .create_model_from_settings(model, settings)
 
     res[i, 2] <- .get_metric(metric, jk_model, env = env, parallel = parallel)
     if (metric != "aicc")
-      res[i, 4] <- .get_metric(metric, jk_model, test = test)
+      res[i, 4] <- .get_metric(metric, jk_model, test = t)
 
         models_without <- c(models_without, jk_model)
     pb$tick()
@@ -91,13 +97,19 @@ doJk <- function(model, metric, variables = NULL,
       a <- old_model@a
       p@data <- p@data[variables[i]]
       a@data <- a@data[variables[i]]
+
+      if (metric != "aicc") {
+        t <- test
+        t@data <- t@data[variables[i]]
+      }
+
       settings <- list("p" = p, "a" = a)
 
       jk_model <- .create_model_from_settings(model, settings)
 
       res[i, 3] <- .get_metric(metric, jk_model, env = env, parallel = parallel)
       if (metric != "aicc")
-        res[i, 5] <- .get_metric(metric, jk_model, test = test)
+        res[i, 5] <- .get_metric(metric, jk_model, test = t)
 
       models_withonly <- c(models_withonly, jk_model)
       pb$tick()

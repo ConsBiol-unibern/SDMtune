@@ -47,7 +47,7 @@
 }
 
 .get_metric <- function(metric, model, test = NULL, env = NULL,
-                       parallel = FALSE) {
+                        parallel = FALSE) {
   if (metric == "auc") {
     return(auc(model, test))
   } else if (metric == "tss") {
