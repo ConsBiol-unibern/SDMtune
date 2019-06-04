@@ -50,7 +50,7 @@ setMethod("predict",
     dm <- model.matrix(f, data)
     # Scale features and clamp if clamp is TRUE
     cols <- !grepl("categorical.*|hinge.*|threshold.*", colnames(dm))
-    dm[, cols] <- scaleClamp(dm[, cols], object@coeff$min[cols],
+    dm[, cols] <- scaleClamp(dm[, cols, drop = FALSE], object@coeff$min[cols],
                              object@coeff$max[cols],
                              do_clamp = clamp, scale = TRUE)
 
