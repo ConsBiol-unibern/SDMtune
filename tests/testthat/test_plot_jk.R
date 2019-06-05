@@ -34,3 +34,9 @@ test_that("The plot has the correct labels and elements", {
   expect_error(plotJk(jk_aicc, type = "test"),
                "Test mode is not available with aicc!")
 })
+
+test_that("The function works also when the argument is a list", {
+  jk <- list(results = jk_auc, models = list())
+  p <- plotJk(jk)
+  expect_equal(p$labels$y, "Train AUC")
+})
