@@ -17,12 +17,14 @@ test_that("Labels and output are correct for SDMmodel objects", {
   expect_equal(p$labels$y, "cloglog output")
   expect_true(min(p$data$y) >= 0)
   expect_true(max(p$data$y) <= 1)
+  expect_equal(class(p$layers[[1]]$geom)[1], "GeomLine")
   p <- plotResponse(m, "bio1", "logistic", marginal = FALSE)
   expect_length(p$layers, 1)  # only line
   expect_equal(p$labels$x, "bio1")
   expect_equal(p$labels$y, "logistic output")
   expect_true(min(p$data$y) >= 0)
   expect_true(max(p$data$y) <= 1)
+  expect_equal(class(p$layers[[1]]$geom)[1], "GeomLine")
 })
 
 test_that("Labels and output are correct for SDMmodelCV objects", {
@@ -30,4 +32,13 @@ test_that("Labels and output are correct for SDMmodelCV objects", {
   expect_length(p$layers, 4)  # line, ribbon and two rugs
   expect_equal(p$labels$x, "bio1")
   expect_equal(p$labels$y, "exponential output")
+  expect_equal(class(p$layers[[1]]$geom)[1], "GeomLine")
+})
+
+test_that("Labels and output are correct for categorical variables", {
+  p <- plotResponse(m, "biome", "cloglog", marginal = TRUE)
+  expect_length(p$layers, 1)  # bars
+  expect_equal(p$labels$x, "biome")
+  expect_equal(p$labels$y, "cloglog output")
+  expect_equal(class(p$layers[[1]]$geom)[1], "GeomBar")
 })

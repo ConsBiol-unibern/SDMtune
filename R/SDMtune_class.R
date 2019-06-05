@@ -111,6 +111,7 @@ setMethod("plot",
 
       .create_chart(folder = folder, script = "gridSearch.js",
                     settings = settings, data = chart_data)
+      return(invisible(folder))
     } else {
       if (metric != "AICc") {
         data <- data.frame(x = rep(x, 2),
