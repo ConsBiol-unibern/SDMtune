@@ -36,9 +36,17 @@ test_that("Labels and output are correct for SDMmodelCV objects", {
 })
 
 test_that("Labels and output are correct for categorical variables", {
+  # SDMmodel object
   p <- plotResponse(m, "biome", "cloglog", marginal = TRUE)
   expect_length(p$layers, 1)  # bars
   expect_equal(p$labels$x, "biome")
   expect_equal(p$labels$y, "cloglog output")
   expect_equal(class(p$layers[[1]]$geom)[1], "GeomBar")
+  # SDMmodelCV object
+  p <- plotResponse(m_cv, "biome", "cloglog", marginal = TRUE)
+  expect_length(p$layers, 2)  # bars and error bars
+  expect_equal(p$labels$x, "biome")
+  expect_equal(p$labels$y, "cloglog output")
+  expect_equal(class(p$layers[[1]]$geom)[1], "GeomBar")
+  expect_equal(class(p$layers[[2]]$geom)[1], "GeomErrorbar")
 })

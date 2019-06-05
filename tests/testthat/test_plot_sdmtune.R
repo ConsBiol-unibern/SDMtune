@@ -33,8 +33,11 @@ test_that("Non interactive plot is correct", {
 })
 
 test_that("Interactive plot", {
-  # Line plot for only one varying hyper
-  # AUC
   p <- expect_invisible(plot(o, interactive = TRUE))
   expect_true(file.exists(p))
+  unlink(p, recursive = TRUE)
+  o@results <- res
+  p <- expect_invisible(plot(o, interactive = TRUE))
+  expect_true(file.exists(p))
+  unlink(p, recursive = TRUE)
 })

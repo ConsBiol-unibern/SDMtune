@@ -82,7 +82,8 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
       plot_data[paste0("y_", i)] <- .get_plot_data(model@models[[i]], p, a,
                                                    var, cont_vars, cat_vars,
                                                    n_rows, p_rug, fun,
-                                                   marginal, clamp, type)$y
+                                                   marginal, clamp, type,
+                                                   categ)$y
     plot_data$y <- rowMeans(plot_data[, -1])
     plot_data$sd <- apply(plot_data[, 2:(nf + 1)], 1, sd, na.rm = TRUE)
     plot_data$y_min <- plot_data$y - plot_data$sd
