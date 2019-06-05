@@ -1,5 +1,7 @@
 context("SDMtune prediction")
 
+skip_on_cran()
+
 m <- SDMtune:::bm_maxent
 p <- SDMtune:::p
 files <- list.files(path = paste(system.file(package = "dismo"),
@@ -12,10 +14,15 @@ test_that("The method works with data frames", {
 })
 
 test_that("The method works with SWD objects", {
-  expect_length(predict(m, p, "raw"), nrow(p@data))
+  expect_length(predict(m, p, "logistic"), nrow(p@data))
 })
 
 test_that("The method works with raster stack objects", {
   expect_length(predict(m, predictors, "raw"),
+                predictors$bio1@ncols * predictors$bio1@nrows)
+})
+
+test_that("The method works with raster stack objects and parallel", {
+  expect_length(predict(m, predictors, "raw", parallel = TRUE),
                 predictors$bio1@ncols * predictors$bio1@nrows)
 })
