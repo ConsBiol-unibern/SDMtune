@@ -1,5 +1,7 @@
 context("Train Maxnet")
 
+skip_on_cran()
+
 test_that("The function trainMaxent produces the correct ouput", {
   m <- trainMaxnet(SDMtune:::p, SDMtune:::bg_model, reg = 1.2, fc = "l")
   expect_s4_class(m, "SDMmodel")

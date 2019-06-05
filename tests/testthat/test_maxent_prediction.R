@@ -1,5 +1,7 @@
 context("Maxent Prediction")
 
+skip_on_cran()
+
 model <- SDMtune:::bm_maxent
 maxent_model <- SDMmodel2MaxEnt(model)
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),

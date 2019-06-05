@@ -1,5 +1,7 @@
 context("Grid Search")
 
+skip_on_cran()
+
 files <- list.files(path = paste(system.file(package = "dismo"),
                                  "/ex", sep = ""),
                     pattern = "grd", full.names = TRUE)

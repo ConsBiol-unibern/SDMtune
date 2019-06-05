@@ -1,5 +1,7 @@
 context("Do Jackknife")
 
+skip_on_cran()
+
 v = c("bio1", "bio12")
 t <- SDMtune:::p
 t@data <- t@data[, v]
