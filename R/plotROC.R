@@ -22,7 +22,8 @@ plotROC <- function(model, val = NULL, test = NULL) {
   fpr <- c(0, cm$fp / (cm$fp + cm$tn), 1)
   tpr <- c(0, cm$tp / (cm$tp + cm$fn), 1)
   auc <- auc(model)
-  df <- data.frame(set = "train", fpr = fpr, tpr = tpr)
+  df <- data.frame(set = "train", fpr = fpr, tpr = tpr,
+                   stringsAsFactors = FALSE)
   labels <- c(paste("Train", round(auc, 3)))
 
   if (!is.null(val)) {
@@ -47,7 +48,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
 
   my_plot <- ggplot(df, aes_(x = ~fpr, y = ~tpr, colour = ~set)) +
     geom_line() +
-      scale_colour_discrete(name = "AUC", labels = labels) +
+    scale_colour_discrete(name = "AUC", labels = labels) +
     geom_segment(aes_(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
                  linetype = 2) +
     labs(x = "False Positive Rate", y = "True Positive Rate") +
