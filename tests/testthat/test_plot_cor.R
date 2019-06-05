@@ -8,6 +8,11 @@ test_that("The plot has the correct labels", {
   expect_equal(p$labels$y, "Var1")
 })
 
-test_that("The plot as the correct text on the tiles", {
+test_that("The plot as the correct text when using cor_th argument", {
   expect_true(sum(abs(p$layers[[2]]$data$value) >= .8) == nrow(p$layers[[2]]$data))
+})
+
+test_that("The plot has the correct tsxt when the argument cor_th is NULL", {
+  p <- plotCor(SDMtune:::bg_model)
+  expect_identical(length(p$layers[[2]]$data$value), nrow(p$data))
 })

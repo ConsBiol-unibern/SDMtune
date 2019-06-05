@@ -37,25 +37,16 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
     y_label <- "AICc"
   }
 
-  if (type == "test") {
-    if (metric == "aicc")
-      stop("Test mode is not available with aicc!")
-    if (!grepl("Test", paste(colnames(jk), collapse = "")))
-      stop("Jackknife data frame doesn't have Test column!")
-  }
+  if (type == "test" & metric == "aicc")
+    stop("Test mode is not available with aicc!")
 
   if (metric != "aicc") {
     if (type == "train") {
       with <- 3
       without <- 2
     } else {
-      if (ncol(jk) == 5) {
-        with <- 5
-        without <- 4
-      } else {
-        with <- NULL
-        without <- 3
-      }
+      with <- 5
+      without <- 4
     }
   } else {
     with <- 3
