@@ -44,11 +44,11 @@ if (!isGeneric("plot"))
 #' @param x \link{SDMtune} object.
 #' @param interactive logical, if TRUE plot an interactive chart.
 #'
-#' @export
-#' @docType methods
 #' @rdname plot-methods
+#' @importFrom graphics plot
 #' @importFrom ggplot2 ggplot aes_string geom_point labs scale_color_manual
 #' theme_minimal theme element_text geom_line
+#' @exportMethod plot
 #'
 #' @examples
 #' \dontrun{plot(my_tune_object)}
