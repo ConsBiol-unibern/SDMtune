@@ -36,9 +36,9 @@ setMethod("show",
 if (!isGeneric("plot"))
   setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 
-#' Plot
+#' Plot SDMtune object
 #'
-#' Plot a \link{SDMtune} object. Use the interactive argument to create an
+#' Plot an \link{SDMtune} object. Use the interactive argument to create an
 #' interactive chart.
 #'
 #' @param x \link{SDMtune} object.
@@ -51,7 +51,7 @@ if (!isGeneric("plot"))
 #' @exportMethod plot
 #'
 #' @examples
-#' \dontrun{plot(my_tune_object)}
+#' \dontrun{plot(my_SDMtune_object)}
 #'
 #' @author Sergio Vignali
 setMethod("plot",

@@ -99,6 +99,7 @@ reference:
   contents:
   - '`plotCor`'
   - '`plotJk`'
+  - '`plot,SDMtune,missing-method`'
   - '`plotPA`'
   - '`plotPred`'
   - '`plotResponse`'
@@ -113,7 +114,6 @@ reference:
 - title: Utilities
   desc: Some utility functions
   contents:
-  - '`clamp`'
   - '`mergeSWD`'
   - '`SDMmodel2MaxEnt`'
 - title: Dataset

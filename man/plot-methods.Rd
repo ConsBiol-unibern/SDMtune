@@ -3,7 +3,7 @@
 \docType{methods}
 \name{plot,SDMtune,missing-method}
 \alias{plot,SDMtune,missing-method}
-\title{Plot}
+\title{Plot SDMtune object}
 \usage{
 \S4method{plot}{SDMtune,missing}(x, interactive = FALSE)
 }
@@ -13,11 +13,11 @@
 \item{interactive}{logical, if TRUE plot an interactive chart.}
 }
 \description{
-Plot a \link{SDMtune} object. Use the interactive argument to create an
+Plot an \link{SDMtune} object. Use the interactive argument to create an
 interactive chart.
 }
 \examples{
-\dontrun{plot(my_tune_object)}
+\dontrun{plot(my_SDMtune_object)}
 
 }
 \author{

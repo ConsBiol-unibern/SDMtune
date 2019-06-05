@@ -10,8 +10,6 @@ setClassUnion("model", c("Maxent", "Maxnet"))
 #' @slot model \link{Maxent} or \link{Maxnet} object.
 #'
 #' @include SWD_class.R Maxent_class.R Maxnet_class.R
-#' @name SDMmodel-class
-#' @rdname SDMmodel-class
 #' @exportClass SDMmodel
 #'
 #' @author Sergio Vignali
