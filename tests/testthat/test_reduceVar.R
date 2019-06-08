@@ -15,7 +15,7 @@ test_that("Variable are reduced", {
   set.seed(25, kind = "Mersenne-Twister", sample.kind = "Rejection")
   expect_message(o <- reduceVar(m, th = 2, metric = "auc", test = val,
                                 permut = 1),
-                 "Removed variables: bio12, bio16")
+                 "Removed variables: bio12")
   expect_s4_class(o, "SDMmodel")
   expect_s4_class(o@model, "Maxnet")
   expect_true(min(varImp(o, 1)[, 2]) > 2)
