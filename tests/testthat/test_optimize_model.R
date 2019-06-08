@@ -1,9 +1,24 @@
 context("Optimize Model")
 
+skip_on_cran()
+
 mother <- SDMtune:::bm_maxnet
 father <- train("Maxnet", SDMtune:::p, SDMtune:::bg_model, fc = "l", reg = 2)
 h <- list(fc = c("l", "lq", "lqph"), reg = c(1, 2))
 metrics <- list(c(10, 11, 12), c(8, 10, 13))
+
+test_that("Exception are raised", {
+  expect_error(optimizeModel(mother, h, "auc", SDMtune:::p, keep_best = 0.6,
+                             keep_random = 0.6, pop = 3),
+               "Sum of 'keep_best' and 'keep_random' cannot be more than 1!")
+  expect_error(optimizeModel(mother, h, "auc", SDMtune:::p, pop = 3),
+               "Optimization algorithm interrupted at generation 0 because it overfits validation dataset!")
+})
+
+test_that("The algorithm executes without errors", {
+  expect_s4_class(optimizeModel(mother, h, "auc", SDMtune:::bg_model, pop = 3,
+                                gen = 1), "SDMtune")
+})
 
 test_that("Crossover is executed", {
   set.seed(30, kind = "Mersenne-Twister", sample.kind = "Rejection")
