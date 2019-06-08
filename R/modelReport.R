@@ -15,6 +15,7 @@
 #' the output, default is NULL.
 #' @param clamp logical for clumping during prediction, used for response curves
 #' and for the prediction map, default is TRUE.
+#' @param permut integer. Number of permutations, default is 10.
 #'
 #' @details The function produces a report similar to the one created by MaxEnt
 #' software.
@@ -31,7 +32,7 @@
 #' @author Sergio Vignali
 modelReport <- function(model, type, folder, test = NULL,
                         response_curves = FALSE, jk = FALSE, env = NULL,
-                        clamp = TRUE) {
+                        clamp = TRUE, permut = 10) {
 
   if (file.exists(paste0(getwd(), "/", folder))) {
     msg <- message(crayon::red(cli::symbol$fancy_question_mark),
@@ -59,7 +60,7 @@ modelReport <- function(model, type, folder, test = NULL,
                       params = list(model = model, type = type, test = test,
                                     folder = folder, env = env, jk = jk,
                                     response_curves = response_curves,
-                                    clamp = clamp),
+                                    clamp = clamp, permut = permut),
                       output_options = list(pandoc_args = args),
                       quiet = TRUE
                       )

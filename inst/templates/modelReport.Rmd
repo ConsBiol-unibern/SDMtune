@@ -13,6 +13,7 @@ params:
   jk: false
   env: null
   clamp: true
+  permut: 10
 ---
 
 ```{r, echo=F}
@@ -129,7 +130,7 @@ if (!is.null(env))
 
 ```{r, echo=FALSE, message=FALSE}
 message("- Computing variable importance...", appendLF = FALSE)
-knitr::kable(suppressMessages(varImp(params$model))) %>%
+knitr::kable(suppressMessages(varImp(params$model, params$permut))) %>%
   kable_styling(bootstrap_options = c("responsive"), full_width = FALSE)
 message("\r", crayon::green(cli::symbol$tick), " Computing variable importance...")
 ```

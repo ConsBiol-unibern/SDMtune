@@ -5,7 +5,7 @@
 \title{Model Report}
 \usage{
 modelReport(model, type, folder, test = NULL, response_curves = FALSE,
-  jk = FALSE, env = NULL, clamp = TRUE)
+  jk = FALSE, env = NULL, clamp = TRUE, permut = 10)
 }
 \arguments{
 \item{model}{\link{SDMmodel} object.}
@@ -28,6 +28,8 @@ the output, default is NULL.}
 
 \item{clamp}{logical for clumping during prediction, used for response curves
 and for the prediction map, default is TRUE.}
+
+\item{permut}{integer. Number of permutations, default is 10.}
 }
 \description{
 Make a report that shows the main results.
