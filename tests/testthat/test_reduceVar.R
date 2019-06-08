@@ -1,5 +1,7 @@
 context("Reduce Variables")
 
+skip_on_cran()
+
 val <- SDMtune:::p
 m <- SDMtune:::bm_maxnet
 
@@ -10,6 +12,7 @@ test_that("Exceptions are raised", {
 
 test_that("Variable are reduced", {
   # Without Jackknife
+  set.seed(25)
   expect_message(o <- reduceVar(m, th = 2, metric = "auc", test = val,
                                 permut = 1),
                  "Removed variables: bio12, bio16")
@@ -17,6 +20,7 @@ test_that("Variable are reduced", {
   expect_s4_class(o@model, "Maxnet")
   expect_true(min(varImp(o, 1)[, 2]) > 2)
   # With Jackknife
+  set.seed(25)
   expect_message(o <- reduceVar(m, th = 2, metric = "auc", test = val, permut = 1,
                  use_jk = TRUE), "No variable is removed!")
   expect_s4_class(o, "SDMmodel")
