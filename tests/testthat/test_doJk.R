@@ -2,15 +2,14 @@ context("Do Jackknife")
 
 skip_on_cran()
 
-v = c("bio1", "bio12")
+v <- c("bio1", "bio12")
 t <- SDMtune:::p
 t@data <- t@data[, v]
 a <- SDMtune:::bg_model
 a@data <- a@data[, v]
 m <- train("Maxnet", t, a, fc = "lq")
 
-files <- list.files(path = paste(system.file(package = "dismo"),
-                                 "/ex", sep = ""),
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 

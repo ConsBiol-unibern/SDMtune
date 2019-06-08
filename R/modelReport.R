@@ -34,10 +34,11 @@ modelReport <- function(model, type, folder, test = NULL,
                         clamp = TRUE) {
 
   if (file.exists(paste0(getwd(), "/", folder))) {
+    msg <- message(crayon::red(cli::symbol$fancy_question_mark),
+                   " The folder '", folder,
+                   "' already exists, do you want to overwrite it?")
     continue <- utils::menu(choices = c("Yes", "No"),
-                            title = message(crayon::red(cli::symbol$fancy_question_mark),
-                                            " The folder '", folder,
-                                            "' already exists, do you want to overwrite it?"))
+                            title = msg)
   } else {
     continue <- 1
   }

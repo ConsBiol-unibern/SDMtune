@@ -109,12 +109,11 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
       models[[i]] <- obj
     } else {
       if (i == 1) {
-        output <- .create_sdmtune_output(list(obj), metric, train_metric,
-                                         val_metric)
+        o <- .create_sdmtune_output(list(obj), metric, train_metric, val_metric)
       } else {
-        output@results[i, ] <- .create_sdmtune_result(obj, metric,
-                                                      train_metric[i, 2],
-                                                      val_metric[i, 2])
+        o@results[i, ] <- .create_sdmtune_result(obj, metric,
+                                                 train_metric[i, 2],
+                                                 val_metric[i, 2])
       }
     }
 
@@ -126,15 +125,14 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   }
 
   if (save_models) {
-    output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
+    o <- .create_sdmtune_output(models, metric, train_metric, val_metric)
   } else {
-    output@models <- list(model)
-    if (metric == "aicc") {
-      output@results$delta_AICc <- output@results$AICc - min(output@results$AICc)
-    }
+    o@models <- list(model)
+    if (metric == "aicc")
+      o@results$delta_AICc <- o@results$AICc - min(o@results$AICc)
   }
 
   pb$tick(1)
 
-  return(output)
+  return(o)
 }

@@ -1,7 +1,6 @@
 context("Random Search")
 
-files <- list.files(path = paste(system.file(package = "dismo"),
-                                 "/ex", sep = ""),
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 h <- list(fc = c("l", "q", "p"), reg = 1:3, a = c(2000, 3000, 4000))

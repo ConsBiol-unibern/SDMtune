@@ -102,12 +102,11 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     if (nrow(scores) > 0) {
       if (use_jk) {
         for (i in 1:nrow(scores)) {
-          jk_test <- suppressMessages(doJk(model,
-                                           variables = as.character(scores[i, 1]),
-                                           metric = metric, test = test,
-                                           with_only = FALSE,
-                                           return_models = TRUE, env = env,
-                                           parallel = parallel))
+          jk_test <- suppressMessages(
+            doJk(model,
+                 variables = as.character(scores[i, 1]), metric = metric,
+                 test = test, with_only = FALSE, return_models = TRUE,
+                 env = env, parallel = parallel))
 
           if (metric  != "aicc") {
             if (jk_test$results[1, 3] >= val_metric[1, 2]) {

@@ -242,7 +242,8 @@ get_tunable_args <- function(model) {
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide the 'env' argument if you want to use the AICc metric!")
-  # Throws exception if model is SDMmodel metric is not aicc and test is not provided
+  # Throws exception if model is SDMmodel, metric is not aicc and
+  # test is not provided
   if (class(model) == "SDMmodel" & is.null(test) & metric != "aicc") {
     stop("You need to provide a test dataset!")
   }
