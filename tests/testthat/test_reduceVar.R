@@ -1,22 +1,25 @@
 context("Reduce Variables")
 
 val <- SDMtune:::p
-model <- SDMtune:::bm_maxent
-model_cv <- SDMtune:::bm_maxent_cv
+m <- SDMtune:::bm_maxnet
 
-test_that("Exceptions are thrown", {
-
-  # Throws exception if metric is aicc and env is not provided
-  expect_error(reduceVar(model, th = 2, metric = "aicc", use_jk = TRUE),
-               "You must provide the 'env' argument if you want to use the AICc metric!")
-  # Throws exception if metric is aicc and model is SDMmodelCV
-  expect_error(reduceVar(model_cv, th = 2, metric = "aicc", use_jk = TRUE),
-               "Metric 'aicc' not allowed with SDMmodelCV objects!")
-  # Throws exception if model is SDMmodel metric is not aicc and test is not provided
-  expect_error(reduceVar(model, th = 2, metric = "auc", use_jk = TRUE),
-               "You need to provide a test dataset!")
-
-  expect_error(reduceVar(SDMtune:::bm_maxnet, th = 2, metric = "auc",
-                         test = val, use_pc = TRUE),
+test_that("Exceptions are raised", {
+  expect_error(reduceVar(m, th = 2, metric = "auc", test = val, use_pc = TRUE),
                "Percent contribution cannot be used with model of method Maxnet")
+})
+
+test_that("Variable are reduced", {
+  # Without Jackknife
+  expect_message(o <- reduceVar(m, th = 2, metric = "auc", test = val,
+                                permut = 1),
+                 "Removed variables: bio12, bio16")
+  expect_s4_class(o, "SDMmodel")
+  expect_s4_class(o@model, "Maxnet")
+  expect_true(min(varImp(o, 1)[, 2]) > 2)
+  # With Jackknife
+  expect_message(o <- reduceVar(m, th = 2, metric = "auc", test = val, permut = 1,
+                 use_jk = TRUE), "No variable is removed!")
+  expect_s4_class(o, "SDMmodel")
+  expect_s4_class(o@model, "Maxnet")
+  expect_true(min(varImp(o, 1)[, 2]) < 2)
 })

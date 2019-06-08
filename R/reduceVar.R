@@ -174,7 +174,11 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                                    lineTitle = line_title,
                                    lineFooter = line_footer, stop = TRUE))
 
-  message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
+  if (length(removed_vars) > 0) {
+    message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
+  } else {
+    message("No variable is removed!")
+  }
 
   return(model)
 }
