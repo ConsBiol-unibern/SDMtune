@@ -154,19 +154,14 @@
 <a href="#train-a-model-with-default-settings" class="anchor"></a>Train a model with default settings</h2>
 <p>First we load the <strong>SDMtune</strong> package:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Registered S3 methods overwritten by 'ggplot2':</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;   method         from </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   [.quosures     rlang</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   c.quosures     rlang</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   print.quosures rlang</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>We use the function <code><a href="../../reference/train.html">train()</a></code> to train a <strong>Maxent</strong> model. We need to provide three arguments:</p>
 <ul>
 <li>
@@ -237,7 +232,7 @@
 <li>
 <strong>a</strong>: an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object with the background locations used to train the model;</li>
 <li>
-<strong>model</strong>: a <code><a href="../../reference/Maxent-class.html">Maxent()</a></code> object in our case with all the model configurations.</li>
+<strong>model</strong>: a <code><a href="../../reference/Maxent-class.html">Maxent()</a></code> object, in our case, with all the model configurations.</li>
 </ul>
 <p>We can access the different slots in the same way we explored the <code><a href="../../reference/SWD-class.html">SWD()</a></code> object in the previous article, using the <strong>@</strong> symbol before the slot name (e.g. <code>default_model@p</code>).</p>
 <p>The slot <code>model</code> contains the configurations of the model plus other information used to make predictions.</p>
@@ -250,7 +245,7 @@
 <div id="train-a-model-changing-the-default-settings" class="section level2">
 <h2 class="hasAnchor">
 <a href="#train-a-model-changing-the-default-settings" class="anchor"></a>Train a model changing the default settings</h2>
-<p>The function <code><a href="../../reference/train.html">train()</a></code> accepts optional arguments that can be used to change the default model settings. In our previous example we could also train the model using:</p>
+<p>The function <code><a href="../../reference/train.html">train()</a></code> accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the model also using:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">default_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">p =</span> presence, <span class="dt">a =</span> bg_model, <span class="dt">fc =</span> <span class="st">"lqph"</span>, <span class="dt">reg =</span> <span class="dv">1</span>, <span class="dt">iter =</span> <span class="dv">500</span>)</a></code></pre></div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">

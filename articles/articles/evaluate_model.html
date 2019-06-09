@@ -130,11 +130,6 @@
 
     
     
-<pre><code>#&gt; Registered S3 methods overwritten by 'ggplot2':
-#&gt;   method         from 
-#&gt;   [.quosures     rlang
-#&gt;   c.quosures     rlang
-#&gt;   print.quosures rlang</code></pre>
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
@@ -144,35 +139,35 @@
 <h2 class="hasAnchor">
 <a href="#auc" class="anchor"></a>AUC</h2>
 <p>As usually we first load the <strong>SDMtune</strong> package:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>The Area Under the ROC curve <span class="citation">(Fielding and Bell 1997)</span> can be calculated using the function <code><a href="../../reference/auc.html">auc()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/auc.html">auc</a></span>(default_model)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] 0.934</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../../reference/auc.html">auc</a></span>(default_model)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] 0.934</span></a></code></pre></div>
 <p>We can also plot the ROC curve using the function <code><a href="../../reference/plotROC.html">plotROC()</a></code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../../reference/plotROC.html">plotROC</a></span>(default_model)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/plotROC.html">plotROC</a></span>(default_model)</a></code></pre></div>
 <p><img src="evaluate_model_files/figure-html/plot%20roc-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="tss" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tss" class="anchor"></a>TSS</h2>
 <p>The True Skill Statistic <span class="citation">(Allouche, Tsoar, and Kadmon 2006)</span> is computed with the <code><a href="../../reference/tss.html">tss()</a></code> function:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../../reference/tss.html">tss</a></span>(default_model)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; [1] 0.767</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../../reference/tss.html">tss</a></span>(default_model)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 0.767</span></a></code></pre></div>
 </div>
 <div id="aicc" class="section level2">
 <h2 class="hasAnchor">
 <a href="#aicc" class="anchor"></a>AICc</h2>
-<p>For the Akaike Information Criterion corrected for small sample size <span class="citation">(Warren and Seifert 2011)</span> we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument, the ‘predictors’ raster <code>stack</code> object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../../reference/aicc.html">aicc</a></span>(default_model, <span class="dt">env =</span> predictors)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] 8272.29</span></a></code></pre></div>
+<p>For the Akaike Information Criterion corrected for small sample size <span class="citation">(Warren and Seifert 2011)</span> we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument (i.e. the ‘predictors’ raster <code>stack</code> object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../../reference/aicc.html">aicc</a></span>(default_model, <span class="dt">env =</span> predictors)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; [1] 8272.29</span></a></code></pre></div>
 <p>We can pass the argument <code>parallel=TRUE</code> to speed up the computation for large datasets.</p>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
@@ -190,7 +185,7 @@
 <li>how to calculate the TSS;</li>
 <li>how to calculate the AICc.</li>
 </ul>
-<p>In the next article you will learn two different strategies that can be used to correctly evaluate your model performance.</p>
+<p>In the next article you will learn two different strategies that can be used to correctly evaluate the model performance.</p>
 <div id="references" class="section level3 unnumbered">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>

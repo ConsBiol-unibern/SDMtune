@@ -135,9 +135,9 @@
 <a href="#intro" class="anchor"></a>Intro</h2>
 <p>In the previous articles you have learned the core functions of <strong>SDMtune</strong> for training, evaluating and display the output of a model. In this article you will learn how to perform data-driven variable selection.</p>
 </div>
-<div id="explore-correlation" class="section level2">
+<div id="explore-variable-correlation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#explore-correlation" class="anchor"></a>Explore correlation</h2>
+<a href="#explore-variable-correlation" class="anchor"></a>Explore variable correlation</h2>
 <p>We will use the <code>background locations</code> prepared in the <a href="./prepare_data.html#create-an-swd-object">first article</a> to explore the autocorrelation between the environmental variables used to train the previous models. With the function <code><a href="../../reference/plotCor.html">plotCor()</a></code> you can create an heat map showing the degree of autocorrelation:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="../../reference/plotCor.html">plotCor</a></span>(bg, <span class="dt">method =</span> <span class="st">"spearman"</span>, <span class="dt">cor_th =</span> <span class="fl">0.7</span>)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/heat%20map-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -168,7 +168,7 @@
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">selected_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/varSel.html">varSel</a></span>(maxnet_model, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">bg4cor =</span> bg, <span class="dt">method =</span> <span class="st">"spearman"</span>, <span class="dt">cor_th =</span> <span class="fl">0.7</span>, <span class="dt">permut =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Removed variables: bio1, bio16, bio7, bio8</span></a></code></pre></div>
-<p>As you can see the variables <code>bio1</code>, <code>bio16</code> and <code>bio6</code> have been removed, The output of the function is the model trained with the selected variables:</p>
+<p>As you can see the some variables have been removed, The output of the function is the model trained with the selected variables:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">selected_variables_model</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Object of class SDMmodel </span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Method: Maxnet </span></a>
@@ -201,7 +201,7 @@ The following picture is a screenshot of the interactive real-time chart display
 <div id="remove-variables-with-low-importance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#remove-variables-with-low-importance" class="anchor"></a>Remove variables with low importance</h2>
-<p>There are cases in which your model has some environmental variables ranked with very low importance and you may want to remove some of them to reduce the model complexity. <strong>SDMtune</strong> offers two different strategies implemented in the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code>. We will use the <code>maxnet_model</code> trained with all the variables. Let’s first check the permutation importance (we use only one permutation to save time):</p>
+<p>There are cases in which a model has some environmental variables ranked with very low contribution and you may want to remove some of them to reduce the model complexity. <strong>SDMtune</strong> offers two different strategies implemented in the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code>. We will use the <code>maxnet_model</code> trained with all the variables. Let’s first check the permutation importance (we use only one permutation to save time):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../../reference/varImp.html">varImp</a></span>(maxnet_model, <span class="dt">permut =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   Variable Permutation_importance</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; 1     bio1                   43.9</span></a>
@@ -213,7 +213,7 @@ The following picture is a screenshot of the interactive real-time chart display
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 7     bio6                    4.9</span></a>
 <a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 8    bio16                    3.9</span></a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 9    bio12                    1.2</span></a></code></pre></div>
-<p>In the <code>maxnet_model</code> all the environmental variables have a permutation importance greater than 4%. We will use the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code> only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance lower than 6%:</p>
+<p>We will use the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code> only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance lower than 6%:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testin AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9334</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">reduced_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/reduceVar.html">reduceVar</a></span>(maxnet_model, <span class="dt">th =</span> <span class="dv">6</span>, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">permut =</span> <span class="dv">1</span>)</a>
@@ -223,7 +223,7 @@ The following picture is a screenshot of the interactive real-time chart display
 <div style="text-align: center">
 <img src="../../man/figures/reduce_var_1.png" alt="">
 </div>
-<p>In the second example we want to remove the environmental variables that have a permutation importance lower than 6% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if there is not a drop on the model performance:</p>
+<p>In the second example we want to remove the environmental variables that have a permutation importance lower than 6% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn’t drop:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testin AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9334</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3">reduced_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/reduceVar.html">reduceVar</a></span>(maxnet_model, <span class="dt">th =</span> <span class="dv">6</span>, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">permut =</span> <span class="dv">1</span>, <span class="dt">use_jk =</span> <span class="ot">TRUE</span>)</a>
@@ -261,7 +261,7 @@ The following picture is a screenshot of the interactive real-time chart display
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#intro">Intro</a></li>
-      <li><a href="#explore-correlation">Explore correlation</a></li>
+      <li><a href="#explore-variable-correlation">Explore variable correlation</a></li>
       <li><a href="#remove-highly-correlated-variables">Remove highly correlated variables</a></li>
       <li><a href="#remove-variables-with-low-importance">Remove variables with low importance</a></li>
       <li><a href="#conclusion">Conclusion</a></li>

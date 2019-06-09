@@ -130,58 +130,53 @@
 
     
     
-<pre><code>#&gt; Registered S3 methods overwritten by 'ggplot2':
-#&gt;   method         from 
-#&gt;   [.quosures     rlang
-#&gt;   c.quosures     rlang
-#&gt;   print.quosures rlang</code></pre>
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis and how to <a href="./train_model.html">train a model</a> using <strong>SDMtune</strong>. In this article you will learn how to use a trained model to make predictions. We will use the <code>default model</code> that we trained in the previous article to predict the distribution of Andean condor.</p>
+<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis and how to <a href="./train_model.html">train a model</a> using <strong>SDMtune</strong>. In this article you will learn how to use a trained model to make predictions. We will use the <code>default model</code> that we trained in the previous article to predict the distribution of the Andean condor.</p>
 </div>
 <div id="make-prediction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#make-prediction" class="anchor"></a>Make prediction</h2>
 <p>First we load the <strong>SDMtune</strong> package:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>New locations are predicted with the function <a href="../../reference/predict-SDMmodel-method.html">predict()</a>. The function takes three main arguments:</p>
 <ul>
 <li>a trained <code><a href="../../reference/SDMmodel-class.html">SDMmodel()</a></code> object;</li>
-<li>a new dataset, used to make prediction, can be a <code>data.frame</code>, an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object or a raster <code>stack</code> object;</li>
+<li>a new dataset, used to make prediction; can be a <code>data.frame</code>, an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object or a raster <code>stack</code> object;</li>
 <li>the output type, that for <strong>Maxent</strong> models can be: <strong>raw</strong>, <strong>logistic</strong> or <strong>cloglog</strong>.</li>
 </ul>
-<p>We get the prediction for our <code>presence</code> locations using the <strong>cloglog</strong> output type:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> presence, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a></code></pre></div>
+<p>Next we get the prediction for our <code>presence</code> locations using the <strong>cloglog</strong> output type:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> presence, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a></code></pre></div>
 <p>The output in this case is a vector containing all the predicted values for the presence locations:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(pred)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 0.9770305 0.8156179 0.2884864 0.7601657 0.9487760 0.9699055</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(pred)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] 0.9770305 0.8156179 0.2884864 0.7601657 0.9487760 0.9699055</span></a></code></pre></div>
 </div>
 <div id="create-a-distribution-map" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-a-distribution-map" class="anchor"></a>Create a distribution map</h2>
 <p>We can use the same function to create a distribution map starting from the <code>predictors</code> raster `stack’ object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">map &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">map &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a></code></pre></div>
 <p>In this case the output is a <code>raster</code> object:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">map</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; class      : RasterLayer </span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; dimensions : 192, 186, 35712  (nrow, ncol, ncell)</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; extent     : -125, -32, -56, 40  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; source     : memory</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; names      : layer </span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; values     : 1.065108e-06, 1  (min, max)</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">map</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; class      : RasterLayer </span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; dimensions : 192, 186, 35712  (nrow, ncol, ncell)</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; extent     : -125, -32, -56, 40  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; source     : memory</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; names      : layer </span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; values     : 1.065108e-06, 1  (min, max)</span></a></code></pre></div>
 <p>The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function. In the next example we save the map in a file called “<strong>my_file</strong>” in the <strong>GeoTIFF</strong> format:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">map &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">file =</span> <span class="st">"my_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">map &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">file =</span> <span class="st">"my_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
 <p>The <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function has other arguments useful when predicting large datasets:</p>
 <ul>
 <li>
@@ -197,41 +192,41 @@
 <h2 class="hasAnchor">
 <a href="#plot-a-distribution-map" class="anchor"></a>Plot a distribution map</h2>
 <p>To plot the distribution map we can use the function <code><a href="../../reference/plotPred.html">plotPred()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map)</a></code></pre></div>
 <p><img src="make_predictions_files/figure-html/plot%20map%20default-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>The <code><a href="../../reference/plotPred.html">plotPred()</a></code> function plots a map using a color ramp similar to the one used by the Maxent Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map, <span class="dt">lt =</span> <span class="st">"Habitat</span><span class="ch">\n</span><span class="st">suitability"</span>, <span class="dt">colorramp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#2c7bb6"</span>, <span class="st">"#abd9e9"</span>, <span class="st">"#ffffbf"</span>, <span class="st">"#fdae61"</span>, <span class="st">"#d7191c"</span>))</a></code></pre></div>
+<p>The <code><a href="../../reference/plotPred.html">plotPred()</a></code> function plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map, <span class="dt">lt =</span> <span class="st">"Habitat</span><span class="ch">\n</span><span class="st">suitability"</span>, <span class="dt">colorramp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#2c7bb6"</span>, <span class="st">"#abd9e9"</span>, <span class="st">"#ffffbf"</span>, <span class="st">"#fdae61"</span>, <span class="st">"#d7191c"</span>))</a></code></pre></div>
 <p><img src="make_predictions_files/figure-html/plot%20map%20custom-1.png" width="700" style="display: block; margin: auto;"></p>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
 <p>Restrict the prediction to Chile and plot the prediction. To see the solution highlight the following cell:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># First create the extent that surrounds Cile</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">e =<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">77</span>, <span class="dv">-60</span>, <span class="dv">-56</span>, <span class="dv">-15</span>))</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co"># Now use the extent to make the prediction</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">map_e &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">extent =</span> e)</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co"># And finally plot the prediction</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map_e)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># First create the extent that surrounds Cile</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">e =<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">77</span>, <span class="dv">-60</span>, <span class="dv">-56</span>, <span class="dv">-15</span>))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># Now use the extent to make the prediction</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">map_e &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">extent =</span> e)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># And finally plot the prediction</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw"><a href="../../reference/plotPred.html">plotPred</a></span>(map_e)</a></code></pre></div>
 </div>
 </div>
 <div id="plot-a-presenceabsence-map" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-a-presenceabsence-map" class="anchor"></a>Plot a presence/absence map</h2>
-<p>To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function <code><a href="../../reference/thresholds.html">thresholds()</a></code> returns some commonly used threshold values starting from a <code><a href="../../reference/SDMmodel-class.html">SDMmodel()</a></code> object. In the next example we print the threshold values for the <code>default_model</code> object using the type <code>"cloglog"</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../../reference/thresholds.html">thresholds</a></span>(default_model, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt;                                       Threshold Cloglog value</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; 1                     Minimum training presence         0.002</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; 2    Equal training sensitivity and specificity         0.390</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; 3 Maximum training sensitivity plus specificity         0.258</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   Fractional predicted area Training omission rate</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 1                     0.673                  0.000</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 2                     0.122                  0.122</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 3                     0.162                  0.071</span></a></code></pre></div>
+<p>To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function <code><a href="../../reference/thresholds.html">thresholds()</a></code> returns some commonly used threshold values starting from an <code><a href="../../reference/SDMmodel-class.html">SDMmodel()</a></code> object. In the next example we print the threshold values for the <code>default_model</code> object using the type <code>"cloglog"</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../../reference/thresholds.html">thresholds</a></span>(default_model, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt;                                       Threshold Cloglog value</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; 1                     Minimum training presence         0.002</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; 2    Equal training sensitivity and specificity         0.390</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 3 Maximum training sensitivity plus specificity         0.258</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;   Fractional predicted area Training omission rate</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 1                     0.673                  0.000</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 2                     0.122                  0.122</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3                     0.162                  0.071</span></a></code></pre></div>
 <p>For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function <code><a href="../../reference/plotPA.html">plotPA()</a></code> passing the threshold value as argument:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.258</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.258</span>)</a></code></pre></div>
 <p><img src="make_predictions_files/figure-html/plot%20pa-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>We can also save the map in a file with the following code:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.258</span>, <span class="dt">filename =</span> <span class="st">"my_pa_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.258</span>, <span class="dt">filename =</span> <span class="st">"my_pa_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
 <p>Both functions <code><a href="../../reference/plotPred.html">plotPred()</a></code> and <code><a href="../../reference/plotPA.html">plotPA()</a></code> have the argument <code>hr</code>to plot the the map with high resolution, useful when the map is used in a scientific publication. For all the arguments of the functions that we have used in this article please refer to the <a href="../..//reference/index.html">documentation</a>.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">
@@ -250,7 +245,7 @@
 <li>how to get thresholds values to create a presence/absence map;</li>
 <li>how to plot and save a presence/absence map.</li>
 </ul>
-<p>In the <a href="./evaluate_model.html">next article</a> you will learn how evaluate your model.</p>
+<p>In the <a href="./evaluate_model.html">next article</a> you will learn how to evaluate a model.</p>
 </div>
   </div>
 

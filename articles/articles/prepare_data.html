@@ -133,7 +133,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In this article you will learn how to prepare your data to train models using <code>SDMtune</code>. We will use the <a href="../../reference/condor.html">condor</a> dataset included in the package and environmental predictors from the <a href="http://www.worldclim.org/">WorldClim</a> dataset.</p>
+<p>In this article you will learn how to prepare the data to train models using <code>SDMtune</code>. We will use the <a href="../../reference/condor.html">condor</a> dataset included in the package and environmental predictors from the <a href="http://www.worldclim.org/">WorldClim</a> dataset.</p>
 </div>
 <div id="set-working-environment" class="section level2">
 <h2 class="hasAnchor">
@@ -147,7 +147,7 @@
 <h2 class="hasAnchor">
 <a href="#acquire-environmental-variables" class="anchor"></a>Acquire environmental variables</h2>
 <p>For the analysis we use the climate data of <a href="http://www.worldclim.org/">WorldClim</a> version 1.4 <span class="citation">(Hijmans et al. 2005)</span> and the <a href="https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world">terrestrial ecoregions</a> from WWF <span class="citation">(Olson et al. 2001)</span> included in the <code>dismo</code> package:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">files &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"dismo"</span>), <span class="st">"/ex"</span>, <span class="dt">sep =</span> <span class="st">""</span>), <span class="dt">pattern =</span> <span class="st">"grd"</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">files &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"dismo"</span>), <span class="st">"ex"</span>), <span class="dt">pattern =</span> <span class="st">"grd"</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>We convert the files in a <a href="https://www.rdocumentation.org/packages/raster/versions/2.8-19/topics/stack">raster stack</a> object that will be used later in the analysis:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">predictors &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/stack">stack</a></span>(files)</a></code></pre></div>
 <p>There are nine environmental variables, eight continuous and one categorical:</p>
@@ -332,7 +332,7 @@
 <p>In this article you have learned:</p>
 <ul>
 <li>how to create a raster <code>stack</code> object;</li>
-<li>how to plot a raster object using the <code>gplot</code> function of the <code>rasterVis</code> package;</li>
+<li>how to plot a raster object using the <code>gplot</code> function included in the <code>rasterVis</code> package;</li>
 <li>how to create an <code><a href="../../reference/SWD-class.html">SWD()</a></code> objects;</li>
 <li>how to extract information from an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object;</li>
 <li>how to save an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object in a <strong>.csv</strong> file;</li>
