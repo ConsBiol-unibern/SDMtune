@@ -38,7 +38,7 @@ In case you get an error, check the [Get Started](../SDMtune.html) page to see h
 
 First we load the **SDMtune** package:
 
-```{r load SDMtune, warning=FASLE}
+```{r load SDMtune, warning=FALSE}
 library(SDMtune)
 ```
 
