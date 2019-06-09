@@ -11,22 +11,22 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE}
+```{r load data, echo=FALSE, message=FALSE}
 presence <- SDMtune:::p
 bg_model <- SDMtune:::bg_model
-files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = T)
 predictors <- raster::stack(files)
 ```
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html) and how to [evaluate a model](./evaluate_model.html) using **SDMtune**. In this article you will learn different evaluation strategies to achieve a better estimate of your model performance.
+In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html) and how to [evaluate a model](./evaluate_model.html) using **SDMtune**. In this article you will learn different evaluation strategies to achieve a better estimate of the model performance.
 
 ## Train and testing datasets
 
 First we load the **SDMtune** package:
 
-```{r load SDMtune}
+```{r load SDMtune, warning=FASLE}
 library(SDMtune)
 ```
 
@@ -82,7 +82,7 @@ cv_model <- SDMtune:::bm_maxnet_cv
 cv_model
 ```
 
-The output in this case is a `SDMmodelCV()` object. It contains the four trained models in the `models` slot and the index of the fold partition in the `folds` slot. We can compute the AUC of a `SDMmodelCV()` object using:
+The output in this case is an `SDMmodelCV()` object. It contains the four trained models in the `models` slot and the index of the fold partition in the `folds` slot. We can compute the AUC of a `SDMmodelCV()` object using:
 ```{r}
 cat("Training AUC: ", auc(cv_model))
 cat("Testing AUC: ", auc(cv_model, test = TRUE))

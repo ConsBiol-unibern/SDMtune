@@ -11,6 +11,10 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
+```{r load data, echo=FALSE, message=FALSE}
+default_model <- SDMtune:::bm_maxent
+```
+
 ## Intro
 
 In the [previous article](./prepare_data.html) you have learned how to prepare the data for the analysis using the [condor](../../reference/condor.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
@@ -34,7 +38,7 @@ In case you get an error, check the [Get Started](../SDMtune.html) page to see h
 
 First we load the **SDMtune** package:
 
-```{r load SDMtune}
+```{r load SDMtune, warning=FASLE}
 library(SDMtune)
 ```
 
@@ -90,7 +94,7 @@ slotNames(default_model)
 
 * **p**: an `SWD()` object with the presence locations used to train the model;
 * **a**: an `SWD()` object with the background locations used to train the model;
-* **model**: a `Maxent()` object in our case with all the model configurations.
+* **model**: a `Maxent()` object, in our case, with all the model configurations.
 
 We can access the different slots in the same way we explored the `SWD()` object in the previous article, using the **\@** symbol before the slot name (e.g. `default_model@p`).
 
@@ -104,7 +108,7 @@ For the moment the most important are: **fc**, **reg** and **iter** that contain
 
 ## Train a model changing the default settings
 
-The function `train()` accepts optional arguments that can be used to change the default model settings. In our previous example we could also train the model using:
+The function `train()` accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the model also using:
 
 ```{r retrain, eval = FALSE}
 default_model <- train(method = "Maxent", p = presence, a = bg_model, fc = "lqph", reg = 1, iter = 500)

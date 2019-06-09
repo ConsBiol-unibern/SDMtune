@@ -11,11 +11,11 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE}
+```{r load data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
 presence <- SDMtune:::p
 bg_model <- SDMtune:::bg_model
-files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```
 
@@ -27,7 +27,7 @@ In the previous articles you have learned how to [prepare the data](./prepare_da
 
 As usually we first load the **SDMtune** package:
 
-```{r load SDMtune}
+```{r load SDMtune, warning=FASLE}
 library(SDMtune)
 ```
 
@@ -50,7 +50,7 @@ tss(default_model)
 
 ## AICc
 
-For the Akaike Information Criterion corrected for small sample size [@Warren2011a] we use the function `aicc()`. In this case we need to pass to the `env` argument, the 'predictors' raster `stack` object we created in the [first article](./prepare_data.html#acquire-environmental-variables):
+For the Akaike Information Criterion corrected for small sample size [@Warren2011a] we use the function `aicc()`. In this case we need to pass to the `env` argument (i.e. the 'predictors' raster `stack` object we created in the [first article](./prepare_data.html#acquire-environmental-variables)):
 ```{r aicc}
 aicc(default_model, env = predictors)
 ```
@@ -70,6 +70,6 @@ In this article you have learned:
 * how to calculate the TSS;
 * how to calculate the AICc.
 
-In the next article you will learn two different strategies that can be used to correctly evaluate your model performance.
+In the next article you will learn two different strategies that can be used to correctly evaluate the model performance.
 
 ### References

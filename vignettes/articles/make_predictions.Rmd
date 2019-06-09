@@ -10,33 +10,33 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE}
+```{r load data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
 presence <- SDMtune:::p
 bg_model <- SDMtune:::bg_model
-files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis and how to [train a model](./train_model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of Andean condor.
+In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis and how to [train a model](./train_model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of the Andean condor.
 
 ## Make prediction
 
 First we load the **SDMtune** package:
 
-```{r load SDMtune}
+```{r load SDMtune, warning=FASLE}
 library(SDMtune)
 ```
 
 New locations are predicted with the function [predict()](../../reference/predict-SDMmodel-method.html). The function takes three main arguments:
 
 * a trained `SDMmodel()` object;
-* a new dataset, used to make prediction, can be a `data.frame`, an `SWD()` object or a raster `stack` object;
+* a new dataset, used to make prediction; can be a `data.frame`, an `SWD()` object or a raster `stack` object;
 * the output type, that for **Maxent** models can be: **raw**, **logistic** or **cloglog**.
 
-We get the prediction for our `presence` locations using the **cloglog** output type:
+Next we get the prediction for our `presence` locations using the **cloglog** output type:
 
 ```{r predict presence}
 pred <- predict(default_model, data = presence, type = "cloglog")
@@ -84,7 +84,7 @@ To plot the distribution map we can use the function `plotPred()`:
 plotPred(map)
 ```
 
-The `plotPred()` function plots a map using a color ramp similar to the one used by the Maxent Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
+The `plotPred()` function plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
 
 ```{r plot map custom, fig.align="center"}
 plotPred(map, lt = "Habitat\nsuitability", colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
@@ -106,7 +106,7 @@ plotPred(map_e)
 
 ## Plot a presence/absence map
 
-To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function `thresholds()` returns some commonly used threshold values starting from a `SDMmodel()` object. In the next example we print the threshold values for the `default_model` object using the type `"cloglog"`:
+To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function `thresholds()` returns some commonly used threshold values starting from an `SDMmodel()` object. In the next example we print the threshold values for the `default_model` object using the type `"cloglog"`:
 
 ```{r thresholds}
 thresholds(default_model, type = "cloglog")
@@ -140,4 +140,4 @@ In this article you have learned:
 * how to get thresholds values to create a presence/absence map;
 * how to plot and save a presence/absence map.
 
-In the [next article](./evaluate_model.html) you will learn how evaluate your model.
+In the [next article](./evaluate_model.html) you will learn how to evaluate a model.

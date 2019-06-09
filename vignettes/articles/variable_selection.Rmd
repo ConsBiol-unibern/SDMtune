@@ -19,7 +19,7 @@ bg_model <- SDMtune:::bg_model
 c(train, test) %<-% trainValTest(presence, test = 0.2, seed = 25)
 maxnet_model <- train("Maxnet", p = train, a = bg_model)
 presence <- SDMtune:::p
-files <- list.files(path = paste(system.file(package = "dismo"), "/ex", sep = ""), pattern = "grd", full.names = T)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```
 
@@ -27,7 +27,7 @@ predictors <- raster::stack(files)
 
 In the previous articles you have learned the core functions of **SDMtune** for training, evaluating and display the output of a model. In this article you will learn how to perform data-driven variable selection.
 
-## Explore correlation
+## Explore variable correlation
 
 We will use the `background locations` prepared in the [first article](./prepare_data.html#create-an-swd-object) to explore the autocorrelation between the environmental variables used to train the previous models. With the function `plotCor()` you can create an heat map showing the degree of autocorrelation:
 ```{r heat map, fig.align="center"}
@@ -56,7 +56,7 @@ The process is repeated until the remaining variables have a correlation coeffic
 selected_variables_model <- varSel(maxnet_model, metric = "auc", test = test, bg4cor = bg, method = "spearman", cor_th = 0.7, permut = 1)
 ```
 
-As you can see the variables `bio1`, `bio16` and `bio6` have been removed, The output of the function is the model trained with the selected variables:
+As you can see the some variables have been removed, The output of the function is the model trained with the selected variables:
 ```{r output varSel}
 selected_variables_model
 ```
@@ -74,12 +74,12 @@ selected_variables_model <- varSel(default_model, metric = "aicc", bg4cor = bg, 
 
 ## Remove variables with low importance
 
-There are cases in which your model has some environmental variables ranked with very low importance and you may want to remove some of them to reduce the model complexity. **SDMtune** offers two different strategies implemented in the function `reduceVar()`. We will use the `maxnet_model` trained with all the variables. Let's first check the permutation importance (we use only one permutation to save time):
+There are cases in which a model has some environmental variables ranked with very low contribution and you may want to remove some of them to reduce the model complexity. **SDMtune** offers two different strategies implemented in the function `reduceVar()`. We will use the `maxnet_model` trained with all the variables. Let's first check the permutation importance (we use only one permutation to save time):
 ```{r permutation}
 varImp(maxnet_model, permut = 1)
 ```
 
-In the `maxnet_model` all the environmental variables have a permutation importance greater than 4\%. We will use the function `reduceVar()` only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance lower than 6\%:
+  We will use the function `reduceVar()` only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance lower than 6\%:
 ```{r reduce var 1}
 cat("Testin AUC before: ", auc(maxnet_model, test = test))
 reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1)
@@ -87,7 +87,7 @@ cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 <div style="text-align: center"><img src="../../man/figures/reduce_var_1.png" alt="" /></div>
 
-In the second example we want to remove the environmental variables that have a permutation importance lower than 6\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if there is not a drop on the model performance:
+In the second example we want to remove the environmental variables that have a permutation importance lower than 6\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
 ```{r reduce var 2}
 cat("Testin AUC before: ", auc(maxnet_model, test = test))
 reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1, use_jk = TRUE)
