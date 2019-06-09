@@ -22,6 +22,10 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
+```{r load data, echo=FALSE, message=FALSE}
+default_model <- SDMtune:::bm_maxent
+```
+
 
 # Set working environment
 

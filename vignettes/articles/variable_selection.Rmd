@@ -56,13 +56,10 @@ The process is repeated until the remaining variables have a correlation coeffic
 selected_variables_model <- varSel(maxnet_model, metric = "auc", test = test, bg4cor = bg, method = "spearman", cor_th = 0.7, permut = 1)
 ```
 
-As you can see the some variables have been removed, The output of the function is the model trained with the selected variables:
+As you can see some variables have been removed, The output of the function is the model trained with the selected variables:
 ```{r output varSel}
 selected_variables_model
 ```
-
-The following picture is a screenshot of the interactive real-time chart displayed in the RStudio viewer pane:
-<div style="text-align: center"><img src="../../man/figures/variable_selection.png" alt="" /></div>
 
 ### Try yourself
 
@@ -85,7 +82,6 @@ cat("Testin AUC before: ", auc(maxnet_model, test = test))
 reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1)
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
-<div style="text-align: center"><img src="../../man/figures/reduce_var_1.png" alt="" /></div>
 
 In the second example we want to remove the environmental variables that have a permutation importance lower than 6\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
 ```{r reduce var 2}
@@ -93,7 +89,6 @@ cat("Testin AUC before: ", auc(maxnet_model, test = test))
 reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1, use_jk = TRUE)
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
-<div style="text-align: center"><img src="../../man/figures/reduce_var_2.png" alt="" /></div>
 
 As you can see in this case only `bio12` has been removed and the AUC in the testing dataset doesn't decrease.
 
