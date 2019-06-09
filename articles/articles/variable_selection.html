@@ -168,7 +168,7 @@
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">selected_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/varSel.html">varSel</a></span>(maxnet_model, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">bg4cor =</span> bg, <span class="dt">method =</span> <span class="st">"spearman"</span>, <span class="dt">cor_th =</span> <span class="fl">0.7</span>, <span class="dt">permut =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Removed variables: bio1, bio16, bio7, bio8</span></a></code></pre></div>
-<p>As you can see the some variables have been removed, The output of the function is the model trained with the selected variables:</p>
+<p>As you can see some variables have been removed, The output of the function is the model trained with the selected variables:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">selected_variables_model</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Object of class SDMmodel </span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Method: Maxnet </span></a>
@@ -186,10 +186,6 @@
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; ---------</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; Continuous: bio12 bio17 bio5 bio6 </span></a>
 <a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; Categorical: biome</span></a></code></pre></div>
-The following picture is a screenshot of the interactive real-time chart displayed in the RStudio viewer pane:
-<div style="text-align: center">
-<img src="../../man/figures/variable_selection.png" alt="">
-</div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
@@ -220,9 +216,6 @@ The following picture is a screenshot of the interactive real-time chart display
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Removed variables: bio12, bio16, bio8, bio5</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(reduced_variables_model, <span class="dt">test =</span> test))</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.9279</span></a></code></pre></div>
-<div style="text-align: center">
-<img src="../../man/figures/reduce_var_1.png" alt="">
-</div>
 <p>In the second example we want to remove the environmental variables that have a permutation importance lower than 6% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn’t drop:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testin AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9334</span></a>
@@ -230,9 +223,6 @@ The following picture is a screenshot of the interactive real-time chart display
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Removed variables: bio12</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(reduced_variables_model, <span class="dt">test =</span> test))</a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.9334</span></a></code></pre></div>
-<div style="text-align: center">
-<img src="../../man/figures/reduce_var_2.png" alt="">
-</div>
 <p>As you can see in this case only <code>bio12</code> has been removed and the AUC in the testing dataset doesn’t decrease.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">
