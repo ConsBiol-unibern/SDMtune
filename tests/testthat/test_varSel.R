@@ -7,14 +7,13 @@ bg <- SDMtune:::bg
 m <- SDMtune:::bm_maxnet
 
 test_that("Exceptions are thrown", {
-  expect_error(varSel(SDMtune:::bm_maxnet, metric = "auc", bg4cor = bg,
-                      test = val, use_pc = TRUE),
+  expect_error(varSel(m, metric = "auc", bg4cor = bg, test = t, use_pc = TRUE),
                "Percent contribution cannot be used with model of method Maxnet")
 })
 
 test_that("Correlated Variable are removed", {
   set.seed(25, kind = "Mersenne-Twister", sample.kind = "Rejection")
-  expect_message(o <- varSel(m, "auc", bg, t, cor_th = .9, permut = 1),
+  expect_message(o <- varSel(m, "auc", bg, test = t, cor_th = .9, permut = 1),
                  "Removed variables: bio1, bio12")
   expect_s4_class(o, "SDMmodel")
   expect_s4_class(o@model, "Maxnet")
