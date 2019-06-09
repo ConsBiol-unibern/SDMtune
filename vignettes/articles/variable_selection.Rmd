@@ -56,7 +56,7 @@ The process is repeated until the remaining variables have a correlation coeffic
 selected_variables_model <- varSel(maxnet_model, metric = "auc", test = test, bg4cor = bg, method = "spearman", cor_th = 0.7, permut = 1)
 ```
 
-As you can see some variables have been removed, The output of the function is the model trained with the selected variables:
+As you can see some variables have been removed. The output of the function is the model trained with the selected variables:
 ```{r output varSel}
 selected_variables_model
 ```
