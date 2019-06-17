@@ -25,7 +25,7 @@ confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
   if (is.null(test)) {
     p <- model@p@data
   } else {
-    p <- test@data
+    p <- test@data[colnames(model@p@data)]
   }
   a <- model@a@data
 

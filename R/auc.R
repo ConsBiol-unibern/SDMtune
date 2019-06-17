@@ -64,7 +64,7 @@ auc <- function(model, test = NULL, a = NULL) {
   if (is.null(a)) {
     a <- model@a@data
   } else {
-    a <- a@data
+    a <- a@data[colnames(model@p@data)]
   }
 
   pred <- predict(model, rbind(p, a), type = type)
