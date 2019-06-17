@@ -29,8 +29,10 @@
     predictions for large datasets compared to native predictions from the use
     of the Java software. This reduces considerably the computation time when
     tuning the model using the AICc. At the moment only the Maximum Entropy
-    method is available using the Java implementation through the 'dismo'
-    package and the R implementation through the 'maxnet' package.">
+    method is available using the Java implementation, Phillips et al. (2006)
+    &lt;doi:10.1016/j.ecolmodel.2005.03.026&gt;, through the 'dismo'
+    package and the R implementation through the 'maxnet' package, Phillips et
+    al. (2017) &lt;doi:10.1111/ecog.03049&gt;.">
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -140,7 +142,7 @@
 <a href="#sdmtune" class="anchor"></a>SDMtune <img src="reference/figures/logo.svg" align="right" alt="" width="120">
 </h1></div>
 
-<p><strong>SDMtune</strong> provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation through the “dismo” package and the R implementation through the “maxnet” package.<br>
+<p><strong>SDMtune</strong> provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation <span class="citation">(Phillips, Anderson, and Schapire 2006)</span>, through the “dismo” package <span class="citation">(Hijmans et al. 2017)</span> and the R implementation through the “maxnet” package <span class="citation">(Phillips et al. 2017)</span>.<br>
 Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website</a> and learn how to use <strong>SDMtune</strong> starting from the first article <a href="https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html">Prepare data for the analysis</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -173,7 +175,7 @@ Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website<
 <a class="sourceLine" id="cb2-11" data-line-number="11">bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># Train a model</span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13">sdmtune_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">p =</span> presence, <span class="dt">a =</span> bg)</a></code></pre></div>
-<p>We want to compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> <span class="citation">(Hijmans et al. 2017)</span> that calls the MaxEnt Java software. We first convert the <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
+<p>We want to compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> that calls the MaxEnt Java software. We first convert the <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">maxent_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span>(sdmtune_model)</a></code></pre></div>
 <p>Here a function to test that the results are equal, with a tolerance of <code>1e-7</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">my_check &lt;-<span class="st"> </span><span class="cf">function</span>(values) {</a>
@@ -206,6 +208,12 @@ Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website<
 <div id="refs" class="references">
 <div id="ref-Hijmans2017">
 <p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “dismo: Species Distribution Modeling.” <a href="https://cran.r-project.org/package=dismo" class="uri">https://cran.r-project.org/package=dismo</a>.</p>
+</div>
+<div id="ref-Phillips2017a">
+<p>Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E. Schapire, and Mary E. Blair. 2017. “Opening the black box: an open-source release of Maxent.” <em>Ecography</em> 40 (7). John Wiley &amp; Sons, Ltd (10.1111): 887–93. <a href="https://doi.org/10.1111/ecog.03049" class="uri">https://doi.org/10.1111/ecog.03049</a>.</p>
+</div>
+<div id="ref-Phillips2006">
+<p>Phillips, Steven J, Robert P Anderson, and Robert E Schapire. 2006. “Maximum entropy modeling of species geographic distributions.” <em>Ecological Modelling</em> 190: 231–59. <a href="https://doi.org/10.1016/j.ecolmodel.2005.03.026" class="uri">https://doi.org/10.1016/j.ecolmodel.2005.03.026</a>.</p>
 </div>
 </div>
 </div>
