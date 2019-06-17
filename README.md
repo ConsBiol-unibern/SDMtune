@@ -27,8 +27,9 @@ models, resulting in much faster predictions for large datasets compared
 to native predictions from the use of the Java software. This reduces
 considerably the computation time when tuning the model using the AICc.
 At the moment only the Maximum Entropy method is available using the
-Java implementation through the “dismo” package and the R implementation
-through the “maxnet” package.  
+Java implementation (Phillips, Anderson, and Schapire 2006), through the
+“dismo” package (Hijmans et al. 2017) and the R implementation through
+the “maxnet” package (Phillips et al. 2017).  
 Visit the [package website](https://consbiol-unibern.github.io/SDMtune/)
 and learn how to use **SDMtune** starting from the first article
 [Prepare data for the
@@ -80,9 +81,9 @@ sdmtune_model <- train(method = "Maxent", p = presence, a = bg)
 ```
 
 We want to compare the execution time of the `predict` function between
-**SDMtune** that uses its own algorithm and **dismo** (Hijmans et al.
-2017) that calls the MaxEnt Java software. We first convert the
-`sdmtune_model` in a object that is accepted by **dismo**:
+**SDMtune** that uses its own algorithm and **dismo** that calls the
+MaxEnt Java software. We first convert the `sdmtune_model` in a object
+that is accepted by **dismo**:
 
 ``` r
 maxent_model <- SDMmodel2MaxEnt(sdmtune_model)
@@ -139,6 +140,24 @@ Conduct](.github/CODE_OF_CONDUCT.md).
 Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith.
 2017. “dismo: Species Distribution Modeling.”
 <https://cran.r-project.org/package=dismo>.
+
+</div>
+
+<div id="ref-Phillips2017a">
+
+Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E.
+Schapire, and Mary E. Blair. 2017. “Opening the black box: an
+open-source release of Maxent.” *Ecography* 40 (7). John Wiley & Sons,
+Ltd (10.1111): 887–93. <https://doi.org/10.1111/ecog.03049>.
+
+</div>
+
+<div id="ref-Phillips2006">
+
+Phillips, Steven J, Robert P Anderson, and Robert E Schapire. 2006.
+“Maximum entropy modeling of species geographic distributions.”
+*Ecological Modelling* 190: 231–59.
+<https://doi.org/10.1016/j.ecolmodel.2005.03.026>.
 
 </div>
 

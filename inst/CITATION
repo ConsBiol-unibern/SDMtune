@@ -1,5 +1,6 @@
 year <- sub("-.*", "", meta$Date)
 note <- sprintf("R package version %s", meta$Version)
+url <- "https://github.com/ConsBiol-unibern/SDMtune"
 
 citHeader("To cite SDMtune in publications, please use:")
 
@@ -10,6 +11,6 @@ citEntry(entry = "Manual",
   title = "SDMtune: Species Distribution Model Selection",
   year = year,
   note = note,
-  url = "https://github.com/ConsBiol-unibern/SDMtune",
-  textVersion = "Vignali S, Barras A, Braunisch V, 2019. SDMtune: Species Distribution Model Selection."
+  url = url,
+  textVersion = paste0("Vignali S, Barras A, Braunisch V, 2019. SDMtune: Species Distribution Model Selection. ", note, ".")
 )

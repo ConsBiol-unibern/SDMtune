@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](.github/CODE_OF_CONDUCT.md)
 
-**SDMtune** provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation through the “dismo” package and the R implementation through the “maxnet” package.  
+**SDMtune** provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation [@Phillips2006], through the “dismo” package [@Hijmans2017] and the R implementation through the “maxnet” package [@Phillips2017a].  
 Visit the [package website](https://consbiol-unibern.github.io/SDMtune/) and learn how to use **SDMtune** starting from the first article [Prepare data for the analysis](https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html).
 
 ## Installation
@@ -61,7 +61,7 @@ bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictor
 sdmtune_model <- train(method = "Maxent", p = presence, a = bg)
 ```
 
-We want to compare the execution time of the `predict` function between **SDMtune** that uses its own algorithm and **dismo** [@Hijmans2017] that calls the MaxEnt Java software. We first convert the `sdmtune_model` in a object that is accepted by **dismo**:
+We want to compare the execution time of the `predict` function between **SDMtune** that uses its own algorithm and **dismo** that calls the MaxEnt Java software. We first convert the `sdmtune_model` in a object that is accepted by **dismo**:
 ```{r sdmtune2maxent, eval=FALSE}
 maxent_model <- SDMmodel2MaxEnt(sdmtune_model)
 ```
