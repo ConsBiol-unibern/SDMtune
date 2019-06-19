@@ -9,12 +9,14 @@
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
 #' is \code{FALSE}.
 #'
+#' @details Parallel computation increases the speed only for large datasets due
+#' to the time necessary to create the cluster.
+#'
 #' @return The computed AICc
 #' @export
 #' @importFrom raster extract cellStats
 #'
-#' @details Parallel computation increases the speed only for large datasets due
-#' to the time necessary to create the cluster.
+#' @author Sergio Vignali
 #'
 #' @references Warren D.L., Seifert S.N., (2011). Ecological niche modeling in
 #' Maxent: the importance of model complexity and the performance of model
@@ -50,8 +52,6 @@
 #' # to the time used to start and stop a cluster
 #' aicc(model, predictors, parallel = TRUE)
 #' }
-#'
-#' @author Sergio Vignali
 aicc <- function(model, env, parallel = FALSE){
 
   # k is the number of non-zero parameter in the model

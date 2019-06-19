@@ -29,11 +29,13 @@
 #' the speed only for large datasets due to the time necessary to create the
 #' cluster.
 #'
-#' @seealso \code{\link{randomSearch}} and \code{\link{optimizeModel}}
-#'
 #' @return \linkS4class{SDMtune} object.
 #' @export
 #' @importFrom progress progress_bar
+#'
+#' @author Sergio Vignali
+#'
+#' @seealso \code{\link{randomSearch}} and \code{\link{optimizeModel}}
 #'
 #' @examples
 #' \donttest{
@@ -78,9 +80,6 @@
 #'                      env = predictors, save_models = FALSE)
 #' output@results
 #' }
-#'
-#'
-#' @author Sergio Vignali
 gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                        env = NULL, parallel = FALSE, save_models = TRUE,
                        seed = NULL) {

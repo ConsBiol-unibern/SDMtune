@@ -72,7 +72,6 @@ auc(model)
 # Compute the testing AUC
 auc(model, test = TRUE)
 }
-
 }
 \references{
 Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative

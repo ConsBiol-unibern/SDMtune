@@ -26,6 +26,8 @@
 #' @export
 #' @importFrom progress progress_bar
 #'
+#' @author Sergio Vignali
+#'
 #' @examples
 #' \donttest{
 #' # Acquire environmental variables
@@ -76,8 +78,6 @@
 #' jk$models_without
 #' jk$models_withonly
 #' }
-#'
-#' @author Sergio Vignali
 doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
                  env = NULL, parallel = FALSE, return_models = FALSE) {
 

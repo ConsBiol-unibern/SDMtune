@@ -20,6 +20,8 @@
 #' @importFrom reshape2 melt
 #' @importFrom stats cor
 #'
+#' @author Sergio Vignali
+#'
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
@@ -39,8 +41,6 @@
 #' # Get the environmental variables that have a correlation greater or equal to
 #' # the given threshold
 #' corVar(bg, method = "pearson", cor_th = 0.8)
-#'
-#' @author Sergio Vignali
 corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
                    remove_diagonal = TRUE) {
 

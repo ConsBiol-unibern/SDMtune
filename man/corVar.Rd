@@ -50,7 +50,6 @@ corVar(bg, method = "spearman")
 # Get the environmental variables that have a correlation greater or equal to
 # the given threshold
 corVar(bg, method = "pearson", cor_th = 0.8)
-
 }
 \author{
 Sergio Vignali

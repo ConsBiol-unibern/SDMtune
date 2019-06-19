@@ -54,7 +54,6 @@ tail(cm)
 
 # Get the confusion matrix for a specific threshold
 confMatrix(model, type = "logistic", th = 0.6)
-
 }
 \author{
 Sergio Vignali

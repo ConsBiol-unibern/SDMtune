@@ -43,7 +43,9 @@ if (file.exists(j)) {
 model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
 maxentTh(model)
 }
-
+}
+\seealso{
+\code{\link{maxentVarImp}}
 }
 \author{
 Sergio Vignali

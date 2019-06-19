@@ -93,8 +93,6 @@ output <- gridSearch(model, hypers = h, metric = "aicc", bg4test = bg,
                      env = predictors, save_models = FALSE)
 output@results
 }
-
-
 }
 \seealso{
 \code{\link{randomSearch}} and \code{\link{optimizeModel}}

@@ -7,24 +7,40 @@
 mergeSWD(swd1, swd2)
 }
 \arguments{
-\item{swd1}{\link{SWD} object.}
+\item{swd1}{\linkS4class{SWD} object.}
 
-\item{swd2}{\link{SWD} object.}
+\item{swd2}{\linkS4class{SWD} object.}
 }
 \value{
-The merged \link{SWD} object.
+The merged \linkS4class{SWD} object.
 }
 \description{
-Merge two \link{SWD} object.
+Merge two \linkS4class{SWD} object.
 }
 \details{
-In case the two \link{SWD} objects have different columns, only the
-common columns are used in the merged object.
+In case the two \linkS4class{SWD} objects have different columns,
+only the common columns are used in the merged object.
 }
 \examples{
-\dontrun{
-mergeSWD(train, val)}
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(presence, test = 0.2)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Merge the training and the testing datasets together
+merged <- mergeSWD(train, test)
 }
 \author{
 Sergio Vignali

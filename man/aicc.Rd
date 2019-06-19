@@ -56,7 +56,6 @@ aicc(model, predictors)
 # to the time used to start and stop a cluster
 aicc(model, predictors, parallel = TRUE)
 }
-
 }
 \references{
 Warren D.L., Seifert S.N., (2011). Ecological niche modeling in

@@ -10,6 +10,8 @@
 #' @return The sub sample as \linkS4class{SWD} object.
 #' @export
 #'
+#' @author Sergio Vignali
+#'
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
@@ -25,8 +27,6 @@
 #'
 #' # Get a subsample
 #' getSubsample(bg, size = 2000, seed = 25)
-#'
-#' @author Sergio Vignali
 getSubsample <- function(dataset, size, seed = NULL) {
 
   if (class(dataset) != "SWD")

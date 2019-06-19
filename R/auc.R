@@ -14,13 +14,15 @@
 #' computes the mean of the training or testing AUC values of the different
 #' replicates.
 #'
+#' @return The value of the AUC.
+#' @export
+#'
+#' @author Sergio Vignali
+#'
 #' @references Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative
 #' operating characteristics (ROC) and relative operating levels (ROL) curves:
 #' Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 #' 2145-2166.
-#'
-#' @return The value of the AUC.
-#' @export
 #'
 #' @examples
 #' # Acquire environmental variables
@@ -66,8 +68,6 @@
 #' # Compute the testing AUC
 #' auc(model, test = TRUE)
 #' }
-#'
-#' @author Sergio Vignali
 auc <- function(model, test = NULL, a = NULL) {
 
   if (class(model) == "SDMmodel") {

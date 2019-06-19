@@ -7,6 +7,10 @@
 #' @return data.frame with the thresholds.
 #' @export
 #'
+#' @author Sergio Vignali
+#'
+#' @seealso \code{\link{maxentVarImp}}
+#'
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
@@ -35,8 +39,6 @@
 #' model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
 #' maxentTh(model)
 #' }
-#'
-#' @author Sergio Vignali
 maxentTh <- function(model) {
 
   if (class(model@model) != "Maxent")

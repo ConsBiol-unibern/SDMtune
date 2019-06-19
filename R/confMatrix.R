@@ -14,6 +14,8 @@
 #' @return The Confusion Matrix for all the used thresholds.
 #' @export
 #'
+#' @author Sergio Vignali
+#'
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
@@ -42,8 +44,6 @@
 #'
 #' # Get the confusion matrix for a specific threshold
 #' confMatrix(model, type = "logistic", th = 0.6)
-#'
-#' @author Sergio Vignali
 confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
                        th = NULL) {
 

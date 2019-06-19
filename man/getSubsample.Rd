@@ -35,7 +35,6 @@ bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
 
 # Get a subsample
 getSubsample(bg, size = 2000, seed = 25)
-
 }
 \author{
 Sergio Vignali

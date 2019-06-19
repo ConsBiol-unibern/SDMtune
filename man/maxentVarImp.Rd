@@ -7,7 +7,7 @@
 maxentVarImp(model)
 }
 \arguments{
-\item{model}{\link{SDMmodel} object trained using the "Maxent" method.}
+\item{model}{\linkS4class{SDMmodel} object trained using the "Maxent" method.}
 }
 \value{
 A data frame with the variable importance.
@@ -17,9 +17,36 @@ Shows the percent contribution and permutation importance of the
 environmental variables used to train the model.
 }
 \examples{
-\dontrun{
-maxentVarImp(model)}
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Train a model
+# In order to train a "Maxent" model you need the "maxent.jar" file
+# version 3.4.1 or higher in the correct folder
+j <- file.path(system.file(package = "dismo"), "java", "maxent.jar")
+# Check if the file exists before training the model, this is not necessary
+# in your code
+if (file.exists(j)) {
+model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
+maxentVarImp(model)
+}
+}
+\seealso{
+\code{\link{maxentTh}}
 }
 \author{
 Sergio Vignali

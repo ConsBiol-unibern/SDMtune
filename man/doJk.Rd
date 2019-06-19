@@ -92,7 +92,6 @@ jk$results
 jk$models_without
 jk$models_withonly
 }
-
 }
 \author{
 Sergio Vignali

@@ -1,20 +1,38 @@
 #' Merge SWD Objects
 #'
-#' Merge two \link{SWD} object.
+#' Merge two \linkS4class{SWD} object.
 #'
-#' @param swd1 \link{SWD} object.
-#' @param swd2 \link{SWD} object.
+#' @param swd1 \linkS4class{SWD} object.
+#' @param swd2 \linkS4class{SWD} object.
 #'
-#' @details In case the two \link{SWD} objects have different columns, only the
-#' common columns are used in the merged object.
+#' @details In case the two \linkS4class{SWD} objects have different columns,
+#' only the common columns are used in the merged object.
 #'
-#' @return The merged \link{SWD} object.
+#' @return The merged \linkS4class{SWD} object.
 #' @export
 #'
-#' @examples\dontrun{
-#' mergeSWD(train, val)}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#'
+#' # Split presence locations in training (80%) and testing (20%) datasets
+#' datasets <- trainValTest(presence, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Merge the training and the testing datasets together
+#' merged <- mergeSWD(train, test)
 mergeSWD <- function(swd1, swd2) {
 
   if (class(swd1) != "SWD" | class(swd2) != "SWD")
