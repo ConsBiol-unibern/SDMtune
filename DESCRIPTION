@@ -33,21 +33,21 @@ Depends: R (>= 3.2.0)
 Imports: cli (>= 1.1.0),
          crayon (>= 1.3.4),
          dismo (>= 1.1-4),
-         ggplot2 (>= 3.1.0),
+         ggplot2 (>= 3.2.0),
          htmltools (>= 0.3.6),
          jsonlite (>= 1.6),
          kableExtra (>= 1.1.0),
          maxnet (>= 0.1.2),
          methods,
-         progress (>= 1.2.0),
-         raster (>= 2.8-19),
+         progress (>= 1.2.2),
+         raster (>= 2.9-5),
          rasterVis (>= 0.45),
          Rcpp (>= 1.0.1),
          reshape2 (>= 1.4.3),
-         rgdal (>= 1.3-6),
+         rgdal (>= 1.4-4),
          rJava (>= 0.9-11),
          rstudioapi (>= 0.10),
-         scales (>= 0.5.0),
+         scales (>= 1.0.0),
          stringr (>= 1.4.0),
          whisker (>= 0.3-2)
 Encoding: UTF-8
@@ -57,13 +57,13 @@ RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 Suggests:
     covr,
-    knitr (>= 1.22),
+    knitr (>= 1.23),
     maps (>= 3.3.0),
     pkgdown (>= 1.3.0),
-    rmarkdown (>= 1.12),
+    rmarkdown (>= 1.13),
     roxygen2 (>= 6.1.1),
     snow (>= 0.4-3),
-    testthat (>= 2.0.1),
+    testthat (>= 2.1.1),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Collate: 
