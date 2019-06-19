@@ -8,7 +8,7 @@ randomSearch(model, hypers, metric, test = NULL, bg4test = NULL,
   pop = 20, env = NULL, parallel = FALSE, seed = NULL)
 }
 \arguments{
-\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
@@ -16,25 +16,26 @@ should be tuned, see details.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\link{SWD} object. Test dataset used to evaluate the model, not
-used with aicc and \link{SDMmodelCV} objects, default is NULL.}
+\item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
+model, not used with aicc and \linkS4class{SDMmodelCV} objects, default is
+\code{NULL}.}
 
-\item{bg4test}{\link{SWD} object or NULL. Background locations used to get
-subsamples if \strong{a} hyperparameter is tuned, default is NULL.}
+\item{bg4test}{\linkS4class{SWD} object or NULL. Background locations used to
+get subsamples if \strong{a} hyperparameter is tuned, default is \code{NULL}.}
 
 \item{pop}{numeric. Size of the population, default is 20.}
 
-\item{env}{\link{stack} containing the environmental variables, used only
-with "aicc", default is NULL.}
+\item{env}{\code{\link[raster]{stack}} containing the environmental
+variables, used only with "aicc", default is \code{NULL}.}
 
-\item{parallel}{logical, if TRUE it uses parallel computation, default is
-FALSE.}
+\item{parallel}{logical, if \code{TRUE} it uses parallel computation, default
+is \code{FALSE}.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
-results, default is NULL.}
+results, default is \code{NULL}.}
 }
 \value{
-\link{SDMtune} object.
+\linkS4class{SDMtune} object.
 }
 \description{
 The function performs a random search in the hyperparameters space, creating
@@ -43,17 +44,48 @@ provided hyperparameters values.
 }
 \details{
 To know which hyperparameters can be tuned you can use the output of
-the function \link{get_tunable_args}. Parallel computation increases the
-speed only for large datasets due to the time necessary to create the
+the function \code{\link{get_tunable_args}}. Parallel computation increases
+the speed only for large datasets due to the time necessary to create the
 cluster.
 }
 \examples{
-\dontrun{
-h <- list( "reg" = c(0.5, 1, 1.5), "fc" = c("lq", "lqp", "lqph"),
-"a" = c(5000, 10000, 15000))
-output <- gridSearch(my_model, hypers = h, bg4test = bg, test = my_val,
-pop = 30, seed = 25)}
+\donttest{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(presence, test = 0.2)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a model
+model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+
+# Define the hyperparameters to test
+h <- list(reg = 1:3, fc = c("lqp", "lqph", "lh"), a = seq(3000, 4500, 500))
+
+# Run the function using as metric the AUC
+output <- randomSearch(model, hypers = h, metric = "auc", test = test,
+                       bg4test = bg, pop = 10, seed = 25)
+output@results
+output@models
+# Order rusults by highest test AUC
+output@results[order(-output@results$test_AUC), ]
+}
 }
 \author{
 Sergio Vignali

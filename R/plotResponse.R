@@ -4,8 +4,8 @@
 #'
 #' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param var character. Name of the variable to be plotted.
-#' @param type character. Output type, see \code{\link{predict,Maxent-method}}
-#' for Maxent models or \code{\link{predict.maxnet}} for Maxnet models.
+#' @param type character. Output type, see \code{\link{predict,SDMmodel-method}}
+#' for more details.
 #' @param marginal logical, if \code{TRUE} it plots the marginal response curve,
 #' default is \code{FALSE}.
 #' @param fun function used to compute the level of the other variables for

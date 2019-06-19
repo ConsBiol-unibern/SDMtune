@@ -10,31 +10,31 @@
   progress = "", ...)
 }
 \arguments{
-\item{object}{\link{SDMmodel} object.}
+\item{object}{\linkS4class{SDMmodel} object.}
 
-\item{data}{data.frame, \link{SWD}, \link{stack}.}
+\item{data}{data.frame, \linkS4class{SWD}, \code{\link[raster]{stack}}.}
 
-\item{type}{character. Output type, see \link{predict,Maxent-method} for
-Maxent models or \link{predict.maxnet} for Maxnet models.}
+\item{type}{character. Output type, see details.}
 
-\item{clamp}{logical for clumping during prediction, default is TRUE.}
+\item{clamp}{logical for clumping during prediction, default is \code{TRUE}.}
 
 \item{filename}{character. Output file name for the prediction map, if
 provided the output is saved in a file.}
 
-\item{format}{character. The output format, see \link{writeRaster} for all
-the options, default is "GTiff".}
+\item{format}{character. The output format, see
+\code{\link[raster]{writeRaster}} for all the options, default is "GTiff".}
 
-\item{extent}{\link{Extent} object, if provided it restricts the prediction
-to the given extent, default is NULL.}
+\item{extent}{\code{\link[raster]{Extent}} object, if provided it restricts
+the prediction to the given extent, default is \code{NULL}.}
 
 \item{parallel}{logical to use parallel computation during prediction,
-default is FALSE.}
+default is \code{FALSE}.}
 
 \item{progress}{character to display a progress bar: "text", "window" or ""
 (default) for no progress bar.}
 
-\item{...}{Additional arguments to pass to the \link{writeRaster} function.}
+\item{...}{Additional arguments to pass to the
+\code{\link[raster]{writeRaster}} function.}
 }
 \value{
 A vector with the prediction or a Raster object if data is a raster
@@ -44,15 +44,54 @@ stack.
 Predict the output for a new dataset from a trained \link{SDMmodel} model.
 }
 \details{
-Parallel computation increases the speed only for large datasets due
+\itemize{
+\item For models trained with the \strong{Maxent} method the argument \strong{type} can be:
+"raw", "logistic" and "cloglog".
+\item For models trained with the \strong{Maxnet} method the argument \strong{type} can be:
+"link", "exponential", "logistic" and "cloglog",
+see \code{\link[maxnet]{maxnet}} for more details.
+\item Parallel computation increases the speed only for large datasets due
 to the time necessary to create the cluster. For \strong{Maxent} models the
 function performs the prediction in \strong{R} without calling the \strong{MaxEnt} java
 software. This results is a faster computation for large datasets.
 }
+}
 \examples{
-\dontrun{
-predict(model, predictors, parallel = TRUE)}
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(presence, test = 0.2)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a model
+model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+
+# Make cloglog prediction for the test dataset
+predict(model, data = test, type = "cloglog")
+
+# Make logistic prediction for the all study area
+predict(model, data = predictors, type = "logistic")
+
+\donttest{
+# Make logistic prediction for the all study area and save it in a file
+predict(model, data = predictors, type = "logistic", filename = "my_map")
+}
 }
 \references{
 Wilson P.D., (2009). Guidelines for computing MaxEnt model output

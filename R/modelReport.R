@@ -3,9 +3,8 @@
 #' Make a report that shows the main results.
 #'
 #' @param model \linkS4class{SDMmodel} object.
-#' @param type character. Output type, see \code{\link{predict,Maxent-method}}
-#' for \linkS4class{Maxent} models or \code{\link{predict.maxnet}} for
-#' \linkS4class{Maxnet} models.
+#' @param type character. Output type, see \code{\link{predict,SDMmodel-method}}
+#' for more details.
 #' @param folder character. The name of the folder in which to save the output.
 #' The folder is created in the working directory.
 #' @param test \linkS4class{SWD} object with the test locations, default is

@@ -9,30 +9,25 @@
   "raw"), clamp = TRUE)
 }
 \arguments{
-\item{object}{\link{Maxent} object.}
+\item{object}{\linkS4class{Maxent} object.}
 
 \item{data}{data.frame containing values used for the prediction.}
 
 \item{type}{character MaxEnt output type, possible values are "cloglog",
 "logistic" and "raw", default is "cloglog".}
 
-\item{clamp}{logical for clumping during prediction, default is TRUE.}
+\item{clamp}{logical for clumping during prediction, default is \code{TRUE}.}
 }
 \value{
 A vector with the prediction
 }
 \description{
-Predict output for a new dataset from a trained \link{Maxent} model.
+Predict output for a new dataset from a trained \linkS4class{Maxent} model.
 }
 \details{
 The function performs the prediction in \strong{R} without calling the
 \strong{MaxEnt} Java software. This results in a faster computation for large
 datasets.
-}
-\examples{
-\dontrun{
-predict(model, my_dataset, type = "cloglog")}
-
 }
 \references{
 Wilson P.D., (2009). Guidelines for computing MaxEnt model output

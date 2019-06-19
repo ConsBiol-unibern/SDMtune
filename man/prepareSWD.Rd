@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepareSWD.R
 \name{prepareSWD}
 \alias{prepareSWD}
-\title{Prepare a SWD data set}
+\title{Prepare an SWD object}
 \usage{
 prepareSWD(species, coords, env, categorical = NULL)
 }
@@ -12,23 +12,31 @@ prepareSWD(species, coords, env, categorical = NULL)
 \item{coords}{data.frame. The coordinates of the presence or
 absence/background locations.}
 
-\item{env}{\link{stack} containing the environmental variables used to
-extract the values at coordinate locations.}
+\item{env}{\code{\link[raster]{stack}} containing the environmental variables
+used to extract the values at coordinate locations.}
 
 \item{categorical}{vector indicating which of the environmental variable are
-categorical, default is NULL.}
+categorical, default is \code{NULL}.}
 }
 \value{
-A \link{SWD} object
+A \linkS4class{SWD} object
 }
 \description{
 Given the coordinates, the species' name and the environmental variables,
-the function creates a \link{SWD} object (sample with data).
+the function creates a \linkS4class{SWD} object (sample with data).
 }
 \examples{
-\dontrun{
-swd <- prepareSWD(species = "Vultur gryphus", coords = p, env = env)}
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+presence
 }
 \author{
 Sergio Vignali

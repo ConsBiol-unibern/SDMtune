@@ -12,8 +12,8 @@ plotResponse(model, var, type, marginal = FALSE, fun = mean,
 
 \item{var}{character. Name of the variable to be plotted.}
 
-\item{type}{character. Output type, see \code{\link{predict,Maxent-method}}
-for Maxent models or \code{\link{predict.maxnet}} for Maxnet models.}
+\item{type}{character. Output type, see \code{\link{predict,SDMmodel-method}}
+for more details.}
 
 \item{marginal}{logical, if \code{TRUE} it plots the marginal response curve,
 default is \code{FALSE}.}

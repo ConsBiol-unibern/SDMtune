@@ -10,9 +10,8 @@ modelReport(model, type, folder, test = NULL, response_curves = FALSE,
 \arguments{
 \item{model}{\linkS4class{SDMmodel} object.}
 
-\item{type}{character. Output type, see \code{\link{predict,Maxent-method}}
-for \linkS4class{Maxent} models or \code{\link{predict.maxnet}} for
-\linkS4class{Maxnet} models.}
+\item{type}{character. Output type, see \code{\link{predict,SDMmodel-method}}
+for more details.}
 
 \item{folder}{character. The name of the folder in which to save the output.
 The folder is created in the working directory.}

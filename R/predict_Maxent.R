@@ -4,30 +4,26 @@ setGeneric("predict", function(object, ...)
 
 #' Predict Maxent
 #'
-#' Predict output for a new dataset from a trained \link{Maxent} model.
+#' Predict output for a new dataset from a trained \linkS4class{Maxent} model.
 #'
-#' @param object \link{Maxent} object.
+#' @param object \linkS4class{Maxent} object.
 #' @param data data.frame containing values used for the prediction.
 #' @param type character MaxEnt output type, possible values are "cloglog",
 #' "logistic" and "raw", default is "cloglog".
-#' @param clamp logical for clumping during prediction, default is TRUE.
+#' @param clamp logical for clumping during prediction, default is \code{TRUE}.
 #'
 #' @details The function performs the prediction in **R** without calling the
 #' **MaxEnt** Java software. This results in a faster computation for large
 #' datasets.
 #'
-#' @references Wilson P.D., (2009). Guidelines for computing MaxEnt model output
-#' values from a lambdas file.
-#'
 #' @include Maxent_class.R
 #'
 #' @return A vector with the prediction
-#' @exportMethod predict
-#'
-#' @examples \dontrun{
-#' predict(model, my_dataset, type = "cloglog")}
 #'
 #' @author Sergio Vignali
+#'
+#' @references Wilson P.D., (2009). Guidelines for computing MaxEnt model output
+#' values from a lambdas file.
 setMethod("predict",
           signature = "Maxent",
           definition = function(object, data,
