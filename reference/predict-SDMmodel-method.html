@@ -186,16 +186,15 @@
     </tr>
     <tr>
       <th>data</th>
-      <td><p>data.frame, <a href='SWD-class.html'>SWD</a>, <a href='https://www.rdocumentation.org/packages/utils/topics/stack'>stack</a>.</p></td>
+      <td><p>data.frame, <a href='SWD-class.html'>SWD</a>, <code><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></code>.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>character. Output type, see <a href='predict-Maxent-method.html'>predict,Maxent-method</a> for
-Maxent models or predict.maxnet for Maxnet models.</p></td>
+      <td><p>character. Output type, see details.</p></td>
     </tr>
     <tr>
       <th>clamp</th>
-      <td><p>logical for clumping during prediction, default is TRUE.</p></td>
+      <td><p>logical for clumping during prediction, default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>filename</th>
@@ -204,18 +203,18 @@ provided the output is saved in a file.</p></td>
     </tr>
     <tr>
       <th>format</th>
-      <td><p>character. The output format, see writeRaster for all
-the options, default is "GTiff".</p></td>
+      <td><p>character. The output format, see
+<code><a href='https://www.rdocumentation.org/packages/raster/topics/writeRaster'>writeRaster</a></code> for all the options, default is "GTiff".</p></td>
     </tr>
     <tr>
       <th>extent</th>
-      <td><p>Extent object, if provided it restricts the prediction
-to the given extent, default is NULL.</p></td>
+      <td><p><code><a href='https://www.rdocumentation.org/packages/raster/topics/Extent-class'>Extent</a></code> object, if provided it restricts
+the prediction to the given extent, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
       <td><p>logical to use parallel computation during prediction,
-default is FALSE.</p></td>
+default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>progress</th>
@@ -224,7 +223,8 @@ default is FALSE.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to pass to the writeRaster function.</p></td>
+      <td><p>Additional arguments to pass to the
+<code><a href='https://www.rdocumentation.org/packages/raster/topics/writeRaster'>writeRaster</a></code> function.</p></td>
     </tr>
     </table>
     
@@ -235,10 +235,17 @@ stack.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Parallel computation increases the speed only for large datasets due
+    <ul>
+<li><p>For models trained with the <strong>Maxent</strong> method the argument <strong>type</strong> can be:
+"raw", "logistic" and "cloglog".</p></li>
+<li><p>For models trained with the <strong>Maxnet</strong> method the argument <strong>type</strong> can be:
+"link", "exponential", "logistic" and "cloglog",
+see <code><a href='https://www.rdocumentation.org/packages/maxnet/topics/maxnet'>maxnet</a></code> for more details.</p></li>
+<li><p>Parallel computation increases the speed only for large datasets due
 to the time necessary to create the cluster. For <strong>Maxent</strong> models the
 function performs the prediction in <strong>R</strong> without calling the <strong>MaxEnt</strong> java
-software. This results is a faster computation for large datasets.</p>
+software. This results is a faster computation for large datasets.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -247,10 +254,51 @@ values from a lambdas file.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>model</span>, <span class='no'>predictors</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Acquire environmental variables</span>
+<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
+                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>files</span>)
+
+<span class='co'># Prepare presence locations</span>
+<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>condor</span>[, <span class='fl'>1</span>:<span class='fl'>2</span>]
+
+<span class='co'># Prepare background locations</span>
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
+
+<span class='co'># Create SWD object</span>
+<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
+                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for given locations...</span></div><div class='input'><span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for given locations...</span></div><div class='output co'>#&gt; <span class='message'>Warning: 6 locations are NA for some environmental variables, they will be discard!</span></div><div class='input'>
+<span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
+<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>presence</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
+<span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+
+<span class='co'># Train a model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+
+<span class='co'># Make cloglog prediction for the test dataset</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)</div><div class='output co'>#&gt;   [1] 0.734950353 0.214703621 0.997520571 0.009052707 0.928791215 0.905363340
+#&gt;   [7] 0.967374918 0.950962763 0.636250415 0.405748564 0.982607345 0.935452560
+#&gt;  [13] 0.888301375 0.878827348 0.502836978 0.586316334 0.153111303 0.733151439
+#&gt;  [19] 0.980953160 0.526740331 0.808240800 0.979462327 0.657448816 0.882981485
+#&gt;  [25] 0.662117896 0.953861559 0.120366028 0.069153979 0.461556769 0.233987216
+#&gt;  [31] 0.987787028 0.756526505 0.523152141 0.809459637 0.841288819 0.199312333
+#&gt;  [37] 0.876307590 0.233886819 0.954030650 0.705657352 0.406775896 0.930515334
+#&gt;  [43] 0.979354473 0.958496335 0.997888714 0.996477751 0.605921787 0.907815067
+#&gt;  [49] 0.940797402 0.812365922 0.969589687 0.989719174 0.989645139 0.548686390
+#&gt;  [55] 0.566652307 0.704085113 0.985816124 0.400802018 0.610154477 0.683307065
+#&gt;  [61] 0.711941201 0.142804576 0.422328196 0.996564541 0.993524888 0.900552587
+#&gt;  [67] 0.459121402 0.185980367 0.781724692 0.435258872 0.925698605 0.994294324
+#&gt;  [73] 0.682373795 0.912583941 0.147358756 0.532101811 0.984970655 0.490575452
+#&gt;  [79] 0.868605658 0.245356741 0.697526504 0.961496895 0.408637145 0.910898734
+#&gt;  [85] 0.543953683 0.955554794 0.734634151 0.348545160 0.266296811 0.658053979
+#&gt;  [91] 0.506824008 0.210404256 0.983710612 0.995122787 0.159483495 0.896804394
+#&gt;  [97] 0.308985190 0.564370548 0.281063794 0.986132200 0.210438083 0.587907521</div><div class='input'>
+<span class='co'># Make logistic prediction for the all study area</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("predict"): no applicable method for 'predict' applied to an object of class "c('RasterStack', 'Raster', 'RasterStackBrick', 'BasicRaster')"</span></div><div class='input'>
+</div><div class='input'><span class='co'># Make logistic prediction for the all study area and save it in a file</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"my_map"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("predict"): no applicable method for 'predict' applied to an object of class "c('RasterStack', 'Raster', 'RasterStackBrick', 'BasicRaster')"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
