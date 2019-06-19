@@ -8,29 +8,29 @@ plotResponse(model, var, type, marginal = FALSE, fun = mean,
   clamp = TRUE, rug = FALSE, color = "red")
 }
 \arguments{
-\item{model}{\link{SDMmodel} or \link{SDMmodelCV} object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{var}{character. Name of the variable to be plotted.}
 
-\item{type}{character. Output type, see \link{predict,Maxent-method} for
-Maxent models or \link{predict.maxnet} for Maxnet models.}
+\item{type}{character. Output type, see \code{\link{predict,Maxent-method}}
+for Maxent models or \code{\link{predict.maxnet}} for Maxnet models.}
 
-\item{marginal}{logical, if TRUE it plots the marginal response curve,
-default is FALSE.}
+\item{marginal}{logical, if \code{TRUE} it plots the marginal response curve,
+default is \code{FALSE}.}
 
 \item{fun}{function used to compute the level of the other variables for
 marginal curves, possible values are mean and median, default is mean.}
 
-\item{clamp}{logical for clumping during prediction, default is TRUE.}
+\item{clamp}{logical for clumping during prediction, default is \code{TRUE}.}
 
-\item{rug}{logical, if TRUE it adds the rug plot for the presence and
+\item{rug}{logical, if \code{TRUE} it adds the rug plot for the presence and
 absence/background locations, available only for continuous variables,
-default is FALSE.}
+default is \code{FALSE}.}
 
 \item{color}{The color of the curve, default is "red".}
 }
 \value{
-The ggplot2 object
+A \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 Plot the Response Curve of the given environmental variable.
@@ -40,9 +40,53 @@ Note that fun is not a character argument, you must use mean and
 not "mean".
 }
 \examples{
-\dontrun{
-plotResponse(model, var = "bio12", marginal = T, fun = median, rug = T)}
+\donttest{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Train a model
+model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+
+# Plot cloglog response curve for a continuous environmental variable (bio1)
+plotResponse(model, var = "bio1", type = "cloglog")
+
+# Plot marginal cloglog response curve for a continuous environmental
+# variable (bio1)
+plotResponse(model, var = "bio1", type = "cloglog", marginal = TRUE)
+
+# Plot logistic response curve for a continuous environmental variable
+# (bio12) adding the rugs and giving a custom color
+plotResponse(model, var = "bio12", type = "logistic", rug = TRUE,
+             color = "blue")
+
+# Plot response curve for a categorical environmental variable (biome) giving
+# a custom color
+plotResponse(model, var = "biome", type = "logistic", color = "green")
+
+# Train a model with cross validation
+model <- train(method = "Maxnet", p = presence, a = bg, fc = "lq", rep = 4)
+
+# Plot cloglog response curve for a continuous environmental variable (bio17)
+plotResponse(model, var = "bio1", type = "cloglog")
+
+# Plot logistic response curve for a categorical environmental variable
+# (biome) giving a custom color
+plotResponse(model, var = "biome", type = "logistic", color = "green")
+}
 }
 \author{
 Sergio Vignali

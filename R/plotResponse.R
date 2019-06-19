@@ -2,35 +2,80 @@
 #'
 #' Plot the Response Curve of the given environmental variable.
 #'
-#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param var character. Name of the variable to be plotted.
-#' @param type character. Output type, see \link{predict,Maxent-method} for
-#' Maxent models or \link{predict.maxnet} for Maxnet models.
-#' @param marginal logical, if TRUE it plots the marginal response curve,
-#' default is FALSE.
+#' @param type character. Output type, see \code{\link{predict,Maxent-method}}
+#' for Maxent models or \code{\link{predict.maxnet}} for Maxnet models.
+#' @param marginal logical, if \code{TRUE} it plots the marginal response curve,
+#' default is \code{FALSE}.
 #' @param fun function used to compute the level of the other variables for
 #' marginal curves, possible values are mean and median, default is mean.
-#' @param clamp logical for clumping during prediction, default is TRUE.
-#' @param rug logical, if TRUE it adds the rug plot for the presence and
+#' @param clamp logical for clumping during prediction, default is \code{TRUE}.
+#' @param rug logical, if \code{TRUE} it adds the rug plot for the presence and
 #' absence/background locations, available only for continuous variables,
-#' default is FALSE.
+#' default is \code{FALSE}.
 #' @param color The color of the curve, default is "red".
 #'
 #' @details Note that fun is not a character argument, you must use mean and
 #' not "mean".
 #'
-#' @return The ggplot2 object
+#' @return A \code{\link[ggplot2]{ggplot}} object.
 #' @export
 #' @include Maxent_class.R
 #' @importFrom ggplot2 ggplot aes_string geom_line geom_bar scale_x_continuous
 #' geom_ribbon geom_errorbar geom_rug labs theme
 #' @importFrom raster modal
 #'
-#' @examples
-#' \dontrun{
-#' plotResponse(model, var = "bio12", marginal = T, fun = median, rug = T)}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' \donttest{
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Train a model
+#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+#'
+#' # Plot cloglog response curve for a continuous environmental variable (bio1)
+#' plotResponse(model, var = "bio1", type = "cloglog")
+#'
+#' # Plot marginal cloglog response curve for a continuous environmental
+#' # variable (bio1)
+#' plotResponse(model, var = "bio1", type = "cloglog", marginal = TRUE)
+#'
+#' # Plot logistic response curve for a continuous environmental variable
+#' # (bio12) adding the rugs and giving a custom color
+#' plotResponse(model, var = "bio12", type = "logistic", rug = TRUE,
+#'              color = "blue")
+#'
+#' # Plot response curve for a categorical environmental variable (biome) giving
+#' # a custom color
+#' plotResponse(model, var = "biome", type = "logistic", color = "green")
+#'
+#' # Train a model with cross validation
+#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "lq", rep = 4)
+#'
+#' # Plot cloglog response curve for a continuous environmental variable (bio17)
+#' plotResponse(model, var = "bio1", type = "cloglog")
+#'
+#' # Plot logistic response curve for a categorical environmental variable
+#' # (biome) giving a custom color
+#' plotResponse(model, var = "biome", type = "logistic", color = "green")
+#' }
 plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
                          clamp = TRUE, rug = FALSE, color = "red") {
 

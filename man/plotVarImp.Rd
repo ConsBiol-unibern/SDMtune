@@ -13,15 +13,42 @@ as first column and the value of the variable importance as second column.}
 \item{color}{character. The color of the bar plot, default is grey.}
 }
 \value{
-The ggplot object.
+A \code{\link[ggplot2]{ggplot}} object
 }
 \description{
 Plot the variable importance as a bar plot.
 }
 \examples{
-\dontrun{
-plotVarImp(my_table, color = '#a1d99b')}
+\donttest{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Train a model
+model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+
+# Compute variable importance
+vi <- varImp(model, permut = 1)
+
+# Plot variable importance
+plotVarImp(vi)
+
+# Plot variable importance with custom color
+plotVarImp(vi, color = "red")
+}
 }
 \author{
 Sergio Vignali

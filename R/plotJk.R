@@ -7,18 +7,52 @@
 #' the train or testing dataset.
 #' @param ref numeric. The value of the chosen metric for the model trained
 #' using all the variables. If provided it plots a vertical line showing the
-#' reference value. Default is NULL.
+#' reference value. Default is \code{NULL}.
 #'
-#' @return The ggplot object.
+#' @return The \code{\link[ggplot2]{ggplot}} object.
 #' @export
 #' @importFrom ggplot2 ggplot aes_ geom_bar position_dodge coord_flip labs
 #' theme_minimal geom_hline theme
 #'
-#' @examples
-#' \dontrun{
-#' plotJk(jk_test, type = "train", ref = auc(my_model))}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' \donttest{
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Split presence locations in training (80%) and testing (20%) datasets
+#' datasets <- trainValTest(presence, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Train a model
+#' model <- train(method = "Maxnet", p = train, a = bg, fc = "lq")
+#'
+#' # Execute the Jackknife test for all the environmental variables using the
+#' # metric AUC
+#' jk <- doJk(model, metric = "auc", test = test)
+#'
+#' # Plot Jackknife test result for training
+#' plotJk(jk, type = "train", ref = auc(model))
+#'
+#' #' # Plot Jackknife test result for testing
+#' plotJk(jk, type = "test", ref = auc(model, test = test))
+#' }
 plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
 
   if (!is.data.frame(jk))

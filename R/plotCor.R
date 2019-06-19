@@ -5,13 +5,13 @@
 #' prints only the coefficients that are higher or lower than the given
 #' threshold.
 #'
-#' @param bg \link{SWD} object used to compute the correlation matrix.
+#' @param bg \linkS4class{SWD} object used to compute the correlation matrix.
 #' @param method character. The method used to compute the correlation matrix,
 #' default is "spearman".
 #' @param cor_th numeric. If provided it prints only the coefficients that are
-#' higher or lower than the given threshold, default is NULL.
+#' higher or lower than the given threshold, default is \code{NULL}.
 #'
-#' @return The plot object.
+#' @return A \code{\link[ggplot2]{ggplot}} object.
 #' @export
 #' @importFrom ggplot2 ggplot aes_ scale_fill_gradient2 theme_minimal theme
 #' element_text coord_fixed element_blank geom_text
@@ -19,11 +19,28 @@
 #' @importFrom stats cor
 #' @importFrom stringr str_to_title
 #'
-#' @examples
-#' \dontrun{
-#' my_plot <- plotCorrelation(bgs, method = "spearman", cor_th = 0.7)}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' \donttest{
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 10000)
+#'
+#' # Create SWD object
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Plot heat map
+#' plotCor(bg, method = "spearman")
+#'
+#' # Plot heat map showing only values higher than given threshold
+#' plotCor(bg, method = "spearman", cor_th = 0.8)
+#' }
 plotCor <- function(bg, method = "spearman", cor_th = NULL) {
 
   cor_matrix <- corVar(bg, method = method, order = FALSE,

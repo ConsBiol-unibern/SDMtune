@@ -14,18 +14,51 @@ the train or testing dataset.}
 
 \item{ref}{numeric. The value of the chosen metric for the model trained
 using all the variables. If provided it plots a vertical line showing the
-reference value. Default is NULL.}
+reference value. Default is \code{NULL}.}
 }
 \value{
-The ggplot object.
+The \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 Plot the Jackknife Test for variable importance.
 }
 \examples{
-\dontrun{
-plotJk(jk_test, type = "train", ref = auc(my_model))}
+\donttest{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(presence, test = 0.2)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a model
+model <- train(method = "Maxnet", p = train, a = bg, fc = "lq")
+
+# Execute the Jackknife test for all the environmental variables using the
+# metric AUC
+jk <- doJk(model, metric = "auc", test = test)
+
+# Plot Jackknife test result for training
+plotJk(jk, type = "train", ref = auc(model))
+
+#' # Plot Jackknife test result for testing
+plotJk(jk, type = "test", ref = auc(model, test = test))
+}
 }
 \author{
 Sergio Vignali

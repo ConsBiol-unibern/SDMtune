@@ -6,17 +6,45 @@
 #' as first column and the value of the variable importance as second column.
 #' @param color character. The color of the bar plot, default is grey.
 #'
-#' @return The ggplot object.
+#' @return A \code{\link[ggplot2]{ggplot}} object
 #' @export
 #' @importFrom ggplot2 ggplot aes_string ylab scale_y_continuous geom_bar
 #' coord_flip labs theme_minimal theme element_text
 #' @importFrom scales percent
 #'
-#' @examples
-#' \dontrun{
-#' plotVarImp(my_table, color = '#a1d99b')}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' \donttest{
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Train a model
+#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+#'
+#' # Compute variable importance
+#' vi <- varImp(model, permut = 1)
+#'
+#' # Plot variable importance
+#' plotVarImp(vi)
+#'
+#' # Plot variable importance with custom color
+#' plotVarImp(vi, color = "red")
+#' }
 plotVarImp <- function(df, color = "grey") {
 
   df <- df[order(df[, 2]), ]
