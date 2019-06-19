@@ -19,3 +19,8 @@ Possibly mis-spelled words in DESCRIPTION:
   SDMs (14:48)
   
 These are not mis-spelled words.
+
+## Changes already done following CRAN comments after submission
+* Add citations and doi in description file
+* Use single quotes for package, software and API names in description file
+* Do not capitalize the text "  maximum entropy  "
