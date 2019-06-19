@@ -26,7 +26,7 @@ Description: User-friendly framework that enables the training and the
     for large datasets compared to native predictions from the use of the 'Java'
     software. This reduces considerably the computation time when tuning the
     model using the AICc.
-License: GPL-3 | file LICENSE
+License: GPL-3
 URL: https://consbiol-unibern.github.io/SDMtune/
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
 Depends: R (>= 3.2.0)
