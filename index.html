@@ -24,15 +24,15 @@
     functions for data driven variable selection and model tuning and includes
     numerous utilities to display the results. All the functions used to select
     variables or to tune model hyperparameters have an interactive real-time
-    chart displayed in the RStudio viewer pane during their execution. 'SDMtune'
-    uses its own script to predict MaxEnt models, resulting in much faster
-    predictions for large datasets compared to native predictions from the use
-    of the Java software. This reduces considerably the computation time when
-    tuning the model using the AICc. At the moment only the Maximum Entropy
-    method is available using the Java implementation, Phillips et al. (2006)
-    &lt;doi:10.1016/j.ecolmodel.2005.03.026&gt;, through the 'dismo'
-    package and the R implementation through the 'maxnet' package, Phillips et
-    al. (2017) &lt;doi:10.1111/ecog.03049&gt;.">
+    chart displayed in the 'RStudio' viewer pane during their execution. At the
+    moment only the maximum entropy method is available using the 'Java'
+    implementation, Phillips et al. (2006) &lt;doi:10.1016/j.ecolmodel.2005.03.026&gt;,
+    through the 'dismo' package and the 'R' implementation through the 'maxnet'
+    package, Phillips et al. (2017) &lt;doi:10.1111/ecog.03049&gt;. 'SDMtune' uses its
+    own script to predict maxent models, resulting in much faster predictions
+    for large datasets compared to native predictions from the use of the 'Java'
+    software. This reduces considerably the computation time when tuning the
+    model using the AICc.">
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -142,8 +142,7 @@
 <a href="#sdmtune" class="anchor"></a>SDMtune <img src="reference/figures/logo.svg" align="right" alt="" width="120">
 </h1></div>
 
-<p><strong>SDMtune</strong> provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. At the moment only the Maximum Entropy method is available using the Java implementation <span class="citation">(Phillips, Anderson, and Schapire 2006)</span>, through the “dismo” package <span class="citation">(Hijmans et al. 2017)</span> and the R implementation through the “maxnet” package <span class="citation">(Phillips et al. 2017)</span>.<br>
-Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website</a> and learn how to use <strong>SDMtune</strong> starting from the first article <a href="https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html">Prepare data for the analysis</a>.</p>
+<p><strong>SDMtune</strong> provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. At the moment only the Maximum Entropy method is available using the Java implementation <span class="citation">(Phillips, Anderson, and Schapire 2006)</span>, through the “dismo” package <span class="citation">(Hijmans et al. 2017)</span> and the R implementation through the “maxnet” package <span class="citation">(Phillips et al. 2017)</span>. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc. Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website</a> and learn how to use <strong>SDMtune</strong> starting from the first article <a href="https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html">Prepare data for the analysis</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -189,10 +188,10 @@ Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website<
 <a class="sourceLine" id="cb5-5" data-line-number="5">)</a></code></pre></div>
 <p>Plot the output:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(bench, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> expr, <span class="dt">y =</span> time<span class="op">/</span><span class="dv">1000000</span>, <span class="dt">fill =</span> expr)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_boxplot">geom_boxplot</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">""</span>, <span class="dt">x =</span> <span class="st">"Package"</span>, <span class="dt">y =</span> <span class="st">"time (milliseconds)"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_minimal</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(bench, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> expr, <span class="dt">y =</span> time<span class="op">/</span><span class="dv">1000000</span>, <span class="dt">fill =</span> expr)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">fill =</span> <span class="st">""</span>, <span class="dt">x =</span> <span class="st">"Package"</span>, <span class="dt">y =</span> <span class="st">"time (milliseconds)"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>()</a></code></pre></div>
 <div style="text-align: center">
 <img src="reference/figures/bench.png" alt="">
 </div>
@@ -232,9 +231,7 @@ Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website<
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li>
-<a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> | file <a href="LICENSE-text.html">LICENSE</a>
-</li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
 </ul>
 </div>
 <div class="citation">
