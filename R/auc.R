@@ -2,15 +2,17 @@
 #'
 #' Compute the AUC using the Man-Whitney U Test formula.
 #'
-#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
-#' @param test \link{SWD} test locations for \link{SDMmodel} objects or logical
-#' for \link{SDMmodelCV} objects, if not provided it computes the train AUC,
-#' default is NULL.
-#' @param a \link{SWD} absence or background locations used to compute the AUC
-#' by the permutation importance function, default is NULL.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param test \linkS4class{SWD} test locations for \linkS4class{SDMmodel}
+#' objects or logical.
+#' for \linkS4class{SDMmodelCV} objects, if not provided it computes the train
+#' AUC, default is \code{NULL}.
+#' @param a \linkS4class{SWD} absence or background locations used to compute
+#' the AUC by the permutation importance function, default is \code{NULL}.
 #'
-#' @details If the model is a \link{SDMmodelCV} object, the function computes
-#' the mean of the training or testing AUC values of the different replicates.
+#' @details If the model is a \linkS4class{SDMmodelCV} object, the function
+#' computes the mean of the training or testing AUC values of the different
+#' replicates.
 #'
 #' @references Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative
 #' operating characteristics (ROC) and relative operating levels (ROL) curves:
@@ -21,8 +23,49 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' auc(my_model, test = test_dataset)}
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Split presence locations in training (80%) and testing (20%) datasets
+#' datasets <- trainValTest(presence, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Train a model
+#' model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+#'
+#' # Compute the training AUC
+#' auc(model)
+#'
+#' # Compute the testing AUC
+#' auc(model, test)
+#'
+#' \donttest{
+#' # Same example but using cross validation instead of training and testing
+#' # datasets
+#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l", rep = 4,
+#'                seed = 25)
+#'
+#' # Compute the training AUC
+#' auc(model)
+#'
+#' # Compute the testing AUC
+#' auc(model, test = TRUE)
+#' }
 #'
 #' @author Sergio Vignali
 auc <- function(model, test = NULL, a = NULL) {

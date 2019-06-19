@@ -1,18 +1,30 @@
 #' Get Dataset Subsample
 #'
-#' Get a random subsample of an \link{SWD} object.
+#' Get a random subsample of an \linkS4class{SWD} object.
 #'
-#' @param dataset \link{SWD} object.
+#' @param dataset \linkS4class{SWD} object.
 #' @param size numeric. The size of the sub sample.
 #' @param seed numeric. The value used to set the seed in order to have
-#' consistent results, default is NULL.
+#' consistent results, default is \code{NULL}.
 #'
-#' @return The sub sample as \link{SWD} object.
+#' @return The sub sample as \linkS4class{SWD} object.
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' getSubsample(data, value = 4500)}
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Get a subsample
+#' getSubsample(bg, size = 2000, seed = 25)
 #'
 #' @author Sergio Vignali
 getSubsample <- function(dataset, size, seed = NULL) {

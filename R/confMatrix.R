@@ -2,21 +2,48 @@
 #'
 #' Computes Confusion Matrixes for threshold values varying from 0 to 1.
 #'
-#' @param model \link{SDMmodel} object.
+#' @param model \linkS4class{SDMmodel} object.
 #' @param type character. The output type, possible values are "cloglog" and
 #' "logistic", default is "cloglog".
-#' @param test \link{SWD} test locations, if not provided it uses the train
-#' dataset, default is NULL.
+#' @param test \linkS4class{SWD} test locations, if not provided it uses the
+#' train dataset, default is \code{NULL}.
 #' @param th numeric vector, if provided it computes the evaluation at the given
 #' thresholds, default is NULL and it computes the evaluation for a sequence
-#' from 0 to 1 with steps of 0.0001.
+#' from 0 to 1.
 #'
 #' @return The Confusion Matrix for all the used thresholds.
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' confMatrix(my_model, type = "logisitc")}
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Train a model
+#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+#'
+#' # Get the confusion matrix for thresholds ranging from 0 to 1
+#' cm <- confMatrix(model, type = "cloglog")
+#' head(cm)
+#' tail(cm)
+#'
+#' # Get the confusion matrix for a specific threshold
+#' confMatrix(model, type = "logistic", th = 0.6)
+#'
+#' @author Sergio Vignali
 confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
                        th = NULL) {
 
@@ -37,6 +64,7 @@ confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
 
   if (is.null(th)) {
     th <- sort(unique(c(p_pred, a_pred)))
+    th <- c(0, th, 1)
   }
 
   tp <- fp <- vector(mode = "numeric", length = length(th))

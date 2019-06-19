@@ -21,7 +21,14 @@ test_that("The output is correct", {
   # Sum of tn and fp is equal to number of background locations
   expect_equal(sum(cm$tn, cm$fp), nrow(SDMtune:::bm_maxnet@a@data))
   # Correct output with test argument
+  # 5023 is the number of unique prediction values plus 0 and 1
   expect_equal(nrow(confMatrix(SDMtune:::bm_maxnet,
                                test = getSubsample(SDMtune:::p, 50, seed = 2))),
-               5021) # 5021 is the number of unique prediction values
+               5023)
+})
+
+test_that("The thresholds start with 0 and end with 1 when th is not passed", {
+  cm <- confMatrix(SDMtune:::bm_maxnet)
+  expect_equal(cm$th[1], 0)
+  expect_equal(cm$th[nrow(cm)], 1)
 })

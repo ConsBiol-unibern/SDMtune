@@ -21,8 +21,9 @@ Possibly mis-spelled words in DESCRIPTION:
 These are not mis-spelled words.
 
 ## Changes made following CRAN comments after submission
-* I cannote remove 'snow' package from the suggested package because it's used by the 'raster' package
-* Add citations and doi in description file
-* Use single quotes for package, software and API names in description file
-* Do not capitalize the text "... maximum entropy ..."
-* Use GPL-3 in the license field instead GPL-3 | file LICENSE and rename the file LICENSE to LICENSE.note
+* I cannote remove 'snow' package from the suggested package because it's used by the 'raster' package;
+* Add citations and doi in the description file;
+* Use single quotes for package, software and API names in thedescription file;
+* Do not capitalize the text "... maximum entropy ...";
+* Use GPL-3 in the license field instead GPL-3 | file LICENSE and rename the file LICENSE to LICENSE.note;
+* Add additionally toy example and use \donttest{} instead of \dontrun{} if examples take more than 5 sec;

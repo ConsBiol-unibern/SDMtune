@@ -20,8 +20,38 @@ The plot object.
 Plot the ROC curve of the given model and print the AUC value.
 }
 \examples{
-\dontrun{
-plotROC(model, test)}
+\donttest{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
+
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(presence, test = 0.2)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a model
+model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+
+# Plot the training ROC curve
+plotROC(model)
+
+# Plot the training and testing  ROC curves
+plotROC(model, test = test)
+}
 
 }
 \author{

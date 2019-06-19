@@ -3,38 +3,82 @@
 #' Given a set of possible hyperparameter values, the function trains models
 #' with all the possible combinations of hyperparameters.
 #'
-#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param hypers named list containing the values of the hyperparameters that
 #' should be tuned, see details.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param test \link{SWD} object. Test dataset used to evaluate the model, not
-#' used with \link{aicc} and \link{SDMmodelCV} objects, default is NULL.
-#' @param bg4test \link{SWD} object or NULL. Background locations used to get
-#' subsamples if **a** hyperparameter is tuned, default is NULL.
-#' @param env \link{stack} containing the environmental variables, used only
-#' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, default is
-#' FALSE.
-#' @param save_models logical, if FALSE the models are not saved and the output
-#' contains only a data frame with the metric values for each hyperparameter
-#' combination. Default is TRUE, set it to FALSE when there are many
-#' combinations to avoid R crashing for memory overload.
+#' @param test \linkS4class{SWD} object. Test dataset used to evaluate the
+#' model, not used with \code{\link{aicc}} and \linkS4class{SDMmodelCV} objects,
+#' default is \code{NULL}.
+#' @param bg4test \linkS4class{SWD} object or NULL. Background locations used to
+#' get subsamples if the **a** hyperparameter is tuned, default is \code{NULL}.
+#' @param env \code{\link[raster]{stack}} containing the environmental
+#' variables, used only with "aicc", default is \code{NULL}.
+#' @param parallel logical, if \code{TRUE} it uses parallel computation, default
+#' is \code{FALSE}.
+#' @param save_models logical, if \code{FALSE} the models are not saved and the
+#' output contains only a data frame with the metric values for each
+#' hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE}
+#' when there are many combinations to avoid R crashing for memory overload.
 #' @param seed numeric. The value used to set the seed to have consistent
-#' results, default is NULL.
+#' results, default is \code{NULL}.
 #'
 #' @details To know which hyperparameters can be tune you can use the output of
-#' the function \link{get_tunable_args}. Parallel computation increases the
-#' speed only for large datasets due to the time necessary to create the
+#' the function \code{\link{get_tunable_args}}. Parallel computation increases
+#' the speed only for large datasets due to the time necessary to create the
 #' cluster.
 #'
-#' @return \link{SDMtune} object.
+#' @seealso \code{\link{randomSearch}} and \code{\link{optimizeModel}}
+#'
+#' @return \linkS4class{SDMtune} object.
 #' @export
 #' @importFrom progress progress_bar
 #'
-#' @examples \dontrun{output <- gridSearch(my_model, hypers = list( "reg" =
-#' c(0.5, 1, 1.5), "fc" = c("lq", "lqp", "lqph"), "a" = c(5000, 10000, 15000)),
-#' bg4test = bg, test = my_val)}
+#' @examples
+#' \donttest{
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Split presence locations in training (80%) and testing (20%) datasets
+#' datasets <- trainValTest(presence, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Train a model
+#' model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+#'
+#' # Define the hyperparameters to test
+#' h <- list(reg = 1:2, fc = c("lqp", "lqph"), a = c(1000, 2000))
+#'
+#' # Run the function using as metric the AUC
+#' output <- gridSearch(model, hypers = h, metric = "auc", test = test,
+#'                      bg4test = bg)
+#' output@results
+#' output@models
+#'
+#' # Run the function using as metric the AICc and without saving the trained
+#' # models, helpful when numerous hyperparameters are tested to avoid memory
+#' # problems
+#' output <- gridSearch(model, hypers = h, metric = "aicc", bg4test = bg,
+#'                      env = predictors, save_models = FALSE)
+#' output@results
+#' }
+#'
 #'
 #' @author Sergio Vignali
 gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
