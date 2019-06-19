@@ -5,8 +5,8 @@
 #' one.
 #'
 #' @param coords data.frame or matrix with the coordinates.
-#' @param env \link{stack} containing the environmental variables, or a single
-#' \link{raster} layer.
+#' @param env \code{\link[raster]{stack}} containing the environmental
+#' variables, or a single \code{\link[raster]{raster}} layer.
 #'
 #' @details **coords** and **env** must have the same coordinate reference
 #' system.
@@ -16,10 +16,22 @@
 #' @importFrom raster cellFromXY extract
 #' @importFrom stats complete.cases
 #'
-#' @examples \dontrun{
-#' thinData(my_coords, my_env)}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 9000)
+#'
+#' nrow(bg_coords)
+#'
+#' # Thin the locations
+#' thinned_bg <- thinData(bg_coords, env = predictors)
+#' nrow(thinned_bg)
 thinData <- function(coords, env) {
 
   # Convert coords in matrix

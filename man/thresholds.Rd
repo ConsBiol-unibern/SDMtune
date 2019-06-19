@@ -7,13 +7,13 @@
 thresholds(model, type, test = NULL)
 }
 \arguments{
-\item{model}{\link{SDMmodel} object.}
+\item{model}{\linkS4class{SDMmodel} object.}
 
 \item{type}{character. The output type, possible values are "cloglog" and
 "logistic", default is "cloglog".}
 
-\item{test}{\link{SWD} test locations, if not provided it returns the
-training and test thresholds, default is NULL.}
+\item{test}{\linkS4class{SWD} test locations, if not provided it returns the
+training and test thresholds, default is \code{NULL}.}
 }
 \value{
 data.frame with the thresholds.
@@ -33,8 +33,36 @@ checks that test points are predicted no better than by a random prediction
 with the same fractional predicted area.
 }
 \examples{
-\dontrun{thresholds(model, type = "logistic")}
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(presence, test = 0.2)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a model
+model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+
+# Get the cloglog thresholds
+thresholds(model, type = "cloglog")
+
+# Get the logistic thresholds passing the test dataset
+thresholds(model, type = "logistic", test = test)
 }
 \author{
 Sergio Vignali

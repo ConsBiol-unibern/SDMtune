@@ -9,8 +9,8 @@ thinData(coords, env)
 \arguments{
 \item{coords}{data.frame or matrix with the coordinates.}
 
-\item{env}{\link{stack} containing the environmental variables, or a single
-\link{raster} layer.}
+\item{env}{\code{\link[raster]{stack}} containing the environmental
+variables, or a single \code{\link[raster]{raster}} layer.}
 }
 \value{
 a data frame with the thinned locations.
@@ -25,9 +25,19 @@ one.
 system.
 }
 \examples{
-\dontrun{
-thinData(my_coords, my_env)}
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 9000)
+
+nrow(bg_coords)
+
+# Thin the locations
+thinned_bg <- thinData(bg_coords, env = predictors)
+nrow(thinned_bg)
 }
 \author{
 Sergio Vignali

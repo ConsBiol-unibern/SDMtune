@@ -12,6 +12,7 @@
 #' @seealso \code{\link{maxentVarImp}}
 #'
 #' @examples
+#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -29,13 +30,7 @@
 #' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
 #'                  env = predictors, categorical = "biome")
 #'
-#' # Train a model
-#' # In order to train a "Maxent" model you need the "maxent.jar" file
-#' # version 3.4.1 or higher in the correct folder
-#' j <- file.path(system.file(package = "dismo"), "java", "maxent.jar")
-#' # Check if the file exists before training the model, this is not necessary
-#' # in your code
-#' if (file.exists(j)) {
+#' # Train a Maxent model
 #' model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
 #' maxentTh(model)
 #' }

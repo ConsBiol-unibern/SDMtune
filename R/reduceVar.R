@@ -8,33 +8,78 @@
 #' stops removing the variable even if the contribution is lower than the given
 #' threshold.
 #'
-#' @param model S\link{SDMmodel} or \link{SDMmodelCV} object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param th numeric. The contribution threshold used to remove variables.
 #' @param metric character. The metric used to evaluate the models, possible
-#' values are: "auc", "tss" and "aicc", used only if use_jk is TRUE.
-#' @param test \link{SWD}. Test dataset used to evaluate the model, not used
-#' with aicc, and if use_jk = FALSE, default is NULL.
-#' @param env \link{stack} containing the environmental variables, used only
-#' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, default is
-#' FALSE. Used only with AICc.
+#' values are: "auc", "tss" and "aicc", used only if use_jk is \code{TRUE}.
+#' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
+#' used with aicc, and if \code{use_jk = FALSE}, default is \code{NULL}.
+#' @param env \code{\link[raster]{stack}} containing the environmental
+#' variables, used only with "aicc", default is \code{NULL}.
+#' @param parallel logical, if \code{TRUE} it uses parallel computation, default
+#' is \code{FALSE}. Used only with AICc.
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
-#' selection, if FALSE the function uses the percent variable contribution,
-#' default is FALSE.
-#' @param permut integer. Number of permutations, used if use_pc is FALSE,
-#' default is 10.
-#' @param use_pc logical, use percent contribution. If TRUE and the model is
-#' trained using the \link{Maxent} method, the algorithm uses the percent
-#' contribution computed by Maxent software to score the variable importance,
-#' default is FALSE.
+#' selection, if \code{FALSE} the function uses the percent variable
+#' contribution, default is \code{FALSE}.
+#' @param permut integer. Number of permutations, used if use_pc is
+#' \code{FALSE}, default is 10.
+#' @param use_pc logical, use percent contribution. If \code{TRUE} and the model
+#' is trained using the \linkS4class{Maxent} method, the algorithm uses the
+#' percent contribution computed by Maxent software to score the variable
+#' importance, default is \code{FALSE}.
 #'
 #' @return The model trained using the selected variables.
 #' @export
 #'
-#' @examples
-#' \dontrun{model <- reduveVar(model = model, th = 2)}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' \donttest{
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Split presence locations in training (80%) and testing (20%) datasets
+#' datasets <- trainValTest(presence, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Train a Maxnet model
+#' model <- train(method = "Maxnet", p = train, a = bg, fc = "lq")
+#'
+#' # Remove all variables with permuation importance lower than 2%
+#' output <- reduceVar(model, th = 2, metric = "auc", test = test, permut = 1)
+#'
+#' # Remove variables with permuation importance lower than 2% only if testing
+#' # TSS doesn't decrease
+#' output <- reduceVar(model, th = 2, metric = "tss", test = test, permut = 1,
+#'                     use_jk = TRUE)
+#'
+#' # Remove variables with permuation importance lower than 2% only if AICc
+#' # doesn't increase
+#' output <- reduceVar(model, th = 2, metric = "aicc", permut = 1,
+#'                     use_jk = TRUE, env = predictors)
+#'
+#' # Train a Maxent model
+#' model <- train(method = "Maxent", p = train, a = bg, fc = "lq")
+#'
+#' # Remove all variables with percent contribution lower than 2%
+#' output <- reduceVar(model, th = 2, metric = "auc", test = test,
+#'                     use_pc = TRUE)
+#' }
 reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                       parallel = FALSE, use_jk = FALSE, permut = 10,
                       use_pc = FALSE) {

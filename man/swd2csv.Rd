@@ -7,16 +7,30 @@
 swd2csv(swd, file_name)
 }
 \arguments{
-\item{swd}{\link{SWD} object.}
+\item{swd}{\linkS4class{SWD} object.}
 
 \item{file_name}{character. The name of the file where to save the object.}
 }
 \description{
-Save a \link{SWD} object as csv file.
+Save a \linkS4class{SWD} object as csv file.
 }
 \examples{
-\dontrun{swd2csv(train, "train_data.csv")}
+\donttest{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+
+# Save the SWD objct as csv file
+swd2csv(train, "train_data.csv")
+}
 }
 \author{
 Sergio Vignali
