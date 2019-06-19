@@ -1,36 +1,3 @@
-#' Train Maxent model
-#'
-#' Train a \link{Maxent} model using the dismo package. The function runs Maxent
-#' model with a minimum setting of optional arguments (e.g. it doesn't make the
-#' response curves) to speed up the computation time. Use \link{modelReport}
-#' function to set more arguments (i.e. response curves) and save the output
-#' permanently in a folder.
-#'
-#' @param p \link{SWD} object with the presence locations.
-#' @param a \link{SWD} object with the background locations.
-#' @param reg numeric. The value of the regularization multiplier, default is 1.
-#' @param fc vector. The value of the feature classes, possible values are
-#' combinations of "l", "q", "p", "h" and "t", default is "lqph".
-#' @param iter numeric. Number of iterations used by the MaxEnt algorithm,
-#' default is 500.
-#' @param extra_args vector. Extra arguments used to run MaxEnt, default is
-#' "removeduplicates=false" and "addsamplestobackground=false".
-#'
-#'
-#' @details By default the function uses
-#' **extra_args = c("removeduplicates=false, addsamplestobackground=false)"**.
-#' In case this is not your expected behavior you can assign extra_args = "" or
-#' you can add any other additional arguments extending the previous vector.
-#'
-#' @return A \link{SDMmodel} object.
-#' @export
-#' @importFrom dismo maxent
-#' @importFrom utils packageVersion read.csv
-#'
-#' @examples
-#' \dontrun{model <- trainMaxent(p, a)}
-#'
-#' @author Sergio Vignali
 trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
                         extra_args = c("removeduplicates=false",
                                        "addsamplestobackground=false")) {

@@ -76,8 +76,6 @@ reference:
   - '`predict,Maxent-method`'
   - '`predict,SDMmodel-method`'
   - '`train`'
-  - '`trainMaxent`'
-  - '`trainMaxnet`'
   - '`thresholds`'
   - '`varImp`'
 - title: Evaluating

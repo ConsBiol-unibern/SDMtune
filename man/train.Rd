@@ -10,36 +10,91 @@ train(method = c("Maxent", "Maxnet"), p, a, rep = 1, verbose = TRUE,
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
 
-\item{p}{\link{SWD} object with the presence locations.}
+\item{p}{\linkS4class{SWD} object with the presence locations.}
 
-\item{a}{\link{SWD} object with the absence or background locations.}
+\item{a}{\linkS4class{SWD} object with the absence or background locations.}
 
 \item{rep}{numeric. Number of replicates, used for cross validation.
 Default is 1, meaning no cross validation is performed.}
 
-\item{verbose}{logical if TRUE shows a progress bar if replicates is greater
-then 1, default is TRUE.}
+\item{verbose}{logical if \code{TRUE} shows a progress bar if replicates are
+greater then 1, default is \code{TRUE}.}
 
 \item{folds}{numeric. Vector containing the indexes for the k-fold partition
 of the training data, if not provided the function randomly creates the
-folds, default is NULL.}
+folds, default is \code{NULL}.}
 
 \item{seed}{integer. The value used to set the seed for the fold partition,
-used if \strong{folds} is not provided, default is NULL.}
+used if \strong{folds} is not provided, default is \code{NULL}.}
 
-\item{...}{Arguments passed to the relative functions, see \link{trainMaxent}
-or \link{trainMaxnet} for details related to the different methods.}
+\item{...}{Arguments passed to the relative method, see details.}
 }
 \value{
-A \link{SDMmodel} or \link{SDMmodelCV} object.
+An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 }
 \description{
 Train a model using the given method.
 }
+\details{
+\itemize{
+\item For the Maxent method, possible arguments are:
+\itemize{
+\item reg: numeric. The value of the regularization multiplier, default is 1.
+\item fc: vector. The value of the feature classes, possible values are
+combinations of "l", "q", "p", "h" and "t", default is "lqph".
+\item iter: numeric. Number of iterations used by the MaxEnt algorithm,
+default is 500.
+\item extra_args: vector. Extra arguments used to run MaxEnt, default is
+"removeduplicates=false" and "addsamplestobackground=false". In case
+this is not your expected behavior you can assign extra_args = "" or
+you can change or add any other additional arguments extending the
+default settings (e.g. \code{extra_args = c("removeduplicates=true,
+      addsamplestobackground=true)"**})
+}
+\item For the Maxnet method, possible arguments are:
+\itemize{
+\item reg: numeric. The value of the regularization intensity, default is 1.
+\item fc: vector. The value of the feature classes, possible values are
+combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
+details see \code{\link[maxnet]{maxnet}}.
+}
+}
+}
 \examples{
-\dontrun{
-model <- train("Maxnet", p, a, reg = 2, fc = "lqp")}
+\donttest{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(presence, test = 0.2)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a Maxent model
+model <- train(method = "Maxent", p = train, a = bg, fc = "l", reg = 1.5,
+               iter = 700)
+
+# Train a Maxnet model
+model <- train(method = "Maxnet", p = train, a = bg, fc = "lq", reg = 1.5)
+
+# Train a Maxnet model with cross validation
+model <- train(method = "Maxnet", p = train, a = bg, fc = "l", reg = 0.8,
+               rep = 4)
+}
 }
 \author{
 Sergio Vignali
