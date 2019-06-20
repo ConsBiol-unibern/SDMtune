@@ -22,6 +22,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
+#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -48,8 +49,9 @@
 #' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
 #'
 #' # Compute variable importance
-#' vi <- varImp(model, permut = 2)
+#' vi <- varImp(model, permut = 5)
 #' vi
+#' }
 varImp <- function(model, permut = 10) {
 
   set.seed(25)

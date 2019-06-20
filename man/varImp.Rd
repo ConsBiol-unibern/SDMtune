@@ -28,6 +28,7 @@ Note that it could return values slightly different from MaxEnt java
 software due to a different random permutation.
 }
 \examples{
+\donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
@@ -54,8 +55,9 @@ test <- datasets[[2]]
 model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
 
 # Compute variable importance
-vi <- varImp(model, permut = 2)
+vi <- varImp(model, permut = 5)
 vi
+}
 }
 \author{
 Sergio Vignali
