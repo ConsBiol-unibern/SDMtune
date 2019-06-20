@@ -241,7 +241,8 @@ cluster.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Acquire environmental variables</span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>files</span>)
@@ -254,8 +255,10 @@ cluster.</p>
 
 <span class='co'># Create SWD object</span>
 <span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for given locations...</span></div><div class='input'><span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for given locations...</span></div><div class='output co'>#&gt; <span class='message'>Warning: 4 locations are NA for some environmental variables, they will be discard!</span></div><div class='input'>
+                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
 <span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>presence</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
@@ -270,197 +273,11 @@ cluster.</p>
 <span class='co'># Run the function using as metric the AUC</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>randomSearch</span>(<span class='no'>model</span>, <span class='kw'>hypers</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
                        <span class='kw'>bg4test</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
-<span class='no'>output</span>@<span class='kw'>results</span></div><div class='output co'>#&gt;       a   fc reg train_AUC test_AUC diff_AUC
-#&gt; 1  4500 lqph   1    0.9387   0.9152   0.0235
-#&gt; 2  3000 lqph   2    0.9332   0.9146   0.0186
-#&gt; 3  3500   lh   1    0.9357   0.9137   0.0220
-#&gt; 4  4000   lh   2    0.9270   0.9076   0.0194
-#&gt; 5  4500 lqph   3    0.9266   0.9074   0.0192
-#&gt; 6  4000 lqph   3    0.9257   0.9071   0.0186
-#&gt; 7  3000  lqp   2    0.9255   0.9015   0.0240
-#&gt; 8  4000  lqp   1    0.9240   0.8995   0.0245
-#&gt; 9  3500  lqp   1    0.9235   0.8989   0.0246
-#&gt; 10 4500  lqp   2    0.9237   0.8983   0.0254</div><div class='input'><span class='no'>output</span>@<span class='kw'>models</span></div><div class='output co'>#&gt; [[1]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4500
-#&gt; fc: lqph
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[2]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 3000
-#&gt; fc: lqph
-#&gt; reg: 2
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[3]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 3500
-#&gt; fc: lh
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[4]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4000
-#&gt; fc: lh
-#&gt; reg: 2
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[5]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4500
-#&gt; fc: lqph
-#&gt; reg: 3
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[6]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4000
-#&gt; fc: lqph
-#&gt; reg: 3
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[7]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 3000
-#&gt; fc: lqp
-#&gt; reg: 2
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[8]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4000
-#&gt; fc: lqp
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[9]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 3500
-#&gt; fc: lqp
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[10]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4500
-#&gt; fc: lqp
-#&gt; reg: 2
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome</div><div class='input'><span class='co'># Order rusults by highest test AUC</span>
-<span class='no'>output</span>@<span class='kw'>results</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/order'>order</a></span>(-<span class='no'>output</span>@<span class='kw'>results</span>$<span class='no'>test_AUC</span>), ]</div><div class='output co'>#&gt;       a   fc reg train_AUC test_AUC diff_AUC
-#&gt; 1  4500 lqph   1    0.9387   0.9152   0.0235
-#&gt; 2  3000 lqph   2    0.9332   0.9146   0.0186
-#&gt; 3  3500   lh   1    0.9357   0.9137   0.0220
-#&gt; 4  4000   lh   2    0.9270   0.9076   0.0194
-#&gt; 5  4500 lqph   3    0.9266   0.9074   0.0192
-#&gt; 6  4000 lqph   3    0.9257   0.9071   0.0186
-#&gt; 7  3000  lqp   2    0.9255   0.9015   0.0240
-#&gt; 8  4000  lqp   1    0.9240   0.8995   0.0245
-#&gt; 9  3500  lqp   1    0.9235   0.8989   0.0246
-#&gt; 10 4500  lqp   2    0.9237   0.8983   0.0254</div></pre>
+<span class='no'>output</span>@<span class='kw'>results</span>
+<span class='no'>output</span>@<span class='kw'>models</span>
+<span class='co'># Order rusults by highest test AUC</span>
+<span class='no'>output</span>@<span class='kw'>results</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/order'>order</a></span>(-<span class='no'>output</span>@<span class='kw'>results</span>$<span class='no'>test_AUC</span>), ]
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

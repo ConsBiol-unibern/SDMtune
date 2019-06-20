@@ -231,7 +231,8 @@ to the time necessary to create the cluster.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Acquire environmental variables</span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>files</span>)
@@ -244,8 +245,10 @@ to the time necessary to create the cluster.</p>
 
 <span class='co'># Create SWD object</span>
 <span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for given locations...</span></div><div class='input'><span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for given locations...</span></div><div class='output co'>#&gt; <span class='message'>Warning: 4 locations are NA for some environmental variables, they will be discard!</span></div><div class='input'>
+                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
 <span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>presence</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
@@ -256,351 +259,27 @@ to the time necessary to create the cluster.</p>
 
 <span class='co'># Execute the Jackknife test only for the environmental variables "bio1" and</span>
 <span class='co'># "bio12", using the metric AUC</span>
-<span class='fu'>doJk</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"bio1"</span>, <span class='st'>"bio12"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)</div><div class='output co'>#&gt;   Variable Train_AUC_without Train_AUC_withonly Test_AUC_without
-#&gt; 1     bio1            0.9219             0.8523           0.9150
-#&gt; 2    bio12            0.9217             0.7345           0.9156
-#&gt;   Test_AUC_withonly
-#&gt; 1            0.8492
-#&gt; 2            0.7044</div><div class='input'>
+<span class='fu'>doJk</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"bio1"</span>, <span class='st'>"bio12"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)
+
 <span class='co'># Execute the Jackknife test only for the environmental variables "bio1" and</span>
 <span class='co'># "bio12", using the metric TSS but without running the test for one single</span>
 <span class='co'># variable</span>
 <span class='fu'>doJk</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"tss"</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"bio1"</span>, <span class='st'>"bio12"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
-     <span class='kw'>with_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;   Variable Train_TSS_without Test_TSS_without
-#&gt; 1     bio1            0.7330           0.7244
-#&gt; 2    bio12            0.7323           0.7372</div><div class='input'>
+     <span class='kw'>with_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
 <span class='co'># Execute the Jackknife test only for the environmental variables "bio1" and</span>
 <span class='co'># "bio12", using the metric AICc but without running the test for one single</span>
 <span class='co'># variable</span>
 <span class='fu'>doJk</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"aicc"</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"bio1"</span>, <span class='st'>"bio12"</span>),
-     <span class='kw'>with_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("predict"): no applicable method for 'predict' applied to an object of class "c('RasterStack', 'Raster', 'RasterStackBrick', 'BasicRaster')"</span></div><div class='input'>
+     <span class='kw'>with_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)
+
 <span class='co'># Execute the Jackknife test for all the environmental variables using the</span>
 <span class='co'># metric AUC and returning all the trained models</span>
 <span class='no'>jk</span> <span class='kw'>&lt;-</span> <span class='fu'>doJk</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>, <span class='kw'>return_models</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>jk</span>$<span class='no'>results</span></div><div class='output co'>#&gt;   Variable Train_AUC_without Train_AUC_withonly Test_AUC_without
-#&gt; 1     bio1            0.9219             0.8523           0.9150
-#&gt; 2    bio12            0.9217             0.7345           0.9156
-#&gt; 3    bio16            0.9218             0.7061           0.9157
-#&gt; 4    bio17            0.9228             0.6667           0.9152
-#&gt; 5     bio5            0.9209             0.8681           0.9142
-#&gt; 6     bio6            0.9208             0.8054           0.9148
-#&gt; 7     bio7            0.9224             0.7306           0.9156
-#&gt; 8     bio8            0.9180             0.8445           0.9132
-#&gt; 9    biome            0.9130             0.7754           0.9033
-#&gt;   Test_AUC_withonly
-#&gt; 1            0.8492
-#&gt; 2            0.7044
-#&gt; 3            0.6867
-#&gt; 4            0.6422
-#&gt; 5            0.8877
-#&gt; 6            0.7789
-#&gt; 7            0.6814
-#&gt; 8            0.8441
-#&gt; 9            0.7490</div><div class='input'><span class='no'>jk</span>$<span class='no'>models_without</span></div><div class='output co'>#&gt; [[1]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[2]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[3]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[4]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[5]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[6]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[7]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio8 
-#&gt; Categorical: biome
-#&gt; [[8]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 
-#&gt; Categorical: biome
-#&gt; [[9]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: NA</div><div class='input'><span class='no'>jk</span>$<span class='no'>models_withonly</span></div><div class='output co'>#&gt; [[1]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 
-#&gt; Categorical: NA
-#&gt; [[2]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio12 
-#&gt; Categorical: NA
-#&gt; [[3]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio16 
-#&gt; Categorical: NA
-#&gt; [[4]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio17 
-#&gt; Categorical: NA
-#&gt; [[5]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio5 
-#&gt; Categorical: NA
-#&gt; [[6]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio6 
-#&gt; Categorical: NA
-#&gt; [[7]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio7 
-#&gt; Categorical: NA
-#&gt; [[8]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio8 
-#&gt; Categorical: NA
-#&gt; [[9]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Vultur gryphus 
-#&gt; Presence locations: 408 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; a: 4996
-#&gt; fc: lq
-#&gt; reg: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: NA 
-#&gt; Categorical: biome</div></pre>
+<span class='no'>jk</span>$<span class='no'>results</span>
+<span class='no'>jk</span>$<span class='no'>models_without</span>
+<span class='no'>jk</span>$<span class='no'>models_withonly</span>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
