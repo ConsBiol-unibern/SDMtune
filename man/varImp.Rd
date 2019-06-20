@@ -7,7 +7,7 @@
 varImp(model, permut = 10)
 }
 \arguments{
-\item{model}{\link{SDMmodel} object.}
+\item{model}{\linkS4class{SDMmodel} object.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
 }
@@ -28,9 +28,34 @@ Note that it could return values slightly different from MaxEnt java
 software due to a different random permutation.
 }
 \examples{
-\dontrun{
-varImp(model, permut = 50)}
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
 
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
+# Create SWD object
+presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+                       env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+                 env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(presence, test = 0.2)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a model
+model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+
+# Compute variable importance
+vi <- varImp(model, permut = 2)
+vi
 }
 \author{
 Sergio Vignali

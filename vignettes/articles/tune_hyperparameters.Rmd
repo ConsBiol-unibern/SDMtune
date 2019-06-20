@@ -68,6 +68,18 @@ and you can also recreate the interactive chart using:
 plot(exp_1, interactive = TRUE)
 ```
 
+The results are stored in the slot `@results`:
+```{r slot results}
+exp_1@results
+```
+
+You can order them with:
+```{r order results}
+exp_1@results[order(-exp_1@results$test_AUC), ]
+```
+
+
+
 ### Try yourself
 Try to see how TSS changes varying the regularization multiplier from 0.5 to 3 with increments of 0.5 (highlight to see the solution):
 ```{r exercise 1, eval=FALSE, class.source='exercise'}

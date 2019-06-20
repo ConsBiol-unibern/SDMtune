@@ -187,14 +187,40 @@
 #' Returns the name of all function arguments that can be tuned for a given
 #' model.
 #'
-#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #'
 #' @return character vector
 #' @export
 #'
-#' @examples \dontrun{get_tunable_args(my_model)}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Train a Maxent model and get tunable hyperparameters
+#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+#' get_tunable_args(model)
+#'
+#' \donttest{
+#' # Train a Maxnet model and get tunable hyperparameters
+#' model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
+#' get_tunable_args(model)
+#' }
 get_tunable_args <- function(model) {
 
   if (class(model) == "SDMmodelCV") {

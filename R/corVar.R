@@ -45,7 +45,7 @@ corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
                    remove_diagonal = TRUE) {
 
   if (class(bg) != "SWD")
-    stop("bg must be a SWD object!")
+    stop("bg must be an SWD object!")
 
   df <- bg@data
   # Remove categorical environmental variables

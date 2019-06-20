@@ -9,42 +9,92 @@
 #' model when removed (according to the given metric). The process is repeated
 #' until the remaining variables are not highly correlated anymore.
 #'
-#' @param model \link{SDMmodel} or \link{SDMmodelCV} object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param bg4cor \link{SWD} object. Background locations used to test the
+#' @param bg4cor \linkS4class{SWD} object. Background locations used to test the
 #' correlation between environmental variables.
-#' @param test \link{SWD}. Test dataset used to evaluate the model, not used
-#' with aicc and \link{SDMmodelCV} objects, default is NULL.
-#' @param env \link{stack} containing the environmental variables, used only
-#' with "aicc", default is NULL.
-#' @param parallel logical, if TRUE it uses parallel computation, default is
-#' FALSE. Used only with AICc.
+#' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
+#' used with aicc and \linkS4class{SDMmodelCV} objects, default is \code{NULL}.
+#' @param env \code{\link[raster]{stack}} containing the environmental
+#' variables, used only with "aicc", default is \code{NULL}.
+#' @param parallel logical, if \code{TRUE} it uses parallel computation, default
+#' is \code{FALSE}. Used only with AICc.
 #' @param method character. The method used to compute the correlation matrix,
 #' default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly
 #' correlated variables, default is 0.7.
 #' @param permut integer. Number of permutations, default is 10.
-#' @param use_pc logical, use percent contribution. If TRUE and the model is
-#' trained using the \link{Maxent} method, the algorithm uses the percent
-#' contribution computed by Maxent software to score the variable importance,
-#' default is FALSE.
+#' @param use_pc logical, use percent contribution. If \code{TRUE} and the model
+#' is trained using the \code{\link{Maxent}} method, the algorithm uses the
+#' percent contribution computed by Maxent software to score the variable
+#' importance, default is \code{FALSE}.
 #'
 #' @details Parallel computation increases the speed only for large datasets due
 #' to the time necessary to create the cluster.\cr
 #' To find highly correlated variables the following formula is used:
 #' \deqn{| coeff | \le cor_th}
 #'
-#' @return The \link{SDMmodel} or \link{SDMmodelCV} object trained using the
-#' selected variables.
+#' @return The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained
+#' using the selected variables.
 #' @export
 #' @importFrom progress progress_bar
 #' @importFrom stats cor
 #'
-#' @examples \dontrun{
-#' varSel(model, bg, metric = "auc")}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' \donttest{
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 10000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Get subsample of background to train the model, we will use the full
+#' # dataset to compute the correlation among the environmental variables
+#' bg_model <- getSubsample(bg, 5000, seed = 25)
+#'
+#' # Split presence locations in training (80%) and testing (20%) datasets
+#' datasets <- trainValTest(presence, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Train a Maxent model
+#' model <- train(method = "Maxent", p = train, a = bg_model, fc = "l")
+#'
+#' # Remove variables with correlation higher than 0.7 accounting for the AUC,
+#' # in the following example the variable importance is computed as permutation
+#' # importance
+#' vs <- varSel(model, metric = "auc", bg4cor = bg, test = test, cor_th = 0.7,
+#'              permut = 1)
+#' vs
+#'
+#' # Remove variables with correlation higher than 0.7 accounting for the TSS,
+#' # in the following example the variable importance is the MaxEnt percent
+#' # contribution
+#' vs <- varSel(model, metric = "tss", bg4cor = bg, test = test, cor_th = 0.7,
+#'              use_pc = TRUE)
+#' vs
+#'
+#' # Remove variables with correlation higher than 0.7 accounting for the aicc,
+#' # in the following example the variable importance is the MaxEnt percent
+#' # contribution
+#' vs <- varSel(model, metric = "aicc", bg4cor = bg, cor_th = 0.7,
+#'              use_pc = TRUE, env = predictors)
+#' vs
+#' }
 varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
                    parallel = FALSE, method = "spearman", cor_th = 0.7,
                    permut = 10, use_pc = FALSE) {

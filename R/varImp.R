@@ -8,7 +8,7 @@
 #' than one permutation (default is 10) the average of the decrease in training
 #' AUC is computed.
 #'
-#' @param model \link{SDMmodel} object.
+#' @param model \linkS4class{SDMmodel} object.
 #' @param permut integer. Number of permutations, default is 10.
 #'
 #' @details Note that it could return values slightly different from MaxEnt java
@@ -19,11 +19,37 @@
 #' @importFrom stats sd
 #' @importFrom progress progress_bar
 #'
-#' @examples
-#' \dontrun{
-#' varImp(model, permut = 50)}
-#'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Split presence locations in training (80%) and testing (20%) datasets
+#' datasets <- trainValTest(presence, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Train a model
+#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+#'
+#' # Compute variable importance
+#' vi <- varImp(model, permut = 2)
+#' vi
 varImp <- function(model, permut = 10) {
 
   set.seed(25)

@@ -1,3 +1,4 @@
+#' @importFrom maxnet maxnet maxnet.formula
 trainMaxnet <- function(p, a, reg = 1, fc = "lqph") {
 
   result <- SDMmodel(p = p, a = a)

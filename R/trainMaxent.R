@@ -1,3 +1,4 @@
+#' @importFrom dismo maxent
 trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
                         extra_args = c("removeduplicates=false",
                                        "addsamplestobackground=false")) {
