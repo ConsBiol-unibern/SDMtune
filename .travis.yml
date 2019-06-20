@@ -11,5 +11,5 @@ after_success:
 
 deploy:
   provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github()'
+  script: Rscript -e 'pkgdown::deploy_site_github(examples = FALSE)'
   skip_cleanup: true
