@@ -37,7 +37,13 @@ analysis](https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_d
 
 ## Installation
 
-You can install the latest development version from GitHub:
+You can install the latest release version from CRAN:
+
+``` r
+install.packages("SDMtune")
+```
+
+Or the development version from GitHub:
 
 ``` r
 devtools::install_github("ConsBiol-unibern/SDMtune")

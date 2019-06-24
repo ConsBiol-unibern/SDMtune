@@ -28,7 +28,13 @@ Visit the [package website](https://consbiol-unibern.github.io/SDMtune/) and lea
 
 ## Installation
 
-You can install the latest development version from GitHub:
+You can install the latest release version from CRAN:
+
+```{r cran-installation, eval = FALSE}
+install.packages("SDMtune")
+```
+
+Or the development version from GitHub:
 
 ```{r gh-installation, eval = FALSE}
 devtools::install_github("ConsBiol-unibern/SDMtune")
