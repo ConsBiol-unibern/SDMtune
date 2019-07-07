@@ -84,7 +84,7 @@ tss <- function(model, test = NULL) {
     tss <- mean(tsss)
   }
 
-  return(round(tss, 4))
+  return(tss)
 }
 
 .compute_tss <- function(model, test) {

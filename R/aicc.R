@@ -75,7 +75,6 @@ aicc <- function(model, env, parallel = FALSE){
     n <- nrow(model@p@data)
     aic <- 2 * k - 2 * loglike
     aicc <- aic + (2 * k * (k + 1) / (n - k - 1))
-    aicc <- round(aicc, 4)
   }
 
   return(aicc)

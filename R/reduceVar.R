@@ -92,6 +92,9 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     stop(paste("Percent contribution cannot be used with model of method",
                .get_model_class(model)))
 
+  if (class(model) == "SDMmodelCV")
+    test <- TRUE
+
   variables_reduced <- FALSE
   first_iter <- TRUE
   removed_vars <- c()
