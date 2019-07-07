@@ -1,5 +1,7 @@
 context("Confusion matrix")
 
+skip_on_cran()
+
 cm <- confMatrix(SDMtune:::bm_maxnet, th = 0.4)
 
 test_that("There is the correct number of thresholds when passing th", {
