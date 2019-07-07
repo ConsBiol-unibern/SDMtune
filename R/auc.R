@@ -86,7 +86,7 @@ auc <- function(model, test = NULL, a = NULL) {
     auc <- mean(aucs)
   }
 
-  return(round(auc, 4))
+  return(auc)
 }
 
 .compute_auc <- function(model, test, a) {
