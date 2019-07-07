@@ -1,0 +1,17 @@
+pandoc: '2.2'
+pkgdown: 1.3.0
+pkgdown_sha: ~
+articles:
+  SDMtune: SDMtune.html
+  evaluate_model: articles/evaluate_model.html
+  evaluation_strategies: articles/evaluation_strategies.html
+  make_predictions: articles/make_predictions.html
+  prepare_data: articles/prepare_data.html
+  train_model: articles/train_model.html
+  tune_hyperparameters: articles/tune_hyperparameters.html
+  variable_importance: articles/variable_importance.html
+  variable_selection: articles/variable_selection.html
+urls:
+  reference: https://consbiol-unibern.github.io/SDMtune//reference
+  article: https://consbiol-unibern.github.io/SDMtune//articles
+
