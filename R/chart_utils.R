@@ -1,3 +1,4 @@
+#' @importFrom rstudioapi viewer
 .create_chart <- function(folder, script, settings, data, height = 300) {
 
   dir.create(folder)

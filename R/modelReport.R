@@ -25,8 +25,10 @@
 #' @export
 #' @importFrom utils menu
 #' @importFrom crayon red green
-#' @importFrom cli symbol
+#' @importFrom cli symbol rule
 #' @importFrom utils browseURL
+#' @importFrom htmltools HTML
+#' @import kableExtra
 #'
 #' @author Sergio Vignali
 #'

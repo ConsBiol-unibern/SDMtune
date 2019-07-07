@@ -1,7 +1,7 @@
 Package: SDMtune
 Type: Package
 Title: Species Distribution Model Selection
-Version: 0.1.0
+Version: 0.1.0.9000
 Date: 2019-06-20
 Authors@R: c(
 	  person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",
@@ -44,8 +44,6 @@ Imports: cli (>= 1.1.0),
          rasterVis (>= 0.45),
          Rcpp (>= 1.0.1),
          reshape2 (>= 1.4.3),
-         rgdal (>= 1.4-4),
-         rJava (>= 0.9-11),
          rstudioapi (>= 0.10),
          scales (>= 1.0.0),
          stringr (>= 1.4.0),
