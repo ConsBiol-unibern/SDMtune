@@ -26,8 +26,8 @@ AUC is computed.
 \details{
 Note that it could return values slightly different from MaxEnt java
 software due to a different random permutation. For SDMmodelCV objects the
-function returns the average over the permutation and the cross validation
-repetitions.
+function returns the average over the permutations and the cross validation
+replications.
 }
 \examples{
 \donttest{
