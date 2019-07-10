@@ -258,7 +258,7 @@ get_tunable_args <- function(model) {
 
   args$verbose <- verbose
 
-  output <- do.call("train", args)
+  output <- suppressMessages(do.call("train", args))
 
   return(output)
 }
