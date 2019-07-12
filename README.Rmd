@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/sgvignali/SDMtune?branch=master&svg=true)](https://ci.appveyor.com/project/sgvignali/SDMtune)
 [![Coverage status](https://codecov.io/gh/ConsBiol-unibern/SDMtune/branch/master/graph/badge.svg)](https://codecov.io/github/ConsBiol-unibern/SDMtune?branch=master)
 [![CRAN Status](https://www.r-pkg.org/badges/version/SDMtune)](https://cran.r-project.org/package=SDMtune)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](.github/CODE_OF_CONDUCT.md)
 
 **SDMtune** provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. At the moment only the Maximum Entropy method is available using the Java implementation [@Phillips2006], through the “dismo” package [@Hijmans2017] and the R implementation through the “maxnet” package [@Phillips2017a]. SDMtune uses its own script to predict MaxEnt models, resulting in much faster predictions for large datasets compared to native predictions from the use of the Java software. This reduces considerably the computation time when tuning the model using the AICc.
