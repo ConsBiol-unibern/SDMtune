@@ -218,15 +218,15 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">vi &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/maxentVarImp.html">maxentVarImp</a></span>(default_model)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">vi</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   Variable Percent_contribution Permutation_importance</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; 1     bio1                 36.0                   42.9</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 2     bio5                 27.3                   16.2</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 3     bio7                 12.4                    9.5</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 4     bio8                  9.5                    5.2</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 5    biome                  7.4                    4.7</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 6    bio17                  4.8                   11.0</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 7    bio16                  2.0                    1.9</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 8     bio6                  0.5                    7.8</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 9    bio12                  0.2                    0.7</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; 1     bio1              35.9528                42.9343</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 2     bio5              27.2611                16.2334</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 3     bio7              12.4123                 9.5452</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 4     bio8               9.4732                 5.1536</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 5    biome               7.3639                 4.7314</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 6    bio17               4.8377                10.9898</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 7    bio16               2.0476                 1.9352</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 8     bio6               0.4814                 7.8030</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 9    bio12               0.1700                 0.6742</span></a></code></pre></div>
 <p>As you can see the function returns a <code>data.frame</code> with the variable name, the percent contribution and the permutation importance.</p>
 <p>You can plot the variable importance as a bar chart using the function <code><a href="../../reference/plotVarImp.html">plotVarImp()</a></code>. For example you can plot the percent contribution using:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../../reference/plotVarImp.html">plotVarImp</a></span>(vi[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])</a></code></pre></div>
