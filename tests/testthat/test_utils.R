@@ -157,3 +157,14 @@ test_that("The function .get_hypers_grid generates the correct grid", {
   expect_type(.get_hypers_grid(model, h)$a, "integer")
   expect_type(.get_hypers_grid(model, h), "list")
 })
+
+test_that("The function .start_server creates the url", {
+  folder <- tempfile("SDMtune")
+  expect_invisible(x <- .start_server(folder))
+  expect_true(startsWith(x, "http://127.0.0.1:"))
+  expect_true(endsWith(x, "/chart_template.html"))
+  expect_true(grepl("/session/SDMtune", x))
+  # No error are raised if the server is already running
+  expect_error(.start_server(folder), NA)
+  rm(folder)
+})

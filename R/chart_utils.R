@@ -17,11 +17,15 @@
   # render script
   .render_script(folder, script, settings, data)
 
-  path <- file.path(folder, "chart_template.html")
   viewer <- getOption("viewer")
   # Show chart in viewer pane if not called from testthat
-  if (!is.null(viewer) & !Sys.getenv("TESTTHAT") == "true") {
-    viewer(path, height = height)
+  if (!Sys.getenv("TESTTHAT") == "true") {
+    if (is.null(viewer)) {
+      .start_server(folder)
+    } else {
+      path <- file.path(folder, "chart_template.html")
+      rstudioapi::viewer(path, height = height)
+    }
   }
   Sys.sleep(.1)
 }
@@ -47,4 +51,18 @@
 .update_data <- function(folder, data) {
   jsonlite::write_json(data, file.path(folder, "data.json"))
   Sys.sleep(.1)
+}
+
+#' @importFrom tools startDynamicHelp
+#' @importFrom utils browseURL
+.start_server <- function(folder) {
+
+  port <- suppressMessages(tools::startDynamicHelp(start = NA))
+
+  if (port != 0) {
+    url <- paste0("http://127.0.0.1:", port, "/session/", basename(folder),
+                  "/chart_template.html")
+    utils::browseURL(url)
+  }
+  return(invisible(url))
 }

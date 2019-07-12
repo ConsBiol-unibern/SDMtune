@@ -12,7 +12,7 @@ status](https://codecov.io/gh/ConsBiol-unibern/SDMtune/branch/master/graph/badge
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/SDMtune)](https://cran.r-project.org/package=SDMtune)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune)
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune)
 [![Contributor
 Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](.github/CODE_OF_CONDUCT.md)
 
