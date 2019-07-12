@@ -3,7 +3,12 @@
 #' Shows the percent contribution and permutation importance of the
 #' environmental variables used to train the model.
 #'
-#' @param model \linkS4class{SDMmodel} object trained using the "Maxent" method.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object
+#' trained using the "Maxent" method.
+#'
+#' @details When an \linkS4class{SDMmodelCV} object is passed to the function,
+#' the output is the average of the variable importance of each model trained
+#' during the cross validation.
 #'
 #' @return A data frame with the variable importance.
 #' @export
@@ -37,21 +42,40 @@
 #' }
 maxentVarImp <- function(model) {
 
-  if (class(model) == "SDMmodelCV")
-    stop("Function not available for SDMmodelCV!")
-
-  if (class(model@model) != "Maxent")
+  if (.get_model_class(model) != "Maxent")
     stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
 
-  input <- model@model@results
-  pc <- input[grepl("contribution", rownames(input)), ]
-  pi <- input[grepl("permutation.importance", rownames(input)), ]
-  variables <- gsub(".contribution", "", names(pc))
-  df <- data.frame(Variable = variables, Percent_contribution = round(pc, 1),
-                   Permutation_importance = round(pi, 1),
-                   row.names = NULL, stringsAsFactors = FALSE)
-
+  if (class(model) == "SDMmodel") {
+    x <- model@model@results
+    df <- .fetch_var_imp(x)
+  } else {
+    vars <- colnames(model@p@data)
+    l <- length(model@models)
+    pcs <- pis <- matrix(nrow = length(vars), ncol = l)
+    for (i in 1:l) {
+      x <- model@models[[i]]@model@results
+      df <- .fetch_var_imp(x)
+      index <- match(df[, 1], vars)
+      pcs[, i] <- df[order(index), 2]
+      pis[, i] <- df[order(index), 3]
+    }
+    df <- data.frame(x = vars, y = rowMeans(pcs), z = rowMeans(pis),
+                     stringsAsFactors = FALSE)
+  }
+  colnames(df) <- c("Variable", "Percent_contribution",
+                    "Permutation_importance")
   df <- df[order(-df$Percent_contribution), ]
   row.names(df) <- NULL
   return(df)
 }
+
+.fetch_var_imp <- function(x) {
+  pc <- x[grepl("contribution", rownames(x)), ]
+  pi <- x[grepl("permutation.importance", rownames(x)), ]
+  variables <- gsub(".contribution", "", names(pc))
+  df <- data.frame(x = variables, y = pc, z = pi, row.names = NULL,
+                   stringsAsFactors = FALSE)
+  return(df)
+}
+
+
