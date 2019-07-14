@@ -14,7 +14,7 @@ setGeneric("predict", function(object, ...)
 #'
 #' @details The function performs the prediction in **R** without calling the
 #' **MaxEnt** Java software. This results in a faster computation for large
-#' datasets.
+#' datasets. The results might differ slightly from the Java software output.
 #'
 #' @include Maxent_class.R
 #'

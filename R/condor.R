@@ -4,7 +4,8 @@
 #' collected from 2008 to 2018. The locations are downloaded from the Global
 #' Biodiversity Inventory Facility and filtered to remove duplicates and keep
 #' only one location per raster cell of the WorldClim dataset. See references
-#' for the original databases containing the observations.
+#' for the original databases containing the observations. Before using the
+#' dataset, please check the GBIF \href{https://www.gbif.org/terms}{Terms of use}.
 #'
 #' @format A data frame with 509 rows and 4 variables:
 #' \describe{
@@ -14,6 +15,12 @@
 #'   \item{datasetKey}{GBIF Key of the corresponding dataset}
 #' }
 #' @source \url{http://www.gbif.org/}
+#'
+#' @details The data have been downloaded using the \code{\link[dismo]{gbif}}
+#' function from the \code{\link{dismo}} package using the following code:
+#'
+#' \code{dismo::gbif(genus = 'Vultur', species = 'gryphus*', geo = TRUE,
+#' removeZeros = TRUE, args = 'year=2008,2018')}
 #'
 #' @references
 #' Levatich T, Padilla F (2017). EOD - eBird Observation Dataset. Cornell Lab of

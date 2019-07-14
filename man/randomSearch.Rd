@@ -44,9 +44,10 @@ provided hyperparameters values.
 }
 \details{
 To know which hyperparameters can be tuned you can use the output of
-the function \code{\link{get_tunable_args}}. Parallel computation increases
-the speed only for large datasets due to the time necessary to create the
-cluster.
+the function \code{\link{get_tunable_args}}. Hyperparameters not included in
+the \code{hypers} argument take the value that they have in the passed model.
+Parallel computation increases the speed only for large datasets due to the
+time necessary to create the cluster.
 }
 \examples{
 \donttest{

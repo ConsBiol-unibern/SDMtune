@@ -58,9 +58,10 @@ hyperparameter configuration according to the chosen metric.
 }
 \details{
 To know which hyperparameters can be tuned you can use the output of
-the function \code{\link{get_tunable_args}}. Parallel computation increases
-the speed only for large datasets due to the time necessary to create the
-cluster. Part of the code is inspired by
+the function \code{\link{get_tunable_args}}. Hyperparameters not included in
+the \code{hypers} argument take the value that they have in the passed model.
+Parallel computation increases the speed only for large datasets due to the
+time necessary to create the cluster. Part of the code is inspired by
 \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164}{this post}.
 }
 \examples{
