@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -211,18 +211,18 @@
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 9    bio12                    1.2</span></a></code></pre></div>
 <p>We will use the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code> only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance lower than 6%:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testin AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9334</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9334373</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">reduced_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/reduceVar.html">reduceVar</a></span>(maxnet_model, <span class="dt">th =</span> <span class="dv">6</span>, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">permut =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Removed variables: bio12, bio16, bio8, bio5</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(reduced_variables_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.9279</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.9278961</span></a></code></pre></div>
 <p>In the second example we want to remove the environmental variables that have a permutation importance lower than 6% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn’t drop:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testin AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9334</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9334373</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3">reduced_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/reduceVar.html">reduceVar</a></span>(maxnet_model, <span class="dt">th =</span> <span class="dv">6</span>, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">permut =</span> <span class="dv">1</span>, <span class="dt">use_jk =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Removed variables: bio12</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(reduced_variables_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.9334</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.9334431</span></a></code></pre></div>
 <p>As you can see in this case only <code>bio12</code> has been removed and the AUC in the testing dataset doesn’t decrease.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">

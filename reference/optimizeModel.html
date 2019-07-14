@@ -81,7 +81,7 @@ hyperparameter configuration according to the chosen metric." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -256,9 +256,10 @@ results, default is <code>NULL</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>To know which hyperparameters can be tuned you can use the output of
-the function <code><a href='get_tunable_args.html'>get_tunable_args</a></code>. Parallel computation increases
-the speed only for large datasets due to the time necessary to create the
-cluster. Part of the code is inspired by
+the function <code><a href='get_tunable_args.html'>get_tunable_args</a></code>. Hyperparameters not included in
+the <code>hypers</code> argument take the value that they have in the passed model.
+Parallel computation increases the speed only for large datasets due to the
+time necessary to create the cluster. Part of the code is inspired by
 <a href='https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164'>this post</a>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

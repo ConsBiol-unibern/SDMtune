@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.1</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>It’s always a good practice to split the presence locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> function for this purpose. Let’s say we want to use 80% of the presence locations to train our model and 20% as testing dataset to evaluate it:</p>
@@ -154,9 +154,9 @@
 <a class="sourceLine" id="cb2-3" data-line-number="3">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">p =</span> train, <span class="dt">a =</span> bg_model)</a></code></pre></div>
 <p>We can now evaluate the model using the testing dataset that has not been used to train the model:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Training auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Training auc:  0.9357</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Training auc:  0.9356831</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Testing auc:  0.9334</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Testing auc:  0.9334373</span></a></code></pre></div>
 <p>This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the AUC:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">output &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">10</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)) <span class="co"># Create an empty data.frame</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(output) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span>)</a>
@@ -172,22 +172,22 @@
 <a class="sourceLine" id="cb4-12" data-line-number="12">}</a>
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># Print the output</span></a>
 <a class="sourceLine" id="cb4-14" data-line-number="14">output</a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;    seed trainAUC testAUC</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 1   647   0.9367  0.9223</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 2   477   0.9360  0.9260</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 3   536   0.9337  0.9297</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 4   444   0.9368  0.9256</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 5   985   0.9344  0.9321</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 6    49   0.9337  0.9416</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; 7    72   0.9346  0.9213</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; 8   617   0.9397  0.9038</span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; 9   282   0.9359  0.9293</span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; 10   59   0.9354  0.9258</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;    seed  trainAUC   testAUC</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 1   647 0.9366676 0.9222853</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 2   477 0.9359743 0.9260333</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 3   536 0.9337147 0.9297304</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 4   444 0.9368316 0.9255784</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 5   985 0.9344353 0.9320618</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 6    49 0.9336963 0.9416235</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; 7    72 0.9346407 0.9213108</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; 8   617 0.9397488 0.9038255</span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; 9   282 0.9358900 0.9292961</span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; 10   59 0.9353799 0.9258363</span></a>
 <a class="sourceLine" id="cb4-26" data-line-number="26"></a>
 <a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co"># compute the range of the testing AUC</span></a>
 <a class="sourceLine" id="cb4-28" data-line-number="28"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(output[, <span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; [1] 0.9038 0.9416</span></a></code></pre></div>
-<p>The testing AUC varies from 0.9038 to 0.9416. When we have to deal with a small dataset a better approach is the cross validation.</p>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; [1] 0.9038255 0.9416235</span></a></code></pre></div>
+<p>The testing AUC varies from 0.9038255 to 0.9416235. When we have to deal with a small dataset a better approach is the cross validation.</p>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
@@ -219,9 +219,9 @@
 #&gt; Categorical: biome</code></pre>
 <p>The output in this case is an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object. It contains the four trained models in the <code>models</code> slot and the index of the fold partition in the <code>folds</code> slot. We can compute the AUC of a <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object using:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model))</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Training AUC:  0.9353</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Training AUC:  0.9353125</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model, <span class="dt">test =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Testing AUC:  0.927</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Testing AUC:  0.9270192</span></a></code></pre></div>
 <p>this returns the AUC value averaged across the four different models.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">

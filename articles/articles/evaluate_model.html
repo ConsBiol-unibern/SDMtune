@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -145,12 +145,12 @@
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.1</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
-<p>The Area Under the ROC curve <span class="citation">(Fielding and Bell 1997)</span> can be calculated using the function <code><a href="../../reference/auc.html">auc()</a></code>:</p>
+<p>The Area Under the ROC curve <span class="citation">(<span class="citeproc-not-found" data-reference-id="Fielding1997"><strong>???</strong></span>)</span> can be calculated using the function <code><a href="../../reference/auc.html">auc()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../../reference/auc.html">auc</a></span>(default_model)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] 0.934</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] 0.9339524</span></a></code></pre></div>
 <p>We can also plot the ROC curve using the function <code><a href="../../reference/plotROC.html">plotROC()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/plotROC.html">plotROC</a></span>(default_model)</a></code></pre></div>
 <p><img src="evaluate_model_files/figure-html/plot%20roc-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -160,7 +160,7 @@
 <a href="#tss" class="anchor"></a>TSS</h2>
 <p>The True Skill Statistic <span class="citation">(Allouche, Tsoar, and Kadmon 2006)</span> is computed with the <code><a href="../../reference/tss.html">tss()</a></code> function:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../../reference/tss.html">tss</a></span>(default_model)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 0.767</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 0.7670118</span></a></code></pre></div>
 </div>
 <div id="aicc" class="section level2">
 <h2 class="hasAnchor">
@@ -192,9 +192,6 @@
 <div id="refs" class="references">
 <div id="ref-ALLOUCHE2006">
 <p>Allouche, Omri, Asaf Tsoar, and Ronen Kadmon. 2006. “Assessing the accuracy of species distribution models: prevalence, kappa and the true skill statistic (TSS).” <em>Journal of Applied Ecology</em> 43 (6). Wiley/Blackwell (10.1111): 1223–32. <a href="https://doi.org/10.1111/j.1365-2664.2006.01214.x" class="uri">https://doi.org/10.1111/j.1365-2664.2006.01214.x</a>.</p>
-</div>
-<div id="ref-Fielding1997">
-<p>Fielding, Alan H., and John F. Bell. 1997. “A review of methods for the assessment of prediction errors in conservation presence/absence models.” <em>Environmental Conservation</em> 24 (1): 38–49. <a href="http://www.dpi.inpe.br/referata/arq/14.Camilo/fielding%7B%5C_%7DBell%7B%5C_%7D1997.pdf" class="uri">http://www.dpi.inpe.br/referata/arq/14.Camilo/fielding{\_}Bell{\_}1997.pdf</a>.</p>
 </div>
 <div id="ref-Warren2011a">
 <p>Warren, Dan L., and Stephanie N. Seifert. 2011. “Ecological niche modeling in Maxent: the importance of model complexity and the performance of model selection criteria.” <em>Ecological Applications</em> 21 (2). John Wiley &amp; Sons, Ltd: 335–42. <a href="https://doi.org/10.1890/10-1171.1" class="uri">https://doi.org/10.1890/10-1171.1</a>.</p>

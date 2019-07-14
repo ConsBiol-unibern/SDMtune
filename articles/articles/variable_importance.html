@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.1</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>For a <strong>Maxent</strong> model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be extracted using the following command:</p>
@@ -217,15 +217,15 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">vi &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/maxentVarImp.html">maxentVarImp</a></span>(default_model)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">vi</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   Variable Percent_contribution Permutation_importance</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; 1     bio1                 36.0                   42.9</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 2     bio5                 27.3                   16.2</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 3     bio7                 12.4                    9.5</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 4     bio8                  9.5                    5.2</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 5    biome                  7.4                    4.7</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 6    bio17                  4.8                   11.0</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 7    bio16                  2.0                    1.9</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 8     bio6                  0.5                    7.8</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 9    bio12                  0.2                    0.7</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; 1     bio1              35.9528                42.9343</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 2     bio5              27.2611                16.2334</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 3     bio7              12.4123                 9.5452</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 4     bio8               9.4732                 5.1536</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 5    biome               7.3639                 4.7314</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 6    bio17               4.8377                10.9898</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 7    bio16               2.0476                 1.9352</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 8     bio6               0.4814                 7.8030</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 9    bio12               0.1700                 0.6742</span></a></code></pre></div>
 <p>As you can see the function returns a <code>data.frame</code> with the variable name, the percent contribution and the permutation importance.</p>
 <p>You can plot the variable importance as a bar chart using the function <code><a href="../../reference/plotVarImp.html">plotVarImp()</a></code>. For example you can plot the percent contribution using:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../../reference/plotVarImp.html">plotVarImp</a></span>(vi[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])</a></code></pre></div>
@@ -252,13 +252,13 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">vi_maxnet &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/varImp.html">varImp</a></span>(maxnet_model, <span class="dt">permut =</span> <span class="dv">5</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">vi_maxnet</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;   Variable Permutation_importance    sd</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 1     bio1                   43.1 0.006</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 1     bio1                   43.2 0.006</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 2     bio5                   15.4 0.005</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 3     bio7                    8.6 0.006</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 3     bio7                    8.6 0.007</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 4    biome                    7.9 0.005</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 5     bio8                    6.8 0.004</span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 6    bio17                    6.7 0.003</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 7     bio6                    6.6 0.003</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 7     bio6                    6.5 0.003</span></a>
 <a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 8    bio16                    3.7 0.002</span></a>
 <a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 9    bio12                    1.2 0.001</span></a></code></pre></div>
 <p>And plot it with:</p>
@@ -284,25 +284,25 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">jk &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/doJk.html">doJk</a></span>(maxnet_model, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">jk</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;   Variable Train_AUC_without Train_AUC_withonly Test_AUC_without</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; 1     bio1            0.9332             0.8485           0.9334</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 2    bio12            0.9356             0.7207           0.9334</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 3    bio16            0.9335             0.7050           0.9335</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 4    bio17            0.9351             0.6475           0.9329</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 5     bio5            0.9326             0.8688           0.9302</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 6     bio6            0.9328             0.8040           0.9317</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 7     bio7            0.9331             0.7224           0.9322</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 8     bio8            0.9318             0.8390           0.9330</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 9    biome            0.9282             0.7662           0.9252</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; 1     bio1         0.9332385          0.8485034        0.9333608</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 2    bio12         0.9356027          0.7207331        0.9334431</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 3    bio16         0.9335449          0.7049985        0.9335490</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 4    bio17         0.9351316          0.6474730        0.9329216</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 5     bio5         0.9325929          0.8688130        0.9301529</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 6     bio6         0.9328012          0.8040495        0.9316941</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 7     bio7         0.9330517          0.7224360        0.9321824</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 8     bio8         0.9317855          0.8389539        0.9330275</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 9    biome         0.9281728          0.7661735        0.9252196</span></a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;   Test_AUC_withonly</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 1            0.8605</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 2            0.7742</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 3            0.7427</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 4            0.7015</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 5            0.8781</span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 6            0.8069</span></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 7            0.7767</span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 8            0.8555</span></a>
-<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; 9            0.7897</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 1         0.8605373</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 2         0.7741647</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 3         0.7426784</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 4         0.7015059</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 5         0.8781088</span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 6         0.8069402</span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 7         0.7766529</span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 8         0.8554745</span></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; 9         0.7897029</span></a></code></pre></div>
 <p>We can also plot the output using the function <code><a href="../../reference/plotJk.html">plotJk()</a></code>. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../../reference/plotJk.html">plotJk</a></span>(jk, <span class="dt">type =</span> <span class="st">"train"</span>, <span class="dt">ref =</span> <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model))</a></code></pre></div>
 <p><img src="variable_importance_files/figure-html/plot%20jk%20train-1.png" width="700" style="display: block; margin: auto;"></p>

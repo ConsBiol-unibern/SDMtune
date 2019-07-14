@@ -86,7 +86,7 @@ AUC is computed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -191,7 +191,7 @@ AUC is computed.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> object.</p></td>
+      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
     </tr>
     <tr>
       <th>permut</th>
@@ -205,8 +205,10 @@ AUC is computed.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that it could return values slightly different from MaxEnt java
+    <p>Note that it could return values slightly different from MaxEnt Java
 software due to a different random permutation.</p>
+<p>For <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects the function returns the average and the
+standard deviation of the permutation importances of the single models.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
