@@ -2,7 +2,7 @@ context("Variable Importance")
 
 skip_on_cran()
 
-test_that("The function produces the correct output", {
+test_that("The function produces the correct output with SDMmodel objects", {
   x <- varImp(SDMtune:::bm_maxent, permut = 2)
   expect_named(x, c("Variable", "Permutation_importance", "sd"))
   expect_equal(class(x), "data.frame")
@@ -13,13 +13,24 @@ test_that("The function produces the correct output", {
                c("Variable", "Permutation_importance"))
 })
 
-test_that("The function produces the correct output for CV models", {
-  x <- varImp(SDMtune:::bm_maxent_cv, permut = 2)
-  expect_named(x, c("Variable", "Permutation_importance", "sd"))
-  expect_equal(class(x), "data.frame")
-  expect_equal(nrow(x), ncol(SDMtune:::bm_maxent@p@data))
-  expect_setequal(x$Variable, colnames(SDMtune:::bm_maxent@p@data))
-  # Column sd is with only one permutation and SDMmodelCV object
-  expect_named(varImp(SDMtune:::bm_maxent_cv, permut = 1),
+test_that("The function produces the correct output with SDMmodelCV objects", {
+
+  model <- SDMtune:::bm_maxent_cv
+  pis <- vector("numeric", length = 4)
+  df <- varImp(model, permut = 1)
+  vars <- colnames(model@p@data)
+  for (v in vars) {
+    for (i in 1:4) {
+      x <- varImp(model@models[[i]], permut = 1)
+      pis[i] <- x[v, 2]
+    }
+    expect_equal(df[v, 2], mean(pis))
+    expect_equal(df[v, 3], sd(pis))
+  }
+  expect_s3_class(df, "data.frame")
+  expect_named(df,
                c("Variable", "Permutation_importance", "sd"))
+  expect_equal(nrow(df), ncol(model@p@data))
+  expect_setequal(x$Variable, colnames(model@p@data))
+  expect_equal(sum(df[, 2]), 100, tolerance = 0.1)
 })

@@ -11,10 +11,11 @@
 #' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param permut integer. Number of permutations, default is 10.
 #'
-#' @details Note that it could return values slightly different from MaxEnt java
-#' software due to a different random permutation. For SDMmodelCV objects the
-#' function returns the average over the permutations and the cross validation
-#' replications.
+#' @details Note that it could return values slightly different from MaxEnt Java
+#' software due to a different random permutation.
+#'
+#' For \code{\link{SDMmodelCV}} objects the function returns the average and the
+#' standard deviation of the permutation importances of the single models.
 #'
 #' @return data.frame with the ordered permutation importance.
 #' @export
@@ -56,44 +57,64 @@
 #' }
 varImp <- function(model, permut = 10) {
 
-  set.seed(25)
   vars <- colnames(model@p@data)
-  model_auc <- auc(model)
+
   if (class(model) == "SDMmodel") {
-    permuted_auc <- matrix(nrow = permut, ncol = length(vars))
+    total <- length(vars)
   } else {
     l <- length(model@models)
-    permuted_auc <- matrix(nrow = (permut * l), ncol = length(vars))
+    total <- length(vars) * l
   }
 
   pb <- progress::progress_bar$new(
     format = "Variable importance [:bar] :percent in :elapsedfull",
-    total = length(vars), clear = FALSE, width = 60, show_after = 0)
+    total = total, clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
+  if (class(model) == "SDMmodel") {
+    model_auc <- auc(model)
+    output <- .compute_permutation(model, model_auc, vars, permut, pb)
+  } else {
+    pis <- matrix(nrow = length(vars), ncol = l)
+    for (i in 1:l) {
+      model_auc <- auc(model@models[[i]])
+      df <- .compute_permutation(model@models[[i]], model_auc, vars, permut, pb)
+      index <- match(df[, 1], vars)
+      pis[, i] <- df[order(index), 2]
+    }
+    output <- data.frame(Variable = vars,
+                         Permutation_importance = rowMeans(pis),
+                         sd = round(apply(pis, 1, sd), 3),
+                         stringsAsFactors = FALSE)
+  }
+
+  output <- output[order(output$Permutation_importance, decreasing = TRUE), ]
+  row.names(output) <- NULL
+
+  return(output)
+}
+
+.compute_permutation <- function(model, model_auc, vars, permut, pb) {
+
+  permuted_auc <- matrix(nrow = permut, ncol = length(vars))
   n_pres <- nrow(model@p@data)
+  set.seed(25)
 
   for (j in 1:length(vars)) {
     for (i in 1:permut) {
       data <- sample(c(model@p@data[, vars[j]], model@a@data[, vars[j]]))
       if (is.factor(model@p@data[, vars[j]]))
         data <- as.factor(data)
-      if (class(model) == "SDMmodel") {
-        permuted_auc[i, j] <- .compute_permutation(model, data, vars[j], n_pres)
-      } else {
-        aucs <- vector("numeric", length = l)
-        for (z in 1:l) {
-          m <- model@models[[z]]
-          folds <- model@folds != z
-          aucs[z] <- .compute_permutation(m, data, vars[j], n_pres, folds)
-        }
-        permuted_auc[(1 + (l * (i - 1))):(i * l), j] <- aucs
-      }
+      p_copy <- model@p
+      p_copy@data[, vars[j]] <- data[1:n_pres]
+      a_copy <- model@a
+      a_copy@data[, vars[j]] <- data[(n_pres + 1):length(data)]
+      permuted_auc[i, j] <- auc(model, p_copy, a = a_copy)
     }
     pb$tick(1)
   }
 
-  if (permut > 1 | class(model) == "SDMmodelCV") {
+  if (permut > 1) {
     sd_auc <- apply(permuted_auc, 2, sd)
     permuted_auc <- apply(permuted_auc, 2, mean)
   }
@@ -104,22 +125,8 @@ varImp <- function(model, permut = 10) {
 
   output <- data.frame(Variable = vars, Permutation_importance = perm_imp,
                        stringsAsFactors = FALSE)
-  if (permut > 1 | class(model) == "SDMmodelCV")
+  if (permut > 1)
     output$sd <- round(sd_auc, 3)
-  output <- output[order(output$Permutation_importance, decreasing = TRUE), ]
-  row.names(output) <- NULL
 
   return(output)
-}
-
-.compute_permutation <- function(model, data, var, n_pres, folds = NULL) {
-  p_copy <- model@p
-  if (is.null(folds)) {
-    p_copy@data[, var] <- data[1:n_pres]
-  } else {
-    p_copy@data[, var] <- data[1:n_pres][folds]
-  }
-  a_copy <- model@a
-  a_copy@data[, var] <- data[(n_pres + 1):length(data)]
-  return(auc(model, p_copy, a = a_copy))
 }

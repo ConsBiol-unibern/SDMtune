@@ -24,10 +24,11 @@ than one permutation (default is 10) the average of the decrease in training
 AUC is computed.
 }
 \details{
-Note that it could return values slightly different from MaxEnt java
-software due to a different random permutation. For SDMmodelCV objects the
-function returns the average over the permutations and the cross validation
-replications.
+Note that it could return values slightly different from MaxEnt Java
+software due to a different random permutation.
+
+For \code{\link{SDMmodelCV}} objects the function returns the average and the
+standard deviation of the permutation importances of the single models.
 }
 \examples{
 \donttest{
