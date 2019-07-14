@@ -53,7 +53,6 @@ Forestal
 GBIF
 Geotiff
 GeoTIFF
-ggplot
 Gómez
 gplot
 Grachev
@@ -64,6 +63,7 @@ GTiff
 Hartley
 Hijmans
 https
+importances
 iNaturalist
 Instituto
 Inventario
@@ -136,8 +136,8 @@ tooltip
 Tsoar
 tss
 TSS
-tunable
 Tunable
+VarImp
 Vazhov
 VERTEBRADOS
 von
