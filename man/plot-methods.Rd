@@ -5,10 +5,12 @@
 \alias{plot,SDMtune,missing-method}
 \title{Plot SDMtune object}
 \usage{
-\S4method{plot}{SDMtune,missing}(x, interactive = FALSE)
+\S4method{plot}{SDMtune,missing}(x, title = "", interactive = FALSE)
 }
 \arguments{
 \item{x}{\link{SDMtune} object.}
+
+\item{title}{character. The title of the plot, by default is an empty string.}
 
 \item{interactive}{logical, if TRUE plot an interactive chart.}
 }

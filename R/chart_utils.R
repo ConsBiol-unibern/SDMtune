@@ -18,7 +18,7 @@
   .render_script(folder, script, settings, data)
 
   viewer <- getOption("viewer")
-  # Show chart in viewer pane if not called from testthat
+  # Show chart if not called from testthat
   if (!Sys.getenv("TESTTHAT") == "true") {
     if (is.null(viewer)) {
       .start_server(folder)

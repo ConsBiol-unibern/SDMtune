@@ -42,6 +42,7 @@ if (!isGeneric("plot"))
 #' interactive chart.
 #'
 #' @param x \link{SDMtune} object.
+#' @param title character. The title of the plot, by default is an empty string.
 #' @param interactive logical, if TRUE plot an interactive chart.
 #'
 #' @rdname plot-methods
@@ -56,7 +57,7 @@ if (!isGeneric("plot"))
 #' @author Sergio Vignali
 setMethod("plot",
   signature(x = "SDMtune", y = "missing"),
-  definition = function(x, interactive = FALSE) {
+  definition = function(x, title = "", interactive = FALSE) {
     res <- x@results
     models <- x@models
 
@@ -75,7 +76,7 @@ setMethod("plot",
     tunable_hypers <- get_tunable_args(models[[1]])
     hyper_cols <- length(tunable_hypers)
     tuned_hypers <- rapply(res[, tunable_hypers], function(x) length(unique(x)))
-    #Show line only one one hyper has be tuned
+    #Show line if only one hyper has be tuned
     show_line <- ifelse(sum(tuned_hypers > 1) == 1, TRUE, FALSE)
 
     x_label <- "model"
@@ -85,7 +86,7 @@ setMethod("plot",
 
     if (interactive) {
       settings <- list(metric = metric,
-                       title = "",
+                       title = title,
                        x_label = x_label,
                        min = min,
                        max = max,
@@ -127,7 +128,7 @@ setMethod("plot",
       p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
                                    group = "type")) +
         geom_point() +
-        labs(x = x_label, y = metric) +
+        labs(x = x_label, y = metric, title = title) +
         scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
         theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5),

@@ -12,14 +12,16 @@ test_that("Non interactive plot is correct", {
   p <- plot(o)
   expect_equal(p$labels$y, "AUC")
   expect_equal(p$labels$x, "model")
+  expect_equal(p$labels$title, "")  # title is not present if not passed
   expect_equal(class(p$layers[[1]]$geom)[1], "GeomPoint")
   expect_equal(class(p$layers[[2]]$geom)[1], "GeomLine")
   expect_equivalent(unique(p$data$type), as.factor(c("Training", "Validation")))
   # TSS
   colnames(o@results) <- c("a", "fc", "reg", "Train_TSS", "Test_TSS",
                            "diff_TSS")
-  p <- plot(o)
+  p <- plot(o, title = "title")
   expect_equal(p$labels$y, "TSS")
+  expect_equal(p$labels$title, "title")  # title present if passed
   # AICc
   o@results <- res[, c(1:5)]
   colnames(o@results) <- c("a", "fc", "reg", "AICc", "delta_AICc")
