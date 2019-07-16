@@ -162,7 +162,8 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   folder <- tempfile("SDMtune")
 
   .create_chart(folder = folder, script = "optimizeModel.js",
-                settings = settings, data = data, height = 500)
+                settings = settings, data = data)
+  .show_chart(folder, height = 500)
 
   # Create data frame with all possible combinations of hyperparameters
   grid <- .get_hypers_grid(model, hypers)

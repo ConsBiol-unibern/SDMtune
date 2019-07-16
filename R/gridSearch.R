@@ -137,6 +137,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
 
   .create_chart(folder = folder, script = "gridSearch.js", settings = settings,
                 data = data)
+  .show_chart(folder)
 
   # Loop through all the settings in grid
   for (i in 1:nrow(grid)) {

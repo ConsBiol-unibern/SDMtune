@@ -112,6 +112,7 @@ setMethod("plot",
 
       .create_chart(folder = folder, script = "gridSearch.js",
                     settings = settings, data = chart_data)
+      .show_chart(folder)
       return(invisible(folder))
     } else {
       if (metric != "AICc") {

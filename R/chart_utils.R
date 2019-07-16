@@ -1,5 +1,4 @@
-#' @importFrom rstudioapi viewer
-.create_chart <- function(folder, script, settings, data, height = 300) {
+.create_chart <- function(folder, script, settings, data) {
 
   dir.create(folder)
 
@@ -16,18 +15,22 @@
 
   # render script
   .render_script(folder, script, settings, data)
+}
 
-  viewer <- getOption("viewer")
+#' @importFrom rstudioapi viewer
+.show_chart <- function(folder, height = 300) {
+
   # Show chart if not called from testthat
   if (!Sys.getenv("TESTTHAT") == "true") {
+    viewer <- getOption("viewer")
     if (is.null(viewer)) {
       .start_server(folder)
     } else {
       path <- file.path(folder, "chart_template.html")
       rstudioapi::viewer(path, height = height)
     }
+    Sys.sleep(.1)
   }
-  Sys.sleep(.1)
 }
 
 #' @importFrom jsonlite toJSON

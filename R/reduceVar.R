@@ -135,7 +135,8 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
 
     if (first_iter) {
       .create_chart(folder = folder, script = "varSelection.js",
-                    settings = settings, data = data, height = 600)
+                    settings = settings, data = data)
+      .show_chart(folder, height = "maximize")
       first_iter <- FALSE
     } else {
       .update_data(folder, data = data)
