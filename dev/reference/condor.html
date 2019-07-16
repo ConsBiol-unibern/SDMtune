@@ -51,7 +51,8 @@
 collected from 2008 to 2018. The locations are downloaded from the Global
 Biodiversity Inventory Facility and filtered to remove duplicates and keep
 only one location per raster cell of the WorldClim dataset. See references
-for the original databases containing the observations." />
+for the original databases containing the observations. Before using the
+dataset, please check the GBIF Terms of use." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -84,7 +85,7 @@ for the original databases containing the observations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.1.9000</span>
       </span>
     </div>
 
@@ -176,7 +177,8 @@ for the original databases containing the observations." />
 collected from 2008 to 2018. The locations are downloaded from the Global
 Biodiversity Inventory Facility and filtered to remove duplicates and keep
 only one location per raster cell of the WorldClim dataset. See references
-for the original databases containing the observations.</p>
+for the original databases containing the observations. Before using the
+dataset, please check the GBIF <a href='https://www.gbif.org/terms'>Terms of use</a>.</p>
     
     </div>
 
@@ -194,6 +196,13 @@ for the original databases containing the observations.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p><a href='http://www.gbif.org/'>http://www.gbif.org/</a></p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The data have been downloaded using the <code><a href='https://www.rdocumentation.org/packages/dismo/topics/gbif'>gbif</a></code>
+function from the <code>dismo</code> package using the following code:</p>
+<p><code><a href='https://www.rdocumentation.org/packages/dismo/topics/gbif'>dismo::gbif(genus = 'Vultur', species = 'gryphus*', geo = TRUE,
+removeZeros = TRUE, args = 'year=2008,2018')</a></code></p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -234,6 +243,8 @@ GBIF.org on 2019-02-12.</p>
       <li><a href="#format">Format</a></li>
 
       <li><a href="#source">Source</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
           </ul>
