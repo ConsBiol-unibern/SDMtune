@@ -43,7 +43,6 @@ if (!isGeneric("plot"))
 #' an interactive chart.
 #'
 #' @param x \linkS4class{SDMtune} object.
-#' @param y missing.
 #' @param title character. The title of the plot, by default is an empty string.
 #' @param interactive logical, if TRUE plot an interactive chart, default is
 #' \code{FALSE}.

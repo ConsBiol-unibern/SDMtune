@@ -14,8 +14,6 @@
 
 \item{interactive}{logical, if TRUE plot an interactive chart, default is
 \code{FALSE}.}
-
-\item{y}{missing.}
 }
 \value{
 If \code{interactive = FALSE} the function returns a
