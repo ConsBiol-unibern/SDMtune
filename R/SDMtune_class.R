@@ -4,7 +4,8 @@
 #' \link{gridSearch}, \link{randomSearch} or \link{optimizeModel}.
 #'
 #' @slot results data.frame. Results with the evaluation of the models.
-#' @slot models list. List of \link{Maxent} objects
+#' @slot models list. List of \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV}
+#' objects.
 #'
 #' @export
 #'
@@ -38,12 +39,14 @@ if (!isGeneric("plot"))
 
 #' Plot SDMtune object
 #'
-#' Plot an \link{SDMtune} object. Use the interactive argument to create an
-#' interactive chart.
+#' Plot an \linkS4class{SDMtune} object. Use the interactive argument to create
+#' an interactive chart.
 #'
-#' @param x \link{SDMtune} object.
+#' @param x \linkS4class{SDMtune} object.
+#' @param y missing.
 #' @param title character. The title of the plot, by default is an empty string.
-#' @param interactive logical, if TRUE plot an interactive chart.
+#' @param interactive logical, if TRUE plot an interactive chart, default is
+#' \code{FALSE}.
 #'
 #' @rdname plot-methods
 #' @importFrom graphics plot
@@ -51,95 +54,70 @@ if (!isGeneric("plot"))
 #' theme_minimal theme element_text geom_line
 #' @exportMethod plot
 #'
-#' @examples
-#' \dontrun{plot(my_SDMtune_object)}
+#' @return If \code{interactive = FALSE} the function returns a
+#' \code{\link[ggplot2]{ggplot}} object otherwise it returns an SDMtuneChart
+#' object that contains the path of the temporary folder where the necessary
+#' files to create the chart are saved. This object can be used to saved the
+#' chart in a file using the \link{saveChart} function. In both cases the
+#' objects are returned as invisible.
+#'
+#' @seealso \link{saveChart}
 #'
 #' @author Sergio Vignali
+#'
+#' @examples
+#' \donttest{
+#' # Acquire environmental variables
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd", full.names = TRUE)
+#' predictors <- raster::stack(files)
+#'
+#' # Prepare presence locations
+#' p_coords <- condor[, 1:2]
+#'
+#' # Prepare background locations
+#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#'
+#' # Create SWD object
+#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
+#'                        env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#'                  env = predictors, categorical = "biome")
+#'
+#' # Split presence locations in training (80%) and testing (20%) datasets
+#' datasets <- trainValTest(presence, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Train a model
+#' model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+#'
+#' # Define the hyperparameters to test
+#' h <- list(reg = 1:2, fc = c("lqp", "lqph"), a = c(1000, 2000))
+#'
+#' # Run the gridSearch function using as metric the AUC
+#' output <- gridSearch(model, hypers = h, metric = "auc", test = test,
+#'                      bg4test = bg)
+#'
+#' # Plot the output
+#' plot(output, title = "My experiment")
+#'
+#' # Plot the interactive chart
+#' p <- plot(output, title = "My experiment", interactive = TRUE)
+#' p
+#' # Print the temporary folder that stores the files used to create the chart
+#' str(p)
+#'}
 setMethod("plot",
   signature(x = "SDMtune", y = "missing"),
   definition = function(x, title = "", interactive = FALSE) {
-    res <- x@results
-    models <- x@models
-
-    n <- nrow(res)
-
-    # Get metric
-    if (grepl("AUC", paste(colnames(res), collapse = ""))) {
-      metric <- "AUC"
-    } else if (grepl("TSS", paste(colnames(res), collapse = ""))) {
-      metric <- "TSS"
-    } else {
-      metric <- "AICc"
-    }
-
-    # Check how many hypers have be tuned
-    tunable_hypers <- get_tunable_args(models[[1]])
-    hyper_cols <- length(tunable_hypers)
-    tuned_hypers <- rapply(res[, tunable_hypers], function(x) length(unique(x)))
-    #Show line if only one hyper has be tuned
-    show_line <- ifelse(sum(tuned_hypers > 1) == 1, TRUE, FALSE)
-
-    x_label <- "model"
-    x <- 1:n
-    min <- min(x)
-    max <- max(x)
 
     if (interactive) {
-      settings <- list(metric = metric,
-                       title = title,
-                       x_label = x_label,
-                       min = min,
-                       max = max,
-                       labels = x,
-                       show_line = show_line,
-                       update = FALSE)
-
-      cols <- get_tunable_args(models[[1]])
-      grid_footer <- apply(res[, cols], 1,
-                           function(x) paste0(names(x), ": ", x,
-                                              collapse = "\n"))
-      train_metric <- data.frame(x = x, y = res[, hyper_cols + 1])
-      if (metric != "AICc") {
-        val_metric <- data.frame(x = x, y = res[, hyper_cols + 2])
-      } else {
-        val_metric <- data.frame(x = NA_real_, y = NA_real_)
-      }
-
-      chart_data <- list(train = train_metric, val = val_metric,
-                         gridFooter = grid_footer)
-
-      folder <- tempfile("SDMtune")
-
-      .create_chart(folder = folder, script = "gridSearch.js",
-                    settings = settings, data = chart_data)
-      .show_chart(folder)
-      return(invisible(folder))
+      folder <- structure(tempfile("SDMtune"), class = "SDMtuneChart")
+      .create_plot(x, title, interactive = TRUE, folder = folder)
+      return(folder)
     } else {
-      if (metric != "AICc") {
-        data <- data.frame(x = rep(x, 2),
-                           y = c(res[, hyper_cols + 1], res[, hyper_cols + 2]),
-                           type = c(rep("Training", n), rep("Validation", n)))
-      } else {
-        data <- data.frame(x = x,
-                           y = res[, hyper_cols + 1],
-                           type = rep("Training", n))
-      }
-
-      #  Create scatterplot
-      p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
-                                   group = "type")) +
-        geom_point() +
-        labs(x = x_label, y = metric, title = title) +
-        scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
-        theme_minimal() +
-        theme(plot.title = element_text(hjust = 0.5),
-              text = element_text(colour = "#666666", family = "sans-serif"),
-              legend.position = "bottom")
-
-      # Add line if is the rusult of a tune function
-      if (show_line)
-        p <- p + geom_line(linetype = "dashed", size = .3)
-
+      p <- .create_plot(x, title, interactive = FALSE)
       return(p)
     }
   })

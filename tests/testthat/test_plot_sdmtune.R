@@ -34,12 +34,12 @@ test_that("Non interactive plot is correct", {
   expect_length(p$layers, 1)
 })
 
-test_that("Interactive plot", {
-  p <- expect_invisible(plot(o, interactive = TRUE))
-  expect_true(file.exists(p))
-  unlink(p, recursive = TRUE)
+test_that("Interactive plot is created and can be saved", {
   o@results <- res
-  p <- expect_invisible(plot(o, interactive = TRUE))
+  p <- expect_s3_class(plot(o, interactive = TRUE), "SDMtuneChart")
   expect_true(file.exists(p))
+  saveChart(p, "my_chart")
+  expect_true(file.exists(file.path(getwd(), "my_chart.html")))
   unlink(p, recursive = TRUE)
+  unlink(file.path(getwd(), "my_chart.html"))
 })

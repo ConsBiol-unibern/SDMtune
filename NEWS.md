@@ -8,3 +8,4 @@
 
 # SDMtune 0.1.1.9000
 * Add title argument in `plot` `SDMtune` object
+* The interactive plot of an `SDMtune` object can now be saved in a file

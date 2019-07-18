@@ -14,7 +14,8 @@ Class used to save the results of one of the following functions:
 \describe{
 \item{\code{results}}{data.frame. Results with the evaluation of the models.}
 
-\item{\code{models}}{list. List of \link{Maxent} objects}
+\item{\code{models}}{list. List of \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV}
+objects.}
 }}
 
 \author{

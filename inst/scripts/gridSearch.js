@@ -1,4 +1,4 @@
-// Variables rendered by Whisker
+/* Variables rendered by Whisker */
 var settings = {{{ settings }}};
 var data = {{{ data }}};
 
@@ -17,7 +17,7 @@ var lineData = {
 		data: [],
 	}]
 };
-// Add Validation dataset if metric in not AICc
+/* Add Validation dataset if metric in not AICc */
 if (settings.metric[0] !== "AICc") {
 	lineData.datasets.push({
 		label: "Validation",
@@ -126,7 +126,7 @@ update = function() {
 };
 
 window.onload = function() {
-	// Set a wider content if page is displayed in the browser
+	/* Set a wider content if page is displayed in the browser */
 	if (window.location.href.search("[?&]viewer_pane=") === -1) {
 		document.querySelector(".content").style.maxWidth = "600px";
 	}
@@ -136,9 +136,9 @@ window.onload = function() {
 		data: lineData,
 		options: lineOptions,
 	});
-	// Init charts
+	/* Init charts */
   init();
-  // Update in case of real time chart
+  /* Update in case of real time chart */
   if (settings.update[0]) {
     update();
   }

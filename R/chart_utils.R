@@ -69,3 +69,80 @@
   }
   return(invisible(url))
 }
+
+.create_plot <- function(x, title, interactive, folder = NULL) {
+  res <- x@results
+  n <- nrow(res)
+
+  # Get metric
+  if (grepl("AUC", paste(colnames(res), collapse = ""))) {
+    metric <- "AUC"
+  } else if (grepl("TSS", paste(colnames(res), collapse = ""))) {
+    metric <- "TSS"
+  } else {
+    metric <- "AICc"
+  }
+
+  # Check how many hypers have be tuned
+  tunable_hypers <- get_tunable_args(x@models[[1]])
+  hyper_cols <- length(tunable_hypers)
+  tuned_hypers <- rapply(res[, tunable_hypers], function(x) length(unique(x)))
+  #Show line if only one hyper has be tuned
+  show_line <- ifelse(sum(tuned_hypers > 1) == 1, TRUE, FALSE)
+
+  x_labs <- 1:n
+
+  if (interactive) {
+    settings <- list(metric = metric,
+                     title = title,
+                     x_label = "model",
+                     min = min(x_labs),
+                     max = max(x_labs),
+                     labels = x_labs,
+                     show_line = show_line,
+                     update = FALSE)
+
+    grid_footer <- apply(res[, tunable_hypers], 1,
+                         function(x) paste0(names(x), ": ", x,
+                                            collapse = "\n"))
+    train_metric <- data.frame(x = x_labs, y = res[, hyper_cols + 1])
+    if (metric != "AICc") {
+      val_metric <- data.frame(x = x_labs, y = res[, hyper_cols + 2])
+    } else {
+      val_metric <- data.frame(x = NA_real_, y = NA_real_)
+    }
+
+    chart_data <- list(train = train_metric, val = val_metric,
+                       gridFooter = grid_footer)
+
+    .create_chart(folder = folder, script = "gridSearch.js",
+                  settings = settings, data = chart_data)
+  } else {
+    if (metric != "AICc") {
+      data <- data.frame(x = rep(x_labs, 2),
+                         y = c(res[, hyper_cols + 1], res[, hyper_cols + 2]),
+                         type = c(rep("Training", n), rep("Validation", n)))
+    } else {
+      data <- data.frame(x = x_labs,
+                         y = res[, hyper_cols + 1],
+                         type = rep("Training", n))
+    }
+
+    #  Create scatterplot
+    p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
+                                 group = "type")) +
+      geom_point() +
+      labs(x = "model", y = metric, title = title) +
+      scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5),
+            text = element_text(colour = "#666666", family = "sans-serif"),
+            legend.position = "bottom")
+
+    # Add line if is the rusult of a tune function
+    if (show_line)
+      p <- p + geom_line(linetype = "dashed", size = .3)
+
+    return(p)
+  }
+}
