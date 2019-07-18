@@ -4,8 +4,8 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method = c("Maxent", "Maxnet"), p, a, rep = 1, verbose = TRUE,
-  folds = NULL, seed = NULL, ...)
+train(method, p, a, rep = 1, verbose = TRUE, folds = NULL,
+  seed = NULL, ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
@@ -17,8 +17,8 @@ train(method = c("Maxent", "Maxnet"), p, a, rep = 1, verbose = TRUE,
 \item{rep}{numeric. Number of replicates, used for cross validation.
 Default is 1, meaning no cross validation is performed.}
 
-\item{verbose}{logical if \code{TRUE} shows a progress bar if replicates are
-greater then 1, default is \code{TRUE}.}
+\item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
+validation (i.e. when \code{rep > 1}), default is \code{TRUE}.}
 
 \item{folds}{numeric. Vector containing the indexes for the k-fold partition
 of the training data, if not provided the function randomly creates the

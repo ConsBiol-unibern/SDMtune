@@ -7,8 +7,8 @@
 #' @param a \linkS4class{SWD} object with the absence or background locations.
 #' @param rep numeric. Number of replicates, used for cross validation.
 #' Default is 1, meaning no cross validation is performed.
-#' @param verbose logical if \code{TRUE} shows a progress bar if replicates are
-#' greater then 1, default is \code{TRUE}.
+#' @param verbose logical, if \code{TRUE} shows a progress bar during cross
+#' validation (i.e. when \code{rep > 1}), default is \code{TRUE}.
 #' @param folds numeric. Vector containing the indexes for the k-fold partition
 #' of the training data, if not provided the function randomly creates the
 #' folds, default is \code{NULL}.
@@ -77,9 +77,10 @@
 #' model <- train(method = "Maxnet", p = train, a = bg, fc = "l", reg = 0.8,
 #'                rep = 4)
 #' }
-train <- function(method = c("Maxent", "Maxnet"), p, a, rep = 1, verbose = TRUE,
-                  folds = NULL, seed = NULL, ...) {
-  method <- match.arg(method)
+train <- function(method, p, a, rep = 1, verbose = TRUE, folds = NULL,
+                  seed = NULL, ...) {
+
+  method <- match.arg(method, c("Maxent", "Maxnet"))
   f <- paste0("train", method)
 
   if (rep == 1) {
@@ -91,12 +92,15 @@ train <- function(method = c("Maxent", "Maxnet"), p, a, rep = 1, verbose = TRUE,
         total = rep, clear = FALSE, width = 60, show_after = 0)
       pb$tick(0)
     }
-    models <- vector("list", rep)
+
+    models <- vector("list", length = rep)
+
     if (is.null(folds)) {
       if (!is.null(seed))
         set.seed(seed)
       folds <- cut(sample(1:nrow(p@data)), rep, labels = FALSE)
     }
+
     for (i in 1:rep) {
       train <- p
       train@data <- p@data[folds != i, , drop = FALSE]
@@ -104,8 +108,8 @@ train <- function(method = c("Maxent", "Maxnet"), p, a, rep = 1, verbose = TRUE,
       if (verbose)
         pb$tick(1)
     }
-    model <- SDMmodelCV(models = models, p = p, a = a,
-                        folds = folds)
+
+    model <- SDMmodelCV(models = models, p = p, a = a, folds = folds)
   }
 
   return(model)
