@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot SDMtune object — plot,SDMtune,missing-method • SDMtune</title>
+<title>Save Chart — saveChart • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -45,10 +45,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Plot SDMtune object — plot,SDMtune,missing-method" />
+<meta property="og:title" content="Save Chart — saveChart" />
 
-<meta property="og:description" content="Plot an SDMtune object. Use the interactive argument to create
-an interactive chart." />
+<meta property="og:description" content="Save the interactive chart in a html file" />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -162,51 +161,41 @@ an interactive chart." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot SDMtune object</h1>
+    <h1>Save Chart</h1>
     
-    <div class="hidden name"><code>plot-methods.Rd</code></div>
+    <div class="hidden name"><code>saveChart.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Plot an <a href='SDMtune-class.html'>SDMtune</a> object. Use the interactive argument to create
-an interactive chart.</p>
+    <p>Save the interactive chart in a html file</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S4 method for SDMtune,missing</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>saveChart</span>(<span class='no'>x</span>, <span class='no'>filename</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><a href='SDMtune-class.html'>SDMtune</a> object.</p></td>
+      <td><p>the output of the <a href='plot-methods.html'>plot,SDMtune,missing-method</a>.</p></td>
     </tr>
     <tr>
-      <th>title</th>
-      <td><p>character. The title of the plot, by default is an empty string.</p></td>
-    </tr>
-    <tr>
-      <th>interactive</th>
-      <td><p>logical, if TRUE plot an interactive chart, default is
-<code>FALSE</code>.</p></td>
+      <th>filename</th>
+      <td><p>character containing the name of the file in which to save
+the chart.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If <code>interactive = FALSE</code> the function returns a
-<code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code> object otherwise it returns an SDMtuneChart
-object that contains the path of the temporary folder where the necessary
-files to create the chart are saved. This object can be used to saved the
-chart in a file using the <a href='saveChart.html'>saveChart</a> function. In both cases the
-objects are returned as invisible.</p>
+    <p>Note that the <code>filemane</code> argument should be provided without
+the extension (i.e. "my_chart" and not "my_chart.html").</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='saveChart.html'>saveChart</a></p></div>
+    <div class='dont-index'><p><a href='plot-methods.html'>plot,SDMtune,missing-method</a></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -249,8 +238,8 @@ objects are returned as invisible.</p>
 <span class='co'># Plot the interactive chart</span>
 <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>output</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"My experiment"</span>, <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>p</span>
-<span class='co'># Print the temporary folder that stores the files used to create the chart</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>p</span>)
+<span class='co'># Save the chart in a html file</span>
+<span class='fu'>saveChart</span>(<span class='no'>p</span>, <span class='st'>"my_chart"</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -258,7 +247,7 @@ objects are returned as invisible.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
