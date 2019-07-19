@@ -9,6 +9,7 @@ condor_gbif <- dismo::gbif(genus = 'Vultur', species = 'gryphus*', geo = TRUE,
 condor_raw <- data.frame(x = condor_gbif$lon, y = condor_gbif$lat,
                          key = condor_gbif$key,
                          datasetKey = condor_gbif$datasetKey,
+                         license = condor_gbif$license,
                          stringsAsFactors = FALSE)
 # Remove duplicates
 condor_raw <- condor_raw[!duplicated(condor_raw[, 1:2]), ]
@@ -28,7 +29,8 @@ cells <- raster::cellFromXY(predictors, condor_raw[, 1:2])
 unique_cells <- unique(cells)
 
 condor <- data.frame(x = double(), y = double(), key = character(),
-                     datasetKey = character(), stringsAsFactors = FALSE)
+                     datasetKey = character(), license = character(),
+                     stringsAsFactors = FALSE)
 for (i in 1:length(unique_cells)) {
   if (length(which(cells == unique_cells[i])) > 1) {
     # Sample duplicates

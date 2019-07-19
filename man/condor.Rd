@@ -10,6 +10,7 @@
 \item{y}{Latitude of the observation}
 \item{key}{GBIF Key of the single observation}
 \item{datasetKey}{GBIF Key of the corresponding dataset}
+\item{license}{license of the single observation}
 }}
 \source{
 \url{http://www.gbif.org/}
@@ -33,39 +34,28 @@ function from the \code{\link{dismo}} package using the following code:
 removeZeros = TRUE, args = 'year=2008,2018')}
 }
 \references{
-Levatich T, Padilla F (2017). EOD - eBird Observation Dataset. Cornell Lab of
+Levatich T, Padilla F (2019). EOD - eBird Observation Dataset. Cornell Lab of
 Ornithology. Occurrence dataset \url{https://doi.org/10.15468/aomfnb}
-accessed via GBIF.org on 2019-02-12.
-
-naturgucker.de. naturgucker. Occurrence dataset
-\url{https://doi.org/10.15468/uc1apo} accessed via GBIF.org on 2019-02-12.
+accessed via GBIF.org on 2019-07-19.
 
 iNaturalist.org (2019). iNaturalist Research-grade Observations. Occurrence
 dataset \url{https://doi.org/10.15468/ab3s5x} accessed via GBIF.org on
-2019-02-12.
-
-Karyakin I, Kamenskiy D, Grachev E, Bekmansurov R, Vazhov S, Barashkova A,
-Shnayder E, Ebel A, Shtol D, Kovalenko A, Nikolenko E, Pchelintsev V,
-Fedorenko V, Shukov P (2018). Raptors of the World. Version 1.6.
-Sibecocenter LLC. Occurrence dataset \url{https://doi.org/10.15468/fggsfn}
-accessed via GBIF.org on 2019-02-12.
-
-Administración de Parques Nacionales, Argentina. VERTEBRADOS DE VALOR
-ESPECIAL EN ÁREAS PROTEGIDAS DE LA ARGENTINA. Occurrence dataset
-\url{https://doi.org/10.15468/s5t7po} accessed via GBIF.org on 2019-02-12.
+2019-07-19.
 
 Zuñiga Hartley A, Gómez Rivero E (2017). Registro de Fauna Silvestre en el
 Inventario Nacional Forestal y de Fauna Silvestre-SERFOR, Perú. Servicio
 Nacional Forestal y de Fauna Silvestre. Sampling event dataset
-\url{https://doi.org/10.15468/y9itpr} accessed via GBIF.org on 2019-02-12.
+\url{https://doi.org/10.15468/y9itpr} accessed via GBIF.org on 2019-07-19.
 
-Carrero D (2018). Estudios bióticos: Plantas, edafofauna epígea, anfibios y
-aves  del Complejo de Páramos  Almorzadero y Tamá. Instituto de Investigación
-de Recursos Biológicos Alexander von Humboldt. Occurrence dataset
-\url{https://doi.org/10.15472/pz9uo6} accessed via GBIF.org on 2019-02-12.
+Administración de Parques Nacionales, Argentina. VERTEBRADOS DE VALOR
+ESPECIAL EN ÁREAS PROTEGIDAS DE LA ARGENTINA. Occurrence dataset
+\url{https://doi.org/10.15468/s5t7po} accessed via GBIF.org on 2019-07-19.
+
+naturgucker.de. naturgucker. Occurrence dataset
+\url{https://doi.org/10.15468/uc1apo} accessed via GBIF.org on 2019-07-19.
 
 Red Nacional de Observadores de Aves (RNOA) (2018). DATAVES. Version 7.1.
 Occurrence dataset \url{https://doi.org/10.15472/iqnpse} accessed via
-GBIF.org on 2019-02-12.
+GBIF.org on 2019-07-19.
 }
 \keyword{datasets}
