@@ -213,23 +213,16 @@
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.1.9000</span></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
-<p>For demonstrating how to use <code>SDMtune</code> we use the <a href="../../reference/condor.html">condor</a> dataset included in the package. The dataset contains 595 locations of the Andean condor <a href="https://en.wikipedia.org/wiki/Andean_condor"><em>Vultur gryphus</em></a> downloaded from the Global Biodiversity Inventory Facility <a href="http://www.gbif.org/">GBIF</a>.</p>
+<p>For demonstrating how to use <code>SDMtune</code> we use the <a href="../../reference/condor.html">condor</a> dataset included in the package. The dataset contains 510 locations of the Andean condor <a href="https://en.wikipedia.org/wiki/Andean_condor"><em>Vultur gryphus</em></a> downloaded from the Global Biodiversity Inventory Facility <a href="http://www.gbif.org/">GBIF</a>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/help">help</a></span>(condor)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(condor)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;           x          y        key                           datasetKey</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 1 -71.77299 -46.731774 2138045339 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 2 -70.35914 -33.304174 2177764569 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 3 -72.63369 -50.475702 1766561366 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 4 -72.89352 -49.318765 2164281247 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 5 -78.47358  -0.613635 2221555821 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 6 -66.29009 -54.514346 2104848413 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;                                                      license</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 1 http://creativecommons.org/publicdomain/zero/1.0/legalcode</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 2 http://creativecommons.org/publicdomain/zero/1.0/legalcode</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; 3 http://creativecommons.org/publicdomain/zero/1.0/legalcode</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 4 http://creativecommons.org/publicdomain/zero/1.0/legalcode</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; 5 http://creativecommons.org/publicdomain/zero/1.0/legalcode</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; 6 http://creativecommons.org/publicdomain/zero/1.0/legalcode</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;           x         y        key                           datasetKey</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 1 -70.38600 -33.49587 1389637863 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 2 -73.03339 -50.46899 1580457299 6ac3f774-d9fb-4796-b3e9-92bf6c81c084</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 3 -67.12252 -32.54827 1836645723 50c9509d-22c7-4a22-a47d-8c48425ef4a7</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 4 -72.42548 -49.71849 1168108940 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 5 -72.96618 -50.48606 1722513393 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 6 -65.91488 -26.58891 1190702351 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a></code></pre></div>
 <p>We select the the first two columns that contain the coordinates of the locations:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">p_coords &lt;-<span class="st"> </span>condor[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a></code></pre></div>
 <p>Plot the study area together with the presence locations:</p>
@@ -274,7 +267,7 @@
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; Object of class SWD </span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; Species: Vultur gryphus </span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; Locations: 595 </span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; Locations: 510 </span></a>
 <a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; Variables:</span></a>
 <a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; ---------</span></a>
@@ -295,21 +288,21 @@
 <p>The object contains three slots: <code>species</code>, <code>coords</code> and <code>data</code>. To visualize the data we run:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(presence<span class="op">@</span>data)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt;   bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 biome</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; 1   42   372   135    52  149  -56  205    5     8</span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; 2   28   464   257    23  163  -81  244  -15    10</span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; 3   56   623   191   129  157  -33  191   46     4</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; 4   44   734   232   147  147  -42  189   30     8</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 5   77  1243   391   228  135   27  108   78    10</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 6   46   478   145    89  131  -27  157   69     4</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; 1   28   464   257    23  163  -81  244  -15    10</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; 2   40  1208   349   270  133  -41  174   40     4</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; 3  178   309   162    17  338   19  319  251     8</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; 4   69   340   118    61  177  -26  204   39     8</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 5   56   623   191   129  157  -33  191   46     4</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 6  115   341   209    11  234  -11  244  163     1</span></a></code></pre></div>
 <p>We can visualize the coordinates with:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(presence<span class="op">@</span>coords)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt;           X          Y</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; 1 -71.77299 -46.731774</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; 2 -70.35914 -33.304174</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; 3 -72.63369 -50.475702</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; 4 -72.89352 -49.318765</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 5 -78.47358  -0.613635</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 6 -66.29009 -54.514346</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt;           X         Y</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; 1 -70.38600 -33.49587</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; 2 -73.03339 -50.46899</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; 3 -67.12252 -32.54827</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; 4 -72.42548 -49.71849</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 5 -72.96618 -50.48606</span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 6 -65.91488 -26.58891</span></a></code></pre></div>
 <p>or the name of the species with:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">presence<span class="op">@</span>species</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; [1] "Vultur gryphus"</span></a></code></pre></div>
