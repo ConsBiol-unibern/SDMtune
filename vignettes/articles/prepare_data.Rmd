@@ -111,82 +111,19 @@ In this tutorial we don't check the validity of the locations, instead we assume
 
 ## Prepare background locations
 
-We extract 10000 background locations (default number in the MaxEnt software ) using the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function included in the `dismo` package (we set the seed to have reproducible results).
+We extract 5000 background locations using the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function included in the `dismo` package [@Hijmans2017] (we set the seed to have reproducible results).
 
 ```{r prepare background}
 set.seed(25)
-bg_coords <- dismo::randomPoints(predictors, 10000)
+bg_coords <- dismo::randomPoints(predictors, 5000)
 ```
 
-The environmental variables we downloaded have a coarse resolution and the function can extract only `r nrow(bg_coords)` instead of 10000 background locations (see the warning message).
-
-## Create an SWD object
-
-Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
-
-```{r prepare presence SWD}
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categorical = "biome")
-
-```
-```{r prepare bg SWD}
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categorical = "biome")
-```
-
-The warning message reports that in the background dataset `r nrow(bg_coords) - nrow(bg@data)`  locations were discarded. The final number of background locations is `r nrow(bg@data)`.
-
-## Explore an SWD object
-
-Let's have a look at the created `SWD()` object:
-
-```{r show SWD object}
-presence
-```
-
-When we print an `SWD()` object we get a bunch of information:
-
-* the name of the class;
-* the name of the species;
-* the number of locations;
-* the environmental variables available in the dataset:
-    + the name of the continuous environmental variables, if any;
-    + the name of the categorical environmental variables, if any.
-
-The object contains three slots: `species`, `coords` and `data`. To visualize the data we run:
-
-```{r show presence data}
-head(presence@data)
-```
-
-We can visualize the coordinates with:
-
-```{r show presence coords data}
-head(presence@coords)
-```
-
-or the name of the species with:
-```{r show presence species}
-presence@species
-```
-
-We can save an `SWD()` object in a **.csv** file using the function `swd2csv()` (the function saves the file in the working directory):
-```{r save SWD, eval=F}
-swd2csv(presence, file_name = "presence.csv")
-```
-
-## Subset the background locations:
-
-We will use a sub sample of the background locations to train the model and the full dataset to explore the correlation between the environmental variables. We extract the sub sample using the function `getSubsample()`:
-
-```{r get bg subsample}
-bg_model <- getSubsample(bg, 5000, seed = 25)
-```
-
-To plot the retained background locations run the following code:
+To plot the background locations run the following code:
 
 ```{r plot bg_model locations, fig.align="center"}
 ggplot(map_data("world"), aes(long, lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
-    geom_jitter(data = bg_model@coords, aes(x = X, y = Y),
+    geom_jitter(data = as.data.frame(bg_coords), aes(x = x, y = y),
                 color = "blue", alpha = 0.4, size = 0.5) +
     labs(x = "longitude", y = "latitude") +
     theme_minimal() +
@@ -196,18 +133,68 @@ ggplot(map_data("world"), aes(long, lat)) +
     scale_y_continuous(limits = c(-56, 40))
 ```
 
+## Create an SWD object
+
+Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
+
+```{r prepare presence SWD}
+train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a <- bg_coords, env = predictors, categorical = "biome")
+
+```
+
+The warning message reports that in the background dataset some locations were discarded.
+
+## Explore an SWD object
+
+Let's have a look at the created `SWD()` object:
+
+```{r show SWD object}
+train
+```
+
+When we print an `SWD()` object we get a bunch of information:
+
+* the name of the class;
+* the name of the species;
+* the number of presence locations;
+* the nuber of absence/background locations;
+* the environmental variables available in the dataset:
+    + the name of the continuous environmental variables, if any;
+    + the name of the categorical environmental variables, if any.
+
+The object contains four slots: `species`, `coords` `data` and `pa`. `pa` contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:
+
+```{r show presence data}
+head(train@data)
+```
+
+We can visualize the coordinates with:
+
+```{r show presence coords data}
+head(train@coords)
+```
+
+or the name of the species with:
+```{r show presence species}
+train@species
+```
+
+We can save an `SWD()` object in a **.csv** file using the function `swd2csv()` (the function saves the file in the working directory):
+```{r save SWD, eval=F}
+swd2csv(presence, file_name = "presence.csv")
+```
+
 ## Conclusion
 
 In this article you have learned:
 
 * how to create a raster `stack` object;
 * how to plot a raster object using the `gplot` function included in the `rasterVis` package;
+* how to plot locations using the `ggplot` and the `maps` packages;
 * how to create an `SWD()` objects;
 * how to extract information from an `SWD()` object;
-* how to save an `SWD()` object in a **.csv** file;
-* how to extract a sub sample of an `SWD()` object;
-* how to plot locations using the `ggplot` and the `maps` packages.
+* how to save an `SWD()` object in a **.csv** file.
 
 Move on to the [second article](./train_model.html) and learn how to train models using `SDMtune`.
 
-### References
+# References

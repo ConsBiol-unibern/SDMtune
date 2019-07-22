@@ -58,10 +58,10 @@ setMethod(
     cat("Species:", object@species, "\n")
     # TODO remove if statement
     if (1 %in% object@pa) {
-      cat("Locations:", nrow(object@data), "\n\n")
-    } else {
       cat("Presence locations:",  nrow(object@data[object@pa == 1, ]), "\n")
       cat("Absence locations:",  nrow(object@data[object@pa == 0, ]), "\n\n")
+    } else {
+      cat("Locations:", nrow(object@data), "\n\n")
     }
 
     cat("Variables:\n")

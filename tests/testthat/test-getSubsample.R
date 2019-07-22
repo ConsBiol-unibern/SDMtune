@@ -1,11 +1,9 @@
-context("Get subsamples")
-
-s <- getSubsample(SDMtune:::bg_model, 3000, seed = 25)
+s <- suppressWarnings(getSubsample(SDMtune:::bg_model, 3000, seed = 25))
 
 test_that("The function rises errors", {
-  expect_error(getSubsample(SDMtune:::bg_model, 6000),
+  expect_error(suppressWarnings(getSubsample(SDMtune:::bg_model, 6000)),
                "6000 is bigger than dataset observations!")
-  expect_error(getSubsample(SDMtune:::bg_model@data, 3000),
+  expect_error(suppressWarnings(getSubsample(SDMtune:::bg_model@data, 3000)),
                "Data set must be an SWD object!")
 })
 

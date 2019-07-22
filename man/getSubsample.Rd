@@ -2,7 +2,7 @@
 % Please edit documentation in R/getSubsample.R
 \name{getSubsample}
 \alias{getSubsample}
-\title{Get Dataset Subsample}
+\title{Get Dataset Subsample, Deprecated}
 \usage{
 getSubsample(dataset, size, seed = NULL)
 }
@@ -18,7 +18,9 @@ consistent results, default is \code{NULL}.}
 The sub sample as \linkS4class{SWD} object.
 }
 \description{
-Get a random subsample of an \linkS4class{SWD} object.
+Get a random subsample of an \linkS4class{SWD} object. This function is
+deprecated, don't use it with the an \code{\link{SWD}} object that contains
+presence and absence/background locations together.
 }
 \examples{
 # Acquire environmental variables
