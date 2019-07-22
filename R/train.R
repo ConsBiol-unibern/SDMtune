@@ -2,10 +2,11 @@
 #'
 #' Train a model using the given method.
 #'
-#' @param method character. Possible values are "Maxent" or "Maxnet".
-#' @param data \linkS4class{SWD} object with presence and absence/background
-#' locations.
-#' @param p Deprecater.
+#' @param method character. Method used to train the model, possible values are
+#' "Maxent" or "Maxnet".
+#' @param data \code{\linkS4class{SWD}} object with presence and
+#' absence/background locations.
+#' @param p Deprecated.
 #' @param a Deprecated.
 #' @param rep numeric. Number of replicates, used for cross validation.
 #' Default is 1, meaning no cross validation is performed.
@@ -37,7 +38,8 @@
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
 #'       details see \code{\link[maxnet]{maxnet}}.
 #'
-#' @return An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @return An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @export
 #' @importFrom progress progress_bar
 #'

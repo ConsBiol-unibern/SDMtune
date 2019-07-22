@@ -8,12 +8,13 @@ train(method, data = NULL, p = NULL, a = NULL, rep = 1,
   verbose = TRUE, folds = NULL, seed = NULL, ...)
 }
 \arguments{
-\item{method}{character. Possible values are "Maxent" or "Maxnet".}
+\item{method}{character. Method used to train the model, possible values are
+"Maxent" or "Maxnet".}
 
-\item{data}{\linkS4class{SWD} object with presence and absence/background
-locations.}
+\item{data}{\code{\linkS4class{SWD}} object with presence and
+absence/background locations.}
 
-\item{p}{Deprecater.}
+\item{p}{Deprecated.}
 
 \item{a}{Deprecated.}
 
@@ -33,7 +34,8 @@ used if \strong{folds} is not provided, default is \code{NULL}.}
 \item{...}{Arguments passed to the relative method, see details.}
 }
 \value{
-An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.
 }
 \description{
 Train a model using the given method.
