@@ -138,7 +138,7 @@ ggplot(map_data("world"), aes(long, lat)) +
 Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
 
 ```{r prepare presence SWD}
-train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a <- bg_coords, env = predictors, categorical = "biome")
+train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
 
 ```
 

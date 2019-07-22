@@ -10,7 +10,7 @@
 #' model.
 #' @slot folds numeric. Vector with the index for the k-fold partition.
 #'
-#' @include SWD_class.R
+#' @include SWD-class.R
 #' @name SDMmodelCV-class
 #' @rdname SDMmodelCV-class
 #' @exportClass SDMmodelCV
@@ -19,8 +19,7 @@
 SDMmodelCV <- setClass("SDMmodelCV",
                        representation(
                          models = "list",
-                         p = "SWD",
-                         a = "SWD",
+                         data = "SWD",
                          folds = "numeric"
                        )
 )
@@ -41,20 +40,21 @@ setMethod(
     cat("Object of class", class(object), "\n")
     cat("Method:", class(object@models[[1]]@model), "\n\n")
 
-    cat("Species:", object@p@species, "\n")
+    cat("Species:", object@data@species, "\n")
     cat("Replicates:", length(object@models), "\n")
-    cat("Presence locations:", nrow(object@p@data), "\n\n")
+    cat("Presence locations:", nrow(.get_presence(object@data)), "\n")
+    cat("Absence locations :", nrow(.get_absence(object@data)), "\n\n")
 
     cat("Model configurations:\n")
     cat("--------------------\n")
 
     for (i in 1:length(tunable_hypers)) {
       if (tunable_hypers[i] == "a") {
-        h <- nrow(object@a@data)
+        next()
       } else {
         h <- slot(object@models[[1]]@model, tunable_hypers[i])
+        cat(tunable_hypers[i], ": ", h, "\n", sep = "")
       }
-      cat(tunable_hypers[i], ": ", h, "\n", sep = "")
     }
 
     cat("\nVariables:\n")

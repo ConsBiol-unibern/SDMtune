@@ -39,64 +39,37 @@ prepareSWD <- function(species, p = NULL, a = NULL, coords = NULL, env,
 
   # TODO Remove it in the next release.
   if (!is.null(coords)) {
-    warning("Argument \"coords\" is deprecated and will be removed in the next",
-            " release. Please use \"p\" and \"a\" instead.", call. = FALSE)
-    coords <- as.data.frame(coords)
-    message("Extracting predictor information for given locations...")
-    data <- as.data.frame(raster::extract(env, coords))
-    # Remove any occurrence point with NA for at least one variable
-    index <- complete.cases(data)
-    discarded <- nrow(data) - sum(index)
-    if (discarded > 0) {
-      data <- data[index, ]
-      coords <- coords[index, ]
-      message("Warning: ", discarded,
-              ifelse(discarded == 1, " location is", " locations are"),
-              " NA for some environmental variables, ",
-              ifelse(discarded == 1, "it ", "they "),
-              "will be discard!")
-    }
-    colnames(coords) <- c("X", "Y")
-    # Set categorical variables as factors
-    if (!is.null(categorical)) {
-      for (i in categorical) {
-        data[, i] <- as.factor(data[, i])
-      }
-    }
-    # Reset row names
-    rownames(coords) <- NULL
-    rownames(data) <- NULL
-
-    swd <- SWD(species = species, coords = coords, data = data,
-               pa = NA_real_)
+    stop("Argument \"coords\" is deprecated. Please use \"p\" and \"a\" ",
+         "instead.")
   } else {
     df_coords <- data.frame(X = numeric(), Y = numeric())
     df_data <- p[0, ]
     dfs <- list(p, a)
     text <- c("presence", "absence/background")
+    values <- c(1, 0)
+    pa <- c()
     for (i in 1:2) {
-      coords <- as.data.frame(dfs[[i]])
-      colnames(coords) <- c("X", "Y")
-      message("Extracting predictor information for ", text[i], " locations...")
-      data <- as.data.frame(raster::extract(env, coords))
-      # Remove any occurrence point with NA for at least one variable
-      index <- complete.cases(data)
-      discarded <- nrow(data) - sum(index)
-      if (discarded > 0) {
-        data <- data[index, ]
-        coords <- coords[index, ]
-        message("Warning: ", discarded, " ", text[i],
-                ifelse(discarded == 1, " location is", " locations are"),
-                " NA for some environmental variables, ",
-                ifelse(discarded == 1, "it ", "they "),
-                "will be discarded!")
-      }
-      df_coords <- rbind(df_coords, coords)
-      df_data <- rbind(df_data, data)
-      if (i == 1) {
-        pa <- rep(1, nrow(coords))
-      } else {
-        pa <- c(pa, rep(0, nrow(coords)))
+      if (!is.null(dfs[[i]])) {
+        coords <- as.data.frame(dfs[[i]])
+        colnames(coords) <- c("X", "Y")
+        message("Extracting predictor information for ", text[i],
+                " locations...")
+        data <- as.data.frame(raster::extract(env, coords))
+        # Remove any occurrence point with NA for at least one variable
+        index <- complete.cases(data)
+        discarded <- nrow(data) - sum(index)
+        if (discarded > 0) {
+          data <- data[index, ]
+          coords <- coords[index, ]
+          message("Warning: ", discarded, " ", text[i],
+                  ifelse(discarded == 1, " location is", " locations are"),
+                  " NA for some environmental variables, ",
+                  ifelse(discarded == 1, "it ", "they "),
+                  "will be discarded!")
+        }
+        df_coords <- rbind(df_coords, coords)
+        df_data <- rbind(df_data, data)
+        pa <- c(pa, rep(values[i], nrow(coords)))
       }
     }
     # Set categorical variables as factors

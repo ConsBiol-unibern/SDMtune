@@ -11,8 +11,9 @@
 #' @slot pa numeric. Vector with \code{1} for presence and \code{0} for
 #' absence/background locations.
 #'
-#' @details \code{data} and \code{coords} must have the same number of rows;
-#' \code{pa} must have length equal to \code{row(data)}.
+#' @details The object can contains presence/absence, presence/background,
+#' presence only or absence/background only data. Use the
+#' \code{\link{prepareSWD}} function to create the object.
 #'
 #' @export
 #'
@@ -32,8 +33,8 @@ SWD <- setClass("SWD",
                 validity = function(object)	{
                   if (nrow(object@coords) != nrow(object@data))
                     return("coords and data have a different number of rows!")
-                  # TODO remove statement if (1 %in% object@pa)
-                  if (1 %in% object@pa) {
+                  # TODO remove if statement
+                  if (1 %in% object@pa | 0 %in% object@pa) {
                     if (nrow(object@coords) != length(object@pa))
                       return("coords and pa have different length!")
                   }
@@ -45,6 +46,12 @@ setMethod(
   "show",
   signature = "SWD",
   definition = function(object) {
+    # TODO Remove this check in a feature release
+    if (!.hasSlot(object, "pa"))
+      stop("\nThis object was created using SDMtune v <= 0.1.1 and is now ",
+          "deprecated.\nCheck the article \"deprecated objects\" in the ",
+          "package website to see how to convert this object into the new ",
+          "format.", call. = FALSE)
 
     cont_vars <- names(Filter(is.numeric, object@data))
     if (length(cont_vars) == 0)
@@ -56,16 +63,11 @@ setMethod(
     cat("Object of class", class(object), "\n\n")
 
     cat("Species:", object@species, "\n")
-    # TODO remove if statement
-    if (1 %in% object@pa) {
-      cat("Presence locations:",  nrow(object@data[object@pa == 1, ]), "\n")
-      cat("Absence locations:",  nrow(object@data[object@pa == 0, ]), "\n\n")
-    } else {
-      cat("Locations:", nrow(object@data), "\n\n")
-    }
+    cat("Presence locations:",  nrow(object@data[object@pa == 1, ]), "\n")
+    cat("Absence locations:",  nrow(object@data[object@pa == 0, ]), "\n\n")
 
     cat("Variables:\n")
     cat("---------\n")
     cat("Continuous:", cont_vars, "\n")
-    cat("Categorical:", cat_vars)
+    cat("Categorical:", cat_vars , "\n")
   })

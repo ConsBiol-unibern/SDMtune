@@ -1,15 +1,15 @@
 #' @importFrom dismo maxent
-trainMaxent <- function(p, a, reg = 1, fc = "lqph", iter = 500,
+trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500,
                         extra_args = c("removeduplicates=false",
                                        "addsamplestobackground=false")) {
 
-  result <- SDMmodel(p = p, a = a)
+  result <- SDMmodel(data = data)
   folder <- tempfile()
 
   args <- .make_args(reg = reg, fc = fc, iter = iter, extra_args = extra_args)
 
-  x <- rbind(p@data, a@data)
-  p <- c(rep(1, nrow(p@data)), rep(0, nrow(a@data)))
+  x <- data@data
+  p <- data@pa
   dismo_model <- dismo::maxent(x, p, args = args, path = folder)
 
   l <- .get_lambdas(dismo_model@lambdas)

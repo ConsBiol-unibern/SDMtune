@@ -1,3 +1,11 @@
+.get_presence <- function(swd) {
+  return(swd@data[swd@pa == 1, ])
+}
+
+.get_absence <- function(swd) {
+  return(swd@data[swd@pa == 0, ])
+}
+
 .get_model_class <- function(model) {
   if (class(model) == "SDMmodelCV") {
     model <- model@models[[1]]

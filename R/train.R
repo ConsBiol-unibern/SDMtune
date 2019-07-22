@@ -3,8 +3,10 @@
 #' Train a model using the given method.
 #'
 #' @param method character. Possible values are "Maxent" or "Maxnet".
-#' @param p \linkS4class{SWD} object with the presence locations.
-#' @param a \linkS4class{SWD} object with the absence or background locations.
+#' @param data \linkS4class{SWD} object with presence and absence/background
+#' locations.
+#' @param p Deprecater.
+#' @param a Deprecated.
 #' @param rep numeric. Number of replicates, used for cross validation.
 #' Default is 1, meaning no cross validation is performed.
 #' @param verbose logical, if \code{TRUE} shows a progress bar during cross
@@ -37,7 +39,6 @@
 #'
 #' @return An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @export
-#' @importFrom dismo kfold
 #' @importFrom progress progress_bar
 #'
 #' @author Sergio Vignali
@@ -56,35 +57,31 @@
 #' bg_coords <- dismo::randomPoints(predictors, 5000)
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
-#'
-#' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
-#' train <- datasets[[1]]
-#' test <- datasets[[2]]
+#' train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+#'                     env = predictors, categorical = "biome")
 #'
 #' # Train a Maxent model
-#' model <- train(method = "Maxent", p = train, a = bg, fc = "l", reg = 1.5,
+#' model <- train(method = "Maxent", data = train, fc = "l", reg = 1.5,
 #'                iter = 700)
 #'
 #' # Train a Maxnet model
-#' model <- train(method = "Maxnet", p = train, a = bg, fc = "lq", reg = 1.5)
+#' model <- train(method = "Maxnet", data = train, fc = "lq", reg = 1.5)
 #'
 #' # Train a Maxnet model with cross validation
-#' model <- train(method = "Maxnet", p = train, a = bg, fc = "l", reg = 0.8,
-#'                rep = 4)
+#' model <- train(method = "Maxnet", data = train, fc = "l", reg = 0.8, rep = 4)
 #' }
-train <- function(method, p, a, rep = 1, verbose = TRUE, folds = NULL,
-                  seed = NULL, ...) {
+train <- function(method, data = NULL, p = NULL, a = NULL, rep = 1,
+                  verbose = TRUE, folds = NULL, seed = NULL, ...) {
 
   method <- match.arg(method, c("Maxent", "Maxnet"))
   f <- paste0("train", method)
 
+  if (!is.null(p) & !is.null(a)) {
+    stop("Argument \"p\" and \"a\" are deprecated, use \"data\" instead.")
+  }
+
   if (rep == 1) {
-    model <- do.call(f, args = list(p = p, a = a, ...))
+    model <- do.call(f, args = list(data = data, ...))
   } else {
     if (verbose) {
       pb <- progress::progress_bar$new(

@@ -4,15 +4,18 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method, p, a, rep = 1, verbose = TRUE, folds = NULL,
-  seed = NULL, ...)
+train(method, data = NULL, p = NULL, a = NULL, rep = 1,
+  verbose = TRUE, folds = NULL, seed = NULL, ...)
 }
 \arguments{
 \item{method}{character. Possible values are "Maxent" or "Maxnet".}
 
-\item{p}{\linkS4class{SWD} object with the presence locations.}
+\item{data}{\linkS4class{SWD} object with presence and absence/background
+locations.}
 
-\item{a}{\linkS4class{SWD} object with the absence or background locations.}
+\item{p}{Deprecater.}
+
+\item{a}{Deprecated.}
 
 \item{rep}{numeric. Number of replicates, used for cross validation.
 Default is 1, meaning no cross validation is performed.}
@@ -74,26 +77,18 @@ p_coords <- condor[, 1:2]
 bg_coords <- dismo::randomPoints(predictors, 5000)
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
-
-# Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
-train <- datasets[[1]]
-test <- datasets[[2]]
+train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                    env = predictors, categorical = "biome")
 
 # Train a Maxent model
-model <- train(method = "Maxent", p = train, a = bg, fc = "l", reg = 1.5,
+model <- train(method = "Maxent", data = train, fc = "l", reg = 1.5,
                iter = 700)
 
 # Train a Maxnet model
-model <- train(method = "Maxnet", p = train, a = bg, fc = "lq", reg = 1.5)
+model <- train(method = "Maxnet", data = train, fc = "lq", reg = 1.5)
 
 # Train a Maxnet model with cross validation
-model <- train(method = "Maxnet", p = train, a = bg, fc = "l", reg = 0.8,
-               rep = 4)
+model <- train(method = "Maxnet", data = train, fc = "l", reg = 0.8, rep = 4)
 }
 }
 \author{

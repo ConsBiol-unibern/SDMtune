@@ -6,16 +6,13 @@
 \alias{SDMmodel}
 \title{SDMmodel}
 \description{
-This Class represents a SDMmodel model object and hosts all the information
+This Class represents an SDMmodel model object and hosts all the information
 related to the model.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{p}}{\link{SWD} object. The presence locations used to train the model.}
-
-\item{\code{a}}{\link{SWD} object. The absence or background locations used to train
-the model.}
+\item{\code{data}}{\code{\linkS4class{SWD}} object. The data used to train the model.}
 
 \item{\code{model}}{\link{Maxent} or \link{Maxnet} object.}
 }}
