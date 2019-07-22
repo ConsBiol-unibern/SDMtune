@@ -65,13 +65,13 @@ Suggests:
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Collate: 
-    'Maxent_class.R'
-    'Maxnet_class.R'
+    'Maxent-class.R'
+    'Maxnet-class.R'
     'RcppExports.R'
     'SWD-class.R'
     'SDMmodel-class.R'
     'SDMmodel2MaxEnt.R'
-    'SDMmodelCV.R'
+    'SDMmodelCV-class.R'
     'SDMtune.R'
     'SDMtuneChart.R'
     'SDMtune_class.R'

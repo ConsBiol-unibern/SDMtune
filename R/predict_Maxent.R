@@ -16,7 +16,7 @@ setGeneric("predict", function(object, ...)
 #' **MaxEnt** Java software. This results in a faster computation for large
 #' datasets. The results might differ slightly from the Java software output.
 #'
-#' @include Maxent_class.R
+#' @include Maxent-class.R
 #'
 #' @return A vector with the prediction
 #'

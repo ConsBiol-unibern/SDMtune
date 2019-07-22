@@ -21,7 +21,6 @@
 #'
 #' @return A \code{\link[ggplot2]{ggplot}} object.
 #' @export
-#' @include Maxent_class.R
 #' @importFrom ggplot2 ggplot aes_string geom_line geom_bar scale_x_continuous
 #' geom_ribbon geom_errorbar geom_rug labs theme
 #' @importFrom raster modal

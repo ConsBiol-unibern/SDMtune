@@ -34,7 +34,7 @@ setGeneric("predict", function(object, ...)
 #' function performs the prediction in **R** without calling the **MaxEnt** java
 #' software. This results is a faster computation for large datasets.
 #'
-#' @include Maxent_class.R Maxnet_class.R
+#' @include Maxent-class.R Maxnet-class.R
 #' @import methods
 #' @importFrom raster beginCluster clusterR endCluster predict clamp subset
 #' @importFrom stats formula model.matrix

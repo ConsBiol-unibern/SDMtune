@@ -7,7 +7,7 @@ setClassUnion("model", c("Maxent", "Maxnet"))
 #' @slot data \code{\linkS4class{SWD}} object. The data used to train the model.
 #' @slot model \link{Maxent} or \link{Maxnet} object.
 #'
-#' @include SWD-class.R Maxent_class.R Maxnet_class.R
+#' @include SWD-class.R Maxent-class.R Maxnet-class.R
 #' @exportClass SDMmodel
 #'
 #' @author Sergio Vignali
