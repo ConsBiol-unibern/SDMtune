@@ -4,13 +4,17 @@
 \alias{prepareSWD}
 \title{Prepare an SWD object}
 \usage{
-prepareSWD(species, coords, env, categorical = NULL)
+prepareSWD(species, p = NULL, a = NULL, coords = NULL, env,
+  categorical = NULL)
 }
 \arguments{
 \item{species}{character. The name of the species.}
 
-\item{coords}{data.frame. The coordinates of the presence or
-absence/background locations.}
+\item{p}{data.frame. The coordinates of the presence locations.}
+
+\item{a}{data.frame. The coordinates of the absence/background locations.}
+
+\item{coords}{Deprecated.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental variables
 used to extract the values at coordinate locations.}
@@ -19,11 +23,11 @@ used to extract the values at coordinate locations.}
 categorical, default is \code{NULL}.}
 }
 \value{
-A \linkS4class{SWD} object
+An \linkS4class{SWD} object.
 }
 \description{
 Given the coordinates, the species' name and the environmental variables,
-the function creates a \linkS4class{SWD} object (sample with data).
+the function creates an \linkS4class{SWD} object (sample with data).
 }
 \examples{
 # Acquire environmental variables
@@ -34,8 +38,12 @@ predictors <- raster::stack(files)
 # Prepare presence locations
 p_coords <- condor[, 1:2]
 
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
+# Prepare background locations
+set.seed(25)
+bg_coords <- dismo::randomPoints(predictors, 2000)
+
+train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                    env = predictors, categorical = "biome")
 presence
 }
 \author{

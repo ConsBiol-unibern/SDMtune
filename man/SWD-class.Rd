@@ -10,6 +10,10 @@ Object similar to the MaxEnt SWD format that hosts the species name, the
 coordinates of the locations and the value of the environmental variables at
 the location places.
 }
+\details{
+\code{data} and \code{coords} must have the same number of rows;
+\code{pa} must have length equal to \code{row(data)}.
+}
 \section{Slots}{
 
 \describe{
@@ -18,7 +22,10 @@ the location places.
 \item{\code{coords}}{data.frame. Coordinates of the locations.}
 
 \item{\code{data}}{data.frame. Value of the environmental variables at location
-places.}
+sites.}
+
+\item{\code{pa}}{numeric. Vector with \code{1} for presence and \code{0} for
+absence/background locations.}
 }}
 
 \author{
