@@ -13,27 +13,25 @@
 #' @author Sergio Vignali
 old2NewSWD <- function(object1, object2 = NULL, fold = NULL) {
 
-  if (!is.null(object2)) {
-    if (ncol(object1@data) != ncol(object2@data))
-      stop("object1 and object2 have data with different number of columns.")
-    if (!all(colnames(object1@data) == colnames(object2@data)))
-      stop("object1 and object2 have data with different colnames.")
-  }
+  if (ncol(object1@data) != ncol(object2@data))
+    stop("object1 and object2 have data with different number of columns.")
+  if (!all(colnames(object1@data) == colnames(object2@data)))
+    stop("object1 and object2 have data with different colnames.")
 
   species = object1@species
+
   data <- object1@data
+  data <- rbind(data, object2@data)
+  rownames(data) <- NULL
+
   coords <- object1@coords
   if (!is.null(fold))
     coords <- coords[fold, ]
-  pa <- rep(1, nrow(coords))
+  coords <- rbind(coords, object2@coords)
+  rownames(coords) <- NULL
 
-  if (!is.null(object2)) {
-    data <- rbind(data, object2@data)
-    rownames(data) <- NULL
-    coords <- rbind(coords, object2@coords)
-    rownames(coords) <- NULL
-    pa <- c(pa, rep(0, nrow(object2@coords)))
-  }
+  pa <- rep(1, nrow(object1@data))
+  pa <- c(pa, rep(0, nrow(object2@data)))
 
   swd <- SWD(species = species,
              data = data,

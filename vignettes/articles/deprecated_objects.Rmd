@@ -13,9 +13,14 @@ options(knitr.table.format = "html")
 
 # Intro
 
-Starting from `SDMtune` version 0.2.0 the new `SWD()` object bundles together presence and absence/background data. This choice is necessary in order to enable new methods that use presence/absence data and to use spatial cross validation. We tried to reduce to the minimum the change in code that the users have to apply and make the transition to the new version as smooth as possible. The user needs to convert objects created with previous version into the new format.
+Starting from `SDMtune` version 0.2.0 the new `SWD()` object bundles together presence and absence/background data. This choice is necessary in order to enable new methods that use presence/absence data and to use spatial cross validation. We tried to reduce to the minimum the change in code that the users have to apply and make the transition to the new version as smooth as possible.
 
-If you get an error like:
+The user has two possibilities:
+
+* adapt the code following the articles and rerun the analysis;
+* convert objects created with the previous version into the new format.
+
+Here we explain how to convert the objects into the new format. If you get an error like:
 ```{r error message, echo=FALSE}
 message("This object was created using SDMtune v <= 0.1.1 and is now ",
            "deprecated.\nCheck the article \"Deprecated objects\" in the ",
@@ -42,9 +47,9 @@ It is important that the first argument is the one with the presence locations a
 
 ## SWD object for test
 
-For the following code we assume that you have one old `SWD()` object called **test_swd**:
+For the following code we assume that you have two old `SWD()` objects called **test_swd** and **absence_swd**. Is important that the test absence object is the same used to train the model:
 ```{r convert SWD test, eval=FALSE}
-test <- old2NewSWD(test_swd)
+test <- old2NewSWD(test_swd, absence_swd)
 ```
 
 # SDMmodel and SDMmodelCV objects
