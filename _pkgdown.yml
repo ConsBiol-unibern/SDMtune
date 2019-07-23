@@ -47,6 +47,8 @@ navbar:
       href: articles/articles/variable_selection.html
     - text: Tune model hyperparameters
       href: articles/articles/tune_hyperparameters.html
+    - text: Deprecated objects
+      href: articles/articles/deprecatd_objects.html
   - text: Changelog
     href: news/index.html
   right:
@@ -128,3 +130,10 @@ reference:
   - '`SDMmodelCV-class`'
   - '`SDMtune-class`'
   - '`SWD-class`'
+- title: Help functions
+  desc: Functions to convert object created with an old version of SDMtune (v <= 0.1.1) into the new format
+  contents:
+  - '`old2NewSWD`'
+  - '`old2NewSDMmodel`'
+  - '`old2NewSDMmodelCV`'
+  - '`old2NewSDMtune`'

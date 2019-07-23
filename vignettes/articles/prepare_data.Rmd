@@ -157,7 +157,7 @@ When we print an `SWD()` object we get a bunch of information:
 * the name of the class;
 * the name of the species;
 * the number of presence locations;
-* the nuber of absence/background locations;
+* the number of absence/background locations;
 * the environmental variables available in the dataset:
     + the name of the continuous environmental variables, if any;
     + the name of the categorical environmental variables, if any.

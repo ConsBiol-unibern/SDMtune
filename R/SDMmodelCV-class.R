@@ -30,10 +30,10 @@ setMethod(
   definition = function(object) {
 
     tunable_hypers <- get_tunable_args(object@models[[1]])
-    cont_vars <- names(Filter(is.numeric, object@p@data))
+    cont_vars <- names(Filter(is.numeric, object@data@data))
     if (length(cont_vars) == 0)
       cont_vars <- NA
-    cat_vars <- names(Filter(is.factor, object@p@data))
+    cat_vars <- names(Filter(is.factor, object@data@data))
     if (length(cat_vars) == 0)
       cat_vars <- NA
 

@@ -84,6 +84,7 @@ Collate:
     'doJk.R'
     'getSubsample.R'
     'gridSearch.R'
+    'help_functions.R'
     'maxentTh.R'
     'maxentVarImp.R'
     'mergeSWD.R'

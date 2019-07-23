@@ -49,7 +49,7 @@ setMethod(
     # TODO Remove this check in a feature release
     if (!.hasSlot(object, "pa"))
       stop("\nThis object was created using SDMtune v <= 0.1.1 and is now ",
-          "deprecated.\nCheck the article \"deprecated objects\" in the ",
+          "deprecated.\nCheck the article \"Deprecated objects\" in the ",
           "package website to see how to convert this object into the new ",
           "format.", call. = FALSE)
 
