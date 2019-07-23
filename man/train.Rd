@@ -24,12 +24,10 @@ Default is 1, meaning no cross validation is performed.}
 \item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
 validation (i.e. when \code{rep > 1}), default is \code{TRUE}.}
 
-\item{folds}{numeric. Vector containing the indexes for the k-fold partition
-of the training data, if not provided the function randomly creates the
-folds, default is \code{NULL}.}
+\item{folds}{matrix. Each column representing a fold with \code{TRUE} for
+train locations and \code{FALSE} for test locations.}
 
-\item{seed}{integer. The value used to set the seed for the fold partition,
-used if \strong{folds} is not provided, default is \code{NULL}.}
+\item{seed}{Deprecated.}
 
 \item{...}{Arguments passed to the relative method, see details.}
 }
@@ -63,6 +61,8 @@ default settings (e.g. \code{extra_args = c("removeduplicates=true,
 combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
 details see \code{\link[maxnet]{maxnet}}.
 }
+\item The length of each column in the \code{fold} argument must be the same of
+the locations used to train the model.
 }
 }
 \examples{
@@ -92,6 +92,9 @@ model <- train(method = "Maxnet", data = train, fc = "lq", reg = 1.5)
 # Train a Maxnet model with cross validation
 model <- train(method = "Maxnet", data = train, fc = "l", reg = 0.8, rep = 4)
 }
+}
+\seealso{
+\code{\link{randomFolds}}
 }
 \author{
 Sergio Vignali

@@ -20,7 +20,8 @@ validation.}
 \item{\code{a}}{\link{SWD} object. The absence/background locations used to train the
 model.}
 
-\item{\code{folds}}{numeric. Vector with the index for the k-fold partition.}
+\item{\code{folds}}{matrix. Each column represents a fold with \code{TRUE} for train
+locations and \code{FALSE} for test locations.}
 }}
 
 \author{

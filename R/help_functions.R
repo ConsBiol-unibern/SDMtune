@@ -84,13 +84,17 @@ old2NewSDMmodelCV <- function(model) {
   rownames(data@coords) <- NULL
   data@pa <- c(data@pa, rep(0, nrow(model@a@coords)))
 
-  l <- length(model@models)
-  models <- vector("list", length = l)
-  for (i in 1:l) {
+  k <- length(model@models)
+  models <- vector("list", length = k)
+  folds <- matrix(TRUE, nrow = nrow(data@coords), ncol = k)
+
+  for (i in 1:k) {
     fold <- model@folds != i
     models[[i]] <- old2NewSDMmodel(model@models[[i]], fold = fold)
+    folds[, i] <- c(fold, rep(TRUE, nrow(model@a@data)))
   }
-  output <- SDMmodelCV(data = data, models = models)
+
+  output <- SDMmodelCV(data = data, models = models, folds = folds)
 
   return(output)
 }

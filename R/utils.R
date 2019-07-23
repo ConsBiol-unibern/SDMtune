@@ -1,9 +1,25 @@
+# Get presence locations from an SWD object
 .get_presence <- function(swd) {
   return(swd@data[swd@pa == 1, ])
 }
 
+# Get absence locations from an SWD object
 .get_absence <- function(swd) {
   return(swd@data[swd@pa == 0, ])
+}
+
+# Subset an SWD object using the fold partition
+.subset_swd <- function(swd, fold) {
+
+  data <- swd@data[fold, ]
+  coords <- swd@coords[fold, ]
+  rownames(data) <- NULL
+  rownames(coords) <- NULL
+  pa <- swd@pa[fold]
+
+  output <- SWD(species = swd@species, data = data, coords = coords, pa = pa)
+
+  return(output)
 }
 
 .get_model_class <- function(model) {

@@ -8,7 +8,8 @@
 #' @slot p \link{SWD} object. Full dataset used by the k-fold cross validation.
 #' @slot a \link{SWD} object. The absence/background locations used to train the
 #' model.
-#' @slot folds numeric. Vector with the index for the k-fold partition.
+#' @slot folds matrix. Each column represents a fold with \code{TRUE} for train
+#' locations and \code{FALSE} for test locations.
 #'
 #' @include SWD-class.R
 #' @name SDMmodelCV-class
@@ -20,7 +21,7 @@ SDMmodelCV <- setClass("SDMmodelCV",
                        representation(
                          models = "list",
                          data = "SWD",
-                         folds = "numeric"
+                         folds = "matrix"
                        )
 )
 

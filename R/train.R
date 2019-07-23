@@ -12,11 +12,9 @@
 #' Default is 1, meaning no cross validation is performed.
 #' @param verbose logical, if \code{TRUE} shows a progress bar during cross
 #' validation (i.e. when \code{rep > 1}), default is \code{TRUE}.
-#' @param folds numeric. Vector containing the indexes for the k-fold partition
-#' of the training data, if not provided the function randomly creates the
-#' folds, default is \code{NULL}.
-#' @param seed integer. The value used to set the seed for the fold partition,
-#' used if **folds** is not provided, default is \code{NULL}.
+#' @param folds matrix. Each column representing a fold with \code{TRUE} for
+#' train locations and \code{FALSE} for test locations.
+#' @param seed Deprecated.
 #' @param ... Arguments passed to the relative method, see details.
 #'
 #' @details
@@ -37,11 +35,15 @@
 #'     + fc: vector. The value of the feature classes, possible values are
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
 #'       details see \code{\link[maxnet]{maxnet}}.
+#' * The length of each column in the \code{fold} argument must be the same of
+#' the locations used to train the model.
 #'
 #' @return An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 #' object.
 #' @export
 #' @importFrom progress progress_bar
+#'
+#' @seealso \code{\link{randomFolds}}
 #'
 #' @author Sergio Vignali
 #'
@@ -94,22 +96,62 @@ train <- function(method, data = NULL, p = NULL, a = NULL, rep = 1,
 
     models <- vector("list", length = rep)
 
-    if (is.null(folds)) {
-      if (!is.null(seed))
-        set.seed(seed)
-      folds <- cut(sample(1:nrow(p@data)), rep, labels = FALSE)
-    }
+    # TODO Remove it next release
+    if (!is.null(seed))
+      warning("Argument seed is deprecated and will be removed in the next ",
+              "release.", call. = FALSE)
 
     for (i in 1:rep) {
-      train <- p
-      train@data <- p@data[folds != i, , drop = FALSE]
-      models[[i]] <- do.call(f, args = list(p = train, a = a, ...))
+      train <- .subset_swd(data, folds[, i])
+      models[[i]] <- do.call(f, args = list(data = train, ...))
       if (verbose)
         pb$tick(1)
     }
 
-    model <- SDMmodelCV(models = models, p = p, a = a, folds = folds)
+    model <- SDMmodelCV(models = models, data = data, folds = folds)
   }
 
   return(model)
+}
+
+#' Create Random Folds
+#'
+#' Create random folds for cross validation
+#'
+#' @param data \code{\linkS4class{SWD}} object that will be used to train the
+#' model.
+#' @param k integer. Number of fold used to create the partition.
+#' @param only_presence logical, if \code{TRUE} the random folds are created
+#' only for the presence locations, used manly for presence-only methods.
+#' @param seed integer. The value used to set the seed for the fold partition,
+#' default is \code{NULL}.
+#'
+#' @return matrix with each column representing a fold. with \code{TRUE} for
+#' train locations and \code{FALSE} for test locations.
+#' @export
+#'
+#' @author Sergio Vignali
+#' @examples
+randomFolds <- function(data, k, only_presence = FALSE, seed = NULL) {
+
+  if (class(data) != "SWD")
+    stop("data argument is not of class SWD.")
+
+  if (!is.null(seed))
+    set.seed(seed)
+
+  output <- matrix(TRUE, nrow = length(data@pa), ncol = k)
+  p_folds <- cut(sample(1:nrow(.get_presence(data))), k, labels = FALSE)
+  a_folds <- cut(sample(1:nrow(.get_absence(data))), k, labels = FALSE)
+
+  for (i in 1:k) {
+    if (only_presence) {
+      output[, i] <- c(p_folds != k, rep(TRUE, nrow(.get_absence(data))))
+    } else {
+      folds <- c(p_folds, a_folds)
+      output[, i] <- folds != k
+    }
+  }
+
+  return(output)
 }
