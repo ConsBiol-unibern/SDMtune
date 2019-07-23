@@ -4,8 +4,8 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method, data = NULL, p = NULL, a = NULL, rep = 1,
-  verbose = TRUE, folds = NULL, seed = NULL, ...)
+train(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
+  a = NULL, rep = NULL, seed = NULL, ...)
 }
 \arguments{
 \item{method}{character. Method used to train the model, possible values are
@@ -14,18 +14,17 @@ train(method, data = NULL, p = NULL, a = NULL, rep = 1,
 \item{data}{\code{\linkS4class{SWD}} object with presence and
 absence/background locations.}
 
+\item{folds}{matrix. Each column representing a fold with \code{TRUE} for
+train locations and \code{FALSE} for test locations.}
+
+\item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
+validation, default is \code{TRUE}.}
+
 \item{p}{Deprecated.}
 
 \item{a}{Deprecated.}
 
-\item{rep}{numeric. Number of replicates, used for cross validation.
-Default is 1, meaning no cross validation is performed.}
-
-\item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
-validation (i.e. when \code{rep > 1}), default is \code{TRUE}.}
-
-\item{folds}{matrix. Each column representing a fold with \code{TRUE} for
-train locations and \code{FALSE} for test locations.}
+\item{rep}{Deprecated.}
 
 \item{seed}{Deprecated.}
 
@@ -61,8 +60,6 @@ default settings (e.g. \code{extra_args = c("removeduplicates=true,
 combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
 details see \code{\link[maxnet]{maxnet}}.
 }
-\item The length of each column in the \code{fold} argument must be the same of
-the locations used to train the model.
 }
 }
 \examples{

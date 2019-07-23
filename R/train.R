@@ -6,14 +6,13 @@
 #' "Maxent" or "Maxnet".
 #' @param data \code{\linkS4class{SWD}} object with presence and
 #' absence/background locations.
-#' @param p Deprecated.
-#' @param a Deprecated.
-#' @param rep numeric. Number of replicates, used for cross validation.
-#' Default is 1, meaning no cross validation is performed.
-#' @param verbose logical, if \code{TRUE} shows a progress bar during cross
-#' validation (i.e. when \code{rep > 1}), default is \code{TRUE}.
 #' @param folds matrix. Each column representing a fold with \code{TRUE} for
 #' train locations and \code{FALSE} for test locations.
+#' @param verbose logical, if \code{TRUE} shows a progress bar during cross
+#' validation, default is \code{TRUE}.
+#' @param p Deprecated.
+#' @param a Deprecated.
+#' @param rep Deprecated.
 #' @param seed Deprecated.
 #' @param ... Arguments passed to the relative method, see details.
 #'
@@ -35,8 +34,6 @@
 #'     + fc: vector. The value of the feature classes, possible values are
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
 #'       details see \code{\link[maxnet]{maxnet}}.
-#' * The length of each column in the \code{fold} argument must be the same of
-#' the locations used to train the model.
 #'
 #' @return An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 #' object.
@@ -74,34 +71,40 @@
 #' # Train a Maxnet model with cross validation
 #' model <- train(method = "Maxnet", data = train, fc = "l", reg = 0.8, rep = 4)
 #' }
-train <- function(method, data = NULL, p = NULL, a = NULL, rep = 1,
-                  verbose = TRUE, folds = NULL, seed = NULL, ...) {
+train <- function(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
+                  a = NULL, rep = NULL, seed = NULL, ...) {
 
   method <- match.arg(method, c("Maxent", "Maxnet"))
   f <- paste0("train", method)
 
+  # TODO Remove in next release
   if (!is.null(p) & !is.null(a)) {
     stop("Argument \"p\" and \"a\" are deprecated, use \"data\" instead.")
   }
+  if (!is.null(rep))
+    warning("Argument \"rep\" is deprecated and will be removed in the nex ",
+            "release. The number of partition is taken from the \"fold\" ",
+            "argument.")
 
-  if (rep == 1) {
+  if (is.null(folds)) {
     model <- do.call(f, args = list(data = data, ...))
   } else {
+    k <- ncol(folds)
     if (verbose) {
       pb <- progress::progress_bar$new(
         format = "Cross Validation [:bar] :percent in :elapsedfull",
-        total = rep, clear = FALSE, width = 60, show_after = 0)
+        total = k, clear = FALSE, width = 60, show_after = 0)
       pb$tick(0)
     }
 
-    models <- vector("list", length = rep)
+    models <- vector("list", length = k)
 
     # TODO Remove it next release
     if (!is.null(seed))
       warning("Argument seed is deprecated and will be removed in the next ",
               "release.", call. = FALSE)
 
-    for (i in 1:rep) {
+    for (i in 1:k) {
       train <- .subset_swd(data, folds[, i])
       models[[i]] <- do.call(f, args = list(data = train, ...))
       if (verbose)
