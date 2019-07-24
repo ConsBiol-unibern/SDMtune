@@ -23,11 +23,15 @@ used to extract the values at coordinate locations.}
 categorical, default is \code{NULL}.}
 }
 \value{
-An \linkS4class{SWD} object.
+An \code{\linkS4class{SWD}} object.
 }
 \description{
 Given the coordinates, the species' name and the environmental variables,
-the function creates an \linkS4class{SWD} object (sample with data).
+the function creates an \code{\linkS4class{SWD}} object (sample with data).
+}
+\details{
+The \code{\linkS4class{SWD}} object is created in a way that the
+presence locations are always before than the absence/background locations.
 }
 \examples{
 # Acquire environmental variables

@@ -7,19 +7,23 @@
 mergeSWD(swd1, swd2)
 }
 \arguments{
-\item{swd1}{\linkS4class{SWD} object.}
+\item{swd1}{\code{\linkS4class{SWD}} object.}
 
-\item{swd2}{\linkS4class{SWD} object.}
+\item{swd2}{\code{\linkS4class{SWD}} object.}
 }
 \value{
-The merged \linkS4class{SWD} object.
+The merged \code{\linkS4class{SWD}} object.
 }
 \description{
-Merge two \linkS4class{SWD} object.
+Merge two \code{\linkS4class{SWD}} objects.
 }
 \details{
-In case the two \linkS4class{SWD} objects have different columns,
+\itemize{
+\item In case the two \code{\linkS4class{SWD}} objects have different columns,
 only the common columns are used in the merged object.
+\item The \code{\linkS4class{SWD}} object is created in a way that the presence
+locations are always before than the absence/background locations.
+}
 }
 \examples{
 # Acquire environmental variables

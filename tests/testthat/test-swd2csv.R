@@ -10,7 +10,7 @@ test_that("Function saves object in one file correctly", {
 })
 
 test_that("Function saves object in two files correctly", {
-  swd2csv(x, c(file1, file2))
+  expect_silent(swd2csv(x, c(file1, file2)))
   # Presence file
   f1 <- read.csv(file1)
   expect_true(file.exists(file1))

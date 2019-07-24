@@ -1,14 +1,17 @@
 #' Merge SWD Objects
 #'
-#' Merge two \linkS4class{SWD} object.
+#' Merge two \code{\linkS4class{SWD}} objects.
 #'
-#' @param swd1 \linkS4class{SWD} object.
-#' @param swd2 \linkS4class{SWD} object.
+#' @param swd1 \code{\linkS4class{SWD}} object.
+#' @param swd2 \code{\linkS4class{SWD}} object.
 #'
-#' @details In case the two \linkS4class{SWD} objects have different columns,
+#' @details
+#' * In case the two \code{\linkS4class{SWD}} objects have different columns,
 #' only the common columns are used in the merged object.
+#' * The \code{\linkS4class{SWD}} object is created in a way that the presence
+#' locations are always before than the absence/background locations.
 #'
-#' @return The merged \linkS4class{SWD} object.
+#' @return The merged \code{\linkS4class{SWD}} object.
 #' @export
 #'
 #' @author Sergio Vignali
@@ -55,7 +58,19 @@ mergeSWD <- function(swd1, swd2) {
 
   swd <- new("SWD")
   swd@species <- swd1@species
-  swd@coords <- rbind(swd1@coords, swd2@coords)
-  swd@data <- rbind(swd1@data, swd2@data)
+
+  # Align presence/absence data
+  swd@data <- rbind(swd1@data[swd1@pa == 1, ], swd2@data[swd2@pa == 1, ],
+                    swd1@data[swd1@pa == 0, ], swd2@data[swd2@pa == 0, ])
+  rownames(swd@data) <- NULL
+  # Align presence/absence coords
+  swd@coords <- rbind(swd1@coords[swd1@pa == 1, ], swd2@coords[swd2@pa == 1, ],
+                      swd1@coords[swd1@pa == 0, ], swd2@coords[swd2@pa == 0, ])
+  rownames(swd@coords) <- NULL
+
+  # Align pa
+  swd@pa <- c(swd1@pa[swd1@pa == 1], swd2@pa[swd2@pa == 1],
+              swd1@pa[swd1@pa == 0], swd2@pa[swd2@pa == 0])
+
   return(swd)
 }
