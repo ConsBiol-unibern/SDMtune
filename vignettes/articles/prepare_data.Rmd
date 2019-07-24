@@ -115,7 +115,7 @@ We extract 5000 background locations using the [randomPoints](https://www.rdocum
 
 ```{r prepare background}
 set.seed(25)
-bg_coords <- dismo::randomPoints(predictors, 5000)
+bg_coords <- dismo::randomPoints(predictors[[9]], 5000)
 ```
 
 To plot the background locations run the following code:
@@ -141,8 +141,6 @@ Before training a model we have to prepare the data in the correct format. The `
 train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
 
 ```
-
-The warning message reports that in the background dataset some locations were discarded.
 
 ## Explore an SWD object
 
@@ -179,9 +177,16 @@ or the name of the species with:
 train@species
 ```
 
-We can save an `SWD()` object in a **.csv** file using the function `swd2csv()` (the function saves the file in the working directory):
-```{r save SWD, eval=F}
-swd2csv(presence, file_name = "presence.csv")
+We can save the `SWD()` object in a **.csv** file using the function `swd2csv()` (the function saves the file in the working directory). There are two possibilities:
+
+* save the object in a single file with the column **pa** indicating if the location is a presence (1) or an absence/background (0) site
+```{r save SWD single, eval=F}
+swd2csv(train, file_name = "train.csv")
+```
+
+* save the object in two separate files: one for the presence and the other for the absence/background locations
+```{r save SWDdouble, eval=F}
+swd2csv(train, file_name = c("presence.csv", "backgground.csv"))
 ```
 
 ## Conclusion

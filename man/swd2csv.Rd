@@ -7,12 +7,25 @@
 swd2csv(swd, file_name)
 }
 \arguments{
-\item{swd}{\linkS4class{SWD} object.}
+\item{swd}{\code{\linkS4class{SWD}} object.}
 
-\item{file_name}{character. The name of the file where to save the object.}
+\item{file_name}{character. The name of the file in which to save the object,
+see details.}
 }
 \description{
-Save a \linkS4class{SWD} object as csv file.
+Save an \code{\linkS4class{SWD}} object as csv file.
+}
+\details{
+\itemize{
+\item The \code{file_name} argument should include the extension (i.e.
+my_file.csv).
+\item If \code{file_name} is a single name the function saves the presence
+absence/background locations in a single file, adding the column \strong{pa} with
+1s for presence and 0s for absence/background locations. If \code{file_name}
+is a vector with two names, it saves the object in two files: the first name
+is used for the presence locations and the second for the absence/background
+locations.
+}
 }
 \examples{
 \donttest{
