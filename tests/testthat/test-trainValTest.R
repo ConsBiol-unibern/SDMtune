@@ -32,7 +32,7 @@ test_that("The output is correct for train/test split", {
 
 test_that("The output is correct for train/test split for only presence", {
   # Train/test split, only presence
-  x <- trainValTest(t, test = 0.3, only_presence = TRUE, seed = 25)
+  x <- trainValTest(t, test = 0.3, only_presence = TRUE)
   np <- length(which(t@pa == 1))
   na <- length(which(t@pa == 0))
   expect_type(x, "list")
@@ -59,7 +59,7 @@ test_that("The output is correct for train/test split for only presence", {
 })
 
 test_that("The output is correct for train/val/test split", {
-  x <- trainValTest(t, val = 0.2, test = 0.2, only_presence = FALSE, seed = 25)
+  x <- trainValTest(t, val = 0.2, test = 0.2, only_presence = FALSE)
   np <- length(which(t@pa == 1))
   na <- length(which(t@pa == 0))
   expect_type(x, "list")
@@ -90,7 +90,7 @@ test_that("The output is correct for train/val/test split", {
 })
 
 test_that("The output is correct for train/val/test split for only presence", {
-  x <- trainValTest(t, val = 0.2, test = 0.2, only_presence = TRUE, seed = 25)
+  x <- trainValTest(t, val = 0.2, test = 0.2, only_presence = TRUE)
   np <- length(which(t@pa == 1))
   na <- length(which(t@pa == 0))
   expect_type(x, "list")

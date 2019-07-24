@@ -50,15 +50,15 @@ confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
   type <- match.arg(type)
 
   if (is.null(test)) {
-    p <- model@p@data
+    data <- model@data
   } else {
-    p <- test@data[colnames(model@p@data)]
+    # TODO check if I can remove this: test@data[colnames(model@p@data)]
+    data <- test
   }
-  a <- model@a@data
 
-  n_p <- nrow(p)
-  n_a <- nrow(a)
-  pred <- predict(model, rbind(p, a), type = type)
+  n_p <- sum(data@pa == 1)
+  n_a <- sum(data@pa == 0)
+  pred <- predict(model, data, type = type)
   p_pred <- pred[1:n_p]
   a_pred <- pred[(n_p + 1):(n_p + n_a)]
 

@@ -96,7 +96,7 @@ setMethod("predict",
               model <- object@model@model
             }
 
-            vars <- colnames(object@p@data)
+            vars <- colnames(object@data@data)
 
             if (inherits(data, "Raster")) {
               data <- raster::subset(data, vars)
