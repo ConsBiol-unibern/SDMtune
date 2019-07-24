@@ -125,7 +125,8 @@ train <- function(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
 #' model.
 #' @param k integer. Number of fold used to create the partition.
 #' @param only_presence logical, if \code{TRUE} the random folds are created
-#' only for the presence locations, used manly for presence-only methods.
+#' only for the presence locations, used manly for presence-only methods,
+#' default is \code{FALSE}.
 #' @param seed integer. The value used to set the seed for the fold partition,
 #' default is \code{NULL}.
 #'

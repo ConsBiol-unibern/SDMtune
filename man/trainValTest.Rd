@@ -4,23 +4,27 @@
 \alias{trainValTest}
 \title{Train, Validation and Test datasets}
 \usage{
-trainValTest(x, test, val = 0, seed = NULL)
+trainValTest(x, test, val = 0, only_presence = FALSE, seed = NULL)
 }
 \arguments{
-\item{x}{\linkS4class{SWD} object containing the data that have to be split
-in training, validation and testing datasets.}
+\item{x}{\code{\linkS4class{SWD}} object containing the data that have to be
+split in training, validation and testing datasets.}
 
 \item{test}{numeric. The percentage of data withhold for testing.}
 
 \item{val}{numeric. The percentage of data withhold for validation, default
 is 0.}
 
+\item{only_presence}{logical, if \code{TRUE} the split is done only for the
+presence locations, used manly for presence-only methods, default is
+\code{FALSE}.}
+
 \item{seed}{numeric. The value used to set the seed in order to have
 consistent results, default is \code{NULL}.}
 }
 \value{
-A list with the training, validation and testing data sets or
-training and testing data sets accordingly.
+A list with the training, validation and testing or training and
+testing \code{\link{SWD}} objects accordingly.
 }
 \description{
 Split a dataset randomly in training and testing datasets or training,

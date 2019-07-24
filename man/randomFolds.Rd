@@ -13,7 +13,8 @@ model.}
 \item{k}{integer. Number of fold used to create the partition.}
 
 \item{only_presence}{logical, if \code{TRUE} the random folds are created
-only for the presence locations, used manly for presence-only methods.}
+only for the presence locations, used manly for presence-only methods,
+default is \code{FALSE}.}
 
 \item{seed}{integer. The value used to set the seed for the fold partition,
 default is \code{NULL}.}
