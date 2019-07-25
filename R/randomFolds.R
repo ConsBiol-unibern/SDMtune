@@ -11,8 +11,8 @@
 #' @param seed integer. The value used to set the seed for the fold partition,
 #' default is \code{NULL}.
 #'
-#' @return list with two matices, the first for the training and the second for
-#' the testing dataset. Each column of one metrix represents a fold with
+#' @return list with two matrices, the first for the training and the second for
+#' the testing dataset. Each column of one matrix represents a fold with
 #' \code{TRUE} for train locations and \code{FALSE} for test locations.
 #' @export
 #'

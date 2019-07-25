@@ -48,7 +48,13 @@
 #' @author Sergio Vignali
 plotROC <- function(model, val = NULL, test = NULL) {
 
-  cm <- confMatrix(model)
+  if (class(model@model) == "Maxent") {
+    type <- "raw"
+  } else {
+    type <- "link"
+  }
+
+  cm <- confMatrix(model, type = type)
   fpr <- cm$fp / (cm$fp + cm$tn)
   tpr <- cm$tp / (cm$tp + cm$fn)
   auc <- auc(model)
@@ -57,7 +63,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
   labels <- c(paste("Train", round(auc, 3)))
 
   if (!is.null(val)) {
-    cm <- confMatrix(model, test = val)
+    cm <- confMatrix(model, type = type, test = val)
     fpr <- cm$fp / (cm$fp + cm$tn)
     tpr <- cm$tp / (cm$tp + cm$fn)
     auc <- auc(model, test = val)
@@ -67,7 +73,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
   }
 
   if (!is.null(test)) {
-    cm <- confMatrix(model, test = test)
+    cm <- confMatrix(model, type = type, test = test)
     fpr <- cm$fp / (cm$fp + cm$tn)
     tpr <- cm$tp / (cm$tp + cm$fn)
     auc <- auc(model, test = test)

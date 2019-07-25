@@ -3,13 +3,19 @@
 #' Computes Confusion Matrixes for threshold values varying from 0 to 1.
 #'
 #' @param model \code{\linkS4class{SDMmodel}} object.
-#' @param type character. The output type, possible values are "cloglog" and
-#' "logistic".
+#' @param type character. The output type, see details.
 #' @param test \code{\linkS4class{SWD}} test locations, if not provided it uses
 #' the train dataset, default is \code{NULL}.
 #' @param th numeric vector, if provided it computes the evaluation at the given
 #' thresholds, default is \code{NULL} and it computes the evaluation for a
 #' sequence from 0 to 1.
+#'
+#' @details
+#' * For models trained with the **Maxent** method the argument \code{type} can
+#' be: "raw", "logistic" and "cloglog".
+#' * For models trained with the **Maxnet** method the argument \code{type} can
+#' be: "link", "exponential", "logistic" and "cloglog", see
+#' \code{\link[maxnet]{maxnet}} for more details.
 #'
 #' @return The Confusion Matrix for all the used thresholds.
 #' @export
@@ -46,8 +52,6 @@
 #' confMatrix(model, type = "logistic", th = 0.6)
 confMatrix <- function(model, type, test = NULL, th = NULL) {
 
-  type <- match.arg(type, c("cloglog", "logistic"))
-
   if (is.null(test)) {
     data <- model@data
   } else {
@@ -62,7 +66,7 @@ confMatrix <- function(model, type, test = NULL, th = NULL) {
   a_pred <- pred[(n_p + 1):(n_p + n_a)]
 
   if (is.null(th)) {
-    th <- sort(unique(c(p_pred, a_pred)))
+    th <- sort(unique(pred))
     th <- c(0, th, 1)
   }
 

@@ -6,9 +6,9 @@
 #' "Maxent" or "Maxnet".
 #' @param data \code{\linkS4class{SWD}} object with presence and
 #' absence/background locations.
-#' @param folds list with two matices, the first for the training and the second
-#' for the testing dataset. Each column of one metrix represents a fold with
-#' \code{TRUE} for train locations and \code{FALSE} for test locations.
+#' @param folds list with two matrices, the first for the training and the
+#' second for the testing dataset. Each column of one matrix represents a fold
+#' with \code{TRUE} for train locations and \code{FALSE} for test locations.
 #' @param verbose logical, if \code{TRUE} shows a progress bar during cross
 #' validation, default is \code{TRUE}.
 #' @param p Deprecated.
@@ -104,7 +104,7 @@ train <- function(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
     models <- vector("list", length = k)
 
     for (i in 1:k) {
-      train <- .subset_swd(data, folds[[1]][, i])
+      train <- .subset_swd(data, folds$train[, i])
       models[[i]] <- do.call(f, args = list(data = train, ...))
       if (verbose)
         pb$tick(1)

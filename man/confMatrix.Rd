@@ -9,8 +9,7 @@ confMatrix(model, type, test = NULL, th = NULL)
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} object.}
 
-\item{type}{character. The output type, possible values are "cloglog" and
-"logistic".}
+\item{type}{character. The output type, see details.}
 
 \item{test}{\code{\linkS4class{SWD}} test locations, if not provided it uses
 the train dataset, default is \code{NULL}.}
@@ -24,6 +23,15 @@ The Confusion Matrix for all the used thresholds.
 }
 \description{
 Computes Confusion Matrixes for threshold values varying from 0 to 1.
+}
+\details{
+\itemize{
+\item For models trained with the \strong{Maxent} method the argument \code{type} can
+be: "raw", "logistic" and "cloglog".
+\item For models trained with the \strong{Maxnet} method the argument \code{type} can
+be: "link", "exponential", "logistic" and "cloglog", see
+\code{\link[maxnet]{maxnet}} for more details.
+}
 }
 \examples{
 # Acquire environmental variables

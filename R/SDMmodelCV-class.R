@@ -8,8 +8,8 @@
 #' @slot p \link{SWD} object. Full dataset used by the k-fold cross validation.
 #' @slot a \link{SWD} object. The absence/background locations used to train the
 #' model.
-#' @slot folds list with two matices, the first for the training and the second
-#' for the testing dataset. Each column of one metrix represents a fold with
+#' @slot folds list with two matrices, the first for the training and the second
+#' for the testing dataset. Each column of one matrix represents a fold with
 #' \code{TRUE} for train locations and \code{FALSE} for test locations.
 #'
 #' @include SWD-class.R

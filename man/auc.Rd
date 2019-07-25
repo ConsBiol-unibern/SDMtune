@@ -15,7 +15,7 @@ auc(model, test = NULL, a = NULL)
 \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
 train AUC, default is \code{NULL}.}
 
-\item{a}{Depecrecated.}
+\item{a}{Deprecated.}
 }
 \value{
 The value of the AUC.

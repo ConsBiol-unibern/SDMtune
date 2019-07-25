@@ -1,6 +1,4 @@
-context("Plot ROC")
-
-p <- plotROC(SDMtune:::bm_maxent, val = SDMtune:::p, test = SDMtune:::p)
+p <- plotROC(SDMtune:::bm_maxent, val = SDMtune:::t, test = SDMtune:::t)
 
 test_that("The plot contains the correct data", {
   expect_equal(unique(p$data$set), c("train", "val", "test"))
