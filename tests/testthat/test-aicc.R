@@ -1,14 +1,16 @@
-context("AICc")
+skip_on_cran()
 
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 env <- raster::stack(files)
-p <- SDMtune:::p
+train <- SDMtune:::t
+
 # Reduce observation to simulate k > n
-p@data <- p@data[1:15, ]
-p@coords <- p@coords[1:15, ]
-bg <- SDMtune:::bg_model
-m <- train("Maxnet", p = p, a = bg, fc = "h")
+np <- sum(train@pa == 1)
+fold <- rep(TRUE, nrow(train@data))
+fold[16:np] <- FALSE
+train <- .subset_swd(train, fold)
+m <- train("Maxnet", data = train, fc = "h")
 
 test_that("NA is returned if k > obs", {
   expect_equal(aicc(m, env), NA)

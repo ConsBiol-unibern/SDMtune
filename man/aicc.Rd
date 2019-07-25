@@ -7,7 +7,7 @@
 aicc(model, env, parallel = FALSE)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} object.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables.}

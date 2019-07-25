@@ -13,8 +13,7 @@ options(knitr.table.format = "html")
 
 ```{r load data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
-presence <- SDMtune:::p
-bg_model <- SDMtune:::bg_model
+train <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```

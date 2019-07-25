@@ -16,6 +16,6 @@ test_that("The function uses the testing dataset", {
 })
 
 test_that("The function raises errors", {
-  expect_error(auc(m_cv, SDMtune:::t),
+  expect_error(tss(m_cv, SDMtune:::t),
                "\"test\" argument invalid for \"SDMmodelCV\" objects! Use TRUE")
 })
