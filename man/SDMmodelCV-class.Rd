@@ -20,8 +20,9 @@ validation.}
 \item{\code{a}}{\link{SWD} object. The absence/background locations used to train the
 model.}
 
-\item{\code{folds}}{matrix. Each column represents a fold with \code{TRUE} for train
-locations and \code{FALSE} for test locations.}
+\item{\code{folds}}{list with two matices, the first for the training and the second
+for the testing dataset. Each column of one metrix represents a fold with
+\code{TRUE} for train locations and \code{FALSE} for test locations.}
 }}
 
 \author{

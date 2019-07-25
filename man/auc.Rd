@@ -7,15 +7,15 @@
 auc(model, test = NULL, a = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or
+\code{\linkS4class{SDMmodelCV}} objects.}
 
-\item{test}{\linkS4class{SWD} test locations for \linkS4class{SDMmodel}
-objects or logical.
-for \linkS4class{SDMmodelCV} objects, if not provided it computes the train
-AUC, default is \code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} test object for
+\code{\linkS4class{SDMmodel}} objects or logical for
+\code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
+train AUC, default is \code{NULL}.}
 
-\item{a}{\linkS4class{SWD} absence or background locations used to compute
-the AUC by the permutation importance function, default is \code{NULL}.}
+\item{a}{Depecrecated.}
 }
 \value{
 The value of the AUC.
@@ -24,9 +24,9 @@ The value of the AUC.
 Compute the AUC using the Man-Whitney U Test formula.
 }
 \details{
-If the model is a \linkS4class{SDMmodelCV} object, the function
-computes the mean of the training or testing AUC values of the different
-replicates.
+If the model is a \code{\linkS4class{SDMmodelCV}} object, the
+function computes the mean of the training or testing AUC values of the
+different replicates.
 }
 \examples{
 # Acquire environmental variables

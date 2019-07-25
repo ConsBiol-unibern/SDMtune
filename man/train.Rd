@@ -14,8 +14,9 @@ train(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
 \item{data}{\code{\linkS4class{SWD}} object with presence and
 absence/background locations.}
 
-\item{folds}{matrix. Each column representing a fold with \code{TRUE} for
-train locations and \code{FALSE} for test locations.}
+\item{folds}{list with two matices, the first for the training and the second
+for the testing dataset. Each column of one metrix represents a fold with
+\code{TRUE} for train locations and \code{FALSE} for test locations.}
 
 \item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
 validation, default is \code{TRUE}.}

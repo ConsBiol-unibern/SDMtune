@@ -2,9 +2,7 @@ skip_on_cran()
 
 m <- SDMtune:::bm_maxnet
 test <- SDMtune:::t
-test@data <- test@data[test@pa == 1, ]
-test@coords <- test@coords[test@pa == 1, ]
-test@pa <- test@pa[test@pa == 1]
+test <- .subset_swd(test, test@pa == 1)
 cm <- confMatrix(m, type = "cloglog", th = 0.4)
 
 test_that("There is the correct number of thresholds when passing th", {

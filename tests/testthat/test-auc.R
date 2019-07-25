@@ -1,5 +1,3 @@
-context("AUC")
-
 m <- SDMtune:::bm_maxent
 m_cv <- SDMtune:::bm_maxent_cv
 

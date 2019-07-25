@@ -6,8 +6,9 @@
 #' "Maxent" or "Maxnet".
 #' @param data \code{\linkS4class{SWD}} object with presence and
 #' absence/background locations.
-#' @param folds matrix. Each column representing a fold with \code{TRUE} for
-#' train locations and \code{FALSE} for test locations.
+#' @param folds list with two matices, the first for the training and the second
+#' for the testing dataset. Each column of one metrix represents a fold with
+#' \code{TRUE} for train locations and \code{FALSE} for test locations.
 #' @param verbose logical, if \code{TRUE} shows a progress bar during cross
 #' validation, default is \code{TRUE}.
 #' @param p Deprecated.
@@ -85,11 +86,14 @@ train <- function(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
     warning("Argument \"rep\" is deprecated and will be removed in the nex ",
             "release. The number of partition is taken from the \"fold\" ",
             "argument.")
+  if (!is.null(seed))
+    warning("Argument seed is deprecated and will be removed in the next ",
+            "release.", call. = FALSE)
 
   if (is.null(folds)) {
     model <- do.call(f, args = list(data = data, ...))
   } else {
-    k <- ncol(folds)
+    k <- ncol(folds[[1]])
     if (verbose) {
       pb <- progress::progress_bar$new(
         format = "Cross Validation [:bar] :percent in :elapsedfull",
@@ -99,13 +103,8 @@ train <- function(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
 
     models <- vector("list", length = k)
 
-    # TODO Remove it next release
-    if (!is.null(seed))
-      warning("Argument seed is deprecated and will be removed in the next ",
-              "release.", call. = FALSE)
-
     for (i in 1:k) {
-      train <- .subset_swd(data, folds[, i])
+      train <- .subset_swd(data, folds[[1]][, i])
       models[[i]] <- do.call(f, args = list(data = train, ...))
       if (verbose)
         pb$tick(1)
@@ -115,47 +114,4 @@ train <- function(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
   }
 
   return(model)
-}
-
-#' Create Random Folds
-#'
-#' Create random folds for cross validation
-#'
-#' @param data \code{\linkS4class{SWD}} object that will be used to train the
-#' model.
-#' @param k integer. Number of fold used to create the partition.
-#' @param only_presence logical, if \code{TRUE} the random folds are created
-#' only for the presence locations, used manly for presence-only methods,
-#' default is \code{FALSE}.
-#' @param seed integer. The value used to set the seed for the fold partition,
-#' default is \code{NULL}.
-#'
-#' @return matrix with each column representing a fold. with \code{TRUE} for
-#' train locations and \code{FALSE} for test locations.
-#' @export
-#'
-#' @author Sergio Vignali
-#' @examples
-randomFolds <- function(data, k, only_presence = FALSE, seed = NULL) {
-
-  if (class(data) != "SWD")
-    stop("data argument is not of class SWD.")
-
-  if (!is.null(seed))
-    set.seed(seed)
-
-  output <- matrix(TRUE, nrow = length(data@pa), ncol = k)
-  p_folds <- cut(sample(1:nrow(.get_presence(data))), k, labels = FALSE)
-  a_folds <- cut(sample(1:nrow(.get_absence(data))), k, labels = FALSE)
-
-  for (i in 1:k) {
-    if (only_presence) {
-      output[, i] <- c(p_folds != k, rep(TRUE, nrow(.get_absence(data))))
-    } else {
-      folds <- c(p_folds, a_folds)
-      output[, i] <- folds != k
-    }
-  }
-
-  return(output)
 }
