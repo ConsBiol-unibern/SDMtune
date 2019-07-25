@@ -13,7 +13,7 @@ options(knitr.table.format = "html")
 ```{r load data, echo=FALSE, message=FALSE}
 library(kableExtra)
 default_model <- SDMtune:::bm_maxent
-train <- SDMtune:::t
+data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```
@@ -39,7 +39,7 @@ New locations are predicted with the function [predict()](../../reference/predic
 Next we get the prediction for our training locations using the **cloglog** output type:
 
 ```{r predict train}
-pred <- predict(default_model, data = train, type = "cloglog")
+pred <- predict(default_model, data = data, type = "cloglog")
 ```
 
 The output in this case is a vector containing all the predicted values for the training locations:
@@ -50,7 +50,7 @@ head(pred)
 
 We can get the prediction only for the presence location with:
 ```{r predict presence}
-p <- train@data[train@pa == 1, ]
+p <- data@data[data@pa == 1, ]
 pred <- predict(default_model, data = p, type = "cloglog")
 tail(pred)
 ```

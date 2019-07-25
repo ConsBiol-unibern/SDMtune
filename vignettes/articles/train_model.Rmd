@@ -46,7 +46,7 @@ library(SDMtune)
 We use the function `train()` to train a **Maxent** model. We need to provide two arguments:
 
 * `method`: "Maxent" in our case;
-* `train`: the `SWD()` object with the presence and background locations we created in the previous article.
+* `data`: the `SWD()` object with the presence and background locations we created in the previous article.
 
 ```{r, echo=FALSE}
 default_model <- SDMtune:::bm_maxent
@@ -109,14 +109,14 @@ For the moment the most important are: **fc**, **reg** and **iter** that contain
 The function `train()` accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the model also using:
 
 ```{r retrain, eval = FALSE}
-default_model <- train(method = "Maxent", data = train, fc = "lqph", reg = 1, iter = 500)
+default_model <- train(method = "Maxent", data = data, fc = "lqph", reg = 1, iter = 500)
 ```
 
 ### Try yourself
 Try to change the default settings  and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:
 
 ```{r exercise1, eval = FALSE, class.source='exercise'}
-model <- train(method = "Maxent", data = train, fc = "lh", reg = 0.5, iter = 700)
+model <- train(method = "Maxent", data = data, fc = "lh", reg = 0.5, iter = 700)
 ```
 
 ## Train a Maxnet model
@@ -128,7 +128,7 @@ Train a model using the **Maxnet** method is as simple as changing the name of t
 Try to train a model using the **Maxnet** method. To see the solution highlight the following cell:
 
 ```{r train maxnet, eval = FALSE, class.source='exercise'}
-maxnet_model <- train("Maxnet", data = train)
+maxnet_model <- train("Maxnet", data = data)
 ```
 
 ## Conclusion

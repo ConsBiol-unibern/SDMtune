@@ -16,7 +16,8 @@ absence/background locations.}
 
 \item{folds}{list with two matrices, the first for the training and the
 second for the testing dataset. Each column of one matrix represents a fold
-with \code{TRUE} for train locations and \code{FALSE} for test locations.}
+with \code{TRUE} for the locations included in and \code{FALSE} excluded from
+the partition.}
 
 \item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
 validation, default is \code{TRUE}.}

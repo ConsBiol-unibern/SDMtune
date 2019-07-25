@@ -12,8 +12,8 @@ options(knitr.table.format = "html")
 ```
 
 ```{r load data, echo=FALSE, message=FALSE}
-presence <- SDMtune:::p
-bg_model <- SDMtune:::bg_model
+library(kableExtra)
+data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = T)
 predictors <- raster::stack(files)
 ```
@@ -30,14 +30,14 @@ First we load the **SDMtune** package:
 library(SDMtune)
 ```
 
-It's always a good practice to split the presence locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest()` function for this purpose. Let's say we want to use 80\% of the presence locations to train our model and 20\% as testing dataset to evaluate it:
+It's always a good practice to split the species locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest()` function for this purpose. Let's say we want to use 80\% of the species locations to train our model and 20\% as testing dataset to evaluate it:
 ```{r train test}
 library(zeallot)  # For unpacking assignment
-c(train, test) %<-% trainValTest(presence, test = 0.2, seed = 25)
-maxnet_model <- train("Maxnet", p = train, a = bg_model)
+c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
+maxnet_model <- train("Maxnet", data = train)
 ```
 
-We can now evaluate the model using the testing dataset that has not been used to train the model:
+The `only_presence` argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:
 ```{r evaluate test}
 cat("Training auc: ", auc(maxnet_model))
 cat("Testing auc: ", auc(maxnet_model, test = test))
@@ -50,21 +50,31 @@ colnames(output) <- c("seed", "trainAUC", "testAUC")
 set.seed(25)
 seeds <- sample.int(1000, 10) # Create 10 different random seeds
 for (i in 1:length(seeds)) { # Loop through the seeds
-  c(train, test) %<-% trainValTest(presence, test = 0.2, seed = seeds[i]) # Make the train/test split
-  m <- train("Maxnet", p = train, a = bg_model) # train the model
+  c(train, test) %<-% trainValTest(data, test = 0.2, seed = seeds[i]) # Make the train/test split
+  m <- train("Maxnet", data = train) # train the model
   # Populate the output data.frame
   output[i, 1] <- seeds[i]
   output[i, 2] <- auc(m)
   output[i, 3] <- auc(m, test = test)
 }
+```
+
+The testing AUC varies from `r min(output[, 3])` to `r max(output[, 3])`. When we have to deal with a small dataset a better approach is the cross validation.
+```{r table, eval=FALSE}
 # Print the output
 output
-
+```
+```{r table kable, echo=FALSE}
+# Print the output
+kable(output) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE, position = "center")
+```
+```{r range}
 # compute the range of the testing AUC
 range(output[, 3])
 ```
 
-The testing AUC varies from `r min(output[, 3])` to `r max(output[, 3])`. When we have to deal with a small dataset a better approach is the cross validation.
+
 
 ### Try yourself
 
@@ -72,9 +82,16 @@ Repeat the same analysis using the TSS instead of the AUC.
 
 ## Cross validation
 
-To perform a cross validation in **SDMtune** we have to pass the `rep` argument to the `train()` function. Let's perform a 4 fold cross validation using the **Maxnet** method:
+To perform a cross validation in **SDMtune** we have to pass the `fold` argument to the `train()` function. First we have to create the folds. There are several way to create them, here we explain how to make a random partition of 4 folds using the function `randomFolds()`:
+```{r random folds}
+folds <- randomFolds(data, k = 4, only_presence = TRUE, seed = 25)
+```
+
+The output of the function is a list containing two matrices, the first for the training and the second for the testing locations. Each column of one matrix represents a fold with `TRUE` for the locations included in and `FALSE` excluded from the partition.
+
+Let's perform a 4 fold cross validation using the **Maxnet** method:
 ```{r cv, eval=FALSE}
-cv_model <- train("Maxnet", p = presence, a = bg_model, rep = 4)
+cv_model <- train("Maxnet", data = data, folds = folds)
 cv_model
 ```
 ```{r cv bis, echo=FALSE}
@@ -82,7 +99,7 @@ cv_model <- SDMtune:::bm_maxnet_cv
 cv_model
 ```
 
-The output in this case is an `SDMmodelCV()` object. It contains the four trained models in the `models` slot and the index of the fold partition in the `folds` slot. We can compute the AUC of a `SDMmodelCV()` object using:
+The output in this case is an `SDMmodelCV()` object. It contains the four trained models in the `models` slot and the fold partitions in the `folds` slot. We can compute the AUC of a `SDMmodelCV()` object using:
 ```{r}
 cat("Training AUC: ", auc(cv_model))
 cat("Testing AUC: ", auc(cv_model, test = TRUE))
@@ -100,6 +117,7 @@ In this article you have learned:
 
 * how to split the presence dataset in training and testing folds;
 * how to evaluate the model using the held out testing dataset;
+* how to create random folds for cross validation;
 * how to perform a cross validation;
 * how to evaluate an `SDMmodelCV()` object.
 
