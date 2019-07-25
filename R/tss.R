@@ -2,14 +2,16 @@
 #'
 #' Compute the max TSS of a given model.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
-#' @param test \linkS4class{SWD} test locations for \linkS4class{SDMmodel}
-#' objects or logical for \linkS4class{SDMmodelCV} objects, if not provided it
-#' computes the training AUC, default is \code{NULL}.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
+#' @param test \code{\linkS4class{SWD}} test locations for
+#' \code{\linkS4class{SDMmodel}} objects or logical for
+#' \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
+#' training AUC, default is \code{NULL}.
 #'
-#' @details If the model is a \linkS4class{SDMmodelCV} object, the function
-#' computes the mean of the training or testing TSS values of the different
-#' replicates.
+#' @details If the model is a \code{\linkS4class{SDMmodelCV}} object, the
+#' function computes the mean of the training or testing TSS values of the
+#' different replicates.
 #'
 #' @return The value of the TSS of the given model.
 #' @export
@@ -71,15 +73,19 @@ tss <- function(model, test = NULL) {
     tss <- .compute_tss(model, test)
   } else {
     tsss <- vector("numeric", length = length(model@models))
+
     for (i in 1:length(model@models)) {
-      if (is.null(test)) {
-        data <- model@p
-        data@data <- model@p@data[model@folds != i, , drop = FALSE]
+      if (!is.null(test)) {
+        if (isTRUE(test)) {
+          test_swd <- .subset_swd(model@data, model@folds$test[, i])
+        } else {
+          stop("\"test\" argument invalid for \"SDMmodelCV\" objects! Use ",
+               "TRUE or FALSE.")
+        }
       } else {
-        data <- model@p
-        data@data <- model@p@data[model@folds == i, , drop = FALSE]
+        test_swd = NULL
       }
-      tsss[i] <- .compute_tss(model@models[[i]], data)
+      tsss[i] <- .compute_tss(model@models[[i]], test_swd)
     }
     tss <- mean(tsss)
   }
@@ -89,7 +95,13 @@ tss <- function(model, test = NULL) {
 
 .compute_tss <- function(model, test) {
 
-  cm <- confMatrix(model, test = test, type = "cloglog")
+  if (class(model@model) == "Maxent") {
+    type <- "raw"
+  } else {
+    type <- "link"
+  }
+
+  cm <- confMatrix(model, test = test, type = type)
   tpr <- cm$tp / (cm$tp + cm$fn)
   tnr <- cm$tn / (cm$fp + cm$tn)
   tss <- tpr + tnr - 1
