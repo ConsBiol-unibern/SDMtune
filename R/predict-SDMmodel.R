@@ -4,10 +4,12 @@ setGeneric("predict", function(object, ...)
 
 #' Predict
 #'
-#' Predict the output for a new dataset from a trained \link{SDMmodel} model.
+#' Predict the output for a new dataset given a trained \code{\link{SDMmodel}}
+#' model.
 #'
-#' @param object \linkS4class{SDMmodel} object.
-#' @param data data.frame, \linkS4class{SWD}, \code{\link[raster]{stack}}.
+#' @param object \code{\linkS4class{SDMmodel}} object.
+#' @param data data.frame, \code{\linkS4class{SWD}} or raster
+#' \code{\link[raster]{stack}}.
 #' @param type character. Output type, see details.
 #' @param clamp logical for clumping during prediction, default is \code{TRUE}.
 #' @param filename character. Output file name for the prediction map, if
@@ -24,15 +26,16 @@ setGeneric("predict", function(object, ...)
 #' \code{\link[raster]{writeRaster}} function.
 #'
 #' @details
-#' * For models trained with the **Maxent** method the argument **type** can be:
-#' "raw", "logistic" and "cloglog".
-#' * For models trained with the **Maxnet** method the argument **type** can be:
-#' "link", "exponential", "logistic" and "cloglog",
-#' see \code{\link[maxnet]{maxnet}} for more details.
-#' * Parallel computation increases the speed only for large datasets due
-#' to the time necessary to create the cluster. For **Maxent** models the
-#' function performs the prediction in **R** without calling the **MaxEnt** java
-#' software. This results is a faster computation for large datasets.
+#' * For models trained with the **Maxent** method the argument \code{type} can
+#' be: "raw", "logistic" and "cloglog".
+#' * For models trained with the **Maxnet** method the argument \code{type} can
+#' be: "link", "exponential", "logistic" and "cloglog", see
+#' \code{\link[maxnet]{maxnet}} for more details.
+#' * Parallel computation increases the speed only for large datasets due to the
+#' time necessary to create the cluster. For **Maxent** models the function
+#' performs the prediction in **R** without calling the **MaxEnt** Java
+#' software. This results in a faster computation for large datasets and might
+#' result in slightly different results compare to the Java software.
 #'
 #' @include Maxent-class.R Maxnet-class.R
 #' @import methods
@@ -40,7 +43,7 @@ setGeneric("predict", function(object, ...)
 #' @importFrom stats formula model.matrix
 #'
 #' @return A vector with the prediction or a Raster object if data is a raster
-#' stack.
+#' \code{\link[raster]{stack}}.
 #' @exportMethod predict
 #'
 #' @author Sergio Vignali
