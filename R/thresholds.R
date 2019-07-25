@@ -7,11 +7,11 @@
 #' specificity and maximum test sensitivity plus specificity thresholds and the
 #' p-values of the one-tailed binomial exact test.
 #'
-#' @param model \linkS4class{SDMmodel} object.
+#' @param model \code{\linkS4class{SDMmodel}} object.
 #' @param type character. The output type, possible values are "cloglog" and
-#' "logistic", default is "cloglog".
-#' @param test \linkS4class{SWD} test locations, if not provided it returns the
-#' training and test thresholds, default is \code{NULL}.
+#' "logistic".
+#' @param test \code{\linkS4class{SWD}} test locations, if not provided it
+#' returns the training and test thresholds, default is \code{NULL}.
 #'
 #' @details The equal training sensitivity and specificity minimizes the
 #' difference between sensitivity and specificity. The one-tailed binomial test
@@ -57,6 +57,7 @@
 #' thresholds(model, type = "logistic", test = test)
 thresholds <- function(model, type, test = NULL) {
 
+  type <- match.arg(type, c("cloglog", "logistic"))
   n_pres <- sum(model@data@pa == 1)
 
   cm_train <- confMatrix(model, type = type)

@@ -4,21 +4,20 @@
 \alias{confMatrix}
 \title{Confusion Matrix}
 \usage{
-confMatrix(model, type = c("cloglog", "logistic"), test = NULL,
-  th = NULL)
+confMatrix(model, type, test = NULL, th = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} object.}
 
 \item{type}{character. The output type, possible values are "cloglog" and
-"logistic", default is "cloglog".}
+"logistic".}
 
-\item{test}{\linkS4class{SWD} test locations, if not provided it uses the
-train dataset, default is \code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} test locations, if not provided it uses
+the train dataset, default is \code{NULL}.}
 
 \item{th}{numeric vector, if provided it computes the evaluation at the given
-thresholds, default is NULL and it computes the evaluation for a sequence
-from 0 to 1.}
+thresholds, default is \code{NULL} and it computes the evaluation for a
+sequence from 0 to 1.}
 }
 \value{
 The Confusion Matrix for all the used thresholds.

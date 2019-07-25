@@ -7,13 +7,13 @@
 thresholds(model, type, test = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} object.}
 
 \item{type}{character. The output type, possible values are "cloglog" and
-"logistic", default is "cloglog".}
+"logistic".}
 
-\item{test}{\linkS4class{SWD} test locations, if not provided it returns the
-training and test thresholds, default is \code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} test locations, if not provided it
+returns the training and test thresholds, default is \code{NULL}.}
 }
 \value{
 data.frame with the thresholds.

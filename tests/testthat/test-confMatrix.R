@@ -1,8 +1,11 @@
-context("Confusion matrix")
-
 skip_on_cran()
 
-cm <- confMatrix(SDMtune:::bm_maxnet, th = 0.4)
+m <- SDMtune:::bm_maxnet
+test <- SDMtune:::t
+test@data <- test@data[test@pa == 1, ]
+test@coords <- test@coords[test@pa == 1, ]
+test@pa <- test@pa[test@pa == 1]
+cm <- confMatrix(m, type = "cloglog", th = 0.4)
 
 test_that("There is the correct number of thresholds when passing th", {
   expect_length(cm$th, 1)
@@ -16,21 +19,18 @@ test_that("The output is correct", {
   # Threshold is correct
   expect_equal(cm$th, 0.4)
   # Sum of tp, fp, fn, tn is equal to sum of presence and background locations
-  expect_equal(sum(cm[1, 2:5]), sum(nrow(SDMtune:::bm_maxnet@p@data),
-                                    nrow(SDMtune:::bm_maxnet@a@data)))
+  expect_equal(sum(cm[1, 2:5]), nrow(m@data@data))
   # Sum of tp and fn is equal to number of presence locations
-  expect_equal(sum(cm$tp, cm$fn), nrow(SDMtune:::bm_maxnet@p@data))
+  expect_equal(sum(cm$tp, cm$fn), nrow(m@data@data[m@data@pa == 1, ]))
   # Sum of tn and fp is equal to number of background locations
-  expect_equal(sum(cm$tn, cm$fp), nrow(SDMtune:::bm_maxnet@a@data))
+  expect_equal(sum(cm$tn, cm$fp), nrow(m@data@data[m@data@pa == 0, ]))
   # Correct output with test argument
-  # 5023 is the number of unique prediction values plus 0 and 1
-  expect_equal(nrow(confMatrix(SDMtune:::bm_maxnet,
-                               test = getSubsample(SDMtune:::p, 50, seed = 2))),
-               5023)
+  # 512 is the number of unique prediction values plus 0 and 1
+  expect_equal(nrow(confMatrix(m, test = test, type = "cloglog")), 512)
 })
 
 test_that("The thresholds start with 0 and end with 1 when th is not passed", {
-  cm <- confMatrix(SDMtune:::bm_maxnet)
+  cm <- confMatrix(m, type = "logistic")
   expect_equal(cm$th[1], 0)
   expect_equal(cm$th[nrow(cm)], 1)
 })

@@ -55,7 +55,7 @@ be: "link", "exponential", "logistic" and "cloglog", see
 \item Parallel computation increases the speed only for large datasets due to the
 time necessary to create the cluster. For \strong{Maxent} models the function
 performs the prediction in \strong{R} without calling the \strong{MaxEnt} Java
-software. This results is a faster computation for large datasets and might
+software. This results in a faster computation for large datasets and might
 result in slightly different results compare to the Java software.
 }
 }
