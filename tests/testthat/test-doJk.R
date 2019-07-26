@@ -1,19 +1,15 @@
-context("Do Jackknife")
-
 skip_on_cran()
 
 v <- c("bio1", "bio12")
-t <- SDMtune:::p
+t <- SDMtune:::t
 t@data <- t@data[, v]
-a <- SDMtune:::bg_model
-a@data <- a@data[, v]
-m <- train("Maxnet", t, a, fc = "lq")
-
+folds <- randomFolds(t, k = 2, only_presence = TRUE)
+m <- train("Maxnet", data = t, fc = "lq")
+m_cv <- train("Maxnet", data = t, fc = "lq", folds = folds)
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-m_cv <- train("Maxnet", t, a, fc = "lq", rep = 2)
 
 test_that("The function returns the correct output", {
   # Metric AUC
@@ -30,10 +26,10 @@ test_that("The function returns the correct output", {
   expect_equal(class(jk$results), "data.frame")
   expect_length(jk$models_without, 2)
   expect_length(jk$models_withonly, 2)
-  expect_named(jk$models_without[[1]]@p@data, "bio12")
-  expect_named(jk$models_without[[2]]@p@data, "bio1")
-  expect_named(jk$models_withonly[[1]]@p@data, "bio1")
-  expect_named(jk$models_withonly[[2]]@p@data, "bio12")
+  expect_named(jk$models_without[[1]]@data@data, "bio12")
+  expect_named(jk$models_without[[2]]@data@data, "bio1")
+  expect_named(jk$models_withonly[[1]]@data@data, "bio1")
+  expect_named(jk$models_withonly[[2]]@data@data, "bio12")
   # with_only = FALSE and return models
   jk <- doJk(m, metric = "auc", variables = v, test = t, with_only = FALSE,
              return_models = TRUE)

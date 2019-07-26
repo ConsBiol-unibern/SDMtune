@@ -11,8 +11,8 @@
 # Subset an SWD object using the fold partition
 .subset_swd <- function(swd, fold) {
 
-  data <- swd@data[fold, ]
-  coords <- swd@coords[fold, ]
+  data <- swd@data[fold,, drop = FALSE]
+  coords <- swd@coords[fold,, drop = FALSE]
   rownames(data) <- NULL
   rownames(coords) <- NULL
   pa <- swd@pa[fold]
@@ -183,14 +183,12 @@
 
 .get_train_args <- function(model) {
 
-  args <- list(p = model@p, a = model@a)
+  args <- list(data = model@data)
 
   if (class(model) == "SDMmodelCV") {
-    args$rep <- length(model@models)
     args$folds <- model@folds
     model <- model@models[[1]]@model
   } else {
-    args$rep <- 1
     args$folds <- NULL
     model <- model@model
   }

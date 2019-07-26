@@ -3,7 +3,7 @@
 #' Shows the percent contribution and permutation importance of the
 #' environmental variables used to train the model.
 #'
-#' @param model \code{\linkS4class{SDMmodel}] or \code{\linkS4class{SDMmodelCV}}
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 #' object trained using the "Maxent" method.
 #'
 #' @details When an \code{\linkS4class{SDMmodelCV}} object is passed to the

@@ -6,6 +6,10 @@
 \usage{
 maxentVarImp(model)
 }
+\arguments{
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object trained using the "Maxent" method.}
+}
 \value{
 A data frame with the variable importance.
 }

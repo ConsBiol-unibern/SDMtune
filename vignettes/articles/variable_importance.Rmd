@@ -107,7 +107,7 @@ plotJk(jk, type = "train", ref = auc(maxnet_model))
 
 and the Jackknife test for the testing AUC:
 ```{r plot jk test, fig.align="center"}
-plotJk(jk, type = "train", ref = auc(maxnet_model, test = test))
+plotJk(jk, type = "test", ref = auc(maxnet_model, test = test))
 ```
 
 ### Try yourself

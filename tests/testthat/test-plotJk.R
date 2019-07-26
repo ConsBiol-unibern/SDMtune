@@ -1,5 +1,3 @@
-context("Plot Jackknife")
-
 jk_auc <- data.frame(Variable = c("bio1", "bio12", "bio16"),
                      Train_AUC_without = c(0.933, 0.935, 0.934),
                      Train_AUC_withonly = c(0.851, 0.731, 0.712),

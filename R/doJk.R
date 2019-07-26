@@ -2,13 +2,15 @@
 #'
 #' Run the Jackknife test for variable importance removing one variable at time.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param variables vector. Variables used for the test, if not provided it
 #' takes all the variables used to train the model, default is \code{NULL}.
-#' @param test \linkS4class{SWD}. If provided it reports the result also for the
-#' test dataset. Not used for **aicc** and \linkS4class{SDMmodelCV}.
+#' @param test \code{\linkS4class{SWD}}. If provided it reports the result also
+#' for the test dataset. Not used for **aicc** and
+#' \code{\linkS4class{SDMmodelCV}}.
 #' @param with_only logical. If \code{TRUE} it runs the test also for each
 #' variable in isolation, default is \code{TRUE}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
@@ -86,7 +88,7 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
   .check_args(model, metric = metric, test = test, env = env)
 
   if (is.null(variables))
-    variables <- colnames(model@p@data)
+    variables <- colnames(model@data@data)
 
   n <- length(variables)
 
@@ -118,20 +120,18 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
   old_model <- model
 
   if (class(model) == "SDMmodelCV")
-    test <- TRUE
+    t <- TRUE
 
   for (i in 1:n) {
-    p <- old_model@p
-    a <- old_model@a
-    p@data[variables[i]] <- NULL
-    a@data[variables[i]] <- NULL
+    data <- old_model@data
+    data@data[variables[i]] <- NULL
 
     if (metric != "aicc" & class(model) != "SDMmodelCV") {
       t <- test
       t@data[variables[i]] <- NULL
     }
 
-    settings <- list("p" = p, "a" = a)
+    settings <- list("data" = data)
 
     jk_model <- .create_model_from_settings(model, settings)
 
@@ -143,17 +143,15 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
     pb$tick()
 
     if (with_only) {
-      p <- old_model@p
-      a <- old_model@a
-      p@data <- p@data[variables[i]]
-      a@data <- a@data[variables[i]]
+      data <- old_model@data
+      data@data <- data@data[variables[i]]
 
       if (metric != "aicc" & class(model) != "SDMmodelCV") {
         t <- test
         t@data <- t@data[variables[i]]
       }
 
-      settings <- list("p" = p, "a" = a)
+      settings <- list("data" = data)
 
       jk_model <- .create_model_from_settings(model, settings)
 

@@ -8,7 +8,8 @@ doJk(model, metric, variables = NULL, test = NULL, with_only = TRUE,
   env = NULL, parallel = FALSE, return_models = FALSE)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
@@ -16,8 +17,9 @@ values are: "auc", "tss" and "aicc".}
 \item{variables}{vector. Variables used for the test, if not provided it
 takes all the variables used to train the model, default is \code{NULL}.}
 
-\item{test}{\linkS4class{SWD}. If provided it reports the result also for the
-test dataset. Not used for \strong{aicc} and \linkS4class{SDMmodelCV}.}
+\item{test}{\code{\linkS4class{SWD}}. If provided it reports the result also
+for the test dataset. Not used for \strong{aicc} and
+\code{\linkS4class{SDMmodelCV}}.}
 
 \item{with_only}{logical. If \code{TRUE} it runs the test also for each
 variable in isolation, default is \code{TRUE}.}
