@@ -8,15 +8,17 @@ reduceVar(model, th, metric, test = NULL, env = NULL,
   parallel = FALSE, use_jk = FALSE, permut = 10, use_pc = FALSE)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{th}{numeric. The contribution threshold used to remove variables.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", used only if use_jk is \code{TRUE}.}
 
-\item{test}{\linkS4class{SWD}. Test dataset used to evaluate the model, not
-used with aicc, and if \code{use_jk = FALSE}, default is \code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} object containing the test dataset used
+to evaluate the model, not used with aicc, and if \code{use_jk = FALSE},
+default is \code{NULL}.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables, used only with "aicc", default is \code{NULL}.}
@@ -32,8 +34,8 @@ contribution, default is \code{FALSE}.}
 \code{FALSE}, default is 10.}
 
 \item{use_pc}{logical, use percent contribution. If \code{TRUE} and the model
-is trained using the \linkS4class{Maxent} method, the algorithm uses the
-percent contribution computed by Maxent software to score the variable
+is trained using the \code{\linkS4class{Maxent}} method, the algorithm uses
+the percent contribution computed by Maxent software to score the variable
 importance, default is \code{FALSE}.}
 }
 \value{

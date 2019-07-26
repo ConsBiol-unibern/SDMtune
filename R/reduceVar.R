@@ -8,12 +8,14 @@
 #' stops removing the variable even if the contribution is lower than the given
 #' threshold.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param th numeric. The contribution threshold used to remove variables.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", used only if use_jk is \code{TRUE}.
-#' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
-#' used with aicc, and if \code{use_jk = FALSE}, default is \code{NULL}.
+#' @param test \code{\linkS4class{SWD}} object containing the test dataset used
+#' to evaluate the model, not used with aicc, and if \code{use_jk = FALSE},
+#' default is \code{NULL}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
@@ -24,8 +26,8 @@
 #' @param permut integer. Number of permutations, used if use_pc is
 #' \code{FALSE}, default is 10.
 #' @param use_pc logical, use percent contribution. If \code{TRUE} and the model
-#' is trained using the \linkS4class{Maxent} method, the algorithm uses the
-#' percent contribution computed by Maxent software to score the variable
+#' is trained using the \code{\linkS4class{Maxent}} method, the algorithm uses
+#' the percent contribution computed by Maxent software to score the variable
 #' importance, default is \code{FALSE}.
 #'
 #' @return The model trained using the selected variables.
@@ -109,7 +111,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
   }
 
   # Setup chart
-  initial_vars <- colnames(model@p@data)
+  initial_vars <- colnames(model@data@data)
   line_title <- "Starting model"
   line_footer <- ""
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),

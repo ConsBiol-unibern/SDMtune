@@ -9,13 +9,15 @@
 #' model when removed (according to the given metric). The process is repeated
 #' until the remaining variables are not highly correlated anymore.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param bg4cor \linkS4class{SWD} object. Background locations used to test the
-#' correlation between environmental variables.
-#' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
-#' used with aicc and \linkS4class{SDMmodelCV} objects, default is \code{NULL}.
+#' @param bg4cor \code{\linkS4class{SWD}} object. Background locations used to
+#' test the correlation between environmental variables.
+#' @param test \code{\linkS4class{SWD}}. Test dataset used to evaluate the
+#' model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+#' default is \code{NULL}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
@@ -35,8 +37,8 @@
 #' To find highly correlated variables the following formula is used:
 #' \deqn{| coeff | \le cor_th}
 #'
-#' @return The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained
-#' using the selected variables.
+#' @return The \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object trained using the selected variables.
 #' @export
 #' @importFrom progress progress_bar
 #' @importFrom stats cor
@@ -140,7 +142,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   }
 
   # Create chart
-  initial_vars <- colnames(model@p@data)
+  initial_vars <- colnames(model@data@data)
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
                    title = "Variable Selection", update = TRUE)
 
@@ -223,7 +225,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
 
   pb$tick(total - removed)
 
-  removed_vars <- setdiff(initial_vars, colnames(model@p@data))
+  removed_vars <- setdiff(initial_vars, colnames(model@data@data))
   message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
 
   return(model)

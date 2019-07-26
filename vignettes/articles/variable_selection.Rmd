@@ -71,7 +71,7 @@ selected_variables_model
 Remove highly correlated variables using the `default_model`, ranking the variables with the percent contribution and using the AICc as evaluation metric. Check the help of the function `varSel()` and highlight the next cell to see the solution:
 ```{r exercise 1, eval=FALSE, eval=FALSE, class.source='exercise'}
 # You need to pass the env argument for the AICc and the use_pc argument to use the percent contribution
-selected_variables_model <- varSel(default_model, metric = "aicc", bg4cor = bg, method = "spearman", cor_th = 0.7, env = predictors, use_pc = TRUE)
+selected_variables_model <- varSel(_model, metric = "aicc", bg4cor = bg, method = "spearman", cor_th = 0.7, env = predictors, use_pc = TRUE)
 ```
 
 ## Remove variables with low importance
