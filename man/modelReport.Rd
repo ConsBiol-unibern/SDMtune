@@ -8,7 +8,7 @@ modelReport(model, type, folder, test = NULL, response_curves = FALSE,
   jk = FALSE, env = NULL, clamp = TRUE, permut = 10)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} object.}
 
 \item{type}{character. Output type, see \code{\link{predict,SDMmodel-method}}
 for more details.}
@@ -16,8 +16,8 @@ for more details.}
 \item{folder}{character. The name of the folder in which to save the output.
 The folder is created in the working directory.}
 
-\item{test}{\linkS4class{SWD} object with the test locations, default is
-\code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} object with the test locations, default
+is \code{NULL}.}
 
 \item{response_curves}{logical, if \code{TRUE} it plots the response curves
 in the html output, default is \code{FALSE}.}
