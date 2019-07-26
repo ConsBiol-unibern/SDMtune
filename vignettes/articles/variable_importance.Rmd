@@ -12,8 +12,7 @@ options(knitr.table.format = "html")
 
 ```{r load data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
-presence <- SDMtune:::p
-bg_model <- SDMtune:::bg_model
+data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```
@@ -65,8 +64,8 @@ plotVarImp(vi[, c(1,3)])
 For this example we use a **Maxnet** model and a training/testing validation strategy like in the [previous article](./evaluation_strategies.html#train-and-testing-datasets):
 ```{r train test}
 library(zeallot)  # For unpacking assignment
-c(train, test) %<-% trainValTest(presence, test = 0.2, seed = 25)
-maxnet_model <- train("Maxnet", p = train, a = bg_model)
+c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
+maxnet_model <- train("Maxnet", data = train)
 ```
 
 Now we can calculate the variable importance with the function `varImp()` using 5 permutations:

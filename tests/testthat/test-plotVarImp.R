@@ -1,5 +1,3 @@
-context("Plot Variable Importance")
-
 vi <- data.frame(Variable = c("bio1", "bio5", "bio7"),
                  Percent_contribution = c(36.0, 12.4, 27.3))
 

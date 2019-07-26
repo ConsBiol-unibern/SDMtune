@@ -8,7 +8,8 @@
 #' than one permutation (default is 10) the average of the decrease in training
 #' AUC is computed.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param permut integer. Number of permutations, default is 10.
 #'
 #' @details Note that it could return values slightly different from MaxEnt Java
@@ -57,7 +58,7 @@
 #' }
 varImp <- function(model, permut = 10) {
 
-  vars <- colnames(model@p@data)
+  vars <- colnames(model@data@data)
 
   if (class(model) == "SDMmodel") {
     total <- length(vars)
@@ -97,19 +98,17 @@ varImp <- function(model, permut = 10) {
 .compute_permutation <- function(model, model_auc, vars, permut, pb) {
 
   permuted_auc <- matrix(nrow = permut, ncol = length(vars))
-  n_pres <- nrow(model@p@data)
+  n_pres <- nrow(model@data@data)
   set.seed(25)
 
   for (j in 1:length(vars)) {
     for (i in 1:permut) {
-      data <- sample(c(model@p@data[, vars[j]], model@a@data[, vars[j]]))
-      if (is.factor(model@p@data[, vars[j]]))
+      data <- sample(model@data@data[, vars[j]])
+      if (is.factor(model@data@data[, vars[j]]))
         data <- as.factor(data)
-      p_copy <- model@p
-      p_copy@data[, vars[j]] <- data[1:n_pres]
-      a_copy <- model@a
-      a_copy@data[, vars[j]] <- data[(n_pres + 1):length(data)]
-      permuted_auc[i, j] <- auc(model, p_copy, a = a_copy)
+      train_copy <- model@data
+      train_copy@data[, vars[j]] <- data
+      permuted_auc[i, j] <- auc(model, train_copy)
     }
     pb$tick(1)
   }

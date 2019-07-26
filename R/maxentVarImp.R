@@ -3,12 +3,12 @@
 #' Shows the percent contribution and permutation importance of the
 #' environmental variables used to train the model.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object
-#' trained using the "Maxent" method.
+#' @param model \code{\linkS4class{SDMmodel}] or \code{\linkS4class{SDMmodelCV}}
+#' object trained using the "Maxent" method.
 #'
-#' @details When an \linkS4class{SDMmodelCV} object is passed to the function,
-#' the output is the average of the variable importance of each model trained
-#' during the cross validation.
+#' @details When an \code{\linkS4class{SDMmodelCV}} object is passed to the
+#' function, the output is the average of the variable importance of each model
+#' trained during the cross validation.
 #'
 #' @return A data frame with the variable importance.
 #' @export
@@ -49,7 +49,7 @@ maxentVarImp <- function(model) {
     x <- model@model@results
     df <- .fetch_var_imp(x)
   } else {
-    vars <- colnames(model@p@data)
+    vars <- colnames(model@data@data)
     l <- length(model@models)
     pcs <- pis <- matrix(nrow = length(vars), ncol = l)
     for (i in 1:l) {
