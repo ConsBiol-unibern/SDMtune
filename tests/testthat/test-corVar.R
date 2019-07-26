@@ -1,16 +1,14 @@
-context("Correlated Variables")
-
-x <- SDMtune:::p
+x <- SDMtune:::t
 
 test_that("The function raises error", {
-  expect_error(corVar(x@data))
+  expect_error(corVar(x@data), "\"bg\" must be an SWD object!")
 })
 
 test_that("The function creates the correct output", {
   cm <- corVar(x)
   expect_equal(class(cm), "data.frame")
   expect_named(cm, c("Var1", "Var2", "value"))
-  expect_true(min(corVar(x, cor_th = 0.8)$value) >= 0.8)
+  expect_true(abs(min(corVar(x, cor_th = 0.8)$value)) >= 0.8)
   # The output is ordered if order = TRUE
   expect_true(abs(cm$value[1]) >= abs(cm$value[2]))
   cm1 <- corVar(x, order = FALSE)

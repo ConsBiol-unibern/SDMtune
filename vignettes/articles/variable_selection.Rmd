@@ -26,7 +26,15 @@ In the previous articles you have learned the core functions of **SDMtune** for 
 
 ## Explore variable correlation
 
-We will use the `background locations` prepared in the [first article](./prepare_data.html#create-an-swd-object) to explore the autocorrelation between the environmental variables used to train the previous models. With the function `plotCor()` you can create an heat map showing the degree of autocorrelation:
+We extract 10000 background locations using the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function included in the `dismo` package (we set the seed to have reproducible results). After we create an `SWD()` object using the `prepareSWD()` function:
+```{r backgrounds}
+set.seed(25)
+bg <- dismo::randomPoints(predictors, 10000)
+bg <- prepareSWD(species = "Bgs", a = bg, env = predictors, categorical = "biome")
+```
+The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).
+
+With the function `plotCor()` you can create an heat map showing the degree of autocorrelation:
 ```{r heat map, fig.align="center"}
 plotCor(bg, method = "spearman", cor_th = 0.7)
 ```

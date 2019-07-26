@@ -7,7 +7,8 @@
 plotCor(bg, method = "spearman", cor_th = NULL)
 }
 \arguments{
-\item{bg}{\linkS4class{SWD} object used to compute the correlation matrix.}
+\item{bg}{code{\linkS4class{SWD}} object used to compute the correlation
+matrix.}
 
 \item{method}{character. The method used to compute the correlation matrix,
 default is "spearman".}

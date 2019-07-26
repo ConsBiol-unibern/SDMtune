@@ -64,11 +64,11 @@ prepareSWD <- function(species, p = NULL, a = NULL, coords = NULL, env,
         if (discarded > 0) {
           data <- data[index, ]
           coords <- coords[index, ]
-          message("Warning: ", discarded, " ", text[i],
+          message("Info: ", discarded, " ", text[i],
                   ifelse(discarded == 1, " location is", " locations are"),
                   " NA for some environmental variables, ",
-                  ifelse(discarded == 1, "it ", "they "),
-                  "will be discarded!")
+                  ifelse(discarded == 1, "it is ", "they are "),
+                  "discarded!")
         }
         df_coords <- rbind(df_coords, coords)
         df_data <- rbind(df_data, data)

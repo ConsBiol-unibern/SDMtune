@@ -8,8 +8,8 @@ corVar(bg, method = "spearman", cor_th = NULL, order = TRUE,
   remove_diagonal = TRUE)
 }
 \arguments{
-\item{bg}{\linkS4class{SWD}. Locations used to test the correlation between
-environmental variables.}
+\item{bg}{\code{\linkS4class{SWD}} object with the locations used to compute
+the correlation between environmental variables.}
 
 \item{method}{character. The method used to compute the correlation matrix,
 default is "spearman".}
