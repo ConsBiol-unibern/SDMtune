@@ -8,7 +8,8 @@ plotResponse(model, var, type, marginal = FALSE, fun = mean,
   clamp = TRUE, rug = FALSE, color = "red")
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{var}{character. Name of the variable to be plotted.}
 

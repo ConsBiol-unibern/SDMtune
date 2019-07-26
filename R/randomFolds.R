@@ -33,12 +33,12 @@ randomFolds <- function(data, k, only_presence = FALSE, seed = NULL) {
 
   for (i in 1:k) {
     if (only_presence) {
-      train[, i] <- c(p_folds != k, rep(TRUE, nrow(.get_absence(data))))
-      test[, i] <- c(p_folds == k, rep(TRUE, nrow(.get_absence(data))))
+      train[, i] <- c(p_folds != i, rep(TRUE, nrow(.get_absence(data))))
+      test[, i] <- c(p_folds == i, rep(TRUE, nrow(.get_absence(data))))
     } else {
       folds <- c(p_folds, a_folds)
-      train[, i] <- folds != k
-      test[, i] <- folds == k
+      train[, i] <- folds != i
+      test[, i] <- folds == i
     }
   }
 

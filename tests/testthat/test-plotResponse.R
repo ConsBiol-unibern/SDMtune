@@ -1,5 +1,3 @@
-context("Plot Response")
-
 skip_on_cran()
 
 m <- SDMtune:::bm_maxnet
@@ -18,7 +16,7 @@ test_that("Labels and output are correct for SDMmodel objects", {
   expect_true(min(p$data$y) >= 0)
   expect_true(max(p$data$y) <= 1)
   expect_equal(class(p$layers[[1]]$geom)[1], "GeomLine")
-  p <- plotResponse(m, "bio1", "logistic", marginal = FALSE)
+  p <- plotResponse(m, "bio1", "logistic", marginal = FALSE, clamp = FALSE)
   expect_length(p$layers, 1)  # only line
   expect_equal(p$labels$x, "bio1")
   expect_equal(p$labels$y, "logistic output")
