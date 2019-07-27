@@ -1,11 +1,12 @@
 #' SDMmodel2MaxEnt
 #'
-#' Converts a \linkS4class{SDMmodel} object containing a \linkS4class{Maxent}
-#' model to a dismo \code{\link[dismo]{maxent}} object.
+#' Converts an \code{\linkS4class{SDMmodel}} object containing a
+#' \code{\linkS4class{Maxent}} model into a dismo \code{\linkS4class{MaxEnt}}
+#' object.
 #'
-#' @param model \linkS4class{SDMmodel} object to be converted.
+#' @param model \code{\linkS4class{SDMmodel}} object to be converted.
 #'
-#' @return The converted dismo \linkS4class{Maxent} object.
+#' @return The converted dismo \code{\linkS4class{MaxEnt}} object.
 #' @export
 #'
 #' @examples
@@ -41,8 +42,8 @@ SDMmodel2MaxEnt <- function(model) {
     stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
 
   maxent_model <- new("MaxEnt")
-  maxent_model@presence <- model@p@data
-  maxent_model@absence <- model@a@data
+  maxent_model@presence <- .get_presence(model@data)
+  maxent_model@absence <- .get_absence(model@data)
   maxent_model@lambdas <- model@model@lambdas
   maxent_model@hasabsence <- TRUE
 
