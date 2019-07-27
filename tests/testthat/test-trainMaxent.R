@@ -1,3 +1,18 @@
+skip_on_cran()
+skip_if(Sys.getenv("R_COVR") == "true",
+        message = "Skip Maxent Prediction tests with covr!")
+
+#.train
+test_that("The function trainMaxent produces the correct ouput", {
+  m <- trainMaxent(data = SDMtune:::t, reg = 1.2, fc = "l")
+  expect_s4_class(m, "SDMmodel")
+  expect_s4_class(m@model, "Maxent")
+  expect_s4_class(m@data, "SWD")
+  expect_equal(m@model@reg, 1.2)
+  expect_equal(m@model@fc, "l")
+  expect_equal(m@data, SDMtune:::t)
+})
+
 # .get_fc_args
 test_that("The correct fc arguments are created", {
   expect_equal(.get_fc_args("lqpht"),

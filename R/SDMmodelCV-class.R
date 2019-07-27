@@ -46,7 +46,7 @@ setMethod(
     cat("Species:", object@data@species, "\n")
     cat("Replicates:", length(object@models), "\n")
     cat("Presence locations:", nrow(.get_presence(object@data)), "\n")
-    cat("Absence locations :", nrow(.get_absence(object@data)), "\n\n")
+    cat("Absence locations:", nrow(.get_absence(object@data)), "\n\n")
 
     cat("Model configurations:\n")
     cat("--------------------\n")
