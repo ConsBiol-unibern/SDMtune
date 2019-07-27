@@ -13,10 +13,7 @@ options(knitr.table.format = "html")
 
 ```{r load data, echo=FALSE, message=FALSE}
 library(SDMtune)
-presence <- SDMtune:::p
-bg <- SDMtune:::bg
-bg_model <- SDMtune:::bg_model
-presence <- SDMtune:::p
+data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```
@@ -30,7 +27,7 @@ In the previous articles you have learned the core functions of **SDMtune** and 
 When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn't represent anymore an independent set to evaluate the model [@Muller2016, @Chollet2018]. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function `trainValTest()` allows to split the data in three folds containing the provided percentage of data. For illustration purpose let's split the presence locations in training (60\%), validation (20\%) and testing (20\%) datasets:
 ```{r train val test}
 library(zeallot)  # For unpacking assignment
-c(train, val, test) %<-% trainValTest(presence, val = 0.2, test = 0.2, seed = 25)
+c(train, val, test) %<-% trainValTest(data, val = 0.2, test = 0.2, only_presence = TRUE, seed = 25)
 cat("# Training  : ", nrow(train@data))
 cat("# Validation: ", nrow(val@data))
 cat("# Testing   : ", nrow(test@data))
@@ -38,7 +35,7 @@ cat("# Testing   : ", nrow(test@data))
 
 We now train a **Maxnet** model with default settings and using the training dataset:
 ```{r train model}
-model <- train("Maxnet", p = train, a = bg_model)
+model <- train("Maxnet", data = train)
 ```
 
 

@@ -8,7 +8,8 @@ gridSearch(model, hypers, metric, test = NULL, bg4test = NULL,
   env = NULL, parallel = FALSE, save_models = TRUE, seed = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
@@ -16,12 +17,13 @@ should be tuned, see details.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
-model, not used with \code{\link{aicc}} and \linkS4class{SDMmodelCV} objects,
-default is \code{NULL}.}
+\item{test}{code{\linkS4class{SWD}} object. Test dataset used to evaluate the
+model, not used with \code{\link{aicc}} and code{\linkS4class{SDMmodelCV}}
+objects, default is \code{NULL}.}
 
-\item{bg4test}{\linkS4class{SWD} object or NULL. Background locations used to
-get subsamples if the \strong{a} hyperparameter is tuned, default is \code{NULL}.}
+\item{bg4test}{code{\linkS4class{SWD}} object or NULL. Background locations
+used to get subsamples if the \strong{a} hyperparameter is tuned, default is
+\code{NULL}.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables, used only with "aicc", default is \code{NULL}.}
@@ -38,7 +40,7 @@ when there are many combinations to avoid R crashing for memory overload.}
 results, default is \code{NULL}.}
 }
 \value{
-\linkS4class{SDMtune} object.
+code{\linkS4class{SDMtune}} object.
 }
 \description{
 Given a set of possible hyperparameter values, the function trains models
@@ -98,7 +100,7 @@ output@results
 }
 }
 \seealso{
-\code{\link{randomSearch}} and \code{\link{optimizeModel}}
+\code{\link{randomSearch}} and \code{\link{optimizeModel}}.
 }
 \author{
 Sergio Vignali

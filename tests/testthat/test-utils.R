@@ -1,9 +1,21 @@
-context("Utils")
-
+data <- SDMtune:::t
 model <- SDMtune:::bm_maxnet
 model_mx <- SDMtune:::bm_maxent
 model_cv <- SDMtune:::bm_maxnet_cv
 h <- list(fc = c("l", "lq", "lqp"), reg = seq(.2, 2., .2))
+
+test_that(".get_presence", {
+  expect_s3_class(.get_presence(data), "data.frame")
+})
+
+test_that(".get_absence", {
+  expect_s3_class(.get_absence(data), "data.frame")
+})
+
+test_that(".subset_swd", {
+  expect_s4_class(swd <- .subset_swd(data, fold = as.logical(data@pa)), "SWD")
+  expect_true(unique(swd@pa) == 1)
+})
 
 test_that(".get_model_class", {
   expect_equivalent(.get_model_class(model), "Maxnet")
@@ -18,11 +30,6 @@ test_that(".get_model_reg", {
 test_that(".get_model_fc", {
   expect_equal(.get_model_fc(model), "lqph")
   expect_equal(.get_model_fc(model_cv), "lqph")
-})
-
-test_that(".get_model_hyperparams", {
-  expect_equal(.get_model_hyperparams(model), "Reg: 1 FC: lqph #Bg: 5000")
-  expect_equal(.get_model_hyperparams(model_cv), "Reg: 1 FC: lqph #Bg: 5000")
 })
 
 test_that(".get_footer", {

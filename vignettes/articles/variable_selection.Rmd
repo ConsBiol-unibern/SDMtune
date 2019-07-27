@@ -14,7 +14,7 @@ options(knitr.table.format = "html")
 library(zeallot)
 library(SDMtune)
 data <- SDMtune:::t
-c(train, test) %<-% trainValTest(data, test = 0.2, seed = 25)
+c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
 maxnet_model <- train("Maxnet", data = train)
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
@@ -71,7 +71,7 @@ selected_variables_model
 Remove highly correlated variables using the `default_model`, ranking the variables with the percent contribution and using the AICc as evaluation metric. Check the help of the function `varSel()` and highlight the next cell to see the solution:
 ```{r exercise 1, eval=FALSE, eval=FALSE, class.source='exercise'}
 # You need to pass the env argument for the AICc and the use_pc argument to use the percent contribution
-selected_variables_model <- varSel(_model, metric = "aicc", bg4cor = bg, method = "spearman", cor_th = 0.7, env = predictors, use_pc = TRUE)
+selected_variables_model <- varSel(default_model, metric = "aicc", bg4cor = bg, method = "spearman", cor_th = 0.7, env = predictors, use_pc = TRUE)
 ```
 
 ## Remove variables with low importance
@@ -88,14 +88,14 @@ reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test 
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 
-In the second example we want to remove the environmental variables that have a permutation importance lower than 6\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
+In the second example we want to remove the environmental variables that have a permutation importance lower than 15\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
 ```{r reduce var 2}
 cat("Testin AUC before: ", auc(maxnet_model, test = test))
-reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1, use_jk = TRUE)
+reduced_variables_model <- reduceVar(maxnet_model, th = 15, metric = "auc", test = test, permut = 1, use_jk = TRUE)
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 
-As you can see in this case only `bio12` has been removed and the AUC in the testing dataset doesn't decrease.
+As you can see in this case only **bio12** and **bio16** have been removed and the AUC in the testing dataset doesn't decrease.
 
 ### Try yourself
 

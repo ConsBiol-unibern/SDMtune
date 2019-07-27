@@ -43,13 +43,6 @@
   return(model@model@fc)
 }
 
-.get_model_hyperparams <- function(model) {
-  if (class(model) == "SDMmodelCV")
-    model <- model@models[[1]]
-  return(paste("Reg:", model@model@reg, "FC:", model@model@fc,
-               "#Bg:", nrow(model@a@data)))
-}
-
 .get_footer <- function(model) {
   footer <- c()
   tuned_args <- .get_train_args(model)[get_tunable_args(model)]
@@ -209,7 +202,8 @@
 #' Returns the name of all function arguments that can be tuned for a given
 #' model.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #'
 #' @return character vector
 #' @export

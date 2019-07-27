@@ -1,13 +1,13 @@
-context("Grid Search")
-
 skip_on_cran()
 
+data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
+m <- SDMtune:::bm_maxnet
+m_cv <- train("Maxnet", data = data, fc = "l", rep = 2)
 h <- list(fc = c("l", "q"))
-o <- gridSearch(SDMtune:::bm_maxnet, h, "auc", SDMtune:::p)
-m_cv <- train("Maxnet", SDMtune:::p, SDMtune:::bg_model, fc = "l", rep = 2)
+o <- gridSearch(m, hypers = h, metric = "auc", test = data)
 
 test_that("gridSearch produces the expected output", {
   expect_s4_class(o, "SDMtune")
@@ -29,7 +29,7 @@ test_that("Show method for SDMtune class produces the correct output", {
   expect_output(print(o), "reg: 1", fixed = TRUE)
 })
 
-o <- gridSearch(SDMtune:::bm_maxnet, h, "aicc", SDMtune:::p, env = predictors,
+o <- gridSearch(m, hypers = h, metric = "aicc", test = data, env = predictors,
                 save_models = FALSE)
 test_that("gridSearch produces the expected output with AICc", {
   expect_s4_class(o, "SDMtune")
@@ -44,8 +44,8 @@ test_that("gridSearch produces the expected output with AICc", {
 })
 
 h <- list(fc = c("l", "q"), a = c(2000, 4000))
-o <- gridSearch(m_cv, h, "auc", bg4test = SDMtune:::bg_model,
-                test = SDMtune:::p, save_models = FALSE, seed = 25)
+o <- gridSearch(m_cv, hypers = h, metric = "auc", bg4test = SDMtune:::bg_model,
+                test = data, save_models = FALSE, seed = 25)
 
 test_that("gridSearch produces the expected output with cross validation", {
   expect_s4_class(o, "SDMtune")

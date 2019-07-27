@@ -3,16 +3,18 @@
 #' Given a set of possible hyperparameter values, the function trains models
 #' with all the possible combinations of hyperparameters.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param hypers named list containing the values of the hyperparameters that
 #' should be tuned, see details.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param test \linkS4class{SWD} object. Test dataset used to evaluate the
-#' model, not used with \code{\link{aicc}} and \linkS4class{SDMmodelCV} objects,
-#' default is \code{NULL}.
-#' @param bg4test \linkS4class{SWD} object or NULL. Background locations used to
-#' get subsamples if the **a** hyperparameter is tuned, default is \code{NULL}.
+#' @param test code{\linkS4class{SWD}} object. Test dataset used to evaluate the
+#' model, not used with \code{\link{aicc}} and code{\linkS4class{SDMmodelCV}}
+#' objects, default is \code{NULL}.
+#' @param bg4test code{\linkS4class{SWD}} object or NULL. Background locations
+#' used to get subsamples if the **a** hyperparameter is tuned, default is
+#' \code{NULL}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
@@ -30,13 +32,13 @@
 #' Parallel computation increases the speed only for large datasets due to the
 #' time necessary to create the cluster.
 #'
-#' @return \linkS4class{SDMtune} object.
+#' @return code{\linkS4class{SDMtune}} object.
 #' @export
 #' @importFrom progress progress_bar
 #'
 #' @author Sergio Vignali
 #'
-#' @seealso \code{\link{randomSearch}} and \code{\link{optimizeModel}}
+#' @seealso \code{\link{randomSearch}} and \code{\link{optimizeModel}}.
 #'
 #' @examples
 #' \donttest{

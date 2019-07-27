@@ -27,3 +27,12 @@ test_that("Output is correct", {
   expect_equal(nrow(swd@data), length(swd@pa))
   expect_equal(nrow(swd@coords), length(swd@pa))
 })
+
+test_that("The function works with only presences or only absences data", {
+  expect_s4_class(swd <- prepareSWD(species = "Gypaetus barbatus", p = p,
+                                    env = env, categorical = "biome"), "SWD")
+  expect_true(unique(swd@pa) == 1)
+  expect_s4_class(swd <- prepareSWD(species = "Gypaetus barbatus", a = a,
+                                    env = env, categorical = "biome"), "SWD")
+  expect_true(unique(swd@pa) == 0)
+})
