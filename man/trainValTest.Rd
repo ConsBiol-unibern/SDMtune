@@ -54,7 +54,7 @@ test <- datasets[[2]]
 
 # Split presence locations in training (60\%), validation (20\%) and testing
 # (20\%) datasets and splitting the presence and the absence locations
-datasets <- trainValTest(presence, val = 0.2, test = 0.2)
+datasets <- trainValTest(data, val = 0.2, test = 0.2)
 train <- datasets[[1]]
 val <- datasets[[2]]
 test <- datasets[[3]]
