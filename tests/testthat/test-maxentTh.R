@@ -1,5 +1,3 @@
-context("Maxent thresholds")
-
 test_that("Raise the exception", {
   expect_error(maxentTh(SDMtune:::bm_maxnet))
 })

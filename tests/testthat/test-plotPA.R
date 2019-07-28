@@ -1,5 +1,3 @@
-context("Plot Presence Absence")
-
 map <- raster::raster(matrix(runif(400, 0, 1), 20, 20))
 file <- tempfile(fileext = ".asc")
 

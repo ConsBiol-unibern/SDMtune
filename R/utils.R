@@ -1,11 +1,11 @@
 # Get presence locations from an SWD object
 .get_presence <- function(swd) {
-  return(swd@data[swd@pa == 1, ])
+  return(swd@data[swd@pa == 1,, drop = FALSE])
 }
 
 # Get absence locations from an SWD object
 .get_absence <- function(swd) {
-  return(swd@data[swd@pa == 0, ])
+  return(swd@data[swd@pa == 0,, drop = FALSE])
 }
 
 # Subset an SWD object using the fold partition
