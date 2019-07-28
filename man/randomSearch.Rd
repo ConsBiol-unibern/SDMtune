@@ -8,7 +8,8 @@ randomSearch(model, hypers, metric, test = NULL, bg4test = NULL,
   pop = 20, env = NULL, parallel = FALSE, seed = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
@@ -16,12 +17,11 @@ should be tuned, see details.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
-model, not used with aicc and \linkS4class{SDMmodelCV} objects, default is
-\code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} object. Test dataset used to evaluate
+the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+default is \code{NULL}.}
 
-\item{bg4test}{\linkS4class{SWD} object or NULL. Background locations used to
-get subsamples if \strong{a} hyperparameter is tuned, default is \code{NULL}.}
+\item{bg4test}{Deprecated.}
 
 \item{pop}{numeric. Size of the population, default is 20.}
 
@@ -35,7 +35,7 @@ is \code{FALSE}.}
 results, default is \code{NULL}.}
 }
 \value{
-\linkS4class{SDMtune} object.
+\code{\linkS4class{SDMtune}} object.
 }
 \description{
 The function performs a random search in the hyperparameters space, creating

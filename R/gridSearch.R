@@ -87,6 +87,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                        env = NULL, parallel = FALSE, save_models = TRUE,
                        seed = NULL) {
 
+  # TODO remove it next release
   if (!is.null(bg4test))
     warning("Argument \"bg4test\" is deprecated and ignored, it will be ",
             "removed in the next release.")

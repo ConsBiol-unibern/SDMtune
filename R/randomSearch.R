@@ -4,16 +4,16 @@
 #' a population of random models each one with a random combination of the
 #' provided hyperparameters values.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param hypers named list containing the values of the hyperparameters that
 #' should be tuned, see details.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param test \linkS4class{SWD} object. Test dataset used to evaluate the
-#' model, not used with aicc and \linkS4class{SDMmodelCV} objects, default is
-#' \code{NULL}.
-#' @param bg4test \linkS4class{SWD} object or NULL. Background locations used to
-#' get subsamples if **a** hyperparameter is tuned, default is \code{NULL}.
+#' @param test \code{\linkS4class{SWD}} object. Test dataset used to evaluate
+#' the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+#' default is \code{NULL}.
+#' @param bg4test Deprecated.
 #' @param pop numeric. Size of the population, default is 20.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
@@ -28,7 +28,7 @@
 #' Parallel computation increases the speed only for large datasets due to the
 #' time necessary to create the cluster.
 #'
-#' @return \linkS4class{SDMtune} object.
+#' @return \code{\linkS4class{SDMtune}} object.
 #' @export
 #'
 #' @author Sergio Vignali
@@ -74,11 +74,16 @@
 randomSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                          pop = 20, env = NULL, parallel = FALSE, seed = NULL) {
 
+  # TODO remove it next release
+  if (!is.null(bg4test))
+    warning("Argument \"bg4test\" is deprecated and ignored, it will be ",
+            "removed in the next release.")
+
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
-  output <- optimizeModel(model = model, hypers = hypers, bg4test = bg4test,
-                          test = test, metric = metric, pop = pop, gen = 0,
-                          env = env, parallel = parallel, seed = seed)
+  output <- optimizeModel(model = model, hypers = hypers, test = test,
+                          metric = metric, pop = pop, gen = 0, env = env,
+                          parallel = parallel, seed = seed)
 
   return(output)
 }

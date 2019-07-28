@@ -88,6 +88,11 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                           keep_best = 0.4, keep_random = 0.2,
                           mutation_chance = 0.4, seed = NULL) {
 
+  # TODO remove it next release
+  if (!is.null(bg4test))
+    warning("Argument \"bg4test\" is deprecated and ignored, it will be ",
+            "removed in the next release.")
+
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
   # Create data frame with all possible combinations of hyperparameters
