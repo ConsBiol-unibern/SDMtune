@@ -3,17 +3,16 @@
 #' The function uses a Genetic Algorithm implementation to optimize the model
 #' hyperparameter configuration according to the chosen metric.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param hypers named list containing the values of the hyperparameters that
 #' should be tuned, see details.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param test \linkS4class{SWD} object. Test dataset used to evaluate the
-#' model, not used with aicc and \linkS4class{SDMmodelCV} objects,
+#' @param test \code{\linkS4class{SWD}} object. Test dataset used to evaluate
+#' the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
 #' default is \code{NULL}.
-#' @param bg4test \linkS4class{SWD} object or \code{NULL}. Background locations
-#' are used to get subsamples if the **a** hyperparameter is tuned, default is
-#' \code{NULL}.
+#' @param bg4test Deprecated.
 #' @param pop numeric. Size of the population, default is 20.
 #' @param gen numeric. Number of generations, default is 20.
 #' @param env \code{\link[raster]{stack}} containing the environmental
@@ -37,14 +36,14 @@
 #' time necessary to create the cluster. Part of the code is inspired by
 #' \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164}{this post}.
 #'
-#' @return \linkS4class{SDMtune} object.
+#' @return \code{\linkS4class{SDMtune}} object.
 #' @export
 #' @importFrom progress progress_bar
 #' @importFrom stats runif
 #'
 #' @author Sergio Vignali
 #'
-#' @seealso \code{\link{gridSearch}} and \code{\link{randomSearch}}
+#' @seealso \code{\link{gridSearch}} and \code{\link{randomSearch}}.
 #'
 #' @examples
 #' \donttest{
@@ -95,7 +94,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   grid <- .get_hypers_grid(model, hypers)
 
   # Check that areguments are correctly provided
-  .check_args(model, metric, test, bg4test, env, hypers)
+  .check_args(model, metric, test, env, hypers)
   # Check if at least two hyperparameters have more than one value
   .check_optimize_args(hypers, grid, pop)
 
@@ -123,15 +122,6 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
   val_metric <- data.frame(x = NA_real_, y = NA_real_)
   scatter_footer <- vector("character", length = pop)
-
-  if (!is.null(hypers$a)) {
-    vars <- colnames(model@p@data)
-    bg4test@data <- bg4test@data[vars]
-    bg_folds <- sample(nrow(bg4test@data))
-  } else {
-    bg_folds <- NULL
-  }
-
   best_train <- rep(NA_real_, gen + 2)
   best_val <- rep(NA_real_, gen + 2)
   best_train[1] <- .get_metric(metric, model, env = env, parallel = parallel)
@@ -173,9 +163,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   # Random search, create random population
   for (i in 1:pop) {
 
-    models[[i]] <- .create_model_from_settings(model, grid[index[i], ],
-                                               bg4test = bg4test,
-                                               bg_folds = bg_folds)
+    models[[i]] <- .create_model_from_settings(model, grid[index[i], ])
 
     train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env,
                                              parallel = parallel))
@@ -245,8 +233,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
         couple <- sample(parents, size = 2)
         mother <- couple[[1]]
         father <- couple[[2]]
-        child <- .breed(mother, father, hypers, bg4test, bg_folds,
-                        mutation_chance)
+        child <- .breed(mother, father, hypers, mutation_chance)
         train_metric[kept + j, ] <- list(kept + j,
                                          .get_metric(metric, child, env = env,
                                                      parallel = parallel))
@@ -310,7 +297,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   return(output)
 }
 
-.breed <- function(mother, father, hypers, bg4test, bg_folds, mutation_chance) {
+.breed <- function(mother, father, hypers, mutation_chance) {
 
   mother_args <- .get_train_args(mother)
   model_args <- mother_args
@@ -324,23 +311,10 @@ optimizeModel <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   if (mutation_chance > runif(1)) {
     # Only hypers with more than two values can be use for mutation
     mutation <- sample(names(hypers)[lengths(hypers) > 2], size = 1)
-    if (mutation != "a") {
-      options <- setdiff(hypers[[mutation]], c(mother_args[[mutation]],
-                                               father_args[[mutation]]))
-      model_args[[mutation]] <- ifelse(length(options) > 1,
-                                       sample(options, size = 1), options)
-    } else {
-      options <- setdiff(hypers[[mutation]],
-                         c(nrow(mother_args[[mutation]]@data),
-                           nrow(father_args[[mutation]]@data)))
-      n_bgs <- ifelse(length(options) > 1, sample(options, size = 1), options)
-      bg <- bg4test
-      bg@data <- bg4test@data[bg_folds[1:n_bgs], ]
-      bg@coords <- bg4test@coords[bg_folds[1:n_bgs], ]
-      row.names(bg@data) <- NULL
-      row.names(bg@coords) <- NULL
-      model_args$a <- bg
-    }
+    options <- setdiff(hypers[[mutation]], c(mother_args[[mutation]],
+                                             father_args[[mutation]]))
+    model_args[[mutation]] <- ifelse(length(options) > 1,
+                                     sample(options, size = 1), options)
   }
 
   new_model <- suppressMessages(do.call("train", model_args))

@@ -10,7 +10,8 @@ optimizeModel(model, hypers, metric, test = NULL, bg4test = NULL,
   seed = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
@@ -18,13 +19,11 @@ should be tuned, see details.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
-model, not used with aicc and \linkS4class{SDMmodelCV} objects,
+\item{test}{\code{\linkS4class{SWD}} object. Test dataset used to evaluate
+the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
 default is \code{NULL}.}
 
-\item{bg4test}{\linkS4class{SWD} object or \code{NULL}. Background locations
-are used to get subsamples if the \strong{a} hyperparameter is tuned, default is
-\code{NULL}.}
+\item{bg4test}{Deprecated.}
 
 \item{pop}{numeric. Size of the population, default is 20.}
 
@@ -50,7 +49,7 @@ expressed as decimal number. Default is 0.4.}
 results, default is \code{NULL}.}
 }
 \value{
-\linkS4class{SDMtune} object.
+\code{\linkS4class{SDMtune}} object.
 }
 \description{
 The function uses a Genetic Algorithm implementation to optimize the model
@@ -104,7 +103,7 @@ output@models[[1]]  # Best model
 }
 }
 \seealso{
-\code{\link{gridSearch}} and \code{\link{randomSearch}}
+\code{\link{gridSearch}} and \code{\link{randomSearch}}.
 }
 \author{
 Sergio Vignali

@@ -23,7 +23,7 @@ setMethod("show",
 
     cat("Object of class: ", class(object), "\n\n")
 
-    cat("Model configurations:\n")
+    cat("Models configuration:\n")
     cat("--------------------\n")
 
     for (i in 1:length(tunable_hypers)) {
