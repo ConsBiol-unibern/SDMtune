@@ -48,13 +48,9 @@
   tuned_args <- .get_train_args(model)[get_tunable_args(model)]
 
   for (i in 1:length(tuned_args)) {
-    if (names(tuned_args)[i] != "a") {
-      footer <- c(footer, paste0(names(tuned_args)[i], ": ",
-                                 tuned_args[[i]]))
-    } else {
-      footer <- c(footer, paste0("a", ": ", nrow(tuned_args[[i]]@data)))
-    }
+    footer <- c(footer, paste0(names(tuned_args)[i], ": ", tuned_args[[i]]))
   }
+
   return(paste(footer, collapse = "\n"))
 }
 
@@ -108,11 +104,7 @@
     } else {
       m <- model@models[[1]]
     }
-    if (tunable_hypers[j] == "a") {
-      res[[j]] <- nrow(m@a@data)
-    } else {
-      res[[j]] <- slot(m@model, tunable_hypers[j])
-    }
+    res[[j]] <- slot(m@model, tunable_hypers[j])
   }
   res[[j + 1]] <- train_metric
 
@@ -246,41 +238,25 @@ get_tunable_args <- function(model) {
   }
 
   if (method == "Maxent") {
-    args <- c("a", "fc", "reg", "iter")
+    args <- c("fc", "reg", "iter")
   } else {
-    args <- c("a", "fc", "reg")
+    args <- c("fc", "reg")
   }
 
   return(args)
 }
 
-.create_model_from_settings <- function(model, settings, bg4test = NULL,
-                                        bg_folds = NULL, verbose = FALSE) {
+.create_model_from_settings <- function(model, settings, verbose = FALSE) {
 
   args <- .get_train_args(model)
   args[names(settings)] <- settings
-  if (!is.null(bg_folds)) {
-    bg <- bg4test
-    bg@data <- bg4test@data[bg_folds[1:settings$a], ]
-    bg@coords <- bg4test@coords[bg_folds[1:settings$a], ]
-    row.names(bg@data) <- NULL
-    row.names(bg@coords) <- NULL
-    args$a <- bg
-  } else if ("a" %in% names(settings) & class(settings$a) != "SWD") {
-    if (settings$a != nrow(model@a@data))
-      warning("Ignored number of 'a' in settings!")
-    args$a <- model@a
-  }
-
   args$verbose <- verbose
-
   output <- suppressMessages(do.call("train", args))
 
   return(output)
 }
 
-.check_args <- function(model, metric, test = NULL, bg4test = NULL, env = NULL,
-                        hypers = NULL) {
+.check_args <- function(model, metric, test = NULL, env = NULL, hypers = NULL) {
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide the 'env' argument if you want to use the AICc metric!")
@@ -294,15 +270,6 @@ get_tunable_args <- function(model) {
     stop("Metric 'aicc' not allowed with SDMmodelCV objects!")
   # Check hypers
   if (!is.null(hypers)) {
-    # Throws exception if hypers includes 'a' and bg4test is not provided
-    if (!is.null(hypers$a) & is.null(bg4test))
-      stop("bg4test must be provided to tune background locations!")
-    # Throws exception if max hypers 'a' > than nrow bg4test
-    if (!is.null(hypers$a)) {
-      if (max(hypers$a) > nrow(bg4test@data))
-        stop(paste0("Maximum number of 'a' hyperparameter cannot be more than ",
-                    nrow(bg4test@data), "!"))
-    }
     # Throws exception if provided hypers are not tunable
     diff <- setdiff(names(hypers), get_tunable_args(model))
     if (length(diff) > 0)
@@ -315,8 +282,6 @@ get_tunable_args <- function(model) {
   # Create data frame with all possible combinations of hyperparameters
   tunable_args <- .get_train_args(model)[get_tunable_args(model)]
   tunable_args[names(hypers)] <- hypers
-  if (is.null(hypers$a))
-    tunable_args$a <- nrow(model@a@data)
   grid <- expand.grid(tunable_args, stringsAsFactors = FALSE)
   return(grid)
 }

@@ -21,9 +21,7 @@ values are: "auc", "tss" and "aicc".}
 model, not used with \code{\link{aicc}} and code{\linkS4class{SDMmodelCV}}
 objects, default is \code{NULL}.}
 
-\item{bg4test}{code{\linkS4class{SWD}} object or NULL. Background locations
-used to get subsamples if the \strong{a} hyperparameter is tuned, default is
-\code{NULL}.}
+\item{bg4test}{Deprecated.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables, used only with "aicc", default is \code{NULL}.}

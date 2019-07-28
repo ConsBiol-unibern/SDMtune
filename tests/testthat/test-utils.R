@@ -33,9 +33,9 @@ test_that(".get_model_fc", {
 })
 
 test_that(".get_footer", {
-  expect_equal(.get_footer(model), "a: 5000\nfc: lqph\nreg: 1")
-  expect_equal(.get_footer(model_cv), "a: 5000\nfc: lqph\nreg: 1")
-  expect_equal(.get_footer(model_mx), "a: 5000\nfc: lqph\nreg: 1\niter: 500")
+  expect_equal(.get_footer(model), "fc: lqph\nreg: 1")
+  expect_equal(.get_footer(model_cv), "fc: lqph\nreg: 1")
+  expect_equal(.get_footer(model_mx), "fc: lqph\nreg: 1\niter: 500")
 })
 
 test_that(".get_total_model", {
@@ -60,18 +60,17 @@ test_that(".create_sdmtune_result", {
   # Produce the correct result with auc
   expect_equal(.create_sdmtune_result(model, metric = "auc", train_metric = 0.9,
                                       val_metric = 0.8),
-               list(a = 5000, fc = "lqph", reg = 1, train_AUC = 0.9,
-                    test_AUC = 0.8, diff_AUC = 0.1))
+               list(fc = "lqph", reg = 1, train_AUC = 0.9, test_AUC = 0.8,
+                    diff_AUC = 0.1))
   # Produce the correct result with tss
   expect_equal(.create_sdmtune_result(model, metric = "tss", train_metric = 0.9,
                                       val_metric = 0.8),
-               list(a = 5000, fc = "lqph", reg = 1, train_TSS = 0.9,
-                    test_TSS = 0.8, diff_TSS = 0.1))
+               list(fc = "lqph", reg = 1, train_TSS = 0.9, test_TSS = 0.8,
+                    diff_TSS = 0.1))
   # Produce the correct result with aicc
   expect_equal(.create_sdmtune_result(model, metric = "aicc",
                                       train_metric = 0.9, val_metric = NA),
-               list(a = 5000, fc = "lqph", reg = 1, AICc = 0.9,
-                    delta_AICc = NA))
+               list(fc = "lqph", reg = 1, AICc = 0.9, delta_AICc = NA))
   # Produce the correct output type
   expect_type(.create_sdmtune_result(model, metric = "aicc",
                                      train_metric = 0.9, val_metric = NA),
@@ -79,8 +78,7 @@ test_that(".create_sdmtune_result", {
   # Produce the correct result with SDMmodelCV
   expect_equal(.create_sdmtune_result(model_cv, metric = "aicc",
                                       train_metric = 0.9, val_metric = NA),
-               list(a = 5000, fc = "lqph", reg = 1, AICc = 0.9,
-                    delta_AICc = NA))
+               list(fc = "lqph", reg = 1, AICc = 0.9, delta_AICc = NA))
 })
 
 test_that(".create_sdm_output", {
@@ -127,20 +125,17 @@ test_that(".create_sdm_output", {
 test_that(".get_train_args", {
   # Give the correct output using maxnet
   expect_named(.get_train_args(model),
-               c("p", "a", "rep", "method", "fc", "reg"))
+               c("data", "method", "fc", "reg"))
   # Give the correct output using maxent
   expect_named(.get_train_args(model_mx),
-               c("p", "a", "rep", "method", "fc", "reg", "iter", "extra_args"))
-  # Give corret rep argument
-  expect_equal(.get_train_args(model)$rep, 1)
-  expect_equal(.get_train_args(model_cv)$rep, 4)
+               c("data", "method", "fc", "reg", "iter", "extra_args"))
   # Give the correct output type
   expect_type(.get_train_args(model), "list")
 })
 
 test_that("get_tunable_args", {
-  expect_equal(get_tunable_args(model_mx), c("a", "fc", "reg", "iter"))
-  expect_equal(get_tunable_args(model), c("a", "fc", "reg"))
+  expect_equal(get_tunable_args(model_mx), c("fc", "reg", "iter"))
+  expect_equal(get_tunable_args(model), c("fc", "reg"))
 })
 
 test_that(".create_model_from_settings", {
@@ -149,19 +144,9 @@ test_that(".create_model_from_settings", {
   expect_s4_class(m@model, "Maxnet")
   expect_equal(m@model@fc, "l")
   expect_equal(m@model@reg, 2)
-  expect_warning(
-    .create_model_from_settings(model, list(fc = "l", reg = 2, a = 6000)),
-    "Ignored number of 'a' in settings!")
-  m <- .create_model_from_settings(model, list(fc = "l", reg = 2, a = 6000),
-                                   bg4test = SDMtune:::bg,
-                                   bg_folds = sample(1:nrow(SDMtune:::bg@data)))
-  expect_equal(nrow(m@a@data), 6000)
-  expect_equal(rownames(m@a@data), as.character(1:6000))
-  expect_equal(rownames(m@a@coords), as.character(1:6000))
 })
 
 test_that("The function .get_hypers_grid generates the correct grid", {
-  expect_type(.get_hypers_grid(model, h)$a, "integer")
   expect_type(.get_hypers_grid(model, h), "list")
 })
 
@@ -173,5 +158,46 @@ test_that("The function .start_server creates the url", {
   expect_true(grepl("/session/SDMtune", x))
   # No error are raised if the server is already running
   expect_error(.start_server(folder), NA)
-  rm(folder)
+  unlink(folder)
+})
+
+test_that("The function .check_args function raises exceptions", {
+  h <- list("fc" = c("l", "lq", "lqp"), "reg" = seq(.2, 2., .2), "a" = 10000)
+  # Throws exception if metric is aicc and env is not provided
+  expect_error(.check_args(model, metric = "aicc", hypers = h),
+               "You must provide the 'env' argument if you want to use the AICc metric!")
+  # Throws exception if metric is aicc and model is SDMmodelCV
+  expect_error(.check_args(model_cv, metric = "aicc", hypers = h),
+               "Metric 'aicc' not allowed with SDMmodelCV objects!")
+  # Throws exception if model is SDMmodel metric is not aicc and test is not provided
+  expect_error(.check_args(model, metric = "auc", hypers = h),
+               "You need to provide a test dataset!")
+  # Throws exception if provided hypers are not tunable
+  h <- list("fc" = c("l", "lq", "lqp"), "lambda" = c(500, 600))
+  expect_error(.check_args(model, "auc", data, hypers = h),
+               "lambda non included in tunable hyperparameters")
+  h <- list("beta" = c(1, 2, 3), "lambda" = c(500, 600))
+  expect_error(.check_args(model, "auc", data, hypers = h),
+               paste("beta non included in tunable hyperparameters,",
+                     "lambda non included in tunable hyperparameters"))
+})
+
+test_that("The function .check_optimize_hypers raises exceptions", {
+  # Throws exception if less than two hypers have more than two values
+  h <- list("fc" = c("l", "lq"), "reg" = c(.2, .4), "a" = 10000)
+  grid <- .get_hypers_grid(model, h)
+  expect_error(.check_optimize_args(h, grid, pop = 5),
+               "One hyperparameter in hypers should have more than two values to allow crossover!")
+  # Throws exception if there are less than two hypers to be tuned
+  h <- list("fc" = c("l", "lq", "lqp"))
+  expect_error(.check_optimize_args(h, pop = 5),
+               "You must provide at least two hyperparameters to be tuned! Use gridSearch to tune only one parameter.")
+  # Throws exception if possible random combinations < pop
+  h <- list("fc" = c("l", "lq", "lqp"), "reg" = c(.2, .4), "a" = 10000)
+  grid <- .get_hypers_grid(model, h)
+  expect_error(.check_optimize_args(h, grid, pop = 7),
+               "Number of possible random models is lewer than population size, add more values to the 'hyper' argument!")
+  # Throws exception if possible random combinations < pop
+  expect_error(.check_optimize_args(h, grid, pop = 6),
+               "Number of possible random models is the same than population size. Use gridSearch function!")
 })

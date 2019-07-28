@@ -12,9 +12,7 @@
 #' @param test code{\linkS4class{SWD}} object. Test dataset used to evaluate the
 #' model, not used with \code{\link{aicc}} and code{\linkS4class{SDMmodelCV}}
 #' objects, default is \code{NULL}.
-#' @param bg4test code{\linkS4class{SWD}} object or NULL. Background locations
-#' used to get subsamples if the **a** hyperparameter is tuned, default is
-#' \code{NULL}.
+#' @param bg4test Deprecated.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
@@ -89,12 +87,16 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
                        env = NULL, parallel = FALSE, save_models = TRUE,
                        seed = NULL) {
 
+  if (!is.null(bg4test))
+    warning("Argument \"bg4test\" is deprecated and ignored, it will be ",
+            "removed in the next release.")
+
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
   # Create a grid with all the possible combination of hyperparameters
   grid <- .get_hypers_grid(model, hypers)
 
   # Check that areguments are correctly provided
-  .check_args(model, metric, test, bg4test, env, hypers)
+  .check_args(model, metric, test, env, hypers)
 
   if (class(model) == "SDMmodelCV")
     test <- TRUE
@@ -107,24 +109,12 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   if (!is.null(seed))
     set.seed(seed)
 
-  # Set bg4test as NULL if hypers doesn't contain "a"
-  if (!"a" %in% names(hypers))
-    bg4test <- NULL
-
   models <- vector("list", length = nrow(grid))
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
   val_metric <- data.frame(x = NA_real_, y = NA_real_)
   footer <- vector("character", length = nrow(grid))
   # Show line only if one hyperparameter is tuned
   show_line <- ifelse(length(hypers) == 1, TRUE, FALSE)
-
-  if (!is.null(hypers$a)) {
-    vars <- colnames(model@p@data)
-    bg4test@data <- bg4test@data[vars]
-    bg_folds <- sample(nrow(bg4test@data))
-  } else {
-    bg_folds <- NULL
-  }
 
   # Create chart
   settings <- list(metric = .get_metric_label(metric),
@@ -144,10 +134,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   # Loop through all the settings in grid
   for (i in 1:nrow(grid)) {
 
-    obj <- .create_model_from_settings(model, settings = grid[i, ],
-                                       bg4test = bg4test,
-                                       bg_folds = bg_folds)
-
+    obj <- .create_model_from_settings(model, settings = grid[i, ])
 
     train_metric[i, ] <- list(i, .get_metric(metric, obj, env = env,
                                              parallel = parallel))
