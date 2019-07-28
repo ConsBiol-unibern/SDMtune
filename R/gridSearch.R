@@ -63,7 +63,7 @@
 #' model <- train(method = "Maxnet", data = train, fc = "l")
 #'
 #' # Define the hyperparameters to test
-#' h <- list(reg = 1:2, fc = c("lqp", "lqph")))
+#' h <- list(reg = 1:2, fc = c("lqp", "lqph"))
 #'
 #' # Run the function using the AUC as metric
 #' output <- gridSearch(model, hypers = h, metric = "auc", test = test)

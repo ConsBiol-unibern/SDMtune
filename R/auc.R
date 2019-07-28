@@ -58,7 +58,7 @@
 #' # Same example but using cross validation instead of training and testing
 #' # datasets
 #' # Create the folds
-#' folds <- randomFolds(data, k = 4, presence_only = TRUE)
+#' folds <- randomFolds(data, k = 4, only_presence = TRUE)
 #' model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
 #'
 #' # Compute the training AUC

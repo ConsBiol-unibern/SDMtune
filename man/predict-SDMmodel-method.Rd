@@ -76,7 +76,7 @@ data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
                    env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, presence_only = TRUE)
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 

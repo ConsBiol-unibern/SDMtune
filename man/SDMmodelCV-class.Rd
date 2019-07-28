@@ -15,10 +15,8 @@ the models trained during the cross validation.
 \item{\code{models}}{list. A list containing all the models trained during the cross
 validation.}
 
-\item{\code{p}}{\link{SWD} object. Full dataset used by the k-fold cross validation.}
-
-\item{\code{a}}{\link{SWD} object. The absence/background locations used to train the
-model.}
+\item{\code{data}}{\code{\linkS4class{SWD}} object. Full dataset used to make the
+partitions.}
 
 \item{\code{folds}}{list with two matrices, the first for the training and the second
 for the testing dataset. Each column of one matrix represents a fold with
