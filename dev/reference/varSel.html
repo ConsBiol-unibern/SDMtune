@@ -136,6 +136,9 @@ until the remaining variables are not highly correlated anymore." />
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -195,7 +198,8 @@ until the remaining variables are not highly correlated anymore.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
+      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
+object.</p></td>
     </tr>
     <tr>
       <th>metric</th>
@@ -204,13 +208,14 @@ values are: "auc", "tss" and "aicc".</p></td>
     </tr>
     <tr>
       <th>bg4cor</th>
-      <td><p><a href='SWD-class.html'>SWD</a> object. Background locations used to test the
-correlation between environmental variables.</p></td>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> object. Background locations used to
+test the correlation between environmental variables.</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p><a href='SWD-class.html'>SWD</a>. Test dataset used to evaluate the model, not
-used with aicc and <a href='SDMmodelCV-class.html'>SDMmodelCV</a> objects, default is <code>NULL</code>.</p></td>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code>. Test dataset used to evaluate the
+model, not used with aicc and <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects,
+default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>env</th>
@@ -247,8 +252,8 @@ importance, default is <code>FALSE</code>.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The <a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object trained
-using the selected variables.</p>
+    <p>The <code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
+object trained using the selected variables.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -269,25 +274,24 @@ $$| coeff | \le cor_th$$</p>
 <span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>condor</span>[, <span class='fl'>1</span>:<span class='fl'>2</span>]
 
 <span class='co'># Prepare background locations</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>10000</span>)
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
 
 <span class='co'># Create SWD object</span>
-<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-
-<span class='co'># Get subsample of background to train the model, we will use the full</span>
-<span class='co'># dataset to compute the correlation among the environmental variables</span>
-<span class='no'>bg_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getSubsample.html'>getSubsample</a></span>(<span class='no'>bg</span>, <span class='fl'>5000</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>presence</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
+<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
 <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
 
-<span class='co'># Train a Maxent model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_model</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='co'># Train a model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+
+<span class='co'># Prepare background locations to test autocorrelation</span>
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>10000</span>)
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
+                 <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Remove variables with correlation higher than 0.7 accounting for the AUC,</span>
 <span class='co'># in the following example the variable importance is computed as permutation</span>

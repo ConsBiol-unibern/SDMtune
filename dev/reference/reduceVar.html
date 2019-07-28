@@ -135,6 +135,9 @@ threshold." />
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -192,7 +195,8 @@ threshold.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
+      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
+object.</p></td>
     </tr>
     <tr>
       <th>th</th>
@@ -205,8 +209,9 @@ values are: "auc", "tss" and "aicc", used only if use_jk is <code>TRUE</code>.</
     </tr>
     <tr>
       <th>test</th>
-      <td><p><a href='SWD-class.html'>SWD</a>. Test dataset used to evaluate the model, not
-used with aicc, and if <code>use_jk = FALSE</code>, default is <code>NULL</code>.</p></td>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> object containing the test dataset used
+to evaluate the model, not used with aicc, and if <code>use_jk = FALSE</code>,
+default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>env</th>
@@ -232,8 +237,8 @@ contribution, default is <code>FALSE</code>.</p></td>
     <tr>
       <th>use_pc</th>
       <td><p>logical, use percent contribution. If <code>TRUE</code> and the model
-is trained using the <a href='Maxent-class.html'>Maxent</a> method, the algorithm uses the
-percent contribution computed by Maxent software to score the variable
+is trained using the <code><a href='Maxent-class.html'>Maxent</a></code> method, the algorithm uses
+the percent contribution computed by Maxent software to score the variable
 importance, default is <code>FALSE</code>.</p></td>
     </tr>
     </table>
@@ -257,18 +262,16 @@ importance, default is <code>FALSE</code>.</p></td>
 <span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
 
 <span class='co'># Create SWD object</span>
-<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>presence</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
+<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
 <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
 
 <span class='co'># Train a Maxnet model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>)
 
 <span class='co'># Remove all variables with permuation importance lower than 2%</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>1</span>)
@@ -284,7 +287,7 @@ importance, default is <code>FALSE</code>.</p></td>
                     <span class='kw'>use_jk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)
 
 <span class='co'># Train a Maxent model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>)
 
 <span class='co'># Remove all variables with percent contribution lower than 2%</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,

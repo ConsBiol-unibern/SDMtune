@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Dataset Subsample — getSubsample • SDMtune</title>
+<title>Get Dataset Subsample, Deprecated — getSubsample • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -45,9 +45,11 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Get Dataset Subsample — getSubsample" />
+<meta property="og:title" content="Get Dataset Subsample, Deprecated — getSubsample" />
 
-<meta property="og:description" content="Get a random subsample of an SWD object." />
+<meta property="og:description" content="Get a random subsample of an SWD object. This function is
+deprecated, don't use it with the an SWD object that contains
+presence and absence/background locations together." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -129,6 +131,9 @@
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -161,14 +166,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Dataset Subsample</h1>
+    <h1>Get Dataset Subsample, Deprecated</h1>
     
     <div class="hidden name"><code>getSubsample.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get a random subsample of an <a href='SWD-class.html'>SWD</a> object.</p>
+    <p>Get a random subsample of an <a href='SWD-class.html'>SWD</a> object. This function is
+deprecated, don't use it with the an <code><a href='SWD-class.html'>SWD</a></code> object that contains
+presence and absence/background locations together.</p>
     
     </div>
 
@@ -208,8 +215,8 @@ consistent results, default is <code>NULL</code>.</p></td>
 <span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
 
 <span class='co'># Create SWD object</span>
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
+                 <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Get a subsample</span>
 <span class='fu'>getSubsample</span>(<span class='no'>bg</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)

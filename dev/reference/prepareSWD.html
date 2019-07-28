@@ -48,7 +48,7 @@
 <meta property="og:title" content="Prepare an SWD object — prepareSWD" />
 
 <meta property="og:description" content="Given the coordinates, the species' name and the environmental variables,
-the function creates a SWD object (sample with data)." />
+the function creates an SWD object (sample with data)." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -130,6 +130,9 @@ the function creates a SWD object (sample with data)." />
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -170,11 +173,12 @@ the function creates a SWD object (sample with data)." />
     <div class="ref-description">
     
     <p>Given the coordinates, the species' name and the environmental variables,
-the function creates a <a href='SWD-class.html'>SWD</a> object (sample with data).</p>
+the function creates an <code><a href='SWD-class.html'>SWD</a></code> object (sample with data).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>prepareSWD</span>(<span class='no'>species</span>, <span class='no'>coords</span>, <span class='no'>env</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>prepareSWD</span>(<span class='no'>species</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>env</span>,
+  <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,9 +188,16 @@ the function creates a <a href='SWD-class.html'>SWD</a> object (sample with data
       <td><p>character. The name of the species.</p></td>
     </tr>
     <tr>
+      <th>p</th>
+      <td><p>data.frame. The coordinates of the presence locations.</p></td>
+    </tr>
+    <tr>
+      <th>a</th>
+      <td><p>data.frame. The coordinates of the absence/background locations.</p></td>
+    </tr>
+    <tr>
       <th>coords</th>
-      <td><p>data.frame. The coordinates of the presence or
-absence/background locations.</p></td>
+      <td><p>Deprecated.</p></td>
     </tr>
     <tr>
       <th>env</th>
@@ -202,7 +213,12 @@ categorical, default is <code>NULL</code>.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <a href='SWD-class.html'>SWD</a> object</p>
+    <p>An <code><a href='SWD-class.html'>SWD</a></code> object.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The <code><a href='SWD-class.html'>SWD</a></code> object is created in a way that the
+presence locations are always before than the absence/background locations.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -215,9 +231,14 @@ categorical, default is <code>NULL</code>.</p></td>
 <span class='co'># Prepare presence locations</span>
 <span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>condor</span>[, <span class='fl'>1</span>:<span class='fl'>2</span>]
 
-<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'>prepareSWD</span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-<span class='no'>presence</span>
+<span class='co'># Prepare background locations</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>25</span>)
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>2000</span>)
+
+<span class='co'># Create the SWD object</span>
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>prepareSWD</span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>data</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -226,6 +247,8 @@ categorical, default is <code>NULL</code>.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

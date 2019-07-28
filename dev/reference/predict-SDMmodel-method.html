@@ -47,7 +47,8 @@
   
 <meta property="og:title" content="Predict — predict,SDMmodel-method" />
 
-<meta property="og:description" content="Predict the output for a new dataset from a trained SDMmodel model." />
+<meta property="og:description" content="Predict the output for a new dataset given a trained SDMmodel
+model." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -129,6 +130,9 @@
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -168,7 +172,8 @@
 
     <div class="ref-description">
     
-    <p>Predict the output for a new dataset from a trained <a href='SDMmodel-class.html'>SDMmodel</a> model.</p>
+    <p>Predict the output for a new dataset given a trained <code><a href='SDMmodel-class.html'>SDMmodel</a></code>
+model.</p>
     
     </div>
 
@@ -182,11 +187,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> object.</p></td>
+      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> object.</p></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>data.frame, <a href='SWD-class.html'>SWD</a>, <code><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></code>.</p></td>
+      <td><p>data.frame, <code><a href='SWD-class.html'>SWD</a></code> or raster
+<code><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></code>.</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -231,20 +237,21 @@ default is <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A vector with the prediction or a Raster object if data is a raster
-stack.</p>
+<code><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <ul>
-<li><p>For models trained with the <strong>Maxent</strong> method the argument <strong>type</strong> can be:
-"raw", "logistic" and "cloglog".</p></li>
-<li><p>For models trained with the <strong>Maxnet</strong> method the argument <strong>type</strong> can be:
-"link", "exponential", "logistic" and "cloglog",
-see <code><a href='https://www.rdocumentation.org/packages/maxnet/topics/maxnet'>maxnet</a></code> for more details.</p></li>
-<li><p>Parallel computation increases the speed only for large datasets due
-to the time necessary to create the cluster. For <strong>Maxent</strong> models the
-function performs the prediction in <strong>R</strong> without calling the <strong>MaxEnt</strong> java
-software. This results is a faster computation for large datasets.</p></li>
+<li><p>For models trained with the <strong>Maxent</strong> method the argument <code>type</code> can
+be: "raw", "logistic" and "cloglog".</p></li>
+<li><p>For models trained with the <strong>Maxnet</strong> method the argument <code>type</code> can
+be: "link", "exponential", "logistic" and "cloglog", see
+<code><a href='https://www.rdocumentation.org/packages/maxnet/topics/maxnet'>maxnet</a></code> for more details.</p></li>
+<li><p>Parallel computation increases the speed only for large datasets due to the
+time necessary to create the cluster. For <strong>Maxent</strong> models the function
+performs the prediction in <strong>R</strong> without calling the <strong>MaxEnt</strong> Java
+software. This results in a faster computation for large datasets and might
+result in slightly different results compare to the Java software.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -267,18 +274,16 @@ values from a lambdas file.</p>
 <span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
 
 <span class='co'># Create SWD object</span>
-<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>presence</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
+<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
 <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
 
 <span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='co'># Make cloglog prediction for the test dataset</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)

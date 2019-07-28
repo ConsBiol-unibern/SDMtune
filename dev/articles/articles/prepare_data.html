@@ -90,6 +90,9 @@
     <li>
       <a href="../../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -241,43 +244,51 @@
 <div id="prepare-background-locations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prepare-background-locations" class="anchor"></a>Prepare background locations</h2>
-<p>We extract 10000 background locations (default number in the MaxEnt software ) using the <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints">randomPoints</a> function included in the <code>dismo</code> package (we set the seed to have reproducible results).</p>
+<p>We extract 5000 background locations using the <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints">randomPoints</a> function included in the <code>dismo</code> package <span class="citation">(Hijmans et al. 2017)</span> (we set the seed to have reproducible results).</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">bg_coords &lt;-<span class="st"> </span>dismo<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/randomPoints">randomPoints</a></span>(predictors, <span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; Warning in dismo::randomPoints(predictors, 10000): generated random points</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; = 0.9775 times requested number</span></a></code></pre></div>
-<p>The environmental variables we downloaded have a coarse resolution and the function can extract only 9775 instead of 10000 background locations (see the warning message).</p>
+<a class="sourceLine" id="cb10-2" data-line-number="2">bg_coords &lt;-<span class="st"> </span>dismo<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/randomPoints">randomPoints</a></span>(predictors[[<span class="dv">9</span>]], <span class="dv">5000</span>)</a></code></pre></div>
+<p>To plot the background locations run the following code:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span>(<span class="st">"world"</span>), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(long, lat)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">group =</span> group), <span class="dt">fill =</span> <span class="st">"grey95"</span>, <span class="dt">color =</span> <span class="st">"gray40"</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(bg_coords), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y),</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">                <span class="dt">color =</span> <span class="st">"blue"</span>, <span class="dt">alpha =</span> <span class="fl">0.4</span>, <span class="dt">size =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">"longitude"</span>, <span class="dt">y =</span> <span class="st">"latitude"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="dt">limits =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">125</span>, <span class="dv">-32</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="dt">limits =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">56</span>, <span class="dv">40</span>))</a></code></pre></div>
+<p><img src="prepare_data_files/figure-html/plot%20bg_model%20locations-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="create-an-swd-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-an-swd-object" class="anchor"></a>Create an SWD object</h2>
-<p>Before training a model we have to prepare the data in the correct format. The <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function creates an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object that stores the species name, the coordinates of the species locations and the value of the environmental variables at the locations. The argument <code>categorical</code> indicates which environmental variables are categorical. In our example <strong>biome</strong> is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have <code>NA</code> value for at least one environmental variable.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">presence &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> p_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; Extracting predictor information for given locations...</span></a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bg &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">coords =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; Extracting predictor information for given locations...</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; Warning: 9 locations are NA for some environmental variables, they will be discard!</span></a></code></pre></div>
-<p>The warning message reports that in the background dataset 9 locations were discarded. The final number of background locations is 9766.</p>
+<p>Before training a model we have to prepare the data in the correct format. The <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function creates an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument <code>categorical</code> indicates which environmental variables are categorical. In our example <strong>biome</strong> is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have <code>NA</code> value for at least one environmental variable.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">p =</span> p_coords, <span class="dt">a =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; Extracting predictor information for presence locations...</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; Extracting predictor information for absence/background locations...</span></a></code></pre></div>
 </div>
 <div id="explore-an-swd-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#explore-an-swd-object" class="anchor"></a>Explore an SWD object</h2>
 <p>Let’s have a look at the created <code><a href="../../reference/SWD-class.html">SWD()</a></code> object:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">presence</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">data</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; Object of class SWD </span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; Species: Vultur gryphus </span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; Locations: 510 </span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; Variables:</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; ---------</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; Categorical: biome</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; Presence locations: 510 </span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; Absence locations: 5000 </span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; Variables:</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; ---------</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; Categorical: biome</span></a></code></pre></div>
 <p>When we print an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object we get a bunch of information:</p>
 <ul>
 <li>the name of the class;</li>
 <li>the name of the species;</li>
-<li>the number of locations;</li>
+<li>the number of presence locations;</li>
+<li>the number of absence/background locations;</li>
 <li>the environmental variables available in the dataset:
 <ul>
 <li>the name of the continuous environmental variables, if any;</li>
@@ -285,8 +296,8 @@
 </ul>
 </li>
 </ul>
-<p>The object contains three slots: <code>species</code>, <code>coords</code> and <code>data</code>. To visualize the data we run:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(presence<span class="op">@</span>data)</a>
+<p>The object contains four slots: <code>species</code>, <code>coords</code> <code>data</code> and <code>pa</code>. <code>pa</code> contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(data<span class="op">@</span>data)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt;   bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 biome</span></a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; 1   28   464   257    23  163  -81  244  -15    10</span></a>
 <a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; 2   40  1208   349   270  133  -41  174   40     4</span></a>
@@ -295,7 +306,7 @@
 <a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 5   56   623   191   129  157  -33  191   46     4</span></a>
 <a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 6  115   341   209    11  234  -11  244  163     1</span></a></code></pre></div>
 <p>We can visualize the coordinates with:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(presence<span class="op">@</span>coords)</a>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(data<span class="op">@</span>coords)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt;           X         Y</span></a>
 <a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; 1 -70.38600 -33.49587</span></a>
 <a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; 2 -73.03339 -50.46899</span></a>
@@ -304,28 +315,17 @@
 <a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 5 -72.96618 -50.48606</span></a>
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 6 -65.91488 -26.58891</span></a></code></pre></div>
 <p>or the name of the species with:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">presence<span class="op">@</span>species</a>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">data<span class="op">@</span>species</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; [1] "Vultur gryphus"</span></a></code></pre></div>
-<p>We can save an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object in a <strong>.csv</strong> file using the function <code><a href="../../reference/swd2csv.html">swd2csv()</a></code> (the function saves the file in the working directory):</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../../reference/swd2csv.html">swd2csv</a></span>(presence, <span class="dt">file_name =</span> <span class="st">"presence.csv"</span>)</a></code></pre></div>
-</div>
-<div id="subset-the-background-locations" class="section level2">
-<h2 class="hasAnchor">
-<a href="#subset-the-background-locations" class="anchor"></a>Subset the background locations:</h2>
-<p>We will use a sub sample of the background locations to train the model and the full dataset to explore the correlation between the environmental variables. We extract the sub sample using the function <code><a href="../../reference/getSubsample.html">getSubsample()</a></code>:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">bg_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/getSubsample.html">getSubsample</a></span>(bg, <span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">25</span>)</a></code></pre></div>
-<p>To plot the retained background locations run the following code:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span>(<span class="st">"world"</span>), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(long, lat)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">group =</span> group), <span class="dt">fill =</span> <span class="st">"grey95"</span>, <span class="dt">color =</span> <span class="st">"gray40"</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="dt">data =</span> bg_model<span class="op">@</span>coords, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">                <span class="dt">color =</span> <span class="st">"blue"</span>, <span class="dt">alpha =</span> <span class="fl">0.4</span>, <span class="dt">size =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">"longitude"</span>, <span class="dt">y =</span> <span class="st">"latitude"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="dt">limits =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">125</span>, <span class="dv">-32</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="dt">limits =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">56</span>, <span class="dv">40</span>))</a></code></pre></div>
-<p><img src="prepare_data_files/figure-html/plot%20bg_model%20locations-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>We can save the <code><a href="../../reference/SWD-class.html">SWD()</a></code> object in a <strong>.csv</strong> file using the function <code><a href="../../reference/swd2csv.html">swd2csv()</a></code> (the function saves the file in the working directory). There are two possibilities:</p>
+<ul>
+<li>save the object in a single file with the column <strong>pa</strong> indicating if the location is a presence (1) or an absence/background (0) site</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../../reference/swd2csv.html">swd2csv</a></span>(data, <span class="dt">file_name =</span> <span class="st">"data.csv"</span>)</a></code></pre></div>
+<ul>
+<li>save the object in two separate files: one for the presence and the other for the absence/background locations</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../../reference/swd2csv.html">swd2csv</a></span>(data, <span class="dt">file_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"presence.csv"</span>, <span class="st">"backgground.csv"</span>))</a></code></pre></div>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
@@ -334,23 +334,25 @@
 <ul>
 <li>how to create a raster <code>stack</code> object;</li>
 <li>how to plot a raster object using the <code>gplot</code> function included in the <code>rasterVis</code> package;</li>
+<li>how to plot locations using the <code>ggplot</code> and the <code>maps</code> packages;</li>
 <li>how to create an <code><a href="../../reference/SWD-class.html">SWD()</a></code> objects;</li>
 <li>how to extract information from an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object;</li>
-<li>how to save an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object in a <strong>.csv</strong> file;</li>
-<li>how to extract a sub sample of an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object;</li>
-<li>how to plot locations using the <code>ggplot</code> and the <code>maps</code> packages.</li>
+<li>how to save an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object in a <strong>.csv</strong> file.</li>
 </ul>
 <p>Move on to the <a href="./train_model.html">second article</a> and learn how to train models using <code>SDMtune</code>.</p>
-<div id="references" class="section level3 unnumbered">
-<h3 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h3>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-Hijmans2005">
 <p>Hijmans, Robert J., Susan E. Cameron, Juan L. Parra, Peter G. Jones, and Andy Jarvis. 2005. “Very high resolution interpolated climate surfaces for global land areas.” <em>International Journal of Climatology</em> 25 (15). Wiley-Blackwell: 1965–78. <a href="https://doi.org/10.1002/joc.1276" class="uri">https://doi.org/10.1002/joc.1276</a>.</p>
 </div>
+<div id="ref-Hijmans2017">
+<p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “dismo: Species Distribution Modeling. R package version 1.1-4.” https://cran.r-project.org/package=dismo.</p>
+</div>
 <div id="ref-Olson2001">
 <p>Olson, David M., Eric Dinerstein, Eric D. Wikramanayake, Neil D. Burgess, George V. N. Powell, Emma C. Underwood, Jennifer A. D’amico, et al. 2001. “Terrestrial Ecoregions of the World: A New Map of Life on Earth.” <em>BioScience</em> 51 (11). Oxford University Press: 933. <a href="https://doi.org/10.1641/0006-3568(2001)051%5B0933:TEOTWA%5D2.0.CO;2" class="uri">https://doi.org/10.1641/0006-3568(2001)051[0933:TEOTWA]2.0.CO;2</a>.</p>
-</div>
 </div>
 </div>
 </div>
@@ -368,8 +370,8 @@
       <li><a href="#prepare-background-locations">Prepare background locations</a></li>
       <li><a href="#create-an-swd-object">Create an SWD object</a></li>
       <li><a href="#explore-an-swd-object">Explore an SWD object</a></li>
-      <li><a href="#subset-the-background-locations">Subset the background locations:</a></li>
       <li><a href="#conclusion">Conclusion</a></li>
+      <li><a href="#references">References</a></li>
       </ul>
 </div>
       </div>

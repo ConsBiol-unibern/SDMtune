@@ -67,6 +67,18 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/modelReport.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/old2NewSDMmodel.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/old2NewSDMmodelCV.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/old2NewSDMtune.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/old2NewSWD.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/optimizeModel.html</loc>
   </url>
   <url>
@@ -103,6 +115,9 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/prepareSWD.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/randomFolds.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/randomSearch.html</loc>
   </url>
   <url>
@@ -137,6 +152,9 @@
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//articles/SDMtune.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/deprecated_objects.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/evaluate_model.html</loc>

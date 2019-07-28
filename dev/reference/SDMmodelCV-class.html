@@ -130,6 +130,9 @@ the models trained during the cross validation." />
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -181,10 +184,12 @@ the models trained during the cross validation.</p>
     <dl class='dl-horizontal'>
 <dt><code>models</code></dt><dd><p>list. A list containing all the models trained during the cross
 validation.</p></dd>
-    <dt><code>p</code></dt><dd><p><a href='SWD-class.html'>SWD</a> object. Full dataset used by the k-fold cross validation.</p></dd>
-    <dt><code>a</code></dt><dd><p><a href='SWD-class.html'>SWD</a> object. The absence/background locations used to train the
-model.</p></dd>
-    <dt><code>folds</code></dt><dd><p>numeric. Vector with the index for the k-fold partition.</p></dd>
+    <dt><code>data</code></dt><dd><p><code><a href='SWD-class.html'>SWD</a></code> object. Full dataset used to make the
+partitions.</p></dd>
+    <dt><code>folds</code></dt><dd><p>list with two matrices, the first for the training and the second
+for the testing dataset. Each column of one matrix represents a fold with
+<code>TRUE</code> for the locations included in and <code>FALSE</code> excluded from the
+partition.</p></dd>
 </dl>
     
 

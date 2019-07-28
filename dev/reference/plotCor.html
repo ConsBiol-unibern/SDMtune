@@ -132,6 +132,9 @@ threshold." />
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -185,7 +188,8 @@ threshold.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bg</th>
-      <td><p><a href='SWD-class.html'>SWD</a> object used to compute the correlation matrix.</p></td>
+      <td><p>code<a href='SWD-class.html'>SWD</a> object used to compute the correlation
+matrix.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -215,8 +219,8 @@ higher or lower than the given threshold, default is <code>NULL</code>.</p></td>
 <span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>10000</span>)
 
 <span class='co'># Create SWD object</span>
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
+                 <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Plot heat map</span>
 <span class='fu'>plotCor</span>(<span class='no'>bg</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>)

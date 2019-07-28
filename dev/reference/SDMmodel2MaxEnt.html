@@ -47,8 +47,9 @@
   
 <meta property="og:title" content="SDMmodel2MaxEnt — SDMmodel2MaxEnt" />
 
-<meta property="og:description" content="Converts a SDMmodel object containing a Maxent
-model to a dismo maxent object." />
+<meta property="og:description" content="Converts an SDMmodel object containing a
+Maxent model into a dismo MaxEnt
+object." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -130,6 +131,9 @@ model to a dismo maxent object." />
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -169,8 +173,9 @@ model to a dismo maxent object." />
 
     <div class="ref-description">
     
-    <p>Converts a <a href='SDMmodel-class.html'>SDMmodel</a> object containing a <a href='Maxent-class.html'>Maxent</a>
-model to a dismo <code><a href='https://www.rdocumentation.org/packages/dismo/topics/maxent'>maxent</a></code> object.</p>
+    <p>Converts an <code><a href='SDMmodel-class.html'>SDMmodel</a></code> object containing a
+<code><a href='Maxent-class.html'>Maxent</a></code> model into a dismo <code>MaxEnt</code>
+object.</p>
     
     </div>
 
@@ -181,13 +186,13 @@ model to a dismo <code><a href='https://www.rdocumentation.org/packages/dismo/to
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> object to be converted.</p></td>
+      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> object to be converted.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The converted dismo <a href='Maxent-class.html'>Maxent</a> object.</p>
+    <p>The converted dismo <code>MaxEnt</code> object.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -204,16 +209,14 @@ model to a dismo <code><a href='https://www.rdocumentation.org/packages/dismo/to
 <span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
 
 <span class='co'># Create SWD object</span>
-<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Train a Maxent model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>presence</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='no'>dismo_model</span> <span class='kw'>&lt;-</span> <span class='fu'>SDMmodel2MaxEnt</span>(<span class='no'>model</span>)
-<span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/evaluate'>evaluate</a></span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>presence</span>@<span class='kw'>data</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>@<span class='kw'>data</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>dismo_model</span>)
+<span class='no'>dismo_model</span>
 <span class='co'># }</span># NOT RUN {
 # }
 </pre>
