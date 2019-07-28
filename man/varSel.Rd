@@ -72,25 +72,24 @@ predictors <- raster::stack(files)
 p_coords <- condor[, 1:2]
 
 # Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 10000)
+bg_coords <- dismo::randomPoints(predictors, 5000)
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
-
-# Get subsample of background to train the model, we will use the full
-# dataset to compute the correlation among the environmental variables
-bg_model <- getSubsample(bg, 5000, seed = 25)
+data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
-# Train a Maxent model
-model <- train(method = "Maxent", p = train, a = bg_model, fc = "l")
+# Train a model
+model <- train(method = "Maxnet", data = train, fc = "l")
+
+# Prepare background locations to test autocorrelation
+bg_coords <- dismo::randomPoints(predictors, 10000)
+bg <- prepareSWD(species = "Vultur gryphus", a = bg_coords, env = predictors,
+                 categorical = "biome")
 
 # Remove variables with correlation higher than 0.7 accounting for the AUC,
 # in the following example the variable importance is computed as permutation

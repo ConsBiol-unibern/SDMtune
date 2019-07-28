@@ -39,17 +39,21 @@ predictors <- raster::stack(files)
 # Prepare presence locations
 p_coords <- condor[, 1:2]
 
-# Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
 
-# Split presence locations in training (70\%) and testing (30\%) datasets
-datasets <- trainValTest(presence, test = 0.3)
+# Create SWD object
+data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+# and splitting only the presence locations
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Split presence locations in training (60\%), validation (20\%) and testing
-# (20\%) datasets
+# (20\%) datasets and splitting the presence and the absence locations
 datasets <- trainValTest(presence, val = 0.2, test = 0.2)
 train <- datasets[[1]]
 val <- datasets[[2]]

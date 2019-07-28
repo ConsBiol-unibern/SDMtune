@@ -34,6 +34,7 @@
 #' set.seed(25)
 #' bg_coords <- dismo::randomPoints(predictors, 2000)
 #'
+#' # Create the SWD object
 #' data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
 #'                    env = predictors, categorical = "biome")
 #' data

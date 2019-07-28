@@ -31,16 +31,14 @@ p_coords <- condor[, 1:2]
 bg_coords <- dismo::randomPoints(predictors, 5000)
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Train a Maxent model
-model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
+model <- train(method = "Maxent", data = data, fc = "l")
 
 dismo_model <- SDMmodel2MaxEnt(model)
-dismo::evaluate(p = presence@data, a = bg@data, model = dismo_model)
+dismo_model
 }
 
 }

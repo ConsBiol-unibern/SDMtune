@@ -28,6 +28,28 @@ partition.
 \description{
 Create random folds for cross validation.
 }
+\examples{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
+
+# Prepare presence locations
+p_coords <- condor[, 1:2]
+
+# Prepare background locations
+set.seed(25)
+bg_coords <- dismo::randomPoints(predictors, 2000)
+
+data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
+
+# Create 4 random folds splitting presence and absence locations
+folds <- randomFolds(data, k = 4)
+
+# Create 4 random folds splitting only the presence locations
+folds <- randomFolds(data, k = 4, only_presence = TRUE)
+}
 \author{
 Sergio Vignali
 }

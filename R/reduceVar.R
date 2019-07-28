@@ -49,18 +49,16 @@
 #' bg_coords <- dismo::randomPoints(predictors, 5000)
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a Maxnet model
-#' model <- train(method = "Maxnet", p = train, a = bg, fc = "lq")
+#' model <- train(method = "Maxnet", data = train, fc = "lq")
 #'
 #' # Remove all variables with permuation importance lower than 2%
 #' output <- reduceVar(model, th = 2, metric = "auc", test = test, permut = 1)
@@ -76,7 +74,7 @@
 #'                     use_jk = TRUE, env = predictors)
 #'
 #' # Train a Maxent model
-#' model <- train(method = "Maxent", p = train, a = bg, fc = "lq")
+#' model <- train(method = "Maxent", data = train, fc = "lq")
 #'
 #' # Remove all variables with percent contribution lower than 2%
 #' output <- reduceVar(model, th = 2, metric = "auc", test = test,

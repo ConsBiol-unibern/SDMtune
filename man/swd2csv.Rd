@@ -37,12 +37,15 @@ predictors <- raster::stack(files)
 # Prepare presence locations
 p_coords <- condor[, 1:2]
 
+# Prepare background locations
+bg_coords <- dismo::randomPoints(predictors, 5000)
+
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Save the SWD objct as csv file
-swd2csv(train, "train_data.csv")
+swd2csv(data, "train_data.csv")
 }
 }
 \author{

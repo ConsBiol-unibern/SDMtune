@@ -78,18 +78,21 @@ p_coords <- condor[, 1:2]
 bg_coords <- dismo::randomPoints(predictors, 5000)
 
 # Create SWD object
-train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
-                    env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Train a Maxent model
-model <- train(method = "Maxent", data = train, fc = "l", reg = 1.5,
+model <- train(method = "Maxent", data = data, fc = "l", reg = 1.5,
                iter = 700)
 
 # Train a Maxnet model
-model <- train(method = "Maxnet", data = train, fc = "lq", reg = 1.5)
+model <- train(method = "Maxnet", data = data, fc = "lq", reg = 1.5)
 
 # Train a Maxnet model with cross validation
-model <- train(method = "Maxnet", data = train, fc = "l", reg = 0.8, rep = 4)
+# Create 4 random folds splitting only the presence data
+folds <- randomFolds(data, k = 4, only_presence = TRUE)
+model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+               folds = folds)
 }
 }
 \seealso{

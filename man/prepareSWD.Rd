@@ -46,9 +46,10 @@ p_coords <- condor[, 1:2]
 set.seed(25)
 bg_coords <- dismo::randomPoints(predictors, 2000)
 
-train <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
-                    env = predictors, categorical = "biome")
-presence
+# Create the SWD object
+data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
+data
 }
 \author{
 Sergio Vignali
