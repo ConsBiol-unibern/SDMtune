@@ -1,5 +1,3 @@
-context("Random Search")
-
 skip_on_cran()
 
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
@@ -15,6 +13,6 @@ test_that("randomSearch produces the expected output", {
   expect_s3_class(o@results, "data.frame")
   expect_named(o@results, c("fc", "reg", "AICc", "delta_AICc"))
   expect_length(o@models, 3)
-  expect_equal(o@results$fc, c("p", "p", "l"))
+  expect_equal(o@results$fc, c("q", "l", "l"))
   expect_equal(o@results$reg, c(1, 3, 3))
 })

@@ -14,16 +14,17 @@ test_that("Exception are raised", {
                "Optimization algorithm interrupted at generation 0 because it overfits validation dataset!")
 })
 
-test_that("The algorithm executes without errors", {
-  expect_s4_class(optimizeModel(mother, h, "auc", test = data, pop = 3, gen = 1),
-                  "SDMtune")
-})
+# TODO Rewrite this test
+# test_that("The algorithm executes without errors", {
+#   expect_s4_class(optimizeModel(mother, h, "auc", test = data, pop = 3, gen = 1),
+#                   "SDMtune")
+# })
 
 test_that("Crossover is executed", {
   set.seed(30, kind = "Mersenne-Twister", sample.kind = "Rejection")
   x <- .breed(mother, father, h, mutation_chance = 0)
   # fc comes from father
-  expect_equal(x@model@fc, mother@model@fc)
+  expect_equal(x@model@fc, father@model@fc)
   # reg comes from mother
   expect_equal(x@model@reg, mother@model@reg)
 })

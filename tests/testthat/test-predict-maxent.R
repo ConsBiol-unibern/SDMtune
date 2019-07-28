@@ -1,6 +1,7 @@
 skip_on_cran()
-skip_if(Sys.getenv("R_COVR") == "true",
-        message = "Skip Maxent Prediction tests with covr!")
+skip_on_travis()
+skip_on_appveyor()
+skip_on_covr()
 
 model <- SDMtune:::bm_maxent
 maxent_model <- SDMmodel2MaxEnt(model)
