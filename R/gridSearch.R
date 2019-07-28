@@ -21,8 +21,7 @@
 #' output contains only a data frame with the metric values for each
 #' hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE}
 #' when there are many combinations to avoid R crashing for memory overload.
-#' @param seed numeric. The value used to set the seed to have consistent
-#' results, default is \code{NULL}.
+#' @param seed Deprecated.
 #'
 #' @details To know which hyperparameters can be tune you can use the output of
 #' the function \code{\link{get_tunable_args}}. Hyperparameters not included in
@@ -91,6 +90,9 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
   if (!is.null(bg4test))
     warning("Argument \"bg4test\" is deprecated and ignored, it will be ",
             "removed in the next release.")
+  if (!is.null(seed))
+    warning("Argument \"seed\" is deprecated and ignored, it will be ",
+            "removed in the next release.")
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
   # Create a grid with all the possible combination of hyperparameters
@@ -106,9 +108,6 @@ gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
     format = "Grid search [:bar] :percent in :elapsedfull",
     total = (nrow(grid) + 1), clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
-
-  if (!is.null(seed))
-    set.seed(seed)
 
   models <- vector("list", length = nrow(grid))
   train_metric <- data.frame(x = NA_real_, y = NA_real_)

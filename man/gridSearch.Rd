@@ -34,8 +34,7 @@ output contains only a data frame with the metric values for each
 hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE}
 when there are many combinations to avoid R crashing for memory overload.}
 
-\item{seed}{numeric. The value used to set the seed to have consistent
-results, default is \code{NULL}.}
+\item{seed}{Deprecated.}
 }
 \value{
 code{\linkS4class{SDMtune}} object.
