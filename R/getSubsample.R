@@ -24,8 +24,8 @@
 #' bg_coords <- dismo::randomPoints(predictors, 5000)
 #'
 #' # Create SWD object
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Vultur gryphus", a = bg_coords, env = predictors,
+#'                  categorical = "biome")
 #'
 #' # Get a subsample
 #' getSubsample(bg, size = 2000, seed = 25)

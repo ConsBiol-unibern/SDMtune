@@ -51,35 +51,32 @@
 #' bg_coords <- dismo::randomPoints(predictors, 5000)
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+#' model <- train(method = "Maxnet", data = train, fc = "l")
 #'
 #' # Define the hyperparameters to test
-#' h <- list(reg = 1:2, fc = c("lqp", "lqph"), a = c(1000, 2000))
+#' h <- list(reg = 1:2, fc = c("lqp", "lqph")))
 #'
-#' # Run the function using as metric the AUC
-#' output <- gridSearch(model, hypers = h, metric = "auc", test = test,
-#'                      bg4test = bg)
+#' # Run the function using the AUC as metric
+#' output <- gridSearch(model, hypers = h, metric = "auc", test = test)
 #' output@results
 #' output@models
 #' # Order rusults by highest test AUC
 #' head(output@results[order(-output@results$test_AUC), ])
 #'
-#' # Run the function using as metric the AICc and without saving the trained
+#' # Run the function using the AICc as metric and without saving the trained
 #' # models, helpful when numerous hyperparameters are tested to avoid memory
 #' # problems
-#' output <- gridSearch(model, hypers = h, metric = "aicc", bg4test = bg,
-#'                      env = predictors, save_models = FALSE)
+#' output <- gridSearch(model, hypers = h, metric = "aicc", env = predictors,
+#'                      save_models = FALSE)
 #' output@results
 #' }
 gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,

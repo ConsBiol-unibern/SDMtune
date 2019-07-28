@@ -41,8 +41,8 @@ predictors <- raster::stack(files)
 bg_coords <- dismo::randomPoints(predictors, 10000)
 
 # Create SWD object
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Vultur gryphus", a = bg_coords, env = predictors,
+                 categorical = "biome")
 
 # Get the correlation among all the environmental variables
 corVar(bg, method = "spearman")

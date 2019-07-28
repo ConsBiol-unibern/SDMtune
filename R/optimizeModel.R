@@ -59,26 +59,23 @@
 #' bg_coords <- dismo::randomPoints(predictors, 5000)
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxent", p = train, a = bg, fc = "l")
+#' model <- train(method = "Maxent", data = train, fc = "l")
 #'
 #' # Define the hyperparameters to test
-#' h <- list(reg = 1:3, fc = c("lqp", "lqph", "lh"), a = seq(3000, 4500, 500),
-#'           iter = seq(300, 700, 100))
+#' h <- list(reg = 1:3, fc = c("lqp", "lqph", "lh"), iter = seq(300, 700, 100))
 #'
 #' # Run the function using as metric the AUC
 #' output <- optimizeModel(model, hypers = h, metric = "auc", test = test,
-#'                         bg4test = bg, seed = 25)
+#'                         seed = 25)
 #' output@results
 #' output@models
 #' output@models[[1]]  # Best model
