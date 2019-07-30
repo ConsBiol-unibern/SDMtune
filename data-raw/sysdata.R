@@ -4,16 +4,13 @@ files <- list.files(path = paste0(system.file(package = "dismo"), "/ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Presence locations
-p <- condor[, 1:2]
-
-# Bg locations
-set.seed(25)
-bg <- dismo::randomPoints(predictors[[9]], 5000)
+# Presence and background locations
+p <- virtualSp$presence
+bg <- virtualSp$background
 
 # Create train dataset, don't use the variable name train because in testthat
 # is interpreted as the train function when using SDMtune:::train
-t <- prepareSWD(species = "Vultur gryphus", p = p, a = bg, env = predictors,
+t <- prepareSWD(species = "Virtual species", p = p, a = bg, env = predictors,
                 categorical = "biome")
 
 folds <- randomFolds(data = t, k = 4, only_presence = TRUE)

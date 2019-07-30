@@ -83,15 +83,14 @@ Let's load the **SDMtune** package:
 library(SDMtune)
 ```
 
-For demonstrating how to use `SDMtune` we use the [condor](../../reference/condor.html) dataset included in the package. The dataset contains `r nrow(condor)` locations of the Andean condor [*Vultur gryphus*](https://en.wikipedia.org/wiki/Andean_condor) downloaded from the Global Biodiversity Inventory Facility [GBIF](http://www.gbif.org/).
+For demonstrating how to use `SDMtune` we use the random generated virtual species [virtualSp](../../reference/virtualSp.html) dataset included in the package. The dataset contains `r nrow(virtualSp$presence)` coordinates for presence and `r nrow(virtualSp$background)` for background locations.
 ```{r preview condor}
-help(condor)
-head(condor)
+help(virtualSp)
 ```
 
 We select the the first two columns that contain the coordinates of the locations:
 ```{r prepare presence}
-p_coords <- condor[, 1:2]
+p_coords <- virtualSp$presence
 ```
 
 Plot the study area together with the presence locations:
@@ -107,15 +106,8 @@ ggplot(map_data("world"), aes(long, lat)) +
     scale_x_continuous(limits = c(-125, -32)) +
     scale_y_continuous(limits = c(-56, 40))
 ```
-In this tutorial we don't check the validity of the locations, instead we assume they are correct and we model the distribution only for demonstration purpose.
-
-## Prepare background locations
-
-We extract 5000 background locations using the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function included in the `dismo` package [@Hijmans2017] (we set the seed to have reproducible results).
-
 ```{r prepare background}
-set.seed(25)
-bg_coords <- dismo::randomPoints(predictors[[9]], 5000)
+bg_coords <- virtualSp$background
 ```
 
 To plot the background locations run the following code:
@@ -138,7 +130,7 @@ ggplot(map_data("world"), aes(long, lat)) +
 Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
 
 ```{r prepare presence SWD}
-data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
 
 ```
 
@@ -160,7 +152,7 @@ When we print an `SWD()` object we get a bunch of information:
     + the name of the continuous environmental variables, if any;
     + the name of the categorical environmental variables, if any.
 
-The object contains four slots: `species`, `coords` `data` and `pa`. `pa` contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:
+The object contains four slots: `@species`, `@coords` `@data` and `@pa`. `@pa` contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:
 
 ```{r show presence data}
 head(data@data)
@@ -186,7 +178,7 @@ swd2csv(data, file_name = "data.csv")
 
 * save the object in two separate files: one for the presence and the other for the absence/background locations
 ```{r save SWDdouble, eval=F}
-swd2csv(data, file_name = c("presence.csv", "backgground.csv"))
+swd2csv(data, file_name = c("presence.csv", "background.csv"))
 ```
 
 ## Conclusion

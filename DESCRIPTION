@@ -79,7 +79,6 @@ Collate:
     'aicc.R'
     'auc.R'
     'chart-utils.R'
-    'condor.R'
     'confMatrix.R'
     'corVar.R'
     'doJk.R'
@@ -115,4 +114,5 @@ Collate:
     'utils.R'
     'varImp.R'
     'varSel.R'
+    'virtualSp.R'
     'zzz.R'

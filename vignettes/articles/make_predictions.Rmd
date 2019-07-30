@@ -127,13 +127,13 @@ kable(thresholds(default_model, type = "cloglog")) %>%
 For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function `plotPA()` passing the threshold value as argument:
 
 ```{r plot pa, fig.align="center"}
-plotPA(map, th = 0.306)
+plotPA(map, th = 0.497)
 ```
 
 We can also save the map in a file with the following code:
 
 ```{r plot and save pa, eval=FALSE}
-plotPA(map, th = 0.306, filename = "my_pa_map", format = "GTiff")
+plotPA(map, th = 0.497, filename = "my_pa_map", format = "GTiff")
 ```
 
 Both functions `plotPred()` and `plotPA()` have the argument `hr`to plot the the map with high resolution, useful when the map is used in a scientific publication. For all the arguments of the functions that we have used in this article please refer to the [documentation](../..//reference/index.html).

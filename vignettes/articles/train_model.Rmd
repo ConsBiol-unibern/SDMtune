@@ -17,7 +17,7 @@ default_model <- SDMtune:::bm_maxent
 
 ## Intro
 
-In the [previous article](./prepare_data.html) you have learned how to prepare the data for the analysis using the [condor](../../reference/condor.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
+In the [previous article](./prepare_data.html) you have learned how to prepare the data for the analysis using the [virtualSp](../../reference/virtualSp.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
 **SDMtune** at the moment supports only the Maximum Entropy method with two different implementations:
 
 * **Maxent** using the `dismo` package [@Hijmans2017];
@@ -52,7 +52,7 @@ We use the function `train()` to train a **Maxent** model. We need to provide tw
 default_model <- SDMtune:::bm_maxent
 ```
 ```{r train, eval=FALSE}
-default_model <- train(method = "Maxent", data = train)
+default_model <- train(method = "Maxent", data = data)
 ```
 
 The function trains the model using default settings that are:
