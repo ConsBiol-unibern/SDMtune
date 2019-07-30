@@ -67,23 +67,21 @@ Let’s see **SDMtune** in action. If the following code is not clear,
 please check the articles in the
 [website](https://consbiol-unibern.github.io/SDMtune/). Here we prepare
 the data and we train a **Maxent** model using **SDMtune**:
-<!-- The next code is not evaluated because MaxEnt jar file is bundled in the package and Travis will not execute it! -->
+<!-- The next code is not evaluated because MaxEnt jar file is not bundled in the package and Travis will not execute it! -->
 <!-- the plot is saved as an image in the man/figures forlder -->
 
 ``` r
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-# Prepare background locations
-set.seed(25)
-bg_coords <- dismo::randomPoints(predictors, 10000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
+
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual sp", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
 # Train a model
-sdmtune_model <- train(method = "Maxent", p = presence, a = bg)
+sdmtune_model <- train(method = "Maxent", data = data)
 ```
 
 We want to compare the execution time of the `predict` function between
@@ -144,8 +142,8 @@ Conduct](.github/CODE_OF_CONDUCT.md).
 <div id="ref-Hijmans2017">
 
 Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith.
-2017. “dismo: Species Distribution Modeling.”
-<https://cran.r-project.org/package=dismo>.
+2017. “dismo: Species Distribution Modeling. R package version 1.1-4.”
+https://cran.r-project.org/package=dismo.
 
 </div>
 

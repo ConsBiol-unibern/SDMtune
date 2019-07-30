@@ -13,7 +13,7 @@ options(knitr.table.format = "html")
 
 ## Intro
 
-In this article you will learn how to prepare the data to train models using `SDMtune`. We will use the [condor](../../reference/condor.html) dataset included in the package and environmental predictors from the  [WorldClim](http://www.worldclim.org/) dataset.
+In this article you will learn how to prepare the data to train models using `SDMtune`. We will use the [virtualSp](../../reference/virtualSp.html) dataset included in the package and environmental predictors from the  [WorldClim](http://www.worldclim.org/) dataset.
 
 ## Set working environment
 
@@ -75,7 +75,7 @@ gplot(predictors$bio1) +
           axis.ticks.y = element_blank())
 ```
 
-## Prepare presence locations
+## Prepare presence and background locations
 
 Let's load the **SDMtune** package:
 
@@ -84,7 +84,7 @@ library(SDMtune)
 ```
 
 For demonstrating how to use `SDMtune` we use the random generated virtual species [virtualSp](../../reference/virtualSp.html) dataset included in the package. The dataset contains `r nrow(virtualSp$presence)` coordinates for presence and `r nrow(virtualSp$background)` for background locations.
-```{r preview condor}
+```{r help dataset}
 help(virtualSp)
 ```
 

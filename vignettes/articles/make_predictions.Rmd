@@ -20,7 +20,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis and how to [train a model](./train_model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of the Andean condor.
+In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis and how to [train a model](./train_model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of the virtual species.
 
 ## Make prediction
 

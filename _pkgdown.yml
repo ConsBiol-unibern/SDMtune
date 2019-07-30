@@ -121,7 +121,7 @@ reference:
 - title: Dataset
   desc: Dataset provided with the package
   contents:
-  - '`condor`'
+  - '`virtualSp`'
 - title: Classes
   desc: SDMsel classes and pkg description
   contents:

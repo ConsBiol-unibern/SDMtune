@@ -39,12 +39,9 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-set.seed(25)
-bg_coords <- dismo::randomPoints(predictors, 2000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create the SWD object
 data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,

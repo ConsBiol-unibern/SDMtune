@@ -49,22 +49,20 @@ Real-time charts displaying the training and the validation metrics are displaye
 ## Speed test
 
 Let's see **SDMtune** in action. If the following code is not clear, please check the articles in the [website](https://consbiol-unibern.github.io/SDMtune/). Here we prepare the data and we train a **Maxent** model using **SDMtune**:
-<!-- The next code is not evaluated because MaxEnt jar file is bundled in the package and Travis will not execute it! --> 
+<!-- The next code is not evaluated because MaxEnt jar file is not bundled in the package and Travis will not execute it! --> 
 <!-- the plot is saved as an image in the man/figures forlder --> 
 ```{r load data, eval=FALSE}
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-# Prepare background locations
-set.seed(25)
-bg_coords <- dismo::randomPoints(predictors, 10000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
+
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual sp", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
 # Train a model
-sdmtune_model <- train(method = "Maxent", p = presence, a = bg)
+sdmtune_model <- train(method = "Maxent", data = data)
 ```
 
 We want to compare the execution time of the `predict` function between **SDMtune** that uses its own algorithm and **dismo** that calls the MaxEnt Java software. We first convert the `sdmtune_model` in a object that is accepted by **dismo**:
