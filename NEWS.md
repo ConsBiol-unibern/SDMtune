@@ -9,7 +9,7 @@ Main changes:
 * Add title argument in `plot` `SDMtune` object
 * The interactive plot of an `SDMtune` object can now be saved in a file
 * New randomly generated dataset `virtualSp` with presence, absence and background locations
-* Number of backgraund locations cannot be tuned anymore using the tuning functions
+* Number of background locations cannot be tuned anymore using the tuning functions
 
 Deprecated function:
 

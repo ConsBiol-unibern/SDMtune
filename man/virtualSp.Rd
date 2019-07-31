@@ -23,7 +23,7 @@ dataset is to demonstrate the use of the functions included in the package.
 }
 \details{
 The random species has been generated using the package
-\strong{virtualsecies}.
+\strong{virtualspecies}.
 }
 \references{
 Leroy, B. , Meynard, C. N., Bellard, C. and Courchamp, F. (2016),

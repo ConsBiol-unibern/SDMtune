@@ -15,7 +15,7 @@
 #' }
 #'
 #' @details The random species has been generated using the package
-#' **virtualsecies**.
+#' **virtualspecies**.
 #'
 #' @references Leroy, B. , Meynard, C. N., Bellard, C. and Courchamp, F. (2016),
 #' virtualspecies, an R package to generate virtual species distributions.

@@ -7,7 +7,7 @@ predictors <- raster::stack(files)
 
 set.seed(516516)
 virtual_sp <- generateRandomSp(predictors)
-virtual_sp <- convertToPA(virtual_sp, beta = 0.51, alpha = -0.1)
+virtual_sp <- convertToPA(virtual_sp, beta = 0.8)
 
 locs <- sampleOccurrences(virtual_sp, n = 1000, type = "presence-absence")
 virtualSp <- list(presence = locs$sample.points[locs$sample.points$Real == 1,
