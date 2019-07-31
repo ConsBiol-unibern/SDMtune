@@ -50,7 +50,7 @@ colnames(output) <- c("seed", "trainAUC", "testAUC")
 set.seed(25)
 seeds <- sample.int(1000, 10) # Create 10 different random seeds
 for (i in 1:length(seeds)) { # Loop through the seeds
-  c(train, test) %<-% trainValTest(data, test = 0.2, seed = seeds[i]) # Make the train/test split
+  c(train, test) %<-% trainValTest(data, test = 0.2, seed = seeds[i], only_presence = TRUE) # Make the train/test split
   m <- train("Maxnet", data = train) # train the model
   # Populate the output data.frame
   output[i, 1] <- seeds[i]

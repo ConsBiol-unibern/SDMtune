@@ -33,8 +33,8 @@
 #' bg_coords <- dismo::randomPoints(predictors, 10000)
 #'
 #' # Create SWD object
-#' bg <- prepareSWD(species = "Vultur gryphus", a = bg_coords, env = predictors,
-#'                  categorical = "biome")
+#' bg <- prepareSWD(species = "Virtual species", a = bg_coords,
+#'                  env = predictors, categorical = "biome")
 #'
 #' # Plot heat map
 #' plotCor(bg, method = "spearman")

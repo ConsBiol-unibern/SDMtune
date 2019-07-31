@@ -1,8 +1,8 @@
 test_that("Show method for SWD class produces the correct output", {
   data <- SDMtune:::t
   expect_output(print(data), "Object of class SWD", fixed = TRUE)
-  expect_output(print(data), "Species: Vultur gryphus", fixed = TRUE)
-  expect_output(print(data), "Presence locations: 510", fixed = TRUE)
+  expect_output(print(data), "Species: Virtual species", fixed = TRUE)
+  expect_output(print(data), "Presence locations: 540", fixed = TRUE)
   expect_output(print(data), "Absence locations: 5000", fixed = TRUE)
   expect_output(print(data), "bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8",
                 fixed = TRUE)

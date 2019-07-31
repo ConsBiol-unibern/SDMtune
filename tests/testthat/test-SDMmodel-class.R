@@ -2,8 +2,8 @@ test_that("Show method for SDMmodel class produces the correct output", {
   m <- SDMtune:::bm_maxent
   expect_output(print(m), "Object of class SDMmodel", fixed = TRUE)
   expect_output(print(m), "Method: Maxent", fixed = TRUE)
-  expect_output(print(m), "Species: Vultur gryphus", fixed = TRUE)
-  expect_output(print(m), "Presence locations: 510", fixed = TRUE)
+  expect_output(print(m), "Species: Virtual species", fixed = TRUE)
+  expect_output(print(m), "Presence locations: 540", fixed = TRUE)
   expect_output(print(m), "Absence locations: 5000", fixed = TRUE)
   expect_output(print(m), "fc: lqph", fixed = TRUE)
   expect_output(print(m), "reg: 1", fixed = TRUE)
@@ -20,8 +20,8 @@ test_that("Show method for SDMmodel class produces the correct output", {
   m <- SDMtune:::bm_maxnet
   expect_output(print(m), "Object of class SDMmodel", fixed = TRUE)
   expect_output(print(m), "Method: Maxnet", fixed = TRUE)
-  expect_output(print(m), "Species: Vultur gryphus", fixed = TRUE)
-  expect_output(print(m), "Presence locations: 510", fixed = TRUE)
+  expect_output(print(m), "Species: Virtual species", fixed = TRUE)
+  expect_output(print(m), "Presence locations: 540", fixed = TRUE)
   expect_output(print(m), "Absence locations: 5000", fixed = TRUE)
   expect_output(print(m), "fc: lqph", fixed = TRUE)
   expect_output(print(m), "reg: 1", fixed = TRUE)

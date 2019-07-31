@@ -57,7 +57,7 @@
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 #'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
@@ -70,8 +70,8 @@
 #'
 #' # Prepare background locations to test autocorrelation
 #' bg_coords <- dismo::randomPoints(predictors, 10000)
-#' bg <- prepareSWD(species = "Vultur gryphus", a = bg_coords, env = predictors,
-#'                  categorical = "biome")
+#' bg <- prepareSWD(species = "Virtual species", a = bg_coords,
+#'                  env = predictors, categorical = "biome")
 #'
 #' # Remove variables with correlation higher than 0.7 accounting for the AUC,
 #' # in the following example the variable importance is computed as permutation

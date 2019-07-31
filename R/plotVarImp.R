@@ -26,7 +26,7 @@
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 #'                    env = predictors, categorical = "biome")
 #'
 #' # Train a model

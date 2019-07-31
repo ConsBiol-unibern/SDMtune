@@ -32,7 +32,7 @@
 #' bg_coords <- virtualSp$background
 #'
 #' # Create the SWD object
-#' data <- prepareSWD(species = "Vultur gryphus", p = p_coords, a = bg_coords,
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 #'                    env = predictors, categorical = "biome")
 #' data
 prepareSWD <- function(species, p = NULL, a = NULL, coords = NULL, env,
