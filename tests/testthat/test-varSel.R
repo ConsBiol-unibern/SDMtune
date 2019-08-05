@@ -17,9 +17,9 @@ test_that("Exceptions are thrown", {
 test_that("Correlated Variable are removed", {
   set.seed(25, kind = "Mersenne-Twister", sample.kind = "Rejection")
   expect_message(o <- varSel(m, "auc", bg, test = t, cor_th = .9, permut = 1),
-                 "Removed variables: bio1, bio12")
+                 "Removed variables: bio16, bio6")
   expect_s4_class(o, "SDMmodel")
   expect_s4_class(o@model, "Maxnet")
-  expect_false("bio1" %in% colnames(o@data@data))
-  expect_false("bio12" %in% colnames(o@data@data))
+  expect_false("bio16" %in% colnames(o@data@data))
+  expect_false("bio6" %in% colnames(o@data@data))
 })

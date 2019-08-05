@@ -23,8 +23,8 @@ test_that("The output is correct", {
   # Sum of tn and fp is equal to number of background locations
   expect_equal(sum(cm$tn, cm$fp), nrow(m@data@data[m@data@pa == 0, ]))
   # Correct output with test argument
-  # 512 is the number of unique prediction values plus 0 and 1
-  expect_equal(nrow(confMatrix(m, test = test, type = "cloglog")), 512)
+  # 402 is the number of unique prediction values plus 0 and 1
+  expect_equal(nrow(confMatrix(m, test = test, type = "cloglog")), 402)
 })
 
 test_that("The thresholds start with 0 and end with 1 when th is not passed", {
