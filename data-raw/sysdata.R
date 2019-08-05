@@ -1,5 +1,4 @@
 # Load predictors from dismo pkg
-library(zeallot)
 files <- list.files(path = paste0(system.file(package = "dismo"), "/ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
@@ -13,7 +12,7 @@ bg <- virtualSp$background
 t <- prepareSWD(species = "Virtual species", p = p, a = bg, env = predictors,
                 categorical = "biome")
 
-folds <- randomFolds(data = t, k = 4, only_presence = TRUE)
+folds <- randomFolds(data = t, k = 4, only_presence = TRUE, seed = 25)
 
 # Train base models with default settings
 # Maxent

@@ -5,8 +5,8 @@
 #'
 #' @format A list with five elements:
 #' \describe{
-#' \item{presence}{540 random generated coordinates for the presence locations.}
-#' \item{absence}{460 random generated coordinates for the absence locations.}
+#' \item{presence}{400 random generated coordinates for the presence locations.}
+#' \item{absence}{300 random generated coordinates for the absence locations.}
 #' \item{background}{5000 random generated coordinates for the background
 #' locations.}
 #' \item{pa_map}{Presence absence map used to extract the presence and absence
