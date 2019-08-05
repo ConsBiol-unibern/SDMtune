@@ -137,7 +137,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis and how to <a href="./train_model.html">train a model</a> using <strong>SDMtune</strong>. In this article you will learn how to use a trained model to make predictions. We will use the <code>default model</code> that we trained in the previous article to predict the distribution of the Andean condor.</p>
+<p>In the previous articles you have learned how to <a href="./prepare_data.html">prepare the data</a> for the analysis and how to <a href="./train_model.html">train a model</a> using <strong>SDMtune</strong>. In this article you will learn how to use a trained model to make predictions. We will use the <code>default model</code> that we trained in the previous article to predict the distribution of the virtual species.</p>
 </div>
 <div id="make-prediction" class="section level2">
 <h2 class="hasAnchor">
@@ -162,12 +162,12 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> data, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a></code></pre></div>
 <p>The output in this case is a vector containing all the predicted values for the training locations:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(pred)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] 0.9905293 0.8496036 0.2428745 0.8107021 0.9414903 0.9740271</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] 0.8246888 0.6886814 0.5675941 0.7317644 0.7472581 0.6938709</span></a></code></pre></div>
 <p>We can get the prediction only for the presence location with:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">p &lt;-<span class="st"> </span>data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ]</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> p, <span class="dt">type =</span> <span class="st">"cloglog"</span>)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(pred)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; [1] 0.7550704 0.4273235 0.5200649 0.7182314 0.6901226 0.7931424</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; [1] 0.9571988 0.9222179 0.6833005 0.2801192 0.6050091 0.7394861</span></a></code></pre></div>
 </div>
 <div id="create-a-distribution-map" class="section level2">
 <h2 class="hasAnchor">
@@ -183,7 +183,7 @@
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; source     : memory</span></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; names      : layer </span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; values     : 5.082562e-07, 0.9997487  (min, max)</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; values     : 2.401041e-07, 0.9665651  (min, max)</span></a></code></pre></div>
 <p>The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function. In the next example we save the map in a file called “<strong>my_file</strong>” in the <strong>GeoTIFF</strong> format:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">map &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(default_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>, <span class="dt">file =</span> <span class="st">"my_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
 <p>The <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function has other arguments useful when predicting large datasets:</p>
@@ -244,10 +244,10 @@ Training omission rate
 Minimum training presence
 </td>
 <td style="text-align:right;">
-0.002
+0.015
 </td>
 <td style="text-align:right;">
-0.746
+0.499
 </td>
 <td style="text-align:right;">
 0.000
@@ -258,13 +258,13 @@ Minimum training presence
 Equal training sensitivity and specificity
 </td>
 <td style="text-align:right;">
-0.374
+0.569
 </td>
 <td style="text-align:right;">
-0.128
+0.208
 </td>
 <td style="text-align:right;">
-0.127
+0.208
 </td>
 </tr>
 <tr>
@@ -272,22 +272,22 @@ Equal training sensitivity and specificity
 Maximum training sensitivity plus specificity
 </td>
 <td style="text-align:right;">
-0.306
+0.390
 </td>
 <td style="text-align:right;">
-0.149
+0.281
 </td>
 <td style="text-align:right;">
-0.094
+0.078
 </td>
 </tr>
 </tbody>
 </table>
 <p>For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function <code><a href="../../reference/plotPA.html">plotPA()</a></code> passing the threshold value as argument:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.306</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.497</span>)</a></code></pre></div>
 <p><img src="make_predictions_files/figure-html/plot%20pa-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>We can also save the map in a file with the following code:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.306</span>, <span class="dt">filename =</span> <span class="st">"my_pa_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../../reference/plotPA.html">plotPA</a></span>(map, <span class="dt">th =</span> <span class="fl">0.497</span>, <span class="dt">filename =</span> <span class="st">"my_pa_map"</span>, <span class="dt">format =</span> <span class="st">"GTiff"</span>)</a></code></pre></div>
 <p>Both functions <code><a href="../../reference/plotPred.html">plotPred()</a></code> and <code><a href="../../reference/plotPA.html">plotPA()</a></code> have the argument <code>hr</code>to plot the the map with high resolution, useful when the map is used in a scientific publication. For all the arguments of the functions that we have used in this article please refer to the <a href="../..//reference/index.html">documentation</a>.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">

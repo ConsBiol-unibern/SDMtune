@@ -137,7 +137,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the <a href="./prepare_data.html">previous article</a> you have learned how to prepare the data for the analysis using the <a href="../../reference/condor.html">condor</a> dataset and the <a href="http://www.worldclim.org/">WorldClim</a> environmental variables. Now it’s time to train your first model, let’s do it!<br><strong>SDMtune</strong> at the moment supports only the Maximum Entropy method with two different implementations:</p>
+<p>In the <a href="./prepare_data.html">previous article</a> you have learned how to prepare the data for the analysis using the <a href="../../reference/virtualSp.html">virtualSp</a> dataset and the <a href="http://www.worldclim.org/">WorldClim</a> environmental variables. Now it’s time to train your first model, let’s do it!<br><strong>SDMtune</strong> at the moment supports only the Maximum Entropy method with two different implementations:</p>
 <ul>
 <li>
 <strong>Maxent</strong> using the <code>dismo</code> package <span class="citation">(Hijmans et al. 2017)</span>;</li>
@@ -173,7 +173,7 @@
 <li>
 <code>data</code>: the <code><a href="../../reference/SWD-class.html">SWD()</a></code> object with the presence and background locations we created in the previous article.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">default_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">data =</span> train)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">default_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">data =</span> data)</a></code></pre></div>
 <p>The function trains the model using default settings that are:</p>
 <ul>
 <li>linear, quadratic, product and hinge feature class combinations;</li>
@@ -190,8 +190,8 @@
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Object of class SDMmodel </span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Method: Maxent </span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Species: Vultur gryphus </span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Presence locations: 510 </span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Species: Virtual species </span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Presence locations: 400 </span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; Absence locations: 5000 </span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; Model configurations:</span></a>

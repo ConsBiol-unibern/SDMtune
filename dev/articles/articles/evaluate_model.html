@@ -154,7 +154,7 @@
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>The Area Under the ROC curve <span class="citation">(<span class="citeproc-not-found" data-reference-id="Fielding1997"><strong>???</strong></span>)</span> can be calculated using the function <code><a href="../../reference/auc.html">auc()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../../reference/auc.html">auc</a></span>(default_model)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] 0.9326118</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] 0.8728322</span></a></code></pre></div>
 <p>We can also plot the ROC curve using the function <code><a href="../../reference/plotROC.html">plotROC()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/plotROC.html">plotROC</a></span>(default_model)</a></code></pre></div>
 <p><img src="evaluate_model_files/figure-html/plot%20roc-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -164,14 +164,14 @@
 <a href="#tss" class="anchor"></a>TSS</h2>
 <p>The True Skill Statistic <span class="citation">(Allouche, Tsoar, and Kadmon 2006)</span> is computed with the <code><a href="../../reference/tss.html">tss()</a></code> function:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../../reference/tss.html">tss</a></span>(default_model)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 0.7568824</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 0.6419</span></a></code></pre></div>
 </div>
 <div id="aicc" class="section level2">
 <h2 class="hasAnchor">
 <a href="#aicc" class="anchor"></a>AICc</h2>
 <p>For the Akaike Information Criterion corrected for small sample size <span class="citation">(Warren and Seifert 2011)</span> we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument (i.e. the ‘predictors’ raster <code>stack</code> object we created in the <a href="./prepare_data.html#acquire-environmental-variables">first article</a>):</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../../reference/aicc.html">aicc</a></span>(default_model, <span class="dt">env =</span> predictors)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; [1] 7843.89</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; [1] 6618.725</span></a></code></pre></div>
 <p>We can pass the argument <code>parallel=TRUE</code> to speed up the computation for large datasets.</p>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">

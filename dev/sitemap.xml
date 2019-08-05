@@ -34,9 +34,6 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/auc.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/condor.html</loc>
-  </url>
-  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/confMatrix.html</loc>
   </url>
   <url>
@@ -149,6 +146,9 @@
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/varSel.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/virtualSp.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//articles/SDMtune.html</loc>

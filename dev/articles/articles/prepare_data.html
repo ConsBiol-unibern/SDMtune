@@ -137,7 +137,7 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In this article you will learn how to prepare the data to train models using <code>SDMtune</code>. We will use the <a href="../../reference/condor.html">condor</a> dataset included in the package and environmental predictors from the <a href="http://www.worldclim.org/">WorldClim</a> dataset.</p>
+<p>In this article you will learn how to prepare the data to train models using <code>SDMtune</code>. We will use the <a href="../../reference/virtualSp.html">virtualSp</a> dataset included in the package and environmental predictors from the <a href="http://www.worldclim.org/">WorldClim</a> dataset.</p>
 </div>
 <div id="set-working-environment" class="section level2">
 <h2 class="hasAnchor">
@@ -203,9 +203,9 @@
 <a class="sourceLine" id="cb5-15" data-line-number="15">          <span class="dt">axis.ticks.y =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>())</a></code></pre></div>
 <p><img src="prepare_data_files/figure-html/plot%20bio1-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
-<div id="prepare-presence-locations" class="section level2">
+<div id="prepare-presence-and-background-locations" class="section level2">
 <h2 class="hasAnchor">
-<a href="#prepare-presence-locations" class="anchor"></a>Prepare presence locations</h2>
+<a href="#prepare-presence-and-background-locations" class="anchor"></a>Prepare presence and background locations</h2>
 <p>Let’s load the <strong>SDMtune</strong> package:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; </span></a>
@@ -216,18 +216,10 @@
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.1.1.9000</span></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
-<p>For demonstrating how to use <code>SDMtune</code> we use the <a href="../../reference/condor.html">condor</a> dataset included in the package. The dataset contains 510 locations of the Andean condor <a href="https://en.wikipedia.org/wiki/Andean_condor"><em>Vultur gryphus</em></a> downloaded from the Global Biodiversity Inventory Facility <a href="http://www.gbif.org/">GBIF</a>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/help">help</a></span>(condor)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(condor)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;           x         y        key                           datasetKey</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 1 -70.38600 -33.49587 1389637863 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 2 -73.03339 -50.46899 1580457299 6ac3f774-d9fb-4796-b3e9-92bf6c81c084</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 3 -67.12252 -32.54827 1836645723 50c9509d-22c7-4a22-a47d-8c48425ef4a7</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 4 -72.42548 -49.71849 1168108940 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 5 -72.96618 -50.48606 1722513393 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 6 -65.91488 -26.58891 1190702351 4fa7b334-ce0d-4e88-aaae-2e0c138d049e</span></a></code></pre></div>
+<p>For demonstrating how to use <code>SDMtune</code> we use the random generated virtual species <a href="../../reference/virtualSp.html">virtualSp</a> dataset included in the package. The dataset contains 400 coordinates for presence and 5000 for background locations.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/help">help</a></span>(virtualSp)</a></code></pre></div>
 <p>We select the the first two columns that contain the coordinates of the locations:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">p_coords &lt;-<span class="st"> </span>condor[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">p_coords &lt;-<span class="st"> </span>virtualSp<span class="op">$</span>presence</a></code></pre></div>
 <p>Plot the study area together with the presence locations:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span>(<span class="st">"world"</span>), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(long, lat)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">group =</span> group), <span class="dt">fill =</span> <span class="st">"grey95"</span>, <span class="dt">color =</span> <span class="st">"gray40"</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) <span class="op">+</span></a>
@@ -239,14 +231,8 @@
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb9-9" data-line-number="9"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="dt">limits =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">125</span>, <span class="dv">-32</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="dt">limits =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">56</span>, <span class="dv">40</span>))</a></code></pre></div>
-<p><img src="prepare_data_files/figure-html/plot%20presence-1.png" width="700" style="display: block; margin: auto;"> In this tutorial we don’t check the validity of the locations, instead we assume they are correct and we model the distribution only for demonstration purpose.</p>
-</div>
-<div id="prepare-background-locations" class="section level2">
-<h2 class="hasAnchor">
-<a href="#prepare-background-locations" class="anchor"></a>Prepare background locations</h2>
-<p>We extract 5000 background locations using the <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints">randomPoints</a> function included in the <code>dismo</code> package <span class="citation">(Hijmans et al. 2017)</span> (we set the seed to have reproducible results).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">bg_coords &lt;-<span class="st"> </span>dismo<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/dismo/topics/randomPoints">randomPoints</a></span>(predictors[[<span class="dv">9</span>]], <span class="dv">5000</span>)</a></code></pre></div>
+<p><img src="prepare_data_files/figure-html/plot%20presence-1.png" width="700" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">bg_coords &lt;-<span class="st"> </span>virtualSp<span class="op">$</span>background</a></code></pre></div>
 <p>To plot the background locations run the following code:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span>(<span class="st">"world"</span>), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(long, lat)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">group =</span> group), <span class="dt">fill =</span> <span class="st">"grey95"</span>, <span class="dt">color =</span> <span class="st">"gray40"</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) <span class="op">+</span></a>
@@ -264,7 +250,7 @@
 <h2 class="hasAnchor">
 <a href="#create-an-swd-object" class="anchor"></a>Create an SWD object</h2>
 <p>Before training a model we have to prepare the data in the correct format. The <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function creates an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument <code>categorical</code> indicates which environmental variables are categorical. In our example <strong>biome</strong> is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have <code>NA</code> value for at least one environmental variable.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Vultur gryphus"</span>, <span class="dt">p =</span> p_coords, <span class="dt">a =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="dt">species =</span> <span class="st">"Virtual species"</span>, <span class="dt">p =</span> p_coords, <span class="dt">a =</span> bg_coords, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; Extracting predictor information for presence locations...</span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; Extracting predictor information for absence/background locations...</span></a></code></pre></div>
 </div>
@@ -275,8 +261,8 @@
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">data</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; Object of class SWD </span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; Species: Vultur gryphus </span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; Presence locations: 510 </span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; Species: Virtual species </span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; Presence locations: 400 </span></a>
 <a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; Absence locations: 5000 </span></a>
 <a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; Variables:</span></a>
@@ -296,27 +282,27 @@
 </ul>
 </li>
 </ul>
-<p>The object contains four slots: <code>species</code>, <code>coords</code> <code>data</code> and <code>pa</code>. <code>pa</code> contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:</p>
+<p>The object contains four slots: <code>@species</code>, <code>@coords</code> <code>@data</code> and <code>@pa</code>. <code>@pa</code> contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(data<span class="op">@</span>data)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt;   bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 biome</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; 1   28   464   257    23  163  -81  244  -15    10</span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; 2   40  1208   349   270  133  -41  174   40     4</span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; 3  178   309   162    17  338   19  319  251     8</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; 4   69   340   118    61  177  -26  204   39     8</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 5   56   623   191   129  157  -33  191   46     4</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 6  115   341   209    11  234  -11  244  163     1</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; 1   32    59    55     0  152 -118  270   66    10</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; 2  161  1427   426   275  323  -10  333   78     4</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; 3  156   977   341   137  342  -41  384  203     8</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; 4  119   975   305   177  313  -77  390  190     8</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 5  112   633   268    42  333 -106  440  218     8</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 6   92   196    64    37  254  -37  291   26     8</span></a></code></pre></div>
 <p>We can visualize the coordinates with:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(data<span class="op">@</span>coords)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt;           X         Y</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; 1 -70.38600 -33.49587</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; 2 -73.03339 -50.46899</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; 3 -67.12252 -32.54827</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; 4 -72.42548 -49.71849</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 5 -72.96618 -50.48606</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 6 -65.91488 -26.58891</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt;        X      Y</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; 1 -67.75 -21.75</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; 2 -86.75  33.75</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; 3 -96.25  35.75</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; 4 -89.25  39.25</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 5 -98.75  39.75</span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 6 -68.75 -41.25</span></a></code></pre></div>
 <p>or the name of the species with:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">data<span class="op">@</span>species</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; [1] "Vultur gryphus"</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; [1] "Virtual species"</span></a></code></pre></div>
 <p>We can save the <code><a href="../../reference/SWD-class.html">SWD()</a></code> object in a <strong>.csv</strong> file using the function <code><a href="../../reference/swd2csv.html">swd2csv()</a></code> (the function saves the file in the working directory). There are two possibilities:</p>
 <ul>
 <li>save the object in a single file with the column <strong>pa</strong> indicating if the location is a presence (1) or an absence/background (0) site</li>
@@ -325,7 +311,7 @@
 <ul>
 <li>save the object in two separate files: one for the presence and the other for the absence/background locations</li>
 </ul>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../../reference/swd2csv.html">swd2csv</a></span>(data, <span class="dt">file_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"presence.csv"</span>, <span class="st">"backgground.csv"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../../reference/swd2csv.html">swd2csv</a></span>(data, <span class="dt">file_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"presence.csv"</span>, <span class="st">"background.csv"</span>))</a></code></pre></div>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
@@ -348,9 +334,6 @@
 <div id="ref-Hijmans2005">
 <p>Hijmans, Robert J., Susan E. Cameron, Juan L. Parra, Peter G. Jones, and Andy Jarvis. 2005. “Very high resolution interpolated climate surfaces for global land areas.” <em>International Journal of Climatology</em> 25 (15). Wiley-Blackwell: 1965–78. <a href="https://doi.org/10.1002/joc.1276" class="uri">https://doi.org/10.1002/joc.1276</a>.</p>
 </div>
-<div id="ref-Hijmans2017">
-<p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “dismo: Species Distribution Modeling. R package version 1.1-4.” https://cran.r-project.org/package=dismo.</p>
-</div>
 <div id="ref-Olson2001">
 <p>Olson, David M., Eric Dinerstein, Eric D. Wikramanayake, Neil D. Burgess, George V. N. Powell, Emma C. Underwood, Jennifer A. D’amico, et al. 2001. “Terrestrial Ecoregions of the World: A New Map of Life on Earth.” <em>BioScience</em> 51 (11). Oxford University Press: 933. <a href="https://doi.org/10.1641/0006-3568(2001)051%5B0933:TEOTWA%5D2.0.CO;2" class="uri">https://doi.org/10.1641/0006-3568(2001)051[0933:TEOTWA]2.0.CO;2</a>.</p>
 </div>
@@ -366,8 +349,7 @@
 <li><a href="#intro">Intro</a></li>
       <li><a href="#set-working-environment">Set working environment</a></li>
       <li><a href="#acquire-environmental-variables">Acquire environmental variables</a></li>
-      <li><a href="#prepare-presence-locations">Prepare presence locations</a></li>
-      <li><a href="#prepare-background-locations">Prepare background locations</a></li>
+      <li><a href="#prepare-presence-and-background-locations">Prepare presence and background locations</a></li>
       <li><a href="#create-an-swd-object">Create an SWD object</a></li>
       <li><a href="#explore-an-swd-object">Explore an SWD object</a></li>
       <li><a href="#conclusion">Conclusion</a></li>

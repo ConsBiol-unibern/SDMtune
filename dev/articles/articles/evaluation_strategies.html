@@ -158,23 +158,23 @@
 <a class="sourceLine" id="cb2-3" data-line-number="3">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">data =</span> train)</a></code></pre></div>
 <p>The <code>only_presence</code> argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Training auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Training auc:  0.9334473</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Training auc:  0.8752144</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Testing auc:  0.9319892</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Testing auc:  0.8505888</span></a></code></pre></div>
 <p>This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the AUC:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">output &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">10</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)) <span class="co"># Create an empty data.frame</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(output) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span>)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">seeds &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample.int</a></span>(<span class="dv">1000</span>, <span class="dv">10</span>) <span class="co"># Create 10 different random seeds</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(seeds)) { <span class="co"># Loop through the seeds</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(data, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">seed =</span> seeds[i]) <span class="co"># Make the train/test split</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(data, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">seed =</span> seeds[i], <span class="dt">only_presence =</span> <span class="ot">TRUE</span>) <span class="co"># Make the train/test split</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">  m &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">data =</span> train) <span class="co"># train the model</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="co"># Populate the output data.frame</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9">  output[i, <span class="dv">1</span>] &lt;-<span class="st"> </span>seeds[i]</a>
 <a class="sourceLine" id="cb4-10" data-line-number="10">  output[i, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/auc.html">auc</a></span>(m)</a>
 <a class="sourceLine" id="cb4-11" data-line-number="11">  output[i, <span class="dv">3</span>] &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/auc.html">auc</a></span>(m, <span class="dt">test =</span> test)</a>
 <a class="sourceLine" id="cb4-12" data-line-number="12">}</a></code></pre></div>
-<p>The testing AUC varies from 0.8971471 to 0.941549. When we have to deal with a small dataset a better approach is the cross validation.</p>
+<p>The testing AUC varies from 0.8340675 to 0.8671762. When we have to deal with a small dataset a better approach is the cross validation.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Print the output</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">output</a></code></pre></div>
 <table class="table table table-striped table-hover table-condensed">
@@ -195,10 +195,10 @@ testAUC
 647
 </td>
 <td style="text-align:right;">
-0.9364565
+0.8698272
 </td>
 <td style="text-align:right;">
-0.9088971
+0.8552425
 </td>
 </tr>
 <tr>
@@ -206,10 +206,10 @@ testAUC
 477
 </td>
 <td style="text-align:right;">
-0.9328094
+0.8782434
 </td>
 <td style="text-align:right;">
-0.9298627
+0.8340675
 </td>
 </tr>
 <tr>
@@ -217,10 +217,10 @@ testAUC
 536
 </td>
 <td style="text-align:right;">
-0.9321967
+0.8680666
 </td>
 <td style="text-align:right;">
-0.9250245
+0.8656850
 </td>
 </tr>
 <tr>
@@ -228,10 +228,10 @@ testAUC
 444
 </td>
 <td style="text-align:right;">
-0.9333624
+0.8735606
 </td>
 <td style="text-align:right;">
-0.9278333
+0.8566338
 </td>
 </tr>
 <tr>
@@ -239,10 +239,10 @@ testAUC
 985
 </td>
 <td style="text-align:right;">
-0.9333637
+0.8712828
 </td>
 <td style="text-align:right;">
-0.9279069
+0.8565025
 </td>
 </tr>
 <tr>
@@ -250,10 +250,10 @@ testAUC
 49
 </td>
 <td style="text-align:right;">
-0.9319354
+0.8719091
 </td>
 <td style="text-align:right;">
-0.9415490
+0.8519175
 </td>
 </tr>
 <tr>
@@ -261,10 +261,10 @@ testAUC
 72
 </td>
 <td style="text-align:right;">
-0.9319737
+0.8719312
 </td>
 <td style="text-align:right;">
-0.9222010
+0.8661388
 </td>
 </tr>
 <tr>
@@ -272,10 +272,10 @@ testAUC
 617
 </td>
 <td style="text-align:right;">
-0.9398073
+0.8743353
 </td>
 <td style="text-align:right;">
-0.8971471
+0.8529850
 </td>
 </tr>
 <tr>
@@ -283,10 +283,10 @@ testAUC
 282
 </td>
 <td style="text-align:right;">
-0.9346863
+0.8695072
 </td>
 <td style="text-align:right;">
-0.9258088
+0.8671275
 </td>
 </tr>
 <tr>
@@ -294,17 +294,17 @@ testAUC
 59
 </td>
 <td style="text-align:right;">
-0.9321164
+0.8709719
 </td>
 <td style="text-align:right;">
-0.9321127
+0.8671762
 </td>
 </tr>
 </tbody>
 </table>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># compute the range of the testing AUC</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(output[, <span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; [1] 0.8971471 0.9415490</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; [1] 0.8340675 0.8671762</span></a></code></pre></div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
@@ -323,9 +323,9 @@ testAUC
 <pre><code>#&gt; Object of class SDMmodelCV 
 #&gt; Method: Maxnet 
 #&gt; 
-#&gt; Species: Vultur gryphus 
+#&gt; Species: Virtual species 
 #&gt; Replicates: 4 
-#&gt; Presence locations: 510 
+#&gt; Presence locations: 400 
 #&gt; Absence locations: 5000 
 #&gt; 
 #&gt; Model configurations:
@@ -339,9 +339,9 @@ testAUC
 #&gt; Categorical: biome</code></pre>
 <p>The output in this case is an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object. It contains the four trained models in the <code>models</code> slot and the fold partitions in the <code>folds</code> slot. We can compute the AUC of a <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object using:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model))</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; Training AUC:  0.9333848</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; Training AUC:  0.8734151</span></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model, <span class="dt">test =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Testing AUC:  0.926355</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Testing AUC:  0.8553538</span></a></code></pre></div>
 <p>this returns the AUC value averaged across the four different models.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Maxent Variable Importance — maxentVarImp • SDMtune</title>
+<title>Virtual Species — virtualSp • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -45,10 +45,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Maxent Variable Importance — maxentVarImp" />
+<meta property="og:title" content="Virtual Species — virtualSp" />
 
-<meta property="og:description" content="Shows the percent contribution and permutation importance of the
-environmental variables used to train the model." />
+<meta property="og:description" content="Dataset containing a random generated virtual species. The purpose of this
+dataset is to demonstrate the use of the functions included in the package." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -165,81 +165,56 @@ environmental variables used to train the model." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Maxent Variable Importance</h1>
+    <h1>Virtual Species</h1>
     
-    <div class="hidden name"><code>maxentVarImp.Rd</code></div>
+    <div class="hidden name"><code>virtualSp.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Shows the percent contribution and permutation importance of the
-environmental variables used to train the model.</p>
+    <p>Dataset containing a random generated virtual species. The purpose of this
+dataset is to demonstrate the use of the functions included in the package.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>maxentVarImp</span>(<span class='no'>model</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>model</th>
-      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
-object trained using the "Maxent" method.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>virtualSp</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with the variable importance.</p>
+    <p>A list with five elements:</p><dl class='dl-horizontal'>
+<dt>presence</dt><dd><p>400 random generated coordinates for the presence locations.</p></dd>
+<dt>absence</dt><dd><p>300 random generated coordinates for the absence locations.</p></dd>
+<dt>background</dt><dd><p>5000 random generated coordinates for the background
+locations.</p></dd>
+<dt>pa_map</dt><dd><p>Presence absence map used to extract the presence and absence
+locations.</p></dd>
+<dt>prob_map</dt><dd><p>Probability map of the random generated virtual species.</p></dd>
+</dl>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When an <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> object is passed to the
-function, the output is the average of the variable importance of each model
-trained during the cross validation.</p>
+    <p>The random species has been generated using the package
+<strong>virtualspecies</strong>.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <div class='dont-index'><p><code><a href='maxentTh.html'>maxentTh</a></code></p></div>
+    <p>Leroy, B. , Meynard, C. N., Bellard, C. and Courchamp, F. (2016),
+virtualspecies, an R package to generate virtual species distributions.
+Ecography, 39: 599-607. doi:10.1111/ecog.01388</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Acquire environmental variables</span>
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
-                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>files</span>)
-
-<span class='co'># Prepare presence and background locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
-
-<span class='co'># Create SWD object</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-
-<span class='co'># Train a Maxent model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
-<span class='fu'>maxentVarImp</span>(<span class='no'>model</span>)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
 
       <li><a href="#details">Details</a></li>
 
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#references">References</a></li>
+          </ul>
 
-    <h2>Author</h2>
-    <p>Sergio Vignali</p>
   </div>
 </div>
 

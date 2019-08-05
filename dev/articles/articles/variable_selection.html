@@ -180,14 +180,14 @@
 </ul>
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">selected_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/varSel.html">varSel</a></span>(maxnet_model, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">bg4cor =</span> bg, <span class="dt">method =</span> <span class="st">"spearman"</span>, <span class="dt">cor_th =</span> <span class="fl">0.7</span>, <span class="dt">permut =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Removed variables: bio1, bio16, bio6</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Removed variables: bio16, bio6, bio7, bio8</span></a></code></pre></div>
 <p>As you can see some variables have been removed. The output of the function is the model trained with the selected variables:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">selected_variables_model</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Object of class SDMmodel </span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Method: Maxnet </span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Species: Vultur gryphus </span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Presence locations: 408 </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Species: Virtual species </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Presence locations: 320 </span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; Absence locations: 5000 </span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; Model configurations:</span></a>
@@ -197,7 +197,7 @@
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; Variables:</span></a>
 <a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; ---------</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; Continuous: bio12 bio17 bio5 bio7 bio8 </span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; Continuous: bio1 bio12 bio17 bio5 </span></a>
 <a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; Categorical: biome</span></a></code></pre></div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
@@ -213,30 +213,30 @@
 <p>There are cases in which a model has some environmental variables ranked with very low contribution and you may want to remove some of them to reduce the model complexity. <strong>SDMtune</strong> offers two different strategies implemented in the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code>. We will use the <code>maxnet_model</code> trained with all the variables. Let’s first check the permutation importance (we use only one permutation to save time):</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../../reference/varImp.html">varImp</a></span>(maxnet_model, <span class="dt">permut =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;   Variable Permutation_importance</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; 1     bio1                   39.3</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 2     bio5                   21.0</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 3     bio7                    9.6</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 4    biome                    6.6</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 5     bio8                    5.8</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 6    bio17                    5.2</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 7    bio12                    5.0</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 8    bio16                    3.9</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 9     bio6                    3.6</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; 1     bio1                   56.1</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 2     bio8                   19.5</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 3    bio17                    6.3</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 4    biome                    4.7</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 5    bio12                    3.5</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 6     bio5                    3.5</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 7     bio7                    3.2</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 8     bio6                    1.6</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 9    bio16                    1.5</span></a></code></pre></div>
 <p>We will use the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code> only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance lower than 6%:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testin AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9319892</span></a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Testing AUC before:  0.8505888</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3">reduced_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/reduceVar.html">reduceVar</a></span>(maxnet_model, <span class="dt">th =</span> <span class="dv">6</span>, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">permut =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Removed variables: bio6, bio12, bio16, bio8, bio5</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Removed variables: bio16, bio6, bio7, bio5, bio17, biome</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(reduced_variables_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.9243559</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.8520787</span></a></code></pre></div>
 <p>In the second example we want to remove the environmental variables that have a permutation importance lower than 15% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn’t drop:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testin AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; Testin AUC before:  0.9319892</span></a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; Testing AUC before:  0.8505888</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">reduced_variables_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/reduceVar.html">reduceVar</a></span>(maxnet_model, <span class="dt">th =</span> <span class="dv">15</span>, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> test, <span class="dt">permut =</span> <span class="dv">1</span>, <span class="dt">use_jk =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Removed variables: bio16, bio17</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Removed variables: bio16, bio6, bio5, bio12, biome, bio8</span></a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(reduced_variables_model, <span class="dt">test =</span> test))</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.932048</span></a></code></pre></div>
-<p>As you can see in this case only <strong>bio12</strong> and <strong>bio16</strong> have been removed and the AUC in the testing dataset doesn’t decrease.</p>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; Testing AUC after:  0.8533188</span></a></code></pre></div>
+<p>As you can see in this case only <strong>bio12</strong> and <strong>bio16</strong> have been removed and the AUC in the testing dataset didn’t decrease.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself-1" class="anchor"></a>Try yourself</h3>

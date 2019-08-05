@@ -144,13 +144,13 @@
 <a href="#training-validation-and-testing-split" class="anchor"></a>Training, validation and testing split</h2>
 <p>When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn’t represent anymore an independent set to evaluate the model <span class="citation">(Müller and Guido 2016, <span class="citation">@Chollet2018</span>)</span>. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> allows to split the data in three folds containing the provided percentage of data. For illustration purpose let’s split the presence locations in training (60%), validation (20%) and testing (20%) datasets:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(zeallot)  <span class="co"># For unpacking assignment</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, val, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(data, <span class="dt">val =</span> <span class="fl">0.2</span>, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">only_presence =</span> <span class="ot">TRUE</span>, <span class="dt">seed =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, val, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(data, <span class="dt">val =</span> <span class="fl">0.2</span>, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">only_presence =</span> <span class="ot">TRUE</span>, <span class="dt">seed =</span> <span class="dv">61516</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"# Training  : "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(train<span class="op">@</span>data))</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; # Training  :  5306</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; # Training  :  5240</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"# Validation: "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(val<span class="op">@</span>data))</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; # Validation:  5102</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; # Validation:  5080</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"# Testing   : "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(test<span class="op">@</span>data))</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; # Testing   :  5102</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; # Testing   :  5080</span></a></code></pre></div>
 <p>We now train a <strong>Maxnet</strong> model with default settings and using the training dataset:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">data =</span> train)</a></code></pre></div>
 <p>Another approach would be to split the data in two folds: training and testing, use the cross validation strategy with the training dataset to tune the model hyperparameters, and evaluate the tuned model with the unseen held apart testing dataset. For execution time reason we demonstrate the first approach but you are free to try out the second one.</p>
@@ -160,7 +160,7 @@
 <a href="#check-the-effect-of-varying-one-hyperparameter" class="anchor"></a>Check the effect of varying one hyperparameter</h2>
 <p>To see the effect of varying one hyperparameter on the model performance we can use the function <code><a href="../../reference/gridSearch.html">gridSearch()</a></code>. The function iterates through a set of predefined hyperparameter values, train the model and displays in real-time the evaluation metric in the RStudio viewer pane (hover over the points to get a tooltip with extra information). Let’s see how the AUC changes varying the regularization multiplier. First we have to define the values for the hyperparameter that we want to test. For that we create a named list that we will use as an argument for the function <code><a href="../../reference/gridSearch.html">gridSearch()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Define the values for bg</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">reg =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">0.2</span>, <span class="dv">1</span>, <span class="fl">0.2</span>))</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">reg =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">0.2</span>, <span class="dv">1</span>, <span class="fl">0.1</span>))</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Call the gridSearch function</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">exp_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/gridSearch.html">gridSearch</a></span>(model, <span class="dt">hypers =</span> h, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> val)</a></code></pre></div>
 <p>As you noticed we used the validation dataset as test argument. The output of the function is an object of class <code><a href="../../reference/SDMtune-class.html">SDMtune()</a></code>. Let’s print it:</p>
@@ -170,7 +170,7 @@
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Models configuration:</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; --------------------</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; fc: lqph</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; reg: 0.2, 0.4, 0.6, 0.8, 1</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; reg: 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1</span></a></code></pre></div>
 <p>When you print the output, the text contains the models configuration that have been used during the execution of the function. In our case, only the regularization multiplier <code>reg</code> has multiple values. You can plot the <code><a href="../../reference/SDMtune-class.html">SDMtune()</a></code> object:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(exp_<span class="dv">1</span>, <span class="dt">title =</span> <span class="st">"Experiment 1"</span>)</a></code></pre></div>
 <p><img src="tune_hyperparameters_files/figure-html/plot%20exp_1-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -183,25 +183,33 @@
 <p>The <code><a href="../../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in the slot <code>@results</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">exp_<span class="dv">1</span><span class="op">@</span>results</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt;     fc reg train_AUC  test_AUC   diff_AUC</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; 1 lqph 0.2 0.9494108 0.9180490 0.03136176</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 2 lqph 0.4 0.9444526 0.9151667 0.02928595</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 3 lqph 0.6 0.9416761 0.9137294 0.02794673</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 4 lqph 0.8 0.9392637 0.9121216 0.02714216</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 5 lqph 1.0 0.9374533 0.9112863 0.02616699</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; 1 lqph 0.2 0.9008033 0.8235925 0.07721083</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 2 lqph 0.3 0.8988542 0.8268050 0.07204917</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 3 lqph 0.4 0.8972125 0.8300300 0.06718250</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 4 lqph 0.5 0.8953675 0.8325025 0.06286500</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 5 lqph 0.6 0.8936800 0.8350225 0.05865750</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 6 lqph 0.7 0.8918142 0.8370500 0.05476417</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; 7 lqph 0.8 0.8897492 0.8388800 0.05086917</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; 8 lqph 0.9 0.8883683 0.8389875 0.04938083</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; 9 lqph 1.0 0.8875433 0.8395025 0.04804083</span></a></code></pre></div>
 <p>You can order them with:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">exp_<span class="dv">1</span><span class="op">@</span>results[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/order">order</a></span>(<span class="op">-</span>exp_<span class="dv">1</span><span class="op">@</span>results<span class="op">$</span>test_AUC), ]</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt;     fc reg train_AUC  test_AUC   diff_AUC</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; 1 lqph 0.2 0.9494108 0.9180490 0.03136176</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; 2 lqph 0.4 0.9444526 0.9151667 0.02928595</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; 3 lqph 0.6 0.9416761 0.9137294 0.02794673</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 4 lqph 0.8 0.9392637 0.9121216 0.02714216</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 5 lqph 1.0 0.9374533 0.9112863 0.02616699</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; 9 lqph 1.0 0.8875433 0.8395025 0.04804083</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; 8 lqph 0.9 0.8883683 0.8389875 0.04938083</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; 7 lqph 0.8 0.8897492 0.8388800 0.05086917</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 6 lqph 0.7 0.8918142 0.8370500 0.05476417</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 5 lqph 0.6 0.8936800 0.8350225 0.05865750</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 4 lqph 0.5 0.8953675 0.8325025 0.06286500</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 3 lqph 0.4 0.8972125 0.8300300 0.06718250</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; 2 lqph 0.3 0.8988542 0.8268050 0.07204917</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; 1 lqph 0.2 0.9008033 0.8235925 0.07721083</span></a></code></pre></div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
-<p>Try to see how TSS changes varying the regularization multiplier from 0.5 to 3 with increments of 0.5 (highlight to see the solution):</p>
+<p>Try to see how TSS changes varying the regularization multiplier from 1 to 4 (highlight to see the solution):</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Define the values for reg</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">reg =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">0.5</span>, <span class="dv">3</span>, <span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">reg =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co"># Call the gridSearch function</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4">exp_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/gridSearch.html">gridSearch</a></span>(model, <span class="dt">hypers =</span> h, <span class="dt">metric =</span> <span class="st">"tss"</span>, <span class="dt">test =</span> val)</a></code></pre></div>
 <p>and how AUC changes varying the feature combinations using the following values: l, lq, lh, lqp, lqph and lqpht (highlight to see the solution):</p>
@@ -224,45 +232,35 @@
 <h2 class="hasAnchor">
 <a href="#tune-hyperparameters" class="anchor"></a>Tune hyperparameters</h2>
 <p>To tune the model hyperparameters you should run all the possible combinations of hyperparameters. Here is an example using combinations of regularization multiplier and feature classes:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">reg =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">0.5</span>, <span class="dv">5</span>, <span class="fl">0.5</span>), <span class="dt">fc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span>))</a>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">reg =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">0.2</span>, <span class="dv">2</span>, <span class="fl">0.2</span>), <span class="dt">fc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span>))</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">exp_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/gridSearch.html">gridSearch</a></span>(model, <span class="dt">hypers =</span> h, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> val)</a></code></pre></div>
 <p>This code takes already quite long as it has to train 60 models. Imagine if you want to check also decrease the increments for the regularization multiplier values and maybe add the number of iterations (in the case of a <strong>Maxent</strong> model). The number of models to be trained increases exponentially and consequently the execution time. In the next two paragraphs we will present two possible alternative to the <code><a href="../../reference/gridSearch.html">gridSearch()</a></code> function.</p>
 </div>
 <div id="random-search" class="section level2">
 <h2 class="hasAnchor">
 <a href="#random-search" class="anchor"></a>Random search</h2>
-<p>The function <code><a href="../../reference/randomSearch.html">randomSearch()</a></code> trains models taking a random sample of the predefined configurations. In the next example we select 20 random configurations:</p>
+<p>The function <code><a href="../../reference/randomSearch.html">randomSearch()</a></code> trains models taking a random sample of the predefined configurations. In the next example we select 10 random configurations:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">reg =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">0.2</span>, <span class="dv">5</span>, <span class="fl">0.2</span>), <span class="dt">fc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>))</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">exp_<span class="dv">6</span> &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/randomSearch.html">randomSearch</a></span>(model, <span class="dt">hypers =</span> h, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> val, <span class="dt">pop =</span> <span class="dv">20</span>, <span class="dt">seed =</span> <span class="dv">65651</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb15-2" data-line-number="2">exp_<span class="dv">6</span> &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/randomSearch.html">randomSearch</a></span>(model, <span class="dt">hypers =</span> h, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> val, <span class="dt">pop =</span> <span class="dv">10</span>, <span class="dt">seed =</span> <span class="dv">65466</span>)</a></code></pre></div>
 <p>The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 20 instead of 150 models. The results includes the 20 trained model. If you are not happy with the solution, you can check the best hyperparameter combinations and this gives you an intuition of which ones are the hyperparameters to “refine” using the function <code><a href="../../reference/gridSearch.html">gridSearch()</a></code>. The <code><a href="../../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in a <code>data.frame</code> than can be accessed with the following command:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">exp_<span class="dv">6</span><span class="op">@</span>results</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;      fc reg train_AUC  test_AUC   diff_AUC</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1    lh 0.4 0.9426742 0.9163922 0.02628203</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2    lh 1.2 0.9343258 0.9106569 0.02366895</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3  lqph 1.4 0.9345520 0.9105529 0.02399902</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4    lh 1.6 0.9310324 0.9091431 0.02188922</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5    lh 1.8 0.9292075 0.9084137 0.02079379</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6  lqph 3.0 0.9257735 0.9080451 0.01772843</span></a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 7    lh 2.2 0.9262212 0.9077980 0.01842320</span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 8    lp 1.2 0.9263389 0.9040882 0.02225065</span></a>
-<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; 9   lqp 1.4 0.9258010 0.9031608 0.02264020</span></a>
-<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; 10   lp 3.4 0.9155788 0.9025824 0.01299641</span></a>
-<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; 11   lp 3.6 0.9149212 0.9022490 0.01267222</span></a>
-<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; 12  lqp 2.8 0.9203056 0.9022294 0.01807614</span></a>
-<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt; 13   lp 3.8 0.9142539 0.9019137 0.01234020</span></a>
-<a class="sourceLine" id="cb16-16" data-line-number="16"><span class="co">#&gt; 14   lp 5.0 0.9124245 0.9006706 0.01175392</span></a>
-<a class="sourceLine" id="cb16-17" data-line-number="17"><span class="co">#&gt; 15   lq 1.2 0.9217565 0.8967902 0.02496634</span></a>
-<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co">#&gt; 16   lq 1.6 0.9199585 0.8964471 0.02351144</span></a>
-<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co">#&gt; 17   lq 3.6 0.9145095 0.8963902 0.01811928</span></a>
-<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt; 18   lq 4.4 0.9127964 0.8962294 0.01656699</span></a>
-<a class="sourceLine" id="cb16-21" data-line-number="21"><span class="co">#&gt; 19   lq 2.6 0.9163023 0.8960980 0.02020425</span></a>
-<a class="sourceLine" id="cb16-22" data-line-number="22"><span class="co">#&gt; 20    l 3.8 0.9023422 0.8910392 0.01130294</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1    lp 2.2 0.8691417 0.8482400 0.02090167</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2    lp 0.8 0.8734875 0.8472100 0.02627750</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3  lqph 3.2 0.8713750 0.8435500 0.02782500</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4  lqph 2.4 0.8764117 0.8435025 0.03290917</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5    lq 3.8 0.8597967 0.8419325 0.01786417</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6    lh 3.2 0.8698442 0.8414150 0.02842917</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 7  lqph 1.2 0.8854808 0.8408300 0.04465083</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 8    lh 2.0 0.8751675 0.8399250 0.03524250</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; 9    lh 1.0 0.8860650 0.8391100 0.04695500</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; 10    l 0.4 0.8489625 0.8269575 0.02200500</span></a></code></pre></div>
 </div>
 <div id="optimize-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#optimize-model" class="anchor"></a>Optimize Model</h2>
 <p>The previous function doesn’t learn anything from the trained models, it just selects n random combinations of hyperparameters. The function <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> uses a genetic algorithm to find an optimum solution. Check the function documentation to understand how it works, here we provide the code to execute it:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">exp_<span class="dv">7</span> &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/optimizeModel.html">optimizeModel</a></span>(model, <span class="dt">hypers =</span> h, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> val, <span class="dt">pop =</span> <span class="dv">20</span>, <span class="dt">gen =</span> <span class="dv">5</span>, <span class="dt">keep_best =</span> <span class="fl">0.4</span>, <span class="dt">keep_random =</span> <span class="fl">0.2</span>, <span class="dt">mutation_chance =</span> <span class="fl">0.4</span>, <span class="dt">seed =</span> <span class="dv">65651</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">exp_<span class="dv">7</span> &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/optimizeModel.html">optimizeModel</a></span>(model, <span class="dt">hypers =</span> h, <span class="dt">metric =</span> <span class="st">"auc"</span>, <span class="dt">test =</span> val, <span class="dt">pop =</span> <span class="dv">15</span>, <span class="dt">gen =</span> <span class="dv">2</span>, <span class="dt">keep_best =</span> <span class="fl">0.4</span>, <span class="dt">keep_random =</span> <span class="fl">0.2</span>, <span class="dt">mutation_chance =</span> <span class="fl">0.4</span>, <span class="dt">seed =</span> <span class="dv">798</span>)</a></code></pre></div>
 </div>
 <div id="evaluate-final-model" class="section level2">
 <h2 class="hasAnchor">
@@ -272,17 +270,17 @@
 <p>Then we get the model configuration from the experiment 6:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(exp_<span class="dv">6</span><span class="op">@</span>results)</a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#&gt;     fc reg train_AUC  test_AUC   diff_AUC</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt; 1   lh 0.4 0.9426742 0.9163922 0.02628203</span></a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt; 2   lh 1.2 0.9343258 0.9106569 0.02366895</span></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; 3 lqph 1.4 0.9345520 0.9105529 0.02399902</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&gt; 4   lh 1.6 0.9310324 0.9091431 0.02188922</span></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co">#&gt; 5   lh 1.8 0.9292075 0.9084137 0.02079379</span></a>
-<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&gt; 6 lqph 3.0 0.9257735 0.9080451 0.01772843</span></a></code></pre></div>
-<p>The best model was trained using <strong>lh</strong> background locations (we can select the same background locations with <code>exp_6@models[[1]]@a</code>), <strong>0.4</strong> as feature class combination and a regularization multiplier equal to <strong>0.9426742</strong>:</p>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt; 1   lp 2.2 0.8691417 0.8482400 0.02090167</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt; 2   lp 0.8 0.8734875 0.8472100 0.02627750</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; 3 lqph 3.2 0.8713750 0.8435500 0.02782500</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&gt; 4 lqph 2.4 0.8764117 0.8435025 0.03290917</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co">#&gt; 5   lq 3.8 0.8597967 0.8419325 0.01786417</span></a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&gt; 6   lh 3.2 0.8698442 0.8414150 0.02842917</span></a></code></pre></div>
+<p>The best model was trained using <strong>lp</strong> background locations (we can select the same background locations with <code>exp_6@models[[1]]@a</code>), <strong>2.2</strong> as feature class combination and a regularization multiplier equal to <strong>0.8691417</strong>:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">final_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">data =</span> merged_data, <span class="dt">fc =</span> exp_<span class="dv">6</span><span class="op">@</span>results[<span class="dv">1</span>, <span class="dv">1</span>], <span class="dt">reg =</span> exp_<span class="dv">6</span><span class="op">@</span>results[<span class="dv">1</span>, <span class="dv">2</span>])</a></code></pre></div>
 <p>Now we can evaluate it using the held apart testing dataset:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../../reference/auc.html">auc</a></span>(final_model, <span class="dt">test =</span> test)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; [1] 0.9347029</span></a></code></pre></div>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; [1] 0.8325463</span></a></code></pre></div>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
