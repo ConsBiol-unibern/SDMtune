@@ -1,7 +1,7 @@
 #' Train
 #'
-#' Train a model using one of the following methods: Random Forest,Maxent or
-#' Maxnet.
+#' Train a model using one of the following methods: BRT, Maxent, Maxnet or
+#' Random Forest.
 #'
 #' @param method character. Method used to train the model, possible values are
 #' "Maxent", "Maxnet" or "RF".
@@ -112,10 +112,10 @@
 #' data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
 #'                    env = predictors[[1:8]])
 #'
-#' Train a Random Forest model
+#' # Train a Random Forest model
 #' model <- train("RF", data = data, ntree = 300)
 #'
-#' Train a Boosted Regression Tree model
+#' # Train a Boosted Regression Tree model
 #' model <- train("BRT", data = data, ntree = 300, lr = 0.001)
 #' }
 train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,

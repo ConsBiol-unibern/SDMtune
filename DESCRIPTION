@@ -76,6 +76,7 @@ Collate:
     'auc.R'
     'chart-utils.R'
     'confMatrix.R'
+    'convertFolds.R'
     'corVar.R'
     'doJk.R'
     'getSubsample.R'

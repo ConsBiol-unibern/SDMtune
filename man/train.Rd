@@ -37,8 +37,8 @@ An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 object.
 }
 \description{
-Train a model using one of the following methods: Random Forest,Maxent or
-Maxnet.
+Train a model using one of the following methods: BRT, Maxent, Maxnet or
+Random Forest.
 }
 \details{
 \itemize{
@@ -120,10 +120,10 @@ a_coords <- virtualSp$absence#'
 data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
                    env = predictors[[1:8]])
 
-Train a Random Forest model
+# Train a Random Forest model
 model <- train("RF", data = data, ntree = 300)
 
-Train a Boosted Regression Tree model
+# Train a Boosted Regression Tree model
 model <- train("BRT", data = data, ntree = 300, lr = 0.001)
 }
 }

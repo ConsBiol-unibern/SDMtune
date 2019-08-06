@@ -63,8 +63,10 @@ reference:
 - title: Prepare Data
   desc: Function to prepare data for SDMsel analysis
   contents:
+  - '`convertFolds`'
   - '`getSubsample`'
   - '`prepareSWD`'
+  - '`randomFolds`'
   - '`swd2csv`'
   - '`thinData`'
   - '`trainValTest`'
@@ -79,7 +81,6 @@ reference:
   - '`predict,Maxent-method`'
   - '`predict,RF-method`'
   - '`predict,SDMmodel-method`'
-  - '`randomFolds`'
   - '`train`'
   - '`thresholds`'
   - '`varImp`'
