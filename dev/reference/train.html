@@ -47,7 +47,8 @@
   
 <meta property="og:title" content="Train — train" />
 
-<meta property="og:description" content="Train a model using the given method." />
+<meta property="og:description" content="Train a model using one of the following methods: Random Forest,Maxent or
+Maxnet." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -171,11 +172,12 @@
 
     <div class="ref-description">
     
-    <p>Train a model using the given method.</p>
+    <p>Train a model using one of the following methods: Random Forest,Maxent or
+Maxnet.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>train</span>(<span class='no'>method</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>train</span>(<span class='no'>method</span>, <span class='no'>data</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>a</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -184,7 +186,7 @@
     <tr>
       <th>method</th>
       <td><p>character. Method used to train the model, possible values are
-"Maxent" or "Maxnet".</p></td>
+"Maxent", "Maxnet" or "RF".</p></td>
     </tr>
     <tr>
       <th>data</th>
@@ -246,13 +248,30 @@ you can change or add any other additional arguments extending the
 default settings (e.g. <code>extra_args = c("removeduplicates=true,
       addsamplestobackground=true)"**</code>)</p></li>
 </ul></li>
-<li><p>For the Maxnet method, possible arguments are:</p><ul>
+<li><p>For the Maxnet method, possible arguments are (for more details see
+<code><a href='https://www.rdocumentation.org/packages/maxnet/topics/maxnet'>maxnet</a></code>):</p><ul>
 <li><p>reg: numeric. The value of the regularization intensity, default is 1.</p></li>
 <li><p>fc: vector. The value of the feature classes, possible values are
-combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
-details see <code><a href='https://www.rdocumentation.org/packages/maxnet/topics/maxnet'>maxnet</a></code>.</p></li>
+combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
+</ul></li>
+<li><p>For the RF method the model is trained as classification. Possible
+arguments are (for more details see
+<code><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></code>):</p><ul>
+<li><p>mtry: numeric. Number of variable randomly sampled at each split,
+default is <code>floor(sqrt(number of variables))</code>.</p></li>
+<li><p>ntree: numeric. Number of tree to grow, default is 500.</p></li>
 </ul></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane
+Elith. 2017. dismo: Species Distribution Modeling.
+<a href='https://cran.r-project.org/package=dismo'>https://cran.r-project.org/package=dismo</a>.</p>
+<p>Steven Phillips (2017). maxnet: Fitting 'Maxent' Species Distribution Models
+with 'glmnet'. <a href='https://CRAN.R-project.org/package=maxnet'>https://CRAN.R-project.org/package=maxnet</a>.</p>
+<p>A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
+R News 2(3), 18--22.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -286,6 +305,16 @@ details see <code><a href='https://www.rdocumentation.org/packages/maxnet/topics
 <span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
+
+<span class='co'># Train a Random Forest model</span>
+<span class='co'># Prepare presence and absence locations</span>
+<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
+<span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span>
+
+<span class='co'># Create SWD object</span>
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>a_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>8</span>]])
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"RF"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -296,6 +325,8 @@ details see <code><a href='https://www.rdocumentation.org/packages/maxnet/topics
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

@@ -178,7 +178,7 @@ model.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for SDMmodel</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>object</span>, <span class='no'>data</span>, <span class='no'>type</span>, <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>object</span>, <span class='no'>data</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"GTiff"</span>, <span class='kw'>extent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>progress</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='no'>...</span>)</pre>
     
@@ -192,15 +192,17 @@ model.</p>
     <tr>
       <th>data</th>
       <td><p>data.frame, <code><a href='SWD-class.html'>SWD</a></code> or raster
-<code><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></code>.</p></td>
+<code><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></code> with the data for the prediction.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>character. Output type, see details.</p></td>
+      <td><p>character. Output type, see details, used only for <strong>Maxent</strong> and
+<strong>Maxnet</strong> methods, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>clamp</th>
-      <td><p>logical for clumping during prediction, default is <code>TRUE</code>.</p></td>
+      <td><p>logical for clumping during prediction, used only for <strong>Maxent</strong>
+and <strong>Maxnet</strong> methods, default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>filename</th>
@@ -247,6 +249,8 @@ be: "raw", "logistic" and "cloglog".</p></li>
 <li><p>For models trained with the <strong>Maxnet</strong> method the argument <code>type</code> can
 be: "link", "exponential", "logistic" and "cloglog", see
 <code><a href='https://www.rdocumentation.org/packages/maxnet/topics/maxnet'>maxnet</a></code> for more details.</p></li>
+<li><p>For models trained with the <strong>RF</strong> method the output is the probability of
+class 1.</p></li>
 <li><p>Parallel computation increases the speed only for large datasets due to the
 time necessary to create the cluster. For <strong>Maxent</strong> models the function
 performs the prediction in <strong>R</strong> without calling the <strong>MaxEnt</strong> Java

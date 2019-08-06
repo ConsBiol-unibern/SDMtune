@@ -10,6 +10,9 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/Maxnet-class.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/RF-class.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMmodel-class.html</loc>
   </url>
   <url>
@@ -104,6 +107,9 @@
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-Maxent-method.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-RF-method.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-SDMmodel-method.html</loc>
