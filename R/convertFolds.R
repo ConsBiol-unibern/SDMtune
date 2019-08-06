@@ -34,12 +34,12 @@
 #' library(ENMeval)
 #' # Block partition
 #' block_folds <- get.block(occ = data@data[data@pa == 1, ],
-#'                          bg.coords = occ = data@data[data@pa == 0, ])
+#'                          bg.coords = data@data[data@pa == 0, ])
 #' folds <- convertFolds(block_folds)
 #' # Checkerboard1 partition
 #' cb_folds <- get.checkerboard1(occ = data@data[data@pa == 1, ],
 #'                          env = predictors,
-#'                          bg.coords = occ = data@data[data@pa == 0, ],
+#'                          bg.coords = data@data[data@pa == 0, ],
 #'                          aggregation.factor = 4)
 #' folds <- convertFolds(cb_folds)
 #' }
