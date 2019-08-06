@@ -9,8 +9,9 @@
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
 #' is \code{FALSE}.
 #'
-#' @details Parallel computation increases the speed only for large datasets due
-#' to the time necessary to create the cluster.
+#' @details The funtion is available only for **Maxent** and **Maxnet** methods.
+#' Parallel computation increases the speed only for large datasets due to the
+#' time necessary to create the cluster.
 #'
 #' @return The computed AICc
 #' @export
@@ -49,6 +50,9 @@
 #' aicc(model, predictors, parallel = TRUE)
 #' }
 aicc <- function(model, env, parallel = FALSE){
+
+  if (!class(model@model) %in% c("Maxent", "Maxnet"))
+    stop("AICc available only for \"Maxent\" and \"Maxnet\" methods.")
 
   # k is the number of non-zero parameter in the model
   if (class(model@model) == "Maxent") {

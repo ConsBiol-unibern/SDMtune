@@ -10,8 +10,10 @@ setGeneric("predict", function(object, ...)
 #' @param object \code{\linkS4class{SDMmodel}} object.
 #' @param data data.frame, \code{\linkS4class{SWD}} or raster
 #' \code{\link[raster]{stack}}.
-#' @param type character. Output type, see details.
-#' @param clamp logical for clumping during prediction, default is \code{TRUE}.
+#' @param type character. Output type, see details, used only for **Maxent** and
+#' **Maxnet** methods, default is \code{NULL}.
+#' @param clamp logical for clumping during prediction, used only for **Maxent**
+#' and **Maxnet** methods, default is \code{TRUE}.
 #' @param filename character. Output file name for the prediction map, if
 #' provided the output is saved in a file.
 #' @param format character. The output format, see
@@ -31,13 +33,15 @@ setGeneric("predict", function(object, ...)
 #' * For models trained with the **Maxnet** method the argument \code{type} can
 #' be: "link", "exponential", "logistic" and "cloglog", see
 #' \code{\link[maxnet]{maxnet}} for more details.
+#' * For models trained with the **RF** method the output is the probability of
+#' class 1.
 #' * Parallel computation increases the speed only for large datasets due to the
 #' time necessary to create the cluster. For **Maxent** models the function
 #' performs the prediction in **R** without calling the **MaxEnt** Java
 #' software. This results in a faster computation for large datasets and might
 #' result in slightly different results compare to the Java software.
 #'
-#' @include Maxent-class.R Maxnet-class.R
+#' @include Maxent-class.R Maxnet-class.R RF-class.R
 #' @import methods
 #' @importFrom raster beginCluster clusterR endCluster predict clamp subset
 #' @importFrom stats formula model.matrix
@@ -85,8 +89,8 @@ setGeneric("predict", function(object, ...)
 #' }
 setMethod("predict",
           signature = "SDMmodel",
-          definition = function(object, data, type, clamp = TRUE, filename = "",
-                                format = "GTiff", extent = NULL,
+          definition = function(object, data, type = NULL, clamp = TRUE,
+                                filename = "", format = "GTiff", extent = NULL,
                                 parallel = FALSE, progress = "", ...) {
 
             if (class(object@model) != "Maxnet") {

@@ -5,7 +5,7 @@
 \alias{predict,SDMmodel-method}
 \title{Predict}
 \usage{
-\S4method{predict}{SDMmodel}(object, data, type, clamp = TRUE,
+\S4method{predict}{SDMmodel}(object, data, type = NULL, clamp = TRUE,
   filename = "", format = "GTiff", extent = NULL, parallel = FALSE,
   progress = "", ...)
 }
@@ -15,9 +15,11 @@
 \item{data}{data.frame, \code{\linkS4class{SWD}} or raster
 \code{\link[raster]{stack}}.}
 
-\item{type}{character. Output type, see details.}
+\item{type}{character. Output type, see details, used only for \strong{Maxent} and
+\strong{Maxnet} methods, default is \code{NULL}.}
 
-\item{clamp}{logical for clumping during prediction, default is \code{TRUE}.}
+\item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
+and \strong{Maxnet} methods, default is \code{TRUE}.}
 
 \item{filename}{character. Output file name for the prediction map, if
 provided the output is saved in a file.}
@@ -52,6 +54,8 @@ be: "raw", "logistic" and "cloglog".
 \item For models trained with the \strong{Maxnet} method the argument \code{type} can
 be: "link", "exponential", "logistic" and "cloglog", see
 \code{\link[maxnet]{maxnet}} for more details.
+\item For models trained with the \strong{RF} method the output is the probability of
+class 1.
 \item Parallel computation increases the speed only for large datasets due to the
 time necessary to create the cluster. For \strong{Maxent} models the function
 performs the prediction in \strong{R} without calling the \strong{MaxEnt} Java

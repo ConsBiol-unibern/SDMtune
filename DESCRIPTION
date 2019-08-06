@@ -40,6 +40,7 @@ Imports: cli (>= 1.1.0),
          maxnet (>= 0.1.2),
          methods,
          progress (>= 1.2.2),
+         randomForest (>= 4.6-14),
          raster (>= 2.9-5),
          rasterVis (>= 0.45),
          Rcpp (>= 1.0.1),
@@ -68,6 +69,7 @@ VignetteBuilder: knitr
 Collate: 
     'Maxent-class.R'
     'Maxnet-class.R'
+    'RF-class.R'
     'RcppExports.R'
     'SWD-class.R'
     'SDMmodel-class.R'
@@ -98,6 +100,7 @@ Collate:
     'plotResponse.R'
     'plotVarImp.R'
     'predict-Maxent.R'
+    'predict-RF.R'
     'predict-SDMmodel.R'
     'prepareSWD.R'
     'randomFolds.R'
@@ -109,6 +112,7 @@ Collate:
     'train.R'
     'trainMaxent.R'
     'trainMaxnet.R'
+    'trainRF.R'
     'trainValTest.R'
     'tss.R'
     'utils.R'

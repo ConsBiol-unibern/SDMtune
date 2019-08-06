@@ -2,6 +2,7 @@ data <- SDMtune:::t
 model <- SDMtune:::bm_maxnet
 model_mx <- SDMtune:::bm_maxent
 model_cv <- SDMtune:::bm_maxnet_cv
+model_rf <- train("RF", data = data)
 h <- list(fc = c("l", "lq", "lqp"), reg = seq(.2, 2., .2))
 
 test_that(".get_presence", {
@@ -123,12 +124,15 @@ test_that(".create_sdm_output", {
 })
 
 test_that(".get_train_args", {
-  # Give the correct output using maxnet
+  # The output is correct using maxnet
   expect_named(.get_train_args(model),
                c("data", "method", "fc", "reg"))
-  # Give the correct output using maxent
+  # The output is correct using maxent
   expect_named(.get_train_args(model_mx),
                c("data", "method", "fc", "reg", "iter", "extra_args"))
+  # The output is correct using rf
+  expect_named(.get_train_args(model_rf),
+               c("data", "method", "mtry", "ntree"))
   # Give the correct output type
   expect_type(.get_train_args(model), "list")
 })
@@ -136,6 +140,7 @@ test_that(".get_train_args", {
 test_that("get_tunable_args", {
   expect_equal(get_tunable_args(model_mx), c("fc", "reg", "iter"))
   expect_equal(get_tunable_args(model), c("fc", "reg"))
+  expect_equal(get_tunable_args(model_rf), c("mtry", "ntree"))
 })
 
 test_that(".create_model_from_settings", {

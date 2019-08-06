@@ -3,7 +3,7 @@
 #' Train a model using the given method.
 #'
 #' @param method character. Method used to train the model, possible values are
-#' "Maxent" or "Maxnet".
+#' "Maxent", "Maxnet" or "RF".
 #' @param data \code{\linkS4class{SWD}} object with presence and
 #' absence/background locations.
 #' @param folds list with two matrices, the first for the training and the
@@ -31,11 +31,17 @@
 #'       you can change or add any other additional arguments extending the
 #'       default settings (e.g. \code{extra_args = c("removeduplicates=true,
 #'       addsamplestobackground=true)"**})
-#' * For the Maxnet method, possible arguments are:
+#' * For the Maxnet method, possible arguments are (for more details see
+#' \code{\link[maxnet]{maxnet}}):
 #'     + reg: numeric. The value of the regularization intensity, default is 1.
 #'     + fc: vector. The value of the feature classes, possible values are
-#'       combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
-#'       details see \code{\link[maxnet]{maxnet}}.
+#'       combinations of "l", "q", "p", "h" and "t", default is "lqph".
+#' * For the RF method the model is trained as classification. Possible
+#' arguments are (for more details see
+#' \code{\link[randomForest]{randomForest}}):
+#'     + mtry: numeric. Number of variable randomly sampled at each split,
+#'     default is \code{floor(sqrt(number of variables))}.
+#'     + ntree: numeric. Number of tree to grow, default is 500.
 #'
 #' @return An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 #' object.
@@ -73,11 +79,21 @@
 #' folds <- randomFolds(data, k = 4, only_presence = TRUE)
 #' model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 #'                folds = folds)
+#'
+#' # Train a Random Forest model
+#' # Prepare presence and absence locations
+#' p_coords <- virtualSp$presence
+#' a_coords <- virtualSp$absence
+#'
+#' # Create SWD object
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
+#'                    env = predictors[[1:8]])
+#' model <- train("RF", data = data, ntree = 300)
 #' }
-train <- function(method, data = NULL, folds = NULL, verbose = TRUE, p = NULL,
+train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
                   a = NULL, rep = NULL, seed = NULL, ...) {
 
-  method <- match.arg(method, c("Maxent", "Maxnet"))
+  method <- match.arg(method, c("Maxent", "Maxnet", "RF"))
   f <- paste0("train", method)
 
   # TODO Remove in next release

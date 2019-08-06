@@ -23,8 +23,9 @@ Compute the Akaike Information Criterion corrected for small samples size
 (Warren and Seifert, 2011).
 }
 \details{
-Parallel computation increases the speed only for large datasets due
-to the time necessary to create the cluster.
+The funtion is available only for \strong{Maxent} and \strong{Maxnet} methods.
+Parallel computation increases the speed only for large datasets due to the
+time necessary to create the cluster.
 }
 \examples{
 # Acquire environmental variables

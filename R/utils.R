@@ -179,12 +179,18 @@
   }
 
   args$method <- class(model)
-  args$fc <- model@fc
-  args$reg <- model@reg
 
   if (args$method == "Maxent") {
+    args$fc <- model@fc
+    args$reg <- model@reg
     args$iter <- model@iter
     args$extra_args <- model@extra_args
+  } else if (args$method == "Maxnet") {
+    args$fc <- model@fc
+    args$reg <- model@reg
+  } else {
+    args$mtry <- model@mtry
+    args$ntree <- model@ntree
   }
   return(args)
 }
@@ -235,9 +241,11 @@ get_tunable_args <- function(model) {
 
   if (method == "Maxent") {
     args <- c("fc", "reg", "iter")
-  } else {
+  } else if (method == "Maxnet") {
     args <- c("fc", "reg")
-  }
+  } else (
+    args <- c("mtry", "ntree")
+  )
 
   return(args)
 }
