@@ -1,4 +1,4 @@
-setClassUnion("model", c("Maxent", "Maxnet", "RF"))
+setClassUnion("model", c("Maxent", "Maxnet", "RF", "BRT"))
 #' SDMmodel
 #'
 #' This Class represents an SDMmodel model object and hosts all the information
@@ -7,7 +7,7 @@ setClassUnion("model", c("Maxent", "Maxnet", "RF"))
 #' @slot data \code{\linkS4class{SWD}} object. The data used to train the model.
 #' @slot model \link{Maxent} or \link{Maxnet} object.
 #'
-#' @include SWD-class.R Maxent-class.R Maxnet-class.R
+#' @include SWD-class.R Maxent-class.R Maxnet-class.R RF-class.R BRT-class.R
 #' @exportClass SDMmodel
 #'
 #' @author Sergio Vignali

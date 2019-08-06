@@ -1,3 +1,5 @@
+skip_on_cran()
+
 test_that("Show method for RF class produces the correct output", {
   data <- SDMtune:::t
   data@data <- data@data[, 1:4]

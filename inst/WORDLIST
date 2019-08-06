@@ -7,7 +7,10 @@ AppVeyor
 args
 auc
 Bellard
+bernoulli
 biome
+Boehmke
+BRT
 cloglog
 Cloglog
 coords
@@ -25,10 +28,13 @@ Elith
 env
 et
 fc
+gbm
+GBM
 Geotiff
 GeoTIFF
 glmnet
 gplot
+Greenwell
 grey
 gridSearch
 GTiff
@@ -47,6 +53,7 @@ lq
 lqp
 lqph
 lqpht
+lr
 maxent
 Maxent
 MaxEnt

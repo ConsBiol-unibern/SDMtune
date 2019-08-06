@@ -188,9 +188,15 @@
   } else if (args$method == "Maxnet") {
     args$fc <- model@fc
     args$reg <- model@reg
-  } else {
+  } else if (args$method == "RF") {
     args$mtry <- model@mtry
     args$ntree <- model@ntree
+  } else {
+    args$distribution <- model@distribution
+    args$ntree <- model@ntree
+    args$interaction.depth <- model@interaction.depth
+    args$lr <- model@lr
+    args$bag.fraction <- model@bag.fraction
   }
   return(args)
 }
@@ -243,9 +249,12 @@ get_tunable_args <- function(model) {
     args <- c("fc", "reg", "iter")
   } else if (method == "Maxnet") {
     args <- c("fc", "reg")
-  } else (
+  } else if (method == "RF") (
     args <- c("mtry", "ntree")
-  )
+  ) else {
+    args <- c("distribution", "ntree", "interaction.depth", "lr",
+              "bag.fraction")
+  }
 
   return(args)
 }

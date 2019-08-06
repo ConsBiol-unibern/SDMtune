@@ -75,6 +75,7 @@ reference:
   - '`modelReport`'
   - '`maxentTh`'
   - '`maxentVarImp`'
+  - '`predict,BRT-method`'
   - '`predict,Maxent-method`'
   - '`predict,RF-method`'
   - '`predict,SDMmodel-method`'
@@ -126,6 +127,7 @@ reference:
 - title: Classes
   desc: Package classes
   contents:
+  - '`BRT-class`'
   - '`Maxent-class`'
   - '`Maxnet-class`'
   - '`RF-class`'

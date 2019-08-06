@@ -43,6 +43,15 @@
 #'     + mtry: numeric. Number of variable randomly sampled at each split,
 #'     default is \code{floor(sqrt(number of variables))}.
 #'     + ntree: numeric. Number of tree to grow, default is 500.
+#' * For the BRT method possible arguments are (for more details see
+#' \code{\link[gbm]{gbm}}):
+#'     + distribution: character. Name of the distribution to use, default is
+#'     "bernoulli".
+#'     + ntree: integer. Maximum number of tree to grow, default is 100.
+#'     + interaction.depth: integer. Maximum depth of each tree, default is 1.
+#'     + lr: numeric. The shrinkage parameter, default is 0.1.
+#'     + bag.fraction: numeric. Random fraction of data used in the tree
+#'     expansion, default is 0.5.
 #'
 #' @return An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 #' object.
@@ -62,6 +71,10 @@
 #'
 #' A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
 #' R News 2(3), 18--22.
+#'
+#' Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
+#' gbm: Generalized Boosted Regression Models.
+#' \url{https://CRAN.R-project.org/package=gbm}
 #'
 #' @examples
 #' \donttest{
@@ -91,20 +104,24 @@
 #' model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 #'                folds = folds)
 #'
-#' # Train a Random Forest model
+#' # Train presence absence models
 #' # Prepare presence and absence locations
 #' p_coords <- virtualSp$presence
-#' a_coords <- virtualSp$absence
-#'
+#' a_coords <- virtualSp$absence#'
 #' # Create SWD object
 #' data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
 #'                    env = predictors[[1:8]])
+#'
+#' Train a Random Forest model
 #' model <- train("RF", data = data, ntree = 300)
+#'
+#' Train a Boosted Regression Tree model
+#' model <- train("BRT", data = data, ntree = 300, lr = 0.001)
 #' }
 train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
                   a = NULL, rep = NULL, seed = NULL, ...) {
 
-  method <- match.arg(method, c("Maxent", "Maxnet", "RF"))
+  method <- match.arg(method, c("Maxent", "Maxnet", "RF", "BRT"))
   f <- paste0("train", method)
 
   # TODO Remove in next release

@@ -35,13 +35,15 @@ setGeneric("predict", function(object, ...)
 #' \code{\link[maxnet]{maxnet}} for more details.
 #' * For models trained with the **RF** method the output is the probability of
 #' class 1.
+#' * For models trained with the **BRT** method the function uses the number of
+#' trees defined to train the model and the "response" type output.
 #' * Parallel computation increases the speed only for large datasets due to the
 #' time necessary to create the cluster. For **Maxent** models the function
 #' performs the prediction in **R** without calling the **MaxEnt** Java
 #' software. This results in a faster computation for large datasets and might
 #' result in slightly different results compare to the Java software.
 #'
-#' @include Maxent-class.R Maxnet-class.R RF-class.R
+#' @include Maxent-class.R Maxnet-class.R RF-class.R BRT-class.R
 #' @import methods
 #' @importFrom raster beginCluster clusterR endCluster predict clamp subset
 #' @importFrom stats formula model.matrix

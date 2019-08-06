@@ -5,7 +5,7 @@ setOldClass("randomForest")
 #' information related to the model.
 #'
 #' @slot mtry numeric. Number of variable randomly sampled.
-#' @slot ntree numeric. Number of trees to grow.
+#' @slot ntree numeric. Number of grown trees.
 #' @slot model \code{\link{randomForest}}. The randomForest model object.
 #'
 #' @details See \code{\link{randomForest}} for the meaning of the slots.
