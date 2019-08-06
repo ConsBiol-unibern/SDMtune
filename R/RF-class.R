@@ -4,7 +4,7 @@ setOldClass("randomForest")
 #' This Class represents a Random Forest model objects and hosts all the
 #' information related to the model.
 #'
-#' @slot mtry numeric. Number of variable randomply sampled.
+#' @slot mtry numeric. Number of variable randomly sampled.
 #' @slot ntree numeric. Number of trees to grow.
 #' @slot model \code{\link{randomForest}}. The randomForest model object.
 #'

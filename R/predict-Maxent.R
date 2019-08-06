@@ -4,15 +4,18 @@ setGeneric("predict", function(object, ...)
 
 #' Predict Maxent
 #'
-#' Predict output for a new dataset from a trained \linkS4class{Maxent} model.
+#' Predict the output for a new dataset from a trained \linkS4class{Maxent}
+#' model.
 #'
 #' @param object \linkS4class{Maxent} object.
-#' @param data data.frame containing values used for the prediction.
+#' @param data data.frame with the data for the prediction.
 #' @param type character MaxEnt output type, possible values are "cloglog",
 #' "logistic" and "raw", default is "cloglog".
 #' @param clamp logical for clumping during prediction, default is \code{TRUE}.
 #'
-#' @details The function performs the prediction in **R** without calling the
+#' @details Used by the \code{\link{predict,SDMmodel-method}}, not exported.
+#'
+#' The function performs the prediction in **R** without calling the
 #' **MaxEnt** Java software. This results in a faster computation for large
 #' datasets. The results might differ slightly from the Java software output.
 #'

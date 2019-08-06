@@ -16,7 +16,6 @@ csv
 dismo
 doi
 doJk
-Dudík
 ecog
 Ecography
 ecolmodel
@@ -28,6 +27,7 @@ et
 fc
 Geotiff
 GeoTIFF
+glmnet
 gplot
 grey
 gridSearch
@@ -42,6 +42,7 @@ Kadmon
 Leathwick
 leq
 lh
+Liaw
 lq
 lqp
 lqph
@@ -54,12 +55,14 @@ Maxnet
 Meteorol
 Meynard
 microbenckmark
-Miroslav
 Modelling
+mtry
 Normalizer
+ntree
 openjdk
 optimizeModel
 pc
+randomForest
 randomPoints
 removeduplicates
 ROL

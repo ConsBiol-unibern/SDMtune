@@ -76,6 +76,7 @@ reference:
   - '`maxentTh`'
   - '`maxentVarImp`'
   - '`predict,Maxent-method`'
+  - '`predict,RF-method`'
   - '`predict,SDMmodel-method`'
   - '`randomFolds`'
   - '`train`'
@@ -123,10 +124,11 @@ reference:
   contents:
   - '`virtualSp`'
 - title: Classes
-  desc: SDMsel classes and pkg description
+  desc: Package classes
   contents:
   - '`Maxent-class`'
   - '`Maxnet-class`'
+  - '`RF-class`'
   - '`SDMmodel-class`'
   - '`SDMmodelCV-class`'
   - '`SDMtune-class`'

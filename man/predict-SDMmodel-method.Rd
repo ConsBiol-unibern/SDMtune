@@ -13,7 +13,7 @@
 \item{object}{\code{\linkS4class{SDMmodel}} object.}
 
 \item{data}{data.frame, \code{\linkS4class{SWD}} or raster
-\code{\link[raster]{stack}}.}
+\code{\link[raster]{stack}} with the data for the prediction.}
 
 \item{type}{character. Output type, see details, used only for \strong{Maxent} and
 \strong{Maxnet} methods, default is \code{NULL}.}

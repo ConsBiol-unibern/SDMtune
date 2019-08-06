@@ -1,6 +1,7 @@
 #' Train
 #'
-#' Train a model using the given method.
+#' Train a model using one of the following methods: Random Forest,Maxent or
+#' Maxnet.
 #'
 #' @param method character. Method used to train the model, possible values are
 #' "Maxent", "Maxnet" or "RF".
@@ -51,6 +52,16 @@
 #' @seealso \code{\link{randomFolds}}
 #'
 #' @author Sergio Vignali
+#'
+#' @references Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane
+#' Elith. 2017. dismo: Species Distribution Modeling.
+#' \url{https://cran.r-project.org/package=dismo}.
+#'
+#' Steven Phillips (2017). maxnet: Fitting 'Maxent' Species Distribution Models
+#' with 'glmnet'. \url{https://CRAN.R-project.org/package=maxnet}.
+#'
+#' A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
+#' R News 2(3), 18--22.
 #'
 #' @examples
 #' \donttest{

@@ -9,7 +9,7 @@ setGeneric("predict", function(object, ...)
 #'
 #' @param object \code{\linkS4class{SDMmodel}} object.
 #' @param data data.frame, \code{\linkS4class{SWD}} or raster
-#' \code{\link[raster]{stack}}.
+#' \code{\link[raster]{stack}} with the data for the prediction.
 #' @param type character. Output type, see details, used only for **Maxent** and
 #' **Maxnet** methods, default is \code{NULL}.
 #' @param clamp logical for clumping during prediction, used only for **Maxent**

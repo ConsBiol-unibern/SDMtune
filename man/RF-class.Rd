@@ -15,7 +15,7 @@ See \code{\link{randomForest}} for the meaning of the slots.
 \section{Slots}{
 
 \describe{
-\item{\code{mtry}}{numeric. Number of variable randomply sampled.}
+\item{\code{mtry}}{numeric. Number of variable randomly sampled.}
 
 \item{\code{ntree}}{numeric. Number of trees to grow.}
 

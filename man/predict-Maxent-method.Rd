@@ -11,7 +11,7 @@
 \arguments{
 \item{object}{\linkS4class{Maxent} object.}
 
-\item{data}{data.frame containing values used for the prediction.}
+\item{data}{data.frame with the data for the prediction.}
 
 \item{type}{character MaxEnt output type, possible values are "cloglog",
 "logistic" and "raw", default is "cloglog".}
@@ -22,9 +22,12 @@
 A vector with the prediction
 }
 \description{
-Predict output for a new dataset from a trained \linkS4class{Maxent} model.
+Predict the output for a new dataset from a trained \linkS4class{Maxent}
+model.
 }
 \details{
+Used by the \code{\link{predict,SDMmodel-method}}, not exported.
+
 The function performs the prediction in \strong{R} without calling the
 \strong{MaxEnt} Java software. This results in a faster computation for large
 datasets. The results might differ slightly from the Java software output.

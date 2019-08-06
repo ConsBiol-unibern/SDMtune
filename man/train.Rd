@@ -37,7 +37,8 @@ An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 object.
 }
 \description{
-Train a model using the given method.
+Train a model using one of the following methods: Random Forest,Maxent or
+Maxnet.
 }
 \details{
 \itemize{
@@ -110,6 +111,17 @@ data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
                    env = predictors[[1:8]])
 model <- train("RF", data = data, ntree = 300)
 }
+}
+\references{
+Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane
+Elith. 2017. dismo: Species Distribution Modeling.
+\url{https://cran.r-project.org/package=dismo}.
+
+Steven Phillips (2017). maxnet: Fitting 'Maxent' Species Distribution Models
+with 'glmnet'. \url{https://CRAN.R-project.org/package=maxnet}.
+
+A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
+R News 2(3), 18--22.
 }
 \seealso{
 \code{\link{randomFolds}}

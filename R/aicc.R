@@ -9,9 +9,9 @@
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
 #' is \code{FALSE}.
 #'
-#' @details The funtion is available only for **Maxent** and **Maxnet** methods.
-#' Parallel computation increases the speed only for large datasets due to the
-#' time necessary to create the cluster.
+#' @details The function is available only for **Maxent** and **Maxnet**
+#' methods. Parallel computation increases the speed only for large datasets due
+#' to the time necessary to create the cluster.
 #'
 #' @return The computed AICc
 #' @export
