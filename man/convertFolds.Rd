@@ -40,7 +40,7 @@ data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
                    env = predictors, categorical = "biome")
 
 # Example using the ENMeval package
-library(ENMeval)
+# library(ENMeval)
 # Block partition
 block_folds <- get.block(occ = data@data[data@pa == 1, ],
                          bg.coords = data@data[data@pa == 0, ])
