@@ -47,8 +47,8 @@
   
 <meta property="og:title" content="Train — train" />
 
-<meta property="og:description" content="Train a model using one of the following methods: Random Forest,Maxent or
-Maxnet." />
+<meta property="og:description" content="Train a model using one of the following methods: BRT, Maxent, Maxnet or
+Random Forest." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -172,8 +172,8 @@ Maxnet." />
 
     <div class="ref-description">
     
-    <p>Train a model using one of the following methods: Random Forest,Maxent or
-Maxnet.</p>
+    <p>Train a model using one of the following methods: BRT, Maxent, Maxnet or
+Random Forest.</p>
     
     </div>
 
@@ -261,6 +261,16 @@ arguments are (for more details see
 default is <code>floor(sqrt(number of variables))</code>.</p></li>
 <li><p>ntree: numeric. Number of tree to grow, default is 500.</p></li>
 </ul></li>
+<li><p>For the BRT method possible arguments are (for more details see
+<code><a href='https://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></code>):</p><ul>
+<li><p>distribution: character. Name of the distribution to use, default is
+"bernoulli".</p></li>
+<li><p>ntree: integer. Maximum number of tree to grow, default is 100.</p></li>
+<li><p>interaction.depth: integer. Maximum depth of each tree, default is 1.</p></li>
+<li><p>lr: numeric. The shrinkage parameter, default is 0.1.</p></li>
+<li><p>bag.fraction: numeric. Random fraction of data used in the tree
+expansion, default is 0.5.</p></li>
+</ul></li>
 </ul>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -272,6 +282,9 @@ Elith. 2017. dismo: Species Distribution Modeling.
 with 'glmnet'. <a href='https://CRAN.R-project.org/package=maxnet'>https://CRAN.R-project.org/package=maxnet</a>.</p>
 <p>A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
 R News 2(3), 18--22.</p>
+<p>Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
+gbm: Generalized Boosted Regression Models.
+<a href='https://CRAN.R-project.org/package=gbm'>https://CRAN.R-project.org/package=gbm</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -306,15 +319,19 @@ R News 2(3), 18--22.</p>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
 
-<span class='co'># Train a Random Forest model</span>
+<span class='co'># Train presence absence models</span>
 <span class='co'># Prepare presence and absence locations</span>
 <span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span>
-
+<span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span><span class='co'>#'</span>
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>a_coords</span>,
                    <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>8</span>]])
+
+<span class='co'># Train a Random Forest model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"RF"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)
+
+<span class='co'># Train a Boosted Regression Tree model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"BRT"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>lr</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

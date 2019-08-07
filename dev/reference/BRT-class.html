@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Random Forest — RF-class • SDMtune</title>
+<title>Boosted Regression Tree — BRT-class • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -45,10 +45,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Random Forest — RF-class" />
+<meta property="og:title" content="Boosted Regression Tree — BRT-class" />
 
-<meta property="og:description" content="This Class represents a Random Forest model objects and hosts all the
-information related to the model." />
+<meta property="og:description" content="This Class represents a Boosted Regression Tree model objects and hosts all
+the information related to the model." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -165,30 +165,34 @@ information related to the model." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Random Forest</h1>
+    <h1>Boosted Regression Tree</h1>
     
-    <div class="hidden name"><code>RF-class.Rd</code></div>
+    <div class="hidden name"><code>BRT-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This Class represents a Random Forest model objects and hosts all the
-information related to the model.</p>
+    <p>This Class represents a Boosted Regression Tree model objects and hosts all
+the information related to the model.</p>
     
     </div>
 
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See <code>randomForest</code> for the meaning of the slots.</p>
+    <p>See <code>gbm</code> for the meaning of the slots.</p>
     
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     
     <dl class='dl-horizontal'>
-<dt><code>mtry</code></dt><dd><p>numeric. Number of variable randomly sampled.</p></dd>
-    <dt><code>ntree</code></dt><dd><p>numeric. Number of grown trees.</p></dd>
-    <dt><code>model</code></dt><dd><p><code>randomForest</code>. The randomForest model object.</p></dd>
+<dt><code>distribution</code></dt><dd><p>character. Name of the used distribution.</p></dd>
+    <dt><code>ntree</code></dt><dd><p>integer. Maximum number of grown trees.</p></dd>
+    <dt><code>interaction.depth</code></dt><dd><p>integer. Maximum depth of each tree.</p></dd>
+    <dt><code>lr</code></dt><dd><p>numeric. The shrinkage parameter.</p></dd>
+    <dt><code>bag.fraction</code></dt><dd><p>numeric. Random fraction of data used in the tree
+expansion.</p></dd>
+    <dt><code>model</code></dt><dd><p><code>gbm</code>. The Boosted Regression Tree model object.</p></dd>
 </dl>
     
 

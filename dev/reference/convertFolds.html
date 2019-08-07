@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Random Forest — RF-class • SDMtune</title>
+<title>Convert Folds — convertFolds • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -45,10 +45,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Random Forest — RF-class" />
+<meta property="og:title" content="Convert Folds — convertFolds" />
 
-<meta property="og:description" content="This Class represents a Random Forest model objects and hosts all the
-information related to the model." />
+<meta property="og:description" content="Convert folds created with other packages into a format valid for
+SDMtune." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -165,42 +165,85 @@ information related to the model." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Random Forest</h1>
+    <h1>Convert Folds</h1>
     
-    <div class="hidden name"><code>RF-class.Rd</code></div>
+    <div class="hidden name"><code>convertFolds.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This Class represents a Random Forest model objects and hosts all the
-information related to the model.</p>
+    <p>Convert folds created with other packages into a format valid for
+<span class="pkg">SDMtune</span>.</p>
     
     </div>
 
-        
+    <pre class="usage"><span class='fu'>convertFolds</span>(<span class='no'>x</span>, <span class='no'>data</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>list. Folds to be converted.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> object used to create the folds.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>list with two matrices, the first for the training and the second for
+the testing dataset. Each column of one matrix represents a fold with
+<code>TRUE</code> for the locations included in and <code>FALSE</code> excluded from the
+partition.</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See <code>randomForest</code> for the meaning of the slots.</p>
-    
-    <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
-
-    
-    <dl class='dl-horizontal'>
-<dt><code>mtry</code></dt><dd><p>numeric. Number of variable randomly sampled.</p></dd>
-    <dt><code>ntree</code></dt><dd><p>numeric. Number of grown trees.</p></dd>
-    <dt><code>model</code></dt><dd><p><code>randomForest</code>. The randomForest model object.</p></dd>
-</dl>
+    <p>The function can convert folds created with the following packages:
+ENMeval and CVblocks.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># Acquire environmental variables</span>
+<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
+                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>files</span>)
+
+<span class='co'># Prepare presence and background locations</span>
+<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
+
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
+<span class='co'># Example using the ENMeval package</span>
+<span class='co'># library(ENMeval)</span>
+<span class='co'># Block partition</span>
+<span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.block</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
+                         <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ])
+<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'>convertFolds</span>(<span class='no'>block_folds</span>)
+<span class='co'># Checkerboard1 partition</span>
+<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
+                         <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
+                         <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
+                         <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'>convertFolds</span>(<span class='no'>cb_folds</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
+      <li><a href="#value">Value</a></li>
 
-      <li><a href="#slots">Slots</a></li>
-          </ul>
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     <p>Sergio Vignali</p>
