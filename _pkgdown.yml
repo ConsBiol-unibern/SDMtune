@@ -77,6 +77,7 @@ reference:
   - '`modelReport`'
   - '`maxentTh`'
   - '`maxentVarImp`'
+  - '`predict,ANN-method`'
   - '`predict,BRT-method`'
   - '`predict,Maxent-method`'
   - '`predict,RF-method`'

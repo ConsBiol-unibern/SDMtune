@@ -2,6 +2,7 @@ data <- SDMtune:::t
 model <- SDMtune:::bm_maxnet
 model_mx <- SDMtune:::bm_maxent
 model_cv <- SDMtune:::bm_maxnet_cv
+model_ann <- train("ANN", data = data, size = 10)
 model_rf <- train("RF", data = data)
 model_brt <- train("BRT", data = data)
 h <- list(fc = c("l", "lq", "lqp"), reg = seq(.2, 2., .2))
@@ -38,6 +39,8 @@ test_that(".get_footer", {
   expect_equal(.get_footer(model), "fc: lqph\nreg: 1")
   expect_equal(.get_footer(model_cv), "fc: lqph\nreg: 1")
   expect_equal(.get_footer(model_mx), "fc: lqph\nreg: 1\niter: 500")
+  expect_equal(.get_footer(model_ann),
+               "size: 10\ndecay: 0\nrang: 0.7\nmaxit: 100")
   expect_equal(.get_footer(model_rf), "mtry: 3\nntree: 500\nnodesize: 1")
   expect_equal(.get_footer(model_brt),
                paste0("distribution: bernoulli\nntree: 100\n",
@@ -135,6 +138,9 @@ test_that(".get_train_args", {
   # The output is correct using maxent
   expect_named(.get_train_args(model_mx),
                c("data", "method", "fc", "reg", "iter", "extra_args"))
+  # The output is correct using ann
+  expect_named(.get_train_args(model_ann),
+               c("data", "method", "size", "decay", "rang", "maxit"))
   # The output is correct using rf
   expect_named(.get_train_args(model_rf),
                c("data", "method", "mtry", "ntree", "nodesize"))
@@ -149,6 +155,7 @@ test_that(".get_train_args", {
 test_that("get_tunable_args", {
   expect_equal(get_tunable_args(model_mx), c("fc", "reg", "iter"))
   expect_equal(get_tunable_args(model), c("fc", "reg"))
+  expect_equal(get_tunable_args(model_ann), c("size", "decay", "rang", "maxit"))
   expect_equal(get_tunable_args(model_rf), c("mtry", "ntree", "nodesize"))
   expect_equal(get_tunable_args(model_brt),
                c("distribution", "ntree", "interaction.depth", "lr",

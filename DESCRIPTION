@@ -32,6 +32,7 @@ Imports: cli (>= 1.1.0),
          kableExtra (>= 1.1.0),
          maxnet (>= 0.1.2),
          methods,
+         nnet (>= 7.3-12),
          progress (>= 1.2.2),
          randomForest (>= 4.6-14),
          raster (>= 2.9-5),
@@ -60,6 +61,7 @@ Suggests:
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Collate: 
+    'ANN-class.R'
     'BRT-class.R'
     'Maxent-class.R'
     'Maxnet-class.R'
@@ -94,6 +96,7 @@ Collate:
     'plotROC.R'
     'plotResponse.R'
     'plotVarImp.R'
+    'predict-ANN.R'
     'predict-BRT.R'
     'predict-Maxent.R'
     'predict-RF.R'
@@ -106,6 +109,7 @@ Collate:
     'thinData.R'
     'thresholds.R'
     'train.R'
+    'trainANN.R'
     'trainBRT.R'
     'trainMaxent.R'
     'trainMaxnet.R'

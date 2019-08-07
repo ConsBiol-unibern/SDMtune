@@ -37,6 +37,12 @@
 #'     + reg: numeric. The value of the regularization intensity, default is 1.
 #'     + fc: vector. The value of the feature classes, possible values are
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph".
+#' * For the ANN method possible arguments are (for more details see
+#' \code{\link[nnet]{nnet}}):
+#'     + size: integer. Number of the units in the hidden layer.
+#'     + decay numeric. Weight decay, default is 0.
+#'     + rang numeric. Initial random weights, default is 0.7.
+#'     + maxit integer. Maximum number of iterations, default is 100.
 #' * For the RF method the model is trained as classification. Possible
 #' arguments are (for more details see
 #' \code{\link[randomForest]{randomForest}}):
@@ -59,7 +65,7 @@
 #' @export
 #' @importFrom progress progress_bar
 #'
-#' @seealso \code{\link{randomFolds}}
+#' @seealso \code{\link{randomFolds}} \code{\link{convertFolds}}
 #'
 #' @author Sergio Vignali
 #'
@@ -69,6 +75,9 @@
 #'
 #' Steven Phillips (2017). maxnet: Fitting 'Maxent' Species Distribution Models
 #' with 'glmnet'. \url{https://CRAN.R-project.org/package=maxnet}.
+#'
+#' Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S.
+#' Fourth Edition. Springer, New York. ISBN 0-387-95457-0
 #'
 #' A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
 #' R News 2(3), 18--22.
@@ -111,7 +120,10 @@
 #' a_coords <- virtualSp$absence#'
 #' # Create SWD object
 #' data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
-#'                    env = predictors[[1:8]])
+#'                    env = predictors[[1:5]])
+#'
+#' # Train an Artificial Neural Network model
+#' model <- train("ANN", data = data, size = 10)
 #'
 #' # Train a Random Forest model
 #' model <- train("RF", data = data, ntree = 300)
@@ -122,7 +134,7 @@
 train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
                   a = NULL, rep = NULL, seed = NULL, ...) {
 
-  method <- match.arg(method, c("Maxent", "Maxnet", "RF", "BRT"))
+  method <- match.arg(method, c("Maxent", "Maxnet", "ANN", "RF", "BRT"))
   f <- paste0("train", method)
 
   # TODO Remove in next release

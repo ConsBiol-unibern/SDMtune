@@ -1,4 +1,4 @@
-setClassUnion("model", c("Maxent", "Maxnet", "RF", "BRT"))
+setClassUnion("model", c("Maxent", "Maxnet", "ANN", "RF", "BRT"))
 #' SDMmodel
 #'
 #' This Class represents an SDMmodel model object and hosts all the information

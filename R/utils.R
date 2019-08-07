@@ -188,6 +188,11 @@
   } else if (args$method == "Maxnet") {
     args$fc <- model@fc
     args$reg <- model@reg
+  } else if (args$method == "ANN") {
+    args$size <- model@size
+    args$decay <- model@decay
+    args$rang <- model@rang
+    args$maxit <- model@maxit
   } else if (args$method == "RF") {
     args$mtry <- model@mtry
     args$ntree <- model@ntree
@@ -250,6 +255,8 @@ get_tunable_args <- function(model) {
     args <- c("fc", "reg", "iter")
   } else if (method == "Maxnet") {
     args <- c("fc", "reg")
+  } else if (method == "ANN") {
+    args <- c("size", "decay", "rang", "maxit")
   } else if (method == "RF") (
     args <- c("mtry", "ntree", "nodesize")
   ) else {
