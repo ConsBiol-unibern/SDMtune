@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • SDMtune</title>
+<title>Predict ANN — predict,ANN-method • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -45,7 +45,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Predict ANN — predict,ANN-method" />
+
+<meta property="og:description" content="Predict the output for a new dataset from a trained ANN model." />
 
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -65,7 +67,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -162,64 +164,64 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      
+    <h1>Predict ANN</h1>
+    
+    <div class="hidden name"><code>predict-ANN-method.Rd</code></div>
     </div>
 
-    <div id="sdmtune-0-1-1-9000" class="section level1">
-<h1 class="page-header">
-<a href="#sdmtune-0-1-1-9000" class="anchor"></a>SDMtune 0.1.1.9000<small> Unreleased </small>
-</h1>
-<p>This release is the first step to enable more methods to train models. The main change is that the <code>SDW</code> object now bundles together the presence and the absence/background locations and is not necessary anymore to pass the presence and absence locations as separate arguments to the <code>train</code> function.</p>
-<p>Old objects of class <code>SWD</code>, <code>SDMmodel</code>, <code>SDMmodelCV</code> and <code>SDMtune</code> created with version &lt;= 0.1.1 must be converted into the new format using the dedicated help functions. Please check the article <a href="https://consbiol-unibern.github.io/SDMtune/articles/articles/deprecatd_objects.html">Deprecated objects</a> in the package website.</p>
-<p>Main changes:</p>
-<ul>
-<li>The <code>SWD</code> object bundles together the presence and absence/background locations</li>
-<li>New methods to train models: Artificial Neural Network, Random Forest and Boosted Regression Trees</li>
-<li>Enabled spatial cross validation: the function <code>convertFolds</code> converts cross validation partition generated with other packages (i.e. ENMeval and blockCV) in a suitable format for <code>SDMtune</code>
-</li>
-<li>Add title argument in <code>plot</code> function for <code>SDMtune</code> objects</li>
-<li>The interactive plot of an <code>SDMtune</code> object can now be saved in a file</li>
-<li>New randomly generated dataset <code>virtualSp</code> with presence, absence and background locations</li>
-<li>Number of background locations cannot be tuned anymore using the tuning functions</li>
-</ul>
-<p>Deprecated function:</p>
-<ul>
-<li><code>getSubsample</code></li>
-</ul>
-</div>
-    <div id="sdmtune-0-1-1" class="section level1">
-<h1 class="page-header">
-<a href="#sdmtune-0-1-1" class="anchor"></a>SDMtune 0.1.1<small> 2019-07-14 </small>
-</h1>
-<ul>
-<li>Fix bug in <code>VarImp</code> function for <code>SDMmodelCV</code> objects</li>
-<li>Real-time charts are now displayed also when R is not executed from RStudio</li>
-<li>
-<code>maxentVarImp</code> function available for <code>SDMmodelCV</code> objects</li>
-</ul>
-</div>
-    <div id="sdmtune-0-1-0" class="section level1">
-<h1 class="page-header">
-<a href="#sdmtune-0-1-0" class="anchor"></a>SDMtune 0.1.0<small> 2019-06-21 </small>
-</h1>
-<ul>
-<li>First release</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    
+    <p>Predict the output for a new dataset from a trained <a href='ANN-class.html'>ANN</a> model.</p>
+    
+    </div>
 
+    <pre class="usage"><span class='co'># S4 method for ANN</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>object</span>, <span class='no'>data</span>, <span class='no'>type</span>, <span class='no'>clamp</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p><code><a href='BRT-class.html'>BRT</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>data.frame with the data for the prediction.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>Not used.</p></td>
+    </tr>
+    <tr>
+      <th>clamp</th>
+      <td><p>Not used.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A vector with the predicted values.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Used by the <code><a href='predict-SDMmodel-method.html'>predict,SDMmodel-method</a></code>, not exported.</p>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#sdmtune-0-1-1-9000">0.1.1.9000</a></li>
-        <li><a href="#sdmtune-0-1-1">0.1.1</a></li>
-        <li><a href="#sdmtune-0-1-0">0.1.0</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
 
+      <li><a href="#details">Details</a></li>
+          </ul>
+
+    <h2>Author</h2>
+    <p>Sergio Vignali</p>
+  </div>
 </div>
 
       <footer>

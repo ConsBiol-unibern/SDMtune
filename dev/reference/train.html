@@ -254,6 +254,13 @@ default settings (e.g. <code>extra_args = c("removeduplicates=true,
 <li><p>fc: vector. The value of the feature classes, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
 </ul></li>
+<li><p>For the ANN method possible arguments are (for more details see
+<code><a href='https://www.rdocumentation.org/packages/nnet/topics/nnet'>nnet</a></code>):</p><ul>
+<li><p>size: integer. Number of the units in the hidden layer.</p></li>
+<li><p>decay numeric. Weight decay, default is 0.</p></li>
+<li><p>rang numeric. Initial random weights, default is 0.7.</p></li>
+<li><p>maxit integer. Maximum number of iterations, default is 100.</p></li>
+</ul></li>
 <li><p>For the RF method the model is trained as classification. Possible
 arguments are (for more details see
 <code><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></code>):</p><ul>
@@ -281,6 +288,8 @@ Elith. 2017. dismo: Species Distribution Modeling.
 <a href='https://cran.r-project.org/package=dismo'>https://cran.r-project.org/package=dismo</a>.</p>
 <p>Steven Phillips (2017). maxnet: Fitting 'Maxent' Species Distribution Models
 with 'glmnet'. <a href='https://CRAN.R-project.org/package=maxnet'>https://CRAN.R-project.org/package=maxnet</a>.</p>
+<p>Venables, W. N. &amp; Ripley, B. D. (2002) Modern Applied Statistics with S.
+Fourth Edition. Springer, New York. ISBN 0-387-95457-0</p>
 <p>A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
 R News 2(3), 18--22.</p>
 <p>Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
@@ -289,7 +298,7 @@ gbm: Generalized Boosted Regression Models.
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='randomFolds.html'>randomFolds</a></code></p></div>
+    <div class='dont-index'><p><code><a href='randomFolds.html'>randomFolds</a></code> <code><a href='convertFolds.html'>convertFolds</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -326,7 +335,10 @@ gbm: Generalized Boosted Regression Models.
 <span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span><span class='co'>#'</span>
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>a_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>8</span>]])
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>5</span>]])
+
+<span class='co'># Train an Artificial Neural Network model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"ANN"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 <span class='co'># Train a Random Forest model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"RF"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)

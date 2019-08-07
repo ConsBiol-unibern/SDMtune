@@ -4,6 +4,9 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//index.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/ANN-class.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/BRT-class.html</loc>
   </url>
   <url>
@@ -110,6 +113,9 @@
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotVarImp.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-ANN-method.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-BRT-method.html</loc>
