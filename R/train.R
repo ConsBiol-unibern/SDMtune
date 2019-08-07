@@ -40,9 +40,10 @@
 #' * For the RF method the model is trained as classification. Possible
 #' arguments are (for more details see
 #' \code{\link[randomForest]{randomForest}}):
-#'     + mtry: numeric. Number of variable randomly sampled at each split,
+#'     + mtry: integer. Number of variable randomly sampled at each split,
 #'     default is \code{floor(sqrt(number of variables))}.
-#'     + ntree: numeric. Number of tree to grow, default is 500.
+#'     + ntree: integer. Number of tree to grow, default is 500.
+#'     + nodesize: integer. Minimum size of terminal nodes.
 #' * For the BRT method possible arguments are (for more details see
 #' \code{\link[gbm]{gbm}}):
 #'     + distribution: character. Name of the distribution to use, default is

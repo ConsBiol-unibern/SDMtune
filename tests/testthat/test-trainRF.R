@@ -9,5 +9,6 @@ test_that("The function trainRF produces the correct ouput", {
   expect_s4_class(m@data, "SWD")
   expect_equal(m@model@mtry, 2)
   expect_equal(m@model@ntree, 200)
+  expect_equal(m@model@nodesize, 1)
   expect_equal(m@data, data)
 })

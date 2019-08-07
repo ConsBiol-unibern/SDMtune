@@ -67,9 +67,10 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".
 arguments are (for more details see
 \code{\link[randomForest]{randomForest}}):
 \itemize{
-\item mtry: numeric. Number of variable randomly sampled at each split,
+\item mtry: integer. Number of variable randomly sampled at each split,
 default is \code{floor(sqrt(number of variables))}.
-\item ntree: numeric. Number of tree to grow, default is 500.
+\item ntree: integer. Number of tree to grow, default is 500.
+\item nodesize: integer. Minimum size of terminal nodes.
 }
 \item For the BRT method possible arguments are (for more details see
 \code{\link[gbm]{gbm}}):

@@ -38,7 +38,7 @@ test_that(".get_footer", {
   expect_equal(.get_footer(model), "fc: lqph\nreg: 1")
   expect_equal(.get_footer(model_cv), "fc: lqph\nreg: 1")
   expect_equal(.get_footer(model_mx), "fc: lqph\nreg: 1\niter: 500")
-  expect_equal(.get_footer(model_rf), "mtry: 3\nntree: 500")
+  expect_equal(.get_footer(model_rf), "mtry: 3\nntree: 500\nnodesize: 1")
   expect_equal(.get_footer(model_brt),
                paste0("distribution: bernoulli\nntree: 100\n",
                       "interaction.depth: 1\nlr: 0.1\nbag.fraction: 0.5"))
@@ -137,7 +137,7 @@ test_that(".get_train_args", {
                c("data", "method", "fc", "reg", "iter", "extra_args"))
   # The output is correct using rf
   expect_named(.get_train_args(model_rf),
-               c("data", "method", "mtry", "ntree"))
+               c("data", "method", "mtry", "ntree", "nodesize"))
   # The output is correct using brt
   expect_named(.get_train_args(model_brt),
                c("data", "method", "distribution", "ntree", "interaction.depth",
@@ -149,7 +149,7 @@ test_that(".get_train_args", {
 test_that("get_tunable_args", {
   expect_equal(get_tunable_args(model_mx), c("fc", "reg", "iter"))
   expect_equal(get_tunable_args(model), c("fc", "reg"))
-  expect_equal(get_tunable_args(model_rf), c("mtry", "ntree"))
+  expect_equal(get_tunable_args(model_rf), c("mtry", "ntree", "nodesize"))
   expect_equal(get_tunable_args(model_brt),
                c("distribution", "ntree", "interaction.depth", "lr",
                  "bag.fraction"))

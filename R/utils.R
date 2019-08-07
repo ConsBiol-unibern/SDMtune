@@ -191,6 +191,7 @@
   } else if (args$method == "RF") {
     args$mtry <- model@mtry
     args$ntree <- model@ntree
+    args$nodesize <- model@nodesize
   } else {
     args$distribution <- model@distribution
     args$ntree <- model@ntree
@@ -250,7 +251,7 @@ get_tunable_args <- function(model) {
   } else if (method == "Maxnet") {
     args <- c("fc", "reg")
   } else if (method == "RF") (
-    args <- c("mtry", "ntree")
+    args <- c("mtry", "ntree", "nodesize")
   ) else {
     args <- c("distribution", "ntree", "interaction.depth", "lr",
               "bag.fraction")

@@ -15,9 +15,11 @@ See \code{\link{randomForest}} for the meaning of the slots.
 \section{Slots}{
 
 \describe{
-\item{\code{mtry}}{numeric. Number of variable randomly sampled.}
+\item{\code{mtry}}{integer. Number of variable randomly sampled.}
 
-\item{\code{ntree}}{numeric. Number of grown trees.}
+\item{\code{ntree}}{integer. Number of grown trees.}
+
+\item{\code{nodesize}}{integer. Minimum size of terminal nodes.}
 
 \item{\code{model}}{\code{\link{randomForest}}. The randomForest model object.}
 }}
