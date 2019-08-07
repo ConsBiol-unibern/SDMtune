@@ -47,9 +47,9 @@ block_folds <- get.block(occ = data@data[data@pa == 1, ],
 folds <- convertFolds(block_folds, data)
 # Checkerboard1 partition
 cb_folds <- get.checkerboard1(occ = data@data[data@pa == 1, ],
-                         env = predictors,
-                         bg.coords = data@data[data@pa == 0, ],
-                         aggregation.factor = 4)
+                              env = predictors,
+                              bg.coords = data@data[data@pa == 0, ],
+                              aggregation.factor = 4)
 folds <- convertFolds(cb_folds, data)
 
 # Exaple using blockCV package
@@ -59,13 +59,13 @@ folds <- convertFolds(cb_folds, data)
 library(raster)
 sp_df <- SpatialPointsDataFrame(data@coords, data = as.data.frame(dat@pa),
                                 proj4string = crs(predictors))
-block_folds <- blockCV::envBlock(rasterLayer = predictors,
-                                 speciesData = sp_df,
-                                 species = "data@pa",
-                                 k = 4,
-                                 standardization = "standard",
-                                 rasterBlock = FALSE,
-                                 numLimit = 100)
+block_folds <- envBlock(rasterLayer = predictors,
+                        speciesData = sp_df,
+                        species = "data@pa",
+                        k = 4,
+                        standardization = "standard",
+                        rasterBlock = FALSE,
+                        numLimit = 100)
 folds <- convertFolds(block_folds, data)
 }
 }
