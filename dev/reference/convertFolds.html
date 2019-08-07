@@ -204,6 +204,16 @@ partition.</p>
     <p>The function can convert folds created with the following packages:
 ENMeval and CVblocks.</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Muscarella, R., Galante, P.J., Soley-Guardia, M., Boria, R.A.,
+Kass, J., Uriarte, M. and R.P. Anderson (2014). ENMeval: An R package for
+conducting spatially independent evaluations and estimating optimal model
+complexity for ecological niche models. Methods in Ecology and Evolution.</p>
+<p>Roozbeh Valavi, Jane Elith, José Lahoz-Monfort and Gurutzeta Guillera-Arroita
+(2018). blockCV: Spatial and environmental blocking for k-fold
+cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.com/rvalavi/blockCV</a>.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -220,17 +230,33 @@ ENMeval and CVblocks.</p>
                    <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Example using the ENMeval package</span>
-<span class='co'># library(ENMeval)</span>
 <span class='co'># Block partition</span>
+<span class='co'># library(ENMeval)</span>
 <span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.block</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
                          <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ])
-<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'>convertFolds</span>(<span class='no'>block_folds</span>)
+<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'>convertFolds</span>(<span class='no'>block_folds</span>, <span class='no'>data</span>)
 <span class='co'># Checkerboard1 partition</span>
 <span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
-                         <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
-                         <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
-                         <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'>convertFolds</span>(<span class='no'>cb_folds</span>)
+                              <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
+                              <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
+                              <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'>convertFolds</span>(<span class='no'>cb_folds</span>, <span class='no'>data</span>)
+
+<span class='co'># Exaple using blockCV package</span>
+<span class='co'># Environmental block</span>
+<span class='co'># library(blockCV)</span>
+<span class='co'># Create spatial points data frame</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>raster</span>)
+<span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>dat</span>@<span class='kw'>pa</span>),
+                                <span class='kw'>proj4string</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/projection'>crs</a></span>(<span class='no'>predictors</span>))
+<span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>envBlock</span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
+                        <span class='kw'>speciesData</span> <span class='kw'>=</span> <span class='no'>sp_df</span>,
+                        <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"data@pa"</span>,
+                        <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+                        <span class='kw'>standardization</span> <span class='kw'>=</span> <span class='st'>"standard"</span>,
+                        <span class='kw'>rasterBlock</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+                        <span class='kw'>numLimit</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'>convertFolds</span>(<span class='no'>block_folds</span>, <span class='no'>data</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -241,6 +267,8 @@ ENMeval and CVblocks.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
