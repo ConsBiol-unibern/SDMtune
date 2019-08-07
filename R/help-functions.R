@@ -84,12 +84,14 @@ old2NewSDMmodelCV <- function(model) {
 
   k <- length(model@models)
   models <- vector("list", length = k)
-  folds <- matrix(TRUE, nrow = nrow(data@coords), ncol = k)
+  folds <- list(train = matrix(TRUE, nrow = nrow(data@coords), ncol = k),
+                test = matrix(TRUE, nrow = nrow(data@coords), ncol = k))
 
   for (i in 1:k) {
     fold <- model@folds != i
     models[[i]] <- old2NewSDMmodel(model@models[[i]], fold = fold)
-    folds[, i] <- c(fold, rep(TRUE, nrow(model@a@data)))
+    folds$train[, i] <- c(fold, rep(TRUE, nrow(model@a@data)))
+    folds$test[, i] <- c(!fold, rep(TRUE, nrow(model@a@data)))
   }
 
   output <- SDMmodelCV(data = data, models = models, folds = folds)
@@ -109,7 +111,7 @@ old2NewSDMmodelCV <- function(model) {
 #'
 #' @author Sergio Vignali
 old2NewSDMtune <- function(object) {
-  l <- length(object@model)
+  l <- length(object@models)
   models <- vector("list", length = l)
 
   if (.hasSlot(object@models[[1]], "fold")) {
