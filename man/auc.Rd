@@ -7,15 +7,15 @@
 auc(model, test = NULL, a = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or
+\code{\linkS4class{SDMmodelCV}} objects.}
 
-\item{test}{\linkS4class{SWD} test locations for \linkS4class{SDMmodel}
-objects or logical.
-for \linkS4class{SDMmodelCV} objects, if not provided it computes the train
-AUC, default is \code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} test object for
+\code{\linkS4class{SDMmodel}} objects or logical for
+\code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
+train AUC, default is \code{NULL}.}
 
-\item{a}{\linkS4class{SWD} absence or background locations used to compute
-the AUC by the permutation importance function, default is \code{NULL}.}
+\item{a}{Deprecated.}
 }
 \value{
 The value of the AUC.
@@ -24,9 +24,9 @@ The value of the AUC.
 Compute the AUC using the Man-Whitney U Test formula.
 }
 \details{
-If the model is a \linkS4class{SDMmodelCV} object, the function
-computes the mean of the training or testing AUC values of the different
-replicates.
+If the model is a \code{\linkS4class{SDMmodelCV}} object, the
+function computes the mean of the training or testing AUC values of the
+different replicates.
 }
 \examples{
 # Acquire environmental variables
@@ -34,37 +34,34 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+model <- train(method = "Maxnet", data = train, fc = "l")
 
 # Compute the training AUC
 auc(model)
 
 # Compute the testing AUC
-auc(model, test)
+auc(model, test = test)
 
 \donttest{
 # Same example but using cross validation instead of training and testing
 # datasets
-model <- train(method = "Maxnet", p = presence, a = bg, fc = "l", rep = 4,
-               seed = 25)
+# Create the folds
+folds <- randomFolds(data, k = 4, only_presence = TRUE)
+model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
 
 # Compute the training AUC
 auc(model)

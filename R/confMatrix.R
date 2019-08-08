@@ -2,14 +2,20 @@
 #'
 #' Computes Confusion Matrixes for threshold values varying from 0 to 1.
 #'
-#' @param model \linkS4class{SDMmodel} object.
-#' @param type character. The output type, possible values are "cloglog" and
-#' "logistic", default is "cloglog".
-#' @param test \linkS4class{SWD} test locations, if not provided it uses the
-#' train dataset, default is \code{NULL}.
+#' @param model \code{\linkS4class{SDMmodel}} object.
+#' @param type character. The output type, see details.
+#' @param test \code{\linkS4class{SWD}} test locations, if not provided it uses
+#' the train dataset, default is \code{NULL}.
 #' @param th numeric vector, if provided it computes the evaluation at the given
-#' thresholds, default is NULL and it computes the evaluation for a sequence
-#' from 0 to 1.
+#' thresholds, default is \code{NULL} and it computes the evaluation for a
+#' sequence from 0 to 1.
+#'
+#' @details
+#' * For models trained with the **Maxent** method the argument \code{type} can
+#' be: "raw", "logistic" and "cloglog".
+#' * For models trained with the **Maxnet** method the argument \code{type} can
+#' be: "link", "exponential", "logistic" and "cloglog", see
+#' \code{\link[maxnet]{maxnet}} for more details.
 #'
 #' @return The Confusion Matrix for all the used thresholds.
 #' @export
@@ -22,20 +28,16 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+#' model <- train(method = "Maxnet", data = data, fc = "l")
 #'
 #' # Get the confusion matrix for thresholds ranging from 0 to 1
 #' cm <- confMatrix(model, type = "cloglog")
@@ -44,26 +46,23 @@
 #'
 #' # Get the confusion matrix for a specific threshold
 #' confMatrix(model, type = "logistic", th = 0.6)
-confMatrix <- function(model, type = c("cloglog", "logistic"), test = NULL,
-                       th = NULL) {
-
-  type <- match.arg(type)
+confMatrix <- function(model, type, test = NULL, th = NULL) {
 
   if (is.null(test)) {
-    p <- model@p@data
+    data <- model@data
   } else {
-    p <- test@data[colnames(model@p@data)]
+    # TODO check if I can remove this: test@data[colnames(model@p@data)]
+    data <- test
   }
-  a <- model@a@data
 
-  n_p <- nrow(p)
-  n_a <- nrow(a)
-  pred <- predict(model, rbind(p, a), type = type)
+  n_p <- sum(data@pa == 1)
+  n_a <- sum(data@pa == 0)
+  pred <- predict(model, data, type = type)
   p_pred <- pred[1:n_p]
   a_pred <- pred[(n_p + 1):(n_p + n_a)]
 
   if (is.null(th)) {
-    th <- sort(unique(c(p_pred, a_pred)))
+    th <- sort(unique(pred))
     th <- c(0, th, 1)
   }
 

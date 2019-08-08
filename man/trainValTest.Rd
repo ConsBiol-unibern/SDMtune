@@ -4,23 +4,27 @@
 \alias{trainValTest}
 \title{Train, Validation and Test datasets}
 \usage{
-trainValTest(x, test, val = 0, seed = NULL)
+trainValTest(x, test, val = 0, only_presence = FALSE, seed = NULL)
 }
 \arguments{
-\item{x}{\linkS4class{SWD} object containing the data that have to be split
-in training, validation and testing datasets.}
+\item{x}{\code{\linkS4class{SWD}} object containing the data that have to be
+split in training, validation and testing datasets.}
 
 \item{test}{numeric. The percentage of data withhold for testing.}
 
 \item{val}{numeric. The percentage of data withhold for validation, default
 is 0.}
 
+\item{only_presence}{logical, if \code{TRUE} the split is done only for the
+presence locations, used manly for presence-only methods, default is
+\code{FALSE}.}
+
 \item{seed}{numeric. The value used to set the seed in order to have
 consistent results, default is \code{NULL}.}
 }
 \value{
-A list with the training, validation and testing data sets or
-training and testing data sets accordingly.
+A list with the training, validation and testing or training and
+testing \code{\link{SWD}} objects accordingly.
 }
 \description{
 Split a dataset randomly in training and testing datasets or training,
@@ -32,21 +36,23 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
-# Split presence locations in training (70\%) and testing (30\%) datasets
-datasets <- trainValTest(presence, test = 0.3)
+# Split presence locations in training (80\%) and testing (20\%) datasets
+# and splitting only the presence locations
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Split presence locations in training (60\%), validation (20\%) and testing
-# (20\%) datasets
-datasets <- trainValTest(presence, val = 0.2, test = 0.2)
+# (20\%) datasets and splitting the presence and the absence locations
+datasets <- trainValTest(data, val = 0.2, test = 0.2)
 train <- datasets[[1]]
 val <- datasets[[2]]
 test <- datasets[[3]]

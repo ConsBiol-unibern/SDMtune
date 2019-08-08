@@ -8,8 +8,8 @@ corVar(bg, method = "spearman", cor_th = NULL, order = TRUE,
   remove_diagonal = TRUE)
 }
 \arguments{
-\item{bg}{\linkS4class{SWD}. Locations used to test the correlation between
-environmental variables.}
+\item{bg}{\code{\linkS4class{SWD}} object with the locations used to compute
+the correlation between environmental variables.}
 
 \item{method}{character. The method used to compute the correlation matrix,
 default is "spearman".}
@@ -41,7 +41,7 @@ predictors <- raster::stack(files)
 bg_coords <- dismo::randomPoints(predictors, 10000)
 
 # Create SWD object
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+bg <- prepareSWD(species = "Virtual species", a = bg_coords,
                  env = predictors, categorical = "biome")
 
 # Get the correlation among all the environmental variables

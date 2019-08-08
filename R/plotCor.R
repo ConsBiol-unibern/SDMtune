@@ -5,7 +5,8 @@
 #' prints only the coefficients that are higher or lower than the given
 #' threshold.
 #'
-#' @param bg \linkS4class{SWD} object used to compute the correlation matrix.
+#' @param bg code{\linkS4class{SWD}} object used to compute the correlation
+#' matrix.
 #' @param method character. The method used to compute the correlation matrix,
 #' default is "spearman".
 #' @param cor_th numeric. If provided it prints only the coefficients that are
@@ -32,7 +33,7 @@
 #' bg_coords <- dismo::randomPoints(predictors, 10000)
 #'
 #' # Create SWD object
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#' bg <- prepareSWD(species = "Virtual species", a = bg_coords,
 #'                  env = predictors, categorical = "biome")
 #'
 #' # Plot heat map

@@ -9,13 +9,15 @@
 #' model when removed (according to the given metric). The process is repeated
 #' until the remaining variables are not highly correlated anymore.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param bg4cor \linkS4class{SWD} object. Background locations used to test the
-#' correlation between environmental variables.
-#' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
-#' used with aicc and \linkS4class{SDMmodelCV} objects, default is \code{NULL}.
+#' @param bg4cor \code{\linkS4class{SWD}} object. Background locations used to
+#' test the correlation between environmental variables.
+#' @param test \code{\linkS4class{SWD}}. Test dataset used to evaluate the
+#' model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+#' default is \code{NULL}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
@@ -35,8 +37,8 @@
 #' To find highly correlated variables the following formula is used:
 #' \deqn{| coeff | \le cor_th}
 #'
-#' @return The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained
-#' using the selected variables.
+#' @return The \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object trained using the selected variables.
 #' @export
 #' @importFrom progress progress_bar
 #' @importFrom stats cor
@@ -50,29 +52,26 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 10000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
-#'
-#' # Get subsample of background to train the model, we will use the full
-#' # dataset to compute the correlation among the environmental variables
-#' bg_model <- getSubsample(bg, 5000, seed = 25)
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
-#' # Train a Maxent model
-#' model <- train(method = "Maxent", p = train, a = bg_model, fc = "l")
+#' # Train a model
+#' model <- train(method = "Maxnet", data = train, fc = "l")
+#'
+#' # Prepare background locations to test autocorrelation
+#' bg_coords <- dismo::randomPoints(predictors, 10000)
+#' bg <- prepareSWD(species = "Virtual species", a = bg_coords,
+#'                  env = predictors, categorical = "biome")
 #'
 #' # Remove variables with correlation higher than 0.7 accounting for the AUC,
 #' # in the following example the variable importance is computed as permutation
@@ -140,7 +139,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   }
 
   # Create chart
-  initial_vars <- colnames(model@p@data)
+  initial_vars <- colnames(model@data@data)
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
                    title = "Variable Selection", update = TRUE)
 
@@ -223,7 +222,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
 
   pb$tick(total - removed)
 
-  removed_vars <- setdiff(initial_vars, colnames(model@p@data))
+  removed_vars <- setdiff(initial_vars, colnames(model@data@data))
   message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
 
   return(model)

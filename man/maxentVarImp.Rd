@@ -7,8 +7,8 @@
 maxentVarImp(model)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object
-trained using the "Maxent" method.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object trained using the "Maxent" method.}
 }
 \value{
 A data frame with the variable importance.
@@ -18,9 +18,9 @@ Shows the percent contribution and permutation importance of the
 environmental variables used to train the model.
 }
 \details{
-When an \linkS4class{SDMmodelCV} object is passed to the function,
-the output is the average of the variable importance of each model trained
-during the cross validation.
+When an \code{\linkS4class{SDMmodelCV}} object is passed to the
+function, the output is the average of the variable importance of each model
+trained during the cross validation.
 }
 \examples{
 \donttest{
@@ -29,20 +29,16 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Train a Maxent model
-model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
+model <- train(method = "Maxent", data = data, fc = "l")
 maxentVarImp(model)
 }
 }

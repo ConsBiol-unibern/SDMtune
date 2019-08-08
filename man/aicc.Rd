@@ -7,7 +7,7 @@
 aicc(model, env, parallel = FALSE)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} object.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables.}
@@ -23,7 +23,8 @@ Compute the Akaike Information Criterion corrected for small samples size
 (Warren and Seifert, 2011).
 }
 \details{
-Parallel computation increases the speed only for large datasets due
+The function is available only for \strong{Maxent} and \strong{Maxnet}
+methods. Parallel computation increases the speed only for large datasets due
 to the time necessary to create the cluster.
 }
 \examples{
@@ -32,20 +33,16 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Train a model
-model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+model <- train(method = "Maxnet", data = data, fc = "l")
 
 # Compute the AICc
 aicc(model, predictors)

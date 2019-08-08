@@ -17,15 +17,7 @@ Description: User-friendly framework that enables the training and the
     functions for data driven variable selection and model tuning and includes
     numerous utilities to display the results. All the functions used to select
     variables or to tune model hyperparameters have an interactive real-time
-    chart displayed in the 'RStudio' viewer pane during their execution. At the
-    moment only the maximum entropy method is available using the 'Java'
-    implementation, Phillips et al. (2006) <doi:10.1016/j.ecolmodel.2005.03.026>,
-    through the 'dismo' package and the 'R' implementation through the 'maxnet'
-    package, Phillips et al. (2017) <doi:10.1111/ecog.03049>. 'SDMtune' uses its
-    own script to predict maxent models, resulting in much faster predictions
-    for large datasets compared to native predictions from the use of the 'Java'
-    software. This reduces considerably the computation time when tuning the
-    model using the AICc.
+    chart displayed in the 'RStudio' viewer pane during their execution.
 License: GPL-3
 URL: https://consbiol-unibern.github.io/SDMtune/
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
@@ -33,13 +25,16 @@ Depends: R (>= 3.2.0)
 Imports: cli (>= 1.1.0),
          crayon (>= 1.3.4),
          dismo (>= 1.1-4),
+         gbm (>= 2.1.5),
          ggplot2 (>= 3.2.0),
          htmltools (>= 0.3.6),
          jsonlite (>= 1.6),
          kableExtra (>= 1.1.0),
          maxnet (>= 0.1.2),
          methods,
+         nnet (>= 7.3-12),
          progress (>= 1.2.2),
+         randomForest (>= 4.6-14),
          raster (>= 2.9-5),
          rasterVis (>= 0.45),
          Rcpp (>= 1.0.1),
@@ -58,32 +53,37 @@ Suggests:
     knitr (>= 1.23),
     maps (>= 3.3.0),
     pkgdown (>= 1.3.0),
+    rgdal (>= 1.4-4),
     rmarkdown (>= 1.13),
     roxygen2 (>= 6.1.1),
     snow (>= 0.4-3),
-    testthat (>= 2.1.1),
+    testthat (>= 2.2.1),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Collate: 
-    'Maxent_class.R'
-    'Maxnet_class.R'
+    'ANN-class.R'
+    'BRT-class.R'
+    'Maxent-class.R'
+    'Maxnet-class.R'
+    'RF-class.R'
     'RcppExports.R'
+    'SWD-class.R'
+    'SDMmodel-class.R'
     'SDMmodel2MaxEnt.R'
-    'SWD_class.R'
-    'SDMmodelCV.R'
-    'SDMmodel_class.R'
+    'SDMmodelCV-class.R'
+    'SDMtune-class.R'
     'SDMtune.R'
     'SDMtuneChart.R'
-    'SDMtune_class.R'
     'aicc.R'
     'auc.R'
-    'chart_utils.R'
-    'condor.R'
+    'chart-utils.R'
     'confMatrix.R'
+    'convertFolds.R'
     'corVar.R'
     'doJk.R'
     'getSubsample.R'
     'gridSearch.R'
+    'help-functions.R'
     'maxentTh.R'
     'maxentVarImp.R'
     'mergeSWD.R'
@@ -96,20 +96,28 @@ Collate:
     'plotROC.R'
     'plotResponse.R'
     'plotVarImp.R'
-    'predict_Maxent.R'
-    'predict_SDMmodel.R'
+    'predict-ANN.R'
+    'predict-BRT.R'
+    'predict-Maxent.R'
+    'predict-RF.R'
+    'predict-SDMmodel.R'
     'prepareSWD.R'
+    'randomFolds.R'
     'randomSearch.R'
     'reduceVar.R'
     'swd2csv.R'
     'thinData.R'
     'thresholds.R'
     'train.R'
+    'trainANN.R'
+    'trainBRT.R'
     'trainMaxent.R'
     'trainMaxnet.R'
+    'trainRF.R'
     'trainValTest.R'
     'tss.R'
     'utils.R'
     'varImp.R'
     'varSel.R'
+    'virtualSp.R'
     'zzz.R'

@@ -1,0 +1,74 @@
+---
+title: "Deprecated objects"
+bibliography: ../SDMtune.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+# Intro
+
+Starting from `SDMtune` version 0.2.0 the new `SWD()` object bundles together presence and absence/background data. This choice is necessary in order to enable new methods that use presence/absence data and to use spatial cross validation. We tried to reduce to the minimum the change in code that the users have to apply and make the transition to the new version as smooth as possible.
+
+The user has two possibilities:
+
+* adapt the code following the articles and rerun the analysis;
+* convert objects created with the previous version into the new format.
+
+Here we explain how to convert the objects into the new format. If you get an error like:
+```{r error message, echo=FALSE}
+message("This object was created using SDMtune v <= 0.1.1 and is now ",
+           "deprecated.\nCheck the article \"Deprecated objects\" in the ",
+           "package website to see how to convert this object into the new ",
+           "format.")
+```
+you are in the right place.
+
+# SWD object
+
+The new `SWD()` object allows to store together the presence and the absence/background locations and has a new slot `@pa` that contains a vector with ones for presence and zeros for absence/background locations. There are two possible scenarios:
+
+* you need to create an `SWD()` object to train a model;
+* you need to create an `SWD()` object used as test datasets for presence-only methods.
+
+## SWD object to train a model
+
+For the following code we assume that you have two old `SWD()` objects, one called **presence_swd** and the other **absence_swd**:
+```{r convert SWD, eval=FALSE}
+train <- old2NewSWD(presence_swd, absence_swd)
+```
+
+It is important that the first argument is the one with the presence locations and the second is the one with the absence/background locations.
+
+## SWD object for test
+
+For the following code we assume that you have two old `SWD()` objects called **test_swd** and **absence_swd**. Is important that the test absence object is the same used to train the model:
+```{r convert SWD test, eval=FALSE}
+test <- old2NewSWD(test_swd, absence_swd)
+```
+
+# SDMmodel and SDMmodelCV objects
+
+The main change in the new `SDMmodel()` object is that there is only one slot called `@data` that stores the new `SWD()` object, instead of the two slots `@p` and `@a`. For the following code we assume that you have an old `SDMmodel()` called **my_model**:
+```{r SDMmodel, eval=FALSE}
+model <- old2NewSDMmodel(my_model)
+```
+
+Same for the `SDMmodelCV`, the main change is that the slot `@models` now contains a list of models that have the new `SDMmodel()` structure.
+```{r SDMmodelCV, eval=FALSE}
+model_cv <- old2NewSDMmodelCV(my_model_cv)
+```
+
+# SDMtune object
+
+The only change for the new `SDMtune()` object is that the slot `@models` contains a list of models of class `SDMmodel()` or `SDMmodelCV()`. You can use the following code:
+```{r SDMtune, eval=FALSE}
+my_experiment <- old2NewSDMtune(my_old_experiment)
+```
+
+

@@ -4,36 +4,41 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method, p, a, rep = 1, verbose = TRUE, folds = NULL,
-  seed = NULL, ...)
+train(method, data, folds = NULL, verbose = TRUE, p = NULL,
+  a = NULL, rep = NULL, seed = NULL, ...)
 }
 \arguments{
-\item{method}{character. Possible values are "Maxent" or "Maxnet".}
+\item{method}{character. Method used to train the model, possible values are
+"Maxent", "Maxnet" or "RF".}
 
-\item{p}{\linkS4class{SWD} object with the presence locations.}
+\item{data}{\code{\linkS4class{SWD}} object with presence and
+absence/background locations.}
 
-\item{a}{\linkS4class{SWD} object with the absence or background locations.}
-
-\item{rep}{numeric. Number of replicates, used for cross validation.
-Default is 1, meaning no cross validation is performed.}
+\item{folds}{list with two matrices, the first for the training and the
+second for the testing dataset. Each column of one matrix represents a fold
+with \code{TRUE} for the locations included in and \code{FALSE} excluded from
+the partition.}
 
 \item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
-validation (i.e. when \code{rep > 1}), default is \code{TRUE}.}
+validation, default is \code{TRUE}.}
 
-\item{folds}{numeric. Vector containing the indexes for the k-fold partition
-of the training data, if not provided the function randomly creates the
-folds, default is \code{NULL}.}
+\item{p}{Deprecated.}
 
-\item{seed}{integer. The value used to set the seed for the fold partition,
-used if \strong{folds} is not provided, default is \code{NULL}.}
+\item{a}{Deprecated.}
+
+\item{rep}{Deprecated.}
+
+\item{seed}{Deprecated.}
 
 \item{...}{Arguments passed to the relative method, see details.}
 }
 \value{
-An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.
 }
 \description{
-Train a model using the given method.
+Train a model using one of the following methods: BRT, Maxent, Maxnet or
+Random Forest.
 }
 \details{
 \itemize{
@@ -51,12 +56,40 @@ you can change or add any other additional arguments extending the
 default settings (e.g. \code{extra_args = c("removeduplicates=true,
       addsamplestobackground=true)"**})
 }
-\item For the Maxnet method, possible arguments are:
+\item For the Maxnet method, possible arguments are (for more details see
+\code{\link[maxnet]{maxnet}}):
 \itemize{
 \item reg: numeric. The value of the regularization intensity, default is 1.
 \item fc: vector. The value of the feature classes, possible values are
-combinations of "l", "q", "p", "h" and "t", default is "lqph". For more
-details see \code{\link[maxnet]{maxnet}}.
+combinations of "l", "q", "p", "h" and "t", default is "lqph".
+}
+\item For the ANN method possible arguments are (for more details see
+\code{\link[nnet]{nnet}}):
+\itemize{
+\item size: integer. Number of the units in the hidden layer.
+\item decay numeric. Weight decay, default is 0.
+\item rang numeric. Initial random weights, default is 0.7.
+\item maxit integer. Maximum number of iterations, default is 100.
+}
+\item For the RF method the model is trained as classification. Possible
+arguments are (for more details see
+\code{\link[randomForest]{randomForest}}):
+\itemize{
+\item mtry: integer. Number of variable randomly sampled at each split,
+default is \code{floor(sqrt(number of variables))}.
+\item ntree: integer. Number of tree to grow, default is 500.
+\item nodesize: integer. Minimum size of terminal nodes.
+}
+\item For the BRT method possible arguments are (for more details see
+\code{\link[gbm]{gbm}}):
+\itemize{
+\item distribution: character. Name of the distribution to use, default is
+"bernoulli".
+\item ntree: integer. Maximum number of tree to grow, default is 100.
+\item interaction.depth: integer. Maximum depth of each tree, default is 1.
+\item lr: numeric. The shrinkage parameter, default is 0.1.
+\item bag.fraction: numeric. Random fraction of data used in the tree
+expansion, default is 0.5.
 }
 }
 }
@@ -67,34 +100,65 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
-
-# Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
-train <- datasets[[1]]
-test <- datasets[[2]]
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Train a Maxent model
-model <- train(method = "Maxent", p = train, a = bg, fc = "l", reg = 1.5,
+model <- train(method = "Maxent", data = data, fc = "l", reg = 1.5,
                iter = 700)
 
 # Train a Maxnet model
-model <- train(method = "Maxnet", p = train, a = bg, fc = "lq", reg = 1.5)
+model <- train(method = "Maxnet", data = data, fc = "lq", reg = 1.5)
 
 # Train a Maxnet model with cross validation
-model <- train(method = "Maxnet", p = train, a = bg, fc = "l", reg = 0.8,
-               rep = 4)
+# Create 4 random folds splitting only the presence data
+folds <- randomFolds(data, k = 4, only_presence = TRUE)
+model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+               folds = folds)
+
+# Train presence absence models
+# Prepare presence and absence locations
+p_coords <- virtualSp$presence
+a_coords <- virtualSp$absence#'
+# Create SWD object
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
+                   env = predictors[[1:5]])
+
+# Train an Artificial Neural Network model
+model <- train("ANN", data = data, size = 10)
+
+# Train a Random Forest model
+model <- train("RF", data = data, ntree = 300)
+
+# Train a Boosted Regression Tree model
+model <- train("BRT", data = data, ntree = 300, lr = 0.001)
 }
+}
+\references{
+Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane
+Elith. 2017. dismo: Species Distribution Modeling.
+\url{https://cran.r-project.org/package=dismo}.
+
+Steven Phillips (2017). maxnet: Fitting 'Maxent' Species Distribution Models
+with 'glmnet'. \url{https://CRAN.R-project.org/package=maxnet}.
+
+Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S.
+Fourth Edition. Springer, New York. ISBN 0-387-95457-0
+
+A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
+R News 2(3), 18--22.
+
+Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
+gbm: Generalized Boosted Regression Models.
+\url{https://CRAN.R-project.org/package=gbm}
+}
+\seealso{
+\code{\link{randomFolds}} \code{\link{convertFolds}}
 }
 \author{
 Sergio Vignali

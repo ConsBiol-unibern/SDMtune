@@ -3,8 +3,8 @@
 #' Utility that prints the name of correlated variables and the relative
 #' correlation coefficient value.
 #'
-#' @param bg \linkS4class{SWD}. Locations used to test the correlation between
-#' environmental variables.
+#' @param bg \code{\linkS4class{SWD}} object with the locations used to compute
+#' the correlation between environmental variables.
 #' @param method character. The method used to compute the correlation matrix,
 #' default is "spearman".
 #' @param cor_th numeric. If provided it prints only the variables whose
@@ -32,7 +32,7 @@
 #' bg_coords <- dismo::randomPoints(predictors, 10000)
 #'
 #' # Create SWD object
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+#' bg <- prepareSWD(species = "Virtual species", a = bg_coords,
 #'                  env = predictors, categorical = "biome")
 #'
 #' # Get the correlation among all the environmental variables
@@ -45,7 +45,7 @@ corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
                    remove_diagonal = TRUE) {
 
   if (class(bg) != "SWD")
-    stop("bg must be an SWD object!")
+    stop("\"bg\" must be an SWD object!")
 
   df <- bg@data
   # Remove categorical environmental variables

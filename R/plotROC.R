@@ -18,25 +18,21 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+#' model <- train(method = "Maxnet", data = train, fc = "l")
 #'
 #' # Plot the training ROC curve
 #' plotROC(model)
@@ -48,7 +44,13 @@
 #' @author Sergio Vignali
 plotROC <- function(model, val = NULL, test = NULL) {
 
-  cm <- confMatrix(model)
+  if (class(model@model) == "Maxent") {
+    type <- "raw"
+  } else {
+    type <- "link"
+  }
+
+  cm <- confMatrix(model, type = type)
   fpr <- cm$fp / (cm$fp + cm$tn)
   tpr <- cm$tp / (cm$tp + cm$fn)
   auc <- auc(model)
@@ -57,7 +59,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
   labels <- c(paste("Train", round(auc, 3)))
 
   if (!is.null(val)) {
-    cm <- confMatrix(model, test = val)
+    cm <- confMatrix(model, type = type, test = val)
     fpr <- cm$fp / (cm$fp + cm$tn)
     tpr <- cm$tp / (cm$tp + cm$fn)
     auc <- auc(model, test = val)
@@ -67,7 +69,7 @@ plotROC <- function(model, val = NULL, test = NULL) {
   }
 
   if (!is.null(test)) {
-    cm <- confMatrix(model, test = test)
+    cm <- confMatrix(model, type = type, test = test)
     fpr <- cm$fp / (cm$fp + cm$tn)
     tpr <- cm$tp / (cm$tp + cm$fn)
     auc <- auc(model, test = test)

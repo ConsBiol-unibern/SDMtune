@@ -4,21 +4,19 @@
 \alias{confMatrix}
 \title{Confusion Matrix}
 \usage{
-confMatrix(model, type = c("cloglog", "logistic"), test = NULL,
-  th = NULL)
+confMatrix(model, type, test = NULL, th = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} object.}
 
-\item{type}{character. The output type, possible values are "cloglog" and
-"logistic", default is "cloglog".}
+\item{type}{character. The output type, see details.}
 
-\item{test}{\linkS4class{SWD} test locations, if not provided it uses the
-train dataset, default is \code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} test locations, if not provided it uses
+the train dataset, default is \code{NULL}.}
 
 \item{th}{numeric vector, if provided it computes the evaluation at the given
-thresholds, default is NULL and it computes the evaluation for a sequence
-from 0 to 1.}
+thresholds, default is \code{NULL} and it computes the evaluation for a
+sequence from 0 to 1.}
 }
 \value{
 The Confusion Matrix for all the used thresholds.
@@ -26,26 +24,31 @@ The Confusion Matrix for all the used thresholds.
 \description{
 Computes Confusion Matrixes for threshold values varying from 0 to 1.
 }
+\details{
+\itemize{
+\item For models trained with the \strong{Maxent} method the argument \code{type} can
+be: "raw", "logistic" and "cloglog".
+\item For models trained with the \strong{Maxnet} method the argument \code{type} can
+be: "link", "exponential", "logistic" and "cloglog", see
+\code{\link[maxnet]{maxnet}} for more details.
+}
+}
 \examples{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Train a model
-model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+model <- train(method = "Maxnet", data = data, fc = "l")
 
 # Get the confusion matrix for thresholds ranging from 0 to 1
 cm <- confMatrix(model, type = "cloglog")

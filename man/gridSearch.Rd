@@ -8,7 +8,8 @@ gridSearch(model, hypers, metric, test = NULL, bg4test = NULL,
   env = NULL, parallel = FALSE, save_models = TRUE, seed = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
@@ -16,12 +17,11 @@ should be tuned, see details.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
-model, not used with \code{\link{aicc}} and \linkS4class{SDMmodelCV} objects,
-default is \code{NULL}.}
+\item{test}{code{\linkS4class{SWD}} object. Test dataset used to evaluate the
+model, not used with \code{\link{aicc}} and code{\linkS4class{SDMmodelCV}}
+objects, default is \code{NULL}.}
 
-\item{bg4test}{\linkS4class{SWD} object or NULL. Background locations used to
-get subsamples if the \strong{a} hyperparameter is tuned, default is \code{NULL}.}
+\item{bg4test}{Deprecated.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables, used only with "aicc", default is \code{NULL}.}
@@ -34,11 +34,10 @@ output contains only a data frame with the metric values for each
 hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE}
 when there are many combinations to avoid R crashing for memory overload.}
 
-\item{seed}{numeric. The value used to set the seed to have consistent
-results, default is \code{NULL}.}
+\item{seed}{Deprecated.}
 }
 \value{
-\linkS4class{SDMtune} object.
+code{\linkS4class{SDMtune}} object.
 }
 \description{
 Given a set of possible hyperparameter values, the function trains models
@@ -58,47 +57,42 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+model <- train(method = "Maxnet", data = train, fc = "l")
 
 # Define the hyperparameters to test
-h <- list(reg = 1:2, fc = c("lqp", "lqph"), a = c(1000, 2000))
+h <- list(reg = 1:2, fc = c("lqp", "lqph"))
 
-# Run the function using as metric the AUC
-output <- gridSearch(model, hypers = h, metric = "auc", test = test,
-                     bg4test = bg)
+# Run the function using the AUC as metric
+output <- gridSearch(model, hypers = h, metric = "auc", test = test)
 output@results
 output@models
 # Order rusults by highest test AUC
 head(output@results[order(-output@results$test_AUC), ])
 
-# Run the function using as metric the AICc and without saving the trained
+# Run the function using the AICc as metric and without saving the trained
 # models, helpful when numerous hyperparameters are tested to avoid memory
 # problems
-output <- gridSearch(model, hypers = h, metric = "aicc", bg4test = bg,
-                     env = predictors, save_models = FALSE)
+output <- gridSearch(model, hypers = h, metric = "aicc", env = predictors,
+                     save_models = FALSE)
 output@results
 }
 }
 \seealso{
-\code{\link{randomSearch}} and \code{\link{optimizeModel}}
+\code{\link{randomSearch}} and \code{\link{optimizeModel}}.
 }
 \author{
 Sergio Vignali

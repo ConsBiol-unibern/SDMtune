@@ -1,10 +1,10 @@
 #' @importFrom maxnet maxnet maxnet.formula
-trainMaxnet <- function(p, a, reg = 1, fc = "lqph") {
+trainMaxnet <- function(data, reg = 1, fc = "lqph") {
 
-  result <- SDMmodel(p = p, a = a)
+  result <- SDMmodel(data = data)
 
-  x <- rbind(p@data, a@data)
-  p <- c(rep(1, nrow(p@data)), rep(0, nrow(a@data)))
+  x <- data@data
+  p <- data@pa
   model <- maxnet::maxnet(p, x, f = maxnet::maxnet.formula(p, x, classes = fc),
                           regmult = reg)
 

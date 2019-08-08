@@ -8,12 +8,14 @@
 #' stops removing the variable even if the contribution is lower than the given
 #' threshold.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param th numeric. The contribution threshold used to remove variables.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", used only if use_jk is \code{TRUE}.
-#' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
-#' used with aicc, and if \code{use_jk = FALSE}, default is \code{NULL}.
+#' @param test \code{\linkS4class{SWD}} object containing the test dataset used
+#' to evaluate the model, not used with aicc, and if \code{use_jk = FALSE},
+#' default is \code{NULL}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
@@ -24,8 +26,8 @@
 #' @param permut integer. Number of permutations, used if use_pc is
 #' \code{FALSE}, default is 10.
 #' @param use_pc logical, use percent contribution. If \code{TRUE} and the model
-#' is trained using the \linkS4class{Maxent} method, the algorithm uses the
-#' percent contribution computed by Maxent software to score the variable
+#' is trained using the \code{\linkS4class{Maxent}} method, the algorithm uses
+#' the percent contribution computed by Maxent software to score the variable
 #' importance, default is \code{FALSE}.
 #'
 #' @return The model trained using the selected variables.
@@ -40,25 +42,21 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a Maxnet model
-#' model <- train(method = "Maxnet", p = train, a = bg, fc = "lq")
+#' model <- train(method = "Maxnet", data = train, fc = "lq")
 #'
 #' # Remove all variables with permuation importance lower than 2%
 #' output <- reduceVar(model, th = 2, metric = "auc", test = test, permut = 1)
@@ -74,7 +72,7 @@
 #'                     use_jk = TRUE, env = predictors)
 #'
 #' # Train a Maxent model
-#' model <- train(method = "Maxent", p = train, a = bg, fc = "lq")
+#' model <- train(method = "Maxent", data = train, fc = "lq")
 #'
 #' # Remove all variables with percent contribution lower than 2%
 #' output <- reduceVar(model, th = 2, metric = "auc", test = test,
@@ -109,7 +107,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
   }
 
   # Setup chart
-  initial_vars <- colnames(model@p@data)
+  initial_vars <- colnames(model@data@data)
   line_title <- "Starting model"
   line_footer <- ""
   settings <- list(labels = initial_vars, metric = .get_metric_label(metric),

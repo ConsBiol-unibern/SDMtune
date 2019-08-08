@@ -2,13 +2,13 @@
 #'
 #' Make a report that shows the main results.
 #'
-#' @param model \linkS4class{SDMmodel} object.
+#' @param model \code{\linkS4class{SDMmodel}} object.
 #' @param type character. Output type, see \code{\link{predict,SDMmodel-method}}
 #' for more details.
 #' @param folder character. The name of the folder in which to save the output.
 #' The folder is created in the working directory.
-#' @param test \linkS4class{SWD} object with the test locations, default is
-#' \code{NULL}.
+#' @param test \code{\linkS4class{SWD}} object with the test locations, default
+#' is \code{NULL}.
 #' @param response_curves logical, if \code{TRUE} it plots the response curves
 #' in the html output, default is \code{FALSE}.
 #' @param jk logical, if \code{TRUE} it runs the jackknife test, default
@@ -39,25 +39,21 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxent", p = train, a = bg, fc = "l")
+#' model <- train(method = "Maxent", data = train, fc = "l")
 #'
 #' # Create the report
 #' modelReport(model, type = "cloglog", folder = "my_folder", test = test,
@@ -82,8 +78,8 @@ modelReport <- function(model, type, folder, test = NULL,
     folder <- file.path(getwd(), folder)
     dir.create(file.path(folder, "plots"), recursive = TRUE,
                showWarnings = FALSE)
-    species <- gsub(" ", "_", tolower(model@p@species))
-    title <- paste(class(model@model), "model for", model@p@species)
+    species <- gsub(" ", "_", tolower(model@data@species))
+    title <- paste(class(model@model), "model for", model@data@species)
     args <- c(paste0("--metadata=title:\"", title, "\""))
     output_file <- paste0(species, ".html")
 
@@ -97,6 +93,6 @@ modelReport <- function(model, type, folder, test = NULL,
                       output_options = list(pandoc_args = args),
                       quiet = TRUE
                       )
+    utils::browseURL(file.path(folder, output_file))
   }
-  utils::browseURL(file.path(folder, output_file))
 }

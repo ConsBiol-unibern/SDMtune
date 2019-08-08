@@ -17,7 +17,7 @@ default_model <- SDMtune:::bm_maxent
 
 ## Intro
 
-In the [previous article](./prepare_data.html) you have learned how to prepare the data for the analysis using the [condor](../../reference/condor.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
+In the [previous article](./prepare_data.html) you have learned how to prepare the data for the analysis using the [virtualSp](../../reference/virtualSp.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
 **SDMtune** at the moment supports only the Maximum Entropy method with two different implementations:
 
 * **Maxent** using the `dismo` package [@Hijmans2017];
@@ -43,17 +43,16 @@ library(SDMtune)
 ```
 
 
-We use the function `train()` to train a **Maxent** model. We need to provide three arguments:
+We use the function `train()` to train a **Maxent** model. We need to provide two arguments:
 
 * `method`: "Maxent" in our case;
-* `p`: the `presence` `SWD()` object we created in the previous article;
-* `a`: the `bg_model` `SWD()` object we created in the previous article as sub sample of the all extracted background locations.
+* `data`: the `SWD()` object with the presence and background locations we created in the previous article.
 
 ```{r, echo=FALSE}
 default_model <- SDMtune:::bm_maxent
 ```
 ```{r train, eval=FALSE}
-default_model <- train(method = "Maxent", p = presence, a = bg_model)
+default_model <- train(method = "Maxent", data = data)
 ```
 
 The function trains the model using default settings that are:
@@ -77,8 +76,8 @@ When we print an `SDMmodel` object we get the following information:
 * the method used to train the model;
 * the name of the species;
 * the number of presence locations;
+* the number of absence/background locations;
 * the model configurations:
-    + a: the number of background locations;
     + fc: the feature class combinations;
     + reg: the regularization multiplier;
     + iter: the number of iterations;
@@ -86,17 +85,16 @@ When we print an `SDMmodel` object we get the following information:
     + the name of the continuous environmental variables, if any;
     + the name of the categorical environmental variables, if any.
     
-An `SDMmodel()` object has three slots:
+An `SDMmodel()` object has two slots:
 
 ```{r get slots}
 slotNames(default_model)
 ```
 
-* **p**: an `SWD()` object with the presence locations used to train the model;
-* **a**: an `SWD()` object with the background locations used to train the model;
+* **data**: an `SWD()` object with the presence absence/background locations used to train the model;
 * **model**: a `Maxent()` object, in our case, with all the model configurations.
 
-We can access the different slots in the same way we explored the `SWD()` object in the previous article, using the **\@** symbol before the slot name (e.g. `default_model@p`).
+We can access the different slots in the same way we explored the `SWD()` object in the previous article, using the **\@** symbol before the slot name (e.g. `default_model@data`).
 
 The slot `model` contains the configurations of the model plus other information used to make predictions.
 
@@ -111,14 +109,14 @@ For the moment the most important are: **fc**, **reg** and **iter** that contain
 The function `train()` accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the model also using:
 
 ```{r retrain, eval = FALSE}
-default_model <- train(method = "Maxent", p = presence, a = bg_model, fc = "lqph", reg = 1, iter = 500)
+default_model <- train(method = "Maxent", data = data, fc = "lqph", reg = 1, iter = 500)
 ```
 
 ### Try yourself
 Try to change the default settings  and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:
 
 ```{r exercise1, eval = FALSE, class.source='exercise'}
-model <- train(method = "Maxent", p = presence, a = bg_model, fc = "lh", reg = 0.5, iter = 700)
+model <- train(method = "Maxent", data = data, fc = "lh", reg = 0.5, iter = 700)
 ```
 
 ## Train a Maxnet model
@@ -130,7 +128,7 @@ Train a model using the **Maxnet** method is as simple as changing the name of t
 Try to train a model using the **Maxnet** method. To see the solution highlight the following cell:
 
 ```{r train maxnet, eval = FALSE, class.source='exercise'}
-maxnet_model <- train("Maxnet", p = presence, a = bg_model)
+maxnet_model <- train("Maxnet", data = data)
 ```
 
 ## Conclusion

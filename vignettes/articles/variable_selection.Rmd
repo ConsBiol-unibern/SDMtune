@@ -13,12 +13,9 @@ options(knitr.table.format = "html")
 ```{r load data, echo=FALSE, message=FALSE}
 library(zeallot)
 library(SDMtune)
-presence <- SDMtune:::p
-bg <- SDMtune:::bg
-bg_model <- SDMtune:::bg_model
-c(train, test) %<-% trainValTest(presence, test = 0.2, seed = 25)
-maxnet_model <- train("Maxnet", p = train, a = bg_model)
-presence <- SDMtune:::p
+data <- SDMtune:::t
+c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
+maxnet_model <- train("Maxnet", data = train)
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```
@@ -29,7 +26,15 @@ In the previous articles you have learned the core functions of **SDMtune** for 
 
 ## Explore variable correlation
 
-We will use the `background locations` prepared in the [first article](./prepare_data.html#create-an-swd-object) to explore the autocorrelation between the environmental variables used to train the previous models. With the function `plotCor()` you can create an heat map showing the degree of autocorrelation:
+We extract 10000 background locations using the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function included in the `dismo` package (we set the seed to have reproducible results). After we create an `SWD()` object using the `prepareSWD()` function:
+```{r backgrounds}
+set.seed(25)
+bg <- dismo::randomPoints(predictors, 10000)
+bg <- prepareSWD(species = "Bgs", a = bg, env = predictors, categorical = "biome")
+```
+The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).
+
+With the function `plotCor()` you can create an heat map showing the degree of autocorrelation:
 ```{r heat map, fig.align="center"}
 plotCor(bg, method = "spearman", cor_th = 0.7)
 ```
@@ -78,19 +83,19 @@ varImp(maxnet_model, permut = 1)
 
   We will use the function `reduceVar()` only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance lower than 6\%:
 ```{r reduce var 1}
-cat("Testin AUC before: ", auc(maxnet_model, test = test))
+cat("Testing AUC before: ", auc(maxnet_model, test = test))
 reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1)
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 
-In the second example we want to remove the environmental variables that have a permutation importance lower than 6\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
+In the second example we want to remove the environmental variables that have a permutation importance lower than 15\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
 ```{r reduce var 2}
-cat("Testin AUC before: ", auc(maxnet_model, test = test))
-reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1, use_jk = TRUE)
+cat("Testing AUC before: ", auc(maxnet_model, test = test))
+reduced_variables_model <- reduceVar(maxnet_model, th = 15, metric = "auc", test = test, permut = 1, use_jk = TRUE)
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 
-As you can see in this case only `bio12` has been removed and the AUC in the testing dataset doesn't decrease.
+As you can see in this case only **bio12** and **bio16** have been removed and the AUC in the testing dataset didn't decrease.
 
 ### Try yourself
 

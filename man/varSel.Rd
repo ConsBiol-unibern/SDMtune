@@ -9,16 +9,18 @@ varSel(model, metric, bg4cor, test = NULL, env = NULL,
   use_pc = FALSE)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{bg4cor}{\linkS4class{SWD} object. Background locations used to test the
-correlation between environmental variables.}
+\item{bg4cor}{\code{\linkS4class{SWD}} object. Background locations used to
+test the correlation between environmental variables.}
 
-\item{test}{\linkS4class{SWD}. Test dataset used to evaluate the model, not
-used with aicc and \linkS4class{SDMmodelCV} objects, default is \code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}}. Test dataset used to evaluate the
+model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+default is \code{NULL}.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables, used only with "aicc", default is \code{NULL}.}
@@ -40,8 +42,8 @@ percent contribution computed by Maxent software to score the variable
 importance, default is \code{FALSE}.}
 }
 \value{
-The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained
-using the selected variables.
+The \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object trained using the selected variables.
 }
 \description{
 The function performs a data-driven variable selection. Starting from the
@@ -66,29 +68,26 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 10000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
-
-# Get subsample of background to train the model, we will use the full
-# dataset to compute the correlation among the environmental variables
-bg_model <- getSubsample(bg, 5000, seed = 25)
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
-# Train a Maxent model
-model <- train(method = "Maxent", p = train, a = bg_model, fc = "l")
+# Train a model
+model <- train(method = "Maxnet", data = train, fc = "l")
+
+# Prepare background locations to test autocorrelation
+bg_coords <- dismo::randomPoints(predictors, 10000)
+bg <- prepareSWD(species = "Virtual species", a = bg_coords,
+                 env = predictors, categorical = "biome")
 
 # Remove variables with correlation higher than 0.7 accounting for the AUC,
 # in the following example the variable importance is computed as permutation

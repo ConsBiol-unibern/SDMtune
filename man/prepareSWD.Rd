@@ -4,13 +4,17 @@
 \alias{prepareSWD}
 \title{Prepare an SWD object}
 \usage{
-prepareSWD(species, coords, env, categorical = NULL)
+prepareSWD(species, p = NULL, a = NULL, coords = NULL, env,
+  categorical = NULL)
 }
 \arguments{
 \item{species}{character. The name of the species.}
 
-\item{coords}{data.frame. The coordinates of the presence or
-absence/background locations.}
+\item{p}{data.frame. The coordinates of the presence locations.}
+
+\item{a}{data.frame. The coordinates of the absence/background locations.}
+
+\item{coords}{Deprecated.}
 
 \item{env}{\code{\link[raster]{stack}} containing the environmental variables
 used to extract the values at coordinate locations.}
@@ -19,11 +23,15 @@ used to extract the values at coordinate locations.}
 categorical, default is \code{NULL}.}
 }
 \value{
-A \linkS4class{SWD} object
+An \code{\linkS4class{SWD}} object.
 }
 \description{
 Given the coordinates, the species' name and the environmental variables,
-the function creates a \linkS4class{SWD} object (sample with data).
+the function creates an \code{\linkS4class{SWD}} object (sample with data).
+}
+\details{
+The \code{\linkS4class{SWD}} object is created in a way that the
+presence locations are always before than the absence/background locations.
 }
 \examples{
 # Acquire environmental variables
@@ -31,12 +39,14 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-presence
+# Create the SWD object
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
+data
 }
 \author{
 Sergio Vignali

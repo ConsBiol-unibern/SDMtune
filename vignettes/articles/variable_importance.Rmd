@@ -12,8 +12,7 @@ options(knitr.table.format = "html")
 
 ```{r load data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
-presence <- SDMtune:::p
-bg_model <- SDMtune:::bg_model
+data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 ```
@@ -65,8 +64,8 @@ plotVarImp(vi[, c(1,3)])
 For this example we use a **Maxnet** model and a training/testing validation strategy like in the [previous article](./evaluation_strategies.html#train-and-testing-datasets):
 ```{r train test}
 library(zeallot)  # For unpacking assignment
-c(train, test) %<-% trainValTest(presence, test = 0.2, seed = 25)
-maxnet_model <- train("Maxnet", p = train, a = bg_model)
+c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
+maxnet_model <- train("Maxnet", data = train)
 ```
 
 Now we can calculate the variable importance with the function `varImp()` using 5 permutations:
@@ -108,7 +107,7 @@ plotJk(jk, type = "train", ref = auc(maxnet_model))
 
 and the Jackknife test for the testing AUC:
 ```{r plot jk test, fig.align="center"}
-plotJk(jk, type = "train", ref = auc(maxnet_model, test = test))
+plotJk(jk, type = "test", ref = auc(maxnet_model, test = test))
 ```
 
 ### Try yourself
@@ -156,10 +155,10 @@ All what you have learned till now con be saved and summarized calling the funct
 
 The function is totally inspired by the default output of the MaxEnt Java software [@Phillips2006] and extends it to other methods (for the moment only **Maxnet**). You can decide what to include in the report using dedicated function arguments, like `response_curves`, `jk` and `env` but the function cannot be used with `SDMmodelCV()` objects. Run the following code to create a report of the **Maxnet** model we trained before:
 ```{r report, eval=FALSE}
-modelReport(maxnet_model, type = "cloglog", folder = "condor", test = test, response_curves = TRUE, jk = TRUE, env = predictors)
+modelReport(maxnet_model, type = "cloglog", folder = "virtual-sp", test = test, response_curves = TRUE, jk = TRUE, env = predictors)
 ```
 
-The output is displayed in the browser and all the files are saved in the **condor** folder.
+The output is displayed in the browser and all the files are saved in the **virtual-sp** folder.
 
 ## Conclusion
 

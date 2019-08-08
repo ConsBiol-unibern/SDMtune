@@ -22,17 +22,9 @@ implements functions for data driven variable selection and model tuning
 and includes numerous utilities to display the results. All the
 functions used to select variables or to tune model hyperparameters have
 an interactive real-time chart displayed in the RStudio viewer pane
-during their execution. At the moment only the Maximum Entropy method is
-available using the Java implementation (Phillips, Anderson, and
-Schapire 2006), through the “dismo” package (Hijmans et al. 2017) and
-the R implementation through the “maxnet” package (Phillips et al.
-2017). SDMtune uses its own script to predict MaxEnt models, resulting
-in much faster predictions for large datasets compared to native
-predictions from the use of the Java software. This reduces considerably
-the computation time when tuning the model using the AICc. Visit the
-[package website](https://consbiol-unibern.github.io/SDMtune/) and learn
-how to use **SDMtune** starting from the first article [Prepare data for
-the
+during their execution. Visit the [package
+website](https://consbiol-unibern.github.io/SDMtune/) and learn how to
+use **SDMtune** starting from the first article [Prepare data for the
 analysis](https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html).
 
 ## Installation
@@ -67,29 +59,28 @@ Let’s see **SDMtune** in action. If the following code is not clear,
 please check the articles in the
 [website](https://consbiol-unibern.github.io/SDMtune/). Here we prepare
 the data and we train a **Maxent** model using **SDMtune**:
-<!-- The next code is not evaluated because MaxEnt jar file is bundled in the package and Travis will not execute it! -->
+<!-- The next code is not evaluated because MaxEnt jar file is not bundled in the package and Travis will not execute it! -->
 <!-- the plot is saved as an image in the man/figures forlder -->
 
 ``` r
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-# Prepare background locations
-set.seed(25)
-bg_coords <- dismo::randomPoints(predictors, 10000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
+
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords, env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords, env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual sp", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
 # Train a model
-sdmtune_model <- train(method = "Maxent", p = presence, a = bg)
+sdmtune_model <- train(method = "Maxent", data = data)
 ```
 
 We want to compare the execution time of the `predict` function between
-**SDMtune** that uses its own algorithm and **dismo** that calls the
-MaxEnt Java software. We first convert the `sdmtune_model` in a object
-that is accepted by **dismo**:
+**SDMtune** that uses its own algorithm and **dismo** (Hijmans et al.
+2017) that calls the MaxEnt Java software (Phillips, Anderson, and
+Schapire 2006). We first convert the `sdmtune_model` in a object that is
+accepted by **dismo**:
 
 ``` r
 maxent_model <- SDMmodel2MaxEnt(sdmtune_model)
@@ -144,17 +135,8 @@ Conduct](.github/CODE_OF_CONDUCT.md).
 <div id="ref-Hijmans2017">
 
 Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith.
-2017. “dismo: Species Distribution Modeling.”
-<https://cran.r-project.org/package=dismo>.
-
-</div>
-
-<div id="ref-Phillips2017a">
-
-Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E.
-Schapire, and Mary E. Blair. 2017. “Opening the black box: an
-open-source release of Maxent.” *Ecography* 40 (7). John Wiley & Sons,
-Ltd (10.1111): 887–93. <https://doi.org/10.1111/ecog.03049>.
+2017. “dismo: Species Distribution Modeling. R package version 1.1-4.”
+https://cran.r-project.org/package=dismo.
 
 </div>
 

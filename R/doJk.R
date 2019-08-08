@@ -2,13 +2,15 @@
 #'
 #' Run the Jackknife test for variable importance removing one variable at time.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param variables vector. Variables used for the test, if not provided it
 #' takes all the variables used to train the model, default is \code{NULL}.
-#' @param test \linkS4class{SWD}. If provided it reports the result also for the
-#' test dataset. Not used for **aicc** and \linkS4class{SDMmodelCV}.
+#' @param test \code{\linkS4class{SWD}}. If provided it reports the result also
+#' for the test dataset. Not used for **aicc** and
+#' \code{\linkS4class{SDMmodelCV}}.
 #' @param with_only logical. If \code{TRUE} it runs the test also for each
 #' variable in isolation, default is \code{TRUE}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
@@ -35,25 +37,21 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", p = train, a = bg, fc = "lq")
+#' model <- train(method = "Maxnet", data = train, fc = "lq")
 #'
 #' # Execute the Jackknife test only for the environmental variables "bio1" and
 #' # "bio12", using the metric AUC
@@ -86,7 +84,7 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
   .check_args(model, metric = metric, test = test, env = env)
 
   if (is.null(variables))
-    variables <- colnames(model@p@data)
+    variables <- colnames(model@data@data)
 
   n <- length(variables)
 
@@ -118,20 +116,18 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
   old_model <- model
 
   if (class(model) == "SDMmodelCV")
-    test <- TRUE
+    t <- TRUE
 
   for (i in 1:n) {
-    p <- old_model@p
-    a <- old_model@a
-    p@data[variables[i]] <- NULL
-    a@data[variables[i]] <- NULL
+    data <- old_model@data
+    data@data[variables[i]] <- NULL
 
     if (metric != "aicc" & class(model) != "SDMmodelCV") {
       t <- test
       t@data[variables[i]] <- NULL
     }
 
-    settings <- list("p" = p, "a" = a)
+    settings <- list("data" = data)
 
     jk_model <- .create_model_from_settings(model, settings)
 
@@ -143,17 +139,15 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
     pb$tick()
 
     if (with_only) {
-      p <- old_model@p
-      a <- old_model@a
-      p@data <- p@data[variables[i]]
-      a@data <- a@data[variables[i]]
+      data <- old_model@data
+      data@data <- data@data[variables[i]]
 
       if (metric != "aicc" & class(model) != "SDMmodelCV") {
         t <- test
         t@data <- t@data[variables[i]]
       }
 
-      settings <- list("p" = p, "a" = a)
+      settings <- list("data" = data)
 
       jk_model <- .create_model_from_settings(model, settings)
 

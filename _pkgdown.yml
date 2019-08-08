@@ -47,6 +47,8 @@ navbar:
       href: articles/articles/variable_selection.html
     - text: Tune model hyperparameters
       href: articles/articles/tune_hyperparameters.html
+    - text: Deprecated objects
+      href: articles/articles/deprecatd_objects.html
   - text: Changelog
     href: news/index.html
   right:
@@ -61,8 +63,10 @@ reference:
 - title: Prepare Data
   desc: Function to prepare data for SDMsel analysis
   contents:
+  - '`convertFolds`'
   - '`getSubsample`'
   - '`prepareSWD`'
+  - '`randomFolds`'
   - '`swd2csv`'
   - '`thinData`'
   - '`trainValTest`'
@@ -73,7 +77,10 @@ reference:
   - '`modelReport`'
   - '`maxentTh`'
   - '`maxentVarImp`'
+  - '`predict,ANN-method`'
+  - '`predict,BRT-method`'
   - '`predict,Maxent-method`'
+  - '`predict,RF-method`'
   - '`predict,SDMmodel-method`'
   - '`train`'
   - '`thresholds`'
@@ -118,13 +125,22 @@ reference:
 - title: Dataset
   desc: Dataset provided with the package
   contents:
-  - '`condor`'
+  - '`virtualSp`'
 - title: Classes
-  desc: SDMsel classes and pkg description
+  desc: Package classes
   contents:
+  - '`BRT-class`'
   - '`Maxent-class`'
   - '`Maxnet-class`'
+  - '`RF-class`'
   - '`SDMmodel-class`'
   - '`SDMmodelCV-class`'
   - '`SDMtune-class`'
   - '`SWD-class`'
+- title: Help functions
+  desc: Functions to convert object created with an old version of SDMtune (v <= 0.1.1) into the new format
+  contents:
+  - '`old2NewSWD`'
+  - '`old2NewSDMmodel`'
+  - '`old2NewSDMmodelCV`'
+  - '`old2NewSDMtune`'

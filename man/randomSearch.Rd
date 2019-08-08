@@ -8,7 +8,8 @@ randomSearch(model, hypers, metric, test = NULL, bg4test = NULL,
   pop = 20, env = NULL, parallel = FALSE, seed = NULL)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
@@ -16,12 +17,11 @@ should be tuned, see details.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
-model, not used with aicc and \linkS4class{SDMmodelCV} objects, default is
-\code{NULL}.}
+\item{test}{\code{\linkS4class{SWD}} object. Test dataset used to evaluate
+the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+default is \code{NULL}.}
 
-\item{bg4test}{\linkS4class{SWD} object or NULL. Background locations used to
-get subsamples if \strong{a} hyperparameter is tuned, default is \code{NULL}.}
+\item{bg4test}{Deprecated.}
 
 \item{pop}{numeric. Size of the population, default is 20.}
 
@@ -35,7 +35,7 @@ is \code{FALSE}.}
 results, default is \code{NULL}.}
 }
 \value{
-\linkS4class{SDMtune} object.
+\code{\linkS4class{SDMtune}} object.
 }
 \description{
 The function performs a random search in the hyperparameters space, creating
@@ -56,32 +56,28 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+model <- train(method = "Maxnet", data = train, fc = "l")
 
 # Define the hyperparameters to test
-h <- list(reg = 1:3, fc = c("lqp", "lqph", "lh"), a = seq(3000, 4500, 500))
+h <- list(reg = seq(0.2, 3, 0.2), fc = c("lqp", "lqph", "lh"))
 
 # Run the function using as metric the AUC
 output <- randomSearch(model, hypers = h, metric = "auc", test = test,
-                       bg4test = bg, pop = 10, seed = 25)
+                       pop = 10, seed = 25)
 output@results
 output@models
 # Order rusults by highest test AUC

@@ -1,3 +1,27 @@
+# Get presence locations from an SWD object
+.get_presence <- function(swd) {
+  return(swd@data[swd@pa == 1,, drop = FALSE])
+}
+
+# Get absence locations from an SWD object
+.get_absence <- function(swd) {
+  return(swd@data[swd@pa == 0,, drop = FALSE])
+}
+
+# Subset an SWD object using the fold partition
+.subset_swd <- function(swd, fold) {
+
+  data <- swd@data[fold,, drop = FALSE]
+  coords <- swd@coords[fold,, drop = FALSE]
+  rownames(data) <- NULL
+  rownames(coords) <- NULL
+  pa <- swd@pa[fold]
+
+  output <- SWD(species = swd@species, data = data, coords = coords, pa = pa)
+
+  return(output)
+}
+
 .get_model_class <- function(model) {
   if (class(model) == "SDMmodelCV") {
     model <- model@models[[1]]
@@ -19,25 +43,14 @@
   return(model@model@fc)
 }
 
-.get_model_hyperparams <- function(model) {
-  if (class(model) == "SDMmodelCV")
-    model <- model@models[[1]]
-  return(paste("Reg:", model@model@reg, "FC:", model@model@fc,
-               "#Bg:", nrow(model@a@data)))
-}
-
 .get_footer <- function(model) {
   footer <- c()
   tuned_args <- .get_train_args(model)[get_tunable_args(model)]
 
   for (i in 1:length(tuned_args)) {
-    if (names(tuned_args)[i] != "a") {
-      footer <- c(footer, paste0(names(tuned_args)[i], ": ",
-                                 tuned_args[[i]]))
-    } else {
-      footer <- c(footer, paste0("a", ": ", nrow(tuned_args[[i]]@data)))
-    }
+    footer <- c(footer, paste0(names(tuned_args)[i], ": ", tuned_args[[i]]))
   }
+
   return(paste(footer, collapse = "\n"))
 }
 
@@ -91,11 +104,7 @@
     } else {
       m <- model@models[[1]]
     }
-    if (tunable_hypers[j] == "a") {
-      res[[j]] <- nrow(m@a@data)
-    } else {
-      res[[j]] <- slot(m@model, tunable_hypers[j])
-    }
+    res[[j]] <- slot(m@model, tunable_hypers[j])
   }
   res[[j + 1]] <- train_metric
 
@@ -159,25 +168,41 @@
 
 .get_train_args <- function(model) {
 
-  args <- list(p = model@p, a = model@a)
+  args <- list(data = model@data)
 
   if (class(model) == "SDMmodelCV") {
-    args$rep <- length(model@models)
     args$folds <- model@folds
     model <- model@models[[1]]@model
   } else {
-    args$rep <- 1
     args$folds <- NULL
     model <- model@model
   }
 
   args$method <- class(model)
-  args$fc <- model@fc
-  args$reg <- model@reg
 
   if (args$method == "Maxent") {
+    args$fc <- model@fc
+    args$reg <- model@reg
     args$iter <- model@iter
     args$extra_args <- model@extra_args
+  } else if (args$method == "Maxnet") {
+    args$fc <- model@fc
+    args$reg <- model@reg
+  } else if (args$method == "ANN") {
+    args$size <- model@size
+    args$decay <- model@decay
+    args$rang <- model@rang
+    args$maxit <- model@maxit
+  } else if (args$method == "RF") {
+    args$mtry <- model@mtry
+    args$ntree <- model@ntree
+    args$nodesize <- model@nodesize
+  } else {
+    args$distribution <- model@distribution
+    args$ntree <- model@ntree
+    args$interaction.depth <- model@interaction.depth
+    args$lr <- model@lr
+    args$bag.fraction <- model@bag.fraction
   }
   return(args)
 }
@@ -187,7 +212,8 @@
 #' Returns the name of all function arguments that can be tuned for a given
 #' model.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' object.
 #'
 #' @return character vector
 #' @export
@@ -200,25 +226,21 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Train a Maxent model and get tunable hyperparameters
-#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+#' model <- train(method = "Maxnet", data = data, fc = "l")
 #' get_tunable_args(model)
 #'
 #' \donttest{
 #' # Train a Maxnet model and get tunable hyperparameters
-#' model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
+#' model <- train(method = "Maxent", data = data, fc = "l")
 #' get_tunable_args(model)
 #' }
 get_tunable_args <- function(model) {
@@ -230,41 +252,32 @@ get_tunable_args <- function(model) {
   }
 
   if (method == "Maxent") {
-    args <- c("a", "fc", "reg", "iter")
-  } else {
-    args <- c("a", "fc", "reg")
+    args <- c("fc", "reg", "iter")
+  } else if (method == "Maxnet") {
+    args <- c("fc", "reg")
+  } else if (method == "ANN") {
+    args <- c("size", "decay", "rang", "maxit")
+  } else if (method == "RF") (
+    args <- c("mtry", "ntree", "nodesize")
+  ) else {
+    args <- c("distribution", "ntree", "interaction.depth", "lr",
+              "bag.fraction")
   }
 
   return(args)
 }
 
-.create_model_from_settings <- function(model, settings, bg4test = NULL,
-                                        bg_folds = NULL, verbose = FALSE) {
+.create_model_from_settings <- function(model, settings, verbose = FALSE) {
 
   args <- .get_train_args(model)
   args[names(settings)] <- settings
-  if (!is.null(bg_folds)) {
-    bg <- bg4test
-    bg@data <- bg4test@data[bg_folds[1:settings$a], ]
-    bg@coords <- bg4test@coords[bg_folds[1:settings$a], ]
-    row.names(bg@data) <- NULL
-    row.names(bg@coords) <- NULL
-    args$a <- bg
-  } else if ("a" %in% names(settings) & class(settings$a) != "SWD") {
-    if (settings$a != nrow(model@a@data))
-      warning("Ignored number of 'a' in settings!")
-    args$a <- model@a
-  }
-
   args$verbose <- verbose
-
   output <- suppressMessages(do.call("train", args))
 
   return(output)
 }
 
-.check_args <- function(model, metric, test = NULL, bg4test = NULL, env = NULL,
-                        hypers = NULL) {
+.check_args <- function(model, metric, test = NULL, env = NULL, hypers = NULL) {
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
     stop("You must provide the 'env' argument if you want to use the AICc metric!")
@@ -278,15 +291,6 @@ get_tunable_args <- function(model) {
     stop("Metric 'aicc' not allowed with SDMmodelCV objects!")
   # Check hypers
   if (!is.null(hypers)) {
-    # Throws exception if hypers includes 'a' and bg4test is not provided
-    if (!is.null(hypers$a) & is.null(bg4test))
-      stop("bg4test must be provided to tune background locations!")
-    # Throws exception if max hypers 'a' > than nrow bg4test
-    if (!is.null(hypers$a)) {
-      if (max(hypers$a) > nrow(bg4test@data))
-        stop(paste0("Maximum number of 'a' hyperparameter cannot be more than ",
-                    nrow(bg4test@data), "!"))
-    }
     # Throws exception if provided hypers are not tunable
     diff <- setdiff(names(hypers), get_tunable_args(model))
     if (length(diff) > 0)
@@ -299,8 +303,6 @@ get_tunable_args <- function(model) {
   # Create data frame with all possible combinations of hyperparameters
   tunable_args <- .get_train_args(model)[get_tunable_args(model)]
   tunable_args[names(hypers)] <- hypers
-  if (is.null(hypers$a))
-    tunable_args$a <- nrow(model@a@data)
   grid <- expand.grid(tunable_args, stringsAsFactors = FALSE)
   return(grid)
 }

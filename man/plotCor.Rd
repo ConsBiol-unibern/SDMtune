@@ -7,7 +7,8 @@
 plotCor(bg, method = "spearman", cor_th = NULL)
 }
 \arguments{
-\item{bg}{\linkS4class{SWD} object used to compute the correlation matrix.}
+\item{bg}{code{\linkS4class{SWD}} object used to compute the correlation
+matrix.}
 
 \item{method}{character. The method used to compute the correlation matrix,
 default is "spearman".}
@@ -35,7 +36,7 @@ predictors <- raster::stack(files)
 bg_coords <- dismo::randomPoints(predictors, 10000)
 
 # Create SWD object
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
+bg <- prepareSWD(species = "Virtual species", a = bg_coords,
                  env = predictors, categorical = "biome")
 
 # Plot heat map

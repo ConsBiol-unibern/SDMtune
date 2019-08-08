@@ -1,6 +1,8 @@
-#' Get Dataset Subsample
+#' Get Dataset Subsample, Deprecated
 #'
-#' Get a random subsample of an \linkS4class{SWD} object.
+#' Get a random subsample of an \linkS4class{SWD} object. This function is
+#' deprecated, don't use it with the an \code{\link{SWD}} object that contains
+#' presence and absence/background locations together.
 #'
 #' @param dataset \linkS4class{SWD} object.
 #' @param size numeric. The size of the sub sample.
@@ -22,12 +24,14 @@
 #' bg_coords <- dismo::randomPoints(predictors, 5000)
 #'
 #' # Create SWD object
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' bg <- prepareSWD(species = "Virtual species", a = bg_coords, env = predictors,
+#'                  categorical = "biome")
 #'
 #' # Get a subsample
 #' getSubsample(bg, size = 2000, seed = 25)
 getSubsample <- function(dataset, size, seed = NULL) {
+
+  .Deprecated(msg = "This function is deprecated and will be removed in the next release.")
 
   if (class(dataset) != "SWD")
     stop("Data set must be an SWD object!")

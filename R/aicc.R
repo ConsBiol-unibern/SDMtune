@@ -3,13 +3,14 @@
 #' Compute the Akaike Information Criterion corrected for small samples size
 #' (Warren and Seifert, 2011).
 #'
-#' @param model \linkS4class{SDMmodel} object.
+#' @param model \code{\linkS4class{SDMmodel}} object.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
 #' is \code{FALSE}.
 #'
-#' @details Parallel computation increases the speed only for large datasets due
+#' @details The function is available only for **Maxent** and **Maxnet**
+#' methods. Parallel computation increases the speed only for large datasets due
 #' to the time necessary to create the cluster.
 #'
 #' @return The computed AICc
@@ -28,20 +29,16 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l")
+#' model <- train(method = "Maxnet", data = data, fc = "l")
 #'
 #' # Compute the AICc
 #' aicc(model, predictors)
@@ -54,6 +51,9 @@
 #' }
 aicc <- function(model, env, parallel = FALSE){
 
+  if (!class(model@model) %in% c("Maxent", "Maxnet"))
+    stop("AICc available only for \"Maxent\" and \"Maxnet\" methods.")
+
   # k is the number of non-zero parameter in the model
   if (class(model@model) == "Maxent") {
     k <- nrow(model@model@coeff)
@@ -63,16 +63,16 @@ aicc <- function(model, env, parallel = FALSE){
     type <- "exponential"
   }
 
-  if (k > nrow(model@p@data)) {
+  if (k > sum(model@data@pa == 1)) {
     aicc <- NA
   } else {
     raw <- predict(model, env, type = type, parallel = parallel)
     raw_sum <- raster::cellStats(raw, sum)
-    values <- raster::extract(raw, model@p@coords)
+    values <- raster::extract(raw, model@data@coords[model@data@pa == 1, ])
     # log-likelihood of standardized presence probabilities
     loglike <- sum(log(values / raw_sum))
     # n is the number of presence observations
-    n <- nrow(model@p@data)
+    n <- sum(model@data@pa == 1)
     aic <- 2 * k - 2 * loglike
     aicc <- aic + (2 * k * (k + 1) / (n - k - 1))
   }

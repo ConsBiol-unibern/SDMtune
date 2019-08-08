@@ -25,11 +25,10 @@ options(crayon.enabled = TRUE)
 **`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2019).
 
 ```{r, echo=FALSE, message=FALSE}
-message(paste0("\n", cli::rule(left = paste("Model Report -", "method:", class(params$model@model)), right = params$model@p@species, line_col = "#4bc0c0", col = "#f58410", width = 80)))
+message(paste0("\n", cli::rule(left = paste("Model Report -", "method:", class(params$model@model)), right = params$model@data@species, line_col = "#4bc0c0", col = "#f58410", width = 80)))
 message("\r- Saving files...", appendLF = FALSE)
 saveRDS(params$model, file = paste0(params$folder, "/model.Rds"))
-swd2csv(params$model@p, paste0(params$folder, "/presence.csv"))
-swd2csv(params$model@a, paste0(params$folder, "/background.csv"))
+swd2csv(params$model@data, paste0(params$folder, "/train.csv"))
 if (!is.null(params$test))
   swd2csv(params$test, paste0(params$folder, "/test.csv"))
 plot_folder <- paste0(params$folder, "/plots")
@@ -52,7 +51,7 @@ message("\r", crayon::green(cli::symbol$tick), " Plotting ROC curve...")
 ```{r, echo=FALSE, message=FALSE}
 message("- Computing thresholds...", appendLF = FALSE)
 knitr::kable(thresholds(params$model, type = params$type, test = params$test), digits = 20) %>%
-  kable_styling(bootstrap_options = c("responsive"))
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 message("\r", crayon::green(cli::symbol$tick), " Computing thresholds...")
 ```
 
@@ -64,7 +63,7 @@ message("\r", crayon::green(cli::symbol$tick), " Computing thresholds...")
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 if (params$response_curves) {
   message("- Plotting marginal response curves...", appendLF = FALSE)
-  vars <- sort(colnames(params$model@p@data))
+  vars <- sort(colnames(params$model@data@data))
   elements <- c()
   for (var in vars) {
     plot <- plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE, clamp = params$clamp, color = "#4bc0c0")
@@ -131,7 +130,7 @@ if (!is.null(env))
 ```{r, echo=FALSE, message=FALSE}
 message("- Computing variable importance...", appendLF = FALSE)
 knitr::kable(suppressMessages(varImp(params$model, params$permut))) %>%
-  kable_styling(bootstrap_options = c("responsive"), full_width = FALSE)
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE)
 message("\r", crayon::green(cli::symbol$tick), " Computing variable importance...")
 ```
 
@@ -172,10 +171,12 @@ Shown below the settings used to train the model:
 
 * Model type: `r class(params$model@model)`
 * Output type: `r params$type`
-* Train locations: `r nrow(params$model@p@data)`
-* Background locations: `r nrow(params$model@a@data)``r if(!is.null(params$test)) {paste("\n* Test locations:", nrow(params$test@data))}`
-* Continuous variables: `r names(Filter(is.numeric, params$model@p@data))`
-* Categorical variables: `r names(Filter(is.factor, params$model@p@data))`
+* Train locations: `r nrow(params$model@data@data)`
+    * presence: `r sum(params$model@data@pa == 1)`
+    * absence/background locations: `r sum(params$model@data@pa == 0)`
+`r if(!is.null(params$test)){paste("\n* Test locations:", nrow(params$test@data), "\n    * presence:", sum(params$test@pa == 1), "\n    * absence/background:", sum(params$test@pa == 0))}`
+* Continuous variables: `r names(Filter(is.numeric, params$model@data@data))`
+* Categorical variables: `r names(Filter(is.factor, params$model@data@data))`
 * Feature Class combination: `r params$model@model@fc`
 * Regularization multiplier: `r params$model@model@reg`
 * Do clamping: `r params$clamp``r if(class(params$model@model) == "Maxent") {paste("\n* Extra arguments:", paste(params$model@model@extra_args, collapse = ", "))}`

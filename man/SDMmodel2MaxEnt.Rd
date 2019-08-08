@@ -7,14 +7,15 @@
 SDMmodel2MaxEnt(model)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} object to be converted.}
+\item{model}{\code{\linkS4class{SDMmodel}} object to be converted.}
 }
 \value{
-The converted dismo \linkS4class{Maxent} object.
+The converted dismo \code{\linkS4class{MaxEnt}} object.
 }
 \description{
-Converts a \linkS4class{SDMmodel} object containing a \linkS4class{Maxent}
-model to a dismo \code{\link[dismo]{maxent}} object.
+Converts an \code{\linkS4class{SDMmodel}} object containing a
+\code{\linkS4class{Maxent}} model into a dismo \code{\linkS4class{MaxEnt}}
+object.
 }
 \examples{
 \donttest{
@@ -23,23 +24,19 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Train a Maxent model
-model <- train(method = "Maxent", p = presence, a = bg, fc = "l")
+model <- train(method = "Maxent", data = data, fc = "l")
 
 dismo_model <- SDMmodel2MaxEnt(model)
-dismo::evaluate(p = presence@data, a = bg@data, model = dismo_model)
+dismo_model
 }
 
 }

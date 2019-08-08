@@ -8,7 +8,8 @@ doJk(model, metric, variables = NULL, test = NULL, with_only = TRUE,
   env = NULL, parallel = FALSE, return_models = FALSE)
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
+\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+object.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
@@ -16,8 +17,9 @@ values are: "auc", "tss" and "aicc".}
 \item{variables}{vector. Variables used for the test, if not provided it
 takes all the variables used to train the model, default is \code{NULL}.}
 
-\item{test}{\linkS4class{SWD}. If provided it reports the result also for the
-test dataset. Not used for \strong{aicc} and \linkS4class{SDMmodelCV}.}
+\item{test}{\code{\linkS4class{SWD}}. If provided it reports the result also
+for the test dataset. Not used for \strong{aicc} and
+\code{\linkS4class{SDMmodelCV}}.}
 
 \item{with_only}{logical. If \code{TRUE} it runs the test also for each
 variable in isolation, default is \code{TRUE}.}
@@ -49,25 +51,21 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
-
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 5000)
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
-bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-                 env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", p = train, a = bg, fc = "lq")
+model <- train(method = "Maxnet", data = train, fc = "lq")
 
 # Execute the Jackknife test only for the environmental variables "bio1" and
 # "bio12", using the metric AUC

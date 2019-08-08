@@ -2,17 +2,17 @@
 #'
 #' Compute the AUC using the Man-Whitney U Test formula.
 #'
-#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
-#' @param test \linkS4class{SWD} test locations for \linkS4class{SDMmodel}
-#' objects or logical.
-#' for \linkS4class{SDMmodelCV} objects, if not provided it computes the train
-#' AUC, default is \code{NULL}.
-#' @param a \linkS4class{SWD} absence or background locations used to compute
-#' the AUC by the permutation importance function, default is \code{NULL}.
+#' @param model \code{\linkS4class{SDMmodel}} or
+#' \code{\linkS4class{SDMmodelCV}} objects.
+#' @param test \code{\linkS4class{SWD}} test object for
+#' \code{\linkS4class{SDMmodel}} objects or logical for
+#' \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
+#' train AUC, default is \code{NULL}.
+#' @param a Deprecated.
 #'
-#' @details If the model is a \linkS4class{SDMmodelCV} object, the function
-#' computes the mean of the training or testing AUC values of the different
-#' replicates.
+#' @details If the model is a \code{\linkS4class{SDMmodelCV}} object, the
+#' function computes the mean of the training or testing AUC values of the
+#' different replicates.
 #'
 #' @return The value of the AUC.
 #' @export
@@ -30,37 +30,34 @@
 #'                     pattern = "grd", full.names = TRUE)
 #' predictors <- raster::stack(files)
 #'
-#' # Prepare presence locations
-#' p_coords <- condor[, 1:2]
-#'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 5000)
+#' # Prepare presence and background locations
+#' p_coords <- virtualSp$presence
+#' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-#'                        env = predictors, categorical = "biome")
-#' bg <- prepareSWD(species = "Vultur gryphus", coords = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+#'                    env = predictors, categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(presence, test = 0.2)
+#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", p = train, a = bg, fc = "l")
+#' model <- train(method = "Maxnet", data = train, fc = "l")
 #'
 #' # Compute the training AUC
 #' auc(model)
 #'
 #' # Compute the testing AUC
-#' auc(model, test)
+#' auc(model, test = test)
 #'
 #' \donttest{
 #' # Same example but using cross validation instead of training and testing
 #' # datasets
-#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l", rep = 4,
-#'                seed = 25)
+#' # Create the folds
+#' folds <- randomFolds(data, k = 4, only_presence = TRUE)
+#' model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
 #'
 #' # Compute the training AUC
 #' auc(model)
@@ -70,18 +67,29 @@
 #' }
 auc <- function(model, test = NULL, a = NULL) {
 
+  # TODO remove it in next release
+  if (!is.null(a))
+    warning("Argument \"a\" is deprecated and not used anymore, it will be ",
+            "removed in the next release")
+
   if (class(model) == "SDMmodel") {
-    auc <- .compute_auc(model, test, a)
+    auc <- .compute_auc(model, test)
   } else {
     aucs <- vector("numeric", length = length(model@models))
-    data <- model@p
     for (i in 1:length(model@models)) {
-      if (is.null(test)) {
-        data@data <- model@p@data[model@folds != i, , drop = FALSE]
+
+      if (!is.null(test)) {
+        if (isTRUE(test)) {
+          test_swd <- .subset_swd(model@data, model@folds$test[, i])
+        } else {
+          stop("\"test\" argument invalid for \"SDMmodelCV\" objects! Use ",
+               "TRUE or FALSE.")
+        }
       } else {
-        data@data <- model@p@data[model@folds == i, , drop = FALSE]
+        test_swd = NULL
       }
-      aucs[i] <- .compute_auc(model@models[[i]], data, a)
+
+      aucs[i] <- .compute_auc(model@models[[i]], test_swd)
     }
     auc <- mean(aucs)
   }
@@ -89,7 +97,7 @@ auc <- function(model, test = NULL, a = NULL) {
   return(auc)
 }
 
-.compute_auc <- function(model, test, a) {
+.compute_auc <- function(model, test) {
 
   if (class(model@model) == "Maxent") {
     type <- "raw"
@@ -98,21 +106,15 @@ auc <- function(model, test = NULL, a = NULL) {
   }
 
   if (is.null(test)) {
-    p <- model@p@data
+    data <- model@data
   } else {
-    p <- test@data[colnames(model@p@data)]
+    # TODO check if can be removed: test@data[colnames(model@p@data)]
+    data <- test
   }
 
-  # a is used for permutation importance
-  if (is.null(a)) {
-    a <- model@a@data
-  } else {
-    a <- a@data[colnames(model@p@data)]
-  }
-
-  pred <- predict(model, rbind(p, a), type = type)
-  n_p <- nrow(p)
-  n_a <- nrow(a)
+  pred <- predict(model, data = data, type = type)
+  n_p <- sum(data@pa == 1)
+  n_a <- sum(data@pa == 0)
 
   # AUC using the Mann-Whitney U Test
   Rp <- sum(rank(pred)[1:n_p])  # Sum of rank of positive cases

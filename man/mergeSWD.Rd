@@ -7,19 +7,23 @@
 mergeSWD(swd1, swd2)
 }
 \arguments{
-\item{swd1}{\linkS4class{SWD} object.}
+\item{swd1}{\code{\linkS4class{SWD}} object.}
 
-\item{swd2}{\linkS4class{SWD} object.}
+\item{swd2}{\code{\linkS4class{SWD}} object.}
 }
 \value{
-The merged \linkS4class{SWD} object.
+The merged \code{\linkS4class{SWD}} object.
 }
 \description{
-Merge two \linkS4class{SWD} object.
+Merge two \code{\linkS4class{SWD}} objects.
 }
 \details{
-In case the two \linkS4class{SWD} objects have different columns,
+\itemize{
+\item In case the two \code{\linkS4class{SWD}} objects have different columns,
 only the common columns are used in the merged object.
+\item The \code{\linkS4class{SWD}} object is created in a way that the presence
+locations are always before than the absence/background locations.
+}
 }
 \examples{
 # Acquire environmental variables
@@ -27,15 +31,16 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
 
-# Prepare presence locations
-p_coords <- condor[, 1:2]
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 
 # Create SWD object
-presence <- prepareSWD(species = "Vultur gryphus", coords = p_coords,
-                       env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(presence, test = 0.2)
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 

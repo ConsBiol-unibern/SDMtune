@@ -1,0 +1,23 @@
+#' Virtual Species
+#'
+#' Dataset containing a random generated virtual species. The purpose of this
+#' dataset is to demonstrate the use of the functions included in the package.
+#'
+#' @format A list with five elements:
+#' \describe{
+#' \item{presence}{400 random generated coordinates for the presence locations.}
+#' \item{absence}{300 random generated coordinates for the absence locations.}
+#' \item{background}{5000 random generated coordinates for the background
+#' locations.}
+#' \item{pa_map}{Presence absence map used to extract the presence and absence
+#' locations.}
+#' \item{prob_map}{Probability map of the random generated virtual species.}
+#' }
+#'
+#' @details The random species has been generated using the package
+#' **virtualspecies**.
+#'
+#' @references Leroy, B. , Meynard, C. N., Bellard, C. and Courchamp, F. (2016),
+#' virtualspecies, an R package to generate virtual species distributions.
+#' Ecography, 39: 599-607. doi:10.1111/ecog.01388
+"virtualSp"
