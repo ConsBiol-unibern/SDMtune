@@ -52,8 +52,9 @@ with the highest contribution (permutation importance or maxent percent
 contribution). If the variable is correlated with other variables (according
 to the given method and threshold) it performs a Jackknife test and among the
 correlated variables it removes the one that results in the best performing
-model when removed (according to the given metric). The process is repeated
-until the remaining variables are not highly correlated anymore.
+model when removed (according to the given metric for the training dataset).
+The process is repeated until the remaining variables are not highly
+correlated anymore.
 }
 \details{
 Parallel computation increases the speed only for large datasets due

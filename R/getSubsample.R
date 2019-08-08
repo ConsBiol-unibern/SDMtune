@@ -31,7 +31,7 @@
 #' getSubsample(bg, size = 2000, seed = 25)
 getSubsample <- function(dataset, size, seed = NULL) {
 
-  .Deprecated(msg = "This function is deprecated and will be removed in the next release.")
+  .Deprecated(msg = "This function is deprecated and will be removed in the next release. Don't use it SWD objects containing presence and absence/backaground data!")
 
   if (class(dataset) != "SWD")
     stop("Data set must be an SWD object!")
