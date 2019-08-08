@@ -178,8 +178,8 @@
 <a class="sourceLine" id="cb5-3" data-line-number="3">}</a></code></pre></div>
 <p>Now we test the execution time using the <strong>microbenckmark</strong> package:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">bench &lt;-<span class="st"> </span>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="dt">SDMtune =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(sdmtune_model, <span class="dt">data =</span> predictors, <span class="dt">type =</span> <span class="st">"cloglog"</span>),</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="dt">dismo =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(maxent_model, predictors),</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="dt">SDMtune =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(sdmtune_model, <span class="dt">data =</span> data, <span class="dt">type =</span> <span class="st">"cloglog"</span>),</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="dt">dismo =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(maxent_model, data<span class="op">@</span>data),</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="dt">check =</span> my_check</a>
 <a class="sourceLine" id="cb6-5" data-line-number="5">)</a></code></pre></div>
 <p>Plot the output:</p>
@@ -191,7 +191,6 @@
 <div style="text-align: center">
 <img src="reference/figures/bench.png" alt="">
 </div>
-<p>The execution time is in average about two time faster!</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
