@@ -4,12 +4,12 @@
 \alias{old2NewSWD}
 \title{Convert Old SWD object}
 \usage{
-old2NewSWD(object1, object2 = NULL, fold = NULL)
+old2NewSWD(p, a, fold = NULL)
 }
 \arguments{
-\item{object1}{Old SWD object with presence or test locations.}
+\item{p}{Old SWD object with presence or test locations.}
 
-\item{object2}{Old SWD object with absence/background locations.}
+\item{a}{Old SWD object with absence/background locations.}
 
 \item{fold}{logical, used internally, don't use it directly.}
 }

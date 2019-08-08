@@ -12,10 +12,10 @@ test_that("Convert old SWD object works", {
   expect_equal(rownames(swd@coords), as.character(1:nrow(swd@data)))
   a@data <- a@data[, 1:4]
   expect_error(old2NewSWD(p, a),
-               "object1 and object2 have data with different number of columns.")
+               "p and a have data with different number of columns.")
   a <- .subset_swd(data, fold = data@pa == 0)
   colnames(a@data) <- c("bio1", "bio12", "bio16", "bio17", "bio5",  "bio6",
                         "bio7",  "bio8", "bio")
   expect_error(old2NewSWD(p, a),
-               "object1 and object2 have data with different colnames.")
+               "p and a have data with different colnames.")
 })

@@ -3,35 +3,35 @@
 #' This is an help function to convert SWD objects created with an old version
 #' of \pkg{SDMtune} (v <= 0.2.0) into the new format.
 #'
-#' @param object1 Old SWD object with presence or test locations.
-#' @param object2 Old SWD object with absence/background locations.
+#' @param p Old SWD object with presence or test locations.
+#' @param a Old SWD object with absence/background locations.
 #' @param fold logical, used internally, don't use it directly.
 #'
 #' @return An \code{\linkS4class{SWD}} object in the new format.
 #' @export
 #'
 #' @author Sergio Vignali
-old2NewSWD <- function(object1, object2 = NULL, fold = NULL) {
+old2NewSWD <- function(p, a, fold = NULL) {
 
-  if (ncol(object1@data) != ncol(object2@data))
-    stop("object1 and object2 have data with different number of columns.")
-  if (!all(colnames(object1@data) == colnames(object2@data)))
-    stop("object1 and object2 have data with different colnames.")
+  if (ncol(p@data) != ncol(a@data))
+    stop("p and a have data with different number of columns.")
+  if (!all(colnames(p@data) == colnames(a@data)))
+    stop("p and a have data with different colnames.")
 
-  species = object1@species
+  species = p@species
 
-  data <- object1@data
-  data <- rbind(data, object2@data)
+  data <- p@data
+  data <- rbind(data, a@data)
   rownames(data) <- NULL
 
-  coords <- object1@coords
+  coords <- p@coords
   if (!is.null(fold))
     coords <- coords[fold, ]
-  coords <- rbind(coords, object2@coords)
+  coords <- rbind(coords, a@coords)
   rownames(coords) <- NULL
 
-  pa <- rep(1, nrow(object1@data))
-  pa <- c(pa, rep(0, nrow(object2@data)))
+  pa <- rep(1, nrow(p@data))
+  pa <- c(pa, rep(0, nrow(a@data)))
 
   swd <- SWD(species = species,
              data = data,
@@ -111,6 +111,10 @@ old2NewSDMmodelCV <- function(model) {
 #'
 #' @author Sergio Vignali
 old2NewSDMtune <- function(object) {
+
+  if ("a" %in% colnames(object@results))
+    warning("Argument \"a\" cannot be tuned anymore as hyperparameter.")
+
   l <- length(object@models)
   models <- vector("list", length = l)
 
@@ -121,7 +125,7 @@ old2NewSDMtune <- function(object) {
   }
 
   for (i in 1:l) {
-    models[[i]] <- do.call(f, args = object@models[[i]])
+    models[[i]] <- do.call(f, args = list(model = object@models[[i]]))
   }
 
   output <- SDMtune(results = object@results, models = models)
