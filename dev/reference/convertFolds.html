@@ -247,7 +247,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='co'># library(blockCV)</span>
 <span class='co'># Create spatial points data frame</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>raster</span>)
-<span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>dat</span>@<span class='kw'>pa</span>),
+<span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>data</span>@<span class='kw'>pa</span>),
                                 <span class='kw'>proj4string</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/projection'>crs</a></span>(<span class='no'>predictors</span>))
 <span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>envBlock</span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
                         <span class='kw'>speciesData</span> <span class='kw'>=</span> <span class='no'>sp_df</span>,
