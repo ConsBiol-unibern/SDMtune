@@ -38,11 +38,11 @@ test_that("gridSearch produces the expected output with AICc", {
   expect_equal(o@results$reg, c(1, 1))
 })
 
-h <- list(fc = c("l", "q"), reg = c(1, 2))
-o <- gridSearch(m_cv, hypers = h, metric = "auc", test = data,
-                save_models = FALSE, seed = 25)
-
 test_that("gridSearch produces the expected output with cross validation", {
+  h <- list(fc = c("l", "q"), reg = c(1, 2))
+  expect_warning(o <- gridSearch(m_cv, hypers = h, metric = "auc", test = data,
+                  save_models = FALSE, seed = 25),
+                  "Argument \"seed\" is deprecated and ignored")
   expect_s4_class(o, "SDMtune")
   expect_s3_class(o@results, "data.frame")
   expect_named(o@results, c("fc", "reg", "train_AUC", "test_AUC", "diff_AUC"))
