@@ -99,8 +99,8 @@ Now we test the execution time using the **microbenckmark** package:
 
 ``` r
 bench <- microbenchmark::microbenchmark(
-  SDMtune = predict(sdmtune_model, data = predictors, type = "cloglog"),
-  dismo = predict(maxent_model, predictors),
+  SDMtune = predict(sdmtune_model, data = data, type = "cloglog"),
+  dismo = predict(maxent_model, data@data),
   check = my_check
 )
 ```
@@ -120,8 +120,6 @@ ggplot(bench, aes(x = expr, y = time/1000000, fill = expr)) +
 <img src="man/figures/bench.png" alt="" />
 
 </div>
-
-The execution time is in average about two time faster\!
 
 ## Code of conduct
 
