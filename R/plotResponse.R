@@ -5,8 +5,9 @@
 #' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 #' object.
 #' @param var character. Name of the variable to be plotted.
-#' @param type character. Output type, see \code{\link{predict,SDMmodel-method}}
-#' for more details.
+#' @param type character. The output type used for "Maxent" and "Maxnet"
+#' methods, possible values are "cloglog" and "logistic", default is
+#' \code{NULL}.
 #' @param marginal logical, if \code{TRUE} it plots the marginal response curve,
 #' default is \code{FALSE}.
 #' @param fun function used to compute the level of the other variables for
@@ -72,7 +73,7 @@
 #' # (biome) giving a custom color
 #' plotResponse(model, var = "biome", type = "logistic", color = "green")
 #' }
-plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
+plotResponse <- function(model, var, type = NULL, marginal = FALSE, fun = mean,
                          clamp = TRUE, rug = FALSE, color = "red") {
 
   if (!var %in% names(model@data@data))
@@ -141,7 +142,8 @@ plotResponse <- function(model, var, type, marginal = FALSE, fun = mean,
   }
 
   my_plot <- my_plot +
-    labs(x = var, y = paste(type, "output")) +
+    labs(x = var, y = ifelse(!is.null(type), paste(type, "output"),
+                             "Probability of presence")) +
     theme_minimal() +
     theme(text = element_text(colour = "#666666", family = "sans-serif"))
 

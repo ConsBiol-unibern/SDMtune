@@ -4,7 +4,7 @@
 \alias{plotResponse}
 \title{Plot Response Curve}
 \usage{
-plotResponse(model, var, type, marginal = FALSE, fun = mean,
+plotResponse(model, var, type = NULL, marginal = FALSE, fun = mean,
   clamp = TRUE, rug = FALSE, color = "red")
 }
 \arguments{
@@ -13,8 +13,9 @@ object.}
 
 \item{var}{character. Name of the variable to be plotted.}
 
-\item{type}{character. Output type, see \code{\link{predict,SDMmodel-method}}
-for more details.}
+\item{type}{character. The output type used for "Maxent" and "Maxnet"
+methods, possible values are "cloglog" and "logistic", default is
+\code{NULL}.}
 
 \item{marginal}{logical, if \code{TRUE} it plots the marginal response curve,
 default is \code{FALSE}.}

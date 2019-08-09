@@ -4,12 +4,10 @@
 \alias{confMatrix}
 \title{Confusion Matrix}
 \usage{
-confMatrix(model, type, test = NULL, th = NULL)
+confMatrix(model, test = NULL, th = NULL, type = NULL)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} object.}
-
-\item{type}{character. The output type, see details.}
 
 \item{test}{\code{\linkS4class{SWD}} test locations, if not provided it uses
 the train dataset, default is \code{NULL}.}
@@ -17,6 +15,10 @@ the train dataset, default is \code{NULL}.}
 \item{th}{numeric vector, if provided it computes the evaluation at the given
 thresholds, default is \code{NULL} and it computes the evaluation for a
 sequence from 0 to 1.}
+
+\item{type}{character. The output type used for "Maxent" and "Maxnet"
+methods, possible values are "cloglog" and "logistic", default is
+\code{NULL}.}
 }
 \value{
 The Confusion Matrix for all the used thresholds.

@@ -3,12 +3,14 @@
 #' Computes Confusion Matrixes for threshold values varying from 0 to 1.
 #'
 #' @param model \code{\linkS4class{SDMmodel}} object.
-#' @param type character. The output type, see details.
 #' @param test \code{\linkS4class{SWD}} test locations, if not provided it uses
 #' the train dataset, default is \code{NULL}.
 #' @param th numeric vector, if provided it computes the evaluation at the given
 #' thresholds, default is \code{NULL} and it computes the evaluation for a
 #' sequence from 0 to 1.
+#' @param type character. The output type used for "Maxent" and "Maxnet"
+#' methods, possible values are "cloglog" and "logistic", default is
+#' \code{NULL}.
 #'
 #' @details
 #' * For models trained with the **Maxent** method the argument \code{type} can
@@ -46,7 +48,7 @@
 #'
 #' # Get the confusion matrix for a specific threshold
 #' confMatrix(model, type = "logistic", th = 0.6)
-confMatrix <- function(model, type, test = NULL, th = NULL) {
+confMatrix <- function(model, test = NULL, th = NULL, type = NULL) {
 
   if (is.null(test)) {
     data <- model@data
