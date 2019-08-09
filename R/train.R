@@ -1,16 +1,14 @@
 #' Train
 #'
-#' Train a model using one of the following methods: BRT, Maxent, Maxnet or
-#' Random Forest.
+#' Train a model using one of the following methods: Artificial Neural Networks,
+#' Boosted Regression Trees, Maxent, Maxnet or Random Forest.
 #'
 #' @param method character. Method used to train the model, possible values are
-#' "Maxent", "Maxnet" or "RF".
+#' "ANN", "BRT", "Maxent", "Maxnet" or "RF".
 #' @param data \code{\linkS4class{SWD}} object with presence and
 #' absence/background locations.
-#' @param folds list with two matrices, the first for the training and the
-#' second for the testing dataset. Each column of one matrix represents a fold
-#' with \code{TRUE} for the locations included in and \code{FALSE} excluded from
-#' the partition.
+#' @param folds list. Output of the function \code{\link{randomFolds}} or folds
+#' object created with other packages, see details, default is \code{NULL}.
 #' @param verbose logical, if \code{TRUE} shows a progress bar during cross
 #' validation, default is \code{TRUE}.
 #' @param p Deprecated.
@@ -20,6 +18,28 @@
 #' @param ... Arguments passed to the relative method, see details.
 #'
 #' @details
+#' * For the ANN method possible arguments are (for more details see
+#' \code{\link[nnet]{nnet}}):
+#'     + size: integer. Number of the units in the hidden layer.
+#'     + decay numeric. Weight decay, default is 0.
+#'     + rang numeric. Initial random weights, default is 0.7.
+#'     + maxit integer. Maximum number of iterations, default is 100.
+#' * For the BRT method possible arguments are (for more details see
+#' \code{\link[gbm]{gbm}}):
+#'     + distribution: character. Name of the distribution to use, default is
+#'     "bernoulli".
+#'     + ntree: integer. Maximum number of tree to grow, default is 100.
+#'     + interaction.depth: integer. Maximum depth of each tree, default is 1.
+#'     + lr: numeric. The shrinkage parameter, default is 0.1.
+#'     + bag.fraction: numeric. Random fraction of data used in the tree
+#'     expansion, default is 0.5.
+#' * For the RF method the model is trained as classification. Possible
+#' arguments are (for more details see
+#' \code{\link[randomForest]{randomForest}}):
+#'     + mtry: integer. Number of variable randomly sampled at each split,
+#'     default is \code{floor(sqrt(number of variables))}.
+#'     + ntree: integer. Number of tree to grow, default is 500.
+#'     + nodesize: integer. Minimum size of terminal nodes.
 #' * For the Maxent method, possible arguments are:
 #'     + reg: numeric. The value of the regularization multiplier, default is 1.
 #'     + fc: vector. The value of the feature classes, possible values are
@@ -37,54 +57,46 @@
 #'     + reg: numeric. The value of the regularization intensity, default is 1.
 #'     + fc: vector. The value of the feature classes, possible values are
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph".
-#' * For the ANN method possible arguments are (for more details see
-#' \code{\link[nnet]{nnet}}):
-#'     + size: integer. Number of the units in the hidden layer.
-#'     + decay numeric. Weight decay, default is 0.
-#'     + rang numeric. Initial random weights, default is 0.7.
-#'     + maxit integer. Maximum number of iterations, default is 100.
-#' * For the RF method the model is trained as classification. Possible
-#' arguments are (for more details see
-#' \code{\link[randomForest]{randomForest}}):
-#'     + mtry: integer. Number of variable randomly sampled at each split,
-#'     default is \code{floor(sqrt(number of variables))}.
-#'     + ntree: integer. Number of tree to grow, default is 500.
-#'     + nodesize: integer. Minimum size of terminal nodes.
-#' * For the BRT method possible arguments are (for more details see
-#' \code{\link[gbm]{gbm}}):
-#'     + distribution: character. Name of the distribution to use, default is
-#'     "bernoulli".
-#'     + ntree: integer. Maximum number of tree to grow, default is 100.
-#'     + interaction.depth: integer. Maximum depth of each tree, default is 1.
-#'     + lr: numeric. The shrinkage parameter, default is 0.1.
-#'     + bag.fraction: numeric. Random fraction of data used in the tree
-#'     expansion, default is 0.5.
+#'
+#' The folds argument accepts also objects created with other packages:
+#' \pkg{ENMeval} or \pkg{blockCV}. In this case the function converts
+#' internally the folds into a format valid for \pkg{SDMtune}.
 #'
 #' @return An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 #' object.
 #' @export
 #' @importFrom progress progress_bar
 #'
-#' @seealso \code{\link{randomFolds}} \code{\link{convertFolds}}
+#' @seealso \code{\link{randomFolds}}
 #'
 #' @author Sergio Vignali
 #'
-#' @references Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane
-#' Elith. 2017. dismo: Species Distribution Modeling.
+#' @references
+#' Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S.
+#' Fourth Edition. Springer, New York. ISBN 0-387-95457-0.
+#'
+#' Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
+#' gbm: Generalized Boosted Regression Models.
+#' \url{https://CRAN.R-project.org/package=gbm}.
+#'
+#' A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
+#' R News 2(3), 18--22.
+#'
+#' Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017.
+#' dismo: Species Distribution Modeling.
 #' \url{https://cran.r-project.org/package=dismo}.
 #'
 #' Steven Phillips (2017). maxnet: Fitting 'Maxent' Species Distribution Models
 #' with 'glmnet'. \url{https://CRAN.R-project.org/package=maxnet}.
 #'
-#' Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S.
-#' Fourth Edition. Springer, New York. ISBN 0-387-95457-0
+#' Muscarella, R., Galante, P.J., Soley-Guardia, M., Boria, R.A., Kass, J.,
+#' Uriarte, M. and R.P. Anderson (2014). ENMeval: An R package for conducting
+#' spatially independent evaluations and estimating optimal model complexity
+#' for ecological niche models. Methods in Ecology and Evolution.
 #'
-#' A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
-#' R News 2(3), 18--22.
-#'
-#' Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
-#' gbm: Generalized Boosted Regression Models.
-#' \url{https://CRAN.R-project.org/package=gbm}
+#' Roozbeh Valavi, Jane Elith, José Lahoz-Monfort and Gurutzeta Guillera-Arroita
+#' (2018). blockCV: Spatial and environmental blocking for k-fold
+#' cross-validation. \url{https://github.com/rvalavi/blockCV}.
 #'
 #' @examples
 #' \donttest{
@@ -108,11 +120,42 @@
 #' # Train a Maxnet model
 #' model <- train(method = "Maxnet", data = data, fc = "lq", reg = 1.5)
 #'
-#' # Train a Maxnet model with cross validation
+#' # Cross Validation
 #' # Create 4 random folds splitting only the presence data
 #' folds <- randomFolds(data, k = 4, only_presence = TRUE)
 #' model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 #'                folds = folds)
+#'
+#' # Block partition using the ENMeval package
+#' # library(ENMeval)
+#' block_folds <- get.block(occ = data@data[data@pa == 1, ],
+#'                          bg.coords = data@data[data@pa == 0, ])
+#' model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+#'                folds = block_folds)
+#'
+#' # Checkerboard1 partition using the ENMeval package
+#' cb_folds <- get.checkerboard1(occ = data@data[data@pa == 1, ],
+#'                               env = predictors,
+#'                               bg.coords = data@data[data@pa == 0, ],
+#'                               aggregation.factor = 4)
+#' model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+#'                folds = cb_folds)
+#'
+#' # Environmental block using the blockCV package
+#' # library(blockCV)
+#' # Create spatial points data frame
+#' library(raster)
+#' sp_df <- SpatialPointsDataFrame(data@coords, data = as.data.frame(data@pa),
+#'                                 proj4string = crs(predictors))
+#' e_folds <- envBlock(rasterLayer = predictors,
+#'                     speciesData = sp_df,
+#'                     species = "data@pa",
+#'                     k = 4,
+#'                     standardization = "standard",
+#'                     rasterBlock = FALSE,
+#'                     numLimit = 100)
+#' model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+#'                folds = e_folds)
 #'
 #' # Train presence absence models
 #' # Prepare presence and absence locations
@@ -152,6 +195,7 @@ train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
   if (is.null(folds)) {
     model <- do.call(f, args = list(data = data, ...))
   } else {
+    folds <- .convert_folds(folds, data)
     k <- ncol(folds[[1]])
     if (verbose) {
       pb <- progress::progress_bar$new(

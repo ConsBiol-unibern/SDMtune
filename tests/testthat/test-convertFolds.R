@@ -4,7 +4,7 @@ test_that("ENMeval presence only", {
   data <- .subset_swd(t, c(rep(TRUE, 30), rep(FALSE, (length(t@pa - 30)))))
   data@pa[21:30] <- 0
   x <- list(occ.grp = cut(sample(1:20), 4, labels = FALSE), bg.grp = rep(0, 10))
-  folds <- convertFolds(x, data)
+  folds <- .convert_folds(x, data)
   np <- 20
   n <- 30
   expect_length(folds, 2)
@@ -22,7 +22,7 @@ test_that("ENMeval presence and background", {
   data@pa[21:32] <- 0
   x <- list(occ.grp = cut(sample(1:20), 4, labels = FALSE),
             bg.grp = cut(sample(1:12), 4, labels = FALSE))
-  folds <- convertFolds(x, data)
+  folds <- .convert_folds(x, data)
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
   expect_equal(ncol(folds$train), ncol(folds$test), 4)
@@ -44,7 +44,7 @@ test_that("blockCV", {
   }
   x <- list(folds = f, k = 2)
   class(x) <- "EnvironmentalBlock"
-  folds <- convertFolds(x, data)
+  folds <- .convert_folds(x, data)
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
   expect_equal(ncol(folds$train), ncol(folds$test), 4)
@@ -54,4 +54,13 @@ test_that("blockCV", {
     expect_equal(sort(unlist(f[[i]][1])), which(folds$train[, i]))
     expect_equal(sort(unlist(f[[i]][2])), which(folds$test[, i]))
   }
+})
+
+test_that("randomFolds", {
+  f <- randomFolds(t, 2)
+  expect_equal(f, .convert_folds(f, t))
+})
+
+test_that("error is raised", {
+  expect_error(.convert_folds(t, t), "Folds object foramt not allowed!")
 })
