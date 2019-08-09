@@ -8,8 +8,9 @@
 #' p-values of the one-tailed binomial exact test.
 #'
 #' @param model \code{\linkS4class{SDMmodel}} object.
-#' @param type character. The output type, possible values are "cloglog" and
-#' "logistic".
+#' @param type character. The output type used for "Maxent" and "Maxnet"
+#' methods, possible values are "cloglog" and "logistic", default is
+#' \code{NULL}.
 #' @param test \code{\linkS4class{SWD}} test locations, if not provided it
 #' returns the training and test thresholds, default is \code{NULL}.
 #'
@@ -51,9 +52,8 @@
 #'
 #' # Get the logistic thresholds passing the test dataset
 #' thresholds(model, type = "logistic", test = test)
-thresholds <- function(model, type, test = NULL) {
+thresholds <- function(model, type = NULL, test = NULL) {
 
-  type <- match.arg(type, c("cloglog", "logistic"))
   n_pres <- sum(model@data@pa == 1)
 
   cm_train <- confMatrix(model, type = type)

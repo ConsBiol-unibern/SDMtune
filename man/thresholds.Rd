@@ -4,13 +4,14 @@
 \alias{thresholds}
 \title{Thresholds}
 \usage{
-thresholds(model, type, test = NULL)
+thresholds(model, type = NULL, test = NULL)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} object.}
 
-\item{type}{character. The output type, possible values are "cloglog" and
-"logistic".}
+\item{type}{character. The output type used for "Maxent" and "Maxnet"
+methods, possible values are "cloglog" and "logistic", default is
+\code{NULL}.}
 
 \item{test}{\code{\linkS4class{SWD}} test locations, if not provided it
 returns the training and test thresholds, default is \code{NULL}.}

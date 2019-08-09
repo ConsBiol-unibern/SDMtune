@@ -170,16 +170,39 @@ message("- Writing model settings...", appendLF = FALSE)
 Shown below the settings used to train the model:
 
 * Model type: `r class(params$model@model)`
-* Output type: `r params$type`
 * Train locations: `r nrow(params$model@data@data)`
     * presence: `r sum(params$model@data@pa == 1)`
     * absence/background locations: `r sum(params$model@data@pa == 0)`
 `r if(!is.null(params$test)){paste("\n* Test locations:", nrow(params$test@data), "\n    * presence:", sum(params$test@pa == 1), "\n    * absence/background:", sum(params$test@pa == 0))}`
 * Continuous variables: `r names(Filter(is.numeric, params$model@data@data))`
 * Categorical variables: `r names(Filter(is.factor, params$model@data@data))`
-* Feature Class combination: `r params$model@model@fc`
-* Regularization multiplier: `r params$model@model@reg`
-* Do clamping: `r params$clamp``r if(class(params$model@model) == "Maxent") {paste("\n* Extra arguments:", paste(params$model@model@extra_args, collapse = ", "))}`
+```{r MEs, eval=class(params$model@model) %in% c("Maxent", "Maxnet"), results="asis", message=FALSE, echo=FALSE}
+cat("* Output type: ", params$type, "\n")
+cat("* Feature Class combination: ", params$model@model@fc, "\n")
+cat("* Regularization multiplier: ", params$model@model@reg, "\n")
+cat("* Do clamping: ", params$clamp, "\n")
+```
+```{r Maxent, eval=class(params$model@model) == "Maxent", results="asis", message=FALSE, echo=FALSE}
+cat("* Extra arguments: ", paste(params$model@model@extra_args, collapse = ", "), "\n")
+```
+```{r ANN, eval=class(params$model@model) == "ANN", results="asis", message=FALSE, echo=FALSE}
+cat("* Size: ", params$model@model@size, "\n")
+cat("* Decay: ", params$model@model@decay, "\n")
+cat("* Rang: ", params$model@model@rang, "\n")
+cat("* Maxit: ", params$model@model@maxit, "\n")
+```
+```{r BRT, eval=class(params$model@model) == "BRT", results="asis", message=FALSE, echo=FALSE}
+cat("* Distribution: ", params$model@model@distribution, "\n")
+cat("* Number of trees: ", params$model@model@ntree, "\n")
+cat("* Interaction depth: ", params$model@model@interaction.depth, "\n")
+cat("* Learning rate: ", params$model@model@lr, "\n")
+cat("* Bag fraction: ", params$model@model@bag.fraction, "\n")
+```
+```{r RF, eval=class(params$model@model) == "RF", results="asis", message=FALSE, echo=FALSE}
+cat("* Mtry: ", params$model@model@mtry, "\n")
+cat("* Number of trees: ", params$model@model@ntree, "\n")
+cat("* Node size: ", params$model@model@nodesize, "\n")
+```
 
 ```{r, echo=FALSE, message=FALSE}
 message("\r", crayon::green(cli::symbol$tick)," Writing model settings...")
