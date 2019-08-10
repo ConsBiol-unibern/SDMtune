@@ -6,8 +6,8 @@ Old objects of class `SWD`, `SDMmodel`, `SDMmodelCV` and `SDMtune` created with 
 Main changes:
 
 * The `SWD` object bundles together the presence and absence/background locations
-* New methods to train models: Artificial Neural Network, Random Forest and Boosted Regression Trees
-* Enabled spatial cross validation: the function `convertFolds` converts cross validation partition generated with other packages (i.e. ENMeval and blockCV) in a suitable format for `SDMtune`
+* New methods to train models: Artificial Neural Network (ANN), Boosted Regression Trees (BRT) and Random Forest (RF)
+* Enabled spatial cross validation: the function `train` accepts now folds partition generated with other packages (i.e. ENMeval and blockCV)
 * Add title argument in `plot` function for `SDMtune` objects
 * The interactive plot of an `SDMtune` object can now be saved in a file
 * New randomly generated dataset `virtualSp` with presence, absence and background locations

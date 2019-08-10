@@ -40,7 +40,7 @@
 #' swd2csv(data, "train_data.csv")
 #'
 #' # Save the SWD objct in two separate csv files
-#' swd2csv(data, c("presence.csv", "absemce.csv")
+#' swd2csv(data, c("presence.csv", "absemce.csv"))
 #' }
 swd2csv <- function(swd, file_name) {
 
