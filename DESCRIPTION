@@ -57,6 +57,7 @@ Suggests:
     rmarkdown (>= 1.13),
     roxygen2 (>= 6.1.1),
     snow (>= 0.4-3),
+    spelling,
     testthat (>= 2.2.1),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
@@ -121,3 +122,4 @@ Collate:
     'varSel.R'
     'virtualSp.R'
     'zzz.R'
+Language: en-US
