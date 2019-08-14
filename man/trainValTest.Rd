@@ -16,8 +16,8 @@ split in training, validation and testing datasets.}
 is 0.}
 
 \item{only_presence}{logical, if \code{TRUE} the split is done only for the
-presence locations, used manly for presence-only methods, default is
-\code{FALSE}.}
+presence locations and all the background locations are included in each
+partition, used manly for presence-only methods, default is \code{FALSE}.}
 
 \item{seed}{numeric. The value used to set the seed in order to have
 consistent results, default is \code{NULL}.}
@@ -29,6 +29,10 @@ testing \code{\link{SWD}} objects accordingly.
 \description{
 Split a dataset randomly in training and testing datasets or training,
 validation and testing datasets.
+}
+\details{
+When \code{only_presence = FALSE}, the proportion of presence and
+absence is preserved.
 }
 \examples{
 # Acquire environmental variables

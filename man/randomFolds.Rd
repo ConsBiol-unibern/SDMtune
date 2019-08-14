@@ -13,7 +13,8 @@ model.}
 \item{k}{integer. Number of fold used to create the partition.}
 
 \item{only_presence}{logical, if \code{TRUE} the random folds are created
-only for the presence locations, used manly for presence-only methods,
+only for the presence locations and all the background locations are included
+in each fold, used manly for presence-only methods,
 default is \code{FALSE}.}
 
 \item{seed}{integer. The value used to set the seed for the fold partition,
@@ -24,6 +25,9 @@ list with two matrices, the first for the training and the second for
 the testing dataset. Each column of one matrix represents a fold with
 \code{TRUE} for the locations included in and \code{FALSE} excluded from the
 partition.
+
+When \code{only_presence = FALSE}, the proportion of presence and absence is
+preserved.
 }
 \description{
 Create random folds for cross validation.

@@ -9,10 +9,13 @@
 #' @param val numeric. The percentage of data withhold for validation, default
 #' is 0.
 #' @param only_presence logical, if \code{TRUE} the split is done only for the
-#' presence locations, used manly for presence-only methods, default is
-#' \code{FALSE}.
+#' presence locations and all the background locations are included in each
+#' partition, used manly for presence-only methods, default is \code{FALSE}.
 #' @param seed numeric. The value used to set the seed in order to have
 #' consistent results, default is \code{NULL}.
+#'
+#' @details When \code{only_presence = FALSE}, the proportion of presence and
+#' absence is preserved.
 #'
 #' @return A list with the training, validation and testing or training and
 #' testing \code{\link{SWD}} objects accordingly.
