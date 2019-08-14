@@ -83,7 +83,7 @@ threshold." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -131,6 +131,9 @@ threshold." />
     </li>
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
+    </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
     </li>
   </ul>
 </li>
@@ -185,7 +188,8 @@ threshold.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bg</th>
-      <td><p><a href='SWD-class.html'>SWD</a> object used to compute the correlation matrix.</p></td>
+      <td><p>code<a href='SWD-class.html'>SWD</a> object used to compute the correlation
+matrix.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -215,7 +219,7 @@ higher or lower than the given threshold, default is <code>NULL</code>.</p></td>
 <span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>10000</span>)
 
 <span class='co'># Create SWD object</span>
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
                  <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Plot heat map</span>

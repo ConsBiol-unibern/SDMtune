@@ -82,7 +82,7 @@ provided hyperparameters values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -130,6 +130,9 @@ provided hyperparameters values." />
     </li>
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
+    </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
     </li>
   </ul>
 </li>
@@ -184,7 +187,8 @@ provided hyperparameters values.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
+      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
+object.</p></td>
     </tr>
     <tr>
       <th>hypers</th>
@@ -198,14 +202,13 @@ values are: "auc", "tss" and "aicc".</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p><a href='SWD-class.html'>SWD</a> object. Test dataset used to evaluate the
-model, not used with aicc and <a href='SDMmodelCV-class.html'>SDMmodelCV</a> objects, default is
-<code>NULL</code>.</p></td>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> object. Test dataset used to evaluate
+the model, not used with aicc and <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects,
+default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>bg4test</th>
-      <td><p><a href='SWD-class.html'>SWD</a> object or NULL. Background locations used to
-get subsamples if <strong>a</strong> hyperparameter is tuned, default is <code>NULL</code>.</p></td>
+      <td><p>Deprecated.</p></td>
     </tr>
     <tr>
       <th>pop</th>
@@ -230,7 +233,7 @@ results, default is <code>NULL</code>.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><a href='SDMtune-class.html'>SDMtune</a> object.</p>
+    <p><code><a href='SDMtune-class.html'>SDMtune</a></code> object.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -248,32 +251,28 @@ time necessary to create the cluster.</p>
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>files</span>)
 
-<span class='co'># Prepare presence locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>condor</span>[, <span class='fl'>1</span>:<span class='fl'>2</span>]
-
-<span class='co'># Prepare background locations</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
+<span class='co'># Prepare presence and background locations</span>
+<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
 
 <span class='co'># Create SWD object</span>
-<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>presence</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
+<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
 <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
 
 <span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='co'># Define the hyperparameters to test</span>
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lqp"</span>, <span class='st'>"lqph"</span>, <span class='st'>"lh"</span>), <span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>3000</span>, <span class='fl'>4500</span>, <span class='fl'>500</span>))
+<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>reg</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0.2</span>, <span class='fl'>3</span>, <span class='fl'>0.2</span>), <span class='kw'>fc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lqp"</span>, <span class='st'>"lqph"</span>, <span class='st'>"lh"</span>))
 
 <span class='co'># Run the function using as metric the AUC</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>randomSearch</span>(<span class='no'>model</span>, <span class='kw'>hypers</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
-                       <span class='kw'>bg4test</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
+                       <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
 <span class='no'>output</span>@<span class='kw'>results</span>
 <span class='no'>output</span>@<span class='kw'>models</span>
 <span class='co'># Order rusults by highest test AUC</span>

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -128,6 +128,9 @@
     </li>
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
+    </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
     </li>
   </ul>
 </li>
@@ -179,19 +182,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
+      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or
+<code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects.</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p><a href='SWD-class.html'>SWD</a> test locations for <a href='SDMmodel-class.html'>SDMmodel</a>
-objects or logical.
-for <a href='SDMmodelCV-class.html'>SDMmodelCV</a> objects, if not provided it computes the train
-AUC, default is <code>NULL</code>.</p></td>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> test object for
+<code><a href='SDMmodel-class.html'>SDMmodel</a></code> objects or logical for
+<code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, if not provided it computes the
+train AUC, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>a</th>
-      <td><p><a href='SWD-class.html'>SWD</a> absence or background locations used to compute
-the AUC by the permutation importance function, default is <code>NULL</code>.</p></td>
+      <td><p>Deprecated.</p></td>
     </tr>
     </table>
     
@@ -201,9 +204,9 @@ the AUC by the permutation importance function, default is <code>NULL</code>.</p
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If the model is a <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object, the function
-computes the mean of the training or testing AUC values of the different
-replicates.</p>
+    <p>If the model is a <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> object, the
+function computes the mean of the training or testing AUC values of the
+different replicates.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -220,37 +223,34 @@ Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>files</span>)
 
-<span class='co'># Prepare presence locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>condor</span>[, <span class='fl'>1</span>:<span class='fl'>2</span>]
-
-<span class='co'># Prepare background locations</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
+<span class='co'># Prepare presence and background locations</span>
+<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
 
 <span class='co'># Create SWD object</span>
-<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>presence</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
+<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
 <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
 
 <span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='co'># Compute the training AUC</span>
 <span class='fu'>auc</span>(<span class='no'>model</span>)
 
 <span class='co'># Compute the testing AUC</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='no'>test</span>)
+<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)
 
 <span class='co'># }</span><span class='co'># NOT RUN {</span>
 <span class='co'># Same example but using cross validation instead of training and testing</span>
 <span class='co'># datasets</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>presence</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>rep</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-               <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
+<span class='co'># Create the folds</span>
+<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
 
 <span class='co'># Compute the training AUC</span>
 <span class='fu'>auc</span>(<span class='no'>model</span>)

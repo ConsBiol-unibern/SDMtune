@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -126,6 +126,9 @@
     </li>
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
+    </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
     </li>
   </ul>
 </li>
@@ -196,13 +199,19 @@
         <td>
           <p><code><a href="getSubsample.html">getSubsample()</a></code> </p>
         </td>
-        <td><p>Get Dataset Subsample</p></td>
+        <td><p>Get Dataset Subsample, Deprecated</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="prepareSWD.html">prepareSWD()</a></code> </p>
         </td>
         <td><p>Prepare an SWD object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="randomFolds.html">randomFolds()</a></code> </p>
+        </td>
+        <td><p>Create Random Folds</p></td>
       </tr><tr>
         
         <td>
@@ -256,9 +265,27 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="predict-ANN-method.html">predict(<i>&lt;ANN&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Predict ANN</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="predict-BRT-method.html">predict(<i>&lt;BRT&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Predict BRT</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="predict-Maxent-method.html">predict(<i>&lt;Maxent&gt;</i>)</a></code> </p>
         </td>
         <td><p>Predict Maxent</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="predict-RF-method.html">predict(<i>&lt;RF&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Predict RF</p></td>
       </tr><tr>
         
         <td>
@@ -460,18 +487,24 @@
       <tr>
         
         <td>
-          <p><code><a href="condor.html">condor</a></code> </p>
+          <p><code><a href="virtualSp.html">virtualSp</a></code> </p>
         </td>
-        <td><p>Locations of Vultur gryphus.</p></td>
+        <td><p>Virtual Species</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-classes" class="hasAnchor"><a href="#section-classes" class="anchor"></a>Classes</h2>
-          <p class="section-desc"><p>SDMsel classes and pkg description</p></p>
+          <p class="section-desc"><p>Package classes</p></p>
         </th>
       </tr>
       <tr>
+        
+        <td>
+          <p><code><a href="BRT-class.html">BRT-class</a></code> </p>
+        </td>
+        <td><p>Boosted Regression Tree</p></td>
+      </tr><tr>
         
         <td>
           <p><code><a href="Maxent-class.html">Maxent-class</a></code> </p>
@@ -483,6 +516,12 @@
           <p><code><a href="Maxnet-class.html">Maxnet-class</a></code> </p>
         </td>
         <td><p>Maxnet</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="RF-class.html">RF-class</a></code> </p>
+        </td>
+        <td><p>Random Forest</p></td>
       </tr><tr>
         
         <td>
@@ -508,6 +547,38 @@
         </td>
         <td><p>Sample With Data</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-help-functions" class="hasAnchor"><a href="#section-help-functions" class="anchor"></a>Help functions</h2>
+          <p class="section-desc"><p>Functions to convert object created with an old version of SDMtune (v &lt;= 0.1.1) into the new format</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="old2NewSWD.html">old2NewSWD()</a></code> </p>
+        </td>
+        <td><p>Convert Old SWD object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="old2NewSDMmodel.html">old2NewSDMmodel()</a></code> </p>
+        </td>
+        <td><p>Convert Old SDMmodel object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="old2NewSDMmodelCV.html">old2NewSDMmodelCV()</a></code> </p>
+        </td>
+        <td><p>Convert Old SDMmodelCV object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="old2NewSDMtune.html">old2NewSDMtune()</a></code> </p>
+        </td>
+        <td><p>Convert Old SDMtune object</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
@@ -525,6 +596,7 @@
       <li><a href="#section-utilities">Utilities</a></li>
       <li><a href="#section-dataset">Dataset</a></li>
       <li><a href="#section-classes">Classes</a></li>
+      <li><a href="#section-help-functions">Help functions</a></li>
     </ul>
   </div>
 </div>

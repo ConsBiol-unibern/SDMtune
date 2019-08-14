@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -127,6 +127,9 @@
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -163,6 +166,37 @@
       
     </div>
 
+    <div id="sdmtune-0-1-1-9000" class="section level1">
+<h1 class="page-header">
+<a href="#sdmtune-0-1-1-9000" class="anchor"></a>SDMtune 0.1.1.9000<small> Unreleased </small>
+</h1>
+<p>This release is the first step to enable more methods to train models. The main change is that the <code>SDW</code> object now bundles together the presence and the absence/background locations and is not necessary anymore to pass the presence and absence locations as separate arguments to the <code>train</code> function.</p>
+<p>Old objects of class <code>SWD</code>, <code>SDMmodel</code>, <code>SDMmodelCV</code> and <code>SDMtune</code> created with version &lt;= 0.1.1 must be converted into the new format using the dedicated help functions. Please check the article <a href="https://consbiol-unibern.github.io/SDMtune/articles/articles/deprecatd_objects.html">Deprecated objects</a> in the package website.</p>
+<p>Main changes:</p>
+<ul>
+<li>The <code>SWD</code> object bundles together the presence and absence/background locations</li>
+<li>New methods to train models: Artificial Neural Network (ANN), Boosted Regression Trees (BRT) and Random Forest (RF)</li>
+<li>Enabled spatial cross validation: the function <code>train</code> accepts now folds partition generated with other packages (i.e. ENMeval and blockCV)</li>
+<li>Add title argument in <code>plot</code> function for <code>SDMtune</code> objects</li>
+<li>New randomly generated dataset <code>virtualSp</code> with presence, absence and background locations</li>
+<li>Number of background locations cannot be tuned anymore using the tuning functions</li>
+</ul>
+<p>Deprecated function:</p>
+<ul>
+<li><code>getSubsample</code></li>
+</ul>
+</div>
+    <div id="sdmtune-0-1-1" class="section level1">
+<h1 class="page-header">
+<a href="#sdmtune-0-1-1" class="anchor"></a>SDMtune 0.1.1<small> 2019-07-14 </small>
+</h1>
+<ul>
+<li>Fix bug in <code>VarImp</code> function for <code>SDMmodelCV</code> objects</li>
+<li>Real-time charts are now displayed also when R is not executed from RStudio</li>
+<li>
+<code>maxentVarImp</code> function available for <code>SDMmodelCV</code> objects</li>
+</ul>
+</div>
     <div id="sdmtune-0-1-0" class="section level1">
 <h1 class="page-header">
 <a href="#sdmtune-0-1-0" class="anchor"></a>SDMtune 0.1.0<small> 2019-06-21 </small>
@@ -171,25 +205,15 @@
 <li>First release</li>
 </ul>
 </div>
-    <div id="sdmtune-0-1-0-9000" class="section level1">
-<h1 class="page-header">
-<a href="#sdmtune-0-1-0-9000" class="anchor"></a>SDMtune 0.1.0.9000<small> Unreleased </small>
-</h1>
-<ul>
-<li>Fix bug in VarImp function for SDMmodelCV objects</li>
-<li>Real-time charts are now displayed also when R is not executed from RStudio</li>
-<li>
-<code>maxentVarImp</code> function available for <code>SDMmodelCV</code> objects</li>
-</ul>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#sdmtune-0-1-1-9000">0.1.1.9000</a></li>
+        <li><a href="#sdmtune-0-1-1">0.1.1</a></li>
         <li><a href="#sdmtune-0-1-0">0.1.0</a></li>
-        <li><a href="#sdmtune-0-1-0-9000">0.1.0.9000</a></li>
       </ul>
     </div>
   </div>

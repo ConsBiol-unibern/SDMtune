@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -129,6 +129,9 @@
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -172,37 +175,47 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>confMatrix</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cloglog"</span>, <span class='st'>"logistic"</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>th</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>confMatrix</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> object.</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>character. The output type, possible values are "cloglog" and
-"logistic", default is "cloglog".</p></td>
+      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> object.</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p><a href='SWD-class.html'>SWD</a> test locations, if not provided it uses the
-train dataset, default is <code>NULL</code>.</p></td>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> test locations, if not provided it uses
+the train dataset, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>th</th>
       <td><p>numeric vector, if provided it computes the evaluation at the given
-thresholds, default is NULL and it computes the evaluation for a sequence
-from 0 to 1.</p></td>
+thresholds, default is <code>NULL</code> and it computes the evaluation for a
+sequence from 0 to 1.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>character. The output type used for "Maxent" and "Maxnet"
+methods, possible values are "cloglog" and "logistic", default is
+<code>NULL</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The Confusion Matrix for all the used thresholds.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <ul>
+<li><p>For models trained with the <strong>Maxent</strong> method the argument <code>type</code> can
+be: "raw", "logistic" and "cloglog".</p></li>
+<li><p>For models trained with the <strong>Maxnet</strong> method the argument <code>type</code> can
+be: "link", "exponential", "logistic" and "cloglog", see
+<code><a href='https://www.rdocumentation.org/packages/maxnet/topics/maxnet'>maxnet</a></code> for more details.</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -212,20 +225,16 @@ from 0 to 1.</p></td>
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></span>(<span class='no'>files</span>)
 
-<span class='co'># Prepare presence locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>condor</span>[, <span class='fl'>1</span>:<span class='fl'>2</span>]
-
-<span class='co'># Prepare background locations</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/dismo/topics/randomPoints'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>5000</span>)
+<span class='co'># Prepare presence and background locations</span>
+<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
 
 <span class='co'># Create SWD object</span>
-<span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>p_coords</span>,
-                       <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Vultur gryphus"</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>presence</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='co'># Get the confusion matrix for thresholds ranging from 0 to 1</span>
 <span class='no'>cm</span> <span class='kw'>&lt;-</span> <span class='fu'>confMatrix</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
@@ -242,6 +251,8 @@ from 0 to 1.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

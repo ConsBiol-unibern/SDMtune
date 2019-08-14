@@ -82,7 +82,7 @@ the location places." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -131,6 +131,9 @@ the location places." />
     <li>
       <a href="../articles/articles/tune_hyperparameters.html">Tune model hyperparameters</a>
     </li>
+    <li>
+      <a href="../articles/articles/deprecatd_objects.html">Deprecated objects</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -177,6 +180,12 @@ the location places.</p>
     </div>
 
         
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The object can contains presence/absence, presence/background,
+presence only or absence/background only data. Use the
+<code><a href='prepareSWD.html'>prepareSWD</a></code> function to create the object.</p>
+    
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     
@@ -184,7 +193,9 @@ the location places.</p>
 <dt><code>species</code></dt><dd><p>character. Name of the species.</p></dd>
     <dt><code>coords</code></dt><dd><p>data.frame. Coordinates of the locations.</p></dd>
     <dt><code>data</code></dt><dd><p>data.frame. Value of the environmental variables at location
-places.</p></dd>
+sites.</p></dd>
+    <dt><code>pa</code></dt><dd><p>numeric. Vector with <code>1</code> for presence and <code>0</code> for
+absence/background locations.</p></dd>
 </dl>
     
 
@@ -193,6 +204,8 @@ places.</p></dd>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#slots">Slots</a></li>
           </ul>
 

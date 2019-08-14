@@ -4,10 +4,19 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//index.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/ANN-class.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/BRT-class.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/Maxent-class.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/Maxnet-class.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/RF-class.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMmodel-class.html</loc>
@@ -32,9 +41,6 @@
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/auc.html</loc>
-  </url>
-  <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/condor.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/confMatrix.html</loc>
@@ -67,6 +73,18 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/modelReport.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/old2NewSDMmodel.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/old2NewSDMmodelCV.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/old2NewSDMtune.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/old2NewSWD.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/optimizeModel.html</loc>
   </url>
   <url>
@@ -94,13 +112,25 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotVarImp.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-ANN-method.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-BRT-method.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-Maxent-method.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-RF-method.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-SDMmodel-method.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/prepareSWD.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/randomFolds.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/randomSearch.html</loc>
@@ -133,7 +163,13 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/varSel.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/virtualSp.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//articles/SDMtune.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/deprecated_objects.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/evaluate_model.html</loc>
