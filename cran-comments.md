@@ -12,5 +12,3 @@ Maintainer: 'Sergio Vignali <sergio.vignali@iee.unibe.ch>'
 
 * Uses the superseded package: 'snow (>= 0.4-3)':
 I cannote remove 'snow' package from the suggested package because it's used by the 'raster' package;
-
-## This submission should fix the NOTES and ERRORS of CRAN checks

@@ -111,7 +111,7 @@ Repeat the analysis using the `default_model` that we created in the [train a mo
 
 ### Spatial Cross Validation
 
-The `train()` function accepts folds created with other packages (ENMeval and blockCV). The function will convert internally into the correct format for `SDMtune`. These packages have specific function to create folds partitions that are spatially or environmentally indipendent.
+The `train()` function accepts folds created with other packages (ENMeval and blockCV). The function will convert internally into the correct format for `SDMtune`. These packages have specific function to create folds partitions that are spatially or environmentally independent.
 
 Block partition using the ENMeval package:
 ```{r enmeval block, eval=FALSE}
