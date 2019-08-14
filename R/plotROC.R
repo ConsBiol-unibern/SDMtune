@@ -9,8 +9,9 @@
 #'
 #' @return The plot object.
 #' @export
-#' @importFrom ggplot2 ggplot aes_ geom_line scale_colour_discrete geom_segment
-#' labs coord_fixed theme_minimal theme
+#' @importFrom ggplot2 ggplot aes_ geom_segment labs coord_fixed theme_minimal
+#' theme scale_color_discrete guides guide_legend
+#' @importFrom plotROC geom_roc
 #'
 #' @examples
 #' \donttest{
@@ -57,30 +58,34 @@ plotROC <- function(model, test = NULL, val = NULL) {
     type <- "link"
   }
 
-  cm <- confMatrix(model, type = type)
-  fpr <- cm$fp / (cm$fp + cm$tn)
-  tpr <- cm$tp / (cm$tp + cm$fn)
-  auc <- auc(model)
-  df <- data.frame(set = "Train", fpr = fpr, tpr = tpr,
+  df <- data.frame(set = "Train", pa = model@data@pa,
+                   pred = predict(model, data = model@data, type = type),
                    stringsAsFactors = FALSE)
+  auc <- auc(model)
+  labels <- paste("Train", round(auc, 3))
 
   if (!is.null(test)) {
-    cm <- confMatrix(model, type = type, test = test)
-    fpr <- cm$fp / (cm$fp + cm$tn)
-    tpr <- cm$tp / (cm$tp + cm$fn)
-    auc <- auc(model, test = test)
-    df_test <- data.frame(set = "Test", fpr = fpr, tpr = tpr)
+    df_test <- data.frame(set = "Test", pa = test@pa,
+                          pred = predict(model, data = test, type = type),
+                          stringsAsFactors = FALSE)
     df <- rbind(df, df_test)
+    auc <- auc(model, test = test)
+    labels <- c(paste("Test", round(auc, 3)), labels)
   }
 
-  my_plot <- ggplot(df, aes_(x = ~fpr, y = ~tpr, group = ~set)) +
-    geom_line(aes_(color = ~set)) +
+  my_plot <- ggplot(df, aes_(m = ~pred, d = ~pa, group = ~set)) +
+    geom_roc(n.cuts = 0, aes_(color = ~set), size = 0.5) +
+    scale_color_discrete(name = "AUC", labels = labels) +
     geom_segment(aes_(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
                  linetype = 2) +
-    labs(x = "False Positive Rate", y = "True Positive Rate", color = "AUC") +
+    labs(x = "False Positive Rate", y = "True Positive Rate") +
     coord_fixed() +
     theme_minimal() +
     theme(text = element_text(colour = "#666666", family = "sans-serif"))
+
+  if (!is.null(test)) {
+    my_plot <- my_plot + guides(colour = guide_legend(reverse = TRUE))
+  }
 
   return(my_plot)
 }
