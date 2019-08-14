@@ -2,9 +2,10 @@
 #'
 #' Plot the ROC curve of the given model and print the AUC value.
 #'
-#' @param model \link{SDMmodel} object.
-#' @param val \link{SWD} object. The validation dataset, default is NULL.
-#' @param test \link{SWD} object. The testing dataset, default is NULL.
+#' @param model \code{\link{SDMmodel}} object.
+#' @param test \code{\link{SWD}} object. The testing dataset, default is
+#' \code{NULL}.
+#' @param val deprecated.
 #'
 #' @return The plot object.
 #' @export
@@ -42,7 +43,13 @@
 #' }
 #'
 #' @author Sergio Vignali
-plotROC <- function(model, val = NULL, test = NULL) {
+plotROC <- function(model, test = NULL, val = NULL) {
+
+  # TODO Remove it next release
+  if (!is.null(val)) {
+    stop("\"val\" argument is deprecated and will be removed in the next ",
+         "release.", call. = FALSE)
+  }
 
   if (class(model@model) == "Maxent") {
     type <- "raw"
@@ -54,36 +61,23 @@ plotROC <- function(model, val = NULL, test = NULL) {
   fpr <- cm$fp / (cm$fp + cm$tn)
   tpr <- cm$tp / (cm$tp + cm$fn)
   auc <- auc(model)
-  df <- data.frame(set = "train", fpr = fpr, tpr = tpr,
+  df <- data.frame(set = "Train", fpr = fpr, tpr = tpr,
                    stringsAsFactors = FALSE)
-  labels <- c(paste("Train", round(auc, 3)))
-
-  if (!is.null(val)) {
-    cm <- confMatrix(model, type = type, test = val)
-    fpr <- cm$fp / (cm$fp + cm$tn)
-    tpr <- cm$tp / (cm$tp + cm$fn)
-    auc <- auc(model, test = val)
-    df_val <- data.frame(set = "val", fpr = fpr, tpr = tpr)
-    df <- rbind(df, df_val)
-    labels <- append(labels, paste("Val", round(auc, 3)))
-  }
 
   if (!is.null(test)) {
     cm <- confMatrix(model, type = type, test = test)
     fpr <- cm$fp / (cm$fp + cm$tn)
     tpr <- cm$tp / (cm$tp + cm$fn)
     auc <- auc(model, test = test)
-    df_test <- data.frame(set = "test", fpr = fpr, tpr = tpr)
+    df_test <- data.frame(set = "Test", fpr = fpr, tpr = tpr)
     df <- rbind(df, df_test)
-    labels <- append(labels, paste("Test", round(auc, 3)))
   }
 
-  my_plot <- ggplot(df, aes_(x = ~fpr, y = ~tpr, colour = ~set)) +
-    geom_line() +
-    scale_colour_discrete(name = "AUC", labels = labels) +
+  my_plot <- ggplot(df, aes_(x = ~fpr, y = ~tpr, group = ~set)) +
+    geom_line(aes_(color = ~set)) +
     geom_segment(aes_(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
                  linetype = 2) +
-    labs(x = "False Positive Rate", y = "True Positive Rate") +
+    labs(x = "False Positive Rate", y = "True Positive Rate", color = "AUC") +
     coord_fixed() +
     theme_minimal() +
     theme(text = element_text(colour = "#666666", family = "sans-serif"))
