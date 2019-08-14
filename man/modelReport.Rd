@@ -5,8 +5,8 @@
 \title{Model Report}
 \usage{
 modelReport(model, folder, test = NULL, type = NULL,
-  response_curves = FALSE, jk = FALSE, env = NULL, clamp = TRUE,
-  permut = 10)
+  response_curves = FALSE, only_presence = FALSE, jk = FALSE,
+  env = NULL, clamp = TRUE, permut = 10)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} object.}
@@ -23,6 +23,9 @@ methods, possible values are "cloglog" and "logistic", default is
 
 \item{response_curves}{logical, if \code{TRUE} it plots the response curves
 in the html output, default is \code{FALSE}.}
+
+\item{only_presence}{logical, if \code{TRUE} it uses only the range of the
+presence location for the marginal response, default is \code{FALSE}.}
 
 \item{jk}{logical, if \code{TRUE} it runs the jackknife test, default
 \code{FALSE}.}
@@ -67,7 +70,8 @@ model <- train(method = "Maxent", data = train, fc = "l")
 
 # Create the report
 modelReport(model, type = "cloglog", folder = "my_folder", test = test,
-            response_curves = TRUE, jk = TRUE, env = predictors)
+            response_curves = TRUE, only_presence = TRUE, jk = TRUE,
+            env = predictors)
 }
 }
 \author{

@@ -10,6 +10,7 @@ params:
   folder: folder
   test: test
   response_curves: false
+  only_presence: false
   jk: false
   env: null
   clamp: true
@@ -66,7 +67,7 @@ if (params$response_curves) {
   vars <- sort(colnames(params$model@data@data))
   elements <- c()
   for (var in vars) {
-    plot <- plotResponse(params$model, var, type = params$type, marginal = TRUE, rug = TRUE, clamp = params$clamp, color = "#4bc0c0")
+    plot <- plotResponse(params$model, var, type = params$type, only_presence = params$only_presence, marginal = TRUE, rug = TRUE, color = "#4bc0c0")
     suppressMessages(ggplot2::ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = plot_folder))
     path <- paste0(plot_folder, "/", var, "_marginal.png")
     element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
@@ -85,7 +86,7 @@ if (params$response_curves) {
   message("- Plotting univariate response curves...", appendLF = FALSE)
   elements <- c("")
   for (var in vars) {
-    plot <- suppressMessages(plotResponse(params$model, var, type = params$type, marginal = FALSE, rug = TRUE, clamp = params$clamp, color = "#4bc0c0"))
+    plot <- suppressMessages(plotResponse(params$model, var, type = params$type, only_presence = params$only_presence, marginal = FALSE, rug = TRUE, color = "#4bc0c0"))
     suppressMessages(ggplot2::ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = plot_folder))
     path <- paste0(plot_folder, "/", var, ".png")
     element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")

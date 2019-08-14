@@ -8,7 +8,7 @@
 #' @param type character. The output type used for "Maxent" and "Maxnet"
 #' methods, possible values are "cloglog" and "logistic", default is
 #' \code{NULL}.
-#' @param only_presence logical. If \code{TRUE} it uses only the range of the
+#' @param only_presence logical, f \code{TRUE} it uses only the range of the
 #' presence location for the marginal response, default is \code{FALSE}.
 #' @param marginal logical, if \code{TRUE} it plots the marginal response curve,
 #' default is \code{FALSE}.

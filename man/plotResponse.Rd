@@ -17,7 +17,7 @@ object.}
 methods, possible values are "cloglog" and "logistic", default is
 \code{NULL}.}
 
-\item{only_presence}{logical. If \code{TRUE} it uses only the range of the
+\item{only_presence}{logical, f \code{TRUE} it uses only the range of the
 presence location for the marginal response, default is \code{FALSE}.}
 
 \item{marginal}{logical, if \code{TRUE} it plots the marginal response curve,

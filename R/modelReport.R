@@ -12,6 +12,8 @@
 #' \code{NULL}.
 #' @param response_curves logical, if \code{TRUE} it plots the response curves
 #' in the html output, default is \code{FALSE}.
+#' @param only_presence logical, if \code{TRUE} it uses only the range of the
+#' presence location for the marginal response, default is \code{FALSE}.
 #' @param jk logical, if \code{TRUE} it runs the jackknife test, default
 #' \code{FALSE}.
 #' @param env \code{\link[raster]{stack}}. If provided it computes and adds a
@@ -58,11 +60,12 @@
 #'
 #' # Create the report
 #' modelReport(model, type = "cloglog", folder = "my_folder", test = test,
-#'             response_curves = TRUE, jk = TRUE, env = predictors)
+#'             response_curves = TRUE, only_presence = TRUE, jk = TRUE,
+#'             env = predictors)
 #' }
 modelReport <- function(model, folder, test = NULL, type = NULL,
-                        response_curves = FALSE, jk = FALSE, env = NULL,
-                        clamp = TRUE, permut = 10) {
+                        response_curves = FALSE, only_presence = FALSE,
+                        jk = FALSE, env = NULL, clamp = TRUE, permut = 10) {
 
   if (file.exists(paste0(getwd(), "/", folder))) {
     msg <- message(crayon::red(cli::symbol$fancy_question_mark),
@@ -90,6 +93,7 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
                       params = list(model = model, type = type, test = test,
                                     folder = folder, env = env, jk = jk,
                                     response_curves = response_curves,
+                                    only_presence = only_presence,
                                     clamp = clamp, permut = permut),
                       output_options = list(pandoc_args = args),
                       quiet = TRUE
