@@ -9,7 +9,6 @@ Main changes:
 * New methods to train models: Artificial Neural Network (ANN), Boosted Regression Trees (BRT) and Random Forest (RF)
 * Enabled spatial cross validation: the function `train` accepts now folds partition generated with other packages (i.e. ENMeval and blockCV)
 * Add title argument in `plot` function for `SDMtune` objects
-* The interactive plot of an `SDMtune` object can now be saved in a file
 * New randomly generated dataset `virtualSp` with presence, absence and background locations
 * Number of background locations cannot be tuned anymore using the tuning functions
 

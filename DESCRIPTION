@@ -74,7 +74,6 @@ Collate:
     'SDMmodelCV-class.R'
     'SDMtune-class.R'
     'SDMtune.R'
-    'SDMtuneChart.R'
     'aicc.R'
     'auc.R'
     'chart-utils.R'

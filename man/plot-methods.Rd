@@ -19,9 +19,8 @@
 If \code{interactive = FALSE} the function returns a
 \code{\link[ggplot2]{ggplot}} object otherwise it returns an SDMtuneChart
 object that contains the path of the temporary folder where the necessary
-files to create the chart are saved. This object can be used to saved the
-chart in a file using the \link{saveChart} function. In both cases the
-objects are returned as invisible.
+files to create the chart are saved. In both cases the objects are returned
+as invisible.
 }
 \description{
 Plot an \linkS4class{SDMtune} object. Use the interactive argument to create
@@ -61,13 +60,9 @@ plot(output, title = "My experiment")
 
 # Plot the interactive chart
 p <- plot(output, title = "My experiment", interactive = TRUE)
-p
 # Print the temporary folder that stores the files used to create the chart
 str(p)
 }
-}
-\seealso{
-\link{saveChart}
 }
 \author{
 Sergio Vignali

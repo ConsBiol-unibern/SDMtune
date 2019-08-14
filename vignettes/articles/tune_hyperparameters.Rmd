@@ -61,14 +61,7 @@ plot(exp_1, title = "Experiment 1")
 
 and you can also recreate the interactive chart using:
 ```{r plot exp_1 iter, eval=FALSE}
-chart <- plot(exp_1, title = "Experiment 1", interactive = TRUE)
-chart
-str(chart)
-```
-
-When you assign the output of the plot function to a variable and you plot the interactive chart, the path of the temporary folder, that is used to store the necessary files to create the chart, is saved in the variable. The chart can be then saved in a file using the function `saveChart()` and passing the name of the file that you want to use:
-```{r save chart, eval=FALSE}
-saveChart(chart, "my_chart")
+plot(exp_1, title = "Experiment 1", interactive = TRUE)
 ```
 
 The `SDMtune()` object stores the results in the slot `@results`:

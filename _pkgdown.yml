@@ -109,7 +109,6 @@ reference:
   - '`plotResponse`'
   - '`plotROC`'
   - '`plotVarImp`'
-  - '`saveChart`'
 - title: Tune
   desc: Function for model tuning and optimization
   contents:

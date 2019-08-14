@@ -37,8 +37,5 @@ test_that("Interactive plot is created and can be saved", {
   o@results <- res
   p <- expect_s3_class(plot(o, interactive = TRUE), "SDMtuneChart")
   expect_true(file.exists(p))
-  saveChart(p, "my_chart")
-  expect_true(file.exists(file.path(getwd(), "my_chart.html")))
   unlink(p, recursive = TRUE)
-  unlink(file.path(getwd(), "my_chart.html"))
 })
