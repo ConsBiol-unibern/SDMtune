@@ -348,6 +348,25 @@ testAUC
 <a href="#try-yourself-1" class="anchor"></a>Try yourself</h3>
 <p>Repeat the analysis using the <code>default_model</code> that we created in the <a href="./model_training.html#train-a-model-with-default-settings">train a model</a> article.</p>
 </div>
+<div id="spatial-cross-validation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#spatial-cross-validation" class="anchor"></a>Spatial Cross Validation</h3>
+<p>The <code><a href="../../reference/train.html">train()</a></code> function accepts folds created with other packages (ENMeval and blockCV). The function will convert internally into the correct format for <code>SDMtune</code>. These packages have specific function to create folds partitions that are spatially or environmentally indipendent.</p>
+<p>Block partition using the ENMeval package:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ENMeval)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">block_folds &lt;-<span class="st"> </span><span class="kw">get.block</span>(<span class="dt">occ =</span> data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ], <span class="dt">bg.coords =</span> data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, ])</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">data =</span> data, <span class="dt">fc =</span> <span class="st">"l"</span>, <span class="dt">reg =</span> <span class="fl">0.8</span>, <span class="dt">folds =</span> block_folds)</a></code></pre></div>
+<p>Checkerboard1 partition using the ENMeval package</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">cb_folds &lt;-<span class="st"> </span><span class="kw">get.checkerboard1</span>(<span class="dt">occ =</span> data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ], <span class="dt">env =</span> predictors, <span class="dt">bg.coords =</span> data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, ], <span class="dt">aggregation.factor =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">data =</span> data, <span class="dt">fc =</span> <span class="st">"l"</span>, <span class="dt">reg =</span> <span class="fl">0.8</span>, <span class="dt">folds =</span> cb_folds)</a></code></pre></div>
+<p>Environmental block using the blockCV package</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(blockCV)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co"># Create spatial points data frame</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">sp_df &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(data<span class="op">@</span>coords, <span class="dt">data =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/as.data.frame">as.data.frame</a></span>(data<span class="op">@</span>pa), <span class="dt">proj4string =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/projection">crs</a></span>(predictors))</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">e_folds &lt;-<span class="st"> </span><span class="kw">envBlock</span>(<span class="dt">rasterLayer =</span> predictors, <span class="dt">speciesData =</span> sp_df, <span class="dt">species =</span> <span class="st">"data@pa"</span>, <span class="dt">k =</span> <span class="dv">4</span>, <span class="dt">standardization =</span> <span class="st">"standard"</span>, <span class="dt">rasterBlock =</span> <span class="ot">FALSE</span>, <span class="dt">numLimit =</span> <span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">data =</span> data, <span class="dt">fc =</span> <span class="st">"l"</span>, <span class="dt">reg =</span> <span class="fl">0.8</span>, <span class="dt">folds =</span> e_folds)</a></code></pre></div>
+</div>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
@@ -358,6 +377,7 @@ testAUC
 <li>how to evaluate the model using the held out testing dataset;</li>
 <li>how to create random folds for cross validation;</li>
 <li>how to perform a cross validation;</li>
+<li>how to use other packages to create the folds for the k-fold cross validation;</li>
 <li>how to evaluate an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object.</li>
 </ul>
 <p>In the next article you will learn how to display the <a href="./variable_importance.html">variable importance</a> and how to plot the response curve.</p>
