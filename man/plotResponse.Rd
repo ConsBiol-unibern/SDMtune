@@ -4,8 +4,8 @@
 \alias{plotResponse}
 \title{Plot Response Curve}
 \usage{
-plotResponse(model, var, type = NULL, marginal = FALSE, fun = mean,
-  clamp = TRUE, rug = FALSE, color = "red")
+plotResponse(model, var, type = NULL, only_presence = FALSE,
+  marginal = FALSE, fun = mean, rug = FALSE, color = "red")
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
@@ -17,13 +17,14 @@ object.}
 methods, possible values are "cloglog" and "logistic", default is
 \code{NULL}.}
 
+\item{only_presence}{logical. If \code{TRUE} it uses only the range of the
+presence location for the marginal response, default is \code{FALSE}.}
+
 \item{marginal}{logical, if \code{TRUE} it plots the marginal response curve,
 default is \code{FALSE}.}
 
 \item{fun}{function used to compute the level of the other variables for
-marginal curves, possible values are mean and median, default is mean.}
-
-\item{clamp}{logical for clumping during prediction, default is \code{TRUE}.}
+marginal curves, default is \code{mean}.}
 
 \item{rug}{logical, if \code{TRUE} it adds the rug plot for the presence and
 absence/background locations, available only for continuous variables,
