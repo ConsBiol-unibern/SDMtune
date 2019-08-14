@@ -174,10 +174,9 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
   data[cat_vars] <- as.factor(apply(df[cat_vars], 2, raster::modal))
   data <- do.call("rbind", replicate(n_rows, data, simplify = FALSE))
 
-  var_min <- min(df[var])
-  var_max <- max(df[var])
-
   if (var %in% cont_vars) {
+    var_min <- min(df[var])
+    var_max <- max(df[var])
     data[var] <- seq(var_min, var_max, length.out = n_rows)
   } else {
     data[var] <- categ
