@@ -192,6 +192,6 @@ In this article you have learned:
 * how to extract information from an `SWD()` object;
 * how to save an `SWD()` object in a **.csv** file.
 
-Move on to the [second article](./train_model.html) and learn how to train models using `SDMtune`.
+Move on to the [second article](./train-model.html) and learn how to train models using `SDMtune`.
 
 # References

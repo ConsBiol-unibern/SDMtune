@@ -99,7 +99,7 @@ As you can see in this case only **bio12** and **bio16** have been removed and t
 
 ### Try yourself
 
-Reduce the number of variables using the model trained with the [cross validation](./evaluation_strategies.html#cross-validation) and using as metric the TSS. Highlight the following cell for the solution:
+Reduce the number of variables using the model trained with the [cross validation](./evaluation-strategies.html#cross-validation) and using as metric the TSS. Highlight the following cell for the solution:
 ```{r exercise 2, eval=FALSE, eval=FALSE, class.source='exercise'}
 # You need to pass TRUE to the test argument
 selected_variables_model <- reduceVar(cv_model, th = 6, metric = "tss", test = TRUE, permut = 1)
@@ -113,4 +113,4 @@ In this article you have learned:
 * a possible approach to remove highly correlated environmental variables;
 * two possible methods to remove environmental variables with low importance.
 
-In the next article you will learn how to tune the [model hyperparameters](./tune_hyperparameters.html).
+In the [next article](./tune-hyperparameters.html) you will learn how to tune the model hyperparameters.

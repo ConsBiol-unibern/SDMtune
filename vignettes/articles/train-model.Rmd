@@ -17,7 +17,7 @@ default_model <- SDMtune:::bm_maxent
 
 ## Intro
 
-In the [previous article](./prepare_data.html) you have learned how to prepare the data for the analysis using the [virtualSp](../../reference/virtualSp.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
+In the [previous article](./prepare-data.html) you have learned how to prepare the data for the analysis using the [virtualSp](../../reference/virtualSp.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
 **SDMtune** supports the following methods: Artificial Neural Networks, Boosted Regression Trees, Maximum Entropy and Random Forest. The following are the packages used for the different methods:
 
 * **ANN** using the `nnet` package [@Venables2002];
@@ -143,6 +143,6 @@ In this article you have learned:
 * how to train a model changing the default settings;
 * how to train a model using the **Maxnet** method.
 
-In the [next article](./make_predictions.html) you will learn how to use the model that you have just trained to get the predicted value for new localities.
+In the [next article](./make-predictions.html) you will learn how to use the model that you have just trained to get the predicted value for new localities.
 
 ### References

@@ -14,7 +14,7 @@
 #' the R implementation through the \link{maxnet} package.
 #' Visit the [package website](https://consbiol-unibern.github.io/SDMtune/)
 #' and learn how to use **SDMtune** starting from the first article
-#' [Prepare data for the analysis](https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html).
+#' [Prepare data for the analysis](https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare-data.html).
 #'
 #' @docType package
 #' @name SDMtune-pkg

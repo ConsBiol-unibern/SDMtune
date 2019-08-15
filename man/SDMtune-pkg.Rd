@@ -20,5 +20,5 @@ available using the Java implementation through the \link{dismo} package and
 the R implementation through the \link{maxnet} package.
 Visit the \href{https://consbiol-unibern.github.io/SDMtune/}{package website}
 and learn how to use \strong{SDMtune} starting from the first article
-\href{https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html}{Prepare data for the analysis}.
+\href{https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare-data.html}{Prepare data for the analysis}.
 }

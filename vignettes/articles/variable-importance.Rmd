@@ -19,7 +19,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html), how to [evaluate a model](./evaluate_model.html) and two different [evaluation strategies](./evaluation_strategies.html) using **SDMtune**. In this article you will learn how to display and plot the variable importance and how to plot the response curves.
+In the previous articles you have learned how to [prepare the data](./prepare-data.html) for the analysis, how to [train a model](./train-model.html), how to [make predictions](./make-predictions.html), how to [evaluate a model](./evaluate-model.html) and two different [evaluation strategies](./evaluation-strategies.html) using **SDMtune**. In this article you will learn how to display and plot the variable importance and how to plot the response curves.
 
 ## Variable importance for Maxent models
 
@@ -61,7 +61,7 @@ plotVarImp(vi[, c(1,3)])
 
 ## Permutation importance
 
-For this example we use a **Maxnet** model and a training/testing validation strategy like in the [previous article](./evaluation_strategies.html#train-and-testing-datasets):
+For this example we use a **Maxnet** model and a training/testing validation strategy like in the [previous article](./evaluation-strategies.html#train-and-testing-datasets):
 ```{r train test}
 library(zeallot)  # For unpacking assignment
 c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
@@ -133,7 +133,7 @@ Plot in green the univariate cloglog response curve of **bio17** removing the ru
 plotResponse(default_model, var = "bio17", type = "cloglog", only_presence = TRUE, marginal = FALSE, color = "green")
 ```
 
-In the case of an `SDMmodelCV()` the response curve shows the averaged value of the prediction together with one Standard Deviation error interval. We use the cross validation model trained in the [previous article](./evaluation_strategies.html#cross-validation)
+In the case of an `SDMmodelCV()` the response curve shows the averaged value of the prediction together with one Standard Deviation error interval. We use the cross validation model trained in the [previous article](./evaluation-strategies.html#cross-validation)
 ```{r load model, echo=FALSE}
 cv_model <- SDMtune:::bm_maxnet_cv
 ```
@@ -170,4 +170,4 @@ In this article you have learned:
 * how to plot the marginal and the univariate response curve;
 * how to create a model report.
 
-In the [next article](./variable_selection.html) you will learn how to perform data-driven variable selection.
+In the [next article](./variable-selection.html) you will learn how to perform data-driven variable selection.

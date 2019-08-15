@@ -20,7 +20,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html), how to [make predictions](./make_predictions.html) and how to [evaluate a model](./evaluate_model.html) using **SDMtune**. In this article you will learn different evaluation strategies to achieve a better estimate of the model performance.
+In the previous articles you have learned how to [prepare the data](./prepare-data.html) for the analysis, how to [train a model](./train-model.html), how to [make predictions](./make-predictions.html) and how to [evaluate a model](./evaluate-model.html) using **SDMtune**. In this article you will learn different evaluation strategies to achieve a better estimate of the model performance.
 
 ## Train and testing datasets
 
@@ -107,7 +107,7 @@ this returns the AUC value averaged across the four different models.
 
 ### Try yourself
 
-Repeat the analysis using the `default_model` that we created in the [train a model](./model_training.html#train-a-model-with-default-settings) article.
+Repeat the analysis using the `default_model` that we created in the [train a model](./model-training.html#train-a-model-with-default-settings) article.
 
 ### Spatial Cross Validation
 
@@ -148,4 +148,4 @@ In this article you have learned:
 * how to use other packages to create the folds for the k-fold cross validation;
 * how to evaluate an `SDMmodelCV()` object.
 
-In the next article you will learn how to display the [variable importance](./variable_importance.html) and how to plot the response curve.
+In the [next article](./variable-importance.html) you will learn how to display the variable importance and how to plot the response curve.

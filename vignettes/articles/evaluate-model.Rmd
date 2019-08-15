@@ -19,7 +19,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis, how to [train a model](./train_model.html) and how to [make predictions](./make_predictions.html) using **SDMtune**. In this article you will learn how to evaluate your model using three different metrics. We will compute the value of the metrics on the training dataset using the `default model` that we trained in a previous article.
+In the previous articles you have learned how to [prepare the data](./prepare-data.html) for the analysis, how to [train a model](./train-model.html) and how to [make predictions](./make-predictions.html) using **SDMtune**. In this article you will learn how to evaluate your model using three different metrics. We will compute the value of the metrics on the training dataset using the `default model` that we trained in a previous article.
 
 ## AUC
 
@@ -48,7 +48,7 @@ tss(default_model)
 
 ## AICc
 
-For the Akaike Information Criterion corrected for small sample size [@Warren2011a] we use the function `aicc()`. In this case we need to pass to the `env` argument (i.e. the 'predictors' raster `stack` object we created in the [first article](./prepare_data.html#acquire-environmental-variables)):
+For the Akaike Information Criterion corrected for small sample size [@Warren2011a] we use the function `aicc()`. In this case we need to pass to the `env` argument (i.e. the 'predictors' raster `stack` object we created in the [first article](./prepare-data.html#acquire-environmental-variables)):
 ```{r aicc}
 aicc(default_model, env = predictors)
 ```
@@ -68,6 +68,6 @@ In this article you have learned:
 * how to calculate the TSS;
 * how to calculate the AICc.
 
-In the next article you will learn two different strategies that can be used to correctly evaluate the model performance.
+In the [next article](./evaluation-strategies.html) you will learn two different strategies that can be used to correctly evaluate the model performance.
 
 ### References

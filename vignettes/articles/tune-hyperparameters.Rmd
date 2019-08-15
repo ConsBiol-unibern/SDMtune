@@ -20,7 +20,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned the core functions of **SDMtune** and how to perform [data-driven variable selection](./variable_selection.html). In this article you will learn how to tune the model hyperparameters.
+In the previous articles you have learned the core functions of **SDMtune** and how to perform [data-driven variable selection](./variable-selection.html). In this article you will learn how to tune the model hyperparameters.
 
 ## Training, validation and testing split
 

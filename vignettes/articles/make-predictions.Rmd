@@ -20,7 +20,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare_data.html) for the analysis and how to [train a model](./train_model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of the virtual species.
+In the previous articles you have learned how to [prepare the data](./prepare-data.html) for the analysis and how to [train a model](./train-model.html) using **SDMtune**. In this article you will learn how to use a trained model to make predictions. We will use the `default model` that we trained in the previous article to predict the distribution of the virtual species.
 
 ## Make prediction
 
@@ -58,7 +58,7 @@ tail(pred)
 
 ## Create a distribution map
 
-We can use the same function to create a distribution map starting from the `predictors` raster `stack' object we created in the [first article](./prepare_data.html#acquire-environmental-variables).
+We can use the same function to create a distribution map starting from the `predictors` raster `stack' object we created in the [first article](./prepare-data.html#acquire-environmental-variables).
 
 ```{r predict raster}
 map <- predict(default_model, data = predictors, type = "cloglog")
@@ -152,4 +152,4 @@ In this article you have learned:
 * how to get thresholds values to create a presence/absence map;
 * how to plot and save a presence/absence map.
 
-In the [next article](./evaluate_model.html) you will learn how to evaluate a model.
+In the [next article](./evaluate-model.html) you will learn how to evaluate a model.

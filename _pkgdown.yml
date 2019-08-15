@@ -32,25 +32,25 @@ navbar:
   - text: Articles
     menu:
     - text: Prepare data for the analysis
-      href: articles/articles/prepare_data.html
+      href: articles/articles/prepare-data.html
     - text: Train a model
-      href: articles/articles/train_model.html
+      href: articles/articles/train-model.html
     - text: Make predictions
-      href: articles/articles/make_predictions.html
+      href: articles/articles/make-predictions.html
     - text: Evaluate a model
-      href: articles/articles/evaluate_model.html
+      href: articles/articles/evaluate-model.html
     - text: Evaluation strategies
-      href: articles/articles/evaluation_strategies.html
+      href: articles/articles/evaluation-strategies.html
     - text: Variable importance
-      href: articles/articles/variable_importance.html
+      href: articles/articles/variable-importance.html
     - text: Data-driven variable selection
-      href: articles/articles/variable_selection.html
+      href: articles/articles/variable-selection.html
     - text: Tune model hyperparameters
-      href: articles/articles/tune_hyperparameters.html
+      href: articles/articles/tune-hyperparameters.html
     - text: Train and tune presence absence models
       href: articles/articles/train-tune-presence-absence-models.html
     - text: Deprecated objects
-      href: articles/articles/deprecated_objects.html
+      href: articles/articles/deprecated-objects.html
   - text: Changelog
     href: news/index.html
   right:
