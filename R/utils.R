@@ -129,6 +129,7 @@
   res <- matrix(nrow = length(models), ncol = length(labels))
   colnames(res) <- labels
   fcs <- vector("character", length = length(models))
+  distrs <- vector("character", length = length(models))
 
   for (i in 1:length(models)) {
     if (class(models[[i]]) == "SDMmodel") {
@@ -137,8 +138,8 @@
       m <- models[[i]]@models[[1]]
     }
     for (j in 1:l) {
-      if (tunable_hypers[j] == "a") {
-        res[i, "a"] <- nrow(m@a@data)
+      if (tunable_hypers[j] == "distribution") {
+        distrs[i] <- slot(m@model, tunable_hypers[j])
       } else if (tunable_hypers[j] == "fc") {
         fcs[i] <- m@model@fc
       } else {
@@ -158,8 +159,12 @@
 
   res <- as.data.frame(res, stringsAsFactors = FALSE)
 
-  if ("fc" %in% tunable_hypers)
+  if ("distribution" %in% tunable_hypers) {
+    res$distribution <- distrs
+  }
+  if ("fc" %in% tunable_hypers) {
     res$fc <- fcs
+  }
 
   output <- SDMtune(results = res, models = models)
 

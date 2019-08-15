@@ -42,7 +42,7 @@
 #'     + nodesize: integer. Minimum size of terminal nodes.
 #' * For the Maxent method, possible arguments are:
 #'     + reg: numeric. The value of the regularization multiplier, default is 1.
-#'     + fc: vector. The value of the feature classes, possible values are
+#'     + fc: character. The value of the feature classes, possible values are
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph".
 #'     + iter: numeric. Number of iterations used by the MaxEnt algorithm,
 #'       default is 500.
@@ -55,7 +55,7 @@
 #' * For the Maxnet method, possible arguments are (for more details see
 #' \code{\link[maxnet]{maxnet}}):
 #'     + reg: numeric. The value of the regularization intensity, default is 1.
-#'     + fc: vector. The value of the feature classes, possible values are
+#'     + fc: character. The value of the feature classes, possible values are
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph".
 #'
 #' The folds argument accepts also objects created with other packages:

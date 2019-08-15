@@ -26,7 +26,7 @@ In the [previous article](./prepare_data.html) you have learned how to prepare t
 * **Maxnet** using the `maxnet` package [@Phillips2017b];
 * **RF** using the `andomForest` package [@Liaw2002].
 
-The code necessary to train a model is the same for all the implementations. We will show how to train a **Maxent** model, you can adapt the code for the other methods.
+The code necessary to train a model is the same for all the implementations. We will show how to train a **Maxent** model, you can adapt the code for the other methods or check this [article](./train-tune-presence-absence-models.html).
 
 ## Check that MaxEnt is correctly configured
 

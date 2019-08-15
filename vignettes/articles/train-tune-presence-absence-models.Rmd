@@ -1,0 +1,98 @@
+---
+title: "Train presence absence models"
+bibliography: ../SDMtune.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "html")
+```
+
+```{r load data, echo=FALSE, message=FALSE}
+library(SDMtune)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
+```
+
+## Intro
+
+All the previous artivcles are based on presence only methods, in this article you will learn how to train a presence absence model. The following examples are based on the Artificial Neural Networds method [@Venables2002], but you can adapt the code for any of the other supported methods.
+
+## Prepare the data for the analysis
+
+We use the first 8 environmental variables and the same `virtualSp()` dataset selecting the absence instead of the background locations.
+```{r prepare data}
+p_coords <- virtualSp$presence
+a_coords <- virtualSp$absence
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords, env = predictors[[1:8]])
+data
+```
+
+There are `r sum(data@pa == 1)` presence and `r sum(data@pa == 0)` absence locations.
+
+For the model evaluation we will create a training and testing datasets, holding apart 20% of the data:
+```{r train test}
+library(zeallot)
+c(train, test) %<-% trainValTest(data, test = 0.2, seed = 25)
+```
+
+At this point we have `r nrow(train@data)` training and `r nrow(test@data)` testing locations. We create a 4-folds partition to run cross validation:
+```{r folds}
+folds <- randomFolds(train, k = 4, seed = 25)
+```
+
+## Train the model
+
+We first train the model with default settings and running the cross validation:
+```{r}
+set.seed(25)
+model <- train("ANN", data = train, size = 10, folds = folds)
+model
+```
+
+Let's check the training and testing auc:
+```{r auc}
+auc(model)
+auc(model, test = TRUE)
+```
+
+## Tune model hyperparameters
+
+To check which hyperparameters can be tuned we use the function `get_tunable_args()` function:
+```{r get tunable args}
+get_tunable_args(model)
+```
+
+We use the `optimizeModel()` function to find the best hyperparameter combinations for the learning rate, the number of trees and the bag fraction:
+
+```{r optimize model}
+h <- list(size = 2:20, decay = c(0.01, 0.05, 0.1, 0.3, 0.5), maxit = c(100, 300, 500))
+
+om <- optimizeModel(model, hypers = h, metric = "auc", seed = 25)
+```
+
+The best model is:
+```{r best model}
+best_model <- om@models[[1]]
+om@results[1, ]
+```
+
+The validation auc increased from `r auc(model, test = TRUE)` of the default models to `r om@results[1, 6]` of the optimized one.
+
+## Evaluate the final model
+
+We now train a model with the same configuration as found by the `optimizeModel()` function without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:
+```{r evaluate final model, fig.align="center"}
+set.seed(25)
+final_model <- train("ANN", data = train, size = om@results[1, 1], decay = om@results[1, 2], maxit = om@results[1, 4])
+plotROC(final_model, test = test)
+```
+
+## Conclusion
+
+In this tutorial you have learned a general way to train, evaluate and tune model using Artificial Neural Network, but you can apply the same workflow to other methods.
+
+### References

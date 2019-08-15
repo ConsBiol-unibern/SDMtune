@@ -47,6 +47,8 @@ navbar:
       href: articles/articles/variable_selection.html
     - text: Tune model hyperparameters
       href: articles/articles/tune_hyperparameters.html
+    - text: Train and tune presence absence models
+      href: articles/articles/train-tune-presence-absence-models.html
     - text: Deprecated objects
       href: articles/articles/deprecated_objects.html
   - text: Changelog
@@ -127,6 +129,7 @@ reference:
 - title: Classes
   desc: Package classes
   contents:
+  - '`ANN-class`'
   - '`BRT-class`'
   - '`Maxent-class`'
   - '`Maxnet-class`'

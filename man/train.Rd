@@ -71,7 +71,7 @@ default is \code{floor(sqrt(number of variables))}.
 \item For the Maxent method, possible arguments are:
 \itemize{
 \item reg: numeric. The value of the regularization multiplier, default is 1.
-\item fc: vector. The value of the feature classes, possible values are
+\item fc: character. The value of the feature classes, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".
 \item iter: numeric. Number of iterations used by the MaxEnt algorithm,
 default is 500.
@@ -86,7 +86,7 @@ default settings (e.g. \code{extra_args = c("removeduplicates=true,
 \code{\link[maxnet]{maxnet}}):
 \itemize{
 \item reg: numeric. The value of the regularization intensity, default is 1.
-\item fc: vector. The value of the feature classes, possible values are
+\item fc: character. The value of the feature classes, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".
 }
 }
