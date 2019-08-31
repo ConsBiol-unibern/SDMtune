@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -45,13 +47,13 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Train, Validation and Test datasets — trainValTest" />
 
+<meta property="og:title" content="Train, Validation and Test datasets — trainValTest" />
 <meta property="og:description" content="Split a dataset randomly in training and testing datasets or training,
 validation and testing datasets." />
-
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -142,7 +144,6 @@ validation and testing datasets." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
@@ -174,14 +175,12 @@ validation and testing datasets." />
     </div>
 
     <div class="ref-description">
-    
     <p>Split a dataset randomly in training and testing datasets or training,
 validation and testing datasets.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>trainValTest</span>(<span class='no'>x</span>, <span class='no'>test</span>, <span class='kw'>val</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -211,17 +210,15 @@ partition, used manly for presence-only methods, default is <code>FALSE</code>.<
 consistent results, default is <code>NULL</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with the training, validation and testing or training and
 testing <code><a href='SWD-class.html'>SWD</a></code> objects accordingly.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>When <code>only_presence = FALSE</code>, the proportion of presence and
 absence is preserved.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -256,11 +253,8 @@ absence is preserved.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

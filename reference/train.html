@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -45,13 +47,13 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Train — train" />
 
+<meta property="og:title" content="Train — train" />
 <meta property="og:description" content="Train a model using one of the following methods: Artificial Neural Networks,
 Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
-
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -142,7 +144,6 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
@@ -174,15 +175,13 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
     </div>
 
     <div class="ref-description">
-    
     <p>Train a model using one of the following methods: Artificial Neural Networks,
 Boosted Regression Trees, Maxent, Maxnet or Random Forest.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>train</span>(<span class='no'>method</span>, <span class='no'>data</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>a</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -227,12 +226,11 @@ validation, default is <code>TRUE</code>.</p></td>
       <td><p>Arguments passed to the relative method, see details.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An <code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
 object.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <ul>
@@ -247,9 +245,9 @@ object.</p>
 <code><a href='https://www.rdocumentation.org/packages/gbm/topics/gbm'>gbm</a></code>):</p><ul>
 <li><p>distribution: character. Name of the distribution to use, default is
 "bernoulli".</p></li>
-<li><p>ntree: integer. Maximum number of tree to grow, default is 100.</p></li>
+<li><p>n.trees: integer. Maximum number of tree to grow, default is 100.</p></li>
 <li><p>interaction.depth: integer. Maximum depth of each tree, default is 1.</p></li>
-<li><p>lr: numeric. The shrinkage parameter, default is 0.1.</p></li>
+<li><p>shrinkage: numeric. The shrinkage parameter, default is 0.1.</p></li>
 <li><p>bag.fraction: numeric. Random fraction of data used in the tree
 expansion, default is 0.5.</p></li>
 </ul></li>
@@ -284,7 +282,6 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
     <p>The folds argument accepts also objects created with other packages:
 <span class="pkg">ENMeval</span> or <span class="pkg">blockCV</span>. In this case the function converts
 internally the folds into a format valid for <span class="pkg">SDMtune</span>.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Venables, W. N. &amp; Ripley, B. D. (2002) Modern Applied Statistics with S.
@@ -306,11 +303,9 @@ for ecological niche models. Methods in Ecology and Evolution.</p>
 <p>Roozbeh Valavi, Jane Elith, José Lahoz-Monfort and Gurutzeta Guillera-Arroita
 (2018). blockCV: Spatial and environmental blocking for k-fold
 cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.com/rvalavi/blockCV</a>.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='randomFolds.html'>randomFolds</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -386,22 +381,17 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"RF"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 
 <span class='co'># Train a Boosted Regression Tree model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"BRT"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>lr</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"BRT"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

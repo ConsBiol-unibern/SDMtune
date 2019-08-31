@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -45,13 +47,13 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Boosted Regression Tree — BRT-class" />
 
+<meta property="og:title" content="Boosted Regression Tree — BRT-class" />
 <meta property="og:description" content="This Class represents a Boosted Regression Tree model objects and hosts all
 the information related to the model." />
-
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -142,7 +144,6 @@ the information related to the model." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
@@ -174,40 +175,35 @@ the information related to the model." />
     </div>
 
     <div class="ref-description">
-    
     <p>This Class represents a Boosted Regression Tree model objects and hosts all
 the information related to the model.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>See <code>gbm</code> for the meaning of the slots.</p>
-    
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     
     <dl class='dl-horizontal'>
 <dt><code>distribution</code></dt><dd><p>character. Name of the used distribution.</p></dd>
-    <dt><code>ntree</code></dt><dd><p>integer. Maximum number of grown trees.</p></dd>
+    <dt><code>n.trees</code></dt><dd><p>integer. Maximum number of grown trees.</p></dd>
     <dt><code>interaction.depth</code></dt><dd><p>integer. Maximum depth of each tree.</p></dd>
-    <dt><code>lr</code></dt><dd><p>numeric. The shrinkage parameter.</p></dd>
+    <dt><code>shrinkage</code></dt><dd><p>numeric. The shrinkage parameter.</p></dd>
     <dt><code>bag.fraction</code></dt><dd><p>numeric. Random fraction of data used in the tree
 expansion.</p></dd>
     <dt><code>model</code></dt><dd><p><code>gbm</code>. The Boosted Regression Tree model object.</p></dd>
 </dl>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#slots">Slots</a></li>
-          </ul>
+    </ul>
 
     <h2>Author</h2>
     <p>Sergio Vignali</p>

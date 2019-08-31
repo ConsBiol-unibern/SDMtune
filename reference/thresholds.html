@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -45,17 +47,17 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Thresholds — thresholds" />
 
+<meta property="og:title" content="Thresholds — thresholds" />
 <meta property="og:description" content="Compute three threshold values: minimum training presence, equal training
 sensitivity and specificity and maximum training sensitivity plus
 specificity together with fractional predicted area and the omission rate. If
 a test dataset is provided it returns also the equal test sensitivity and
 specificity and maximum test sensitivity plus specificity thresholds and the
 p-values of the one-tailed binomial exact test." />
-
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -146,7 +148,6 @@ p-values of the one-tailed binomial exact test." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
@@ -178,18 +179,16 @@ p-values of the one-tailed binomial exact test." />
     </div>
 
     <div class="ref-description">
-    
     <p>Compute three threshold values: minimum training presence, equal training
 sensitivity and specificity and maximum training sensitivity plus
 specificity together with fractional predicted area and the omission rate. If
 a test dataset is provided it returns also the equal test sensitivity and
 specificity and maximum test sensitivity plus specificity thresholds and the
 p-values of the one-tailed binomial exact test.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>thresholds</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -209,18 +208,16 @@ methods, possible values are "cloglog" and "logistic", default is
 returns the training and test thresholds, default is <code>NULL</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>data.frame with the thresholds.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The equal training sensitivity and specificity minimizes the
 difference between sensitivity and specificity. The one-tailed binomial test
 checks that test points are predicted no better than by a random prediction
 with the same fractional predicted area.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -256,11 +253,8 @@ with the same fractional predicted area.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

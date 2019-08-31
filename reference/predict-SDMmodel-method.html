@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -45,13 +47,13 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Predict — predict,SDMmodel-method" />
 
+<meta property="og:title" content="Predict — predict,SDMmodel-method" />
 <meta property="og:description" content="Predict the output for a new dataset given a trained SDMmodel
 model." />
-
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -142,7 +144,6 @@ model." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
@@ -174,17 +175,15 @@ model." />
     </div>
 
     <div class="ref-description">
-    
     <p>Predict the output for a new dataset given a trained <code><a href='SDMmodel-class.html'>SDMmodel</a></code>
 model.</p>
-    
     </div>
 
     <pre class="usage"><span class='co'># S4 method for SDMmodel</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>object</span>, <span class='no'>data</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"GTiff"</span>, <span class='kw'>extent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>progress</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -238,12 +237,11 @@ default is <code>FALSE</code>.</p></td>
 <code><a href='https://www.rdocumentation.org/packages/raster/topics/writeRaster'>writeRaster</a></code> function.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A vector with the prediction or a Raster object if data is a raster
 <code><a href='https://www.rdocumentation.org/packages/raster/topics/stack'>stack</a></code>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <ul>
@@ -264,12 +262,10 @@ performs the prediction in <strong>R</strong> without calling the <strong>MaxEnt
 software. This results in a faster computation for large datasets and might
 result in slightly different results compare to the Java software.</p></li>
 </ul>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Wilson P.D., (2009). Guidelines for computing MaxEnt model output
 values from a lambdas file.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -309,13 +305,9 @@ values from a lambdas file.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
