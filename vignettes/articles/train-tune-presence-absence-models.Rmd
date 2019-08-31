@@ -19,7 +19,7 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-All the previous artivcles are based on presence only methods, in this article you will learn how to train a presence absence model. The following examples are based on the Artificial Neural Networds method [@Venables2002], but you can adapt the code for any of the other supported methods.
+All the previous articles are based on presence only methods, in this article you will learn how to train a presence absence model. The following examples are based on the Artificial Neural Networks method [@Venables2002], but you can adapt the code for any of the other supported methods.
 
 ## Prepare the data for the analysis
 

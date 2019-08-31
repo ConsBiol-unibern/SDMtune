@@ -17,11 +17,11 @@ See \code{\link{gbm}} for the meaning of the slots.
 \describe{
 \item{\code{distribution}}{character. Name of the used distribution.}
 
-\item{\code{ntree}}{integer. Maximum number of grown trees.}
+\item{\code{n.trees}}{integer. Maximum number of grown trees.}
 
 \item{\code{interaction.depth}}{integer. Maximum depth of each tree.}
 
-\item{\code{lr}}{numeric. The shrinkage parameter.}
+\item{\code{shrinkage}}{numeric. The shrinkage parameter.}
 
 \item{\code{bag.fraction}}{numeric. Random fraction of data used in the tree
 expansion.}

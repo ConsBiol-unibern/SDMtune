@@ -204,9 +204,9 @@
     args$nodesize <- model@nodesize
   } else {
     args$distribution <- model@distribution
-    args$ntree <- model@ntree
+    args$n.trees <- model@n.trees
     args$interaction.depth <- model@interaction.depth
-    args$lr <- model@lr
+    args$shrinkage <- model@shrinkage
     args$bag.fraction <- model@bag.fraction
   }
   return(args)
@@ -265,7 +265,7 @@ get_tunable_args <- function(model) {
   } else if (method == "RF") (
     args <- c("mtry", "ntree", "nodesize")
   ) else {
-    args <- c("distribution", "ntree", "interaction.depth", "lr",
+    args <- c("distribution", "n.trees", "interaction.depth", "shrinkage",
               "bag.fraction")
   }
 

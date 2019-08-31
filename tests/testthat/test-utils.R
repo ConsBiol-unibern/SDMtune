@@ -43,8 +43,8 @@ test_that(".get_footer", {
                "size: 10\ndecay: 0\nrang: 0.7\nmaxit: 100")
   expect_equal(.get_footer(model_rf), "mtry: 3\nntree: 500\nnodesize: 1")
   expect_equal(.get_footer(model_brt),
-               paste0("distribution: bernoulli\nntree: 100\n",
-                      "interaction.depth: 1\nlr: 0.1\nbag.fraction: 0.5"))
+               paste0("distribution: bernoulli\nn.trees: 100\n",
+                      "interaction.depth: 1\nshrinkage: 0.1\nbag.fraction: 0.5"))
 })
 
 test_that(".get_total_model", {
@@ -146,8 +146,8 @@ test_that(".get_train_args", {
                c("data", "method", "mtry", "ntree", "nodesize"))
   # The output is correct using brt
   expect_named(.get_train_args(model_brt),
-               c("data", "method", "distribution", "ntree", "interaction.depth",
-                 "lr", "bag.fraction"))
+               c("data", "method", "distribution", "n.trees",
+                 "interaction.depth", "shrinkage", "bag.fraction"))
   # Give the correct output type
   expect_type(.get_train_args(model), "list")
 })
@@ -158,7 +158,7 @@ test_that("get_tunable_args", {
   expect_equal(get_tunable_args(model_ann), c("size", "decay", "rang", "maxit"))
   expect_equal(get_tunable_args(model_rf), c("mtry", "ntree", "nodesize"))
   expect_equal(get_tunable_args(model_brt),
-               c("distribution", "ntree", "interaction.depth", "lr",
+               c("distribution", "n.trees", "interaction.depth", "shrinkage",
                  "bag.fraction"))
 })
 

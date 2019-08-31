@@ -53,9 +53,9 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest.
 \itemize{
 \item distribution: character. Name of the distribution to use, default is
 "bernoulli".
-\item ntree: integer. Maximum number of tree to grow, default is 100.
+\item n.trees: integer. Maximum number of tree to grow, default is 100.
 \item interaction.depth: integer. Maximum depth of each tree, default is 1.
-\item lr: numeric. The shrinkage parameter, default is 0.1.
+\item shrinkage: numeric. The shrinkage parameter, default is 0.1.
 \item bag.fraction: numeric. Random fraction of data used in the tree
 expansion, default is 0.5.
 }
@@ -169,7 +169,7 @@ model <- train("ANN", data = data, size = 10)
 model <- train("RF", data = data, ntree = 300)
 
 # Train a Boosted Regression Tree model
-model <- train("BRT", data = data, ntree = 300, lr = 0.001)
+model <- train("BRT", data = data, n.trees = 300, shrinkage = 0.001)
 }
 }
 \references{

@@ -25,6 +25,6 @@ setMethod("predict",
           signature = "BRT",
           definition = function(object, data, type, clamp) {
             output <- predict(object@model, newdata = data,
-                              n.trees = object@ntree, type = "response")
+                              n.trees = object@n.trees, type = "response")
             return(output)
           })

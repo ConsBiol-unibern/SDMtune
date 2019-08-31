@@ -194,9 +194,9 @@ cat("* Maxit: ", params$model@model@maxit, "\n")
 ```
 ```{r BRT, eval=class(params$model@model) == "BRT", results="asis", message=FALSE, echo=FALSE}
 cat("* Distribution: ", params$model@model@distribution, "\n")
-cat("* Number of trees: ", params$model@model@ntree, "\n")
+cat("* Number of trees: ", params$model@model@n.trees, "\n")
 cat("* Interaction depth: ", params$model@model@interaction.depth, "\n")
-cat("* Learning rate: ", params$model@model@lr, "\n")
+cat("* Shrinkage: ", params$model@model@shrinkage, "\n")
 cat("* Bag fraction: ", params$model@model@bag.fraction, "\n")
 ```
 ```{r RF, eval=class(params$model@model) == "RF", results="asis", message=FALSE, echo=FALSE}
