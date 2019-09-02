@@ -13,8 +13,8 @@ confMatrix(model, test = NULL, th = NULL, type = NULL)
 the train dataset, default is \code{NULL}.}
 
 \item{th}{numeric vector, if provided it computes the evaluation at the given
-thresholds, default is \code{NULL} and it computes the evaluation for a
-sequence from 0 to 1.}
+thresholds, default is \code{NULL} and it computes the evaluation for the
+unique predicted values at presence and absence/background locations.}
 
 \item{type}{character. The output type used for "Maxent" and "Maxnet"
 methods, possible values are "cloglog" and "logistic", default is

@@ -6,8 +6,8 @@
 #' @param test \code{\linkS4class{SWD}} test locations, if not provided it uses
 #' the train dataset, default is \code{NULL}.
 #' @param th numeric vector, if provided it computes the evaluation at the given
-#' thresholds, default is \code{NULL} and it computes the evaluation for a
-#' sequence from 0 to 1.
+#' thresholds, default is \code{NULL} and it computes the evaluation for the
+#' unique predicted values at presence and absence/background locations.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
 #' methods, possible values are "cloglog" and "logistic", default is
 #' \code{NULL}.
