@@ -62,5 +62,5 @@ test_that("randomFolds", {
 })
 
 test_that("error is raised", {
-  expect_error(.convert_folds(t, t), "Folds object foramt not allowed!")
+  expect_error(.convert_folds(t, t), "Folds object format not allowed!")
 })
