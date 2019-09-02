@@ -109,10 +109,9 @@ thresholds <- function(model, type = NULL, test = NULL) {
 
   output <- data.frame(th = rownames, val = ths, fpa = fpa, or = or_train,
                        stringsAsFactors = FALSE)
-  output[, 2:4] <- round(output[, 2:4], 3)
 
   if (!is.null(test)) {
-    output$or_test <- round(or_test, 3)
+    output$or_test <- or_test
     output$pv <- p_values
   }
 
