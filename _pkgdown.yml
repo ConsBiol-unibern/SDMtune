@@ -51,7 +51,7 @@ navbar:
       href: articles/articles/train-tune-presence-absence-models.html
     - text: Deprecated objects
       href: articles/articles/deprecated-objects.html
-  - text: Changelog
+  - text: News
     href: news/index.html
   right:
   - icon: fa-github fa-lg
