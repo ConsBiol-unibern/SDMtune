@@ -23,7 +23,16 @@ test_that("Cross validation is executed", {
   expect_equal(ncol(cv@folds[[2]]), 2)
 })
 
-test_that("Train without ross validation creates the correct output", {
+test_that("Train without cross validation creates the correct output", {
   m <- train("Maxnet", data = train, fc = "l")
   expect_s4_class(m, "SDMmodel")
+})
+
+test_that("Train multiple methods creates the correct output", {
+  # No errors if argument is not used
+  expect_error(m <- train(c("Maxnet", "ANN"), data = train, fc = "l", size = 2,
+                          ntree = 100),
+               NA)
+  expect_type(m, "list")
+  expect_named(m, c("Maxnet", "ANN"))
 })

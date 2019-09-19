@@ -35,7 +35,7 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), patt
 
 We convert the files in a [raster stack](https://www.rdocumentation.org/packages/raster/versions/2.8-19/topics/stack) object that will be used later in the analysis:
 ```{r create raster stack}
-predictors <- stack(files)
+predictors <- raster::stack(files)
 ```
 
 There are nine environmental variables, eight continuous and one categorical:

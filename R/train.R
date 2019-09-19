@@ -3,8 +3,8 @@
 #' Train a model using one of the following methods: Artificial Neural Networks,
 #' Boosted Regression Trees, Maxent, Maxnet or Random Forest.
 #'
-#' @param method character. Method used to train the model, possible values are
-#' "ANN", "BRT", "Maxent", "Maxnet" or "RF".
+#' @param method character or character vector. Method used to train the model,
+#' possible values are "ANN", "BRT", "Maxent", "Maxnet" or "RF", see details.
 #' @param data \code{\linkS4class{SWD}} object with presence and
 #' absence/background locations.
 #' @param folds list. Output of the function \code{\link{randomFolds}} or folds
@@ -62,7 +62,12 @@
 #' \pkg{ENMeval} or \pkg{blockCV}. In this case the function converts
 #' internally the folds into a format valid for \pkg{SDMtune}.
 #'
+#' When multiple methods are given as \code{method} argument, the function
+#' returns a named list of model object, with the name corresponding to the
+#' used method, see examples.
+#'
 #' @return An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
+#' or a list of model objects.
 #' object.
 #' @export
 #' @importFrom progress progress_bar
@@ -173,48 +178,71 @@
 #'
 #' # Train a Boosted Regression Tree model
 #' model <- train("BRT", data = data, n.trees = 300, shrinkage = 0.001)
+#'
+#' # Multiple methods trained together with default arguments
+#' output <- train(method = c("ANN", "BRT", "RF"), data = data, size = 10)
+#' output$ANN
+#' output$BRT
+#' output$RF
+#'
+#' # Multiple methods trained together passing extra arguments
+#' output <- train(method = c("ANN", "BRT", "RF"), data = data, size = 10,
+#'                 ntree = 300, n.trees = 300, shrinkage = 0.001)
 #' }
 train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
                   a = NULL, rep = NULL, seed = NULL, ...) {
 
-  method <- match.arg(method, c("Maxent", "Maxnet", "ANN", "RF", "BRT"))
-  f <- paste0("train", method)
+  l <- length(method)
+  output <- vector("list", length = l)
 
-  # TODO Remove in next release
-  if (!is.null(p) & !is.null(a)) {
-    stop("Argument \"p\" and \"a\" are deprecated, use \"data\" instead.")
+  for (i in 1:l) {
+    m <- match.arg(method[i], c("Maxent", "Maxnet", "ANN", "RF", "BRT"))
+    f <- paste0("train", m)
+    ea <- list(...)  # Extra arguments
+
+    # TODO Remove in next release
+    if (!is.null(p) & !is.null(a)) {
+      stop("Argument \"p\" and \"a\" are deprecated, use \"data\" instead.")
+    }
+    if (!is.null(rep))
+      warning("Argument \"rep\" is deprecated and will be removed in the nex ",
+              "release. The number of partition is taken from the \"fold\" ",
+              "argument.")
+    if (!is.null(seed))
+      warning("Argument seed is deprecated and will be removed in the next ",
+              "release.", call. = FALSE)
+
+    if (is.null(folds)) {
+      output[[i]] <- do.call(f, args = c(data = data,
+                                         ea[names(ea) %in% formalArgs(f)]))
+    } else {
+      folds <- .convert_folds(folds, data)
+      k <- ncol(folds[[1]])
+      if (verbose) {
+        pb <- progress::progress_bar$new(
+          format = "Cross Validation [:bar] :percent in :elapsedfull",
+          total = k, clear = FALSE, width = 60, show_after = 0)
+        pb$tick(0)
+      }
+
+      models <- vector("list", length = k)
+
+      for (j in 1:k) {
+        train <- .subset_swd(data, folds$train[, j])
+        models[[j]] <- do.call(f, c(data = train,
+                                    ea[names(ea) %in% formalArgs(f)]))
+        if (verbose)
+          pb$tick(1)
+      }
+
+      output[[i]] <- SDMmodelCV(models = models, data = data, folds = folds)
+    }
   }
-  if (!is.null(rep))
-    warning("Argument \"rep\" is deprecated and will be removed in the nex ",
-            "release. The number of partition is taken from the \"fold\" ",
-            "argument.")
-  if (!is.null(seed))
-    warning("Argument seed is deprecated and will be removed in the next ",
-            "release.", call. = FALSE)
 
-  if (is.null(folds)) {
-    model <- do.call(f, args = list(data = data, ...))
+  if (l == 1) {
+    return(output[[1]])
   } else {
-    folds <- .convert_folds(folds, data)
-    k <- ncol(folds[[1]])
-    if (verbose) {
-      pb <- progress::progress_bar$new(
-        format = "Cross Validation [:bar] :percent in :elapsedfull",
-        total = k, clear = FALSE, width = 60, show_after = 0)
-      pb$tick(0)
-    }
-
-    models <- vector("list", length = k)
-
-    for (i in 1:k) {
-      train <- .subset_swd(data, folds$train[, i])
-      models[[i]] <- do.call(f, args = list(data = train, ...))
-      if (verbose)
-        pb$tick(1)
-    }
-
-    model <- SDMmodelCV(models = models, data = data, folds = folds)
+    names(output) <- method
+    return(output)
   }
-
-  return(model)
 }
