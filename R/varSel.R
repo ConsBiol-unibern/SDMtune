@@ -84,6 +84,8 @@
 #' # Remove variables with correlation higher than 0.7 accounting for the TSS,
 #' # in the following example the variable importance is the MaxEnt percent
 #' # contribution
+#' # Train a model
+#' model <- train(method = "Maxent", data = train, fc = "l")
 #' vs <- varSel(model, metric = "tss", bg4cor = bg, test = test, cor_th = 0.7,
 #'              use_pc = TRUE)
 #' vs

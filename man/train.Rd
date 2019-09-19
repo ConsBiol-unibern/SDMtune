@@ -131,9 +131,9 @@ model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
                folds = block_folds)
 
 # Checkerboard1 partition using the ENMeval package
-cb_folds <- get.checkerboard1(occ = data@data[data@pa == 1, ],
+cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ],
                               env = predictors,
-                              bg.coords = data@data[data@pa == 0, ],
+                              bg.coords = data@coords[data@pa == 0, ],
                               aggregation.factor = 4)
 model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
                folds = cb_folds)
