@@ -144,7 +144,7 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -349,9 +349,9 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>block_folds</span>)
 
 <span class='co'># Checkerboard1 partition using the ENMeval package</span>
-<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
+<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
                               <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
-                              <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>data</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
+                              <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
                               <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>cb_folds</span>)
@@ -413,7 +413,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
