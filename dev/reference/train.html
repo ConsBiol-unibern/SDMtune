@@ -191,8 +191,8 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>method</th>
-      <td><p>character. Method used to train the model, possible values are
-"ANN", "BRT", "Maxent", "Maxnet" or "RF".</p></td>
+      <td><p>character or character vector. Method used to train the model,
+possible values are "ANN", "BRT", "Maxent", "Maxnet" or "RF", see details.</p></td>
     </tr>
     <tr>
       <th>data</th>
@@ -234,6 +234,7 @@ validation, default is <code>TRUE</code>.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An <code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
+or a list of model objects.
 object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -288,6 +289,9 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
 <p>The folds argument accepts also objects created with other packages:
 <span class="pkg">ENMeval</span> or <span class="pkg">blockCV</span>. In this case the function converts
 internally the folds into a format valid for <span class="pkg">SDMtune</span>.</p>
+<p>When multiple methods are given as <code>method</code> argument, the function
+returns a named list of model object, with the name corresponding to the
+used method, see examples.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Venables, W. N. &amp; Ripley, B. D. (2002) Modern Applied Statistics with S.
@@ -388,6 +392,16 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 
 <span class='co'># Train a Boosted Regression Tree model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"BRT"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
+
+<span class='co'># Multiple methods trained together with default arguments</span>
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+<span class='no'>output</span>$<span class='no'>ANN</span>
+<span class='no'>output</span>$<span class='no'>BRT</span>
+<span class='no'>output</span>$<span class='no'>RF</span>
+
+<span class='co'># Multiple methods trained together passing extra arguments</span>
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+                <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
