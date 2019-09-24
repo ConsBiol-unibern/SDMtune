@@ -1,4 +1,5 @@
 # SDMtune 0.2.0.9000
+* Add the possibility to pass multiple methods to the `train` function
 
 # SDMtune 0.2.0
 This release is the first step to enable more methods to train models. The main change is that the `SDW` object now bundles together the presence and the absence/background locations and is not necessary anymore to pass the presence and absence locations as separate arguments to the `train` function.

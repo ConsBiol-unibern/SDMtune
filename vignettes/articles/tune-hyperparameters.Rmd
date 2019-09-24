@@ -138,22 +138,26 @@ exp_7 <- optimizeModel(model, hypers = h, metric = "auc", test = val, pop = 15, 
 
 ## Evaluate final model
 
-Let's say we want to use the best tuned model found by the `randomSearch()` function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train the model with the merged observations and the tuned configuration. We merge the two datasets using the `mergeSWD()` function:
+Let's say we want to use the best tuned model found by the `randomSearch()` function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train a new model with the merged observations and the tuned configuration. At this point we may have removed variables using the `varSel()` or `reduceVar()` function, so we cannot merge directly the initial datasets, as they contain all the environmental vavriables. We can extract the train dataset with the selected variables from the output of the experiment and merge it using the `mergeSWD()` function:
 ```{r merge}
-merged_data <- mergeSWD(train, val)
+index <- which.max(exp_6@results$test_AUC)  # Index of the best model in the experiment
+new_train <- exp_6@models[[index]]@data  # New train dataset containing only the selected variables
+merged_data <- mergeSWD(new_train, val)
 ```
+
+The `val` dataset contains all the initial environmental variables but the `mergeSWD()` function will merge only those that are present in both datasets (i.e. the ones that are present in the `new_train` dataset, see warning message). 
 
 Then we get the model configuration from the experiment 6:
 ```{r configuration}
 head(exp_6@results)
 ```
 
-The best model was trained using **`r exp_6@results[1, 1]`** background locations (we can select the same background locations with `exp_6@models[[1]]@a`), **`r exp_6@results[1, 2]`** as feature class combination and a regularization multiplier equal to **`r exp_6@results[1, 3]`**:
+The best model is at row `r index` and was trained using **`r exp_6@results[index, 1]`** feature class combination, **`r exp_6@results[index, 2]`** as regularization multiplier and **`r exp_6@results[index, 3]`** number of iteration:
 ```{r final model}
-final_model <- train("Maxnet", data = merged_data, fc = exp_6@results[1, 1], reg = exp_6@results[1, 2])
+final_model <- train("Maxnet", data = merged_data, fc = exp_6@results[index, 1], reg = exp_6@results[index, 2], iter = exp_6@results[index, 3])
 ```
 
-Now we can evaluate it using the held apart testing dataset:
+Now we can evaluate the final model using the held apart testing dataset:
 ```{r final evaluation}
 auc(final_model, test = test)
 ```
