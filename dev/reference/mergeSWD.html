@@ -181,7 +181,7 @@
     <p>Merge two <code><a href='SWD-class.html'>SWD</a></code> objects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mergeSWD</span>(<span class='no'>swd1</span>, <span class='no'>swd2</span>)</pre>
+    <pre class="usage"><span class='fu'>mergeSWD</span>(<span class='no'>swd1</span>, <span class='no'>swd2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,6 +193,12 @@
     <tr>
       <th>swd2</th>
       <td><p><code><a href='SWD-class.html'>SWD</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>only_presence</th>
+      <td><p>logical, if <code>TRUE</code> only for the presence locations
+are merged and the absence/background locations are taken only from the
+<code>swd1</code> object, default is <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -224,8 +230,17 @@ locations are always before than the absence/background locations.</p></li>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
                    <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
-<span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
+<span class='co'># Split only presence locations in training (80%) and testing (20%) datasets</span>
 <span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+
+<span class='co'># Merge the training and the testing datasets together</span>
+<span class='no'>merged</span> <span class='kw'>&lt;-</span> <span class='fu'>mergeSWD</span>(<span class='no'>train</span>, <span class='no'>test</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Split presence and absence locations in training (80%) and testing (20%)</span>
+<span class='no'>datasets</span>
+<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
 <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
 
