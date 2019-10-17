@@ -4,6 +4,9 @@
 #'
 #' @param swd1 \code{\linkS4class{SWD}} object.
 #' @param swd2 \code{\linkS4class{SWD}} object.
+#' @param only_presence logical, if \code{TRUE} only for the presence locations
+#' are merged and the absence/background locations are taken only from the
+#' \code{swd1} object, default is \code{FALSE}.
 #'
 #' @details
 #' * In case the two \code{\linkS4class{SWD}} objects have different columns,
@@ -30,14 +33,23 @@
 #' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 #'                    env = predictors, categorical = "biome")
 #'
-#' # Split presence locations in training (80%) and testing (20%) datasets
+#' # Split only presence locations in training (80%) and testing (20%) datasets
 #' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Merge the training and the testing datasets together
+#' merged <- mergeSWD(train, test, only_presence = TRUE)
+#'
+#' # Split presence and absence locations in training (80%) and testing (20%)
+#' datasets
+#' datasets <- trainValTest(data, test = 0.2)
+#' train <- datasets[[1]]
+#' test <- datasets[[2]]
+#'
+#' # Merge the training and the testing datasets together
 #' merged <- mergeSWD(train, test)
-mergeSWD <- function(swd1, swd2) {
+mergeSWD <- function(swd1, swd2, only_presence = FALSE) {
 
   if (class(swd1) != "SWD" | class(swd2) != "SWD")
     stop("The function accepts only SWD objects!")
@@ -60,18 +72,33 @@ mergeSWD <- function(swd1, swd2) {
   swd <- new("SWD")
   swd@species <- swd1@species
 
-  # Align presence/absence data
-  swd@data <- rbind(swd1@data[swd1@pa == 1, ], swd2@data[swd2@pa == 1, ],
-                    swd1@data[swd1@pa == 0, ], swd2@data[swd2@pa == 0, ])
-  rownames(swd@data) <- NULL
-  # Align presence/absence coords
-  swd@coords <- rbind(swd1@coords[swd1@pa == 1, ], swd2@coords[swd2@pa == 1, ],
-                      swd1@coords[swd1@pa == 0, ], swd2@coords[swd2@pa == 0, ])
-  rownames(swd@coords) <- NULL
+  if (only_presence) {
+    # Align only presence data
+    swd@data <- rbind(swd1@data[swd1@pa == 1, ], swd2@data[swd2@pa == 1, ],
+                      swd1@data[swd1@pa == 0, ])
+    rownames(swd@data) <- NULL
+    # Align only presence coords
+    swd@coords <- rbind(swd1@coords[swd1@pa == 1, ], swd2@coords[swd2@pa == 1, ],
+                        swd1@coords[swd1@pa == 0, ])
+    rownames(swd@coords) <- NULL
 
-  # Align pa
-  swd@pa <- c(swd1@pa[swd1@pa == 1], swd2@pa[swd2@pa == 1],
-              swd1@pa[swd1@pa == 0], swd2@pa[swd2@pa == 0])
+    # Align pa
+    swd@pa <- c(swd1@pa[swd1@pa == 1], swd2@pa[swd2@pa == 1],
+                swd1@pa[swd1@pa == 0])
+  } else {
+    # Align presence/absence data
+    swd@data <- rbind(swd1@data[swd1@pa == 1, ], swd2@data[swd2@pa == 1, ],
+                      swd1@data[swd1@pa == 0, ], swd2@data[swd2@pa == 0, ])
+    rownames(swd@data) <- NULL
+    # Align presence/absence coords
+    swd@coords <- rbind(swd1@coords[swd1@pa == 1, ], swd2@coords[swd2@pa == 1, ],
+                        swd1@coords[swd1@pa == 0, ], swd2@coords[swd2@pa == 0, ])
+    rownames(swd@coords) <- NULL
+
+    # Align pa
+    swd@pa <- c(swd1@pa[swd1@pa == 1], swd2@pa[swd2@pa == 1],
+                swd1@pa[swd1@pa == 0], swd2@pa[swd2@pa == 0])
+  }
 
   return(swd)
 }

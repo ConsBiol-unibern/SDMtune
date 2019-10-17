@@ -4,12 +4,16 @@
 \alias{mergeSWD}
 \title{Merge SWD Objects}
 \usage{
-mergeSWD(swd1, swd2)
+mergeSWD(swd1, swd2, only_presence = FALSE)
 }
 \arguments{
 \item{swd1}{\code{\linkS4class{SWD}} object.}
 
 \item{swd2}{\code{\linkS4class{SWD}} object.}
+
+\item{only_presence}{logical, if \code{TRUE} only for the presence locations
+are merged and the absence/background locations are taken only from the
+\code{swd1} object, default is \code{FALSE}.}
 }
 \value{
 The merged \code{\linkS4class{SWD}} object.
@@ -39,8 +43,17 @@ bg_coords <- virtualSp$background
 data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
                    env = predictors, categorical = "biome")
 
-# Split presence locations in training (80\%) and testing (20\%) datasets
+# Split only presence locations in training (80\%) and testing (20\%) datasets
 datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Merge the training and the testing datasets together
+merged <- mergeSWD(train, test, only_presence = TRUE)
+
+# Split presence and absence locations in training (80\%) and testing (20\%)
+datasets
+datasets <- trainValTest(data, test = 0.2)
 train <- datasets[[1]]
 test <- datasets[[2]]
 

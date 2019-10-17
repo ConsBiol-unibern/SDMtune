@@ -138,11 +138,11 @@ exp_7 <- optimizeModel(model, hypers = h, metric = "auc", test = val, pop = 15, 
 
 ## Evaluate final model
 
-Let's say we want to use the best tuned model found by the `randomSearch()` function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train a new model with the merged observations and the tuned configuration. At this point we may have removed variables using the `varSel()` or `reduceVar()` function, so we cannot merge directly the initial datasets, as they contain all the environmental vavriables. We can extract the train dataset with the selected variables from the output of the experiment and merge it using the `mergeSWD()` function:
+Let's say we want to use the best tuned model found by the `randomSearch()` function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train a new model with the merged observations and the tuned configuration. At this point we may have removed variables using the `varSel()` or `reduceVar()` function, so we cannot merge directly the initial datasets, as they contain all the environmental variables. We can extract the train dataset with the selected variables from the output of the experiment and merge it using the `mergeSWD()` function:
 ```{r merge}
 index <- which.max(exp_6@results$test_AUC)  # Index of the best model in the experiment
 new_train <- exp_6@models[[index]]@data  # New train dataset containing only the selected variables
-merged_data <- mergeSWD(new_train, val)
+merged_data <- mergeSWD(new_train, val, only_presence = TRUE) # Merge only presence data
 ```
 
 The `val` dataset contains all the initial environmental variables but the `mergeSWD()` function will merge only those that are present in both datasets (i.e. the ones that are present in the `new_train` dataset, see warning message). 
