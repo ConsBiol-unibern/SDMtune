@@ -130,8 +130,8 @@ model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 
 # Block partition using the ENMeval package
 # library(ENMeval)
-block_folds <- get.block(occ = data@data[data@pa == 1, ],
-                         bg.coords = data@data[data@pa == 0, ])
+block_folds <- get.block(occ = data@coords[data@pa == 1, ],
+                         bg.coords = data@coords[data@pa == 0, ])
 model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
                folds = block_folds)
 
