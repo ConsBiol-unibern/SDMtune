@@ -11,19 +11,25 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 predictors <- raster::stack(files)
 
 test_that("The method works with data frames", {
-  expect_length(predict(m, train@data, "raw", clamp = FALSE), nrow(train@data))
+  p <- predict(m, train@data, "raw", clamp = FALSE)
+  expect_length(p, nrow(train@data))
+  expect_vector(p)
 })
 
 test_that("The method works with SWD objects", {
-  expect_length(predict(m1, train, "logistic"), nrow(train@data))
+  p <- predict(m1, train, "logistic")
+  expect_length(p, nrow(train@data))
+  expect_vector(p)
 })
 
 test_that("The method works with raster stack objects", {
-  expect_length(predict(m, predictors, "raw"),
-                predictors$bio1@ncols * predictors$bio1@nrows)
+  p <- predict(m, predictors, "raw")
+  expect_length(p, predictors$bio1@ncols * predictors$bio1@nrows)
+  expect_s4_class(p, "RasterLayer")
 })
 
 test_that("The method works with raster stack objects and parallel", {
-  expect_length(predict(m, predictors, "raw", parallel = TRUE),
-                predictors$bio1@ncols * predictors$bio1@nrows)
+  p <- predict(m, predictors, "raw", parallel = TRUE)
+  expect_length(p, predictors$bio1@ncols * predictors$bio1@nrows)
+  expect_s4_class(p, "RasterLayer")
 })

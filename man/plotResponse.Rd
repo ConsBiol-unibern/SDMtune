@@ -39,8 +39,8 @@ A \code{\link[ggplot2]{ggplot}} object.
 Plot the Response Curve of the given environmental variable.
 }
 \details{
-Note that fun is not a character argument, you must use mean and
-not "mean".
+Note that fun is not a character argument, you must use \code{mean}
+and not \code{"mean"}.
 }
 \examples{
 \donttest{

@@ -102,6 +102,7 @@ Collate:
     'predict-Maxent.R'
     'predict-RF.R'
     'predict-SDMmodel.R'
+    'predict-SDMmodelCV.R'
     'prepareSWD.R'
     'randomFolds.R'
     'randomSearch.R'

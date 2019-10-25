@@ -1,4 +1,5 @@
 # SDMtune 0.2.0.9000
+* New function to predict SDMmodelCV objects
 * Add the possibility to pass multiple methods to the `train` function
 * Add the possibility to merge only the presence locations in the `mergeSWD` function
 

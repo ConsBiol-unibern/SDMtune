@@ -28,6 +28,8 @@ setGeneric("predict", function(object, ...)
 #' \code{\link[raster]{writeRaster}} function.
 #'
 #' @details
+#' * filename, format, extent, parallel, progress and ... arguments are used
+#' only when the prediction is done for a \code{\link[raster]{stack}} object.
 #' * For models trained with the **Maxent** method the argument \code{type} can
 #' be: "raw", "logistic" and "cloglog".
 #' * For models trained with the **Maxnet** method the argument \code{type} can
@@ -50,8 +52,8 @@ setGeneric("predict", function(object, ...)
 #' @importFrom raster beginCluster clusterR endCluster predict clamp subset
 #' @importFrom stats formula model.matrix
 #'
-#' @return A vector with the prediction or a Raster object if data is a raster
-#' \code{\link[raster]{stack}}.
+#' @return A vector with the prediction or a \code{\link[raster]{raster}} object
+#' if data is a raster \code{\link[raster]{stack}}.
 #' @exportMethod predict
 #'
 #' @author Sergio Vignali
@@ -108,7 +110,9 @@ setMethod("predict",
             if (inherits(data, "Raster")) {
               data <- raster::subset(data, vars)
               if (parallel) {
-                suppressMessages(raster::beginCluster())
+                start_cluster <- getOption("SDMtuneParallel")
+                if (is.null(start_cluster) || !start_cluster)
+                  suppressMessages(raster::beginCluster())
                 pred <- raster::clusterR(data,
                                          predict,
                                          args = list(model = model,
@@ -120,7 +124,8 @@ setMethod("predict",
                                          format = format,
                                          ext = extent,
                                          ...)
-                raster::endCluster()
+                if (is.null(start_cluster) || !start_cluster)
+                  raster::endCluster()
               } else {
                 pred <- raster::predict(data, model = model,
                                         type = type,

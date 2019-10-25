@@ -19,8 +19,8 @@
 #' default is \code{FALSE}.
 #' @param color The color of the curve, default is "red".
 #'
-#' @details Note that fun is not a character argument, you must use mean and
-#' not "mean".
+#' @details Note that fun is not a character argument, you must use \code{mean}
+#' and not \code{"mean"}.
 #'
 #' @return A \code{\link[ggplot2]{ggplot}} object.
 #' @export
