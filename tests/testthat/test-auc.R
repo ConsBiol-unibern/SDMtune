@@ -25,3 +25,7 @@ test_that("The function raises warnings and errors", {
   expect_warning(auc(m, a = SDMtune:::t),
                  "Argument \"a\" is deprecated and not used anymore, it ")
 })
+
+test_that("The function returns the same result than Maxent software", {
+  expect_equal(round(auc(m), 4), m@model@results[5])
+})
