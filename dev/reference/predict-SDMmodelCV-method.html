@@ -186,7 +186,7 @@ of the k models.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for SDMmodelCV</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>data</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>data</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"GTiff"</span>, <span class='kw'>extent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
@@ -204,9 +204,10 @@ of the k models.</p>
     </tr>
     <tr>
       <th>fun</th>
-      <td><p>function used to combine the output of the k models, default is
-<code>mean</code>. Note that fun is not a character argument, you must use
-<code>mean</code> and not <code>"mean"</code>.</p></td>
+      <td><p>character. function used to combine the output of the k models,
+default is <code>"mean"</code>. Note that fun is a character argument, you must use
+<code>"mean"</code> and not <code>mean</code>. You can also pass a vector of character
+containing multiple function names, see details.</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -248,13 +249,16 @@ default is <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A vector with the prediction or a <code><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster</a></code> object
-if data is a raster <code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code>.</p>
+if data is a raster <code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> or a list in the case of
+multiple functions.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
 <ul>
 <li><p>filename, format, extent, parallel and ... arguments are used only when the
 prediction is done for a <code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> object.</p></li>
+<li><p>When a character vector is passed to the <code>fun</code> argument, than all the
+given functions are applied and a named list is returned, see examples.</p></li>
 <li><p>For models trained with the <strong>Maxent</strong> method the argument <code>type</code> can
 be: "raw", "logistic" and "cloglog".</p></li>
 <li><p>For models trained with the <strong>Maxnet</strong> method the argument <code>type</code> can
@@ -298,9 +302,18 @@ values from a lambdas file.</p>
 
 <span class='co'># Make cloglog prediction for the all study area and get the result as</span>
 <span class='co'># average of the k models</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
 
 <span class='co'># \donttest{</span>
+<span class='co'># Make cloglog prediction for the all study area and get the average,</span>
+<span class='co'># standard deviation and maximum values of the k models</span>
+<span class='no'>maps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"max"</span>),
+                <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
+
+<span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>mean</span>)
+<span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>sd</span>)
+<span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>max</span>)
+
 <span class='co'># Make logistic prediction for the all study area, given as standard</span>
 <span class='co'># deviation of the k models, and save it in a file</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>sd</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>,

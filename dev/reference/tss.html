@@ -193,10 +193,10 @@ object.</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code> test locations for
-<code><a href='SDMmodel-class.html'>SDMmodel</a></code> objects or logical for
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> object for <code><a href='SDMmodel-class.html'>SDMmodel</a></code>
+object. Logical or <code><a href='SWD-class.html'>SWD</a></code> object for
 <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, if not provided it computes the
-training AUC, default is <code>NULL</code>.</p></td>
+train TSS, see details. Default is <code>NULL</code>.</p></td>
     </tr>
     </table>
 
@@ -205,9 +205,11 @@ training AUC, default is <code>NULL</code>.</p></td>
     <p>The value of the TSS of the given model.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If the model is a <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> object, the
-function computes the mean of the training or testing TSS values of the
-different replicates.</p>
+    <p>For <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, the function computes
+the mean of the training TSS values of the k-folds. If <code>test = TRUE</code> it
+computes the mean of the testing TSS values for the k-folds. If test is an
+<code><a href='SWD-class.html'>SWD</a></code> object, it computes the mean TSS values for the
+provided testing dataset.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Allouche O., Tsoar A., Kadmon R., (2006). Assessing the accuracy of species
@@ -255,6 +257,9 @@ Journal of Applied Ecology, 43(6), 1223–1232.</p>
 
 <span class='co'># Compute the testing TSS</span>
 <span class='fu'>TSS</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Compute the TSS for the held apart testing dataset</span>
+<span class='fu'>tss</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

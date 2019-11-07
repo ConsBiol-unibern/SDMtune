@@ -193,10 +193,10 @@
     </tr>
     <tr>
       <th>test</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code> test object for
-<code><a href='SDMmodel-class.html'>SDMmodel</a></code> objects or logical for
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> object for <code><a href='SDMmodel-class.html'>SDMmodel</a></code>
+object. Logical or <code><a href='SWD-class.html'>SWD</a></code> object for
 <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, if not provided it computes the
-train AUC, default is <code>NULL</code>.</p></td>
+train AUC, see details. Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>a</th>
@@ -209,9 +209,11 @@ train AUC, default is <code>NULL</code>.</p></td>
     <p>The value of the AUC.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If the model is a <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> object, the
-function computes the mean of the training or testing AUC values of the
-different replicates.</p>
+    <p>For <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, the function computes
+the mean of the training AUC values of the k-folds. If <code>test = TRUE</code> it
+computes the mean of the testing AUC values for the k-folds. If test is an
+<code><a href='SWD-class.html'>SWD</a></code> object, it computes the mean AUC values for the
+provided testing dataset.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative
@@ -259,6 +261,9 @@ Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 
 <span class='co'># Compute the testing AUC</span>
 <span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Compute the AUC for the held apart testing dataset</span>
+<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
