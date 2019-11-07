@@ -5,7 +5,7 @@
 \alias{predict,SDMmodelCV-method}
 \title{Predict for Cross Validation}
 \usage{
-\S4method{predict}{SDMmodelCV}(object, data, fun = mean, type = NULL,
+\S4method{predict}{SDMmodelCV}(object, data, fun = "mean", type = NULL,
   clamp = TRUE, filename = "", format = "GTiff", extent = NULL,
   parallel = FALSE, ...)
 }
@@ -15,9 +15,10 @@
 \item{data}{data.frame, \code{\linkS4class{SWD}} or raster
 \code{\link[raster]{stack}} with the data for the prediction.}
 
-\item{fun}{function used to combine the output of the k models, default is
-\code{mean}. Note that fun is not a character argument, you must use
-\code{mean} and not \code{"mean"}.}
+\item{fun}{character. function used to combine the output of the k models,
+default is \code{"mean"}. Note that fun is a character argument, you must use
+\code{"mean"} and not \code{mean}. You can also pass a vector of character
+containing multiple function names, see details.}
 
 \item{type}{character. Output type, see details, used only for \strong{Maxent} and
 \strong{Maxnet} methods, default is \code{NULL}.}
@@ -53,6 +54,8 @@ of the k models.
 \itemize{
 \item filename, format, extent, parallel and ... arguments are used only when the
 prediction is done for a \code{\link[raster]{stack}} object.
+\item When a character vector is passed to the \code{fun} argument, than all the
+given functions are applied and a named list is returned, see examples.
 \item For models trained with the \strong{Maxent} method the argument \code{type} can
 be: "raw", "logistic" and "cloglog".
 \item For models trained with the \strong{Maxnet} method the argument \code{type} can
@@ -91,7 +94,14 @@ model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
 
 # Make cloglog prediction for the all study area and get the result as
 # average of the k models
-predict(model, data = predictors, fun = mean, type = "cloglog")
+predict(model, data = predictors, fun = "mean", type = "cloglog")
+
+# Make cloglog prediction for the all study area and get the average,
+# standard deviation and maximum values of the k models
+maps <- predict(model, data = predictors, fun = c("mean", "sd", "max"),
+                type = "cloglog")
+plotPred(maps$mean)
+plotPred(maps$sd)
 
 \donttest{
 # Make logistic prediction for the all study area, given as standard

@@ -31,38 +31,41 @@ test_that("The method works with raster stack objects and parallel", {
   p <- predict(m, predictors, type = "raw", parallel = TRUE)
   expect_length(p, predictors$bio1@ncols * predictors$bio1@nrows)
   expect_s4_class(p, "RasterLayer")
+  expect_false(getOption("SDMtuneParallel"))
 })
 
 test_that("The output is the function applied to the k predictions", {
   train@data <- train@data[1:3, ]
 
+  p <- predict(m, train@data, fun = c("mean", "sd", "min"), type = "raw")
+  expect_equal(class(p), "list")
+  expect_vector(p, size = 3)
+  expect_named(p, c("mean", "sd", "min"))
+
   # mean
-  p <- predict(m, train@data, type = "raw")
   preds <- matrix(nrow = 3, ncol = 4)
   for (i in 1:4) {
     preds[, i] <- predict(m@models[[i]], train@data, type = "raw")
   }
   for (i in 1:3) {
-    expect_equal(p[i], mean(preds[i, ]))
+    expect_equal(p$mean[i], mean(preds[i, ]))
   }
 
   # sd
-  p <- predict(m, train@data, fun = sd, type = "raw")
   preds <- matrix(nrow = 3, ncol = 4)
   for (i in 1:4) {
     preds[, i] <- predict(m@models[[i]], train@data, type = "raw")
   }
   for (i in 1:3) {
-    expect_equal(p[i], sd(preds[i, ]))
+    expect_equal(p$sd[i], sd(preds[i, ]))
   }
 
   # min
-  p <- predict(m, train@data, fun = min, type = "raw")
   preds <- matrix(nrow = 3, ncol = 4)
   for (i in 1:4) {
     preds[, i] <- predict(m@models[[i]], train@data, type = "raw")
   }
   for (i in 1:3) {
-    expect_equal(p[i], min(preds[i, ]))
+    expect_equal(p$min[i], min(preds[i, ]))
   }
 })
