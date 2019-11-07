@@ -10,10 +10,10 @@ auc(model, test = NULL, a = NULL)
 \item{model}{\code{\linkS4class{SDMmodel}} or
 \code{\linkS4class{SDMmodelCV}} objects.}
 
-\item{test}{\code{\linkS4class{SWD}} test object for
-\code{\linkS4class{SDMmodel}} objects or logical for
+\item{test}{\code{\linkS4class{SWD}} object for \code{\linkS4class{SDMmodel}}
+object. Logical or \code{\linkS4class{SWD}} object for
 \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
-train AUC, default is \code{NULL}.}
+train AUC, see details. Default is \code{NULL}.}
 
 \item{a}{Deprecated.}
 }
@@ -24,9 +24,11 @@ The value of the AUC.
 Compute the AUC using the Man-Whitney U Test formula.
 }
 \details{
-If the model is a \code{\linkS4class{SDMmodelCV}} object, the
-function computes the mean of the training or testing AUC values of the
-different replicates.
+For \code{\linkS4class{SDMmodelCV}} objects, the function computes
+the mean of the training AUC values of the k-folds. If \code{test = TRUE} it
+computes the mean of the testing AUC values for the k-folds. If test is an
+\code{\linkS4class{SWD}} object, it computes the mean AUC values for the
+provided testing dataset.
 }
 \examples{
 # Acquire environmental variables
@@ -68,6 +70,9 @@ auc(model)
 
 # Compute the testing AUC
 auc(model, test = TRUE)
+
+# Compute the AUC for the held apart testing dataset
+auc(model, test = test)
 }
 }
 \references{

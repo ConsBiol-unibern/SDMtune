@@ -13,9 +13,12 @@ test_that("The function returns the expected output", {
 test_that("The function uses the testing dataset", {
   expect_true(tss(m) != tss(m, test = m_cv@models[[1]]@data))
   expect_true(tss(m_cv) > tss(m_cv, test = TRUE))
+  expect_true(tss(m_cv) > tss(m_cv, test = SDMtune:::t))
 })
 
 test_that("The function raises errors", {
-  expect_error(tss(m_cv, SDMtune:::t),
-               "\"test\" argument invalid for \"SDMmodelCV\" objects! Use TRUE")
+  expect_error(tss(m, SDMtune:::t@data),
+               "\"test\" argument invalid, use an SWD object.")
+  expect_error(tss(m_cv, SDMtune:::t@data),
+               "\"test\" argument invalid, use an SWD object.")
 })

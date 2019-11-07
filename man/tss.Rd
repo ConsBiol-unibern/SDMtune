@@ -10,10 +10,10 @@ tss(model, test = NULL)
 \item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 object.}
 
-\item{test}{\code{\linkS4class{SWD}} test locations for
-\code{\linkS4class{SDMmodel}} objects or logical for
+\item{test}{\code{\linkS4class{SWD}} object for \code{\linkS4class{SDMmodel}}
+object. Logical or \code{\linkS4class{SWD}} object for
 \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
-training AUC, default is \code{NULL}.}
+train TSS, see details. Default is \code{NULL}.}
 }
 \value{
 The value of the TSS of the given model.
@@ -22,9 +22,11 @@ The value of the TSS of the given model.
 Compute the max TSS of a given model.
 }
 \details{
-If the model is a \code{\linkS4class{SDMmodelCV}} object, the
-function computes the mean of the training or testing TSS values of the
-different replicates.
+For \code{\linkS4class{SDMmodelCV}} objects, the function computes
+the mean of the training TSS values of the k-folds. If \code{test = TRUE} it
+computes the mean of the testing TSS values for the k-folds. If test is an
+\code{\linkS4class{SWD}} object, it computes the mean TSS values for the
+provided testing dataset.
 }
 \examples{
 # Acquire environmental variables
@@ -67,6 +69,9 @@ TSS(model)
 
 # Compute the testing TSS
 TSS(model, test = TRUE)
+
+# Compute the TSS for the held apart testing dataset
+tss(model, test = test)
 }
 }
 \references{

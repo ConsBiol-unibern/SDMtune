@@ -43,7 +43,8 @@ default is \code{FALSE}.}
 }
 \value{
 A vector with the prediction or a \code{\link[raster]{raster}} object
-if data is a raster \code{\link[raster]{stack}}.
+if data is a raster \code{\link[raster]{stack}} or a list in the case of
+multiple functions.
 }
 \description{
 Predict the output for a new dataset given a trained \code{\link{SDMmodelCV}}

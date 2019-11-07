@@ -53,6 +53,8 @@ confMatrix <- function(model, test = NULL, th = NULL, type = NULL) {
   if (is.null(test)) {
     data <- model@data
   } else {
+    if (class(test) != "SWD")
+      stop("\"test\" argument invalid, use an SWD object.")
     # TODO check if I can remove this: test@data[colnames(model@p@data)]
     data <- test
   }

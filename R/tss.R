@@ -4,14 +4,16 @@
 #'
 #' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
 #' object.
-#' @param test \code{\linkS4class{SWD}} test locations for
-#' \code{\linkS4class{SDMmodel}} objects or logical for
+#' @param test \code{\linkS4class{SWD}} object for \code{\linkS4class{SDMmodel}}
+#' object. Logical or \code{\linkS4class{SWD}} object for
 #' \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
-#' training AUC, default is \code{NULL}.
+#' train TSS, see details. Default is \code{NULL}.
 #'
-#' @details If the model is a \code{\linkS4class{SDMmodelCV}} object, the
-#' function computes the mean of the training or testing TSS values of the
-#' different replicates.
+#' @details For \code{\linkS4class{SDMmodelCV}} objects, the function computes
+#' the mean of the training TSS values of the k-folds. If \code{test = TRUE} it
+#' computes the mean of the testing TSS values for the k-folds. If test is an
+#' \code{\linkS4class{SWD}} object, it computes the mean TSS values for the
+#' provided testing dataset.
 #'
 #' @return The value of the TSS of the given model.
 #' @export
@@ -64,6 +66,9 @@
 #'
 #' # Compute the testing TSS
 #' TSS(model, test = TRUE)
+#'
+#' # Compute the TSS for the held apart testing dataset
+#' tss(model, test = test)
 #' }
 tss <- function(model, test = NULL) {
 
@@ -77,8 +82,7 @@ tss <- function(model, test = NULL) {
         if (isTRUE(test)) {
           test_swd <- .subset_swd(model@data, model@folds$test[, i])
         } else {
-          stop("\"test\" argument invalid for \"SDMmodelCV\" objects! Use ",
-               "TRUE or FALSE.")
+          test_swd <- test
         }
       } else {
         test_swd = NULL
