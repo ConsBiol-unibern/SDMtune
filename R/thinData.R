@@ -15,6 +15,7 @@
 #' @export
 #' @importFrom raster cellFromXY extract
 #' @importFrom stats complete.cases
+#' @importFrom progress progress_bar
 #'
 #' @author Sergio Vignali
 #'
@@ -43,16 +44,23 @@ thinData <- function(coords, env) {
   cells <- raster::cellFromXY(env, coords)
 
   unique_cells <- unique(cells)
+  l <- length(unique_cells)
 
-  output <- matrix(nrow = length(unique_cells), ncol = 2)
+  output <- matrix(nrow = l, ncol = 2)
 
-  for (i in 1:length(unique_cells)) {
+  pb <- progress::progress_bar$new(
+    format = "Thin Data [:bar] :percent in :elapsedfull",
+    total = l, clear = FALSE, width = 60, show_after = 0)
+  pb$tick(0)
+
+  for (i in 1:l) {
     if (length(which(cells == unique_cells[i])) > 1) {
       index <- sample(nrow(coords[cells == unique_cells[i], ]), 1)
       output[i, ] <- unlist(coords[cells == unique_cells[i], ][index, ])
     } else {
       output[i, ] <- unlist(coords[cells == unique_cells[i], ])
     }
+    pb$tick(1)
   }
   output <- as.data.frame(output)
   colnames(output) <- colnames(coords)
