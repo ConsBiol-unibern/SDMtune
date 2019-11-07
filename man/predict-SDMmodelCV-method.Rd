@@ -97,14 +97,16 @@ model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
 # average of the k models
 predict(model, data = predictors, fun = "mean", type = "cloglog")
 
+\donttest{
 # Make cloglog prediction for the all study area and get the average,
 # standard deviation and maximum values of the k models
 maps <- predict(model, data = predictors, fun = c("mean", "sd", "max"),
                 type = "cloglog")
+
 plotPred(maps$mean)
 plotPred(maps$sd)
+plotPred(maps$max)
 
-\donttest{
 # Make logistic prediction for the all study area, given as standard
 # deviation of the k models, and save it in a file
 predict(model, data = predictors, fun = sd, type = "logistic",
