@@ -256,7 +256,10 @@ only when the prediction is done for a <code><a href='https://rdrr.io/pkg/raster
 be: "raw", "logistic" and "cloglog".</p></li>
 <li><p>For models trained with the <strong>Maxnet</strong> method the argument <code>type</code> can
 be: "link", "exponential", "logistic" and "cloglog", see
-<code><a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a></code> for more details.</p></li>
+<code><a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a></code> for more details. The function performs the
+prediction in <strong>R</strong> without calling the <strong>MaxEnt</strong> Java software. This
+results in a faster computation for large datasets. The results might differ
+slightly from the Java software output.</p></li>
 <li><p>For models trained with the <strong>ANN</strong> method the function uses the "raw"
 output type.</p></li>
 <li><p>For models trained with the <strong>RF</strong> method the output is the probability of

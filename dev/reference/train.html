@@ -379,7 +379,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='co'># Train presence absence models</span>
 <span class='co'># Prepare presence and absence locations</span>
 <span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span><span class='co'>#'</span>
+<span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span>
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>a_coords</span>,
                    <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>5</span>]])

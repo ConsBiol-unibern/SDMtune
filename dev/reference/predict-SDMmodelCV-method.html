@@ -260,7 +260,10 @@ prediction is done for a <code><a href='https://rdrr.io/pkg/raster/man/stack.htm
 <li><p>When a character vector is passed to the <code>fun</code> argument, than all the
 given functions are applied and a named list is returned, see examples.</p></li>
 <li><p>For models trained with the <strong>Maxent</strong> method the argument <code>type</code> can
-be: "raw", "logistic" and "cloglog".</p></li>
+be: "raw", "logistic" and "cloglog". The function performs the prediction in
+<strong>R</strong> without calling the <strong>MaxEnt</strong> Java software. This results in a faster
+computation for large datasets. The results might differ slightly from the
+Java software output.</p></li>
 <li><p>For models trained with the <strong>Maxnet</strong> method the argument <code>type</code> can
 be: "link", "exponential", "logistic" and "cloglog", see
 <code><a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a></code> for more details.</p></li>
