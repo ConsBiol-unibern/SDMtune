@@ -162,7 +162,7 @@ model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 # Train presence absence models
 # Prepare presence and absence locations
 p_coords <- virtualSp$presence
-a_coords <- virtualSp$absence#'
+a_coords <- virtualSp$absence
 # Create SWD object
 data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
                    env = predictors[[1:5]])

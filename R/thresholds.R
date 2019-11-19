@@ -54,6 +54,9 @@
 #' thresholds(model, type = "logistic", test = test)
 thresholds <- function(model, type = NULL, test = NULL) {
 
+  if (class(model) != "SDMmodel")
+    stop("Function available only for SDMmodel objects.")
+
   n_pres <- sum(model@data@pa == 1)
 
   cm_train <- confMatrix(model, type = type)

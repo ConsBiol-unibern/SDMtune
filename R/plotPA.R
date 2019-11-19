@@ -56,7 +56,7 @@ plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
   }
 
   my_plot <- rasterVis::gplot(pa, maxpixels = maxpixels) +
-    geom_tile(aes_(fill = ~value)) +
+    geom_tile(aes_(fill = ~as.factor(value))) +
     scale_fill_manual(values = colors,
                       breaks = c(1, 0),
                       labels = c("Presence", "Absence"),

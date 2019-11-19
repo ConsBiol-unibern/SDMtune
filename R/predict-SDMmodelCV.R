@@ -32,7 +32,10 @@
 #' * When a character vector is passed to the \code{fun} argument, than all the
 #' given functions are applied and a named list is returned, see examples.
 #' * For models trained with the **Maxent** method the argument \code{type} can
-#' be: "raw", "logistic" and "cloglog".
+#' be: "raw", "logistic" and "cloglog". The function performs the prediction in
+#' **R** without calling the **MaxEnt** Java software. This results in a faster
+#' computation for large datasets. The results might differ slightly from the
+#' Java software output.
 #' * For models trained with the **Maxnet** method the argument \code{type} can
 #' be: "link", "exponential", "logistic" and "cloglog", see
 #' \code{\link[maxnet]{maxnet}} for more details.

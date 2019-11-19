@@ -55,7 +55,10 @@ only when the prediction is done for a \code{\link[raster]{stack}} object.
 be: "raw", "logistic" and "cloglog".
 \item For models trained with the \strong{Maxnet} method the argument \code{type} can
 be: "link", "exponential", "logistic" and "cloglog", see
-\code{\link[maxnet]{maxnet}} for more details.
+\code{\link[maxnet]{maxnet}} for more details. The function performs the
+prediction in \strong{R} without calling the \strong{MaxEnt} Java software. This
+results in a faster computation for large datasets. The results might differ
+slightly from the Java software output.
 \item For models trained with the \strong{ANN} method the function uses the "raw"
 output type.
 \item For models trained with the \strong{RF} method the output is the probability of

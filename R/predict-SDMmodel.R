@@ -34,7 +34,10 @@ setGeneric("predict", function(object, ...)
 #' be: "raw", "logistic" and "cloglog".
 #' * For models trained with the **Maxnet** method the argument \code{type} can
 #' be: "link", "exponential", "logistic" and "cloglog", see
-#' \code{\link[maxnet]{maxnet}} for more details.
+#' \code{\link[maxnet]{maxnet}} for more details. The function performs the
+#' prediction in **R** without calling the **MaxEnt** Java software. This
+#' results in a faster computation for large datasets. The results might differ
+#' slightly from the Java software output.
 #' * For models trained with the **ANN** method the function uses the "raw"
 #' output type.
 #' * For models trained with the **RF** method the output is the probability of
