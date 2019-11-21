@@ -13,7 +13,7 @@
 #' the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
 #' default is \code{NULL}.
 #' @param bg4test Deprecated.
-#' @param pop numeric. Size of the population, default is 20.
+#' @param pop numeric. Size of the population, default is 5.
 #' @param gen numeric. Number of generations, default is 20.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.

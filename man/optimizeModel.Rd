@@ -25,7 +25,7 @@ default is \code{NULL}.}
 
 \item{bg4test}{Deprecated.}
 
-\item{pop}{numeric. Size of the population, default is 20.}
+\item{pop}{numeric. Size of the population, default is 5.}
 
 \item{gen}{numeric. Number of generations, default is 20.}
 
