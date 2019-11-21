@@ -50,6 +50,9 @@
 #' confMatrix(model, type = "logistic", th = 0.6)
 confMatrix <- function(model, test = NULL, th = NULL, type = NULL) {
 
+  if (class(model) != "SDMmodel")
+    stop("Function available only for SDMmodel objects.")
+
   if (is.null(test)) {
     data <- model@data
   } else {
