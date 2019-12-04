@@ -34,10 +34,19 @@ test_that("The method works with raster stack objects and parallel", {
   expect_false(getOption("SDMtuneParallel"))
 })
 
+folder <- tempfile("SDMtune")
 test_that("The output is the function applied to the k predictions", {
   train@data <- train@data[1:3, ]
+  filenames <- c("SDMtune/mean", "SDMtune/sd", "SDMtune/min")
 
-  p <- predict(m, train@data, fun = c("mean", "sd", "min"), type = "raw")
+  expect_error(predict(m, train@data, fun = c("mean", "sd", "min"),
+                       type = "raw", format = "GTiff", filename = "mean"),
+               "You must provide 3 names with filename, instead 1 is")
+  expect_error(predict(m, train@data, fun = c("mean", "sd", "min"),
+                       type = "raw", format = "GTiff", filename = c("a", "b")),
+               "You must provide 3 names with filename, instead 2 are")
+  p <- predict(m, train@data, fun = c("mean", "sd", "min"), type = "raw",
+               format = "GTiff", filename = filenames)
   expect_equal(class(p), "list")
   expect_vector(p, size = 3)
   expect_named(p, c("mean", "sd", "min"))
@@ -69,3 +78,5 @@ test_that("The output is the function applied to the k predictions", {
     expect_equal(p$min[i], min(preds[i, ]))
   }
 })
+
+teardown(unlink(folder, recursive = TRUE))

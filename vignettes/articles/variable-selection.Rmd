@@ -81,7 +81,7 @@ There are cases in which a model has some environmental variables ranked with ve
 varImp(maxnet_model, permut = 1)
 ```
 
-  We will use the function `reduceVar()` only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance lower than 6\%:
+  We will use the function `reduceVar()` only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance greater than 6\%:
 ```{r reduce var 1}
 cat("Testing AUC before: ", auc(maxnet_model, test = test))
 reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1)

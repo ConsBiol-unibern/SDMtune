@@ -112,6 +112,15 @@ setMethod(
     k <- length(object@models)
     l <- length(fun)
 
+    if (l > 1 && filename != "") {
+      if (length(filename) != l) {
+        ns <- length(filename)
+        m <- ifelse(ns == 1, "is", "are")
+        stop("You must provide ", l, " names with filename, instead ", ns, " ",
+             m, " provided.")
+      }
+    }
+
     pb <- progress::progress_bar$new(
       format = "Predict [:bar] :percent in :elapsedfull",
       total = k + l, clear = FALSE, width = 60, show_after = 0)
@@ -140,7 +149,7 @@ setMethod(
         for (i in 1:l) {
           output[[i]] <- raster::clusterR(preds, fun = raster::calc,
                                           args = list(fun = get(fun[i]),
-                                                      filename = filename,
+                                                      filename = filename[i],
                                                       format = format, ...))
           pb$tick(1)
         }
@@ -148,7 +157,8 @@ setMethod(
       } else {
         for (i in 1:l) {
           output[[i]] <- raster::calc(preds, fun = get(fun[i]),
-                                      filename = filename, format = format, ...)
+                                      filename = filename[i], format = format,
+                                      ...)
           pb$tick(1)
         }
       }
