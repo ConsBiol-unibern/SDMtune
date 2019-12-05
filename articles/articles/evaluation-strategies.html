@@ -13,8 +13,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><!-- docsearch --><script src="../../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><link href="../../extra.css" rel="stylesheet">
@@ -40,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -98,7 +99,7 @@
   </ul>
 </li>
 <li>
-  <a href="../../news/index.html">Changelog</a>
+  <a href="../../news/index.html">News</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -109,7 +110,7 @@
   </a>
 </li>
       </ul>
-<form class="navbar-form navbar-right" role="search">
+<form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
@@ -123,6 +124,7 @@
 <!--/.navbar -->
 
       
+
       </header><script src="evaluation-strategies_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -145,31 +147,31 @@
 <h2 class="hasAnchor">
 <a href="#train-and-testing-datasets" class="anchor"></a>Train and testing datasets</h2>
 <p>First we load the <strong>SDMtune</strong> package:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMtune)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(SDMtune)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;    _____  ____   __  ___ __</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.2.0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 0.2.1</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></a></code></pre></div>
 <p>It’s always a good practice to split the species locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> function for this purpose. Let’s say we want to use 80% of the species locations to train our model and 20% as testing dataset to evaluate it:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(zeallot)  <span class="co"># For unpacking assignment</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(data, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">only_presence =</span> <span class="ot">TRUE</span>, <span class="dt">seed =</span> <span class="dv">25</span>)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(zeallot)  <span class="co"># For unpacking assignment</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(train, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(data, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">only_presence =</span> <span class="ot">TRUE</span>, <span class="dt">seed =</span> <span class="dv">25</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">maxnet_model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">data =</span> train)</a></code></pre></div>
 <p>The <code>only_presence</code> argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Training auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model))</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Training auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model))</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Training auc:  0.8752144</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing auc: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(maxnet_model, <span class="dt">test =</span> test))</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Testing auc:  0.8505888</span></a></code></pre></div>
 <p>This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the AUC:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">output &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">10</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)) <span class="co"># Create an empty data.frame</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(output) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">seeds &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample.int</a></span>(<span class="dv">1000</span>, <span class="dv">10</span>) <span class="co"># Create 10 different random seeds</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(seeds)) { <span class="co"># Loop through the seeds</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(data, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">seed =</span> seeds[i], <span class="dt">only_presence =</span> <span class="ot">TRUE</span>) <span class="co"># Make the train/test split</span></a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">output &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">10</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)) <span class="co"># Create an empty data.frame</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(output) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">seeds &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample.int</a></span>(<span class="dv">1000</span>, <span class="dv">10</span>) <span class="co"># Create 10 different random seeds</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(seeds)) { <span class="co"># Loop through the seeds</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(train, test) <span class="op">%&lt;-%</span><span class="st"> </span><span class="kw"><a href="../../reference/trainValTest.html">trainValTest</a></span>(data, <span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">seed =</span> seeds[i], <span class="dt">only_presence =</span> <span class="ot">TRUE</span>) <span class="co"># Make the train/test split</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">  m &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="dt">data =</span> train) <span class="co"># train the model</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="co"># Populate the output data.frame</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9">  output[i, <span class="dv">1</span>] &lt;-<span class="st"> </span>seeds[i]</a>
@@ -305,7 +307,7 @@ testAUC
 </tbody>
 </table>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># compute the range of the testing AUC</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(output[, <span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/range.html">range</a></span>(output[, <span class="dv">3</span>])</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; [1] 0.8340675 0.8671762</span></a></code></pre></div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
@@ -340,9 +342,9 @@ testAUC
 #&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
 #&gt; Categorical: biome</code></pre>
 <p>The output in this case is an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object. It contains the four trained models in the <code>models</code> slot and the fold partitions in the <code>folds</code> slot. We can compute the AUC of a <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object using:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model))</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model))</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; Training AUC:  0.8734151</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"Testing AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model, <span class="dt">test =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC: "</span>, <span class="kw"><a href="../../reference/auc.html">auc</a></span>(cv_model, <span class="dt">test =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Testing AUC:  0.8553538</span></a></code></pre></div>
 <p>this returns the AUC value averaged across the four different models.</p>
 <div id="try-yourself-1" class="section level3">
@@ -355,17 +357,17 @@ testAUC
 <a href="#spatial-cross-validation" class="anchor"></a>Spatial Cross Validation</h3>
 <p>The <code><a href="../../reference/train.html">train()</a></code> function accepts folds created with other packages (ENMeval and blockCV). The function will convert internally into the correct format for <code>SDMtune</code>. These packages have specific function to create folds partitions that are spatially or environmentally independent.</p>
 <p>Block partition using the ENMeval package:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ENMeval)</a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ENMeval)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">block_folds &lt;-<span class="st"> </span><span class="kw">get.block</span>(<span class="dt">occ =</span> data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ], <span class="dt">bg.coords =</span> data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, ])</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">data =</span> data, <span class="dt">fc =</span> <span class="st">"l"</span>, <span class="dt">reg =</span> <span class="fl">0.8</span>, <span class="dt">folds =</span> block_folds)</a></code></pre></div>
 <p>Checkerboard1 partition using the ENMeval package</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">cb_folds &lt;-<span class="st"> </span><span class="kw">get.checkerboard1</span>(<span class="dt">occ =</span> data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ], <span class="dt">env =</span> predictors, <span class="dt">bg.coords =</span> data<span class="op">@</span>data[data<span class="op">@</span>pa <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, ], <span class="dt">aggregation.factor =</span> <span class="dv">4</span>)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">data =</span> data, <span class="dt">fc =</span> <span class="st">"l"</span>, <span class="dt">reg =</span> <span class="fl">0.8</span>, <span class="dt">folds =</span> cb_folds)</a></code></pre></div>
 <p>Environmental block using the blockCV package</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(blockCV)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(blockCV)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(raster)</a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co"># Create spatial points data frame</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">sp_df &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(data<span class="op">@</span>coords, <span class="dt">data =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/as.data.frame">as.data.frame</a></span>(data<span class="op">@</span>pa), <span class="dt">proj4string =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/projection">crs</a></span>(predictors))</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">sp_df &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(data<span class="op">@</span>coords, <span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/as.data.frame.html">as.data.frame</a></span>(data<span class="op">@</span>pa), <span class="dt">proj4string =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/projection.html">crs</a></span>(predictors))</a>
 <a class="sourceLine" id="cb13-5" data-line-number="5">e_folds &lt;-<span class="st"> </span><span class="kw">envBlock</span>(<span class="dt">rasterLayer =</span> predictors, <span class="dt">speciesData =</span> sp_df, <span class="dt">species =</span> <span class="st">"data@pa"</span>, <span class="dt">k =</span> <span class="dv">4</span>, <span class="dt">standardization =</span> <span class="st">"standard"</span>, <span class="dt">rasterBlock =</span> <span class="ot">FALSE</span>, <span class="dt">numLimit =</span> <span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb13-6" data-line-number="6">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxnet"</span>, <span class="dt">data =</span> data, <span class="dt">fc =</span> <span class="st">"l"</span>, <span class="dt">reg =</span> <span class="fl">0.8</span>, <span class="dt">folds =</span> e_folds)</a></code></pre></div>
 </div>
@@ -403,13 +405,15 @@ testAUC
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="https://github.com/sgvignali">Sergio Vignali</a>, <a href="http://www.cb.iee.unibe.ch/about_us/barras_arnaud_gian/index_eng.html">Arnaud Barras</a>, <a href="http://www.cb.iee.unibe.ch/about_us/dr_braunisch_veronika/index_eng.html">Veronika Braunisch</a>, <a href="http://www.cb.iee.unibe.ch/index_eng.html">Conservation Biology - University of Bern</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
