@@ -101,7 +101,7 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
     coord_flip() +
     labs(x = "", y = y_label) +
     theme_minimal() +
-    theme(text = element_text(colour = "#666666", family = "sans-serif"),
+    theme(text = element_text(colour = "#666666"),
           legend.title = element_blank())
 
 

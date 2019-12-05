@@ -136,7 +136,7 @@
       scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
       theme_minimal() +
       theme(plot.title = element_text(hjust = 0.5),
-            text = element_text(colour = "#666666", family = "sans-serif"),
+            text = element_text(colour = "#666666"),
             legend.position = "bottom")
 
     # Add line if is the rusult of a tune function

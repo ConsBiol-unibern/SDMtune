@@ -119,6 +119,8 @@ setMethod(
         stop("You must provide ", l, " names with filename, instead ", ns, " ",
              m, " provided.")
       }
+    } else {
+      filename <- rep("", l)
     }
 
     pb <- progress::progress_bar$new(

@@ -59,7 +59,7 @@ plotCor <- function(bg, method = "spearman", cor_th = NULL) {
           axis.title.x = element_blank(),
           axis.title.y = element_blank(),
           panel.grid.major = element_blank(),
-          text = element_text(colour = "#666666", family = "sans-serif")) +
+          text = element_text(colour = "#666666")) +
     coord_fixed()
 
   if (is.null(cor_th)) {

@@ -151,7 +151,7 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
     labs(x = var, y = ifelse(!is.null(type), paste(type, "output"),
                              "Probability of presence")) +
     theme_minimal() +
-    theme(text = element_text(colour = "#666666", family = "sans-serif"))
+    theme(text = element_text(colour = "#666666"))
 
   if (rug == TRUE & var %in% cont_vars) {
     my_plot <- my_plot +

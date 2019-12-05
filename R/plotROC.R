@@ -81,7 +81,7 @@ plotROC <- function(model, test = NULL, val = NULL) {
     labs(x = "False Positive Rate", y = "True Positive Rate") +
     coord_fixed() +
     theme_minimal() +
-    theme(text = element_text(colour = "#666666", family = "sans-serif"))
+    theme(text = element_text(colour = "#666666"))
 
   if (!is.null(test)) {
     my_plot <- my_plot + guides(colour = guide_legend(reverse = TRUE))

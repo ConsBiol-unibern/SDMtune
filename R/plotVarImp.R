@@ -52,7 +52,7 @@ plotVarImp <- function(df, color = "grey") {
     geom_bar(position = "dodge", stat = "identity", fill = color) +
     coord_flip() +
     theme_minimal() +
-    theme(text = element_text(colour = "#666666", family = "sans-serif"))
+    theme(text = element_text(colour = "#666666"))
 
   return(my_plot)
 }
