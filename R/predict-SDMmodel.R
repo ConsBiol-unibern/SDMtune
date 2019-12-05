@@ -14,8 +14,9 @@ setGeneric("predict", function(object, ...)
 #' **Maxnet** methods, default is \code{NULL}.
 #' @param clamp logical for clumping during prediction, used only for **Maxent**
 #' and **Maxnet** methods, default is \code{TRUE}.
-#' @param filename character. Output file name for the prediction map, if
-#' provided the output is saved in a file.
+#' @param filename character. Output file name for the prediction map, used only
+#' when \code{data} is a \code{\link[raster]{stack}} object. If provided the
+#' output is saved in a file.
 #' @param format character. The output format, see
 #' \code{\link[raster]{writeRaster}} for all the options, default is "GTiff".
 #' @param extent \code{\link[raster]{Extent}} object, if provided it restricts

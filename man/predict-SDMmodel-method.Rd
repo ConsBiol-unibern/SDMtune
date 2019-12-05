@@ -21,8 +21,9 @@
 \item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
 and \strong{Maxnet} methods, default is \code{TRUE}.}
 
-\item{filename}{character. Output file name for the prediction map, if
-provided the output is saved in a file.}
+\item{filename}{character. Output file name for the prediction map, used only
+when \code{data} is a \code{\link[raster]{stack}} object. If provided the
+output is saved in a file.}
 
 \item{format}{character. The output format, see
 \code{\link[raster]{writeRaster}} for all the options, default is "GTiff".}
