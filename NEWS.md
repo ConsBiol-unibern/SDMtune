@@ -1,4 +1,4 @@
-# SDMtune 0.2.0.9000
+# SDMtune 0.2.1
 * New function to predict SDMmodelCV objects
 * Add the possibility to pass multiple methods to the `train` function
 * Add possibility to compute the testing AUC or TSS for a held apart testing dataset in the case of a `SDMmodelCV` object

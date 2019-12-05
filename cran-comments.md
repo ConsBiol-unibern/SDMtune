@@ -1,7 +1,7 @@
 ## Test environments
-* local ubuntu 18.04 install, R 3.6.0
+* local ubuntu 18.04 install, R 3.6.1
 * win-builder (devel and release)
-* Travis-ci R 3.6.0
+* Travis-ci R 3.6.1
 * AppVeyor-ci R 3.5.3
 
 ## R CMD check results
