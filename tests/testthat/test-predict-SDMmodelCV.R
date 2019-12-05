@@ -74,17 +74,10 @@ test_that("The output is the function applied to the k predictions", {
 })
 
 test_that("The function works with raster data and multiple functions", {
-  # Expect errors
-  expect_error(predict(m, predictors, fun = c("mean", "sd", "min"),
-                       type = "raw", filename = "mean"),
-               "You must provide 3 names with filename, instead 1 is")
-  expect_error(predict(m, predictors, fun = c("mean", "sd", "min"),
-                       type = "raw", filename = c("a", "b")),
-               "You must provide 3 names with filename, instead 2 are")
 
-  filenames <- file.path(folder, c("mean", "sd", "min"))
-  p <- predict(m, predictors, fun = c("mean", "sd", "min"), type = "raw",
-               filename = filenames)
+  funs <- c("mean", "sd", "min")
+  p <- predict(m, predictors, fun = funs, type = "raw",
+               filename = file.path(folder, "pred"))
 
   expect_equal(class(p), "list")
   expect_vector(p, size = 3)
@@ -92,7 +85,8 @@ test_that("The function works with raster data and multiple functions", {
 
   # check that files are created
   for (i in 1:3) {
-    expect_true(file.exists(paste0(filenames[i], ".tif")))
+    expect_true(file.exists(paste0(file.path(folder, "pred_"), funs[i],
+                                   ".tif")))
     expect_s4_class(p[[i]], "RasterLayer")
   }
 

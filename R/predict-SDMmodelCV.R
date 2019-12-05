@@ -15,8 +15,9 @@
 #' **Maxnet** methods, default is \code{NULL}.
 #' @param clamp logical for clumping during prediction, used only for **Maxent**
 #' and **Maxnet** methods, default is \code{TRUE}.
-#' @param filename character. Output file name for the prediction map, if
-#' provided the output is saved in a file.
+#' @param filename character. Output file name for the prediction map, used only
+#' when \code{data} is a \code{\link[raster]{stack}} object. If provided the
+#' output is saved in a file, see details.
 #' @param format character. The output format, see
 #' \code{\link[raster]{writeRaster}} for all the options, default is "GTiff".
 #' @param extent \code{\link[raster]{Extent}} object, if provided it restricts
@@ -31,6 +32,9 @@
 #' prediction is done for a \code{\link[raster]{stack}} object.
 #' * When a character vector is passed to the \code{fun} argument, than all the
 #' given functions are applied and a named list is returned, see examples.
+#' * When \code{filename} is provided and the \code{fun} argument contains more
+#' than one function name, the saved files are named as
+#' **\code{filename}_\code{fun}**, see example.
 #' * For models trained with the **Maxent** method the argument \code{type} can
 #' be: "raw", "logistic" and "cloglog". The function performs the prediction in
 #' **R** without calling the **MaxEnt** Java software. This results in a faster
@@ -66,6 +70,7 @@
 #' values from a lambdas file.
 #'
 #' @examples
+#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -87,12 +92,13 @@
 #' # average of the k models
 #' predict(model, data = predictors, fun = "mean", type = "cloglog")
 #'
-#' \donttest{
 #' # Make cloglog prediction for the all study area, get the average, standard
 #' # deviation, and maximum values of the k models, and save the output in three
 #' # files
 #' maps <- predict(model, data = predictors, fun = c("mean", "sd", "max"),
-#'                 type = "cloglog", filename = c("mean", "sd", "max"))
+#'                 type = "cloglog", filename = "prediction")
+#' # In this case three files are created: prediction_mean.tif,
+#' # prediction_sd.tif and prediction_max.tif
 #'
 #' plotPred(maps$mean)
 #' plotPred(maps$sd)
@@ -113,15 +119,10 @@ setMethod(
     k <- length(object@models)
     l <- length(fun)
 
-    if (l > 1 && filename != "") {
-      if (length(filename) != l) {
-        ns <- length(filename)
-        m <- ifelse(ns == 1, "is", "are")
-        stop("You must provide ", l, " names with filename, instead ", ns, " ",
-             m, " provided.")
-      }
-    } else {
+    if (filename == "") {
       filename <- rep("", l)
+    } else {
+      filename <- paste(filename, fun, sep = "_")
     }
 
     pb <- progress::progress_bar$new(

@@ -26,8 +26,9 @@ containing multiple function names, see details.}
 \item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
 and \strong{Maxnet} methods, default is \code{TRUE}.}
 
-\item{filename}{character. Output file name for the prediction map, if
-provided the output is saved in a file.}
+\item{filename}{character. Output file name for the prediction map, used only
+when \code{data} is a \code{\link[raster]{stack}} object. If provided the
+output is saved in a file, see details.}
 
 \item{format}{character. The output format, see
 \code{\link[raster]{writeRaster}} for all the options, default is "GTiff".}
@@ -57,6 +58,9 @@ of the k models.
 prediction is done for a \code{\link[raster]{stack}} object.
 \item When a character vector is passed to the \code{fun} argument, than all the
 given functions are applied and a named list is returned, see examples.
+\item When \code{filename} is provided and the \code{fun} argument contains more
+than one function name, the saved files are named as
+\strong{\code{filename}_\code{fun}}, see example.
 \item For models trained with the \strong{Maxent} method the argument \code{type} can
 be: "raw", "logistic" and "cloglog". The function performs the prediction in
 \strong{R} without calling the \strong{MaxEnt} Java software. This results in a faster
@@ -79,6 +83,7 @@ result in slightly different results compare to the Java software.
 }
 }
 \examples{
+\donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
@@ -100,12 +105,13 @@ model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
 # average of the k models
 predict(model, data = predictors, fun = "mean", type = "cloglog")
 
-\donttest{
 # Make cloglog prediction for the all study area, get the average, standard
 # deviation, and maximum values of the k models, and save the output in three
 # files
 maps <- predict(model, data = predictors, fun = c("mean", "sd", "max"),
-                type = "cloglog", filename = c("mean", "sd", "max"))
+                type = "cloglog", filename = "prediction")
+# In this case three files are created: prediction_mean.tif,
+# prediction_sd.tif and prediction_max.tif
 
 plotPred(maps$mean)
 plotPred(maps$sd)
