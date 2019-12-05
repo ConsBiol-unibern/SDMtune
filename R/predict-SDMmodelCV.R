@@ -88,10 +88,11 @@
 #' predict(model, data = predictors, fun = "mean", type = "cloglog")
 #'
 #' \donttest{
-#' # Make cloglog prediction for the all study area and get the average,
-#' # standard deviation and maximum values of the k models
+#' # Make cloglog prediction for the all study area, get the average, standard
+#' # deviation, and maximum values of the k models, and save the output in three
+#' # files
 #' maps <- predict(model, data = predictors, fun = c("mean", "sd", "max"),
-#'                 type = "cloglog")
+#'                 type = "cloglog", filename = c("mean", "sd", "max"))
 #'
 #' plotPred(maps$mean)
 #' plotPred(maps$sd)
