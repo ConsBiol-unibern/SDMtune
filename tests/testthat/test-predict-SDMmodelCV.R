@@ -8,6 +8,8 @@ train@pa <- train@pa[train@pa == 1]
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
+folder <- tempfile("SDMtune")
+dir.create(folder)
 
 test_that("The method works with data frames", {
   p <- predict(m, train@data, type = "raw")
@@ -34,19 +36,11 @@ test_that("The method works with raster stack objects and parallel", {
   expect_false(getOption("SDMtuneParallel"))
 })
 
-folder <- tempfile("SDMtune")
 test_that("The output is the function applied to the k predictions", {
   train@data <- train@data[1:3, ]
-  filenames <- c("SDMtune/mean", "SDMtune/sd", "SDMtune/min")
 
-  expect_error(predict(m, train@data, fun = c("mean", "sd", "min"),
-                       type = "raw", format = "GTiff", filename = "mean"),
-               "You must provide 3 names with filename, instead 1 is")
-  expect_error(predict(m, train@data, fun = c("mean", "sd", "min"),
-                       type = "raw", format = "GTiff", filename = c("a", "b")),
-               "You must provide 3 names with filename, instead 2 are")
-  p <- predict(m, train@data, fun = c("mean", "sd", "min"), type = "raw",
-               format = "GTiff", filename = filenames)
+  p <- predict(m, train@data, fun = c("mean", "sd", "min"), type = "raw")
+
   expect_equal(class(p), "list")
   expect_vector(p, size = 3)
   expect_named(p, c("mean", "sd", "min"))
@@ -79,4 +73,29 @@ test_that("The output is the function applied to the k predictions", {
   }
 })
 
-teardown(unlink(folder, recursive = TRUE))
+test_that("The function works with raster data and multiple functions", {
+  # Expect errors
+  expect_error(predict(m, predictors, fun = c("mean", "sd", "min"),
+                       type = "raw", filename = "mean"),
+               "You must provide 3 names with filename, instead 1 is")
+  expect_error(predict(m, predictors, fun = c("mean", "sd", "min"),
+                       type = "raw", filename = c("a", "b")),
+               "You must provide 3 names with filename, instead 2 are")
+
+  filenames <- file.path(folder, c("mean", "sd", "min"))
+  p <- predict(m, predictors, fun = c("mean", "sd", "min"), type = "raw",
+               filename = filenames)
+
+  expect_equal(class(p), "list")
+  expect_vector(p, size = 3)
+  expect_named(p, c("mean", "sd", "min"))
+
+  # check that files are created
+  for (i in 1:3) {
+    expect_true(file.exists(paste0(filenames[i], ".tif")))
+    expect_s4_class(p[[i]], "RasterLayer")
+  }
+
+})
+
+teardown(unlink(folder))
