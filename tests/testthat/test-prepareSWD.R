@@ -4,7 +4,7 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 env <- raster::stack(files)
 p <- virtualSp$presence
-# Add coordinate outside extent to get info message
+# Add coordinates outside extent to get info message
 p <- rbind(c(10, 10), p)
 a <- virtualSp$background
 
