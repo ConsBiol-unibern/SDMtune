@@ -5,7 +5,6 @@
 #' @param model \code{\link{SDMmodel}} object.
 #' @param test \code{\link{SWD}} object. The testing dataset, default is
 #' \code{NULL}.
-#' @param val deprecated.
 #'
 #' @return The plot object.
 #' @export
@@ -44,13 +43,7 @@
 #' }
 #'
 #' @author Sergio Vignali
-plotROC <- function(model, test = NULL, val = NULL) {
-
-  # TODO Remove it next release
-  if (!is.null(val)) {
-    stop("\"val\" argument is deprecated and will be removed in the next ",
-         "release.", call. = FALSE)
-  }
+plotROC <- function(model, test = NULL) {
 
   if (class(model@model) == "Maxent") {
     type <- "raw"

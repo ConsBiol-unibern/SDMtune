@@ -11,8 +11,3 @@ test_that("The plot has the correct labels", {
   expect_equal(p$labels$x, "False Positive Rate")
   expect_equal(p$labels$y, "True Positive Rate")
 })
-
-test_that("error is raised", {
-  expect_error(p <- plotROC(SDMtune:::bm_maxent, val = SDMtune:::t),
-  "\"val\" argument is deprecated and will be removed in the next ")
-})

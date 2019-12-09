@@ -4,15 +4,13 @@
 \alias{plotROC}
 \title{Plot ROC curve}
 \usage{
-plotROC(model, test = NULL, val = NULL)
+plotROC(model, test = NULL)
 }
 \arguments{
 \item{model}{\code{\link{SDMmodel}} object.}
 
 \item{test}{\code{\link{SWD}} object. The testing dataset, default is
 \code{NULL}.}
-
-\item{val}{deprecated.}
 }
 \value{
 The plot object.
