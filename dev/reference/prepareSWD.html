@@ -183,8 +183,7 @@ the function creates an SWD object (sample with data)." />
 the function creates an <code><a href='SWD-class.html'>SWD</a></code> object (sample with data).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>prepareSWD</span>(<span class='no'>species</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>env</span>,
-  <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>prepareSWD</span>(<span class='no'>species</span>, <span class='no'>env</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,21 +193,17 @@ the function creates an <code><a href='SWD-class.html'>SWD</a></code> object (sa
       <td><p>character. The name of the species.</p></td>
     </tr>
     <tr>
+      <th>env</th>
+      <td><p><code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> containing the environmental variables
+used to extract the values at coordinate locations.</p></td>
+    </tr>
+    <tr>
       <th>p</th>
       <td><p>data.frame. The coordinates of the presence locations.</p></td>
     </tr>
     <tr>
       <th>a</th>
       <td><p>data.frame. The coordinates of the absence/background locations.</p></td>
-    </tr>
-    <tr>
-      <th>coords</th>
-      <td><p>Deprecated.</p></td>
-    </tr>
-    <tr>
-      <th>env</th>
-      <td><p><code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> containing the environmental variables
-used to extract the values at coordinate locations.</p></td>
     </tr>
     <tr>
       <th>categorical</th>

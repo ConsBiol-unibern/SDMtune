@@ -183,10 +183,9 @@ hyperparameter configuration according to the chosen metric." />
 hyperparameter configuration according to the chosen metric.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>optimizeModel</span>(<span class='no'>model</span>, <span class='no'>hypers</span>, <span class='no'>metric</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bg4test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>keep_best</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>keep_random</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>mutation_chance</span> <span class='kw'>=</span> <span class='fl'>0.4</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>optimizeModel</span>(<span class='no'>model</span>, <span class='no'>hypers</span>, <span class='no'>metric</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keep_best</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>keep_random</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+  <span class='kw'>mutation_chance</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,10 +210,6 @@ values are: "auc", "tss" and "aicc".</p></td>
       <td><p><code><a href='SWD-class.html'>SWD</a></code> object. Test dataset used to evaluate
 the model, not used with aicc and <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects,
 default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>bg4test</th>
-      <td><p>Deprecated.</p></td>
     </tr>
     <tr>
       <th>pop</th>
