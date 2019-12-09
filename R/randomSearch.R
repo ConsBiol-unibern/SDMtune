@@ -13,7 +13,6 @@
 #' @param test \code{\linkS4class{SWD}} object. Test dataset used to evaluate
 #' the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
 #' default is \code{NULL}.
-#' @param bg4test Deprecated.
 #' @param pop numeric. Size of the population, default is 20.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
@@ -67,13 +66,8 @@
 #' # Order rusults by highest test AUC
 #' output@results[order(-output@results$test_AUC), ]
 #' }
-randomSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
-                         pop = 20, env = NULL, parallel = FALSE, seed = NULL) {
-
-  # TODO remove it next release
-  if (!is.null(bg4test))
-    warning("Argument \"bg4test\" is deprecated and ignored, it will be ",
-            "removed in the next release.")
+randomSearch <- function(model, hypers, metric, test = NULL, pop = 20,
+                         env = NULL, parallel = FALSE, seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
