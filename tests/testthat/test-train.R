@@ -35,4 +35,14 @@ test_that("Train multiple methods creates the correct output", {
                NA)
   expect_type(m, "list")
   expect_named(m, c("Maxnet", "ANN"))
+  # Maxent model
+  expect_s4_class(m$Maxnet, "SDMmodel")
+  expect_s4_class(m$Maxnet@model, "Maxnet")
+  expect_equal(m$Maxnet@model@fc, "l")
+  expect_equal(m$Maxnet@model@reg, 1)
+  # ANN model
+  expect_s4_class(m$ANN, "SDMmodel")
+  expect_s4_class(m$ANN@model, "ANN")
+  expect_equal(m$ANN@model@size, 2)
+  expect_equal(m$ANN@model@maxit, 100)
 })
