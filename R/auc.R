@@ -8,7 +8,6 @@
 #' object. Logical or \code{\linkS4class{SWD}} object for
 #' \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
 #' train AUC, see details. Default is \code{NULL}.
-#' @param a Deprecated.
 #'
 #' @details For \code{\linkS4class{SDMmodelCV}} objects, the function computes
 #' the mean of the training AUC values of the k-folds. If \code{test = TRUE} it
@@ -70,12 +69,7 @@
 #' # Compute the AUC for the held apart testing dataset
 #' auc(model, test = test)
 #' }
-auc <- function(model, test = NULL, a = NULL) {
-
-  # TODO remove it in next release
-  if (!is.null(a))
-    warning("Argument \"a\" is deprecated and not used anymore, it will be ",
-            "removed in the next release")
+auc <- function(model, test = NULL) {
 
   if (class(model) == "SDMmodel") {
     auc <- .compute_auc(model, test)
@@ -112,7 +106,6 @@ auc <- function(model, test = NULL, a = NULL) {
   if (is.null(test)) {
     data <- model@data
   } else {
-    # TODO check if can be removed: test@data[colnames(model@p@data)]
     if (class(test) != "SWD")
       stop("\"test\" argument invalid, use an SWD object.")
     data <- test

@@ -21,9 +21,6 @@ test_that("The function raises warnings and errors", {
                "\"test\" argument invalid, use an SWD object.")
   expect_error(auc(m_cv, SDMtune:::t@data),
                "\"test\" argument invalid, use an SWD object.")
-  # TODO Remove next test with next release
-  expect_warning(auc(m, a = SDMtune:::t),
-                 "Argument \"a\" is deprecated and not used anymore, it ")
 })
 
 test_that("The function returns the same result than Maxent software", {

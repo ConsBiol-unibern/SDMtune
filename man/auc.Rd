@@ -4,7 +4,7 @@
 \alias{auc}
 \title{AUC}
 \usage{
-auc(model, test = NULL, a = NULL)
+auc(model, test = NULL)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or
@@ -14,8 +14,6 @@ auc(model, test = NULL, a = NULL)
 object. Logical or \code{\linkS4class{SWD}} object for
 \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
 train AUC, see details. Default is \code{NULL}.}
-
-\item{a}{Deprecated.}
 }
 \value{
 The value of the AUC.
