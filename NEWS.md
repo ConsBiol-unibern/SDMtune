@@ -1,5 +1,5 @@
 # SDMtune 0.2.1.9000
-In this release all the deprecated functions and functions' arguments have been removed.
+In this release all the deprecated functions and functions' arguments have been removed, including the functions to convert into the new format old objects created with version < 0.2.0.
 Bug fix:
 * Fix CRAN error for r-oldrel
 

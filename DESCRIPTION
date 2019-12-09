@@ -82,7 +82,6 @@ Collate:
     'convertFolds.R'
     'corVar.R'
     'doJk.R'
-    'getSubsample.R'
     'gridSearch.R'
     'help-functions.R'
     'maxentTh.R'

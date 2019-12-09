@@ -65,7 +65,6 @@ reference:
 - title: Prepare Data
   desc: Function to prepare data for SDMsel analysis
   contents:
-  - '`getSubsample`'
   - '`prepareSWD`'
   - '`randomFolds`'
   - '`swd2csv`'
