@@ -4,8 +4,8 @@
 \alias{gridSearch}
 \title{Grid Search}
 \usage{
-gridSearch(model, hypers, metric, test = NULL, bg4test = NULL,
-  env = NULL, parallel = FALSE, save_models = TRUE, seed = NULL)
+gridSearch(model, hypers, metric, test = NULL, env = NULL,
+  parallel = FALSE, save_models = TRUE)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or code{\linkS4class{SDMmodelCV}}
@@ -21,8 +21,6 @@ values are: "auc", "tss" and "aicc".}
 model, not used with \code{\link{aicc}} and code{\linkS4class{SDMmodelCV}}
 objects, default is \code{NULL}.}
 
-\item{bg4test}{Deprecated.}
-
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables, used only with "aicc", default is \code{NULL}.}
 
@@ -33,8 +31,6 @@ is \code{FALSE}.}
 output contains only a data frame with the metric values for each
 hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE}
 when there are many combinations to avoid R crashing for memory overload.}
-
-\item{seed}{Deprecated.}
 }
 \value{
 code{\linkS4class{SDMtune}} object.

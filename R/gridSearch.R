@@ -12,7 +12,6 @@
 #' @param test code{\linkS4class{SWD}} object. Test dataset used to evaluate the
 #' model, not used with \code{\link{aicc}} and code{\linkS4class{SDMmodelCV}}
 #' objects, default is \code{NULL}.
-#' @param bg4test Deprecated.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
@@ -21,7 +20,6 @@
 #' output contains only a data frame with the metric values for each
 #' hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE}
 #' when there are many combinations to avoid R crashing for memory overload.
-#' @param seed Deprecated.
 #'
 #' @details To know which hyperparameters can be tune you can use the output of
 #' the function \code{\link{get_tunable_args}}. Hyperparameters not included in
@@ -77,17 +75,8 @@
 #'                      save_models = FALSE)
 #' output@results
 #' }
-gridSearch <- function(model, hypers, metric, test = NULL, bg4test = NULL,
-                       env = NULL, parallel = FALSE, save_models = TRUE,
-                       seed = NULL) {
-
-  # TODO remove it next release
-  if (!is.null(bg4test))
-    warning("Argument \"bg4test\" is deprecated and ignored, it will be ",
-            "removed in the next release.")
-  if (!is.null(seed))
-    warning("Argument \"seed\" is deprecated and ignored, it will be ",
-            "removed in the next release.")
+gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
+                       parallel = FALSE, save_models = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
   # Create a grid with all the possible combination of hyperparameters
