@@ -80,6 +80,7 @@ reference:
   - '`predict,Maxent-method`'
   - '`predict,RF-method`'
   - '`predict,SDMmodel-method`'
+  - '`predict,SDMmodelCV-method`'
   - '`train`'
   - '`thresholds`'
   - '`varImp`'
