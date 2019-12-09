@@ -4,20 +4,17 @@
 \alias{prepareSWD}
 \title{Prepare an SWD object}
 \usage{
-prepareSWD(species, p = NULL, a = NULL, coords = NULL, env,
-  categorical = NULL)
+prepareSWD(species, env, p = NULL, a = NULL, categorical = NULL)
 }
 \arguments{
 \item{species}{character. The name of the species.}
 
+\item{env}{\code{\link[raster]{stack}} containing the environmental variables
+used to extract the values at coordinate locations.}
+
 \item{p}{data.frame. The coordinates of the presence locations.}
 
 \item{a}{data.frame. The coordinates of the absence/background locations.}
-
-\item{coords}{Deprecated.}
-
-\item{env}{\code{\link[raster]{stack}} containing the environmental variables
-used to extract the values at coordinate locations.}
 
 \item{categorical}{vector indicating which of the environmental variable are
 categorical, default is \code{NULL}.}

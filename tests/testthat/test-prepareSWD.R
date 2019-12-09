@@ -3,16 +3,10 @@ skip_on_cran()
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 env <- raster::stack(files)
-# TODO Change when new data are available
-p <- .subset_swd(SDMtune:::t, fold = as.logical(SDMtune:::t@pa))@coords
-set.seed(25)
-a <- suppressWarnings(dismo::randomPoints(env, 10000))
-
-# TODO remove test for old version
-test_that("Warning is raised", {
-  expect_error(prepareSWD(species = "Gypaetus barbatus", coords = a,
-                          env = env, categorical = "biome"), "deprecated")
-})
+p <- virtualSp$presence
+# Add coordinate outside extent to get info message
+p <- rbind(c(10, 10), p)
+a <- virtualSp$background
 
 test_that("Output is correct", {
   swd <- expect_message(prepareSWD(species = "Gypaetus barbatus", p = p, a = a,
