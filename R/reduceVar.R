@@ -19,7 +19,7 @@
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with AICc.
+#' is \code{FALSE}. Used only with AICc, see details.
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
 #' selection, if \code{FALSE} the function uses the percent variable
 #' contribution, default is \code{FALSE}.
@@ -29,6 +29,11 @@
 #' is trained using the \code{\linkS4class{Maxent}} method, the algorithm uses
 #' the percent contribution computed by Maxent software to score the variable
 #' importance, default is \code{FALSE}.
+#'
+#' @details Parallel computation is used only during the execution of the
+#' predict function, and increases the speed only for large datasets. For small
+#' dataset it may result in a longer execution, due to the time necessary to
+#' create the cluster.
 #'
 #' @return The model trained using the selected variables.
 #' @export

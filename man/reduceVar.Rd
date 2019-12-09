@@ -24,7 +24,7 @@ default is \code{NULL}.}
 variables, used only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{logical, if \code{TRUE} it uses parallel computation, default
-is \code{FALSE}. Used only with AICc.}
+is \code{FALSE}. Used only with AICc, see details.}
 
 \item{use_jk}{Flag to use the Jackknife AUC test during the variable
 selection, if \code{FALSE} the function uses the percent variable
@@ -49,6 +49,12 @@ after removing the variable the model performance decreases (according to the
 given metric and based on the starting model). In this case the function
 stops removing the variable even if the contribution is lower than the given
 threshold.
+}
+\details{
+Parallel computation is used only during the execution of the
+predict function, and increases the speed only for large datasets. For small
+dataset it may result in a longer execution, due to the time necessary to
+create the cluster.
 }
 \examples{
 \donttest{
