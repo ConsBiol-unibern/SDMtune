@@ -11,10 +11,6 @@
 #' object created with other packages, see details, default is \code{NULL}.
 #' @param verbose logical, if \code{TRUE} shows a progress bar during cross
 #' validation, default is \code{TRUE}.
-#' @param p Deprecated.
-#' @param a Deprecated.
-#' @param rep Deprecated.
-#' @param seed Deprecated.
 #' @param ... Arguments passed to the relative method, see details.
 #'
 #' @details
@@ -189,8 +185,7 @@
 #' output <- train(method = c("ANN", "BRT", "RF"), data = data, size = 10,
 #'                 ntree = 300, n.trees = 300, shrinkage = 0.001)
 #' }
-train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
-                  a = NULL, rep = NULL, seed = NULL, ...) {
+train <- function(method, data, folds = NULL, verbose = TRUE, ...) {
 
   l <- length(method)
   output <- vector("list", length = l)
@@ -199,18 +194,6 @@ train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
     m <- match.arg(method[i], c("Maxent", "Maxnet", "ANN", "RF", "BRT"))
     func <- paste0("train", m)
     ea <- list(...)  # Extra arguments
-
-    # TODO Remove in next release
-    if (!is.null(p) & !is.null(a)) {
-      stop("Argument \"p\" and \"a\" are deprecated, use \"data\" instead.")
-    }
-    if (!is.null(rep))
-      warning("Argument \"rep\" is deprecated and will be removed in the nex ",
-              "release. The number of partition is taken from the \"fold\" ",
-              "argument.")
-    if (!is.null(seed))
-      warning("Argument seed is deprecated and will be removed in the next ",
-              "release.", call. = FALSE)
 
     if (is.null(folds)) {
       argus <- c(data = data, ea[names(ea) %in% .args_name(func)])

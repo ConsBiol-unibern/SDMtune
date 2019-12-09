@@ -4,8 +4,7 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method, data, folds = NULL, verbose = TRUE, p = NULL,
-  a = NULL, rep = NULL, seed = NULL, ...)
+train(method, data, folds = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{method}{character or character vector. Method used to train the model,
@@ -19,14 +18,6 @@ object created with other packages, see details, default is \code{NULL}.}
 
 \item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
 validation, default is \code{TRUE}.}
-
-\item{p}{Deprecated.}
-
-\item{a}{Deprecated.}
-
-\item{rep}{Deprecated.}
-
-\item{seed}{Deprecated.}
 
 \item{...}{Arguments passed to the relative method, see details.}
 }
