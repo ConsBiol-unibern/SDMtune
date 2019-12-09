@@ -21,7 +21,7 @@
 #' with the test result, default is \code{FALSE}.
 #'
 #' @details Parallel computation is used only during the execution of the
-#' predict function and increases the speed only for large datasets. Far small
+#' predict function, and increases the speed only for large datasets. For small
 #' dataset it may result in a longer execution, due to the time necessary to
 #' create the cluster.
 #'
@@ -81,7 +81,6 @@
 doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
                  env = NULL, parallel = FALSE, return_models = FALSE) {
 
-  on.exit(.end_prediction())
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
   .check_args(model, metric = metric, test = test, env = env)
@@ -101,11 +100,6 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
     format = "Jk Test [:bar] :percent in :elapsedfull", total = tot,
     clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
-
-  if (parallel & metric == "aicc") {
-    suppressMessages(raster::beginCluster())
-    options(SDMtuneParallel = TRUE)
-  }
 
   models_without <- vector("list", length = n)
   models_withonly <- vector("list", length = n)

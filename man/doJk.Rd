@@ -42,7 +42,7 @@ Run the Jackknife test for variable importance removing one variable at time.
 }
 \details{
 Parallel computation is used only during the execution of the
-predict function and increases the speed only for large datasets. Far small
+predict function, and increases the speed only for large datasets. For small
 dataset it may result in a longer execution, due to the time necessary to
 create the cluster.
 }

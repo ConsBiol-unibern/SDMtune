@@ -111,7 +111,7 @@ setMethod(
   definition = function(object, data, fun = "mean", type = NULL,
                         clamp = TRUE, filename = "", format = "GTiff",
                         extent = NULL, parallel = FALSE, ...) {
-    on.exit(.end_prediction())
+    on.exit(.end_parallel())
 
     k <- length(object@models)
     l <- length(fun)

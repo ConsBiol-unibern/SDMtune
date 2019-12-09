@@ -26,7 +26,7 @@ default is \code{NULL}.}
 variables, used only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{logical, if \code{TRUE} it uses parallel computation, default
-is \code{FALSE}. Used only with AICc.}
+is \code{FALSE}. Used only with AICc, see details.}
 
 \item{method}{character. The method used to compute the correlation matrix,
 default "spearman".}
@@ -57,10 +57,14 @@ The process is repeated until the remaining variables are not highly
 correlated anymore.
 }
 \details{
-Parallel computation increases the speed only for large datasets due
-to the time necessary to create the cluster.\cr
-To find highly correlated variables the following formula is used:
+\itemize{
+\item Parallel computation is used only during the execution of the
+predict function,  and increases the speed only for large datasets. For small
+dataset it may result in a longer execution, due to the time necessary to
+create the cluster.
+\item To find highly correlated variables the following formula is used:
 \deqn{| coeff | \le cor_th}
+}
 }
 \examples{
 \donttest{
