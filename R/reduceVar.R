@@ -19,7 +19,7 @@
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with AICc, see details.
+#' is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
 #' selection, if \code{FALSE} the function uses the percent variable
 #' contribution, default is \code{FALSE}.

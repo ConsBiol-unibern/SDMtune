@@ -16,7 +16,7 @@
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with AICc, see details.
+#' is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.
 #' @param return_models logical, if \code{TRUE} returns all the models together
 #' with the test result, default is \code{FALSE}.
 #'

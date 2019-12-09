@@ -15,17 +15,20 @@
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}.
+#' is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.
 #' @param save_models logical, if \code{FALSE} the models are not saved and the
 #' output contains only a data frame with the metric values for each
 #' hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE}
 #' when there are many combinations to avoid R crashing for memory overload.
 #'
-#' @details To know which hyperparameters can be tune you can use the output of
-#' the function \code{\link{get_tunable_args}}. Hyperparameters not included in
-#' the \code{hypers} argument take the value that they have in the passed model.
-#' Parallel computation increases the speed only for large datasets due to the
-#' time necessary to create the cluster.
+#' @details * To know which hyperparameters can be tuned you can use the output
+#' of the function \code{\link{get_tunable_args}}. Hyperparameters not included
+#' in the \code{hypers} argument take the value that they have in the passed
+#' model.
+#' * Parallel computation is used only during the execution of the predict
+#' function, and increases the speed only for large datasets. For small dataset
+#' it may result in a longer execution, due to the time necessary to create the
+#' cluster.
 #'
 #' @return code{\linkS4class{SDMtune}} object.
 #' @export

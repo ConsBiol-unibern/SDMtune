@@ -28,7 +28,7 @@ variable in isolation, default is \code{TRUE}.}
 variables, used only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{logical, if \code{TRUE} it uses parallel computation, default
-is \code{FALSE}. Used only with AICc, see details.}
+is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.}
 
 \item{return_models}{logical, if \code{TRUE} returns all the models together
 with the test result, default is \code{FALSE}.}
