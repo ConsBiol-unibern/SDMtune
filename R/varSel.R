@@ -22,7 +22,7 @@
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
 #' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with AICc.
+#' is \code{FALSE}. Used only with AICc, see details.
 #' @param method character. The method used to compute the correlation matrix,
 #' default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly
@@ -33,9 +33,11 @@
 #' percent contribution computed by Maxent software to score the variable
 #' importance, default is \code{FALSE}.
 #'
-#' @details Parallel computation increases the speed only for large datasets due
-#' to the time necessary to create the cluster.\cr
-#' To find highly correlated variables the following formula is used:
+#' @details * Parallel computation is used only during the execution of the
+#' predict function,  and increases the speed only for large datasets. For small
+#' dataset it may result in a longer execution, due to the time necessary to
+#' create the cluster.
+#' * To find highly correlated variables the following formula is used:
 #' \deqn{| coeff | \le cor_th}
 #'
 #' @return The \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
