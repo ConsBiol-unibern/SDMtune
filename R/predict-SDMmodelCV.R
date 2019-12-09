@@ -185,11 +185,3 @@ setMethod(
       return(output)
     }
   })
-
-#' @importFrom raster endCluster
-.end_prediction <- function() {
-  options(SDMtuneParallel = FALSE)
-  raster_option <- getOption("rasterCluster")
-  if (!is.null(raster_option) && raster_option)
-    raster::endCluster()
-}

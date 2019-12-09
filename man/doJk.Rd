@@ -28,7 +28,7 @@ variable in isolation, default is \code{TRUE}.}
 variables, used only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{logical, if \code{TRUE} it uses parallel computation, default
-is \code{FALSE}. Used only with AICc.}
+is \code{FALSE}. Used only with AICc, see details.}
 
 \item{return_models}{logical, if \code{TRUE} returns all the models together
 with the test result, default is \code{FALSE}.}
@@ -41,8 +41,10 @@ it returns a list containing the test results together with the models.
 Run the Jackknife test for variable importance removing one variable at time.
 }
 \details{
-Parallel computation increases the speed only for large datasets due
-to the time necessary to create the cluster.
+Parallel computation is used only during the execution of the
+predict function and increases the speed only for large datasets. Far small
+dataset it may result in a longer execution, due to the time necessary to
+create the cluster.
 }
 \examples{
 \donttest{
