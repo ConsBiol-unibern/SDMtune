@@ -32,7 +32,10 @@ setGeneric("predict", function(object, ...)
 #' * filename, format, extent, parallel, progress and ... arguments are used
 #' only when the prediction is done for a \code{\link[raster]{stack}} object.
 #' * For models trained with the **Maxent** method the argument \code{type} can
-#' be: "raw", "logistic" and "cloglog".
+#' be: "raw", "logistic" and "cloglog". The function performs the prediction in
+#' **R** without calling the **MaxEnt** Java software. This results in a faster
+#' computation for large datasets and might result in slightly different results
+#' compare to the Java software.
 #' * For models trained with the **Maxnet** method the argument \code{type} can
 #' be: "link", "exponential", "logistic" and "cloglog", see
 #' \code{\link[maxnet]{maxnet}} for more details. The function performs the
@@ -46,10 +49,7 @@ setGeneric("predict", function(object, ...)
 #' * For models trained with the **BRT** method the function uses the number of
 #' trees defined to train the model and the "response" output type.
 #' * Parallel computation increases the speed only for large datasets due to the
-#' time necessary to create the cluster. For **Maxent** models the function
-#' performs the prediction in **R** without calling the **MaxEnt** Java
-#' software. This results in a faster computation for large datasets and might
-#' result in slightly different results compare to the Java software.
+#' time necessary to create the cluster.
 #'
 #' @include Maxent-class.R Maxnet-class.R ANN-class.R RF-class.R BRT-class.R
 #' @import methods

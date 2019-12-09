@@ -50,10 +50,7 @@
 #' * For models trained with the **BRT** method the function uses the number of
 #' trees defined to train the model and the "response" output type.
 #' * Parallel computation increases the speed only for large datasets due to the
-#' time necessary to create the cluster. For **Maxent** models the function
-#' performs the prediction in **R** without calling the **MaxEnt** Java
-#' software. This results in a faster computation for large datasets and might
-#' result in slightly different results compare to the Java software.
+#' time necessary to create the cluster.
 #'
 #' @include SDMmodelCV-class.R
 #' @importFrom raster beginCluster clusterR endCluster calc
