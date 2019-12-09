@@ -83,7 +83,6 @@ Collate:
     'corVar.R'
     'doJk.R'
     'gridSearch.R'
-    'help-functions.R'
     'maxentTh.R'
     'maxentVarImp.R'
     'mergeSWD.R'

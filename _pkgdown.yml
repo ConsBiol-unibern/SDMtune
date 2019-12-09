@@ -49,8 +49,6 @@ navbar:
       href: articles/articles/tune-hyperparameters.html
     - text: Train and tune presence absence models
       href: articles/articles/train-tune-presence-absence-models.html
-    - text: Deprecated objects
-      href: articles/articles/deprecated-objects.html
   - text: News
     href: news/index.html
   right:
@@ -137,10 +135,3 @@ reference:
   - '`SDMmodelCV-class`'
   - '`SDMtune-class`'
   - '`SWD-class`'
-- title: Help functions
-  desc: Functions to convert object created with an old version of SDMtune (v <= 0.1.1) into the new format
-  contents:
-  - '`old2NewSWD`'
-  - '`old2NewSDMmodel`'
-  - '`old2NewSDMmodelCV`'
-  - '`old2NewSDMtune`'
