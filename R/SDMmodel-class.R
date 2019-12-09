@@ -22,13 +22,6 @@ setMethod(
   signature = "SDMmodel",
   definition = function(object) {
 
-    # TODO Remove this check in a feature release
-    if (.hasSlot(object, "p"))
-      stop("\nThis object was created using SDMtune v <= 0.1.1 and is now ",
-           "deprecated.\nCheck the article \"Deprecated objects\" in the ",
-           "package website to see how to convert this object into the new ",
-           "format.", call. = FALSE)
-
     tunable_hypers <- get_tunable_args(object)
     cont_vars <- names(Filter(is.numeric, object@data@data))
     if (length(cont_vars) == 0)

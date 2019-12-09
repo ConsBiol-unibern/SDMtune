@@ -33,11 +33,8 @@ SWD <- setClass("SWD",
                 validity = function(object)	{
                   if (nrow(object@coords) != nrow(object@data))
                     return("coords and data have a different number of rows!")
-                  # TODO remove if statement
-                  if (1 %in% object@pa | 0 %in% object@pa) {
-                    if (nrow(object@coords) != length(object@pa))
+                  if (nrow(object@coords) != length(object@pa))
                       return("coords and pa have different length!")
-                  }
                   return(TRUE)
                 }
 )
@@ -46,13 +43,6 @@ setMethod(
   "show",
   signature = "SWD",
   definition = function(object) {
-    # TODO Remove this check in a feature release
-    if (!.hasSlot(object, "pa"))
-      stop("\nThis object was created using SDMtune v <= 0.1.1 and is now ",
-          "deprecated.\nCheck the article \"Deprecated objects\" in the ",
-          "package website to see how to convert this object into the new ",
-          "format.", call. = FALSE)
-
     cont_vars <- names(Filter(is.numeric, object@data))
     if (length(cont_vars) == 0)
       cont_vars <- NA
