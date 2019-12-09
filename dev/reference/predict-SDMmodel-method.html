@@ -251,7 +251,10 @@ if data is a raster <code><a href='https://rdrr.io/pkg/raster/man/stack.html'>st
 <li><p>filename, format, extent, parallel, progress and ... arguments are used
 only when the prediction is done for a <code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> object.</p></li>
 <li><p>For models trained with the <strong>Maxent</strong> method the argument <code>type</code> can
-be: "raw", "logistic" and "cloglog".</p></li>
+be: "raw", "logistic" and "cloglog". The function performs the prediction in
+<strong>R</strong> without calling the <strong>MaxEnt</strong> Java software. This results in a faster
+computation for large datasets and might result in slightly different results
+compare to the Java software.</p></li>
 <li><p>For models trained with the <strong>Maxnet</strong> method the argument <code>type</code> can
 be: "link", "exponential", "logistic" and "cloglog", see
 <code><a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a></code> for more details. The function performs the
@@ -265,10 +268,7 @@ class 1.</p></li>
 <li><p>For models trained with the <strong>BRT</strong> method the function uses the number of
 trees defined to train the model and the "response" output type.</p></li>
 <li><p>Parallel computation increases the speed only for large datasets due to the
-time necessary to create the cluster. For <strong>Maxent</strong> models the function
-performs the prediction in <strong>R</strong> without calling the <strong>MaxEnt</strong> Java
-software. This results in a faster computation for large datasets and might
-result in slightly different results compare to the Java software.</p></li>
+time necessary to create the cluster.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
