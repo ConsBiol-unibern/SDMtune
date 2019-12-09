@@ -215,7 +215,7 @@ variables, used only with "aicc", default is <code>NULL</code>.</p></td>
     <tr>
       <th>parallel</th>
       <td><p>logical, if <code>TRUE</code> it uses parallel computation, default
-is <code>FALSE</code>.</p></td>
+is <code>FALSE</code>. Used only with <code>metric = "aicc"</code>, see details.</p></td>
     </tr>
     <tr>
       <th>save_models</th>
@@ -231,11 +231,18 @@ when there are many combinations to avoid R crashing for memory overload.</p></t
     <p>code<a href='SDMtune-class.html'>SDMtune</a> object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>To know which hyperparameters can be tune you can use the output of
-the function <code><a href='get_tunable_args.html'>get_tunable_args</a></code>. Hyperparameters not included in
-the <code>hypers</code> argument take the value that they have in the passed model.
-Parallel computation increases the speed only for large datasets due to the
-time necessary to create the cluster.</p>
+    
+<ul>
+<li><p>To know which hyperparameters can be tuned you can use the output
+of the function <code><a href='get_tunable_args.html'>get_tunable_args</a></code>. Hyperparameters not included
+in the <code>hypers</code> argument take the value that they have in the passed
+model.</p></li>
+<li><p>Parallel computation is used only during the execution of the predict
+function, and increases the speed only for large datasets. For small dataset
+it may result in a longer execution, due to the time necessary to create the
+cluster.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='randomSearch.html'>randomSearch</a></code> and <code><a href='optimizeModel.html'>optimizeModel</a></code>.</p></div>
