@@ -1,7 +1,7 @@
 Package: SDMtune
 Type: Package
 Title: Species Distribution Model Selection
-Version: 0.2.1
+Version: 0.2.1.9000
 Date: 2019-12-05
 Authors@R: c(
 	  person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",

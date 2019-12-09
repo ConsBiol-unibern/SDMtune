@@ -197,7 +197,7 @@ train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
 
   for (i in 1:l) {
     m <- match.arg(method[i], c("Maxent", "Maxnet", "ANN", "RF", "BRT"))
-    f <- paste0("train", m)
+    func <- paste0("train", m)
     ea <- list(...)  # Extra arguments
 
     # TODO Remove in next release
@@ -213,8 +213,8 @@ train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
               "release.", call. = FALSE)
 
     if (is.null(folds)) {
-      output[[i]] <- do.call(f, args = c(data = data,
-                                         ea[names(ea) %in% formalArgs(f)]))
+      argus <- c(data = data, ea[names(ea) %in% .args_name(func)])
+      output[[i]] <- do.call(func, args = argus)
     } else {
       folds <- .convert_folds(folds, data)
       k <- ncol(folds[[1]])
@@ -229,8 +229,8 @@ train <- function(method, data, folds = NULL, verbose = TRUE, p = NULL,
 
       for (j in 1:k) {
         train <- .subset_swd(data, folds$train[, j])
-        models[[j]] <- do.call(f, c(data = train,
-                                    ea[names(ea) %in% formalArgs(f)]))
+        argus <- c(data = train, ea[names(ea) %in% .args_name(func)])
+        models[[j]] <- do.call(func, args = argus)
         if (verbose)
           pb$tick(1)
       }
