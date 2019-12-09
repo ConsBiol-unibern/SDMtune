@@ -325,7 +325,7 @@ get_tunable_args <- function(model) {
 }
 
 #' @importFrom raster endCluster
-.end_prediction <- function() {
+.end_parallel <- function() {
   options(SDMtuneParallel = FALSE)
   raster_option <- getOption("rasterCluster")
   if (!is.null(raster_option) && raster_option)
