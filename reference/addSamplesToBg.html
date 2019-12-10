@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train — train • SDMtune</title>
+<title>Add Samples to Background — addSamplesToBg • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -50,9 +50,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Train — train" />
-<meta property="og:description" content="Train a model using one of the following methods: Artificial Neural Networks,
-Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
+<meta property="og:title" content="Add Samples to Background — addSamplesToBg" />
+<meta property="og:description" content="The function add the presence locations to the background. This is equivalent
+to the Maxent argument addsamplestobackground=true." />
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -170,140 +170,67 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train</h1>
+    <h1>Add Samples to Background</h1>
     
-    <div class="hidden name"><code>train.Rd</code></div>
+    <div class="hidden name"><code>addSamplesToBg.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Train a model using one of the following methods: Artificial Neural Networks,
-Boosted Regression Trees, Maxent, Maxnet or Random Forest.</p>
+    <p>The function add the presence locations to the background. This is equivalent
+to the Maxent argument <code>addsamplestobackground=true</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>train</span>(<span class='no'>method</span>, <span class='no'>data</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>addSamplesToBg</span>(<span class='no'>x</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>method</th>
-      <td><p>character or character vector. Method used to train the model,
-possible values are "ANN", "BRT", "Maxent", "Maxnet" or "RF", see details.</p></td>
+      <th>x</th>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> object.</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code> object with presence and
-absence/background locations.</p></td>
-    </tr>
-    <tr>
-      <th>folds</th>
-      <td><p>list. Output of the function <code><a href='randomFolds.html'>randomFolds</a></code> or folds
-object created with other packages, see details, default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>logical, if <code>TRUE</code> shows a progress bar during cross
-validation, default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Arguments passed to the relative method, see details.</p></td>
+      <th>all</th>
+      <td><p>logical, if <code>TRUE</code> it adds all the presence locations even if
+already included in the background locations, default is <code>FALSE</code>. This
+is equivalent to the Maxent argument <code>addallsamplestobackground=true</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An <code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
-or a list of model objects.
-object.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>An <code><a href='SWD-class.html'>SWD</a></code> object.</p>
 
-    
-<ul>
-<li><p>For the ANN method possible arguments are (for more details see
-<code><a href='https://rdrr.io/pkg/nnet/man/nnet.html'>nnet</a></code>):</p><ul>
-<li><p>size: integer. Number of the units in the hidden layer.</p></li>
-<li><p>decay numeric. Weight decay, default is 0.</p></li>
-<li><p>rang numeric. Initial random weights, default is 0.7.</p></li>
-<li><p>maxit integer. Maximum number of iterations, default is 100.</p></li>
-</ul></li>
-<li><p>For the BRT method possible arguments are (for more details see
-<code><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></code>):</p><ul>
-<li><p>distribution: character. Name of the distribution to use, default is
-"bernoulli".</p></li>
-<li><p>n.trees: integer. Maximum number of tree to grow, default is 100.</p></li>
-<li><p>interaction.depth: integer. Maximum depth of each tree, default is 1.</p></li>
-<li><p>shrinkage: numeric. The shrinkage parameter, default is 0.1.</p></li>
-<li><p>bag.fraction: numeric. Random fraction of data used in the tree
-expansion, default is 0.5.</p></li>
-</ul></li>
-<li><p>For the RF method the model is trained as classification. Possible
-arguments are (for more details see
-<code><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></code>):</p><ul>
-<li><p>mtry: integer. Number of variable randomly sampled at each split,
-default is <code>floor(sqrt(number of variables))</code>.</p></li>
-<li><p>ntree: integer. Number of tree to grow, default is 500.</p></li>
-<li><p>nodesize: integer. Minimum size of terminal nodes.</p></li>
-</ul></li>
-<li><p>Maxent models are trained using the arguments
-<code>"removeduplicates=false"</code> and <code>"addsamplestobackground=false"</code>.
-Use the function <code><a href='thinData.html'>thinData</a></code> to remove duplicates and the function
-<code><a href='addSamplesToBg.html'>addSamplesToBg</a></code> to add presence locations to background
-locations. For the Maxent method, possible arguments are:</p><ul>
-<li><p>reg: numeric. The value of the regularization multiplier, default is 1.</p></li>
-<li><p>fc: character. The value of the feature classes, possible values are
-combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
-<li><p>iter: numeric. Number of iterations used by the MaxEnt algorithm,
-default is 500.</p></li>
-</ul></li>
-<li><p>For the Maxnet method, possible arguments are (for more details see
-<code><a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a></code>):</p><ul>
-<li><p>reg: numeric. The value of the regularization intensity, default is 1.</p></li>
-<li><p>fc: character. The value of the feature classes, possible values are
-combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
-</ul></li>
-</ul>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># Acquire environmental variables</span>
+<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
+                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
 
-<p>The folds argument accepts also objects created with other packages:
-<span class="pkg">ENMeval</span> or <span class="pkg">blockCV</span>. In this case the function converts
-internally the folds into a format valid for <span class="pkg">SDMtune</span>.</p>
-<p>When multiple methods are given as <code>method</code> argument, the function
-returns a named list of model object, with the name corresponding to the
-used method, see examples.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+<span class='co'># Prepare presence and background locations</span>
+<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
+<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
 
-    <p>Venables, W. N. &amp; Ripley, B. D. (2002) Modern Applied Statistics with S.
-Fourth Edition. Springer, New York. ISBN 0-387-95457-0.</p>
-<p>Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
-gbm: Generalized Boosted Regression Models.
-<a href='https://CRAN.R-project.org/package=gbm'>https://CRAN.R-project.org/package=gbm</a>.</p>
-<p>A. Liaw and M. Wiener (2002). Classification and Regression by randomForest.
-R News 2(3), 18--22.</p>
-<p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017.
-dismo: Species Distribution Modeling.
-<a href='https://cran.r-project.org/package=dismo'>https://cran.r-project.org/package=dismo</a>.</p>
-<p>Steven Phillips (2017). maxnet: Fitting 'Maxent' Species Distribution Models
-with 'glmnet'. <a href='https://CRAN.R-project.org/package=maxnet'>https://CRAN.R-project.org/package=maxnet</a>.</p>
-<p>Muscarella, R., Galante, P.J., Soley-Guardia, M., Boria, R.A., Kass, J.,
-Uriarte, M. and R.P. Anderson (2014). ENMeval: An R package for conducting
-spatially independent evaluations and estimating optimal model complexity
-for ecological niche models. Methods in Ecology and Evolution.</p>
-<p>Roozbeh Valavi, Jane Elith, José Lahoz-Monfort and Gurutzeta Guillera-Arroita
-(2018). blockCV: Spatial and environmental blocking for k-fold
-cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.com/rvalavi/blockCV</a>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+<span class='co'># Create SWD object</span>
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
-    <div class='dont-index'><p><code><a href='randomFolds.html'>randomFolds</a></code></p></div>
+<span class='co'># Add presence locations with values not included in the background to the</span>
+<span class='co'># background locations</span>
+<span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>addSamplesToBg</span>(<span class='no'>data</span>)
+<span class='no'>new_data</span>
 
+<span class='co'># Add all the presence locations to the background locations, even if they</span>
+<span class='co'># have values already included in the background</span>
+<span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>addSamplesToBg</span>(<span class='no'>data</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>new_data</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
     <h2>Author</h2>

@@ -259,6 +259,7 @@
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
 <p>Try to change the default settings and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r exercise"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">method =</span> <span class="st">"Maxent"</span>, <span class="dt">data =</span> data, <span class="dt">fc =</span> <span class="st">"lh"</span>, <span class="dt">reg =</span> <span class="fl">0.5</span>, <span class="dt">iter =</span> <span class="dv">700</span>)</a></code></pre></div>
+<p>By default Maxent models are trained using the arguments <em>“removeduplicates=false”</em> and <em>“addsamplestobackground=false”</em>. The user should have the full control of the data used to train the model, so is expected that duplicated locations are already removed and the presence locations are already included in the background locations, when desired. You can use the function <code><a href="../../reference/thinData.html">thinData()</a></code> to remove duplicated locations and the function <code><a href="../../reference/addSamplesToBg.html">addSamplesToBg()</a></code> to add the presence locations to the background locations.</p>
 </div>
 </div>
 <div id="train-a-maxnet-model" class="section level2">
