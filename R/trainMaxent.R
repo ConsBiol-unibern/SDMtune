@@ -1,8 +1,7 @@
 #' @importFrom dismo maxent
-trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500,
-                        extra_args = c("removeduplicates=false",
-                                       "addsamplestobackground=false")) {
+trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500) {
 
+  extra_args = c("removeduplicates=false", "addsamplestobackground=false")
   result <- SDMmodel(data = data)
   folder <- tempfile()
 

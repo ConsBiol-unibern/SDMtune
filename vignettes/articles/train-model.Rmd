@@ -122,6 +122,8 @@ Try to change the default settings  and train a model using linear and hinge as 
 model <- train(method = "Maxent", data = data, fc = "lh", reg = 0.5, iter = 700)
 ```
 
+By default Maxent models are trained using the arguments *"removeduplicates=false"* and *"addsamplestobackground=false"*. The user should have the full control of the data used to train the model, so is expected that duplicated locations are already removed and the presence locations are already included in the background locations, when desired. You can use the function `thinData()` to remove duplicated locations and the function `addSamplesToBg()` to add the presence locations to the background locations.
+
 ## Train a Maxnet model
 
 Train a model using the **Maxnet** method is as simple as changing the name of the method in the `train()` function, the only difference here is that we cannot set the number of iteration.

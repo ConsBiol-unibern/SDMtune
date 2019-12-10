@@ -2,6 +2,7 @@
 Main changes:
 * In this release all deprecated functions and functions' arguments have been removed, including the functions to convert old objects (created with version < 0.2.0.) into the new format.
 * Add function `addSamplesToBg` to add presence locations to background location.
+* `extra_args` cannot be changed anymore.
 
 Bug fix:
 * Fix CRAN error for r-oldrel

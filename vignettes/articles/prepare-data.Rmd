@@ -169,6 +169,8 @@ or the name of the species with:
 data@species
 ```
 
+## Save an SWD object
+
 We can save the `SWD()` object in a **.csv** file using the function `swd2csv()` (the function saves the file in the working directory). There are two possibilities:
 
 * save the object in a single file with the column **pa** indicating if the location is a presence (1) or an absence/background (0) site
