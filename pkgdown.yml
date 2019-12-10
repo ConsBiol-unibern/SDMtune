@@ -3,7 +3,6 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   SDMtune: SDMtune.html
-  deprecated-objects: articles/deprecated-objects.html
   evaluate-model: articles/evaluate-model.html
   evaluation-strategies: articles/evaluation-strategies.html
   make-predictions: articles/make-predictions.html

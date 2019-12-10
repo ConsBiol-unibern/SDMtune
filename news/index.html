@@ -84,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -136,9 +136,6 @@
     <li>
       <a href="../articles/articles/train-tune-presence-absence-models.html">Train and tune presence absence models</a>
     </li>
-    <li>
-      <a href="../articles/articles/deprecated-objects.html">Deprecated objects</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -175,12 +172,26 @@
       
     </div>
 
+    <div id="sdmtune-1-0-0" class="section level1">
+<h1 class="page-header">
+<a href="#sdmtune-1-0-0" class="anchor"></a>SDMtune 1.0.0<small> Unreleased </small>
+</h1>
+<p>Main changes:</p>
+<ul>
+<li>In this release all deprecated functions and functions’ arguments have been removed, including the functions to convert old objects (created with version &lt; 0.2.0.) into the new format.</li>
+</ul>
+<p>Bug fix:</p>
+<ul>
+<li>Fix CRAN error for r-oldrel</li>
+</ul>
+</div>
     <div id="sdmtune-0-2-1" class="section level1">
 <h1 class="page-header">
-<a href="#sdmtune-0-2-1" class="anchor"></a>SDMtune 0.2.1<small> Unreleased </small>
+<a href="#sdmtune-0-2-1" class="anchor"></a>SDMtune 0.2.1<small> 2019-12-05 </small>
 </h1>
+<p>Main changes:</p>
 <ul>
-<li>New function to predict SDMmodelCV objects</li>
+<li>New function to predict <code>SDMmodelCV</code> objects</li>
 <li>Add the possibility to pass multiple methods to the <code>train</code> function</li>
 <li>Add possibility to compute the testing AUC or TSS for a held apart testing dataset in the case of a <code>SDMmodelCV</code> object</li>
 <li>Add the possibility to merge only the presence locations in the <code>mergeSWD</code> function</li>
@@ -237,6 +248,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#sdmtune-1-0-0">1.0.0</a></li>
         <li><a href="#sdmtune-0-2-1">0.2.1</a></li>
         <li><a href="#sdmtune-0-2-0">0.2.0</a></li>
         <li><a href="#sdmtune-0-1-1">0.1.1</a></li>
