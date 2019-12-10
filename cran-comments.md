@@ -7,5 +7,7 @@
 ## R CMD check results
 0 errors | 0 warnings | 0 notes
 
+This release should fix the errors in r-oldrel
+
 * Uses the superseded package: 'snow (>= 0.4-3)':
 I cannote remove 'snow' package from the suggested package because it's used by the 'raster' package;
