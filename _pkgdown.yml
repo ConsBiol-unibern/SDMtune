@@ -63,6 +63,7 @@ reference:
 - title: Prepare Data
   desc: Function to prepare data for SDMsel analysis
   contents:
+  - '`addSamplesToBg`'
   - '`prepareSWD`'
   - '`randomFolds`'
   - '`swd2csv`'
