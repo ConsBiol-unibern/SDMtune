@@ -34,13 +34,13 @@ bg_coords <- virtualSp$background
 data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
                    env = predictors, categorical = "biome")
 
-# Add to the background locations presence locations with values not included
-# in the background
+# Add presence locations with values not included in the background to the
+# background locations
 new_data <- addSamplesToBg(data)
 new_data
 
-# Add to the background locations all the presence locations even if they
-have values already included in the background
+# Add all the presence locations to the background locations, even if they
+# have values already included in the background
 new_data <- addSamplesToBg(data, all = TRUE)
 new_data
 }
