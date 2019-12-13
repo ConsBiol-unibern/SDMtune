@@ -9,7 +9,7 @@ test_that("The function raises an error if argument is not a raster", {
 test_that("The values are correct and the file is saved with correct format", {
   p <- plotPA(map, th = .8, filename = file, format = "ascii")
   expect_equal(p$plot_env$maxpixels, 50000)
-  expect_equal(unique(p$data$value), c(FALSE, TRUE))
+  expect_setequal(p$data$value, c(FALSE, TRUE))
   expect_true(file.exists(file))
   # If hr is TRUE it should use the number of pixel in the raster
   p <- plotPA(map, th = 100, hr = TRUE)

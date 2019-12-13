@@ -1,4 +1,5 @@
 skip_on_cran()
+skip_on_appveyor()
 
 data <- SDMtune:::t
 mother <- SDMtune:::bm_maxnet

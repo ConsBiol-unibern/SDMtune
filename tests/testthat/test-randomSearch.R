@@ -1,4 +1,5 @@
 skip_on_cran()
+skip_on_appveyor()
 
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)

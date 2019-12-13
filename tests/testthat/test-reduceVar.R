@@ -1,4 +1,5 @@
 skip_on_cran()
+skip_on_appveyor()
 
 val <- SDMtune:::t
 m <- SDMtune:::bm_maxnet

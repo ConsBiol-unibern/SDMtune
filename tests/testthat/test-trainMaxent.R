@@ -1,4 +1,5 @@
 skip_on_cran()
+skip_on_appveyor()
 
 # .get_fc_args
 test_that("The correct fc arguments are created", {

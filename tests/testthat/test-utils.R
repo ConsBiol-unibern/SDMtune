@@ -1,3 +1,6 @@
+skip_on_cran()
+skip_on_appveyor()
+
 data <- SDMtune:::t
 model <- SDMtune:::bm_maxnet
 model_mx <- SDMtune:::bm_maxent
