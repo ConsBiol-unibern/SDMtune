@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AUC — auc • SDMtune</title>
+<title>Add Samples to Background — addSamplesToBg • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -50,8 +50,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="AUC — auc" />
-<meta property="og:description" content="Compute the AUC using the Man-Whitney U Test formula." />
+<meta property="og:title" content="Add Samples to Background — addSamplesToBg" />
+<meta property="og:description" content="The function add the presence locations to the background. This is equivalent
+to the Maxent argument addsamplestobackground=true." />
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -169,50 +170,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>AUC</h1>
+    <h1>Add Samples to Background</h1>
     
-    <div class="hidden name"><code>auc.Rd</code></div>
+    <div class="hidden name"><code>addSamplesToBg.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute the AUC using the Man-Whitney U Test formula.</p>
+    <p>The function add the presence locations to the background. This is equivalent
+to the Maxent argument <code>addsamplestobackground=true</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>addSamplesToBg</span>(<span class='no'>x</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or
-<code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects.</p></td>
+      <th>x</th>
+      <td><p><code><a href='SWD-class.html'>SWD</a></code> object.</p></td>
     </tr>
     <tr>
-      <th>test</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code> object for <code><a href='SDMmodel-class.html'>SDMmodel</a></code>
-object. Logical or <code><a href='SWD-class.html'>SWD</a></code> object for
-<code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, if not provided it computes the
-train AUC, see details. Default is <code>NULL</code>.</p></td>
+      <th>all</th>
+      <td><p>logical, if <code>TRUE</code> it adds all the presence locations even if
+already included in the background locations, default is <code>FALSE</code>. This
+is equivalent to the Maxent argument <code>addallsamplestobackground=true</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The value of the AUC.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>For <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, the function computes
-the mean of the training AUC values of the k-folds. If <code>test = TRUE</code> it
-computes the mean of the testing AUC values for the k-folds. If test is an
-<code><a href='SWD-class.html'>SWD</a></code> object, it computes the mean AUC values for the
-provided testing dataset.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative
-operating characteristics (ROC) and relative operating levels (ROL) curves:
-Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
-2145-2166.</p>
+    <p>An <code><a href='SWD-class.html'>SWD</a></code> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># Acquire environmental variables</span>
@@ -228,44 +215,21 @@ Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
                    <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
-<span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+<span class='co'># Add presence locations with values not included in the background to the</span>
+<span class='co'># background locations</span>
+<span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>addSamplesToBg</span>(<span class='no'>data</span>)
+<span class='no'>new_data</span>
 
-<span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
-
-<span class='co'># Compute the training AUC</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>)
-
-<span class='co'># Compute the testing AUC</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)
-
-<span class='co'># \donttest{</span>
-<span class='co'># Same example but using cross validation instead of training and testing</span>
-<span class='co'># datasets</span>
-<span class='co'># Create the folds</span>
-<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
-
-<span class='co'># Compute the training AUC</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>)
-
-<span class='co'># Compute the testing AUC</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'># Compute the AUC for the held apart testing dataset</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)
-<span class='co'># }</span></pre>
+<span class='co'># Add all the presence locations to the background locations, even if they</span>
+<span class='co'># have values already included in the background</span>
+<span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>addSamplesToBg</span>(<span class='no'>data</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>new_data</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
