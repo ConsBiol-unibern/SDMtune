@@ -1,5 +1,3 @@
-context("Chart Utils")
-
 folder <- tempfile("SDMtune")
 settings <- list(update = FALSE)
 data <- list()

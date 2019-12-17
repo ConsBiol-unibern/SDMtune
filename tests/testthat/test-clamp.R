@@ -1,5 +1,3 @@
-context("Scale and Clamp")
-
 test_that("The function clamps correctly", {
   m <- matrix(c(0, 5, 10, 10, 15, 20), ncol = 2)
   data <- scaleClamp(m, c(2, 12), c(9, 18), TRUE, FALSE)
