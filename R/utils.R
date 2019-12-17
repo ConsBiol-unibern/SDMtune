@@ -189,7 +189,6 @@
     args$fc <- model@fc
     args$reg <- model@reg
     args$iter <- model@iter
-    args$extra_args <- model@extra_args
   } else if (args$method == "Maxnet") {
     args$fc <- model@fc
     args$reg <- model@reg
@@ -317,7 +316,7 @@ get_tunable_args <- function(model) {
     "trainANN" = c("data", "size", "decay", "rang", "maxit"),
     "trainBRT" = c("data", "distribution", "n.trees", "interaction.depth",
                    "shrinkage", "bag.fraction"),
-    "trainMaxent" = c("data", "reg", "fc", "iter", "extra_args"),
+    "trainMaxent" = c("data", "reg", "fc", "iter"),
     "trainMaxnet" = c("data", "reg", "fc"),
     "trainRF" = c("data", "mtry", "ntree", "nodesize")
   )
