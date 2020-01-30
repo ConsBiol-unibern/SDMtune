@@ -118,7 +118,7 @@
 #' # Add samples to background. This should be done preparing the data before
 #' # training the model without using
 #' data <- addSamplesToBg(data)
-#' model <- train("Maxent, data = data)
+#' model <- train("Maxent", data = data)
 #'
 #' ## Train a Maxnet model
 #' model <- train(method = "Maxnet", data = data, fc = "lq", reg = 1.5)
