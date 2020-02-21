@@ -8,8 +8,9 @@
 #' @param type character. The output type used for "Maxent" and "Maxnet"
 #' methods, possible values are "cloglog" and "logistic", default is
 #' \code{NULL}.
-#' @param only_presence logical, f \code{TRUE} it uses only the range of the
-#' presence location for the marginal response, default is \code{FALSE}.
+#' @param only_presence logical, if \code{TRUE} it uses only the presence
+#' locations when applying the function for the marginal response, default is
+#' \code{FALSE}.
 #' @param marginal logical, if \code{TRUE} it plots the marginal response curve,
 #' default is \code{FALSE}.
 #' @param fun function used to compute the level of the other variables for
@@ -175,8 +176,8 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
   data <- do.call("rbind", replicate(n_rows, data, simplify = FALSE))
 
   if (var %in% cont_vars) {
-    var_min <- min(df[var])
-    var_max <- max(df[var])
+    var_min <- min(model@data@data[var])
+    var_max <- max(model@data@data[var])
     data[var] <- seq(var_min, var_max, length.out = n_rows)
   } else {
     data[var] <- categ

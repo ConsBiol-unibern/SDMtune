@@ -1,6 +1,7 @@
 # SDMtune 1.0.1.9000
 Main changes:
 * The function `thinData` accept now a matrix or a dataframe with several columns, useful if the users has information related to the coordinates that doesn't want to lose with the thinning procedure.
+* The function `plotResponse` plots the response for the full range of presences and backgrounds/absences when only_presence is TRUE, only_presence is unused only to compute the provided function to the range of presence locations when marginal = TRUE
 
 # SDMtune 1.0.1
 Bug fix:
