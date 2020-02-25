@@ -39,7 +39,7 @@ coordinates can be specified using the arguments \code{x} and \code{y}.
 }
 }
 \examples{
-donttest{
+\donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)

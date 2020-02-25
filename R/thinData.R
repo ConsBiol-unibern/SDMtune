@@ -30,7 +30,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' donttest{
+#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
