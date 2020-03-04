@@ -9,7 +9,7 @@ x <- dismo::randomPoints(predictors, 9000)
 test_that("The function remove coords where there are NA (ex with matrix)", {
   c <- thinData(x, predictors)
   expect_true(nrow(c) < 9000)
-  expect_equal(class(c), "matrix")
+  expect_equal(class(c)[1], "matrix")
   expect_equal(colnames(c), colnames(x))
 })
 
