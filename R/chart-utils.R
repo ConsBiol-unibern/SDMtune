@@ -121,11 +121,13 @@
     if (metric != "AICc") {
       data <- data.frame(x = rep(x_labs, 2),
                          y = c(res[, hyper_cols + 1], res[, hyper_cols + 2]),
-                         type = c(rep("Training", n), rep("Validation", n)))
+                         type = c(rep("Training", n), rep("Validation", n)),
+                         stringsAsFactors = FALSE)
     } else {
       data <- data.frame(x = x_labs,
                          y = res[, hyper_cols + 1],
-                         type = rep("Training", n))
+                         type = rep("Training", n),
+                         stringsAsFactors = FALSE)
     }
 
     #  Create scatterplot

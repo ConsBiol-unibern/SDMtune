@@ -15,7 +15,7 @@ test_that("Non interactive plot is correct", {
   expect_equal(p$labels$title, "")  # title is not present if not passed
   expect_equal(class(p$layers[[1]]$geom)[1], "GeomPoint")
   expect_equal(class(p$layers[[2]]$geom)[1], "GeomLine")
-  expect_equivalent(unique(p$data$type), as.factor(c("Training", "Validation")))
+  expect_equivalent(unique(p$data$type), c("Training", "Validation"))
   # TSS
   colnames(o@results) <- c("fc", "reg", "Train_TSS", "Test_TSS", "diff_TSS")
   p <- plot(o, title = "title")
