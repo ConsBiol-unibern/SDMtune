@@ -1,3 +1,4 @@
+#' @importFrom utils packageVersion
 text <- paste0("
    _____  ____   __  ___ __
   / ___/ / __ \\ /  |/  // /_ __  __ ____   ___
