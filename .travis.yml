@@ -6,10 +6,14 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install libgdal-dev
 
-after_success:
-  - Rscript -e 'library(covr); codecov()'
+matrix:
+  include:
+  - r: devel
 
-deploy:
-  provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github(examples = FALSE)'
-  skip_cleanup: true
+  - r: release
+    after_success:
+      - Rscript -e 'library(covr); codecov()'
+    deploy:
+      provider: script
+      script: Rscript -e 'pkgdown::deploy_site_github(examples = FALSE)'
+      skip_cleanup: true
