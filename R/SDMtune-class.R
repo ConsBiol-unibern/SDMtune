@@ -105,7 +105,8 @@ setMethod("plot",
     if (interactive) {
       folder <- structure(tempfile("SDMtune"), class = "SDMtuneChart")
       .create_plot(x, title, interactive = TRUE, folder = folder)
-      return(folder)
+      .show_chart(folder)
+      return(invisible(folder))
     } else {
       p <- .create_plot(x, title, interactive = FALSE)
       return(p)
