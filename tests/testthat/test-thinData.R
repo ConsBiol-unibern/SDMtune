@@ -9,14 +9,14 @@ x <- dismo::randomPoints(predictors, 9000)
 test_that("The function remove coords where there are NA (ex with matrix)", {
   c <- thinData(x, predictors)
   expect_true(nrow(c) < 9000)
-  expect_equal(class(c)[1], "matrix")
+  expect_true(inherits(c, "matrix"))
   expect_equal(colnames(c), colnames(x))
 })
 
 test_that("The function remove duplicated data (ex with dataframe)", {
   c <- thinData(as.data.frame(rbind(x, x)), predictors)
   expect_true(nrow(c) < 9000)
-  expect_equal(class(c), "data.frame")
+  expect_true(inherits(c, "data.frame"))
   expect_equal(colnames(c), colnames(x))
 })
 
@@ -24,7 +24,7 @@ test_that("The function works with custom dataframe", {
   df <- data.frame(A = x[, "x"], B = x[, "y"], t = rep("a", nrow(x)))
   c <- thinData(df, predictors, x = "A", y = "B")
   expect_true(nrow(c) < 9000)
-  expect_equal(class(c), "data.frame")
+  expect_true(inherits(c, "data.frame"))
   expect_equal(colnames(c), colnames(df))
 })
 
