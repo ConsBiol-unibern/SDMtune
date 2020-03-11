@@ -26,9 +26,7 @@
 #' software.
 #'
 #' @export
-#' @importFrom utils menu
-#' @importFrom utils browseURL
-#' @importFrom htmltools HTML
+#' @importFrom utils menu browseURL
 #'
 #' @author Sergio Vignali
 #'
@@ -78,6 +76,12 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
 
   if (!requireNamespace("crayon", quietly = TRUE)) {
     stop("You need the packege \"crayon\" to run this function,",
+         " please install it.",
+         call. = FALSE)
+  }
+
+  if (!requireNamespace("htmltools", quietly = TRUE)) {
+    stop("You need the packege \"htmltools\" to run this function,",
          " please install it.",
          call. = FALSE)
   }
