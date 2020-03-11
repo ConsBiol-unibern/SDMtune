@@ -25,6 +25,7 @@ test_that("The function returns the correct output", {
                  "Test_AUC_without", "Test_AUC_withonly"))
   expect_length(jk$results[, 1], 2)
   expect_equal(class(jk$results), "data.frame")
+  expect_type(jk$results$Variable, "character")
   expect_length(jk$models_without, 2)
   expect_length(jk$models_withonly, 2)
   expect_named(jk$models_without[[1]]@data@data, "bio12")
@@ -56,12 +57,14 @@ test_that("The function returns the correct output", {
   expect_equal(class(jk), "data.frame")
   expect_named(jk, c("Variable", "Train_AUC_without", "Test_AUC_without"))
   expect_length(jk[, 1], 2)
+  expect_type(jk$Variable, "character")
   # all variables, with_only = FALSE and return models = FALSE
   jk <- doJk(m, metric = "auc", test = t, with_only = FALSE,
              return_models = FALSE)
   expect_equal(class(jk), "data.frame")
   expect_named(jk, c("Variable", "Train_AUC_without", "Test_AUC_without"))
   expect_length(jk[, 1], 2)
+  expect_type(jk$Variable, "character")
 
   # Metric TSS
   # with_only and return models = FALSE

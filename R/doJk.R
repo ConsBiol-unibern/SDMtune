@@ -162,7 +162,7 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
     }
   }
 
-  jk_test <- as.data.frame(res)
+  jk_test <- as.data.frame(res, stringAsFactor = FALSE)
   colnames(jk_test) <- labels
   jk_test[1] <- variables
 
