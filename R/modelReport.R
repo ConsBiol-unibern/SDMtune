@@ -31,7 +31,6 @@
 #' @importFrom cli symbol rule
 #' @importFrom utils browseURL
 #' @importFrom htmltools HTML
-#' @import kableExtra
 #'
 #' @author Sergio Vignali
 #'
@@ -66,6 +65,12 @@
 modelReport <- function(model, folder, test = NULL, type = NULL,
                         response_curves = FALSE, only_presence = FALSE,
                         jk = FALSE, env = NULL, clamp = TRUE, permut = 10) {
+
+  if (!requireNamespace("kableExtra", quietly = TRUE)) {
+    stop("You need the packege \"kableExtra\" to run this function,",
+         " please install it.",
+         call. = FALSE)
+  }
 
   if (file.exists(paste0(getwd(), "/", folder))) {
     msg <- message(crayon::red(cli::symbol$fancy_question_mark),
