@@ -15,7 +15,6 @@
 #' @importFrom ggplot2 geom_tile scale_fill_gradientn coord_equal labs
 #' scale_x_continuous scale_y_continuous theme_minimal theme element_text
 #' element_blank
-#' @importFrom rasterVis gplot
 #'
 #' @author Sergio Vignali
 #'
@@ -30,6 +29,12 @@
 #'          colorramp = c("#2c7bb6", "#ffffbf", "#d7191c"))
 #' }
 plotPred <- function(map, lt = "", colorramp = NULL, hr = FALSE) {
+
+  if (!requireNamespace("rasterVis", quietly = TRUE)) {
+    stop("You need the packege \"rasterVis\" to run this function,",
+         " please install it.",
+         call. = FALSE)
+  }
 
   if (class(map) != "RasterLayer")
     stop("Prediction must be a RasterLayer object!")

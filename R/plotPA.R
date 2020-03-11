@@ -22,7 +22,6 @@
 #' scale_x_continuous scale_y_continuous theme_minimal theme element_text
 #' element_blank
 #' @importFrom raster writeRaster
-#' @importFrom rasterVis gplot
 #'
 #' @author Sergio Vignali
 #'
@@ -39,6 +38,12 @@
 #' }
 plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
                    format = "GTiff", ...) {
+
+  if (!requireNamespace("rasterVis", quietly = TRUE)) {
+    stop("You need the packege \"rasterVis\" to run this function,",
+         " please install it.",
+         call. = FALSE)
+  }
 
   if (class(map) != "RasterLayer")
     stop("Prediction must be a RasterLayer object!")
