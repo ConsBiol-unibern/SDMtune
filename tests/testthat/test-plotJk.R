@@ -2,7 +2,8 @@ jk_auc <- data.frame(Variable = c("bio1", "bio12", "bio16"),
                      Train_AUC_without = c(0.933, 0.935, 0.934),
                      Train_AUC_withonly = c(0.851, 0.731, 0.712),
                      Test_AUC_without = c(0.930, 0.931, 0.929),
-                     Test_AUC_withonly = c(0.928, 0.929, 0.926))
+                     Test_AUC_withonly = c(0.928, 0.929, 0.926),
+                     stringsAsFactors = FALSE)
 jk_tss <- jk_auc
 colnames(jk_tss) <- c("Variable", "Train_TSS_without", "Train_TSS_withonly",
                       "Test_TSS_without", "Test_TSS_withonly")
