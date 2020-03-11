@@ -10,7 +10,6 @@
 #' @export
 #' @importFrom ggplot2 ggplot aes_ geom_segment labs coord_fixed theme_minimal
 #' theme scale_color_discrete guides guide_legend
-#' @importFrom plotROC geom_roc
 #'
 #' @examples
 #' \donttest{
@@ -67,7 +66,7 @@ plotROC <- function(model, test = NULL) {
   }
 
   my_plot <- ggplot(df, aes_(m = ~pred, d = ~pa, group = ~set)) +
-    geom_roc(n.cuts = 0, aes_(color = ~set), size = 0.5) +
+    plotROC::geom_roc(n.cuts = 0, aes_(color = ~set), size = 0.5) +
     scale_color_discrete(name = "AUC", labels = labels) +
     geom_segment(aes_(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
                  linetype = 2) +
