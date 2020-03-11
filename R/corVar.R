@@ -17,7 +17,6 @@
 #'
 #' @return The name of the correlated variables.
 #' @export
-#' @importFrom reshape2 melt
 #' @importFrom stats cor
 #'
 #' @author Sergio Vignali
@@ -43,6 +42,12 @@
 #' corVar(bg, method = "pearson", cor_th = 0.8)
 corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
                    remove_diagonal = TRUE) {
+
+  if (!requireNamespace("reshape2", quietly = TRUE)) {
+    stop("You need the packege \"reshape2\" to run this function,",
+         " please install it.",
+         call. = FALSE)
+  }
 
   if (class(bg) != "SWD")
     stop("\"bg\" must be an SWD object!")

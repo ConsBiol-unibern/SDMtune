@@ -16,7 +16,6 @@
 #' @export
 #' @importFrom ggplot2 ggplot aes_ scale_fill_gradient2 theme_minimal theme
 #' element_text coord_fixed element_blank geom_text
-#' @importFrom reshape2 melt
 #' @importFrom stats cor
 #' @importFrom stringr str_to_title
 #'
