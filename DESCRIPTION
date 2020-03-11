@@ -22,8 +22,7 @@ License: GPL-3
 URL: https://consbiol-unibern.github.io/SDMtune/
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
 Depends: R (>= 3.2.0)
-Imports: crayon (>= 1.3.4),
-         dismo (>= 1.1-4),
+Imports: dismo (>= 1.1-4),
          gbm (>= 2.1.5),
          ggplot2 (>= 3.2.0),
          htmltools (>= 0.3.6),
@@ -49,6 +48,7 @@ Roxygen: list(markdown = TRUE)
 Suggests:
     cli (>= 1.1.0),
     covr,
+    crayon (>= 1.3.4),
     kableExtra (>= 1.1.0),
     knitr (>= 1.23),
     maps (>= 3.3.0),
