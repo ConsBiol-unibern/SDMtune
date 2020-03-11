@@ -10,7 +10,6 @@
 #' @export
 #' @importFrom ggplot2 ggplot aes_string ylab scale_y_continuous geom_bar
 #' coord_flip labs theme_minimal theme element_text
-#' @importFrom scales percent
 #'
 #' @author Sergio Vignali
 #'
@@ -42,6 +41,12 @@
 #' plotVarImp(vi, color = "red")
 #' }
 plotVarImp <- function(df, color = "grey") {
+
+  if (!requireNamespace("scales", quietly = TRUE)) {
+    stop("You need the packege \"scales\" to run this function,",
+         " please install it.",
+         call. = FALSE)
+  }
 
   df <- df[order(df[, 2]), ]
   df[, 2] <- df[, 2] / 100

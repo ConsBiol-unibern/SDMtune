@@ -35,7 +35,6 @@ Imports: dismo (>= 1.1-4),
          Rcpp (>= 1.0.1),
          reshape2 (>= 1.4.3),
          rstudioapi (>= 0.10),
-         scales (>= 1.0.0),
          stringr (>= 1.4.0),
          whisker (>= 0.3-2)
 Encoding: UTF-8
@@ -57,6 +56,7 @@ Suggests:
     rgdal (>= 1.4-4),
     rmarkdown (>= 1.13),
     roxygen2 (>= 6.1.1),
+    scales (>= 1.0.0),
     snow (>= 0.4-3),
     spelling,
     testthat (>= 2.2.1),
