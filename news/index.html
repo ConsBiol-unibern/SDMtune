@@ -84,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -172,10 +172,19 @@
       
     </div>
 
-    <div id="sdmtune-1-0-1-9000" class="section level1">
+    <div id="sdmtune-1-2-0" class="section level1">
 <h1 class="page-header">
-<a href="#sdmtune-1-0-1-9000" class="anchor"></a>SDMtune 1.0.1.9000<small> Unreleased </small>
+<a href="#sdmtune-1-2-0" class="anchor"></a>SDMtune 1.2.0<small> Unreleased </small>
 </h1>
+<p>Main changes:</p>
+<ul>
+<li>The function <code>thinData</code> accept now a matrix or a dataframe with several columns, useful if the users has information related to the coordinates that doesn’t want to lose with the thinning procedure.</li>
+<li>The function <code>plotResponse</code> plots the response for the full range of presences and backgrounds/absences when only_presence is TRUE, only_presence is unused only to compute the provided function to the range of presence locations when marginal = TRUE</li>
+</ul>
+<p>Bug fix:</p>
+<ul>
+<li>Interactive plot of SDMtune objects are again displayed in the RStudio Viewer pane</li>
+</ul>
 </div>
     <div id="sdmtune-1-0-1" class="section level1">
 <h1 class="page-header">
@@ -266,7 +275,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#sdmtune-1-0-1-9000">1.0.1.9000</a></li>
+        <li><a href="#sdmtune-1-2-0">1.2.0</a></li>
         <li><a href="#sdmtune-1-0-1">1.0.1</a></li>
         <li><a href="#sdmtune-1-0-0">1.0.0</a></li>
         <li><a href="#sdmtune-0-2-1">0.2.1</a></li>

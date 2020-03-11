@@ -87,7 +87,7 @@ one." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -182,44 +182,82 @@ more than one location falls within the same raster cell it selects randomly
 one.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>thinData</span>(<span class='no'>coords</span>, <span class='no'>env</span>)</pre>
+    <pre class="usage"><span class='fu'>thinData</span>(<span class='no'>coords</span>, <span class='no'>env</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"x"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>coords</th>
-      <td><p>data.frame or matrix with the coordinates.</p></td>
+      <td><p>data.frame or matrix with the coordinates, see details.</p></td>
     </tr>
     <tr>
       <th>env</th>
       <td><p><code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> containing the environmental
 variables, or a single <code><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster</a></code> layer.</p></td>
     </tr>
+    <tr>
+      <th>x</th>
+      <td><p>character. Name of the column containing the x coordinates, default
+is "x".</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>character. Name of the column containing the y coordinates, default
+is "y".</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame with the thinned locations.</p>
+    <p>a matrix or a data frame with the thinned locations.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><strong>coords</strong> and <strong>env</strong> must have the same coordinate reference
-system.</p>
+    
+<ul>
+<li><p><strong>coords</strong> and <strong>env</strong> must have the same coordinate reference
+system.</p></li>
+<li><p>The <code>coords</code> argument can contain several columns. This is useful if
+the user has information related to the coordinates that doesn't want to
+loose with the thinning procedure. The function expects to have the x
+coordinates in a column named "x", and the y coordinates in a column named
+"y". If this is not the case, the name of the columns containing the
+coordinates can be specified using the arguments <code>x</code> and <code>y</code>.</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># Acquire environmental variables</span>
+    <pre class="examples"><span class='co'># \donttest{</span>
+<span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
 
 <span class='co'># Prepare background locations</span>
 <span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/dismo/man/randomPoints.html'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>9000</span>)
-
 <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bg_coords</span>)
 
 <span class='co'># Thin the locations</span>
+<span class='co'># There are probably few coordinates that have NAs for some predictors, the</span>
+<span class='co'># function will remove these coordinates. Note that the finction expects to</span>
+<span class='co'># the coordinates in two column named "x" and "y"</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>bg_coords</span>)
 <span class='no'>thinned_bg</span> <span class='kw'>&lt;-</span> <span class='fu'>thinData</span>(<span class='no'>bg_coords</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>thinned_bg</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>thinned_bg</span>)
+
+<span class='co'># Here we double the coordinates and run the function again</span>
+<span class='no'>thinned_bg</span> <span class='kw'>&lt;-</span> <span class='fu'>thinData</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='no'>bg_coords</span>, <span class='no'>bg_coords</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>thinned_bg</span>)
+
+<span class='co'># In case of a dataframe containing more than two columns (e.g. a dataframe</span>
+<span class='co'># with the coordinates plus an additional column with the age of the species)</span>
+<span class='co'># and custom column names, use the function in this way</span>
+<span class='no'>age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bg_coords</span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>age</span>, <span class='no'>bg_coords</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>data</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"X"</span>, <span class='st'>"Y"</span>)
+<span class='no'>thinned_bg</span> <span class='kw'>&lt;-</span> <span class='fu'>thinData</span>(<span class='no'>data</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"X"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"Y"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>data</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
