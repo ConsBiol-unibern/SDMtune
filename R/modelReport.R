@@ -28,7 +28,6 @@
 #' @export
 #' @importFrom utils menu
 #' @importFrom crayon red green
-#' @importFrom cli symbol rule
 #' @importFrom utils browseURL
 #' @importFrom htmltools HTML
 #'
@@ -68,6 +67,12 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
 
   if (!requireNamespace("kableExtra", quietly = TRUE)) {
     stop("You need the packege \"kableExtra\" to run this function,",
+         " please install it.",
+         call. = FALSE)
+  }
+
+  if (!requireNamespace("cli", quietly = TRUE)) {
+    stop("You need the packege \"cli\" to run this function,",
          " please install it.",
          call. = FALSE)
   }
