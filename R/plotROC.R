@@ -44,6 +44,12 @@
 #' @author Sergio Vignali
 plotROC <- function(model, test = NULL) {
 
+  if (!requireNamespace("plotROC", quietly = TRUE)) {
+    stop("You need the packege \"plotROC\" to run this function,",
+         " please install it.",
+         call. = FALSE)
+  }
+
   if (class(model@model) == "Maxent") {
     type <- "raw"
   } else {
