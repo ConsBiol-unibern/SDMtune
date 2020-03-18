@@ -1,3 +1,5 @@
+# SDMtune 1.1.0.9000
+
 # SDMtune 1.1.0
 Main changes:
 * The function `thinData` accept now a matrix or a dataframe with several columns, useful if the users has information related to the coordinates that doesn't want to lose with the thinning procedure.
