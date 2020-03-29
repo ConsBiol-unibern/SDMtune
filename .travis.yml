@@ -11,9 +11,9 @@ matrix:
   - r: devel
 
   - r: release
+    before_cache: Rscript -e 'devtools::install_github("r-lib/pkgdown")'
     after_success:
       - Rscript -e 'library(covr); codecov()'
-    before_cache: Rscript -e 'devtools::install_github("r-lib/pkgdown")'
     deploy:
       provider: script
       script: Rscript -e 'pkgdown::deploy_site_github(ssh_id = Sys.getenv("TRAVIS_DEPLOY_KEY", ""), examples = FALSE)'
