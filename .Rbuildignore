@@ -17,3 +17,4 @@
 ^tests/testthat/test_maxent_prediction\.R$
 ^pkgdown$
 ^CODE_OF_CONDUCT\.md$
+^\.github$
