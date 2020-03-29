@@ -117,23 +117,25 @@ plotPred(map_e)
 To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function `thresholds()` returns some commonly used threshold values starting from an `SDMmodel()` object. In the next example we print the threshold values for the `default_model` object using the type `"cloglog"`:
 
 ```{r thresholds, eval=FALSE}
+ths <- thresholds(default_model, type = "cloglog")
 thresholds(default_model, type = "cloglog")
 ```
 ```{r thresholds code, echo=FALSE}
-kable(thresholds(default_model, type = "cloglog")) %>%
+ths <- thresholds(default_model, type = "cloglog")
+kable(ths) %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
 For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function `plotPA()` passing the threshold value as argument:
 
 ```{r plot pa, fig.align="center"}
-plotPA(map, th = 0.497)
+plotPA(map, th = ths[3, 2])
 ```
 
 We can also save the map in a file with the following code:
 
 ```{r plot and save pa, eval=FALSE}
-plotPA(map, th = 0.497, filename = "my_pa_map", format = "GTiff")
+plotPA(map, th = ths[3, 2], filename = "my_pa_map", format = "GTiff")
 ```
 
 Both functions `plotPred()` and `plotPA()` have the argument `hr`to plot the the map with high resolution, useful when the map is used in a scientific publication. For all the arguments of the functions that we have used in this article please refer to the [documentation](../..//reference/index.html).
