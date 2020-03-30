@@ -79,10 +79,7 @@ map <- predict(default_model, data = predictors, type = "cloglog", file = "my_ma
 The [predict()](../../reference/predict-SDMmodel-method.html) function has other arguments useful when predicting large datasets:
 
 * **progress**: can be set to `"text"` to visualize a progress bar;
-* **parallel**: can be set to `TRUE` for parallel computation;
 * **extent**: can be passed to reduce the prediction to the given extent.
-
-Note that the parallel computation works well only for large datasets due to the time necessary to create the cluster.
 
 ## Plot a distribution map
 

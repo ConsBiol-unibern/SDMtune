@@ -53,8 +53,6 @@ For the Akaike Information Criterion corrected for small sample size [@Warren201
 aicc(default_model, env = predictors)
 ```
 
-We can pass the argument `parallel=TRUE` to speed up the computation for large datasets.
-
 ### Try yourself
 
 Try to compute the three metrics using a model trained using the **Maxnet** method.
