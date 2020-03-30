@@ -18,8 +18,7 @@
 #' default is \code{NULL}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
-#' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.
+#' @param parallel deprecated.
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
 #' selection, if \code{FALSE} the function uses the percent variable
 #' contribution, default is \code{FALSE}.
@@ -29,11 +28,6 @@
 #' is trained using the \code{\linkS4class{Maxent}} method, the algorithm uses
 #' the percent contribution computed by Maxent software to score the variable
 #' importance, default is \code{FALSE}.
-#'
-#' @details Parallel computation is used only during the execution of the
-#' predict function, and increases the speed only for large datasets. For small
-#' dataset it may result in a longer execution, due to the time necessary to
-#' create the cluster.
 #'
 #' @return The model trained using the selected variables.
 #' @export
@@ -87,6 +81,11 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                       parallel = FALSE, use_jk = FALSE, permut = 10,
                       use_pc = FALSE) {
 
+  # TODO remove this code in a next release
+  if (parallel)
+    warning("parallel argument is deprecated and not used anymore",
+            call. = FALSE, immediate. = TRUE)
+
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
   if (use_jk == TRUE)
@@ -103,8 +102,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
   removed_vars <- c()
 
   # metric used for chart
-  train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env,
-                                                    parallel = parallel))
+  train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
   if (metric != "aicc") {
     val_metric <- data.frame(x = 0, y = .get_metric(metric, model, test = test))
   } else {
@@ -158,7 +156,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
             doJk(model,
                  variables = as.character(scores[i, 1]), metric = metric,
                  test = test, with_only = FALSE, return_models = TRUE,
-                 env = env, parallel = parallel))
+                 env = env))
 
           if (metric  != "aicc") {
             if (jk_test$results[1, 3] >= val_metric[1, 2]) {
@@ -206,8 +204,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                                          variables = as.character(scores[1, 1]),
                                          metric = metric, test = test,
                                          with_only = FALSE,
-                                         return_models = TRUE, env = env,
-                                         parallel = parallel))
+                                         return_models = TRUE, env = env))
         model <- jk_test$models_without[[1]]
         train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
         if (metric != "aicc")
