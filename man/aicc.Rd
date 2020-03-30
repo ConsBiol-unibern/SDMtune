@@ -12,8 +12,7 @@ aicc(model, env, parallel = FALSE)
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables.}
 
-\item{parallel}{logical, if \code{TRUE} it uses parallel computation, default
-is \code{FALSE}.}
+\item{parallel}{deprecated.}
 }
 \value{
 The computed AICc
@@ -24,8 +23,7 @@ Compute the Akaike Information Criterion corrected for small samples size
 }
 \details{
 The function is available only for \strong{Maxent} and \strong{Maxnet}
-methods. Parallel computation increases the speed only for large datasets due
-to the time necessary to create the cluster.
+methods.
 }
 \examples{
 # Acquire environmental variables
@@ -46,13 +44,6 @@ model <- train(method = "Maxnet", data = data, fc = "l")
 
 # Compute the AICc
 aicc(model, predictors)
-
-\donttest{
-# Compute the AICc using parallel computation. This reduces the time only for
-# large datasets, in this case it takes longer than the previous example due
-# to the time used to start and stop a cluster
-aicc(model, predictors, parallel = TRUE)
-}
 }
 \references{
 Warren D.L., Seifert S.N., (2011). Ecological niche modeling in

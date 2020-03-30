@@ -27,8 +27,7 @@ variable in isolation, default is \code{TRUE}.}
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables, used only with "aicc", default is \code{NULL}.}
 
-\item{parallel}{logical, if \code{TRUE} it uses parallel computation, default
-is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.}
+\item{parallel}{deprecated.}
 
 \item{return_models}{logical, if \code{TRUE} returns all the models together
 with the test result, default is \code{FALSE}.}
@@ -39,12 +38,6 @@ it returns a list containing the test results together with the models.
 }
 \description{
 Run the Jackknife test for variable importance removing one variable at time.
-}
-\details{
-Parallel computation is used only during the execution of the
-predict function, and increases the speed only for large datasets. For small
-dataset it may result in a longer execution, due to the time necessary to
-create the cluster.
 }
 \examples{
 \donttest{
