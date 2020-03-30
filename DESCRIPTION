@@ -24,7 +24,7 @@ BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
 Depends: R (>= 3.2.0)
 Imports: dismo (>= 1.1-4),
          gbm (>= 2.1.5),
-         ggplot2 (>= 3.2.0),
+         ggplot2 (>= 3.3.0),
          jsonlite (>= 1.6),
          maxnet (>= 0.1.2),
          methods,
@@ -51,7 +51,7 @@ Suggests:
     maps (>= 3.3.0),
     pkgdown (>= 1.5.0),
     plotROC (>= 2.2.1),
-    rasterVis (>= 0.45),
+    rasterVis (>= 0.47),
     reshape2 (>= 1.4.3),
     rgdal (>= 1.4-4),
     rmarkdown (>= 1.13),

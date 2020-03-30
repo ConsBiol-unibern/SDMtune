@@ -1,4 +1,6 @@
 # SDMtune 1.1.0.9000
+Bug fix:
+* `plotPA` function now works also with new version of ggplot2
 
 # SDMtune 1.1.0
 Main changes:
