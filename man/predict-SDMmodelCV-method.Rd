@@ -36,8 +36,7 @@ output is saved in a file, see details.}
 \item{extent}{\code{\link[raster]{Extent}} object, if provided it restricts
 the prediction to the given extent, default is \code{NULL}.}
 
-\item{parallel}{logical to use parallel computation during prediction,
-default is \code{FALSE}.}
+\item{parallel}{deprecated.}
 
 \item{...}{Additional arguments to pass to the
 \code{\link[raster]{writeRaster}} function.}
@@ -54,7 +53,7 @@ of the k models.
 }
 \details{
 \itemize{
-\item filename, format, extent, parallel and ... arguments are used only when the
+\item filename, format, extent, and ... arguments are used only when the
 prediction is done for a \code{\link[raster]{stack}} object.
 \item When a character vector is passed to the \code{fun} argument, than all the
 given functions are applied and a named list is returned, see examples.
@@ -75,8 +74,6 @@ output type.
 class 1.
 \item For models trained with the \strong{BRT} method the function uses the number of
 trees defined to train the model and the "response" output type.
-\item Parallel computation increases the speed only for large datasets due to the
-time necessary to create the cluster.
 }
 }
 \examples{

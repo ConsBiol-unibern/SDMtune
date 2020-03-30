@@ -236,10 +236,3 @@ test_that("The function .args_name", {
   expect_vector(.args_name("trainMaxnet"), ptype = character(), size = 3)
   expect_vector(.args_name("trainRF"), ptype = character(), size = 4)
 })
-
-test_that("The function .end_parallel works properly", {
-  options(rasterCluster = TRUE)
-  .end_parallel()
-  expect_false(getOption("SDMtuneParallel"))
-  expect_false(getOption("rasterCluster"))
-})

@@ -24,8 +24,7 @@ objects, default is \code{NULL}.}
 \item{env}{\code{\link[raster]{stack}} containing the environmental
 variables, used only with "aicc", default is \code{NULL}.}
 
-\item{parallel}{logical, if \code{TRUE} it uses parallel computation, default
-is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.}
+\item{parallel}{deprecated.}
 
 \item{save_models}{logical, if \code{FALSE} the models are not saved and the
 output contains only a data frame with the metric values for each
@@ -45,10 +44,6 @@ with all the possible combinations of hyperparameters.
 of the function \code{\link{get_tunable_args}}. Hyperparameters not included
 in the \code{hypers} argument take the value that they have in the passed
 model.
-\item Parallel computation is used only during the execution of the predict
-function, and increases the speed only for large datasets. For small dataset
-it may result in a longer execution, due to the time necessary to create the
-cluster.
 }
 }
 \examples{

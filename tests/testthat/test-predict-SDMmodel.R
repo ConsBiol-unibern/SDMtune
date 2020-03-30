@@ -28,9 +28,3 @@ test_that("The method works with raster stack objects", {
   expect_length(p, predictors$bio1@ncols * predictors$bio1@nrows)
   expect_s4_class(p, "RasterLayer")
 })
-
-test_that("The method works with raster stack objects and parallel", {
-  p <- predict(m, predictors, "raw", parallel = TRUE)
-  expect_length(p, predictors$bio1@ncols * predictors$bio1@nrows)
-  expect_s4_class(p, "RasterLayer")
-})

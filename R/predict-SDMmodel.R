@@ -21,15 +21,14 @@ setGeneric("predict", function(object, ...)
 #' \code{\link[raster]{writeRaster}} for all the options, default is "GTiff".
 #' @param extent \code{\link[raster]{Extent}} object, if provided it restricts
 #' the prediction to the given extent, default is \code{NULL}.
-#' @param parallel logical to use parallel computation during prediction,
-#' default is \code{FALSE}.
+#' @param parallel deprecated.
 #' @param progress character to display a progress bar: "text", "window" or ""
 #' (default) for no progress bar.
 #' @param ... Additional arguments to pass to the
 #' \code{\link[raster]{writeRaster}} function.
 #'
 #' @details
-#' * filename, format, extent, parallel, progress and ... arguments are used
+#' * filename, format, extent, progress, and ... arguments are used
 #' only when the prediction is done for a \code{\link[raster]{stack}} object.
 #' * For models trained with the **Maxent** method the argument \code{type} can
 #' be: "raw", "logistic" and "cloglog". The function performs the prediction in
@@ -48,8 +47,6 @@ setGeneric("predict", function(object, ...)
 #' class 1.
 #' * For models trained with the **BRT** method the function uses the number of
 #' trees defined to train the model and the "response" output type.
-#' * Parallel computation increases the speed only for large datasets due to the
-#' time necessary to create the cluster.
 #'
 #' @include Maxent-class.R Maxnet-class.R ANN-class.R RF-class.R BRT-class.R
 #' @import methods
@@ -103,6 +100,11 @@ setMethod("predict",
                                 filename = "", format = "GTiff", extent = NULL,
                                 parallel = FALSE, progress = "", ...) {
 
+            # TODO remove this code in a next release
+            if (parallel)
+              warning("parallel argument is deprecated and not used anymore",
+                      call. = FALSE, immediate. = TRUE)
+
             if (class(object@model) != "Maxnet") {
               model <- object@model
             } else {
@@ -113,34 +115,16 @@ setMethod("predict",
 
             if (inherits(data, "Raster")) {
               data <- raster::subset(data, vars)
-              if (parallel) {
-                start_cluster <- getOption("SDMtuneParallel")
-                if (is.null(start_cluster) || !start_cluster)
-                  suppressMessages(raster::beginCluster())
-                pred <- raster::clusterR(data,
-                                         predict,
-                                         args = list(model = model,
-                                                     clamp = clamp,
-                                                     type = type,
-                                                     fun = predict),
-                                         progress = progress,
-                                         filename = filename,
-                                         format = format,
-                                         ext = extent,
-                                         ...)
-                if (is.null(start_cluster) || !start_cluster)
-                  raster::endCluster()
-              } else {
-                pred <- raster::predict(data, model = model,
-                                        type = type,
-                                        clamp = clamp,
-                                        fun = predict,
-                                        progress = progress,
-                                        filename = filename,
-                                        format = format,
-                                        ext = extent,
-                                        ...)
-              }
+              pred <- raster::predict(data,
+                                      model = model,
+                                      type = type,
+                                      clamp = clamp,
+                                      fun = predict,
+                                      progress = progress,
+                                      filename = filename,
+                                      format = format,
+                                      ext = extent,
+                                      ...)
             } else if (inherits(data, "SWD")) {
               data <- data@data[vars]
               pred <- predict(model, data, type = type, clamp = clamp)

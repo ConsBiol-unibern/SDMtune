@@ -59,14 +59,13 @@
   return(tot)
 }
 
-.get_metric <- function(metric, model, test = NULL, env = NULL,
-                        parallel = FALSE) {
+.get_metric <- function(metric, model, test = NULL, env = NULL) {
   if (metric == "auc") {
     return(auc(model, test))
   } else if (metric == "tss") {
     return(tss(model, test))
   } else {
-    return(aicc(model, env, parallel))
+    return(aicc(model, env))
   }
 }
 
@@ -321,12 +320,4 @@ get_tunable_args <- function(model) {
     "trainRF" = c("data", "mtry", "ntree", "nodesize")
   )
   return(output)
-}
-
-#' @importFrom raster endCluster
-.end_parallel <- function() {
-  options(SDMtuneParallel = FALSE)
-  raster_option <- getOption("rasterCluster")
-  if (!is.null(raster_option) && raster_option)
-    raster::endCluster()
 }

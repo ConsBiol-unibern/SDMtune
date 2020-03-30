@@ -16,8 +16,7 @@
 #' @param gen numeric. Number of generations, default is 20.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
-#' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.
+#' @param parallel deprecated.
 #' @param keep_best numeric. Percentage of the best models in the population to
 #' be retained during each iteration, expressed as decimal number. Default
 #' is 0.4.
@@ -32,10 +31,6 @@
 #' of the function \code{\link{get_tunable_args}}. Hyperparameters not included
 #' in the \code{hypers} argument take the value that they have in the passed
 #' model.
-#' * Parallel computation is used only during the execution of the predict
-#' function, and increases the speed only for large datasets. For small dataset
-#' it may result in a longer execution, due to the time necessary to create the
-#' cluster.
 #' * Part of the code is inspired by
 #' \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164}{this post}.
 #'
@@ -86,6 +81,11 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                           keep_random = 0.2, mutation_chance = 0.4,
                           seed = NULL) {
 
+  # TODO remove this code in a next release
+  if (parallel)
+    warning("parallel argument is deprecated and not used anymore",
+            call. = FALSE, immediate. = TRUE)
+
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
   # Create data frame with all possible combinations of hyperparameters
@@ -122,7 +122,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   scatter_footer <- vector("character", length = pop)
   best_train <- rep(NA_real_, gen + 2)
   best_val <- rep(NA_real_, gen + 2)
-  best_train[1] <- .get_metric(metric, model, env = env, parallel = parallel)
+  best_train[1] <- .get_metric(metric, model, env = env)
   if (metric != "aicc") {
     best_val[1] <- .get_metric(metric, model, test = test)
   } else {
@@ -163,8 +163,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
 
     models[[i]] <- .create_model_from_settings(model, grid[index[i], ])
 
-    train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env,
-                                             parallel = parallel))
+    train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env))
     if (metric != "aicc")
       val_metric[i, ] <- list(i, .get_metric(metric, models[[i]], test))
     scatter_footer[i] <- .get_footer(models[[i]])
@@ -233,8 +232,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
         father <- couple[[2]]
         child <- .breed(mother, father, hypers, mutation_chance)
         train_metric[kept + j, ] <- list(kept + j,
-                                         .get_metric(metric, child, env = env,
-                                                     parallel = parallel))
+                                         .get_metric(metric, child, env = env))
         if (metric != "aicc")
           val_metric[kept + j, ] <- list(kept + j, .get_metric(metric, child,
                                                                test))

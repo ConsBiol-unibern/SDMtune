@@ -16,8 +16,7 @@
 #' @param pop numeric. Size of the population, default is 20.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
-#' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.
+#' @param parallel deprecated.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is \code{NULL}.
 #'
@@ -25,10 +24,6 @@
 #' of the function \code{\link{get_tunable_args}}. Hyperparameters not included
 #' in the \code{hypers} argument take the value that they have in the passed
 #' model.
-#' * Parallel computation is used only during the execution of the predict
-#' function, and increases the speed only for large datasets. For small dataset
-#' it may result in a longer execution, due to the time necessary to create the
-#' cluster.
 #'
 #' @return \code{\linkS4class{SDMtune}} object.
 #' @export
@@ -72,11 +67,16 @@
 randomSearch <- function(model, hypers, metric, test = NULL, pop = 20,
                          env = NULL, parallel = FALSE, seed = NULL) {
 
+  # TODO remove this code in a next release
+  if (parallel)
+    warning("parallel argument is deprecated and not used anymore",
+            call. = FALSE, immediate. = TRUE)
+
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
   output <- optimizeModel(model = model, hypers = hypers, test = test,
                           metric = metric, pop = pop, gen = 0, env = env,
-                          parallel = parallel, seed = seed)
+                          seed = seed)
 
   return(output)
 }

@@ -14,8 +14,7 @@
 #' objects, default is \code{NULL}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
-#' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.
+#' @param parallel deprecated.
 #' @param save_models logical, if \code{FALSE} the models are not saved and the
 #' output contains only a data frame with the metric values for each
 #' hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE}
@@ -25,10 +24,6 @@
 #' of the function \code{\link{get_tunable_args}}. Hyperparameters not included
 #' in the \code{hypers} argument take the value that they have in the passed
 #' model.
-#' * Parallel computation is used only during the execution of the predict
-#' function, and increases the speed only for large datasets. For small dataset
-#' it may result in a longer execution, due to the time necessary to create the
-#' cluster.
 #'
 #' @return code{\linkS4class{SDMtune}} object.
 #' @export
@@ -81,6 +76,11 @@
 gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
                        parallel = FALSE, save_models = TRUE) {
 
+  # TODO remove this code in a next release
+  if (parallel)
+    warning("parallel argument is deprecated and not used anymore",
+            call. = FALSE, immediate. = TRUE)
+
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
   # Create a grid with all the possible combination of hyperparameters
   grid <- .get_hypers_grid(model, hypers)
@@ -123,8 +123,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
 
     obj <- .create_model_from_settings(model, settings = grid[i, ])
 
-    train_metric[i, ] <- list(i, .get_metric(metric, obj, env = env,
-                                             parallel = parallel))
+    train_metric[i, ] <- list(i, .get_metric(metric, obj, env = env))
     if (metric != "aicc")
       val_metric[i, ] <- list(i, .get_metric(metric, obj, test))
 

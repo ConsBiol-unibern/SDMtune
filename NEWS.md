@@ -1,4 +1,6 @@
 # SDMtune 1.1.0.9000
+The argument parallel is deprecated and not used anymore. This because it improves computation only for very large datasets and uses the superseded package snow.
+
 Bug fix:
 * `plotPA` function now works also with new version of ggplot2
 

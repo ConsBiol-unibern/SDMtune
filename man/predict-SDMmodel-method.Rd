@@ -31,8 +31,7 @@ output is saved in a file.}
 \item{extent}{\code{\link[raster]{Extent}} object, if provided it restricts
 the prediction to the given extent, default is \code{NULL}.}
 
-\item{parallel}{logical to use parallel computation during prediction,
-default is \code{FALSE}.}
+\item{parallel}{deprecated.}
 
 \item{progress}{character to display a progress bar: "text", "window" or ""
 (default) for no progress bar.}
@@ -50,7 +49,7 @@ model.
 }
 \details{
 \itemize{
-\item filename, format, extent, parallel, progress and ... arguments are used
+\item filename, format, extent, progress, and ... arguments are used
 only when the prediction is done for a \code{\link[raster]{stack}} object.
 \item For models trained with the \strong{Maxent} method the argument \code{type} can
 be: "raw", "logistic" and "cloglog". The function performs the prediction in
@@ -69,8 +68,6 @@ output type.
 class 1.
 \item For models trained with the \strong{BRT} method the function uses the number of
 trees defined to train the model and the "response" output type.
-\item Parallel computation increases the speed only for large datasets due to the
-time necessary to create the cluster.
 }
 }
 \examples{

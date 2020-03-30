@@ -22,13 +22,12 @@
 #' \code{\link[raster]{writeRaster}} for all the options, default is "GTiff".
 #' @param extent \code{\link[raster]{Extent}} object, if provided it restricts
 #' the prediction to the given extent, default is \code{NULL}.
-#' @param parallel logical to use parallel computation during prediction,
-#' default is \code{FALSE}.
+#' @param parallel deprecated.
 #' @param ... Additional arguments to pass to the
 #' \code{\link[raster]{writeRaster}} function.
 #'
 #' @details
-#' * filename, format, extent, parallel and ... arguments are used only when the
+#' * filename, format, extent, and ... arguments are used only when the
 #' prediction is done for a \code{\link[raster]{stack}} object.
 #' * When a character vector is passed to the \code{fun} argument, than all the
 #' given functions are applied and a named list is returned, see examples.
@@ -49,8 +48,6 @@
 #' class 1.
 #' * For models trained with the **BRT** method the function uses the number of
 #' trees defined to train the model and the "response" output type.
-#' * Parallel computation increases the speed only for large datasets due to the
-#' time necessary to create the cluster.
 #'
 #' @include SDMmodelCV-class.R
 #' @importFrom raster beginCluster clusterR endCluster calc
@@ -111,7 +108,11 @@ setMethod(
   definition = function(object, data, fun = "mean", type = NULL,
                         clamp = TRUE, filename = "", format = "GTiff",
                         extent = NULL, parallel = FALSE, ...) {
-    on.exit(.end_parallel())
+
+    # TODO remove this code in a next release
+    if (parallel)
+      warning("parallel argument is deprecated and not used anymore",
+              call. = FALSE, immediate. = TRUE)
 
     k <- length(object@models)
     l <- length(fun)
@@ -133,35 +134,18 @@ setMethod(
     if (inherits(data, "Raster")) {
       preds <- vector("list", length = k)
 
-      if (parallel) {
-        suppressMessages(raster::beginCluster())
-        options(SDMtuneParallel = TRUE)
-      }
-
       for (i in 1:k) {
-        preds[[i]] <- predict(object@models[[i]], data = data,
-                              type = type, clamp = clamp,
-                              extent = extent, parallel = parallel)
+        preds[[i]] <- predict(object@models[[i]], data = data, type = type,
+                              clamp = clamp, extent = extent)
         pb$tick(1)
       }
       preds <- raster::stack(preds)
 
-      if (parallel) {
-        for (i in 1:l) {
-          output[[i]] <- raster::clusterR(preds, fun = raster::calc,
-                                          args = list(fun = get(fun[i]),
-                                                      filename = filename[i],
-                                                      format = format, ...))
-          pb$tick(1)
-        }
-
-      } else {
-        for (i in 1:l) {
-          output[[i]] <- raster::calc(preds, fun = get(fun[i]),
-                                      filename = filename[i], format = format,
-                                      ...)
-          pb$tick(1)
-        }
+      for (i in 1:l) {
+        output[[i]] <- raster::calc(preds, fun = get(fun[i]),
+                                    filename = filename[i], format = format,
+                                    ...)
+        pb$tick(1)
       }
     } else {
       if (class(data) == "SWD")
