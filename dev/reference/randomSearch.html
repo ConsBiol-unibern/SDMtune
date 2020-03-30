@@ -280,16 +280,16 @@ cluster.</p></li>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>randomSearch</span>(<span class='no'>model</span>, <span class='kw'>hypers</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
                        <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
 <span class='no'>output</span>@<span class='kw'>results</span></div><div class='output co'>#&gt;      fc reg train_AUC  test_AUC   diff_AUC
-#&gt; 1  lqph 0.6 0.8763803 0.8593825 0.01699781
-#&gt; 2   lqp 0.6 0.8655228 0.8520250 0.01349781
-#&gt; 3  lqph 1.8 0.8668597 0.8517550 0.01510469
-#&gt; 4   lqp 0.2 0.8681422 0.8516875 0.01645469
-#&gt; 5    lh 1.6 0.8664341 0.8515725 0.01486156
-#&gt; 6  lqph 2.0 0.8654553 0.8501275 0.01532781
-#&gt; 7   lqp 1.2 0.8636166 0.8495000 0.01411656
-#&gt; 8    lh 2.4 0.8611947 0.8475550 0.01363969
-#&gt; 9   lqp 1.8 0.8610222 0.8461300 0.01489219
-#&gt; 10 lqph 2.8 0.8616497 0.8451350 0.01651469</div><div class='input'><span class='no'>output</span>@<span class='kw'>models</span></div><div class='output co'>#&gt; [[1]]
+#&gt; 1   lqp 0.2 0.8683369 0.8452413 0.02309562
+#&gt; 2   lqp 0.6 0.8667788 0.8447712 0.02200750
+#&gt; 3   lqp 1.2 0.8649231 0.8442637 0.02065938
+#&gt; 4   lqp 1.8 0.8626844 0.8433263 0.01935812
+#&gt; 5  lqph 0.6 0.8774013 0.8422513 0.03515000
+#&gt; 6  lqph 1.8 0.8686994 0.8387788 0.02992063
+#&gt; 7    lh 1.6 0.8671119 0.8378788 0.02923312
+#&gt; 8  lqph 2.0 0.8674688 0.8377488 0.02972000
+#&gt; 9  lqph 2.8 0.8639156 0.8366712 0.02724437
+#&gt; 10   lh 2.4 0.8626194 0.8358887 0.02673063</div><div class='input'><span class='no'>output</span>@<span class='kw'>models</span></div><div class='output co'>#&gt; [[1]]
 #&gt; Object of class SDMmodel 
 #&gt; Method: Maxnet 
 #&gt; 
@@ -299,8 +299,8 @@ cluster.</p></li>
 #&gt; 
 #&gt; Model configurations:
 #&gt; --------------------
-#&gt; fc: lqph
-#&gt; reg: 0.6
+#&gt; fc: lqp
+#&gt; reg: 0.2
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
@@ -333,8 +333,8 @@ cluster.</p></li>
 #&gt; 
 #&gt; Model configurations:
 #&gt; --------------------
-#&gt; fc: lqph
-#&gt; reg: 1.8
+#&gt; fc: lqp
+#&gt; reg: 1.2
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
@@ -351,7 +351,7 @@ cluster.</p></li>
 #&gt; Model configurations:
 #&gt; --------------------
 #&gt; fc: lqp
-#&gt; reg: 0.2
+#&gt; reg: 1.8
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
@@ -367,8 +367,8 @@ cluster.</p></li>
 #&gt; 
 #&gt; Model configurations:
 #&gt; --------------------
-#&gt; fc: lh
-#&gt; reg: 1.6
+#&gt; fc: lqph
+#&gt; reg: 0.6
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
@@ -385,7 +385,7 @@ cluster.</p></li>
 #&gt; Model configurations:
 #&gt; --------------------
 #&gt; fc: lqph
-#&gt; reg: 2
+#&gt; reg: 1.8
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
@@ -401,8 +401,8 @@ cluster.</p></li>
 #&gt; 
 #&gt; Model configurations:
 #&gt; --------------------
-#&gt; fc: lqp
-#&gt; reg: 1.2
+#&gt; fc: lh
+#&gt; reg: 1.6
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
@@ -418,8 +418,8 @@ cluster.</p></li>
 #&gt; 
 #&gt; Model configurations:
 #&gt; --------------------
-#&gt; fc: lh
-#&gt; reg: 2.4
+#&gt; fc: lqph
+#&gt; reg: 2
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
@@ -435,8 +435,8 @@ cluster.</p></li>
 #&gt; 
 #&gt; Model configurations:
 #&gt; --------------------
-#&gt; fc: lqp
-#&gt; reg: 1.8
+#&gt; fc: lqph
+#&gt; reg: 2.8
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
@@ -452,24 +452,24 @@ cluster.</p></li>
 #&gt; 
 #&gt; Model configurations:
 #&gt; --------------------
-#&gt; fc: lqph
-#&gt; reg: 2.8
+#&gt; fc: lh
+#&gt; reg: 2.4
 #&gt; 
 #&gt; Variables:
 #&gt; ---------
 #&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
 #&gt; Categorical: biome</div><div class='input'><span class='co'># Order rusults by highest test AUC</span>
 <span class='no'>output</span>@<span class='kw'>results</span>[<span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(-<span class='no'>output</span>@<span class='kw'>results</span>$<span class='no'>test_AUC</span>), ]</div><div class='output co'>#&gt;      fc reg train_AUC  test_AUC   diff_AUC
-#&gt; 1  lqph 0.6 0.8763803 0.8593825 0.01699781
-#&gt; 2   lqp 0.6 0.8655228 0.8520250 0.01349781
-#&gt; 3  lqph 1.8 0.8668597 0.8517550 0.01510469
-#&gt; 4   lqp 0.2 0.8681422 0.8516875 0.01645469
-#&gt; 5    lh 1.6 0.8664341 0.8515725 0.01486156
-#&gt; 6  lqph 2.0 0.8654553 0.8501275 0.01532781
-#&gt; 7   lqp 1.2 0.8636166 0.8495000 0.01411656
-#&gt; 8    lh 2.4 0.8611947 0.8475550 0.01363969
-#&gt; 9   lqp 1.8 0.8610222 0.8461300 0.01489219
-#&gt; 10 lqph 2.8 0.8616497 0.8451350 0.01651469</div><div class='input'># }
+#&gt; 1   lqp 0.2 0.8683369 0.8452413 0.02309562
+#&gt; 2   lqp 0.6 0.8667788 0.8447712 0.02200750
+#&gt; 3   lqp 1.2 0.8649231 0.8442637 0.02065938
+#&gt; 4   lqp 1.8 0.8626844 0.8433263 0.01935812
+#&gt; 5  lqph 0.6 0.8774013 0.8422513 0.03515000
+#&gt; 6  lqph 1.8 0.8686994 0.8387788 0.02992063
+#&gt; 7    lh 1.6 0.8671119 0.8378788 0.02923312
+#&gt; 8  lqph 2.0 0.8674688 0.8377488 0.02972000
+#&gt; 9  lqph 2.8 0.8639156 0.8366712 0.02724437
+#&gt; 10   lh 2.4 0.8626194 0.8358887 0.02673063</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

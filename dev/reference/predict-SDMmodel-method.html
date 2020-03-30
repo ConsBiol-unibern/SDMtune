@@ -1160,15 +1160,7 @@ values from a lambdas file.</p>
 #&gt; </div><div class='input'>
 <span class='co'># \donttest{</span>
 <span class='co'># Make logistic prediction for the all study area and save it in a file</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"my_map"</span>)</div><div class='output co'>#&gt; class      : RasterLayer 
-#&gt; dimensions : 192, 186, 35712  (nrow, ncol, ncell)
-#&gt; resolution : 0.5, 0.5  (x, y)
-#&gt; extent     : -125, -32, -56, 40  (xmin, xmax, ymin, ymax)
-#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 
-#&gt; source     : /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmptfZz3J/file8667db7ffd3/dev/reference/my_map.tif 
-#&gt; names      : my_map 
-#&gt; values     : 0.00456201, 0.8661703  (min, max)
-#&gt; </div><div class='input'># }
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"my_map"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in .getGDALtransient(x, filename = filename, options = options,     ...): filename exists; use overwrite=TRUE</span></div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
