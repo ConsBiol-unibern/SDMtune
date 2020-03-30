@@ -9,8 +9,5 @@ before_install:
 matrix:
   include:
   - r: devel
-
   - r: release
-    before_cache: Rscript -e 'devtools::install_github("r-lib/pkgdown")'
-    after_success:
-      - Rscript -e 'library(covr); codecov()'
+
