@@ -58,7 +58,7 @@ Suggests:
     roxygen2 (>= 6.1.1),
     scales (>= 1.0.0),
     snow (>= 0.4-3),
-    testthat (>= 2.2.1),
+    testthat (>= 2.3.2),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Collate: 
