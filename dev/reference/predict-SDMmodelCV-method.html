@@ -237,8 +237,7 @@ the prediction to the given extent, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical to use parallel computation during prediction,
-default is <code>FALSE</code>.</p></td>
+      <td><p>deprecated.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -256,7 +255,7 @@ multiple functions.</p>
 
     
 <ul>
-<li><p>filename, format, extent, parallel and ... arguments are used only when the
+<li><p>filename, format, extent, and ... arguments are used only when the
 prediction is done for a <code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> object.</p></li>
 <li><p>When a character vector is passed to the <code>fun</code> argument, than all the
 given functions are applied and a named list is returned, see examples.</p></li>
@@ -277,8 +276,6 @@ output type.</p></li>
 class 1.</p></li>
 <li><p>For models trained with the <strong>BRT</strong> method the function uses the number of
 trees defined to train the model and the "response" output type.</p></li>
-<li><p>Parallel computation increases the speed only for large datasets due to the
-time necessary to create the cluster.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>

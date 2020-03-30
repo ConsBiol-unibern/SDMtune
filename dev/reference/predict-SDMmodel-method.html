@@ -228,8 +228,7 @@ the prediction to the given extent, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>logical to use parallel computation during prediction,
-default is <code>FALSE</code>.</p></td>
+      <td><p>deprecated.</p></td>
     </tr>
     <tr>
       <th>progress</th>
@@ -251,7 +250,7 @@ if data is a raster <code><a href='https://rdrr.io/pkg/raster/man/stack.html'>st
 
     
 <ul>
-<li><p>filename, format, extent, parallel, progress and ... arguments are used
+<li><p>filename, format, extent, progress, and ... arguments are used
 only when the prediction is done for a <code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> object.</p></li>
 <li><p>For models trained with the <strong>Maxent</strong> method the argument <code>type</code> can
 be: "raw", "logistic" and "cloglog". The function performs the prediction in
@@ -270,8 +269,6 @@ output type.</p></li>
 class 1.</p></li>
 <li><p>For models trained with the <strong>BRT</strong> method the function uses the number of
 trees defined to train the model and the "response" output type.</p></li>
-<li><p>Parallel computation increases the speed only for large datasets due to the
-time necessary to create the cluster.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
