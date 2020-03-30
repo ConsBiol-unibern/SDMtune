@@ -239,9 +239,9 @@ Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='co'># Compute the training AUC</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] 0.8418759</div><div class='input'>
+<span class='fu'>auc</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] 0.8411522</div><div class='input'>
 <span class='co'># Compute the testing AUC</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)</div><div class='output co'>#&gt; [1] 0.83607</div><div class='input'>
+<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)</div><div class='output co'>#&gt; [1] 0.8352</div><div class='input'>
 <span class='co'># \donttest{</span>
 <span class='co'># Same example but using cross validation instead of training and testing</span>
 <span class='co'># datasets</span>
@@ -254,7 +254,7 @@ Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 <span class='co'># Compute the testing AUC</span>
 <span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 0.8344168</div><div class='input'>
 <span class='co'># Compute the AUC for the held apart testing dataset</span>
-<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)</div><div class='output co'>#&gt; [1] 0.84042</div><div class='input'># }
+<span class='fu'>auc</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)</div><div class='output co'>#&gt; [1] 0.8393469</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
