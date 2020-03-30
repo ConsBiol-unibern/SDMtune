@@ -225,7 +225,7 @@ be: "link", "exponential", "logistic" and "cloglog", see
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Acquire environmental variables</span>
+    <pre class="examples"><span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
@@ -236,28 +236,18 @@ be: "link", "exponential", "logistic" and "cloglog", see
 
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
 <span class='co'># Train a model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='co'># Get the confusion matrix for thresholds ranging from 0 to 1</span>
 <span class='no'>cm</span> <span class='kw'>&lt;-</span> <span class='fu'>confMatrix</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>cm</span>)</div><div class='output co'>#&gt;            th  tp   fp fn tn
-#&gt; 1 0.000000000 400 5000  0  0
-#&gt; 2 0.002786585 400 5000  0  0
-#&gt; 3 0.003520421 400 4999  0  1
-#&gt; 4 0.003616260 400 4998  0  2
-#&gt; 5 0.003668746 400 4997  0  3
-#&gt; 6 0.003691408 400 4996  0  4</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>cm</span>)</div><div class='output co'>#&gt;             th tp fp  fn   tn
-#&gt; 5203 0.9933962  0  5 400 4995
-#&gt; 5204 0.9940262  0  4 400 4996
-#&gt; 5205 0.9960225  0  3 400 4997
-#&gt; 5206 0.9965570  0  2 400 4998
-#&gt; 5207 0.9970066  0  1 400 4999
-#&gt; 5208 1.0000000  0  0 400 5000</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>cm</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>cm</span>)
+
 <span class='co'># Get the confusion matrix for a specific threshold</span>
-<span class='fu'>confMatrix</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>0.6</span>)</div><div class='output co'>#&gt;    th  tp  fp  fn   tn
-#&gt; 1 0.6 126 410 274 4590</div></pre>
+<span class='fu'>confMatrix</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>0.6</span>)</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

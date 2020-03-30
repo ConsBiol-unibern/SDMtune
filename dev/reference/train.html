@@ -299,7 +299,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
     <div class='dont-index'><p><code><a href='randomFolds.html'>randomFolds</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+    <pre class="examples"><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -311,17 +311,16 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
 <span class='co'>## Train a Maxent model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-               <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>700</span>)</div><div class='output co'>#&gt; <span class='error'>Error in .getMeVersion(): file missing:</span>
-#&gt; <span class='error'>/Users/runner/runners/2.165.2/work/_temp/Library/dismo/java/maxent.jar.</span>
-#&gt; <span class='error'>Please download it here: http://www.cs.princeton.edu/~schapire/maxent/</span></div><div class='input'><span class='co'># Add samples to background. This should be done preparing the data before</span>
+               <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>700</span>)
+<span class='co'># Add samples to background. This should be done preparing the data before</span>
 <span class='co'># training the model without using</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='addSamplesToBg.html'>addSamplesToBg</a></span>(<span class='no'>data</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)</div><div class='output co'>#&gt; <span class='error'>Error in .getMeVersion(): file missing:</span>
-#&gt; <span class='error'>/Users/runner/runners/2.165.2/work/_temp/Library/dismo/java/maxent.jar.</span>
-#&gt; <span class='error'>Please download it here: http://www.cs.princeton.edu/~schapire/maxent/</span></div><div class='input'>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)
+
 <span class='co'>## Train a Maxnet model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1.5</span>)
 
@@ -334,18 +333,23 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='co'>## Block partition using the ENMeval package</span>
 <span class='co'># library(ENMeval)</span>
 <span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.block</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
-                         <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ])</div><div class='output co'>#&gt; <span class='error'>Error in get.block(occ = data@coords[data@pa == 1, ], bg.coords = data@coords[data@pa ==     0, ]): could not find function "get.block"</span></div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>block_folds</span>)</div><div class='output co'>#&gt; <span class='error'>Error in train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = block_folds): object 'block_folds' not found</span></div><div class='input'>
+                         <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ])
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>block_folds</span>)
+
 <span class='co'>## Checkerboard1 partition using the ENMeval package</span>
 <span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
                               <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
                               <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
-                              <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='error'>Error in get.checkerboard1(occ = data@coords[data@pa == 1, ], env = predictors,     bg.coords = data@coords[data@pa == 0, ], aggregation.factor = 4): could not find function "get.checkerboard1"</span></div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>cb_folds</span>)</div><div class='output co'>#&gt; <span class='error'>Error in train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = cb_folds): object 'cb_folds' not found</span></div><div class='input'>
+                              <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>cb_folds</span>)
+
 <span class='co'>## Environmental block using the blockCV package</span>
 <span class='co'># library(blockCV)</span>
 <span class='co'># Create spatial points data frame</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='input'><span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>data</span>@<span class='kw'>pa</span>),
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
+<span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>data</span>@<span class='kw'>pa</span>),
                                 <span class='kw'>proj4string</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/projection.html'>crs</a></span>(<span class='no'>predictors</span>))
 <span class='no'>e_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>envBlock</span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
                     <span class='kw'>speciesData</span> <span class='kw'>=</span> <span class='no'>sp_df</span>,
@@ -353,15 +357,18 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
                     <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>,
                     <span class='kw'>standardization</span> <span class='kw'>=</span> <span class='st'>"standard"</span>,
                     <span class='kw'>rasterBlock</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                    <span class='kw'>numLimit</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='error'>Error in envBlock(rasterLayer = predictors, speciesData = sp_df, species = "data@pa",     k = 4, standardization = "standard", rasterBlock = FALSE,     numLimit = 100): could not find function "envBlock"</span></div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>e_folds</span>)</div><div class='output co'>#&gt; <span class='error'>Error in train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = e_folds): object 'e_folds' not found</span></div><div class='input'>
+                    <span class='kw'>numLimit</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>e_folds</span>)
+
 <span class='co'>## Train presence absence models</span>
 <span class='co'># Prepare presence and absence locations</span>
 <span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
 <span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span>
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>a_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>5</span>]])</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>5</span>]])
+
 <span class='co'>## Train an Artificial Neural Network model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"ANN"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
@@ -373,62 +380,14 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 
 <span class='co'>## Multiple methods trained together with default arguments</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>output</span>$<span class='no'>ANN</span></div><div class='output co'>#&gt; Object of class SDMmodel 
-#&gt; Method: ANN 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 400 
-#&gt; Absence locations: 300 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; size: 10
-#&gt; decay: 0
-#&gt; rang: 0.7
-#&gt; maxit: 100
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
-#&gt; Categorical: NA</div><div class='input'><span class='no'>output</span>$<span class='no'>BRT</span></div><div class='output co'>#&gt; Object of class SDMmodel 
-#&gt; Method: BRT 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 400 
-#&gt; Absence locations: 300 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; distribution: bernoulli
-#&gt; n.trees: 100
-#&gt; interaction.depth: 1
-#&gt; shrinkage: 0.1
-#&gt; bag.fraction: 0.5
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
-#&gt; Categorical: NA</div><div class='input'><span class='no'>output</span>$<span class='no'>RF</span></div><div class='output co'>#&gt; Object of class SDMmodel 
-#&gt; Method: RF 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 400 
-#&gt; Absence locations: 300 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; mtry: 2
-#&gt; ntree: 500
-#&gt; nodesize: 1
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
-#&gt; Categorical: NA</div><div class='input'>
+<span class='no'>output</span>$<span class='no'>ANN</span>
+<span class='no'>output</span>$<span class='no'>BRT</span>
+<span class='no'>output</span>$<span class='no'>RF</span>
+
 <span class='co'>## Multiple methods trained together passing extra arguments</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                 <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
-<span class='co'># }</span></div></pre>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

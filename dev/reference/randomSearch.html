@@ -247,7 +247,7 @@ model.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+    <pre class="examples"><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -259,7 +259,8 @@ model.</p></li>
 
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
 <span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
@@ -274,198 +275,11 @@ model.</p></li>
 <span class='co'># Run the function using as metric the AUC</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>randomSearch</span>(<span class='no'>model</span>, <span class='kw'>hypers</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
                        <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
-<span class='no'>output</span>@<span class='kw'>results</span></div><div class='output co'>#&gt;      fc reg train_AUC  test_AUC   diff_AUC
-#&gt; 1   lqp 0.2 0.8683369 0.8452413 0.02309562
-#&gt; 2   lqp 0.6 0.8667788 0.8447712 0.02200750
-#&gt; 3   lqp 1.2 0.8649231 0.8442637 0.02065938
-#&gt; 4   lqp 1.8 0.8626844 0.8433263 0.01935812
-#&gt; 5  lqph 0.6 0.8774013 0.8422513 0.03515000
-#&gt; 6  lqph 1.8 0.8686994 0.8387788 0.02992063
-#&gt; 7    lh 1.6 0.8671119 0.8378788 0.02923312
-#&gt; 8  lqph 2.0 0.8674688 0.8377488 0.02972000
-#&gt; 9  lqph 2.8 0.8639156 0.8366712 0.02724437
-#&gt; 10   lh 2.4 0.8626194 0.8358887 0.02673063</div><div class='input'><span class='no'>output</span>@<span class='kw'>models</span></div><div class='output co'>#&gt; [[1]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lqp
-#&gt; reg: 0.2
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[2]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lqp
-#&gt; reg: 0.6
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[3]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lqp
-#&gt; reg: 1.2
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[4]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lqp
-#&gt; reg: 1.8
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[5]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lqph
-#&gt; reg: 0.6
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[6]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lqph
-#&gt; reg: 1.8
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[7]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lh
-#&gt; reg: 1.6
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[8]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lqph
-#&gt; reg: 2
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[9]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lqph
-#&gt; reg: 2.8
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome
-#&gt; [[10]]
-#&gt; Object of class SDMmodel 
-#&gt; Method: Maxnet 
-#&gt; 
-#&gt; Species: Virtual species 
-#&gt; Presence locations: 320 
-#&gt; Absence locations: 5000 
-#&gt; 
-#&gt; Model configurations:
-#&gt; --------------------
-#&gt; fc: lh
-#&gt; reg: 2.4
-#&gt; 
-#&gt; Variables:
-#&gt; ---------
-#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
-#&gt; Categorical: biome</div><div class='input'><span class='co'># Order rusults by highest test AUC</span>
-<span class='no'>output</span>@<span class='kw'>results</span>[<span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(-<span class='no'>output</span>@<span class='kw'>results</span>$<span class='no'>test_AUC</span>), ]</div><div class='output co'>#&gt;      fc reg train_AUC  test_AUC   diff_AUC
-#&gt; 1   lqp 0.2 0.8683369 0.8452413 0.02309562
-#&gt; 2   lqp 0.6 0.8667788 0.8447712 0.02200750
-#&gt; 3   lqp 1.2 0.8649231 0.8442637 0.02065938
-#&gt; 4   lqp 1.8 0.8626844 0.8433263 0.01935812
-#&gt; 5  lqph 0.6 0.8774013 0.8422513 0.03515000
-#&gt; 6  lqph 1.8 0.8686994 0.8387788 0.02992063
-#&gt; 7    lh 1.6 0.8671119 0.8378788 0.02923312
-#&gt; 8  lqph 2.0 0.8674688 0.8377488 0.02972000
-#&gt; 9  lqph 2.8 0.8639156 0.8366712 0.02724437
-#&gt; 10   lh 2.4 0.8626194 0.8358887 0.02673063</div><div class='input'># }
-</div></pre>
+<span class='no'>output</span>@<span class='kw'>results</span>
+<span class='no'>output</span>@<span class='kw'>models</span>
+<span class='co'># Order rusults by highest test AUC</span>
+<span class='no'>output</span>@<span class='kw'>results</span>[<span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(-<span class='no'>output</span>@<span class='kw'>results</span>$<span class='no'>test_AUC</span>), ]
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

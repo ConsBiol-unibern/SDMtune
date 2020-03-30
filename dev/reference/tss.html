@@ -217,7 +217,7 @@ distribution models: prevalence, kappa and the true skill statistic (TSS).
 Journal of Applied Ecology, 43(6), 1223–1232.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Acquire environmental variables</span>
+    <pre class="examples"><span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
@@ -228,7 +228,8 @@ Journal of Applied Ecology, 43(6), 1223–1232.</p>
 
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
 <span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
@@ -238,23 +239,28 @@ Journal of Applied Ecology, 43(6), 1223–1232.</p>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='co'># Compute the training TSS</span>
-<span class='fu'>tss</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] 0.61225</div><div class='input'>
+<span class='fu'>tss</span>(<span class='no'>model</span>)
+
 <span class='co'># Compute the testing TSS</span>
-<span class='fu'>tss</span>(<span class='no'>model</span>, <span class='no'>test</span>)</div><div class='output co'>#&gt; [1] 0.5472</div><div class='input'>
+<span class='fu'>tss</span>(<span class='no'>model</span>, <span class='no'>test</span>)
+
 <span class='co'># \donttest{</span>
 <span class='co'># Same example but using cross validation instead of training and testing</span>
 <span class='co'># datasets</span>
 <span class='co'># Create 4 random folds splitting only the presence locations</span>
 <span class='no'>folds</span> <span class='kw'>=</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>presence</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)</div><div class='output co'>#&gt; <span class='error'>Error in train(method = "Maxnet", p = presence, a = bg, fc = "l", folds = folds): object 'presence' not found</span></div><div class='input'>
+               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
+
 <span class='co'># Compute the training TSS</span>
-<span class='fu'>TSS</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; <span class='error'>Error in TSS(model): could not find function "TSS"</span></div><div class='input'>
+<span class='fu'>TSS</span>(<span class='no'>model</span>)
+
 <span class='co'># Compute the testing TSS</span>
-<span class='fu'>TSS</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in TSS(model, test = TRUE): could not find function "TSS"</span></div><div class='input'>
+<span class='fu'>TSS</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
 <span class='co'># Compute the TSS for the held apart testing dataset</span>
-<span class='fu'>tss</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)</div><div class='output co'>#&gt; [1] 0.5472</div><div class='input'># }
-</div></pre>
+<span class='fu'>tss</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

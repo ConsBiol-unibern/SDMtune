@@ -224,7 +224,7 @@ checks that test points are predicted no better than by a random prediction
 with the same fractional predicted area.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Acquire environmental variables</span>
+    <pre class="examples"><span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
@@ -235,7 +235,8 @@ with the same fractional predicted area.</p>
 
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
 <span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
@@ -245,27 +246,10 @@ with the same fractional predicted area.</p>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
 
 <span class='co'># Get the cloglog thresholds</span>
-<span class='fu'>thresholds</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)</div><div class='output co'>#&gt;                                       Threshold Cloglog value
-#&gt; 1                     Minimum training presence     0.0781584
-#&gt; 2    Equal training sensitivity and specificity     0.4904676
-#&gt; 3 Maximum training sensitivity plus specificity     0.3119593
-#&gt;   Fractional predicted area Training omission rate
-#&gt; 1                    0.5822               0.000000
-#&gt; 2                    0.2354               0.234375
-#&gt; 3                    0.3394               0.071875</div><div class='input'>
+<span class='fu'>thresholds</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
+
 <span class='co'># Get the logistic thresholds passing the test dataset</span>
-<span class='fu'>thresholds</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)</div><div class='output co'>#&gt;                                       Threshold Logistic value
-#&gt; 1                     Minimum training presence     0.07525729
-#&gt; 2    Equal training sensitivity and specificity     0.40272186
-#&gt; 3 Maximum training sensitivity plus specificity     0.27214885
-#&gt; 4        Equal test sensitivity and specificity     0.36894667
-#&gt; 5     Maximum test sensitivity plus specificity     0.26706036
-#&gt;   Fractional predicted area Training omission rate Test omission rate P-values
-#&gt; 1                    0.5822               0.000000        0.000000000        0
-#&gt; 2                    0.2354               0.234375        0.005118110        0
-#&gt; 3                    0.3394               0.071875        0.001181102        0
-#&gt; 4                    0.2638               0.178125        0.004133858        0
-#&gt; 5                    0.3422               0.071875        0.000984252        0</div></pre>
+<span class='fu'>thresholds</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

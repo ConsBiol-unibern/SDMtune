@@ -284,7 +284,7 @@ trees defined to train the model and the "response" output type.</p></li>
 values from a lambdas file.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+    <pre class="examples"><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
                     <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -296,35 +296,33 @@ values from a lambdas file.</p>
 
 <span class='co'># Create SWD object</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
+                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+
 <span class='co'># Create 4 random folds splitting only the presence data</span>
 <span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
 
 <span class='co'># Make cloglog prediction for the all study area and get the result as</span>
 <span class='co'># average of the k models</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)</div><div class='output co'>#&gt; class      : RasterLayer 
-#&gt; dimensions : 192, 186, 35712  (nrow, ncol, ncell)
-#&gt; resolution : 0.5, 0.5  (x, y)
-#&gt; extent     : -125, -32, -56, 40  (xmin, xmax, ymin, ymax)
-#&gt; crs        : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 
-#&gt; source     : memory
-#&gt; names      : layer 
-#&gt; values     : 0.002795287, 0.9976156  (min, max)
-#&gt; </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
+
 <span class='co'># Make cloglog prediction for the all study area, get the average, standard</span>
 <span class='co'># deviation, and maximum values of the k models, and save the output in three</span>
 <span class='co'># files</span>
 <span class='no'>maps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"max"</span>),
-                <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"prediction"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in .getGDALtransient(x, filename = filename, options = options,     ...): filename exists; use overwrite=TRUE</span></div><div class='input'><span class='co'># In this case three files are created: prediction_mean.tif,</span>
+                <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"prediction"</span>)
+<span class='co'># In this case three files are created: prediction_mean.tif,</span>
 <span class='co'># prediction_sd.tif and prediction_max.tif</span>
 
-<span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>mean</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plotPred(maps$mean): object 'maps' not found</span></div><div class='input'><span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>sd</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plotPred(maps$sd): object 'maps' not found</span></div><div class='input'><span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>max</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plotPred(maps$max): object 'maps' not found</span></div><div class='input'>
+<span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>mean</span>)
+<span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>sd</span>)
+<span class='fu'><a href='plotPred.html'>plotPred</a></span>(<span class='no'>maps</span>$<span class='no'>max</span>)
+
 <span class='co'># Make logistic prediction for the all study area, given as standard</span>
 <span class='co'># deviation of the k models, and save it in a file</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>sd</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>,
-        <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"my_map"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in paste(filename, fun, sep = "_"): cannot coerce type 'closure' to vector of type 'character'</span></div><div class='input'># }
-</div></pre>
+        <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"my_map"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
