@@ -21,8 +21,7 @@
 #' default is \code{NULL}.
 #' @param env \code{\link[raster]{stack}} containing the environmental
 #' variables, used only with "aicc", default is \code{NULL}.
-#' @param parallel logical, if \code{TRUE} it uses parallel computation, default
-#' is \code{FALSE}. Used only with \code{metric = "aicc"}, see details.
+#' @param parallel deprecated.
 #' @param method character. The method used to compute the correlation matrix,
 #' default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly
@@ -33,11 +32,7 @@
 #' percent contribution computed by Maxent software to score the variable
 #' importance, default is \code{FALSE}.
 #'
-#' @details * Parallel computation is used only during the execution of the
-#' predict function,  and increases the speed only for large datasets. For small
-#' dataset it may result in a longer execution, due to the time necessary to
-#' create the cluster.
-#' * To find highly correlated variables the following formula is used:
+#' @details * To find highly correlated variables the following formula is used:
 #' \deqn{| coeff | \le cor_th}
 #'
 #' @return The \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
@@ -103,6 +98,11 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
                    parallel = FALSE, method = "spearman", cor_th = 0.7,
                    permut = 10, use_pc = FALSE) {
 
+  # TODO remove this code in a next release
+  if (parallel)
+    warning("parallel argument is deprecated and not used anymore",
+            call. = FALSE, immediate. = TRUE)
+
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
   .check_args(model, metric = metric, test = test, env = env)
@@ -135,8 +135,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   cor_matrix <- cor(df, method = method)
 
   # metric used for chart
-  train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env,
-                                                    parallel = parallel))
+  train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
   if (metric != "aicc") {
     val_metric <- data.frame(x = 0, y = .get_metric(metric, model, test = test))
   } else {
@@ -191,8 +190,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
       if (length(hcv) > 1) {
         jk_test <- suppressMessages(doJk(model, metric = metric, test = test,
                                          variables = hcv, with_only = FALSE,
-                                         env = env, parallel = parallel,
-                                         return_models = TRUE))
+                                         env = env, return_models = TRUE))
 
         # index for metric data frames
         x <- nrow(train_metric)
