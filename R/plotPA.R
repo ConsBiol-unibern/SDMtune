@@ -62,9 +62,8 @@ plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
 
   my_plot <- rasterVis::gplot(pa, maxpixels = maxpixels)
 
-  # TODO Remove this line if works
   # In some cases rasterVis changes logical values into 0s and 1s
-  #my_plot$data$value <- as.logical(my_plot$data$value)
+  my_plot$data$value <- as.logical(my_plot$data$value)
 
   my_plot <- my_plot +
     geom_tile(aes_(fill = ~value)) +
