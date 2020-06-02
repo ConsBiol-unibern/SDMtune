@@ -2,7 +2,6 @@ Package: SDMtune
 Type: Package
 Title: Species Distribution Model Selection
 Version: 1.1.0.9000
-Date: 2020-03-11
 Authors@R: c(
 	  person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",
 	         role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3390-5442")),
