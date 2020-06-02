@@ -174,10 +174,10 @@
 <span class="co">#&gt; fc: lqph</span>
 <span class="co">#&gt; reg: 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1</span></pre></body></html></div>
 <p>When you print the output, the text contains the models configuration that have been used during the execution of the function. In our case, only the regularization multiplier <code>reg</code> has multiple values. You can plot the <code><a href="../../reference/SDMtune-class.html">SDMtune()</a></code> object:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">exp_1</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Experiment 1"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">exp_1</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Experiment 1"</span>)</pre></body></html></div>
 <p><img src="tune-hyperparameters_files/figure-html/plot%20exp_1-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>and you can also recreate the interactive chart using:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">exp_1</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Experiment 1"</span>, <span class="kw">interactive</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">exp_1</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Experiment 1"</span>, <span class="kw">interactive</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p>The <code><a href="../../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in the slot <code>@results</code>:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">exp_1</span>@<span class="kw">results</span>
 <span class="co">#&gt;     fc reg train_AUC  test_AUC   diff_AUC</span>
@@ -324,7 +324,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
