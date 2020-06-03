@@ -32,6 +32,8 @@
 #'
 #' @examples
 #' \donttest{
+#' # If you run the following examples with the function example(), you may want
+#' # to set the argument ask like following: example("modelReport", ask = FALSE)
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
