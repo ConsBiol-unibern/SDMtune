@@ -273,9 +273,11 @@ software.</p>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>)
 
 <span class='co'># Create the report</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>modelReport</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>, <span class='kw'>folder</span> <span class='kw'>=</span> <span class='st'>"my_folder"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
             <span class='kw'>response_curves</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>jk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
             <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+}
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
