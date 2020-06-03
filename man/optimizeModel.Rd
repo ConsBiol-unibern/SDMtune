@@ -82,14 +82,14 @@ train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxent", data = train, fc = "l")
+model <- train(method = "Maxnet", data = train, fc = "l")
 
 # Define the hyperparameters to test
-h <- list(reg = 1:3, fc = c("lqp", "lqph", "lh"), iter = seq(300, 700, 100))
+h <- list(reg = seq(0.2, 3, 0.2), fc = c("lh", "lqp", "lqph", "lqpht"))
 
 # Run the function using as metric the AUC
 output <- optimizeModel(model, hypers = h, metric = "auc", test = test,
-                        seed = 25)
+                        pop = 10, gen = 4, seed = 25)
 output@results
 output@models
 output@models[[1]]  # Best model
