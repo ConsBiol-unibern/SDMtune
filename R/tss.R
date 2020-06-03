@@ -57,15 +57,14 @@
 #' # Same example but using cross validation instead of training and testing
 #' # datasets
 #' # Create 4 random folds splitting only the presence locations
-#' folds = randomFolds(data, k = 4, only_presence = TRUE)
-#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l",
-#'                folds = folds)
+#' folds = randomFolds(train, k = 4, only_presence = TRUE)
+#' model <- train(method = "Maxnet", data = train, fc = "l", folds = folds)
 #'
 #' # Compute the training TSS
-#' TSS(model)
+#' tss(model)
 #'
 #' # Compute the testing TSS
-#' TSS(model, test = TRUE)
+#' tss(model, test = TRUE)
 #'
 #' # Compute the TSS for the held apart testing dataset
 #' tss(model, test = test)
