@@ -14,7 +14,6 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -39,7 +38,6 @@
 #'
 #' # Plot variable importance with custom color
 #' plotVarImp(vi, color = "red")
-#' }
 plotVarImp <- function(df, color = "grey") {
 
   if (!requireNamespace("scales", quietly = TRUE)) {

@@ -19,7 +19,6 @@ A \code{\link[ggplot2]{ggplot}} object
 Plot the variable importance as a bar plot.
 }
 \examples{
-\donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
@@ -44,7 +43,6 @@ plotVarImp(vi)
 
 # Plot variable importance with custom color
 plotVarImp(vi, color = "red")
-}
 }
 \author{
 Sergio Vignali
