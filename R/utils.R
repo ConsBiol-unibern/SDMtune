@@ -237,15 +237,9 @@
 #' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 #'                    env = predictors, categorical = "biome")
 #'
-#' # Train a Maxent model and get tunable hyperparameters
+#' # Train a Maxnet model and get tunable hyperparameters
 #' model <- train(method = "Maxnet", data = data, fc = "l")
 #' get_tunable_args(model)
-#'
-#' \donttest{
-#' # Train a Maxnet model and get tunable hyperparameters
-#' model <- train(method = "Maxent", data = data, fc = "l")
-#' get_tunable_args(model)
-#' }
 get_tunable_args <- function(model) {
 
   if (class(model) == "SDMmodelCV") {
