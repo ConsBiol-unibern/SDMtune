@@ -1,8 +1,9 @@
 # SDMtune 1.1.0.9000
-The argument parallel is deprecated and not used anymore. This because it improves computation only for very large datasets and uses the superseded package snow.
+Main changes:
+* New function `checkMaxentInstallation` to check if Maxent is correctly configured.
+* The argument parallel is deprecated and not used anymore. This because it improved computation only for very large datasets and used the superseded package snow.
 
-Bug fix:
-* `plotPA` function now works also with new version of ggplot2
+Bug fix: `plotPA` function now works also with new version of ggplot2.
 
 # SDMtune 1.1.0
 Main changes:
@@ -13,7 +14,7 @@ Bug fix:
 * Interactive plot of SDMtune objects are again displayed in the RStudio Viewer pane
 
 # SDMtune 1.0.1
-Bug fix:
+Bug fixes:
 * Fix CRAN errors
 * Fix bug introduced with version 1.0.0
 
@@ -23,8 +24,7 @@ Main changes:
 * Add function `addSamplesToBg` to add presence locations to background location.
 * `extra_args` in Maxent models cannot be changed anymore.
 
-Bug fix:
-* Fix CRAN error for r-oldrel
+Bug fix: Fix CRAN error for r-oldrel
 
 # SDMtune 0.2.1
 Main changes:
@@ -33,7 +33,7 @@ Main changes:
 * Add possibility to compute the testing AUC or TSS for a held apart testing dataset in the case of a `SDMmodelCV` object
 * Add the possibility to merge only the presence locations in the `mergeSWD` function
 
-Bug fix:
+Bug fixes:
 * `plotPA` function now works also with large raster objects 
 * Removed font family from plot functions to avoid errors when the font is not available
 
@@ -50,8 +50,7 @@ Main changes:
 * New randomly generated dataset `virtualSp` with presence, absence and background locations
 * Number of background locations cannot be tuned anymore using the tuning functions
 
-Deprecated function:
-* `getSubsample`
+Deprecated function: `getSubsample`
 
 # SDMtune 0.1.1
 * Fix bug in `VarImp` function for `SDMmodelCV` objects

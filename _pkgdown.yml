@@ -96,6 +96,7 @@ reference:
 - title: Data-driven Variable selection
   desc: Function to perform Data-driven Variable selection
   contents:
+  - '`checkMaxentInstalation`'
   - '`corVar`'
   - '`reduceVar`'
   - '`varSel`'

@@ -76,6 +76,7 @@ Collate:
     'aicc.R'
     'auc.R'
     'chart-utils.R'
+    'checkMaxentInstallation.R'
     'confMatrix.R'
     'convertFolds.R'
     'corVar.R'
