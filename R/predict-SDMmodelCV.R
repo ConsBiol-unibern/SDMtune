@@ -89,6 +89,8 @@
 #' # Make cloglog prediction for the all study area, get the average, standard
 #' # deviation, and maximum values of the k models, and save the output in three
 #' # files
+#' \dontrun{
+#' # The following commands save the output in the working directory
 #' maps <- predict(model, data = predictors, fun = c("mean", "sd", "max"),
 #'                 type = "cloglog", filename = "prediction")
 #' # In this case three files are created: prediction_mean.tif,
@@ -102,6 +104,7 @@
 #' # deviation of the k models, and save it in a file
 #' predict(model, data = predictors, fun = "sd", type = "logistic",
 #'         filename = "my_map")
+#' }
 #' }
 setMethod(
   "predict", signature = "SDMmodelCV",
