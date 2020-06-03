@@ -71,7 +71,7 @@ model <- train(method = "Maxnet", data = train, fc = "lq")
 # Create the report
 modelReport(model, type = "cloglog", folder = "my_folder", test = test,
             response_curves = TRUE, only_presence = TRUE, jk = TRUE,
-            env = predictors)
+            env = predictors, permut = 2)
 }
 }
 \author{

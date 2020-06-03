@@ -56,7 +56,7 @@
 #' # Create the report
 #' modelReport(model, type = "cloglog", folder = "my_folder", test = test,
 #'             response_curves = TRUE, only_presence = TRUE, jk = TRUE,
-#'             env = predictors)
+#'             env = predictors, permut = 2)
 #' }
 modelReport <- function(model, folder, test = NULL, type = NULL,
                         response_curves = FALSE, only_presence = FALSE,
@@ -86,12 +86,11 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
          call. = FALSE)
   }
 
-  if (file.exists(paste0(getwd(), "/", folder))) {
+  if (file.exists(file.path(getwd(), folder))) {
     msg <- message(crayon::red(cli::symbol$fancy_question_mark),
                    " The folder '", folder,
                    "' already exists, do you want to overwrite it?")
-    continue <- utils::menu(choices = c("Yes", "No"),
-                            title = msg)
+    continue <- utils::menu(choices = c("Yes", "No"), title = msg)
   } else {
     continue <- 1
   }
