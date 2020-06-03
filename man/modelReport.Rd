@@ -71,9 +71,11 @@ test <- datasets[[2]]
 model <- train(method = "Maxnet", data = train, fc = "lq")
 
 # Create the report
+\dontrun{
 modelReport(model, type = "cloglog", folder = "my_folder", test = test,
             response_curves = TRUE, only_presence = TRUE, jk = TRUE,
             env = predictors, permut = 2)
+}
 }
 }
 \author{
