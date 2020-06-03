@@ -98,8 +98,9 @@ predict(model, data = test, type = "cloglog")
 # Make logistic prediction for the all study area
 predict(model, data = predictors, type = "logistic")
 
-\donttest{
+\dontrun{
 # Make logistic prediction for the all study area and save it in a file
+# The function saves the file in your working directory
 predict(model, data = predictors, type = "logistic", filename = "my_map")
 }
 }
