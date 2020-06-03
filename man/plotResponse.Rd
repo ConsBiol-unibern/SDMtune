@@ -59,7 +59,7 @@ data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
                    env = predictors, categorical = "biome")
 
 # Train a model
-model <- train(method = "Maxnet", data = data, fc = "l")
+model <- train(method = "Maxnet", data = data, fc = "lq")
 
 # Plot cloglog response curve for a continuous environmental variable (bio1)
 plotResponse(model, var = "bio1", type = "cloglog")
@@ -78,7 +78,8 @@ plotResponse(model, var = "bio12", type = "logistic", rug = TRUE,
 plotResponse(model, var = "biome", type = "logistic", color = "green")
 
 # Train a model with cross validation
-model <- train(method = "Maxnet", p = presence, a = bg, fc = "lq", rep = 4)
+folds <- randomFolds(data, k = 4, only_presence = TRUE)
+model <- train(method = "Maxnet", data = data, fc = "lq", folds = folds)
 
 # Plot cloglog response curve for a continuous environmental variable (bio17)
 plotResponse(model, var = "bio1", type = "cloglog")
