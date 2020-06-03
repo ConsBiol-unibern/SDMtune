@@ -61,7 +61,7 @@
 #'                        pop = 10, seed = 25)
 #' output@results
 #' output@models
-#' # Order rusults by highest test AUC
+#' # Order results by highest test AUC
 #' output@results[order(-output@results$test_AUC), ]
 #' }
 randomSearch <- function(model, hypers, metric, test = NULL, pop = 20,
