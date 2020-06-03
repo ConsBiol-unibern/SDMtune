@@ -6,9 +6,9 @@
 #' to understand what is not correctly installed, default is \code{TRUE}.
 #'
 #' @details In order to have Maxent correctly configured is necessary that:
-#' * Java is installed
-#' * The package "rJava" is installed
-#' * The file "maxent.jar" is in the correct folder
+#' * Java is installed;
+#' * the package "rJava" is installed;
+#' * the file "maxent.jar" is in the correct folder.
 #'
 #' @return \code{TRUE} if Maxent is correctly installed, \code{FALSE} otherwise.
 #' @export
