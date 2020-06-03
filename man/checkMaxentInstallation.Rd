@@ -19,9 +19,9 @@ The function checks if Maxent is correctly installed.
 \details{
 In order to have Maxent correctly configured is necessary that:
 \itemize{
-\item Java is installed
-\item The package "rJava" is installed
-\item The file "maxent.jar" is in the correct folder
+\item Java is installed;
+\item the package "rJava" is installed;
+\item the file "maxent.jar" is in the correct folder.
 }
 }
 \examples{
