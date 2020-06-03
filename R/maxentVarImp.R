@@ -18,7 +18,6 @@
 #' @seealso \code{\link{maxentTh}}
 #'
 #' @examples
-#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -33,6 +32,9 @@
 #'                    env = predictors, categorical = "biome")
 #'
 #' # Train a Maxent model
+#' # The next line checks if Maxent is correctly configured but you don't need
+#' # to run it in your script
+#' if (checkMaxentInstallation(verbose = FALSE)) {
 #' model <- train(method = "Maxent", data = data, fc = "l")
 #' maxentVarImp(model)
 #' }
