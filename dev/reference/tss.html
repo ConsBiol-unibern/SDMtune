@@ -251,15 +251,14 @@ Journal of Applied Ecology, 43(6), 1223–1232.</p>
 <span class='co'># Same example but using cross validation instead of training and testing</span>
 <span class='co'># datasets</span>
 <span class='co'># Create 4 random folds splitting only the presence locations</span>
-<span class='no'>folds</span> <span class='kw'>=</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>presence</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
+<span class='no'>folds</span> <span class='kw'>=</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>train</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
 
 <span class='co'># Compute the training TSS</span>
-<span class='fu'>TSS</span>(<span class='no'>model</span>)
+<span class='fu'>tss</span>(<span class='no'>model</span>)
 
 <span class='co'># Compute the testing TSS</span>
-<span class='fu'>TSS</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>tss</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># Compute the TSS for the held apart testing dataset</span>
 <span class='fu'>tss</span>(<span class='no'>model</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>)

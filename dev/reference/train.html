@@ -317,12 +317,17 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
                    <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'>## Train a Maxent model</span>
+<span class='co'># The next line checks if Maxent is correctly configured but you don't need</span>
+<span class='co'># to run it in your script</span>
+<span class='kw'>if</span> (<span class='fu'><a href='checkMaxentInstallation.html'>checkMaxentInstallation</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) {
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
                <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>700</span>)
+
 <span class='co'># Add samples to background. This should be done preparing the data before</span>
 <span class='co'># training the model without using</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='addSamplesToBg.html'>addSamplesToBg</a></span>(<span class='no'>data</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)
+}
 
 <span class='co'>## Train a Maxnet model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1.5</span>)
@@ -334,14 +339,14 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
 
 <span class='co'>## Block partition using the ENMeval package</span>
-<span class='co'># library(ENMeval)</span>
-<span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.block</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>ENMeval</span>)
+<span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ENMeval/man/get.evaluation.bins.html'>get.block</a></span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
                          <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ])
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>block_folds</span>)
 
 <span class='co'>## Checkerboard1 partition using the ENMeval package</span>
-<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
+<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ENMeval/man/get.evaluation.bins.html'>get.checkerboard1</a></span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
                               <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
                               <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
                               <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
@@ -349,18 +354,17 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>cb_folds</span>)
 
 <span class='co'>## Environmental block using the blockCV package</span>
-<span class='co'># library(blockCV)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>blockCV</span>)
 <span class='co'># Create spatial points data frame</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
 <span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>data</span>@<span class='kw'>pa</span>),
                                 <span class='kw'>proj4string</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/projection.html'>crs</a></span>(<span class='no'>predictors</span>))
-<span class='no'>e_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>envBlock</span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
+<span class='no'>e_folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/blockCV/man/envBlock.html'>envBlock</a></span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
                     <span class='kw'>speciesData</span> <span class='kw'>=</span> <span class='no'>sp_df</span>,
                     <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"data@pa"</span>,
                     <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>,
                     <span class='kw'>standardization</span> <span class='kw'>=</span> <span class='st'>"standard"</span>,
-                    <span class='kw'>rasterBlock</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                    <span class='kw'>numLimit</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+                    <span class='kw'>rasterBlock</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>e_folds</span>)
 
@@ -390,6 +394,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='co'>## Multiple methods trained together passing extra arguments</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                 <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
+<span class='no'>output</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

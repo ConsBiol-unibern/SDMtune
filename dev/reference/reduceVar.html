@@ -292,11 +292,15 @@ importance, default is <code>FALSE</code>.</p></td>
                     <span class='kw'>use_jk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)
 
 <span class='co'># Train a Maxent model</span>
+<span class='co'># The next line checks if Maxent is correctly configured but you don't need</span>
+<span class='co'># to run it in your script</span>
+<span class='kw'>if</span> (<span class='fu'><a href='checkMaxentInstallation.html'>checkMaxentInstallation</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) {
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>)
 
 <span class='co'># Remove all variables with percent contribution lower than 2%</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
                     <span class='kw'>use_pc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+}
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

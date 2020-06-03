@@ -253,8 +253,7 @@ standard deviation of the permutation importances of the single models.</p>
 <span class='co'># datasets</span>
 <span class='co'># Create 4 random folds splitting only the presence locations</span>
 <span class='no'>folds</span> <span class='kw'>=</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>presence</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
 <span class='co'># Compute variable importance</span>
 <span class='no'>vi</span> <span class='kw'>&lt;-</span> <span class='fu'>varImp</span>(<span class='no'>model</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>5</span>)
 <span class='no'>vi</span>

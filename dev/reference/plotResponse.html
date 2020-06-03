@@ -257,7 +257,7 @@ and not <code>"mean"</code>.</p>
                    <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>)
 
 <span class='co'># Plot cloglog response curve for a continuous environmental variable (bio1)</span>
 <span class='fu'>plotResponse</span>(<span class='no'>model</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"bio1"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
@@ -276,7 +276,8 @@ and not <code>"mean"</code>.</p>
 <span class='fu'>plotResponse</span>(<span class='no'>model</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"biome"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"green"</span>)
 
 <span class='co'># Train a model with cross validation</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>presence</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>, <span class='kw'>rep</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
 
 <span class='co'># Plot cloglog response curve for a continuous environmental variable (bio17)</span>
 <span class='fu'>plotResponse</span>(<span class='no'>model</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"bio1"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
