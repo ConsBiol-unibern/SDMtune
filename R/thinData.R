@@ -42,7 +42,7 @@
 #'
 #' # Thin the locations
 #' # There are probably few coordinates that have NAs for some predictors, the
-#' # function will remove these coordinates. Note that the finction expects to
+#' # function will remove these coordinates. Note that the function expects to
 #' # the coordinates in two column named "x" and "y"
 #' colnames(bg_coords)
 #' thinned_bg <- thinData(bg_coords, env = predictors)
