@@ -3,7 +3,7 @@ Main changes:
 * New function `checkMaxentInstallation` to check if Maxent is correctly configured.
 * The argument parallel is deprecated and not used anymore. This because it improved computation only for very large datasets and used the superseded package snow.
 
-Bug fix: `plotPA` function now works also with new version of ggplot2.
+Bug fix: `plotPA` function now works also with new version of `ggplot2`.
 
 # SDMtune 1.1.0
 Main changes:
