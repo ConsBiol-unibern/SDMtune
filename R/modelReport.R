@@ -51,7 +51,7 @@
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxent", data = train, fc = "l")
+#' model <- train(method = "Maxnet", data = train, fc = "lq")
 #'
 #' # Create the report
 #' modelReport(model, type = "cloglog", folder = "my_folder", test = test,
