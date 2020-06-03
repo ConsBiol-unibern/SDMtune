@@ -41,12 +41,14 @@ bg_coords <- virtualSp$background
 # Create SWD object
 data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
                    env = predictors, categorical = "biome")
-
+\dontrun{
+The following commands save the output in the working directory
 # Save the SWD objct as a single csv file
 swd2csv(data, "train_data.csv")
 
 # Save the SWD objct in two separate csv files
 swd2csv(data, c("presence.csv", "absence.csv"))
+}
 }
 }
 \author{
