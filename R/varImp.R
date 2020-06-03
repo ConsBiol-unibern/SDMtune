@@ -56,8 +56,7 @@
 #' # datasets
 #' # Create 4 random folds splitting only the presence locations
 #' folds = randomFolds(data, k = 4, only_presence = TRUE)
-#' model <- train(method = "Maxnet", p = presence, a = bg, fc = "l",
-#'                folds = folds)
+#' model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
 #' # Compute variable importance
 #' vi <- varImp(model, permut = 5)
 #' vi
