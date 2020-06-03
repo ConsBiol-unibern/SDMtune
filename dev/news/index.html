@@ -179,12 +179,12 @@
 <h1 class="page-header" data-toc-text="1.1.0.9000">
 <a href="#sdmtune-1109000" class="anchor"></a>SDMtune 1.1.0.9000<small> Unreleased </small>
 </h1>
-<p>The argument parallel is deprecated and not used anymore. This because it improves computation only for very large datasets and uses the superseded package snow.</p>
-<p>Bug fix:</p>
+<p>Main changes:</p>
 <ul>
-<li>
-<code>plotPA</code> function now works also with new version of ggplot2</li>
+<li>New function <code>checkMaxentInstallation</code> to check if Maxent is correctly configured.</li>
+<li>The argument parallel is deprecated and not used anymore. This because it improved computation only for very large datasets and used the superseded package snow.</li>
 </ul>
+<p>Bug fix: <code>plotPA</code> function now works also with new version of ggplot2.</p>
 </div>
     <div id="sdmtune-110" class="section level1">
 <h1 class="page-header" data-toc-text="1.1.0">
@@ -204,7 +204,7 @@
 <h1 class="page-header" data-toc-text="1.0.1">
 <a href="#sdmtune-101" class="anchor"></a>SDMtune 1.0.1<small> 2019-12-17 </small>
 </h1>
-<p>Bug fix:</p>
+<p>Bug fixes:</p>
 <ul>
 <li>Fix CRAN errors</li>
 <li>Fix bug introduced with version 1.0.0</li>
@@ -221,10 +221,7 @@
 <li>
 <code>extra_args</code> in Maxent models cannot be changed anymore.</li>
 </ul>
-<p>Bug fix:</p>
-<ul>
-<li>Fix CRAN error for r-oldrel</li>
-</ul>
+<p>Bug fix: Fix CRAN error for r-oldrel</p>
 </div>
     <div id="sdmtune-021" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.1">
@@ -237,7 +234,7 @@
 <li>Add possibility to compute the testing AUC or TSS for a held apart testing dataset in the case of a <code>SDMmodelCV</code> object</li>
 <li>Add the possibility to merge only the presence locations in the <code>mergeSWD</code> function</li>
 </ul>
-<p>Bug fix:</p>
+<p>Bug fixes:</p>
 <ul>
 <li>
 <code>plotPA</code> function now works also with large raster objects</li>
@@ -259,10 +256,7 @@
 <li>New randomly generated dataset <code>virtualSp</code> with presence, absence and background locations</li>
 <li>Number of background locations cannot be tuned anymore using the tuning functions</li>
 </ul>
-<p>Deprecated function:</p>
-<ul>
-<li><code>getSubsample</code></li>
-</ul>
+<p>Deprecated function: <code>getSubsample</code></p>
 </div>
     <div id="sdmtune-011" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.1">
