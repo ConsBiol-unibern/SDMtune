@@ -19,7 +19,6 @@ The plot object.
 Plot the ROC curve of the given model and print the AUC value.
 }
 \examples{
-\donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
@@ -46,7 +45,6 @@ plotROC(model)
 
 # Plot the training and testing  ROC curves
 plotROC(model, test = test)
-}
 
 }
 \author{

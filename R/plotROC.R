@@ -12,7 +12,6 @@
 #' theme scale_color_discrete guides guide_legend
 #'
 #' @examples
-#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -39,7 +38,6 @@
 #'
 #' # Plot the training and testing  ROC curves
 #' plotROC(model, test = test)
-#' }
 #'
 #' @author Sergio Vignali
 plotROC <- function(model, test = NULL) {
