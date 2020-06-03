@@ -126,6 +126,8 @@ folds <- randomFolds(data, k = 4, only_presence = TRUE)
 model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
                folds = folds)
 
+\dontrun{
+# Run only if you have the package ENMeval installed
 ## Block partition using the ENMeval package
 require(ENMeval)
 block_folds <- get.block(occ = data@coords[data@pa == 1, ],
@@ -142,6 +144,7 @@ model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
                folds = cb_folds)
 
 ## Environmental block using the blockCV package
+# Run only if you have the package blockCV
 require(blockCV)
 # Create spatial points data frame
 library(raster)
@@ -155,6 +158,7 @@ e_folds <- envBlock(rasterLayer = predictors,
                     rasterBlock = FALSE)
 model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
                folds = e_folds)
+}
 
 ## Train presence absence models
 # Prepare presence and absence locations
