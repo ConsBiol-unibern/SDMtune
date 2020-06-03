@@ -113,12 +113,17 @@
 #'                    env = predictors, categorical = "biome")
 #'
 #' ## Train a Maxent model
+#' # The next line checks if Maxent is correctly configured but you don't need
+#' # to run it in your script
+#' if (checkMaxentInstallation(verbose = FALSE)) {
 #' model <- train(method = "Maxent", data = data, fc = "l", reg = 1.5,
 #'                iter = 700)
+#'
 #' # Add samples to background. This should be done preparing the data before
 #' # training the model without using
 #' data <- addSamplesToBg(data)
 #' model <- train("Maxent", data = data)
+#' }
 #'
 #' ## Train a Maxnet model
 #' model <- train(method = "Maxnet", data = data, fc = "lq", reg = 1.5)
@@ -130,7 +135,7 @@
 #'                folds = folds)
 #'
 #' ## Block partition using the ENMeval package
-#' # library(ENMeval)
+#' require(ENMeval)
 #' block_folds <- get.block(occ = data@coords[data@pa == 1, ],
 #'                          bg.coords = data@coords[data@pa == 0, ])
 #' model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
@@ -145,7 +150,7 @@
 #'                folds = cb_folds)
 #'
 #' ## Environmental block using the blockCV package
-#' # library(blockCV)
+#' require(blockCV)
 #' # Create spatial points data frame
 #' library(raster)
 #' sp_df <- SpatialPointsDataFrame(data@coords, data = as.data.frame(data@pa),
@@ -155,8 +160,7 @@
 #'                     species = "data@pa",
 #'                     k = 4,
 #'                     standardization = "standard",
-#'                     rasterBlock = FALSE,
-#'                     numLimit = 100)
+#'                     rasterBlock = FALSE)
 #' model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 #'                folds = e_folds)
 #'
@@ -186,6 +190,7 @@
 #' ## Multiple methods trained together passing extra arguments
 #' output <- train(method = c("ANN", "BRT", "RF"), data = data, size = 10,
 #'                 ntree = 300, n.trees = 300, shrinkage = 0.001)
+#' output
 #' }
 train <- function(method, data, folds = NULL, verbose = TRUE, ...) {
 
