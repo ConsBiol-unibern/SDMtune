@@ -42,11 +42,9 @@ LinkingTo: Rcpp
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 Suggests:
-    blockCV,
     cli (>= 1.1.0),
     covr,
     crayon (>= 1.3.4),
-    ENMeval,
     htmltools (>= 0.3.6),
     kableExtra (>= 1.1.0),
     knitr (>= 1.23),
