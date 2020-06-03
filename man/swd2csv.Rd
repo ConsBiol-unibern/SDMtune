@@ -46,7 +46,7 @@ data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 swd2csv(data, "train_data.csv")
 
 # Save the SWD objct in two separate csv files
-swd2csv(data, c("presence.csv", "absemce.csv"))
+swd2csv(data, c("presence.csv", "absence.csv"))
 }
 }
 \author{
