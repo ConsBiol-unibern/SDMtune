@@ -113,7 +113,7 @@ plotPred(maps$max)
 
 # Make logistic prediction for the all study area, given as standard
 # deviation of the k models, and save it in a file
-predict(model, data = predictors, fun = sd, type = "logistic",
+predict(model, data = predictors, fun = "sd", type = "logistic",
         filename = "my_map")
 }
 }
