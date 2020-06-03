@@ -71,11 +71,15 @@
 #'                     use_jk = TRUE, env = predictors)
 #'
 #' # Train a Maxent model
+#' # The next line checks if Maxent is correctly configured but you don't need
+#' # to run it in your script
+#' if (checkMaxentInstallation(verbose = FALSE)) {
 #' model <- train(method = "Maxent", data = train, fc = "lq")
 #'
 #' # Remove all variables with percent contribution lower than 2%
 #' output <- reduceVar(model, th = 2, metric = "auc", test = test,
 #'                     use_pc = TRUE)
+#' }
 #' }
 reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                       parallel = FALSE, use_jk = FALSE, permut = 10,
