@@ -8,7 +8,7 @@ before_install:
 
 matrix:
   include:
-  - r: older
+  - r: oldrel
   - r: release
   - r: devel
 
