@@ -78,7 +78,7 @@ output <- randomSearch(model, hypers = h, metric = "auc", test = test,
                        pop = 10, seed = 25)
 output@results
 output@models
-# Order rusults by highest test AUC
+# Order results by highest test AUC
 output@results[order(-output@results$test_AUC), ]
 }
 }
