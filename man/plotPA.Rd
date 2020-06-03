@@ -41,7 +41,10 @@ plotPA(map, th = 0.8)
 # Custom colors
 plotPA(map, th = 0.5, colors = c("#d8b365", "#018571"))
 # Save the file
+\dontrun{
+# The following command will save the map in the working directory
 plotPA(map, th = 0.7, filename = "my_map", format = "ascii")
+}
 }
 }
 \seealso{
