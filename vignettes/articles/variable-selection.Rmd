@@ -95,7 +95,7 @@ reduced_variables_model <- reduceVar(maxnet_model, th = 15, metric = "auc", test
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 
-As you can see in this case only **bio12** and **bio16** have been removed and the AUC in the testing dataset didn't decrease.
+As you can see in this case several variables have been removed and the AUC in the testing dataset didn't decrease.
 
 ### Try yourself
 
