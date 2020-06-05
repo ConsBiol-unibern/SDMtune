@@ -131,7 +131,7 @@ exp_6@results
 
 ## Optimize Model
 
-The previous function doesn't learn anything from the trained models, it just selects n random combinations of hyperparameters. The function `optimizeModel()` uses a genetic algorithm to find an optimum solution. Check the function documentation to understand how it works, here we provide the code to execute it:
+The previous function doesn't learn anything from the trained models, it just selects n random combinations of hyperparameters. The function `optimizeModel()` uses a *genetic algorithm* to find an optimum or near optimum solution. Check the function documentation to understand how it works, here we provide the code to execute it:
 ```{r optimize model, eval=FALSE}
 exp_7 <- optimizeModel(model, hypers = h, metric = "auc", test = val, pop = 15, gen = 2, keep_best = 0.4, keep_random = 0.2, mutation_chance = 0.4, seed = 798)
 ```
@@ -152,9 +152,9 @@ Then we get the model configuration from the experiment 6:
 head(exp_6@results)
 ```
 
-The best model is at row `r index` and was trained using **`r exp_6@results[index, 1]`** feature class combination, **`r exp_6@results[index, 2]`** as regularization multiplier and **`r exp_6@results[index, 3]`** number of iteration:
+The best model is at row `r index` and was trained using **`r exp_6@results[index, 1]`** feature class combination and **`r exp_6@results[index, 2]`** as regularization multiplier:
 ```{r final model}
-final_model <- train("Maxnet", data = merged_data, fc = exp_6@results[index, 1], reg = exp_6@results[index, 2], iter = exp_6@results[index, 3])
+final_model <- train("Maxnet", data = merged_data, fc = exp_6@results[index, 1], reg = exp_6@results[index, 2])
 ```
 
 Now we can evaluate the final model using the held apart testing dataset:
