@@ -83,6 +83,7 @@ Collate:
     'convertFolds.R'
     'corVar.R'
     'doJk.R'
+    'getTunableArgs.R'
     'gridSearch.R'
     'maxentTh.R'
     'maxentVarImp.R'
