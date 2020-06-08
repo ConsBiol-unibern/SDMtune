@@ -94,7 +94,7 @@ thresholds <- function(model, type = NULL, test = NULL) {
   or_train <- vector(mode = "numeric", length = length(ths))
   fpa <- vector(mode = "numeric", length = length(ths))
 
-  for (i in 1:length(ths)) {
+  for (i in seq_along(ths)) {
     index <- which.min(abs(cm_train$th - ths[i]))
     or_train[i] <- cm_train[index, ]$fn / n_pres
     fpa[i] <- fpr[index]
