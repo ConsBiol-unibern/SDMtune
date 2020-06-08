@@ -2,24 +2,23 @@
 #'
 #' Make a report that shows the main results.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} object.
+#' @param model \linkS4class{SDMmodel} object.
 #' @param folder character. The name of the folder in which to save the output.
 #' The folder is created in the working directory.
-#' @param test \code{\linkS4class{SWD}} object with the test locations, default
-#' is \code{NULL}.
+#' @param test \linkS4class{SWD} object with the test locations, default is
+#' `NULL`.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
 #' methods, possible values are "cloglog" and "logistic", default is
 #' \code{NULL}.
-#' @param response_curves logical, if \code{TRUE} it plots the response curves
-#' in the html output, default is \code{FALSE}.
-#' @param only_presence logical, if \code{TRUE} it uses only the range of the
-#' presence location for the marginal response, default is \code{FALSE}.
-#' @param jk logical, if \code{TRUE} it runs the jackknife test, default
-#' \code{FALSE}.
-#' @param env \code{\link[raster]{stack}}. If provided it computes and adds a
-#' prediction map to the output, default is \code{NULL}.
+#' @param response_curves logical, if `TRUE` it plots the response curves in the
+#' html output, default is `FALSE`.
+#' @param only_presence logical, if `TRUE` it uses only the range of the
+#' presence location for the marginal response, default is `FALSE`.
+#' @param jk logical, if `TRUE` it runs the jackknife test, default is `FALSE`.
+#' @param env \link[raster]{stack}. If provided it computes and adds a
+#' prediction map to the output, default is `NULL`.
 #' @param clamp logical for clumping during prediction, used for response curves
-#' and for the prediction map, default is \code{TRUE}.
+#' and for the prediction map, default is `TRUE`.
 #' @param permut integer. Number of permutations, default is 10.
 #'
 #' @details The function produces a report similar to the one created by MaxEnt
