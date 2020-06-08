@@ -6,7 +6,7 @@
 #' as first column and the value of the variable importance as second column.
 #' @param color character. The color of the bar plot, default is grey.
 #'
-#' @return A \code{\link[ggplot2]{ggplot}} object
+#' @return A \link[ggplot2]{ggplot} object.
 #' @export
 #' @importFrom ggplot2 ggplot aes_string ylab scale_y_continuous geom_bar
 #' coord_flip labs theme_minimal theme element_text

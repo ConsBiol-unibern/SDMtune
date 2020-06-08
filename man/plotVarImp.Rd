@@ -13,7 +13,7 @@ as first column and the value of the variable importance as second column.}
 \item{color}{character. The color of the bar plot, default is grey.}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object
+A \link[ggplot2]{ggplot} object.
 }
 \description{
 Plot the variable importance as a bar plot.
