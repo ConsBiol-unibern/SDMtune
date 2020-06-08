@@ -16,8 +16,7 @@ doJk(
 )
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
@@ -25,24 +24,23 @@ values are: "auc", "tss" and "aicc".}
 \item{variables}{vector. Variables used for the test, if not provided it
 takes all the variables used to train the model, default is \code{NULL}.}
 
-\item{test}{\code{\linkS4class{SWD}}. If provided it reports the result also
-for the test dataset. Not used for \strong{aicc} and
-\code{\linkS4class{SDMmodelCV}}.}
+\item{test}{\linkS4class{SWD}. If provided it reports the result also for the
+testing dataset. Not used for \strong{aicc} and \linkS4class{SDMmodelCV}.}
 
 \item{with_only}{logical. If \code{TRUE} it runs the test also for each
 variable in isolation, default is \code{TRUE}.}
 
-\item{env}{\code{\link[raster]{stack}} containing the environmental
-variables, used only with "aicc", default is \code{NULL}.}
+\item{env}{\link[raster]{stack} containing the environmental variables, used
+only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{deprecated.}
 
-\item{return_models}{logical, if \code{TRUE} returns all the models together
-with the test result, default is \code{FALSE}.}
+\item{return_models}{logical, if \code{TRUE} returns all the models together with
+the test result, default is \code{FALSE}.}
 }
 \value{
-A data frame with the test results. If "\code{return_model = TRUE}"
-it returns a list containing the test results together with the models.
+A data frame with the test results. If \code{return_model = TRUE} it
+returns a list containing the test results together with the models.
 }
 \description{
 Run the Jackknife test for variable importance removing one variable at time.

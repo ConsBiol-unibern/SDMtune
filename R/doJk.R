@@ -2,25 +2,23 @@
 #'
 #' Run the Jackknife test for variable importance removing one variable at time.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param variables vector. Variables used for the test, if not provided it
-#' takes all the variables used to train the model, default is \code{NULL}.
-#' @param test \code{\linkS4class{SWD}}. If provided it reports the result also
-#' for the test dataset. Not used for **aicc** and
-#' \code{\linkS4class{SDMmodelCV}}.
-#' @param with_only logical. If \code{TRUE} it runs the test also for each
-#' variable in isolation, default is \code{TRUE}.
-#' @param env \code{\link[raster]{stack}} containing the environmental
-#' variables, used only with "aicc", default is \code{NULL}.
+#' takes all the variables used to train the model, default is `NULL`.
+#' @param test \linkS4class{SWD}. If provided it reports the result also for the
+#' testing dataset. Not used for **aicc** and \linkS4class{SDMmodelCV}.
+#' @param with_only logical. If `TRUE` it runs the test also for each
+#' variable in isolation, default is `TRUE`.
+#' @param env \link[raster]{stack} containing the environmental variables, used
+#' only with "aicc", default is `NULL`.
 #' @param parallel deprecated.
-#' @param return_models logical, if \code{TRUE} returns all the models together
-#' with the test result, default is \code{FALSE}.
+#' @param return_models logical, if `TRUE` returns all the models together with
+#' the test result, default is `FALSE`.
 #'
-#' @return A data frame with the test results. If "\code{return_model = TRUE}"
-#' it returns a list containing the test results together with the models.
+#' @return A data frame with the test results. If `return_model = TRUE` it
+#' returns a list containing the test results together with the models.
 #' @export
 #' @importFrom progress progress_bar
 #'
