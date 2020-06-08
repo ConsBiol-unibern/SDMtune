@@ -1,14 +1,14 @@
 #' Add Samples to Background
 #'
 #' The function add the presence locations to the background. This is equivalent
-#' to the Maxent argument \code{addsamplestobackground=true}.
+#' to the Maxent argument `addsamplestobackground=true`.
 #'
-#' @param x \code{\linkS4class{SWD}} object.
-#' @param all logical, if \code{TRUE} it adds all the presence locations even if
-#' already included in the background locations, default is \code{FALSE}. This
-#' is equivalent to the Maxent argument \code{addallsamplestobackground=true}.
+#' @param x \linkS4class{SWD} object.
+#' @param all logical, if `TRUE` it adds all the presence locations even if
+#' already included in the background locations, default is `FALSE`. This
+#' is equivalent to the Maxent argument `addallsamplestobackground=true`.
 #'
-#' @return An \code{\linkS4class{SWD}} object.
+#' @return An object of class \linkS4class{SWD}.
 #' @export
 #'
 #' @author Sergio Vignali

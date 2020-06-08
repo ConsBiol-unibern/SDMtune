@@ -7,14 +7,14 @@
 addSamplesToBg(x, all = FALSE)
 }
 \arguments{
-\item{x}{\code{\linkS4class{SWD}} object.}
+\item{x}{\linkS4class{SWD} object.}
 
 \item{all}{logical, if \code{TRUE} it adds all the presence locations even if
 already included in the background locations, default is \code{FALSE}. This
 is equivalent to the Maxent argument \code{addallsamplestobackground=true}.}
 }
 \value{
-An \code{\linkS4class{SWD}} object.
+An object of class \linkS4class{SWD}.
 }
 \description{
 The function add the presence locations to the background. This is equivalent
