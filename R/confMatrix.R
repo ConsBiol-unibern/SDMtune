@@ -2,22 +2,21 @@
 #'
 #' Computes Confusion Matrixes for threshold values varying from 0 to 1.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} object.
-#' @param test \code{\linkS4class{SWD}} test locations, if not provided it uses
-#' the train dataset, default is \code{NULL}.
+#' @param model \linkS4class{SDMmodel} object.
+#' @param test \linkS4class{SWD} testing locations, if not provided it uses the
+#' training dataset, default is `NULL`.
 #' @param th numeric vector, if provided it computes the evaluation at the given
-#' thresholds, default is \code{NULL} and it computes the evaluation for the
-#' unique predicted values at presence and absence/background locations.
+#' thresholds, default is `NULL` and it computes the evaluation for the unique
+#' predicted values at presence and absence/background locations.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
-#' methods, possible values are "cloglog" and "logistic", default is
-#' \code{NULL}.
+#' methods, possible values are "cloglog" and "logistic", default is `NULL`.
 #'
 #' @details
-#' * For models trained with the **Maxent** method the argument \code{type} can
-#' be: "raw", "logistic" and "cloglog".
-#' * For models trained with the **Maxnet** method the argument \code{type} can
-#' be: "link", "exponential", "logistic" and "cloglog", see
-#' \code{\link[maxnet]{maxnet}} for more details.
+#' * For models trained with the **Maxent** method the argument `type` can be:
+#' "raw", "logistic" and "cloglog".
+#' * For models trained with the **Maxnet** method the argument `type` can be:
+#' "link", "exponential", "logistic" and "cloglog", see \link[maxnet]{maxnet}
+#' for more details.
 #'
 #' @return The Confusion Matrix for all the used thresholds.
 #' @export
