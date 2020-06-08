@@ -7,7 +7,7 @@
 \S4method{predict}{BRT}(object, data, type, clamp)
 }
 \arguments{
-\item{object}{\code{\linkS4class{BRT}} object.}
+\item{object}{\linkS4class{BRT} object.}
 
 \item{data}{data.frame with the data for the prediction.}
 
@@ -22,7 +22,7 @@ A vector with the predicted values.
 Predict the output for a new dataset from a trained \linkS4class{BRT} model.
 }
 \details{
-Used by the \code{\link{predict,SDMmodel-method}}, not exported.
+Used by the \link{predict,SDMmodel-method}, not exported.
 
 The function uses the number of tree defined to train the model and the
 "response" type output.

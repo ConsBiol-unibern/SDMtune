@@ -11,9 +11,9 @@ setGeneric("predict", function(object, ...)
 #' @param data data.frame with the data for the prediction.
 #' @param type character MaxEnt output type, possible values are "cloglog",
 #' "logistic" and "raw", default is "cloglog".
-#' @param clamp logical for clumping during prediction, default is \code{TRUE}.
+#' @param clamp logical for clumping during prediction, default is `TRUE`.
 #'
-#' @details Used by the \code{\link{predict,SDMmodel-method}}, not exported.
+#' @details Used by the \link{predict,SDMmodel-method}, not exported.
 #'
 #' The function performs the prediction in **R** without calling the
 #' **MaxEnt** Java software. This results in a faster computation for large

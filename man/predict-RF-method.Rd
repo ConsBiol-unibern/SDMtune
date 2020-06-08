@@ -7,7 +7,7 @@
 \S4method{predict}{RF}(object, data, type, clamp)
 }
 \arguments{
-\item{object}{\code{\linkS4class{RF}} object.}
+\item{object}{\linkS4class{RF} object.}
 
 \item{data}{data.frame with the data for the prediction.}
 
@@ -22,7 +22,7 @@ A vector with the predicted probabilities of class 1.
 Predict the output for a new dataset from a trained \linkS4class{RF} model.
 }
 \details{
-Used by the \code{\link{predict,SDMmodel-method}}, not exported.
+Used by the \link{predict,SDMmodel-method}, not exported.
 }
 \author{
 Sergio Vignali

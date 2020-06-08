@@ -24,7 +24,7 @@ Predict the output for a new dataset from a trained \linkS4class{Maxent}
 model.
 }
 \details{
-Used by the \code{\link{predict,SDMmodel-method}}, not exported.
+Used by the \link{predict,SDMmodel-method}, not exported.
 
 The function performs the prediction in \strong{R} without calling the
 \strong{MaxEnt} Java software. This results in a faster computation for large

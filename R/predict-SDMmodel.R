@@ -4,43 +4,43 @@ setGeneric("predict", function(object, ...)
 
 #' Predict
 #'
-#' Predict the output for a new dataset given a trained \code{\link{SDMmodel}}
+#' Predict the output for a new dataset given a trained \linkS4class{SDMmodel}
 #' model.
 #'
-#' @param object \code{\linkS4class{SDMmodel}} object.
-#' @param data data.frame, \code{\linkS4class{SWD}} or raster
-#' \code{\link[raster]{stack}} with the data for the prediction.
+#' @param object \linkS4class{SDMmodel} object.
+#' @param data data.frame, \linkS4class{SWD} or \link[raster]{stack} with the
+#' data for the prediction.
 #' @param type character. Output type, see details, used only for **Maxent** and
-#' **Maxnet** methods, default is \code{NULL}.
+#' **Maxnet** methods, default is `NULL`.
 #' @param clamp logical for clumping during prediction, used only for **Maxent**
-#' and **Maxnet** methods, default is \code{TRUE}.
+#' and **Maxnet** methods, default is `TRUE`.
 #' @param filename character. Output file name for the prediction map, used only
-#' when \code{data} is a \code{\link[raster]{stack}} object. If provided the
-#' output is saved in a file.
-#' @param format character. The output format, see
-#' \code{\link[raster]{writeRaster}} for all the options, default is "GTiff".
-#' @param extent \code{\link[raster]{Extent}} object, if provided it restricts
-#' the prediction to the given extent, default is \code{NULL}.
+#' when `data` is a \link[raster]{stack} object. If provided the output is saved
+#' in a file.
+#' @param format character. The output format, see \link[raster]{writeRaster}
+#' for all the options, default is "GTiff".
+#' @param extent \link[raster]{Extent} object, if provided it restricts
+#' the prediction to the given extent, default is `NULL`.
 #' @param parallel deprecated.
 #' @param progress character to display a progress bar: "text", "window" or ""
 #' (default) for no progress bar.
-#' @param ... Additional arguments to pass to the
-#' \code{\link[raster]{writeRaster}} function.
+#' @param ... Additional arguments to pass to the \link[raster]{writeRaster}
+#' function.
 #'
 #' @details
 #' * filename, format, extent, progress, and ... arguments are used
-#' only when the prediction is done for a \code{\link[raster]{stack}} object.
-#' * For models trained with the **Maxent** method the argument \code{type} can
-#' be: "raw", "logistic" and "cloglog". The function performs the prediction in
+#' only when the prediction is done for a \link[raster]{stack} object.
+#' * For models trained with the **Maxent** method the argument `type` can be:
+#' "raw", "logistic" and "cloglog". The function performs the prediction in
 #' **R** without calling the **MaxEnt** Java software. This results in a faster
 #' computation for large datasets and might result in slightly different results
 #' compare to the Java software.
-#' * For models trained with the **Maxnet** method the argument \code{type} can
-#' be: "link", "exponential", "logistic" and "cloglog", see
-#' \code{\link[maxnet]{maxnet}} for more details. The function performs the
-#' prediction in **R** without calling the **MaxEnt** Java software. This
-#' results in a faster computation for large datasets. The results might differ
-#' slightly from the Java software output.
+#' * For models trained with the **Maxnet** method the argument `type` can be:
+#' "link", "exponential", "logistic" and "cloglog", see \link[maxnet]{maxnet}
+#' for more details. The function performs the prediction in **R** without
+#' calling the **MaxEnt** Java software. This results in a faster computation
+#' for large datasets. The results might differ slightly from the Java software
+#' output.
 #' * For models trained with the **ANN** method the function uses the "raw"
 #' output type.
 #' * For models trained with the **RF** method the output is the probability of
@@ -53,8 +53,8 @@ setGeneric("predict", function(object, ...)
 #' @importFrom raster beginCluster clusterR endCluster predict clamp subset
 #' @importFrom stats formula model.matrix
 #'
-#' @return A vector with the prediction or a \code{\link[raster]{raster}} object
-#' if data is a raster \code{\link[raster]{stack}}.
+#' @return A vector with the prediction or a \link[raster]{raster} object if
+#' data is a raster \link[raster]{stack}.
 #' @exportMethod predict
 #'
 #' @author Sergio Vignali

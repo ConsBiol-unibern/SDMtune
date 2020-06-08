@@ -6,12 +6,12 @@ setGeneric("predict", function(object, ...)
 #'
 #' Predict the output for a new dataset from a trained \linkS4class{RF} model.
 #'
-#' @param object \code{\linkS4class{RF}} object.
+#' @param object \linkS4class{RF} object.
 #' @param data data.frame with the data for the prediction.
 #' @param type Not used.
 #' @param clamp Not used.
 #'
-#' @details Used by the \code{\link{predict,SDMmodel-method}}, not exported.
+#' @details Used by the \link{predict,SDMmodel-method}, not exported.
 #'
 #' @include RF-class.R
 #'

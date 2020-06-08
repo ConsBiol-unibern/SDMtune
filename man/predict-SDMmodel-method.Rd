@@ -18,10 +18,10 @@
 )
 }
 \arguments{
-\item{object}{\code{\linkS4class{SDMmodel}} object.}
+\item{object}{\linkS4class{SDMmodel} object.}
 
-\item{data}{data.frame, \code{\linkS4class{SWD}} or raster
-\code{\link[raster]{stack}} with the data for the prediction.}
+\item{data}{data.frame, \linkS4class{SWD} or \link[raster]{stack} with the
+data for the prediction.}
 
 \item{type}{character. Output type, see details, used only for \strong{Maxent} and
 \strong{Maxnet} methods, default is \code{NULL}.}
@@ -30,13 +30,13 @@
 and \strong{Maxnet} methods, default is \code{TRUE}.}
 
 \item{filename}{character. Output file name for the prediction map, used only
-when \code{data} is a \code{\link[raster]{stack}} object. If provided the
-output is saved in a file.}
+when \code{data} is a \link[raster]{stack} object. If provided the output is saved
+in a file.}
 
-\item{format}{character. The output format, see
-\code{\link[raster]{writeRaster}} for all the options, default is "GTiff".}
+\item{format}{character. The output format, see \link[raster]{writeRaster}
+for all the options, default is "GTiff".}
 
-\item{extent}{\code{\link[raster]{Extent}} object, if provided it restricts
+\item{extent}{\link[raster]{Extent} object, if provided it restricts
 the prediction to the given extent, default is \code{NULL}.}
 
 \item{parallel}{deprecated.}
@@ -44,32 +44,32 @@ the prediction to the given extent, default is \code{NULL}.}
 \item{progress}{character to display a progress bar: "text", "window" or ""
 (default) for no progress bar.}
 
-\item{...}{Additional arguments to pass to the
-\code{\link[raster]{writeRaster}} function.}
+\item{...}{Additional arguments to pass to the \link[raster]{writeRaster}
+function.}
 }
 \value{
-A vector with the prediction or a \code{\link[raster]{raster}} object
-if data is a raster \code{\link[raster]{stack}}.
+A vector with the prediction or a \link[raster]{raster} object if
+data is a raster \link[raster]{stack}.
 }
 \description{
-Predict the output for a new dataset given a trained \code{\link{SDMmodel}}
+Predict the output for a new dataset given a trained \linkS4class{SDMmodel}
 model.
 }
 \details{
 \itemize{
 \item filename, format, extent, progress, and ... arguments are used
-only when the prediction is done for a \code{\link[raster]{stack}} object.
-\item For models trained with the \strong{Maxent} method the argument \code{type} can
-be: "raw", "logistic" and "cloglog". The function performs the prediction in
+only when the prediction is done for a \link[raster]{stack} object.
+\item For models trained with the \strong{Maxent} method the argument \code{type} can be:
+"raw", "logistic" and "cloglog". The function performs the prediction in
 \strong{R} without calling the \strong{MaxEnt} Java software. This results in a faster
 computation for large datasets and might result in slightly different results
 compare to the Java software.
-\item For models trained with the \strong{Maxnet} method the argument \code{type} can
-be: "link", "exponential", "logistic" and "cloglog", see
-\code{\link[maxnet]{maxnet}} for more details. The function performs the
-prediction in \strong{R} without calling the \strong{MaxEnt} Java software. This
-results in a faster computation for large datasets. The results might differ
-slightly from the Java software output.
+\item For models trained with the \strong{Maxnet} method the argument \code{type} can be:
+"link", "exponential", "logistic" and "cloglog", see \link[maxnet]{maxnet}
+for more details. The function performs the prediction in \strong{R} without
+calling the \strong{MaxEnt} Java software. This results in a faster computation
+for large datasets. The results might differ slightly from the Java software
+output.
 \item For models trained with the \strong{ANN} method the function uses the "raw"
 output type.
 \item For models trained with the \strong{RF} method the output is the probability of
