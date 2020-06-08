@@ -3,22 +3,22 @@
 #' Split a dataset randomly in training and testing datasets or training,
 #' validation and testing datasets.
 #'
-#' @param x \code{\linkS4class{SWD}} object containing the data that have to be
-#' split in training, validation and testing datasets.
+#' @param x \linkS4class{SWD} object containing the data that have to be split
+#' in training, validation and testing datasets.
 #' @param test numeric. The percentage of data withhold for testing.
 #' @param val numeric. The percentage of data withhold for validation, default
-#' is 0.
-#' @param only_presence logical, if \code{TRUE} the split is done only for the
+#' is `0`.
+#' @param only_presence logical, if `TRUE` the split is done only for the
 #' presence locations and all the background locations are included in each
-#' partition, used manly for presence-only methods, default is \code{FALSE}.
+#' partition, used manly for presence-only methods, default is `FALSE`.
 #' @param seed numeric. The value used to set the seed in order to have
-#' consistent results, default is \code{NULL}.
+#' consistent results, default is `NULL`.
 #'
-#' @details When \code{only_presence = FALSE}, the proportion of presence and
+#' @details When `only_presence = FALSE`, the proportion of presence and
 #' absence is preserved.
 #'
 #' @return A list with the training, validation and testing or training and
-#' testing \code{\link{SWD}} objects accordingly.
+#' testing \linkS4class{SWD} objects accordingly.
 #' @export
 #'
 #' @author Sergio Vignali

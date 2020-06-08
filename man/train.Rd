@@ -10,11 +10,11 @@ train(method, data, folds = NULL, verbose = TRUE, ...)
 \item{method}{character or character vector. Method used to train the model,
 possible values are "ANN", "BRT", "Maxent", "Maxnet" or "RF", see details.}
 
-\item{data}{\code{\linkS4class{SWD}} object with presence and
-absence/background locations.}
+\item{data}{\linkS4class{SWD} object with presence and absence/background
+locations.}
 
-\item{folds}{list. Output of the function \code{\link{randomFolds}} or folds
-object created with other packages, see details, default is \code{NULL}.}
+\item{folds}{list. Output of the function \link{randomFolds} or folds object
+created with other packages, see details, default is \code{NULL}.}
 
 \item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
 validation, default is \code{TRUE}.}
@@ -22,9 +22,8 @@ validation, default is \code{TRUE}.}
 \item{...}{Arguments passed to the relative method, see details.}
 }
 \value{
-An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-or a list of model objects.
-object.
+An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} or a list of
+model objects.
 }
 \description{
 Train a model using one of the following methods: Artificial Neural Networks,
@@ -33,7 +32,7 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest.
 \details{
 \itemize{
 \item For the ANN method possible arguments are (for more details see
-\code{\link[nnet]{nnet}}):
+\link[nnet]{nnet}):
 \itemize{
 \item size: integer. Number of the units in the hidden layer.
 \item decay numeric. Weight decay, default is 0.
@@ -41,7 +40,7 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest.
 \item maxit integer. Maximum number of iterations, default is 100.
 }
 \item For the BRT method possible arguments are (for more details see
-\code{\link[gbm]{gbm}}):
+\link[gbm]{gbm}):
 \itemize{
 \item distribution: character. Name of the distribution to use, default is
 "bernoulli".
@@ -53,18 +52,18 @@ expansion, default is 0.5.
 }
 \item For the RF method the model is trained as classification. Possible
 arguments are (for more details see
-\code{\link[randomForest]{randomForest}}):
+\link[randomForest]{randomForest}):
 \itemize{
 \item mtry: integer. Number of variable randomly sampled at each split,
-default is \code{floor(sqrt(number of variables))}.
+default is \verb{floor(sqrt(number of variables))}.
 \item ntree: integer. Number of tree to grow, default is 500.
 \item nodesize: integer. Minimum size of terminal nodes.
 }
 \item Maxent models are trained using the arguments
 \code{"removeduplicates=false"} and \code{"addsamplestobackground=false"}.
-Use the function \code{\link{thinData}} to remove duplicates and the function
-\code{\link{addSamplesToBg}} to add presence locations to background
-locations. For the Maxent method, possible arguments are:
+Use the function \link{thinData} to remove duplicates and the function
+\link{addSamplesToBg} to add presence locations to background locations. For
+the Maxent method, possible arguments are:
 \itemize{
 \item reg: numeric. The value of the regularization multiplier, default is 1.
 \item fc: character. The value of the feature classes, possible values are
@@ -73,7 +72,7 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".
 default is 500.
 }
 \item For the Maxnet method, possible arguments are (for more details see
-\code{\link[maxnet]{maxnet}}):
+\link[maxnet]{maxnet}):
 \itemize{
 \item reg: numeric. The value of the regularization intensity, default is 1.
 \item fc: character. The value of the feature classes, possible values are
@@ -85,9 +84,9 @@ The folds argument accepts also objects created with other packages:
 \pkg{ENMeval} or \pkg{blockCV}. In this case the function converts
 internally the folds into a format valid for \pkg{SDMtune}.
 
-When multiple methods are given as \code{method} argument, the function
-returns a named list of model object, with the name corresponding to the
-used method, see examples.
+When multiple methods are given as \code{method} argument, the function returns a
+named list of model object, with the name corresponding to the used method,
+see examples.
 }
 \examples{
 \donttest{
@@ -217,7 +216,7 @@ Roozbeh Valavi, Jane Elith, José Lahoz-Monfort and Gurutzeta Guillera-Arroita
 cross-validation. \url{https://github.com/rvalavi/blockCV}.
 }
 \seealso{
-\code{\link{randomFolds}}
+\link{randomFolds}.
 }
 \author{
 Sergio Vignali

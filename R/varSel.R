@@ -10,33 +10,31 @@
 #' The process is repeated until the remaining variables are not highly
 #' correlated anymore.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param bg4cor \code{\linkS4class{SWD}} object. Background locations used to
-#' test the correlation between environmental variables.
-#' @param test \code{\linkS4class{SWD}}. Test dataset used to evaluate the
-#' model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
-#' default is \code{NULL}.
-#' @param env \code{\link[raster]{stack}} containing the environmental
-#' variables, used only with "aicc", default is \code{NULL}.
+#' @param bg4cor \linkS4class{SWD} object. Background locations used to test the
+#' correlation between environmental variables.
+#' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
+#' used with aicc and \linkS4class{SDMmodelCV} objects, default is `NULL`.
+#' @param env \link[raster]{stack} containing the environmental variables, used
+#' only with "aicc", default is `NULL`.
 #' @param parallel deprecated.
 #' @param method character. The method used to compute the correlation matrix,
 #' default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly
 #' correlated variables, default is 0.7.
 #' @param permut integer. Number of permutations, default is 10.
-#' @param use_pc logical, use percent contribution. If \code{TRUE} and the model
-#' is trained using the \code{\link{Maxent}} method, the algorithm uses the
-#' percent contribution computed by Maxent software to score the variable
-#' importance, default is \code{FALSE}.
+#' @param use_pc logical, use percent contribution. If `TRUE` and the model is
+#' trained using the \linkS4class{Maxent} method, the algorithm uses the percent
+#' contribution computed by Maxent software to score the variable importance,
+#' default is `FALSE`.
 #'
 #' @details * To find highly correlated variables the following formula is used:
 #' \deqn{| coeff | \le cor_th}
 #'
-#' @return The \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object trained using the selected variables.
+#' @return The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained
+#' using the selected variables.
 #' @export
 #' @importFrom progress progress_bar
 #' @importFrom stats cor

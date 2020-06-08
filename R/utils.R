@@ -215,8 +215,7 @@
 #' Returns the name of all function arguments that can be tuned for a given
 #' model.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #'
 #' @return character vector
 #' @export

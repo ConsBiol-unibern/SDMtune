@@ -18,21 +18,19 @@ varSel(
 )
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{bg4cor}{\code{\linkS4class{SWD}} object. Background locations used to
-test the correlation between environmental variables.}
+\item{bg4cor}{\linkS4class{SWD} object. Background locations used to test the
+correlation between environmental variables.}
 
-\item{test}{\code{\linkS4class{SWD}}. Test dataset used to evaluate the
-model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
-default is \code{NULL}.}
+\item{test}{\linkS4class{SWD}. Test dataset used to evaluate the model, not
+used with aicc and \linkS4class{SDMmodelCV} objects, default is \code{NULL}.}
 
-\item{env}{\code{\link[raster]{stack}} containing the environmental
-variables, used only with "aicc", default is \code{NULL}.}
+\item{env}{\link[raster]{stack} containing the environmental variables, used
+only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{deprecated.}
 
@@ -44,14 +42,14 @@ correlated variables, default is 0.7.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
 
-\item{use_pc}{logical, use percent contribution. If \code{TRUE} and the model
-is trained using the \code{\link{Maxent}} method, the algorithm uses the
-percent contribution computed by Maxent software to score the variable
-importance, default is \code{FALSE}.}
+\item{use_pc}{logical, use percent contribution. If \code{TRUE} and the model is
+trained using the \linkS4class{Maxent} method, the algorithm uses the percent
+contribution computed by Maxent software to score the variable importance,
+default is \code{FALSE}.}
 }
 \value{
-The \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object trained using the selected variables.
+The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained
+using the selected variables.
 }
 \description{
 The function performs a data-driven variable selection. Starting from the

@@ -5,23 +5,23 @@
 #'
 #' @param method character or character vector. Method used to train the model,
 #' possible values are "ANN", "BRT", "Maxent", "Maxnet" or "RF", see details.
-#' @param data \code{\linkS4class{SWD}} object with presence and
-#' absence/background locations.
-#' @param folds list. Output of the function \code{\link{randomFolds}} or folds
-#' object created with other packages, see details, default is \code{NULL}.
-#' @param verbose logical, if \code{TRUE} shows a progress bar during cross
-#' validation, default is \code{TRUE}.
+#' @param data \linkS4class{SWD} object with presence and absence/background
+#' locations.
+#' @param folds list. Output of the function \link{randomFolds} or folds object
+#' created with other packages, see details, default is `NULL`.
+#' @param verbose logical, if `TRUE` shows a progress bar during cross
+#' validation, default is `TRUE`.
 #' @param ... Arguments passed to the relative method, see details.
 #'
 #' @details
 #' * For the ANN method possible arguments are (for more details see
-#' \code{\link[nnet]{nnet}}):
+#' \link[nnet]{nnet}):
 #'     + size: integer. Number of the units in the hidden layer.
 #'     + decay numeric. Weight decay, default is 0.
 #'     + rang numeric. Initial random weights, default is 0.7.
 #'     + maxit integer. Maximum number of iterations, default is 100.
 #' * For the BRT method possible arguments are (for more details see
-#' \code{\link[gbm]{gbm}}):
+#' \link[gbm]{gbm}):
 #'     + distribution: character. Name of the distribution to use, default is
 #'     "bernoulli".
 #'     + n.trees: integer. Maximum number of tree to grow, default is 100.
@@ -31,23 +31,23 @@
 #'     expansion, default is 0.5.
 #' * For the RF method the model is trained as classification. Possible
 #' arguments are (for more details see
-#' \code{\link[randomForest]{randomForest}}):
+#' \link[randomForest]{randomForest}):
 #'     + mtry: integer. Number of variable randomly sampled at each split,
-#'     default is \code{floor(sqrt(number of variables))}.
+#'     default is `floor(sqrt(number of variables))`.
 #'     + ntree: integer. Number of tree to grow, default is 500.
 #'     + nodesize: integer. Minimum size of terminal nodes.
 #' * Maxent models are trained using the arguments
-#' \code{"removeduplicates=false"} and \code{"addsamplestobackground=false"}.
-#' Use the function \code{\link{thinData}} to remove duplicates and the function
-#' \code{\link{addSamplesToBg}} to add presence locations to background
-#' locations. For the Maxent method, possible arguments are:
+#' `"removeduplicates=false"` and `"addsamplestobackground=false"`.
+#' Use the function \link{thinData} to remove duplicates and the function
+#' \link{addSamplesToBg} to add presence locations to background locations. For
+#' the Maxent method, possible arguments are:
 #'     + reg: numeric. The value of the regularization multiplier, default is 1.
 #'     + fc: character. The value of the feature classes, possible values are
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph".
 #'     + iter: numeric. Number of iterations used by the MaxEnt algorithm,
 #'       default is 500.
 #' * For the Maxnet method, possible arguments are (for more details see
-#' \code{\link[maxnet]{maxnet}}):
+#' \link[maxnet]{maxnet}):
 #'     + reg: numeric. The value of the regularization intensity, default is 1.
 #'     + fc: character. The value of the feature classes, possible values are
 #'       combinations of "l", "q", "p", "h" and "t", default is "lqph".
@@ -56,17 +56,16 @@
 #' \pkg{ENMeval} or \pkg{blockCV}. In this case the function converts
 #' internally the folds into a format valid for \pkg{SDMtune}.
 #'
-#' When multiple methods are given as \code{method} argument, the function
-#' returns a named list of model object, with the name corresponding to the
-#' used method, see examples.
+#' When multiple methods are given as `method` argument, the function returns a
+#' named list of model object, with the name corresponding to the used method,
+#' see examples.
 #'
-#' @return An \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' or a list of model objects.
-#' object.
+#' @return An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} or a list of
+#' model objects.
 #' @export
 #' @importFrom progress progress_bar
 #'
-#' @seealso \code{\link{randomFolds}}
+#' @seealso \link{randomFolds}.
 #'
 #' @author Sergio Vignali
 #'

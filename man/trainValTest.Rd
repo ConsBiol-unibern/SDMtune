@@ -7,13 +7,13 @@
 trainValTest(x, test, val = 0, only_presence = FALSE, seed = NULL)
 }
 \arguments{
-\item{x}{\code{\linkS4class{SWD}} object containing the data that have to be
-split in training, validation and testing datasets.}
+\item{x}{\linkS4class{SWD} object containing the data that have to be split
+in training, validation and testing datasets.}
 
 \item{test}{numeric. The percentage of data withhold for testing.}
 
 \item{val}{numeric. The percentage of data withhold for validation, default
-is 0.}
+is \code{0}.}
 
 \item{only_presence}{logical, if \code{TRUE} the split is done only for the
 presence locations and all the background locations are included in each
@@ -24,7 +24,7 @@ consistent results, default is \code{NULL}.}
 }
 \value{
 A list with the training, validation and testing or training and
-testing \code{\link{SWD}} objects accordingly.
+testing \linkS4class{SWD} objects accordingly.
 }
 \description{
 Split a dataset randomly in training and testing datasets or training,

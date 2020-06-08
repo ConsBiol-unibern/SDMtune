@@ -7,8 +7,7 @@
 varImp(model, permut = 10)
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
 }
@@ -28,7 +27,7 @@ AUC is computed.
 Note that it could return values slightly different from MaxEnt Java
 software due to a different random permutation.
 
-For \code{\link{SDMmodelCV}} objects the function returns the average and the
+For \linkS4class{SDMmodelCV} objects the function returns the average and the
 standard deviation of the permutation importances of the single models.
 }
 \examples{
