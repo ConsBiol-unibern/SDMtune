@@ -40,7 +40,7 @@
 #'
 #' # Compute the AICc
 #' aicc(model, predictors)
-aicc <- function(model, env, parallel = FALSE){
+aicc <- function(model, env, parallel = FALSE) {
 
   # TODO remove this code in a next release
   if (parallel)
