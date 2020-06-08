@@ -75,7 +75,7 @@ auc <- function(model, test = NULL) {
     auc <- .compute_auc(model, test)
   } else {
     aucs <- vector("numeric", length = length(model@models))
-    for (i in 1:length(model@models)) {
+    for (i in seq_along(model@models)) {
 
       if (!is.null(test)) {
         if (isTRUE(test)) {
@@ -84,7 +84,7 @@ auc <- function(model, test = NULL) {
           test_swd <- test
         }
       } else {
-        test_swd = NULL
+        test_swd <- NULL
       }
 
       aucs[i] <- .compute_auc(model@models[[i]], test_swd)
