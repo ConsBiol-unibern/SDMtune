@@ -221,8 +221,8 @@
 <span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"iter"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">300</span>, <span class="fl">1100</span>, <span class="fl">200</span>))
 <span class="co"># Call the gridSearch function</span>
 <span class="no">exp_4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/gridSearch.html">gridSearch</a></span>(<span class="no">maxent_model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>)</pre></body></html></div>
-<p>To see which hyperparameters can be tuned in a given model use the function <code><a href="../../reference/get_tunable_args.html">get_tunable_args()</a></code>. For example:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../../reference/get_tunable_args.html">get_tunable_args</a></span>(<span class="no">model</span>)
+<p>To see which hyperparameters can be tuned in a given model use the function <code><a href="../../reference/getTunableArgs.html">getTunableArgs()</a></code>. For example:</p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../../reference/getTunableArgs.html">getTunableArgs</a></span>(<span class="no">model</span>)
 <span class="co">#&gt; [1] "fc"  "reg"</span></pre></body></html></div>
 </div>
 </div>
