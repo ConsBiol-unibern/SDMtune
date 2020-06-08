@@ -35,7 +35,7 @@ Before training a model we check that MaxEnt is correctly configured for the `di
 dismo::maxent()
 ```
 
-In case you get an error, check the [Get Started](../SDMtune.html) page to see how to configure MaxEnt.
+In case you get an error, check the [Home](../../index.html) page to see how to configure MaxEnt.
 
 ## Train a model with default settings
 
