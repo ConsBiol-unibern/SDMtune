@@ -195,13 +195,13 @@ possible values are "ANN", "BRT", "Maxent", "Maxnet" or "RF", see details.</p></
     </tr>
     <tr>
       <th>data</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code> object with presence and
-absence/background locations.</p></td>
+      <td><p><a href='SWD-class.html'>SWD</a> object with presence and absence/background
+locations.</p></td>
     </tr>
     <tr>
       <th>folds</th>
-      <td><p>list. Output of the function <code><a href='randomFolds.html'>randomFolds</a></code> or folds
-object created with other packages, see details, default is <code>NULL</code>.</p></td>
+      <td><p>list. Output of the function <a href='randomFolds.html'>randomFolds</a> or folds object
+created with other packages, see details, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -216,22 +216,21 @@ validation, default is <code>TRUE</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An <code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
-or a list of model objects.
-object.</p>
+    <p>An <a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> or a list of
+model objects.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
 <ul>
 <li><p>For the ANN method possible arguments are (for more details see
-<code><a href='https://rdrr.io/pkg/nnet/man/nnet.html'>nnet</a></code>):</p><ul>
+<a href='https://rdrr.io/pkg/nnet/man/nnet.html'>nnet</a>):</p><ul>
 <li><p>size: integer. Number of the units in the hidden layer.</p></li>
 <li><p>decay numeric. Weight decay, default is 0.</p></li>
 <li><p>rang numeric. Initial random weights, default is 0.7.</p></li>
 <li><p>maxit integer. Maximum number of iterations, default is 100.</p></li>
 </ul></li>
 <li><p>For the BRT method possible arguments are (for more details see
-<code><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></code>):</p><ul>
+<a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a>):</p><ul>
 <li><p>distribution: character. Name of the distribution to use, default is
 "bernoulli".</p></li>
 <li><p>n.trees: integer. Maximum number of tree to grow, default is 100.</p></li>
@@ -242,7 +241,7 @@ expansion, default is 0.5.</p></li>
 </ul></li>
 <li><p>For the RF method the model is trained as classification. Possible
 arguments are (for more details see
-<code><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></code>):</p><ul>
+<a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a>):</p><ul>
 <li><p>mtry: integer. Number of variable randomly sampled at each split,
 default is <code>floor(sqrt(number of variables))</code>.</p></li>
 <li><p>ntree: integer. Number of tree to grow, default is 500.</p></li>
@@ -250,9 +249,9 @@ default is <code>floor(sqrt(number of variables))</code>.</p></li>
 </ul></li>
 <li><p>Maxent models are trained using the arguments
 <code>"removeduplicates=false"</code> and <code>"addsamplestobackground=false"</code>.
-Use the function <code><a href='thinData.html'>thinData</a></code> to remove duplicates and the function
-<code><a href='addSamplesToBg.html'>addSamplesToBg</a></code> to add presence locations to background
-locations. For the Maxent method, possible arguments are:</p><ul>
+Use the function <a href='thinData.html'>thinData</a> to remove duplicates and the function
+<a href='addSamplesToBg.html'>addSamplesToBg</a> to add presence locations to background locations. For
+the Maxent method, possible arguments are:</p><ul>
 <li><p>reg: numeric. The value of the regularization multiplier, default is 1.</p></li>
 <li><p>fc: character. The value of the feature classes, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
@@ -260,7 +259,7 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
 default is 500.</p></li>
 </ul></li>
 <li><p>For the Maxnet method, possible arguments are (for more details see
-<code><a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a></code>):</p><ul>
+<a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a>):</p><ul>
 <li><p>reg: numeric. The value of the regularization intensity, default is 1.</p></li>
 <li><p>fc: character. The value of the feature classes, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
@@ -270,9 +269,9 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
 <p>The folds argument accepts also objects created with other packages:
 <span class="pkg">ENMeval</span> or <span class="pkg">blockCV</span>. In this case the function converts
 internally the folds into a format valid for <span class="pkg">SDMtune</span>.</p>
-<p>When multiple methods are given as <code>method</code> argument, the function
-returns a named list of model object, with the name corresponding to the
-used method, see examples.</p>
+<p>When multiple methods are given as <code>method</code> argument, the function returns a
+named list of model object, with the name corresponding to the used method,
+see examples.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Venables, W. N. &amp; Ripley, B. D. (2002) Modern Applied Statistics with S.
@@ -296,7 +295,7 @@ for ecological niche models. Methods in Ecology and Evolution.</p>
 cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.com/rvalavi/blockCV</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='randomFolds.html'>randomFolds</a></code></p></div>
+    <div class='dont-index'><p><a href='randomFolds.html'>randomFolds</a>.</p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Sergio Vignali</p>

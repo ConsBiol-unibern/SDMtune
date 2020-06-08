@@ -210,8 +210,7 @@ threshold.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
-object.</p></td>
+      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
     </tr>
     <tr>
       <th>th</th>
@@ -224,14 +223,14 @@ values are: "auc", "tss" and "aicc", used only if use_jk is <code>TRUE</code>.</
     </tr>
     <tr>
       <th>test</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code> object containing the test dataset used
-to evaluate the model, not used with aicc, and if <code>use_jk = FALSE</code>,
-default is <code>NULL</code>.</p></td>
+      <td><p><a href='SWD-class.html'>SWD</a> object containing the test dataset used to
+evaluate the model, not used with aicc, and if <code>use_jk = FALSE</code>, default is
+<code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p><code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> containing the environmental
-variables, used only with "aicc", default is <code>NULL</code>.</p></td>
+      <td><p><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a> containing the environmental variables, used
+only with "aicc", default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -240,19 +239,19 @@ variables, used only with "aicc", default is <code>NULL</code>.</p></td>
     <tr>
       <th>use_jk</th>
       <td><p>Flag to use the Jackknife AUC test during the variable
-selection, if <code>FALSE</code> the function uses the percent variable
-contribution, default is <code>FALSE</code>.</p></td>
+selection, if <code>FALSE</code> the function uses the percent variable contribution,
+default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>permut</th>
-      <td><p>integer. Number of permutations, used if use_pc is
-<code>FALSE</code>, default is 10.</p></td>
+      <td><p>integer. Number of permutations, used if <code>use_pc = FALSE</code>,
+default is 10.</p></td>
     </tr>
     <tr>
       <th>use_pc</th>
       <td><p>logical, use percent contribution. If <code>TRUE</code> and the model
-is trained using the <code><a href='Maxent-class.html'>Maxent</a></code> method, the algorithm uses
-the percent contribution computed by Maxent software to score the variable
+is trained using the <a href='Maxent-class.html'>Maxent</a> method, the algorithm uses the
+percent contribution computed by Maxent software to score the variable
 importance, default is <code>FALSE</code>.</p></td>
     </tr>
     </table>

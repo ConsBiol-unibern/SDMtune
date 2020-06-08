@@ -201,8 +201,7 @@ provided hyperparameters values.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
-object.</p></td>
+      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
     </tr>
     <tr>
       <th>hypers</th>
@@ -216,8 +215,8 @@ values are: "auc", "tss" and "aicc".</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code> object. Test dataset used to evaluate
-the model, not used with aicc and <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects,
+      <td><p><a href='SWD-class.html'>SWD</a> object. Test dataset used to evaluate the
+model, not used with aicc and <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects,
 default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
@@ -226,8 +225,8 @@ default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p><code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> containing the environmental
-variables, used only with "aicc", default is <code>NULL</code>.</p></td>
+      <td><p><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a> containing the environmental variables, used
+only with "aicc", default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -242,15 +241,14 @@ results, default is <code>NULL</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='SDMtune-class.html'>SDMtune</a></code> object.</p>
+    <p><a href='SDMtune-class.html'>SDMtune</a> object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
 <ul>
 <li><p>To know which hyperparameters can be tuned you can use the output
-of the function <code><a href='getTunableArgs.html'>getTunableArgs</a></code>. Hyperparameters not included
-in the <code>hypers</code> argument take the value that they have in the passed
-model.</p></li>
+of the function <a href='getTunableArgs.html'>getTunableArgs</a>. Hyperparameters not included in the
+<code>hypers</code> argument take the value that they have in the passed model.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
