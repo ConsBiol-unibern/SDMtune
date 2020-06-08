@@ -4,28 +4,26 @@
 #' a population of random models each one with a random combination of the
 #' provided hyperparameters values.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param hypers named list containing the values of the hyperparameters that
 #' should be tuned, see details.
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
-#' @param test \code{\linkS4class{SWD}} object. Test dataset used to evaluate
-#' the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
-#' default is \code{NULL}.
+#' @param test \linkS4class{SWD} object. Test dataset used to evaluate the
+#' model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+#' default is `NULL`.
 #' @param pop numeric. Size of the population, default is 20.
-#' @param env \code{\link[raster]{stack}} containing the environmental
-#' variables, used only with "aicc", default is \code{NULL}.
+#' @param env \link[raster]{stack} containing the environmental variables, used
+#' only with "aicc", default is `NULL`.
 #' @param parallel deprecated.
 #' @param seed numeric. The value used to set the seed to have consistent
-#' results, default is \code{NULL}.
+#' results, default is `NULL`.
 #'
 #' @details * To know which hyperparameters can be tuned you can use the output
-#' of the function \code{\link{getTunableArgs}}. Hyperparameters not included
-#' in the \code{hypers} argument take the value that they have in the passed
-#' model.
+#' of the function \link{getTunableArgs}. Hyperparameters not included in the
+#' `hypers` argument take the value that they have in the passed model.
 #'
-#' @return \code{\linkS4class{SDMtune}} object.
+#' @return \linkS4class{SDMtune} object.
 #' @export
 #'
 #' @author Sergio Vignali

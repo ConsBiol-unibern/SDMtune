@@ -8,26 +8,25 @@
 #' stops removing the variable even if the contribution is lower than the given
 #' threshold.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param th numeric. The contribution threshold used to remove variables.
 #' @param metric character. The metric used to evaluate the models, possible
-#' values are: "auc", "tss" and "aicc", used only if use_jk is \code{TRUE}.
-#' @param test \code{\linkS4class{SWD}} object containing the test dataset used
-#' to evaluate the model, not used with aicc, and if \code{use_jk = FALSE},
-#' default is \code{NULL}.
-#' @param env \code{\link[raster]{stack}} containing the environmental
-#' variables, used only with "aicc", default is \code{NULL}.
+#' values are: "auc", "tss" and "aicc", used only if use_jk is `TRUE`.
+#' @param test \linkS4class{SWD} object containing the test dataset used to
+#' evaluate the model, not used with aicc, and if `use_jk = FALSE`, default is
+#' `NULL`.
+#' @param env \link[raster]{stack} containing the environmental variables, used
+#' only with "aicc", default is `NULL`.
 #' @param parallel deprecated.
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
-#' selection, if \code{FALSE} the function uses the percent variable
-#' contribution, default is \code{FALSE}.
-#' @param permut integer. Number of permutations, used if use_pc is
-#' \code{FALSE}, default is 10.
-#' @param use_pc logical, use percent contribution. If \code{TRUE} and the model
-#' is trained using the \code{\linkS4class{Maxent}} method, the algorithm uses
-#' the percent contribution computed by Maxent software to score the variable
-#' importance, default is \code{FALSE}.
+#' selection, if `FALSE` the function uses the percent variable contribution,
+#' default is `FALSE`.
+#' @param permut integer. Number of permutations, used if `use_pc = FALSE`,
+#' default is 10.
+#' @param use_pc logical, use percent contribution. If `TRUE` and the model
+#' is trained using the \linkS4class{Maxent} method, the algorithm uses the
+#' percent contribution computed by Maxent software to score the variable
+#' importance, default is `FALSE`.
 #'
 #' @return The model trained using the selected variables.
 #' @export

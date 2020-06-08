@@ -9,8 +9,8 @@ prepareSWD(species, env, p = NULL, a = NULL, categorical = NULL)
 \arguments{
 \item{species}{character. The name of the species.}
 
-\item{env}{\code{\link[raster]{stack}} containing the environmental variables
-used to extract the values at coordinate locations.}
+\item{env}{\link[raster]{stack} containing the environmental variables used
+to extract the values at coordinate locations.}
 
 \item{p}{data.frame. The coordinates of the presence locations.}
 
@@ -20,15 +20,15 @@ used to extract the values at coordinate locations.}
 categorical, default is \code{NULL}.}
 }
 \value{
-An \code{\linkS4class{SWD}} object.
+An \linkS4class{SWD} object.
 }
 \description{
 Given the coordinates, the species' name and the environmental variables,
-the function creates an \code{\linkS4class{SWD}} object (sample with data).
+the function creates an \linkS4class{SWD} object (sample with data).
 }
 \details{
-The \code{\linkS4class{SWD}} object is created in a way that the
-presence locations are always before than the absence/background locations.
+The \linkS4class{SWD} object is created in a way that the presence
+locations are always before than the absence/background locations.
 }
 \examples{
 # Acquire environmental variables

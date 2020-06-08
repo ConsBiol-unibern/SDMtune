@@ -1,6 +1,6 @@
 #' Predict for Cross Validation
 #'
-#' Predict the output for a new dataset given a trained \code{\link{SDMmodelCV}}
+#' Predict the output for a new dataset given a trained \linkS4class{SDMmodelCV}
 #' model. The output is given as the provided function applied to the prediction
 #' of the k models.
 #'

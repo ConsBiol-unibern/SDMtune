@@ -7,15 +7,14 @@
 SDMmodel2MaxEnt(model)
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} object to be converted.}
+\item{model}{\linkS4class{SDMmodel} object to be converted.}
 }
 \value{
-The converted dismo \code{\linkS4class{MaxEnt}} object.
+The converted dismo \linkS4class{MaxEnt} object.
 }
 \description{
-Converts an \code{\linkS4class{SDMmodel}} object containing a
-\code{\linkS4class{Maxent}} model into a dismo \code{\linkS4class{MaxEnt}}
-object.
+Converts an \linkS4class{SDMmodel} object containing a \linkS4class{Maxent}
+model into a dismo \linkS4class{MaxEnt} object.
 }
 \examples{
 # Acquire environmental variables

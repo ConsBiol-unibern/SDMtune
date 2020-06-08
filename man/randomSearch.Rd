@@ -16,8 +16,7 @@ randomSearch(
 )
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
@@ -25,14 +24,14 @@ should be tuned, see details.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\code{\linkS4class{SWD}} object. Test dataset used to evaluate
-the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+\item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
+model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
 default is \code{NULL}.}
 
 \item{pop}{numeric. Size of the population, default is 20.}
 
-\item{env}{\code{\link[raster]{stack}} containing the environmental
-variables, used only with "aicc", default is \code{NULL}.}
+\item{env}{\link[raster]{stack} containing the environmental variables, used
+only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{deprecated.}
 
@@ -40,7 +39,7 @@ variables, used only with "aicc", default is \code{NULL}.}
 results, default is \code{NULL}.}
 }
 \value{
-\code{\linkS4class{SDMtune}} object.
+\linkS4class{SDMtune} object.
 }
 \description{
 The function performs a random search in the hyperparameters space, creating
@@ -50,9 +49,8 @@ provided hyperparameters values.
 \details{
 \itemize{
 \item To know which hyperparameters can be tuned you can use the output
-of the function \code{\link{getTunableArgs}}. Hyperparameters not included
-in the \code{hypers} argument take the value that they have in the passed
-model.
+of the function \link{getTunableArgs}. Hyperparameters not included in the
+\code{hypers} argument take the value that they have in the passed model.
 }
 }
 \examples{

@@ -17,33 +17,32 @@ reduceVar(
 )
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{th}{numeric. The contribution threshold used to remove variables.}
 
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc", used only if use_jk is \code{TRUE}.}
 
-\item{test}{\code{\linkS4class{SWD}} object containing the test dataset used
-to evaluate the model, not used with aicc, and if \code{use_jk = FALSE},
-default is \code{NULL}.}
+\item{test}{\linkS4class{SWD} object containing the test dataset used to
+evaluate the model, not used with aicc, and if \code{use_jk = FALSE}, default is
+\code{NULL}.}
 
-\item{env}{\code{\link[raster]{stack}} containing the environmental
-variables, used only with "aicc", default is \code{NULL}.}
+\item{env}{\link[raster]{stack} containing the environmental variables, used
+only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{deprecated.}
 
 \item{use_jk}{Flag to use the Jackknife AUC test during the variable
-selection, if \code{FALSE} the function uses the percent variable
-contribution, default is \code{FALSE}.}
+selection, if \code{FALSE} the function uses the percent variable contribution,
+default is \code{FALSE}.}
 
-\item{permut}{integer. Number of permutations, used if use_pc is
-\code{FALSE}, default is 10.}
+\item{permut}{integer. Number of permutations, used if \code{use_pc = FALSE},
+default is 10.}
 
 \item{use_pc}{logical, use percent contribution. If \code{TRUE} and the model
-is trained using the \code{\linkS4class{Maxent}} method, the algorithm uses
-the percent contribution computed by Maxent software to score the variable
+is trained using the \linkS4class{Maxent} method, the algorithm uses the
+percent contribution computed by Maxent software to score the variable
 importance, default is \code{FALSE}.}
 }
 \value{
