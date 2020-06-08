@@ -119,7 +119,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
   .show_chart(folder)
 
   # Loop through all the settings in grid
-  for (i in 1:nrow(grid)) {
+  for (i in seq_len(nrow(grid))) {
 
     obj <- .create_model_from_settings(model, settings = grid[i, ])
 
