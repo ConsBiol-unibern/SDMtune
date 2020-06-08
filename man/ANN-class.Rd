@@ -9,7 +9,7 @@ This Class represents an Artificial Neural Network model objects and hosts
 all the information related to the model.
 }
 \details{
-See \code{\link{nnet}} for the meaning of the slots.
+See \link{nnet} for the meaning of the slots.
 }
 \section{Slots}{
 
@@ -22,7 +22,7 @@ See \code{\link{nnet}} for the meaning of the slots.
 
 \item{\code{maxit}}{integer. Maximum number of iterations.}
 
-\item{\code{model}}{\code{\link{nnet}}. The randomForest model object.}
+\item{\code{model}}{\link{nnet}. The randomForest model object.}
 }}
 
 \author{
