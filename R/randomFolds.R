@@ -50,8 +50,8 @@ randomFolds <- function(data, k, only_presence = FALSE, seed = NULL) {
     set.seed(seed)
 
   train <- test <- matrix(TRUE, nrow = length(data@pa), ncol = k)
-  p_folds <- cut(sample(1:nrow(.get_presence(data))), k, labels = FALSE)
-  a_folds <- cut(sample(1:nrow(.get_absence(data))), k, labels = FALSE)
+  p_folds <- cut(sample(seq_len(nrow(.get_presence(data)))), k, labels = FALSE)
+  a_folds <- cut(sample(seq_len(nrow(.get_absence(data)))), k, labels = FALSE)
 
   for (i in 1:k) {
     if (only_presence) {
