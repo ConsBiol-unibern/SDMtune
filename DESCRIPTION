@@ -18,7 +18,7 @@ Description: User-friendly framework that enables the training and the
     variables or to tune model hyperparameters have an interactive real-time
     chart displayed in the 'RStudio' viewer pane during their execution.
 License: GPL-3
-URL: https://consbiol-unibern.github.io/SDMtune/
+URL: https://consbiol-unibern.github.io/SDMtune/, https://github.com/ConsBiol-unibern/SDMtune
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
 SystemRequirements: Java JDK, maxent.jar
 Depends: R (>= 3.2.0)
@@ -39,7 +39,7 @@ Imports: dismo (>= 1.1-4),
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 Suggests:
     cli (>= 1.1.0),
@@ -56,7 +56,6 @@ Suggests:
     rgdal (>= 1.4-4),
     rJava (>= 0.9-11),
     rmarkdown (>= 1.13),
-    roxygen2 (>= 6.1.1),
     scales (>= 1.0.0),
     testthat (>= 2.3.2),
     zeallot (>= 0.1.0)
@@ -73,7 +72,7 @@ Collate:
     'SDMmodel2MaxEnt.R'
     'SDMmodelCV-class.R'
     'SDMtune-class.R'
-    'SDMtune.R'
+    'SDMtune-package.R'
     'addSamplesToBg.R'
     'aicc.R'
     'auc.R'
