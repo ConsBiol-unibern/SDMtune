@@ -53,7 +53,7 @@ hyperparameter configuration according to the chosen metric.
 }
 \details{
 To know which hyperparameters can be tuned you can use the output
-of the function \code{\link{get_tunable_args}}. Hyperparameters not included
+of the function \code{\link{getTunableArgs}}. Hyperparameters not included
 in the \code{hypers} argument take the value that they have in the passed
 model.
 \itemize{
