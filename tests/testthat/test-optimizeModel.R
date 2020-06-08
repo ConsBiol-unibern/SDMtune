@@ -17,8 +17,8 @@ test_that("Exception are raised", {
 
 # TODO Rewrite this test
 # test_that("The algorithm executes without errors", {
-#   expect_s4_class(optimizeModel(mother, h, "auc", test = data, pop = 3, gen = 1),
-#                   "SDMtune")
+#   expect_s4_class(optimizeModel(mother, h, "auc", test = data, pop = 3,
+#                                 gen = 1), "SDMtune")
 # })
 
 test_that("Crossover is executed", {
