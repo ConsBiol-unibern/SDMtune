@@ -1,20 +1,20 @@
 #' Merge SWD Objects
 #'
-#' Merge two \code{\linkS4class{SWD}} objects.
+#' Merge two \linkS4class{SWD} objects.
 #'
-#' @param swd1 \code{\linkS4class{SWD}} object.
-#' @param swd2 \code{\linkS4class{SWD}} object.
-#' @param only_presence logical, if \code{TRUE} only for the presence locations
-#' are merged and the absence/background locations are taken only from the
-#' \code{swd1} object, default is \code{FALSE}.
+#' @param swd1 \linkS4class{SWD} object.
+#' @param swd2 \linkS4class{SWD} object.
+#' @param only_presence logical, if `TRUE` only for the presence locations are
+#' merged and the absence/background locations are taken only from the `swd1`
+#' object, default is `FALSE`.
 #'
 #' @details
-#' * In case the two \code{\linkS4class{SWD}} objects have different columns,
-#' only the common columns are used in the merged object.
-#' * The \code{\linkS4class{SWD}} object is created in a way that the presence
+#' * In case the two \linkS4class{SWD} objects have different columns, only the
+#' common columns are used in the merged object.
+#' * The \linkS4class{SWD} object is created in a way that the presence
 #' locations are always before than the absence/background locations.
 #'
-#' @return The merged \code{\linkS4class{SWD}} object.
+#' @return The merged \linkS4class{SWD} object.
 #' @export
 #'
 #' @author Sergio Vignali

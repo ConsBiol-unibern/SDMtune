@@ -7,25 +7,25 @@
 mergeSWD(swd1, swd2, only_presence = FALSE)
 }
 \arguments{
-\item{swd1}{\code{\linkS4class{SWD}} object.}
+\item{swd1}{\linkS4class{SWD} object.}
 
-\item{swd2}{\code{\linkS4class{SWD}} object.}
+\item{swd2}{\linkS4class{SWD} object.}
 
-\item{only_presence}{logical, if \code{TRUE} only for the presence locations
-are merged and the absence/background locations are taken only from the
-\code{swd1} object, default is \code{FALSE}.}
+\item{only_presence}{logical, if \code{TRUE} only for the presence locations are
+merged and the absence/background locations are taken only from the \code{swd1}
+object, default is \code{FALSE}.}
 }
 \value{
-The merged \code{\linkS4class{SWD}} object.
+The merged \linkS4class{SWD} object.
 }
 \description{
-Merge two \code{\linkS4class{SWD}} objects.
+Merge two \linkS4class{SWD} objects.
 }
 \details{
 \itemize{
-\item In case the two \code{\linkS4class{SWD}} objects have different columns,
-only the common columns are used in the merged object.
-\item The \code{\linkS4class{SWD}} object is created in a way that the presence
+\item In case the two \linkS4class{SWD} objects have different columns, only the
+common columns are used in the merged object.
+\item The \linkS4class{SWD} object is created in a way that the presence
 locations are always before than the absence/background locations.
 }
 }
