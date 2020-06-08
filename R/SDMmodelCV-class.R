@@ -31,7 +31,7 @@ setMethod(
   signature = "SDMmodelCV",
   definition = function(object) {
 
-    tunable_hypers <- get_tunable_args(object@models[[1]])
+    tunable_hypers <- getTunableArgs(object@models[[1]])
     cont_vars <- names(Filter(is.numeric, object@data@data))
     if (length(cont_vars) == 0)
       cont_vars <- NA
