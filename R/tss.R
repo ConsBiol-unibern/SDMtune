@@ -76,7 +76,7 @@ tss <- function(model, test = NULL) {
   } else {
     tsss <- vector("numeric", length = length(model@models))
 
-    for (i in 1:length(model@models)) {
+    for (i in seq_along(model@models)) {
       if (!is.null(test)) {
         if (isTRUE(test)) {
           test_swd <- .subset_swd(model@data, model@folds$test[, i])
@@ -84,7 +84,7 @@ tss <- function(model, test = NULL) {
           test_swd <- test
         }
       } else {
-        test_swd = NULL
+        test_swd <- NULL
       }
       tsss[i] <- .compute_tss(model@models[[i]], test_swd)
     }
