@@ -45,7 +45,7 @@
 
 .get_footer <- function(model) {
   footer <- c()
-  tuned_args <- .get_train_args(model)[get_tunable_args(model)]
+  tuned_args <- .get_train_args(model)[getTunableArgs(model)]
 
   for (i in 1:length(tuned_args)) {
     footer <- c(footer, paste0(names(tuned_args)[i], ": ", tuned_args[[i]]))
@@ -91,7 +91,7 @@
 
 .create_sdmtune_result <- function(model, metric, train_metric, val_metric) {
 
-  tunable_hypers <- get_tunable_args(model)
+  tunable_hypers <- getTunableArgs(model)
   l <- length(tunable_hypers)
   labels <- c(tunable_hypers, .get_sdmtune_colnames(metric))
 
@@ -121,7 +121,7 @@
 
 .create_sdmtune_output <- function(models, metric, train_metric, val_metric) {
 
-  tunable_hypers <- get_tunable_args(models[[1]])
+  tunable_hypers <- getTunableArgs(models[[1]])
   l <- length(tunable_hypers)
   labels <- c(tunable_hypers, .get_sdmtune_colnames(metric))
 
@@ -292,7 +292,7 @@ get_tunable_args <- function(model) {
   # Check hypers
   if (!is.null(hypers)) {
     # Throws exception if provided hypers are not tunable
-    diff <- setdiff(names(hypers), get_tunable_args(model))
+    diff <- setdiff(names(hypers), getTunableArgs(model))
     if (length(diff) > 0)
       stop(paste(diff, "non included in tunable hyperparameters",
                  collapse = ", "))
@@ -301,7 +301,7 @@ get_tunable_args <- function(model) {
 
 .get_hypers_grid <- function(model, hypers) {
   # Create data frame with all possible combinations of hyperparameters
-  tunable_args <- .get_train_args(model)[get_tunable_args(model)]
+  tunable_args <- .get_train_args(model)[getTunableArgs(model)]
   tunable_args[names(hypers)] <- hypers
   grid <- expand.grid(tunable_args, stringsAsFactors = FALSE)
   return(grid)
