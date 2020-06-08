@@ -26,7 +26,7 @@ setMethod("show",
     cat("Models configuration:\n")
     cat("--------------------\n")
 
-    for (i in 1:length(tunable_hypers)) {
+    for (i in seq_along(tunable_hypers)) {
       h <- paste(sort(unique(object@results[, tunable_hypers[i]])),
                  collapse = ", ")
       cat(tunable_hypers[i], ": ", h, "\n", sep = "")
