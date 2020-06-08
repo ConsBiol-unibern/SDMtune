@@ -3,7 +3,6 @@
 \docType{class}
 \name{Maxnet-class}
 \alias{Maxnet-class}
-\alias{Maxnet}
 \title{Maxnet}
 \description{
 This Class represents a Maxnet model objects and hosts all the information

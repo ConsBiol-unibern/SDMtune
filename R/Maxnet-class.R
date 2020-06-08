@@ -9,7 +9,7 @@ setOldClass("maxnet")
 #' @slot fc character. The feature class combination used to train the model.
 #' @slot model maxnet. The maxnet model object.
 #'
-#' @alises NULL Maxnet-class
+#' @aliases  NULL Maxnet-class
 #' @export
 #'
 #' @author Sergio Vignali
