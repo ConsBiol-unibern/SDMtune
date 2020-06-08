@@ -101,9 +101,9 @@ h <- list("iter" = seq(300, 1100, 200))
 exp_4 <- gridSearch(maxent_model, hypers = h, metric = "auc", test = val)
 ```
 
-To see which hyperparameters can be tuned in a given model use the function `get_tunable_args()`. For example:
+To see which hyperparameters can be tuned in a given model use the function `getTunableArgs()`. For example:
 ```{r get hypers}
-get_tunable_args(model)
+getTunableArgs(model)
 ```
 
 ## Tune hyperparameters

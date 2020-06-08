@@ -61,9 +61,9 @@ auc(model, test = TRUE)
 
 ## Tune model hyperparameters
 
-To check which hyperparameters can be tuned we use the function `get_tunable_args()` function:
+To check which hyperparameters can be tuned we use the function `getTunableArgs()` function:
 ```{r get tunable args}
-get_tunable_args(model)
+getTunableArgs(model)
 ```
 
 We use the `optimizeModel()` function to find the best hyperparameter combinations for the learning rate, the number of trees and the bag fraction:
