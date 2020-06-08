@@ -3,8 +3,8 @@
 #' Compute the Akaike Information Criterion corrected for small samples size
 #' (Warren and Seifert, 2011).
 #'
-#' @param model \code{\linkS4class{SDMmodel}} object.
-#' @param env \code{\link[raster]{stack}} containing the environmental
+#' @param model \linkS4class{SDMmodel} object.
+#' @param env \link[raster]{stack} containing the environmental
 #' variables.
 #' @param parallel deprecated.
 #'

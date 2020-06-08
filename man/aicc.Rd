@@ -7,9 +7,9 @@
 aicc(model, env, parallel = FALSE)
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} object.}
+\item{model}{\linkS4class{SDMmodel} object.}
 
-\item{env}{\code{\link[raster]{stack}} containing the environmental
+\item{env}{\link[raster]{stack} containing the environmental
 variables.}
 
 \item{parallel}{deprecated.}
