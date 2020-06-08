@@ -50,9 +50,9 @@ setMethod(
     cat("Model configurations:\n")
     cat("--------------------\n")
 
-    for (i in 1:length(tunable_hypers)) {
+    for (i in seq_along(tunable_hypers)) {
       if (tunable_hypers[i] == "a") {
-        next()
+        next
       } else {
         h <- slot(object@models[[1]]@model, tunable_hypers[i])
         cat(tunable_hypers[i], ": ", h, "\n", sep = "")
