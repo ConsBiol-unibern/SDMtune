@@ -74,7 +74,7 @@ confMatrix <- function(model, test = NULL, th = NULL, type = NULL) {
 
   tp <- fp <- vector(mode = "numeric", length = length(th))
 
-  for (i in 1:length(th)) {
+  for (i in seq_along(th)) {
     tp[i] <- sum(p_pred >= th[i])
     fp[i] <- sum(a_pred >= th[i])
   }
