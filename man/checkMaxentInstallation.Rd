@@ -7,8 +7,8 @@
 checkMaxentInstallation(verbose = TRUE)
 }
 \arguments{
-\item{verbose}{logical, if \code{TRUE} the function provides useful messages
-to understand what is not correctly installed, default is \code{TRUE}.}
+\item{verbose}{logical, if \code{TRUE} the function provides useful messages to
+understand what is not correctly installed, default is \code{TRUE}.}
 }
 \value{
 \code{TRUE} if Maxent is correctly installed, \code{FALSE} otherwise.

@@ -2,15 +2,15 @@
 #'
 #' The function checks if Maxent is correctly installed.
 #'
-#' @param verbose logical, if \code{TRUE} the function provides useful messages
-#' to understand what is not correctly installed, default is \code{TRUE}.
+#' @param verbose logical, if `TRUE` the function provides useful messages to
+#' understand what is not correctly installed, default is `TRUE`.
 #'
 #' @details In order to have Maxent correctly configured is necessary that:
 #' * Java is installed;
 #' * the package "rJava" is installed;
 #' * the file "maxent.jar" is in the correct folder.
 #'
-#' @return \code{TRUE} if Maxent is correctly installed, \code{FALSE} otherwise.
+#' @return `TRUE` if Maxent is correctly installed, `FALSE` otherwise.
 #' @export
 #'
 #' @author Sergio Vignali
