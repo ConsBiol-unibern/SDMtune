@@ -105,7 +105,7 @@ varImp <- function(model, permut = 10) {
   permuted_auc <- matrix(nrow = permut, ncol = length(vars))
   set.seed(25)
 
-  for (j in 1:length(vars)) {
+  for (j in seq_along(vars)) {
     for (i in seq_len(permut)) {
       data <- sample(model@data@data[, vars[j]])
       if (is.factor(model@data@data[, vars[j]]))
