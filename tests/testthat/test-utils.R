@@ -156,7 +156,8 @@ test_that(".get_train_args", {
 })
 
 test_that("get_tunable_args", {
-  expect_equal(get_tunable_args(model_mx), c("fc", "reg", "iter"))
+  expect_warning(expect_equal(get_tunable_args(model_mx),
+                              c("fc", "reg", "iter")))
   expect_equal(get_tunable_args(model), c("fc", "reg"))
   expect_equal(get_tunable_args(model_ann), c("size", "decay", "rang", "maxit"))
   expect_equal(get_tunable_args(model_rf), c("mtry", "ntree", "nodesize"))

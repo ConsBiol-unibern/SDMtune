@@ -242,6 +242,9 @@
 #' get_tunable_args(model)
 get_tunable_args <- function(model) {
 
+  warning("This function will be deprecated in the next release, please use ",
+          "\"getTunableArgs()\" instead.")
+
   if (class(model) == "SDMmodelCV") {
     method <- class(model@models[[1]]@model)
   } else {
