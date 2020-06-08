@@ -18,7 +18,7 @@
 #' @param filename character. Output file name for the prediction map, used only
 #' when `data` is a \link[raster]{stack} object. If provided the output is saved
 #' in a file, see details.
-#' @param format character. The output format, see \link[raster]{writeRaster
+#' @param format character. The output format, see \link[raster]{writeRaster}
 #' for all the options, default is "GTiff".
 #' @param extent \link[raster]{Extent} object, if provided it restricts the
 #' prediction to the given extent, default is `NULL`.

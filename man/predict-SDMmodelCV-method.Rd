@@ -38,6 +38,9 @@ and \strong{Maxnet} methods, default is \code{TRUE}.}
 when \code{data} is a \link[raster]{stack} object. If provided the output is saved
 in a file, see details.}
 
+\item{format}{character. The output format, see \link[raster]{writeRaster}
+for all the options, default is "GTiff".}
+
 \item{extent}{\link[raster]{Extent} object, if provided it restricts the
 prediction to the given extent, default is \code{NULL}.}
 
