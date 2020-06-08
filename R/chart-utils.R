@@ -84,7 +84,7 @@
   }
 
   # Check how many hypers have be tuned
-  tunable_hypers <- get_tunable_args(x@models[[1]])
+  tunable_hypers <- getTunableArgs(x@models[[1]])
   hyper_cols <- length(tunable_hypers)
   tuned_hypers <- rapply(res[, tunable_hypers], function(x) length(unique(x)))
   #Show line if only one hyper has be tuned

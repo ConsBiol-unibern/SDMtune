@@ -22,7 +22,7 @@ setMethod(
   signature = "SDMmodel",
   definition = function(object) {
 
-    tunable_hypers <- get_tunable_args(object)
+    tunable_hypers <- getTunableArgs(object)
     cont_vars <- names(Filter(is.numeric, object@data@data))
     if (length(cont_vars) == 0)
       cont_vars <- NA

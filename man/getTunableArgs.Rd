@@ -33,7 +33,7 @@ data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 
 # Train a Maxnet model and get tunable hyperparameters
 model <- train(method = "Maxnet", data = data, fc = "l")
-get_tunable_args(model)
+getTunableArgs(model)
 }
 \author{
 Sergio Vignali

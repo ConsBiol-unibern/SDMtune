@@ -27,7 +27,7 @@
 #'
 #' # Train a Maxnet model and get tunable hyperparameters
 #' model <- train(method = "Maxnet", data = data, fc = "l")
-#' get_tunable_args(model)
+#' getTunableArgs(model)
 getTunableArgs <- function(model) {
 
   if (class(model) == "SDMmodelCV") {
