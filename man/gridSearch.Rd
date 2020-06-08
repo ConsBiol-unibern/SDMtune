@@ -41,7 +41,7 @@ with all the possible combinations of hyperparameters.
 \details{
 \itemize{
 \item To know which hyperparameters can be tuned you can use the output
-of the function \code{\link{get_tunable_args}}. Hyperparameters not included
+of the function \code{\link{getTunableArgs}}. Hyperparameters not included
 in the \code{hypers} argument take the value that they have in the passed
 model.
 }
