@@ -75,5 +75,3 @@ maxentVarImp <- function(model) {
                    stringsAsFactors = FALSE)
   return(df)
 }
-
-
