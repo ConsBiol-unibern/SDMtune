@@ -7,13 +7,12 @@
 tss(model, test = NULL)
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
-\item{test}{\code{\linkS4class{SWD}} object for \code{\linkS4class{SDMmodel}}
-object. Logical or \code{\linkS4class{SWD}} object for
-\code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
-train TSS, see details. Default is \code{NULL}.}
+\item{test}{\linkS4class{SWD} object when \code{model} is an
+\linkS4class{SDMmodel} object; logical or \linkS4class{SWD} object when
+\code{model} is an \linkS4class{SDMmodelCV} object. If not provided it computes
+the training TSS, see details. Default is \code{NULL}.}
 }
 \value{
 The value of the TSS of the given model.
@@ -77,6 +76,9 @@ tss(model, test = test)
 Allouche O., Tsoar A., Kadmon R., (2006). Assessing the accuracy of species
 distribution models: prevalence, kappa and the true skill statistic (TSS).
 Journal of Applied Ecology, 43(6), 1223–1232.
+}
+\seealso{
+\link{aicc} and \link{auc}.
 }
 \author{
 Sergio Vignali

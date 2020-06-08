@@ -2,12 +2,11 @@
 #'
 #' Compute the max TSS of a given model.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object.
-#' @param test \code{\linkS4class{SWD}} object for \code{\linkS4class{SDMmodel}}
-#' object. Logical or \code{\linkS4class{SWD}} object for
-#' \code{\linkS4class{SDMmodelCV}} objects, if not provided it computes the
-#' train TSS, see details. Default is \code{NULL}.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
+#' @param test \linkS4class{SWD} object when `model` is an
+#' \linkS4class{SDMmodel} object; logical or \linkS4class{SWD} object when
+#' `model` is an \linkS4class{SDMmodelCV} object. If not provided it computes
+#' the training TSS, see details. Default is `NULL`.
 #'
 #' @details For \code{\linkS4class{SDMmodelCV}} objects, the function computes
 #' the mean of the training TSS values of the k-folds. If \code{test = TRUE} it
@@ -24,6 +23,8 @@
 #' Allouche O., Tsoar A., Kadmon R., (2006). Assessing the accuracy of species
 #' distribution models: prevalence, kappa and the true skill statistic (TSS).
 #' Journal of Applied Ecology, 43(6), 1223–1232.
+#'
+#' @seealso \link{aicc} and \link{auc}.
 #'
 #' @examples
 #' # Acquire environmental variables
