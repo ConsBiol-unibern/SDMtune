@@ -2,15 +2,14 @@
 #'
 #' Plot Prediction output.
 #'
-#' @param map \code{\link[raster]{raster}} object with the prediction.
+#' @param map \link[raster]{raster} object with the prediction.
 #' @param lt character. Legend title, default is an empty string.
 #' @param colorramp vector. A custom color ramp given as a vector of colors
-#' (see example), default is \code{NULL} and uses a color ramp similar to the
-#' original MaxEnt output.
-#' @param hr logical, if \code{TRUE} produces an output with high resolution,
-#' default is \code{FALSE}.
+#' (see example), default is `NULL` and uses a blu/red color ramp.
+#' @param hr logical, if `TRUE` produces an output with high resolution,
+#' default is `FALSE`.
 #'
-#' @return A \code{\link[ggplot2]{ggplot}} object.
+#' @return A \link[ggplot2]{ggplot} object.
 #' @export
 #' @importFrom ggplot2 geom_tile scale_fill_gradientn coord_equal labs
 #' scale_x_continuous scale_y_continuous theme_minimal theme element_text
@@ -18,7 +17,7 @@
 #'
 #' @author Sergio Vignali
 #'
-#' @seealso \code{\link{plotPA}}
+#' @seealso \link{plotPA}.
 #'
 #' @examples
 #' \donttest{
