@@ -103,11 +103,10 @@ varImp <- function(model, permut = 10) {
 .compute_permutation <- function(model, model_auc, vars, permut, pb) {
 
   permuted_auc <- matrix(nrow = permut, ncol = length(vars))
-  n_pres <- nrow(model@data@data)
   set.seed(25)
 
   for (j in 1:length(vars)) {
-    for (i in 1:permut) {
+    for (i in seq_len(permut)) {
       data <- sample(model@data@data[, vars[j]])
       if (is.factor(model@data@data[, vars[j]]))
         data <- as.factor(data)
