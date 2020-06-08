@@ -242,6 +242,8 @@
 #' get_tunable_args(model)
 get_tunable_args <- function(model) {
 
+  # TODO: remove this function in next release
+
   warning("This function will be deprecated in the next release, please use ",
           "\"getTunableArgs()\" instead.")
 
