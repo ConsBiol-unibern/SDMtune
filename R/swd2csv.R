@@ -37,10 +37,10 @@
 #'                    env = predictors, categorical = "biome")
 #' \dontrun{
 #' The following commands save the output in the working directory
-#' # Save the SWD objct as a single csv file
+#' # Save the SWD object as a single csv file
 #' swd2csv(data, "train_data.csv")
 #'
-#' # Save the SWD objct in two separate csv files
+#' # Save the SWD object in two separate csv files
 #' swd2csv(data, c("presence.csv", "absence.csv"))
 #' }
 #' }
