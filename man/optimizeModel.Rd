@@ -20,8 +20,7 @@ optimizeModel(
 )
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{hypers}{named list containing the values of the hyperparameters that
 should be tuned, see details.}
@@ -29,16 +28,16 @@ should be tuned, see details.}
 \item{metric}{character. The metric used to evaluate the models, possible
 values are: "auc", "tss" and "aicc".}
 
-\item{test}{\code{\linkS4class{SWD}} object. Test dataset used to evaluate
-the model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
-default is \code{NULL}.}
+\item{test}{\linkS4class{SWD} object. Testing dataset used to evaluate
+the model, not used with aicc and \linkS4class{SDMmodelCV} objects, default
+is \code{NULL}.}
 
 \item{pop}{numeric. Size of the population, default is 5.}
 
 \item{gen}{numeric. Number of generations, default is 20.}
 
-\item{env}{\code{\link[raster]{stack}} containing the environmental
-variables, used only with "aicc", default is \code{NULL}.}
+\item{env}{\link[raster]{stack} containing the environmental variables, used
+only with "aicc", default is \code{NULL}.}
 
 \item{parallel}{deprecated.}
 
@@ -56,7 +55,7 @@ expressed as decimal number. Default is 0.4.}
 results, default is \code{NULL}.}
 }
 \value{
-\code{\linkS4class{SDMtune}} object.
+\linkS4class{SDMtune} object.
 }
 \description{
 The function uses a Genetic Algorithm implementation to optimize the model
@@ -64,9 +63,8 @@ hyperparameter configuration according to the chosen metric.
 }
 \details{
 To know which hyperparameters can be tuned you can use the output
-of the function \code{\link{getTunableArgs}}. Hyperparameters not included
-in the \code{hypers} argument take the value that they have in the passed
-model.
+of the function \link{getTunableArgs}. Hyperparameters not included in the
+\code{hypers} argument take the value that they have in the passed model.
 \itemize{
 \item Part of the code is inspired by
 \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164}{this post}.
@@ -107,7 +105,7 @@ output@models[[1]]  # Best model
 }
 }
 \seealso{
-\code{\link{gridSearch}} and \code{\link{randomSearch}}.
+\link{gridSearch} and \link{randomSearch}.
 }
 \author{
 Sergio Vignali
