@@ -3,19 +3,19 @@
 #' Shows the percent contribution and permutation importance of the
 #' environmental variables used to train the model.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object trained using the "Maxent" method.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object
+#' trained using the "Maxent" method.
 #'
-#' @details When an \code{\linkS4class{SDMmodelCV}} object is passed to the
-#' function, the output is the average of the variable importance of each model
-#' trained during the cross validation.
+#' @details When an \linkS4class{SDMmodelCV} object is passed to the function,
+#' the output is the average of the variable importance of each model trained
+#' during the cross validation.
 #'
 #' @return A data frame with the variable importance.
 #' @export
 #'
 #' @author Sergio Vignali
 #'
-#' @seealso \code{\link{maxentTh}}
+#' @seealso \link{maxentTh}.
 #'
 #' @examples
 #' # Acquire environmental variables
