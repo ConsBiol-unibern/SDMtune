@@ -2,6 +2,7 @@
 Main changes:
 * New function `checkMaxentInstallation` to check if Maxent is correctly configured.
 * The argument parallel is deprecated and not used anymore. This because it improved computation only for very large datasets and used the superseded package snow.
+* The fnction `get_tunable_args()` has been replaced by `getTunableArgs()` to be consistent with the camel case function naming. At the moment is still possible to use both functions but `get_tunable_args()` will be deprecated in the next release.
 
 Bug fix: `plotPA` function now works also with new version of `ggplot2`.
 
