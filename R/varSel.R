@@ -184,7 +184,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
       .update_data(folder, data = data)
     }
 
-    for (i in 1:length(vars)) {
+    for (i in seq_along(vars)) {
 
       if (vars[i] %in% categorical)
         next
