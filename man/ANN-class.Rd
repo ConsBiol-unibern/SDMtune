@@ -3,7 +3,6 @@
 \docType{class}
 \name{ANN-class}
 \alias{ANN-class}
-\alias{ANN}
 \title{Artificial Neural Network}
 \description{
 This Class represents an Artificial Neural Network model objects and hosts

@@ -15,6 +15,7 @@
 #' presence only or absence/background only data. Use the
 #' \code{\link{prepareSWD}} function to create the object.
 #'
+#' @aliases NULL SWD-class
 #' @export
 #'
 #' @author Sergio Vignali

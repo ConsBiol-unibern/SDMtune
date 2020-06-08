@@ -3,7 +3,6 @@
 \docType{class}
 \name{BRT-class}
 \alias{BRT-class}
-\alias{BRT}
 \title{Boosted Regression Tree}
 \description{
 This Class represents a Boosted Regression Tree model objects and hosts all

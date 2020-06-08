@@ -3,7 +3,6 @@
 \docType{class}
 \name{SWD-class}
 \alias{SWD-class}
-\alias{SWD}
 \title{Sample With Data}
 \description{
 Object similar to the MaxEnt SWD format that hosts the species name, the

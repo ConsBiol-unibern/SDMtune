@@ -12,10 +12,9 @@
 #' \code{TRUE} for the locations included in and \code{FALSE} excluded from the
 #' partition.
 #'
+#' @aliases NULL SDMmodelCV-class
 #' @include SWD-class.R
-#' @name SDMmodelCV-class
-#' @rdname SDMmodelCV-class
-#' @exportClass SDMmodelCV
+#' @export
 #'
 #' @author Sergio Vignali
 SDMmodelCV <- setClass("SDMmodelCV",

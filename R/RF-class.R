@@ -11,7 +11,8 @@ setOldClass("randomForest")
 #'
 #' @details See \code{\link{randomForest}} for the meaning of the slots.
 #'
-#' @exportClass RF
+#' @aliases NULL RF-class
+#' @export
 #'
 #' @author Sergio Vignali
 RF <- setClass("RF",

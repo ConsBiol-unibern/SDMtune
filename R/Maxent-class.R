@@ -18,7 +18,8 @@
 #' @slot min_max data.frame. The minimum and maximum values of the continuous
 #' variables, used for clamping.
 #'
-#' @exportClass Maxent
+#' @aliases NULL Maxent-class
+#' @export
 #' @importFrom utils browseURL
 #'
 #' @author Sergio Vignali

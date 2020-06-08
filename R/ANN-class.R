@@ -12,7 +12,8 @@ setOldClass("nnet")
 #'
 #' @details See \code{\link{nnet}} for the meaning of the slots.
 #'
-#' @exportClass ANN
+#' @aliases NULL ANN-class
+#' @export
 #'
 #' @author Sergio Vignali
 ANN <- setClass("ANN",

@@ -3,7 +3,6 @@
 \docType{class}
 \name{RF-class}
 \alias{RF-class}
-\alias{RF}
 \title{Random Forest}
 \description{
 This Class represents a Random Forest model objects and hosts all the

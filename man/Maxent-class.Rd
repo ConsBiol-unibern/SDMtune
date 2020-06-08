@@ -3,7 +3,6 @@
 \docType{class}
 \name{Maxent-class}
 \alias{Maxent-class}
-\alias{Maxent}
 \title{Maxent}
 \description{
 This Class represents a MaxEnt model objects and hosts all the information

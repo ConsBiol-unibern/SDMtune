@@ -3,7 +3,6 @@
 \docType{class}
 \name{SDMmodelCV-class}
 \alias{SDMmodelCV-class}
-\alias{SDMmodelCV}
 \title{SDMmodelCV}
 \description{
 This Class represents a SDMmodel model object with replicates and hosts all

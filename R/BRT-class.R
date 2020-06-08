@@ -14,7 +14,8 @@ setOldClass("gbm")
 #'
 #' @details See \code{\link{gbm}} for the meaning of the slots.
 #'
-#' @exportClass BRT
+#' @aliases NULL BRT-class
+#' @export
 #'
 #' @author Sergio Vignali
 BRT <- setClass("BRT",

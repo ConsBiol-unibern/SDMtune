@@ -3,7 +3,6 @@
 \docType{class}
 \name{SDMtune-class}
 \alias{SDMtune-class}
-\alias{SDMtune}
 \title{SDMtune class}
 \description{
 Class used to save the results of one of the following functions:
