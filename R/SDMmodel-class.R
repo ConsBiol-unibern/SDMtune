@@ -42,7 +42,7 @@ setMethod(
 
     for (i in seq_along(tunable_hypers)) {
       if (tunable_hypers[i] == "a") {
-        next()
+        next
       } else {
         h <- slot(object@model, tunable_hypers[i])
         cat(tunable_hypers[i], ": ", h, "\n", sep = "")
