@@ -3,18 +3,18 @@
 \docType{class}
 \name{SDMmodel-class}
 \alias{SDMmodel-class}
-\alias{SDMmodel}
 \title{SDMmodel}
 \description{
-This Class represents an SDMmodel model object and hosts all the information
+This Class represents an SDMmodel object and hosts all the information
 related to the model.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{\code{\linkS4class{SWD}} object. The data used to train the model.}
+\item{\code{data}}{\linkS4class{SWD} object. The data used to train the model.}
 
-\item{\code{model}}{\link{Maxent} or \link{Maxnet} object.}
+\item{\code{model}}{An object of class \linkS4class{ANN}, \linkS4class{BRT},
+\linkS4class{RF}, \linkS4class{Maxent} or \linkS4class{Maxnet}.}
 }}
 
 \author{
