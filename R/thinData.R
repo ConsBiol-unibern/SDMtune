@@ -9,17 +9,17 @@
 #' is "x".
 #' @param y character. Name of the column containing the y coordinates, default
 #' is "y".
-#' @param env \code{\link[raster]{stack}} containing the environmental
-#' variables, or a single \code{\link[raster]{raster}} layer.
+#' @param env \link[raster]{stack} containing the environmental variables, or a
+#' single \link[raster]{raster} layer.
 #'
 #' @details * **coords** and **env** must have the same coordinate reference
 #' system.
-#' * The \code{coords} argument can contain several columns. This is useful if
-#' the user has information related to the coordinates that doesn't want to
-#' loose with the thinning procedure. The function expects to have the x
-#' coordinates in a column named "x", and the y coordinates in a column named
-#' "y". If this is not the case, the name of the columns containing the
-#' coordinates can be specified using the arguments \code{x} and \code{y}.
+#' * The `coords` argument can contain several columns. This is useful if the
+#' user has information related to the coordinates that doesn't want to loose
+#' with the thinning procedure. The function expects to have the x coordinates
+#' in a column named "x", and the y coordinates in a column named "y". If this
+#' is not the case, the name of the columns containing the coordinates can be
+#' specified using the arguments `x` and `y`.
 #'
 #' @return a matrix or a data frame with the thinned locations.
 #' @export

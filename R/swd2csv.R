@@ -1,18 +1,17 @@
 #' SWD to csv
 #'
-#' Save an \code{\linkS4class{SWD}} object as csv file.
+#' Save an \linkS4class{SWD} object as csv file.
 #'
-#' @param swd \code{\linkS4class{SWD}} object.
+#' @param swd \linkS4class{SWD} object.
 #' @param file_name character. The name of the file in which to save the object,
 #' see details.
 #'
 #' @details
-#' * The \code{file_name} argument should include the extension (i.e.
-#' my_file.csv).
-#' * If \code{file_name} is a single name the function saves the presence
+#' * The `file_name` argument should include the extension (i.e. my_file.csv).
+#' * If `file_name` is a single name the function saves the presence
 #' absence/background locations in a single file, adding the column **pa** with
-#' 1s for presence and 0s for absence/background locations. If \code{file_name}
-#' is a vector with two names, it saves the object in two files: the first name
+#' 1s for presence and 0s for absence/background locations. If `file_name` is a
+#' vector with two names, it saves the object in two files: the first name
 #' is used for the presence locations and the second for the absence/background
 #' locations.
 #'

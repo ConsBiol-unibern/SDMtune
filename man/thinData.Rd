@@ -9,8 +9,8 @@ thinData(coords, env, x = "x", y = "y")
 \arguments{
 \item{coords}{data.frame or matrix with the coordinates, see details.}
 
-\item{env}{\code{\link[raster]{stack}} containing the environmental
-variables, or a single \code{\link[raster]{raster}} layer.}
+\item{env}{\link[raster]{stack} containing the environmental variables, or a
+single \link[raster]{raster} layer.}
 
 \item{x}{character. Name of the column containing the x coordinates, default
 is "x".}
@@ -30,12 +30,12 @@ one.
 \itemize{
 \item \strong{coords} and \strong{env} must have the same coordinate reference
 system.
-\item The \code{coords} argument can contain several columns. This is useful if
-the user has information related to the coordinates that doesn't want to
-loose with the thinning procedure. The function expects to have the x
-coordinates in a column named "x", and the y coordinates in a column named
-"y". If this is not the case, the name of the columns containing the
-coordinates can be specified using the arguments \code{x} and \code{y}.
+\item The \code{coords} argument can contain several columns. This is useful if the
+user has information related to the coordinates that doesn't want to loose
+with the thinning procedure. The function expects to have the x coordinates
+in a column named "x", and the y coordinates in a column named "y". If this
+is not the case, the name of the columns containing the coordinates can be
+specified using the arguments \code{x} and \code{y}.
 }
 }
 \examples{

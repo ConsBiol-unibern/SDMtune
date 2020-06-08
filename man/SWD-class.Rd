@@ -11,8 +11,8 @@ the location places.
 }
 \details{
 The object can contains presence/absence, presence/background,
-presence only or absence/background only data. Use the
-\code{\link{prepareSWD}} function to create the object.
+presence only or absence/background only data. Use the \link{prepareSWD}
+function to create the object.
 }
 \section{Slots}{
 
@@ -24,8 +24,8 @@ presence only or absence/background only data. Use the
 \item{\code{data}}{data.frame. Value of the environmental variables at location
 sites.}
 
-\item{\code{pa}}{numeric. Vector with \code{1} for presence and \code{0} for
-absence/background locations.}
+\item{\code{pa}}{numeric. Vector with \code{1} for presence and \code{0} for absence/background
+locations.}
 }}
 
 \author{

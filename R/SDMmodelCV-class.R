@@ -1,16 +1,15 @@
 #' SDMmodelCV
 #'
-#' This Class represents a SDMmodel model object with replicates and hosts all
+#' This Class represents an SDMmodel model object with replicates and hosts all
 #' the models trained during the cross validation.
 #'
 #' @slot models list. A list containing all the models trained during the cross
 #' validation.
-#' @slot data \code{\linkS4class{SWD}} object. Full dataset used to make the
+#' @slot data \linkS4class{SWD} object. Full dataset used to make the
 #' partitions.
 #' @slot folds list with two matrices, the first for the training and the second
 #' for the testing dataset. Each column of one matrix represents a fold with
-#' \code{TRUE} for the locations included in and \code{FALSE} excluded from the
-#' partition.
+#' `TRUE` for the locations included in and `FALSE` excluded from the partition.
 #'
 #' @aliases NULL SDMmodelCV-class
 #' @include SWD-class.R

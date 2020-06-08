@@ -5,7 +5,7 @@
 \alias{SDMmodelCV-class}
 \title{SDMmodelCV}
 \description{
-This Class represents a SDMmodel model object with replicates and hosts all
+This Class represents an SDMmodel model object with replicates and hosts all
 the models trained during the cross validation.
 }
 \section{Slots}{
@@ -14,13 +14,12 @@ the models trained during the cross validation.
 \item{\code{models}}{list. A list containing all the models trained during the cross
 validation.}
 
-\item{\code{data}}{\code{\linkS4class{SWD}} object. Full dataset used to make the
+\item{\code{data}}{\linkS4class{SWD} object. Full dataset used to make the
 partitions.}
 
 \item{\code{folds}}{list with two matrices, the first for the training and the second
 for the testing dataset. Each column of one matrix represents a fold with
-\code{TRUE} for the locations included in and \code{FALSE} excluded from the
-partition.}
+\code{TRUE} for the locations included in and \code{FALSE} excluded from the partition.}
 }}
 
 \author{
