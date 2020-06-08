@@ -155,7 +155,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
 
     if (nrow(scores) > 0) {
       if (use_jk) {
-        for (i in 1:nrow(scores)) {
+        for (i in seq_len(nrow(scores))) {
           jk_test <- suppressMessages(
             doJk(model,
                  variables = as.character(scores[i, 1]), metric = metric,
