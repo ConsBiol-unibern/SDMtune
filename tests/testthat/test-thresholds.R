@@ -1,5 +1,5 @@
 m <- SDMtune:::bm_maxent
-test = SDMtune:::t
+test <- SDMtune:::t
 
 test_that("The output is correct when test argument is not given", {
   th <- thresholds(m, type = "cloglog")
