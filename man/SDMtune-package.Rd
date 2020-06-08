@@ -6,6 +6,8 @@
 \alias{_PACKAGE}
 \title{SDMtune: Species Distribution Model Selection}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 User-friendly framework that enables the training and the
     evaluation of species distribution models (SDMs). The package implements
     functions for data driven variable selection and model tuning and includes
