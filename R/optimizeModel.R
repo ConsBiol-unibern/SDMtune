@@ -205,7 +205,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   # Optimize using Genetic Algorithm
   if (gen > 0) {
     for (i in 1:gen) {
-      index_kept <- c(1:kept_good, sample( (kept_good + 1):pop, kept_bad))
+      index_kept <- c(1:kept_good, sample((kept_good + 1):pop, kept_bad))
       train_metric <- train_metric[index_kept, ]
       train_metric$x <- 1:kept
       if (metric != "aicc") {
@@ -321,7 +321,8 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
 .check_optimize_args <- function(hypers, grid, pop) {
 
   if (sum(lengths(hypers) > 2) < 1)
-    stop("One hyperparameter in hypers should have more than two values to allow crossover!")
+    stop("One hyperparameter in hypers should have more than two values to ",
+         "allow crossover!")
 
   if (length(names(hypers)) < 2) {
     stop(paste("You must provide at least two hyperparameters to be tuned!",
