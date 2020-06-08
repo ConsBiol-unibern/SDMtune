@@ -1,18 +1,18 @@
 # Get presence locations from an SWD object
 .get_presence <- function(swd) {
-  return(swd@data[swd@pa == 1,, drop = FALSE])
+  return(swd@data[swd@pa == 1, , drop = FALSE])
 }
 
 # Get absence locations from an SWD object
 .get_absence <- function(swd) {
-  return(swd@data[swd@pa == 0,, drop = FALSE])
+  return(swd@data[swd@pa == 0, , drop = FALSE])
 }
 
 # Subset an SWD object using the fold partition
 .subset_swd <- function(swd, fold) {
 
-  data <- swd@data[fold,, drop = FALSE]
-  coords <- swd@coords[fold,, drop = FALSE]
+  data <- swd@data[fold, , drop = FALSE]
+  coords <- swd@coords[fold, , drop = FALSE]
   rownames(data) <- NULL
   rownames(coords) <- NULL
   pa <- swd@pa[fold]
@@ -47,7 +47,7 @@
   footer <- c()
   tuned_args <- .get_train_args(model)[getTunableArgs(model)]
 
-  for (i in 1:length(tuned_args)) {
+  for (i in seq_along(tuned_args)) {
     footer <- c(footer, paste0(names(tuned_args)[i], ": ", tuned_args[[i]]))
   }
 
@@ -130,7 +130,7 @@
   fcs <- vector("character", length = length(models))
   distrs <- vector("character", length = length(models))
 
-  for (i in 1:length(models)) {
+  for (i in seq_along(models)) {
     if (class(models[[i]]) == "SDMmodel") {
       m <- models[[i]]
     } else {
@@ -280,7 +280,8 @@ get_tunable_args <- function(model) {
 .check_args <- function(model, metric, test = NULL, env = NULL, hypers = NULL) {
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
-    stop("You must provide the 'env' argument if you want to use the AICc metric!")
+    stop("You must provide the 'env' argument if you want to use the AICc ",
+         "metric!")
   # Throws exception if model is SDMmodel, metric is not aicc and
   # test is not provided
   if (class(model) == "SDMmodel" & is.null(test) & metric != "aicc") {
