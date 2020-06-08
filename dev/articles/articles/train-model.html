@@ -179,7 +179,7 @@
 <li>
 <code>method</code>: “Maxent” in our case;</li>
 <li>
-<code>data</code>: the <code><a href="../../reference/SWD-class.html">SWD()</a></code> object with the presence and background locations we created in the previous article.</li>
+<code>data</code>: the <code>SWD()</code> object with the presence and background locations we created in the previous article.</li>
 </ul>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">default_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>)</pre></body></html></div>
 <p>The function trains the model using default settings that are:</p>
@@ -193,7 +193,7 @@
 <div id="explore-an-sdmmodel-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#explore-an-sdmmodel-object" class="anchor"></a>Explore an SDMmodel object</h2>
-<p>The output of the <code><a href="../../reference/train.html">train()</a></code> function is an object of class <code><a href="../../reference/SDMmodel-class.html">SDMmodel()</a></code>. Let’s print the <code>model</code> object we’ve just created:</p>
+<p>The output of the <code><a href="../../reference/train.html">train()</a></code> function is an object of class <code>SDMmodel()</code>. Let’s print the <code>model</code> object we’ve just created:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">default_model</span>
 <span class="co">#&gt; Object of class SDMmodel </span>
 <span class="co">#&gt; Method: Maxent </span>
@@ -233,16 +233,16 @@
 </ul>
 </li>
 </ul>
-<p>An <code><a href="../../reference/SDMmodel-class.html">SDMmodel()</a></code> object has two slots:</p>
+<p>An <code>SDMmodel()</code> object has two slots:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu">slotNames</span>(<span class="no">default_model</span>)
 <span class="co">#&gt; [1] "data"  "model"</span></pre></body></html></div>
 <ul>
 <li>
-<strong>data</strong>: an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object with the presence absence/background locations used to train the model;</li>
+<strong>data</strong>: an <code>SWD()</code> object with the presence absence/background locations used to train the model;</li>
 <li>
-<strong>model</strong>: a <code><a href="../../reference/Maxent-class.html">Maxent()</a></code> object, in our case, with all the model configurations.</li>
+<strong>model</strong>: a <code>Maxent()</code> object, in our case, with all the model configurations.</li>
 </ul>
-<p>We can access the different slots in the same way we explored the <code><a href="../../reference/SWD-class.html">SWD()</a></code> object in the previous article, using the <strong>@</strong> symbol before the slot name (e.g. <code>default_model@data</code>).</p>
+<p>We can access the different slots in the same way we explored the <code>SWD()</code> object in the previous article, using the <strong>@</strong> symbol before the slot name (e.g. <code>default_model@data</code>).</p>
 <p>The slot <code>model</code> contains the configurations of the model plus other information used to make predictions.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">slotNames</span>(<span class="no">default_model</span>@<span class="kw">model</span>)
 <span class="co">#&gt;  [1] "results"    "reg"        "fc"         "iter"       "extra_args"</span>
@@ -280,7 +280,7 @@
 <p>In this article you have learned:</p>
 <ul>
 <li>how to train a <strong>Maxent</strong> model using default settings;</li>
-<li>how to explore an <code><a href="../../reference/SDMmodel-class.html">SDMmodel()</a></code> object;</li>
+<li>how to explore an <code>SDMmodel()</code> object;</li>
 <li>how to train a model changing the default settings;</li>
 <li>how to train a model using the <strong>Maxnet</strong> method.</li>
 </ul>

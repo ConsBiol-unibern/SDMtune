@@ -197,8 +197,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>
-object.</p></td>
+      <td><p><a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
     </tr>
     <tr>
       <th>metric</th>
@@ -212,9 +211,8 @@ takes all the variables used to train the model, default is <code>NULL</code>.</
     </tr>
     <tr>
       <th>test</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code>. If provided it reports the result also
-for the test dataset. Not used for <strong>aicc</strong> and
-<code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code>.</p></td>
+      <td><p><a href='SWD-class.html'>SWD</a>. If provided it reports the result also for the
+testing dataset. Not used for <strong>aicc</strong> and <a href='SDMmodelCV-class.html'>SDMmodelCV</a>.</p></td>
     </tr>
     <tr>
       <th>with_only</th>
@@ -223,8 +221,8 @@ variable in isolation, default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p><code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> containing the environmental
-variables, used only with "aicc", default is <code>NULL</code>.</p></td>
+      <td><p><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a> containing the environmental variables, used
+only with "aicc", default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -232,15 +230,15 @@ variables, used only with "aicc", default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>return_models</th>
-      <td><p>logical, if <code>TRUE</code> returns all the models together
-with the test result, default is <code>FALSE</code>.</p></td>
+      <td><p>logical, if <code>TRUE</code> returns all the models together with
+the test result, default is <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with the test results. If "<code>return_model = TRUE</code>"
-it returns a list containing the test results together with the models.</p>
+    <p>A data frame with the test results. If <code>return_model = TRUE</code> it
+returns a list containing the test results together with the models.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Sergio Vignali</p>

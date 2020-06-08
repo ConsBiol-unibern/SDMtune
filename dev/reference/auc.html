@@ -188,15 +188,14 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p><code><a href='SDMmodel-class.html'>SDMmodel</a></code> or
-<code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects.</p></td>
+      <td><p>An <a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object.</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p><code><a href='SWD-class.html'>SWD</a></code> object for <code><a href='SDMmodel-class.html'>SDMmodel</a></code>
-object. Logical or <code><a href='SWD-class.html'>SWD</a></code> object for
-<code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, if not provided it computes the
-train AUC, see details. Default is <code>NULL</code>.</p></td>
+      <td><p><a href='SWD-class.html'>SWD</a> object when <code>model</code> is an
+<a href='SDMmodel-class.html'>SDMmodel</a> object; logical or <a href='SWD-class.html'>SWD</a> object when
+<code>model</code> is an <a href='SDMmodelCV-class.html'>SDMmodelCV</a> object. If not provided it computes
+the training AUC, see details. Default is <code>NULL</code>.</p></td>
     </tr>
     </table>
 
@@ -205,17 +204,20 @@ train AUC, see details. Default is <code>NULL</code>.</p></td>
     <p>The value of the AUC.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For <code><a href='SDMmodelCV-class.html'>SDMmodelCV</a></code> objects, the function computes
-the mean of the training AUC values of the k-folds. If <code>test = TRUE</code> it
-computes the mean of the testing AUC values for the k-folds. If test is an
-<code><a href='SWD-class.html'>SWD</a></code> object, it computes the mean AUC values for the
-provided testing dataset.</p>
+    <p>For <a href='SDMmodelCV-class.html'>SDMmodelCV</a> objects, the function computes the mean
+of the training AUC values of the k-folds. If <code>test = TRUE</code> it computes the
+mean of the testing AUC values for the k-folds. If test is an
+<a href='SWD-class.html'>SWD</a> object, it computes the mean AUC values for the provided
+testing dataset.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative
 operating characteristics (ROC) and relative operating levels (ROL) curves:
 Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 2145-2166.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='aicc.html'>aicc</a> and <a href='tss.html'>tss</a>.</p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Sergio Vignali</p>

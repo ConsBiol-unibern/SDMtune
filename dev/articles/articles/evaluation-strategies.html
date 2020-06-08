@@ -339,7 +339,7 @@ testAUC
 #&gt; ---------
 #&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
 #&gt; Categorical: biome</code></pre>
-<p>The output in this case is an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object. It contains the four trained models in the <code>models</code> slot and the fold partitions in the <code>folds</code> slot. We can compute the AUC of a <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object using:</p>
+<p>The output in this case is an <code>SDMmodelCV()</code> object. It contains the four trained models in the <code>models</code> slot and the fold partitions in the <code>folds</code> slot. We can compute the AUC of a <code>SDMmodelCV()</code> object using:</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">cv_model</span>))
 <span class="co">#&gt; Training AUC:  0.8734151</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">cv_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
@@ -380,7 +380,7 @@ testAUC
 <li>how to create random folds for cross validation;</li>
 <li>how to perform a cross validation;</li>
 <li>how to use other packages to create the folds for the k-fold cross validation;</li>
-<li>how to evaluate an <code><a href="../../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object.</li>
+<li>how to evaluate an <code>SDMmodelCV()</code> object.</li>
 </ul>
 <p>In the <a href="./variable-importance.html">next article</a> you will learn how to display the variable importance and how to plot the response curve.</p>
 </div>

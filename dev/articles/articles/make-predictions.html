@@ -156,8 +156,8 @@
 <span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></pre></body></html></div>
 <p>New locations are predicted with the function <a href="../../reference/predict-SDMmodel-method.html">predict()</a>. The function takes three main arguments:</p>
 <ul>
-<li>a trained <code><a href="../../reference/SDMmodel-class.html">SDMmodel()</a></code> object;</li>
-<li>a new dataset, used to make prediction; can be a <code>data.frame</code>, an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object or a raster <code>stack</code> object;</li>
+<li>a trained <code>SDMmodel()</code> object;</li>
+<li>a new dataset, used to make prediction; can be a <code>data.frame</code>, an <code>SWD()</code> object or a raster <code>stack</code> object;</li>
 <li>the output type, that for <strong>Maxent</strong> models can be: <strong>raw</strong>, <strong>logistic</strong> or <strong>cloglog</strong>.</li>
 </ul>
 <p>Next we get the prediction for our training locations using the <strong>cloglog</strong> output type:</p>
@@ -220,7 +220,7 @@
 <div id="plot-a-presenceabsence-map" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-a-presenceabsence-map" class="anchor"></a>Plot a presence/absence map</h2>
-<p>To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function <code><a href="../../reference/thresholds.html">thresholds()</a></code> returns some commonly used threshold values starting from an <code><a href="../../reference/SDMmodel-class.html">SDMmodel()</a></code> object. In the next example we print the threshold values for the <code>default_model</code> object using the type <code>"cloglog"</code>:</p>
+<p>To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function <code><a href="../../reference/thresholds.html">thresholds()</a></code> returns some commonly used threshold values starting from an <code>SDMmodel()</code> object. In the next example we print the threshold values for the <code>default_model</code> object using the type <code>"cloglog"</code>:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">ths</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/thresholds.html">thresholds</a></span>(<span class="no">default_model</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>)
 <span class="fu"><a href="../../reference/thresholds.html">thresholds</a></span>(<span class="no">default_model</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>)</pre></body></html></div>
 <table class="table table table-striped table-hover">

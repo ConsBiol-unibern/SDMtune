@@ -144,7 +144,7 @@
 <div id="explore-variable-correlation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#explore-variable-correlation" class="anchor"></a>Explore variable correlation</h2>
-<p>We extract 10000 background locations using the <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints">randomPoints</a> function included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code><a href="../../reference/SWD-class.html">SWD()</a></code> object using the <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function:</p>
+<p>We extract 10000 background locations using the <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints">randomPoints</a> function included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code>SWD()</code> object using the <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
 <span class="no">bg</span> <span class="kw">&lt;-</span> <span class="kw pkg">dismo</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html">randomPoints</a></span>(<span class="no">predictors</span>, <span class="fl">10000</span>)
 <span class="co">#&gt; Warning in dismo::randomPoints(predictors, 10000): generated random points =</span>
