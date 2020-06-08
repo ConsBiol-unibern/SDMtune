@@ -50,6 +50,9 @@ Warren D.L., Seifert S.N., (2011). Ecological niche modeling in
 Maxent: the importance of model complexity and the performance of model
 selection criteria. Ecological Applications, 21(2), 335–342.
 }
+\seealso{
+\link{auc} and \link{tss}.
+}
 \author{
 Sergio Vignali
 }

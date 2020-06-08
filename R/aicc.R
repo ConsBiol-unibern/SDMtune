@@ -21,6 +21,8 @@
 #' Maxent: the importance of model complexity and the performance of model
 #' selection criteria. Ecological Applications, 21(2), 335–342.
 #'
+#' @seealso \link{auc} and \link{tss}.
+#'
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
