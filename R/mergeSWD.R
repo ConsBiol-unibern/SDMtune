@@ -78,7 +78,8 @@ mergeSWD <- function(swd1, swd2, only_presence = FALSE) {
                       swd1@data[swd1@pa == 0, ])
     rownames(swd@data) <- NULL
     # Align only presence coords
-    swd@coords <- rbind(swd1@coords[swd1@pa == 1, ], swd2@coords[swd2@pa == 1, ],
+    swd@coords <- rbind(swd1@coords[swd1@pa == 1, ],
+                        swd2@coords[swd2@pa == 1, ],
                         swd1@coords[swd1@pa == 0, ])
     rownames(swd@coords) <- NULL
 
@@ -91,8 +92,10 @@ mergeSWD <- function(swd1, swd2, only_presence = FALSE) {
                       swd1@data[swd1@pa == 0, ], swd2@data[swd2@pa == 0, ])
     rownames(swd@data) <- NULL
     # Align presence/absence coords
-    swd@coords <- rbind(swd1@coords[swd1@pa == 1, ], swd2@coords[swd2@pa == 1, ],
-                        swd1@coords[swd1@pa == 0, ], swd2@coords[swd2@pa == 0, ])
+    swd@coords <- rbind(swd1@coords[swd1@pa == 1, ],
+                        swd2@coords[swd2@pa == 1, ],
+                        swd1@coords[swd1@pa == 0, ],
+                        swd2@coords[swd2@pa == 0, ])
     rownames(swd@coords) <- NULL
 
     # Align pa
