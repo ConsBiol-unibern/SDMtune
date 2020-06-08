@@ -101,7 +101,7 @@ thresholds <- function(model, type = NULL, test = NULL) {
     if (!is.null(test)) {
       index <- which.min(abs(cm_test$th - ths[i]))
       or_test[i] <- cm_test[index, ]$fn / n_test
-      p_values[i] <- stats::binom.test( (round( (1 - or_test[i]), 0) * n_test),
+      p_values[i] <- stats::binom.test((round((1 - or_test[i]), 0) * n_test),
                                        n_test, fpa[i],
                                        alternative = "greater")$p.value
     }
