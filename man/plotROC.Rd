@@ -7,10 +7,9 @@
 plotROC(model, test = NULL)
 }
 \arguments{
-\item{model}{\code{\link{SDMmodel}} object.}
+\item{model}{\linkS4class{SDMmodel} object.}
 
-\item{test}{\code{\link{SWD}} object. The testing dataset, default is
-\code{NULL}.}
+\item{test}{\linkS4class{SWD} object. The testing dataset, default is \code{NULL}.}
 }
 \value{
 The plot object.

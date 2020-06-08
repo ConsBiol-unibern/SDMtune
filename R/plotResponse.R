@@ -2,28 +2,25 @@
 #'
 #' Plot the Response Curve of the given environmental variable.
 #'
-#' @param model \code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-#' object.
+#' @param model \linkS4class{SDMmodel} or linkS4class{SDMmodelCV} object.
 #' @param var character. Name of the variable to be plotted.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
-#' methods, possible values are "cloglog" and "logistic", default is
-#' \code{NULL}.
-#' @param only_presence logical, if \code{TRUE} it uses only the presence
-#' locations when applying the function for the marginal response, default is
-#' \code{FALSE}.
-#' @param marginal logical, if \code{TRUE} it plots the marginal response curve,
-#' default is \code{FALSE}.
+#' methods, possible values are "cloglog" and "logistic", default is `NULL`.
+#' @param only_presence logical, if `TRUE` it uses only the presence locations
+#' when applying the function for the marginal response, default is `FALSE`.
+#' @param marginal logical, if `TRUE` it plots the marginal response curve,
+#' default is `FALSE`.
 #' @param fun function used to compute the level of the other variables for
-#' marginal curves, default is \code{mean}.
-#' @param rug logical, if \code{TRUE} it adds the rug plot for the presence and
+#' marginal curves, default is `mean`.
+#' @param rug logical, if `TRUE` it adds the rug plot for the presence and
 #' absence/background locations, available only for continuous variables,
-#' default is \code{FALSE}.
+#' default is `FALSE`.
 #' @param color The color of the curve, default is "red".
 #'
-#' @details Note that fun is not a character argument, you must use \code{mean}
-#' and not \code{"mean"}.
+#' @details Note that fun is not a character argument, you must use `mean` and
+#' not `"mean"`.
 #'
-#' @return A \code{\link[ggplot2]{ggplot}} object.
+#' @return A \link[ggplot2]{ggplot} object.
 #' @export
 #' @importFrom ggplot2 ggplot aes_string geom_line geom_bar scale_x_continuous
 #' geom_ribbon geom_errorbar geom_rug labs theme

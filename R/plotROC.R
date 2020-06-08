@@ -2,9 +2,8 @@
 #'
 #' Plot the ROC curve of the given model and print the AUC value.
 #'
-#' @param model \code{\link{SDMmodel}} object.
-#' @param test \code{\link{SWD}} object. The testing dataset, default is
-#' \code{NULL}.
+#' @param model \linkS4class{SDMmodel} object.
+#' @param test \linkS4class{SWD} object. The testing dataset, default is `NULL`.
 #'
 #' @return The plot object.
 #' @export

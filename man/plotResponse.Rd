@@ -16,18 +16,15 @@ plotResponse(
 )
 }
 \arguments{
-\item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
-object.}
+\item{model}{\linkS4class{SDMmodel} or linkS4class{SDMmodelCV} object.}
 
 \item{var}{character. Name of the variable to be plotted.}
 
 \item{type}{character. The output type used for "Maxent" and "Maxnet"
-methods, possible values are "cloglog" and "logistic", default is
-\code{NULL}.}
+methods, possible values are "cloglog" and "logistic", default is \code{NULL}.}
 
-\item{only_presence}{logical, if \code{TRUE} it uses only the presence
-locations when applying the function for the marginal response, default is
-\code{FALSE}.}
+\item{only_presence}{logical, if \code{TRUE} it uses only the presence locations
+when applying the function for the marginal response, default is \code{FALSE}.}
 
 \item{marginal}{logical, if \code{TRUE} it plots the marginal response curve,
 default is \code{FALSE}.}
@@ -42,14 +39,14 @@ default is \code{FALSE}.}
 \item{color}{The color of the curve, default is "red".}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object.
+A \link[ggplot2]{ggplot} object.
 }
 \description{
 Plot the Response Curve of the given environmental variable.
 }
 \details{
-Note that fun is not a character argument, you must use \code{mean}
-and not \code{"mean"}.
+Note that fun is not a character argument, you must use \code{mean} and
+not \code{"mean"}.
 }
 \examples{
 \donttest{
