@@ -19,7 +19,7 @@ setMethod("show",
   signature = "SDMtune",
   definition = function(object) {
 
-    tunable_hypers <- get_tunable_args(object@models[[1]])
+    tunable_hypers <- getTunableArgs(object@models[[1]])
 
     cat("Object of class: ", class(object), "\n\n")
 
