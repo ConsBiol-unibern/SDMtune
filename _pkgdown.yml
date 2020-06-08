@@ -73,6 +73,7 @@ reference:
   desc: Function to train the model and get information from the model
   contents:
   - '`get_tunable_args`'
+  - '`getTunableArgs`'
   - '`modelReport`'
   - '`maxentTh`'
   - '`maxentVarImp`'
