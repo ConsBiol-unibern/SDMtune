@@ -9,9 +9,10 @@ auc(model, test = NULL)
 \arguments{
 \item{model}{An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
-\item{test}{An \linkS4class{SWD} object for \linkS4class{SDMmodel} objects;
-logical or \linkS4class{SWD} object for \linkS4class{SDMmodelCV} objects, if
-not provided it computes the train AUC, see details. Default is \code{NULL}.}
+\item{test}{\linkS4class{SWD} object when \code{model} is an
+\linkS4class{SDMmodel} object; logical or \linkS4class{SWD} object when
+\code{model} is an \linkS4class{SDMmodelCV} object. If not provided it computes
+the training AUC, see details. Default is \code{NULL}.}
 }
 \value{
 The value of the AUC.

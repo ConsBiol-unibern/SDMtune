@@ -3,9 +3,10 @@
 #' Compute the AUC using the Man-Whitney U Test formula.
 #'
 #' @param model An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
-#' @param test An \linkS4class{SWD} object for \linkS4class{SDMmodel} objects;
-#' logical or \linkS4class{SWD} object for \linkS4class{SDMmodelCV} objects, if
-#' not provided it computes the train AUC, see details. Default is `NULL`.
+#' @param test \linkS4class{SWD} object when `model` is an
+#' \linkS4class{SDMmodel} object; logical or \linkS4class{SWD} object when
+#' `model` is an \linkS4class{SDMmodelCV} object. If not provided it computes
+#' the training AUC, see details. Default is `NULL`.
 #'
 #' @details For \linkS4class{SDMmodelCV} objects, the function computes the mean
 #' of the training AUC values of the k-folds. If `test = TRUE` it computes the
