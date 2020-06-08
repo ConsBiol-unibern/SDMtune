@@ -27,7 +27,7 @@ Plot Prediction output.
 \examples{
 \donttest{
 map <- raster::raster(matrix(runif(400, 0, 1), 20, 20))
-plotPred(map, lt = "Habitat suitability \\ncloglog")
+plotPred(map, lt = "Habitat suitability \ncloglog")
 # Custom colors
 plotPred(map, lt = "Habitat suitability",
          colorramp = c("#2c7bb6", "#ffffbf", "#d7191c"))

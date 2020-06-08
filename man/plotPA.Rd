@@ -4,8 +4,15 @@
 \alias{plotPA}
 \title{Plot Presence Absence Map}
 \usage{
-plotPA(map, th, colors = NULL, hr = FALSE, filename = NULL,
-  format = "GTiff", ...)
+plotPA(
+  map,
+  th,
+  colors = NULL,
+  hr = FALSE,
+  filename = NULL,
+  format = "GTiff",
+  ...
+)
 }
 \arguments{
 \item{map}{\code{\link[raster]{raster}} object with the prediction.}

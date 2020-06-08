@@ -4,8 +4,16 @@
 \alias{doJk}
 \title{Jackknife Test}
 \usage{
-doJk(model, metric, variables = NULL, test = NULL, with_only = TRUE,
-  env = NULL, parallel = FALSE, return_models = FALSE)
+doJk(
+  model,
+  metric,
+  variables = NULL,
+  test = NULL,
+  with_only = TRUE,
+  env = NULL,
+  parallel = FALSE,
+  return_models = FALSE
+)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}

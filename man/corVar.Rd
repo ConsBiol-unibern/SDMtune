@@ -4,8 +4,13 @@
 \alias{corVar}
 \title{Print Correlated Variables}
 \usage{
-corVar(bg, method = "spearman", cor_th = NULL, order = TRUE,
-  remove_diagonal = TRUE)
+corVar(
+  bg,
+  method = "spearman",
+  cor_th = NULL,
+  order = TRUE,
+  remove_diagonal = TRUE
+)
 }
 \arguments{
 \item{bg}{\code{\linkS4class{SWD}} object with the locations used to compute

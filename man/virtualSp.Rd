@@ -4,7 +4,8 @@
 \name{virtualSp}
 \alias{virtualSp}
 \title{Virtual Species}
-\format{A list with five elements:
+\format{
+A list with five elements:
 \describe{
 \item{presence}{400 random generated coordinates for the presence locations.}
 \item{absence}{300 random generated coordinates for the absence locations.}
@@ -13,7 +14,8 @@ locations.}
 \item{pa_map}{Presence absence map used to extract the presence and absence
 locations.}
 \item{prob_map}{Probability map of the random generated virtual species.}
-}}
+}
+}
 \usage{
 virtualSp
 }

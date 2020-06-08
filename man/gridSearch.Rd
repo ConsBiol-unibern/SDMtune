@@ -4,8 +4,15 @@
 \alias{gridSearch}
 \title{Grid Search}
 \usage{
-gridSearch(model, hypers, metric, test = NULL, env = NULL,
-  parallel = FALSE, save_models = TRUE)
+gridSearch(
+  model,
+  hypers,
+  metric,
+  test = NULL,
+  env = NULL,
+  parallel = FALSE,
+  save_models = TRUE
+)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or code{\linkS4class{SDMmodelCV}}

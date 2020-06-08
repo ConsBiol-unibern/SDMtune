@@ -4,8 +4,16 @@
 \alias{plotResponse}
 \title{Plot Response Curve}
 \usage{
-plotResponse(model, var, type = NULL, only_presence = FALSE,
-  marginal = FALSE, fun = mean, rug = FALSE, color = "red")
+plotResponse(
+  model,
+  var,
+  type = NULL,
+  only_presence = FALSE,
+  marginal = FALSE,
+  fun = mean,
+  rug = FALSE,
+  color = "red"
+)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}

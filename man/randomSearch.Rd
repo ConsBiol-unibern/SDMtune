@@ -4,8 +4,16 @@
 \alias{randomSearch}
 \title{Random Search}
 \usage{
-randomSearch(model, hypers, metric, test = NULL, pop = 20,
-  env = NULL, parallel = FALSE, seed = NULL)
+randomSearch(
+  model,
+  hypers,
+  metric,
+  test = NULL,
+  pop = 20,
+  env = NULL,
+  parallel = FALSE,
+  seed = NULL
+)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}

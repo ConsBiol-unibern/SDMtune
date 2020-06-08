@@ -4,9 +4,20 @@
 \alias{optimizeModel}
 \title{Optimize Model}
 \usage{
-optimizeModel(model, hypers, metric, test = NULL, pop = 20, gen = 5,
-  env = NULL, parallel = FALSE, keep_best = 0.4, keep_random = 0.2,
-  mutation_chance = 0.4, seed = NULL)
+optimizeModel(
+  model,
+  hypers,
+  metric,
+  test = NULL,
+  pop = 20,
+  gen = 5,
+  env = NULL,
+  parallel = FALSE,
+  keep_best = 0.4,
+  keep_random = 0.2,
+  mutation_chance = 0.4,
+  seed = NULL
+)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}

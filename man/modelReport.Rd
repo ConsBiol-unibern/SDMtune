@@ -4,9 +4,18 @@
 \alias{modelReport}
 \title{Model Report}
 \usage{
-modelReport(model, folder, test = NULL, type = NULL,
-  response_curves = FALSE, only_presence = FALSE, jk = FALSE,
-  env = NULL, clamp = TRUE, permut = 10)
+modelReport(
+  model,
+  folder,
+  test = NULL,
+  type = NULL,
+  response_curves = FALSE,
+  only_presence = FALSE,
+  jk = FALSE,
+  env = NULL,
+  clamp = TRUE,
+  permut = 10
+)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} object.}

@@ -4,8 +4,17 @@
 \alias{reduceVar}
 \title{Reduce Variables}
 \usage{
-reduceVar(model, th, metric, test = NULL, env = NULL,
-  parallel = FALSE, use_jk = FALSE, permut = 10, use_pc = FALSE)
+reduceVar(
+  model,
+  th,
+  metric,
+  test = NULL,
+  env = NULL,
+  parallel = FALSE,
+  use_jk = FALSE,
+  permut = 10,
+  use_pc = FALSE
+)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}

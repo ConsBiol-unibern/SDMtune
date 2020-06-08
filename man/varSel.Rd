@@ -4,9 +4,18 @@
 \alias{varSel}
 \title{Variable Selection}
 \usage{
-varSel(model, metric, bg4cor, test = NULL, env = NULL,
-  parallel = FALSE, method = "spearman", cor_th = 0.7, permut = 10,
-  use_pc = FALSE)
+varSel(
+  model,
+  metric,
+  bg4cor,
+  test = NULL,
+  env = NULL,
+  parallel = FALSE,
+  method = "spearman",
+  cor_th = 0.7,
+  permut = 10,
+  use_pc = FALSE
+)
 }
 \arguments{
 \item{model}{\code{\linkS4class{SDMmodel}} or \code{\linkS4class{SDMmodelCV}}
