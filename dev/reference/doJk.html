@@ -56,7 +56,7 @@
 
 <meta property="og:title" content="Jackknife Test — doJk" />
 <meta property="og:description" content="Run the Jackknife test for variable importance removing one variable at time." />
-<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.svg" />
+<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 
 
 <meta name="robots" content="noindex">
@@ -181,8 +181,16 @@
     <p>Run the Jackknife test for variable importance removing one variable at time.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>doJk</span>(<span class='no'>model</span>, <span class='no'>metric</span>, <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>with_only</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>return_models</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>doJk</span>(
+  <span class='no'>model</span>,
+  <span class='no'>metric</span>,
+  <span class='kw'>variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>with_only</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>return_models</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

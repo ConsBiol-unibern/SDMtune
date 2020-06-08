@@ -56,7 +56,7 @@
 
 <meta property="og:title" content="Plot Presence Absence Map — plotPA" />
 <meta property="og:description" content="Plot a presence absence map using the given threshold." />
-<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.svg" />
+<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 
 
 <meta name="robots" content="noindex">
@@ -181,8 +181,15 @@
     <p>Plot a presence absence map using the given threshold.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotPA</span>(<span class='no'>map</span>, <span class='no'>th</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"GTiff"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plotPA</span>(
+  <span class='no'>map</span>,
+  <span class='no'>th</span>,
+  <span class='kw'>colors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"GTiff"</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

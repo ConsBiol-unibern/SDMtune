@@ -62,7 +62,7 @@ after removing the variable the model performance decreases (according to the
 given metric and based on the starting model). In this case the function
 stops removing the variable even if the contribution is lower than the given
 threshold." />
-<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.svg" />
+<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 
 
 <meta name="robots" content="noindex">
@@ -193,8 +193,17 @@ stops removing the variable even if the contribution is lower than the given
 threshold.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='no'>th</span>, <span class='no'>metric</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>use_jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>use_pc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>reduceVar</span>(
+  <span class='no'>model</span>,
+  <span class='no'>th</span>,
+  <span class='no'>metric</span>,
+  <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>use_jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>use_pc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

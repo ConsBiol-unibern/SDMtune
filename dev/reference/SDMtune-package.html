@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SDMmodelCV — SDMmodelCV-class • SDMtune</title>
+<title>SDMtune: Species Distribution Model Selection — SDMtune-package • SDMtune</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -54,9 +54,14 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="SDMmodelCV — SDMmodelCV-class" />
-<meta property="og:description" content="This Class represents a SDMmodel model object with replicates and hosts all
-the models trained during the cross validation." />
+<meta property="og:title" content="SDMtune: Species Distribution Model Selection — SDMtune-package" />
+<meta property="og:description" content="
+User-friendly framework that enables the training and the
+    evaluation of species distribution models (SDMs). The package implements
+    functions for data driven variable selection and model tuning and includes
+    numerous utilities to display the results. All the functions used to select
+    variables or to tune model hyperparameters have an interactive real-time
+    chart displayed in the 'RStudio' viewer pane during their execution." />
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 
 
@@ -173,38 +178,45 @@ the models trained during the cross validation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>SDMmodelCV</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ConsBiol-unibern/SDMtune/blob/master/R/SDMmodelCV-class.R'><code>R/SDMmodelCV-class.R</code></a></small>
-    <div class="hidden name"><code>SDMmodelCV-class.Rd</code></div>
+    <h1>SDMtune: Species Distribution Model Selection</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ConsBiol-unibern/SDMtune/blob/master/R/SDMtune-package.R'><code>R/SDMtune-package.R</code></a></small>
+    <div class="hidden name"><code>SDMtune-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This Class represents a SDMmodel model object with replicates and hosts all
-the models trained during the cross validation.</p>
+    <p><img src='figures/logo.png' align='right' alt='logo' width='120' /></p>
+<p>User-friendly framework that enables the training and the
+    evaluation of species distribution models (SDMs). The package implements
+    functions for data driven variable selection and model tuning and includes
+    numerous utilities to display the results. All the functions used to select
+    variables or to tune model hyperparameters have an interactive real-time
+    chart displayed in the 'RStudio' viewer pane during their execution.</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://consbiol-unibern.github.io/SDMtune/'>https://consbiol-unibern.github.io/SDMtune/</a></p></li>
+<li><p><a href='https://github.com/ConsBiol-unibern/SDMtune'>https://github.com/ConsBiol-unibern/SDMtune</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/ConsBiol-unibern/SDMtune/issues'>https://github.com/ConsBiol-unibern/SDMtune/issues</a></p></li>
+</ul>
 
-<dl>
-<dt><code>models</code></dt><dd><p>list. A list containing all the models trained during the cross
-validation.</p></dd>
-
-<dt><code>data</code></dt><dd><p><code><a href='SWD-class.html'>SWD</a></code> object. Full dataset used to make the
-partitions.</p></dd>
-
-<dt><code>folds</code></dt><dd><p>list with two matrices, the first for the training and the second
-for the testing dataset. Each column of one matrix represents a fold with
-<code>TRUE</code> for the locations included in and <code>FALSE</code> excluded from the
-partition.</p></dd>
-
-</dl>
+</div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Sergio Vignali</p>
+    <p><strong>Maintainer</strong>: Sergio Vignali <a href='mailto:sergio.vignali@iee.unibe.ch'>sergio.vignali@iee.unibe.ch</a> (<a href='https://orcid.org/0000-0002-3390-5442'>ORCID</a>)</p>
+<p>Authors:</p><ul>
+<li><p>Arnaud Barras (<a href='https://orcid.org/0000-0003-0850-6965'>ORCID</a>)</p></li>
+<li><p>Veronika Braunisch (<a href='https://orcid.org/0000-0001-7035-4662'>ORCID</a>)</p></li>
+</ul>
+
+<p>Other contributors:</p><ul>
+<li><p>Conservation Biology - University of Bern [funder]</p></li>
+</ul>
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

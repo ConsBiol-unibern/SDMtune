@@ -56,7 +56,7 @@
 
 <meta property="og:title" content="Model Report — modelReport" />
 <meta property="og:description" content="Make a report that shows the main results." />
-<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.svg" />
+<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 
 
 <meta name="robots" content="noindex">
@@ -181,9 +181,18 @@
     <p>Make a report that shows the main results.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>modelReport</span>(<span class='no'>model</span>, <span class='no'>folder</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>response_curves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>modelReport</span>(
+  <span class='no'>model</span>,
+  <span class='no'>folder</span>,
+  <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>response_curves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>jk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

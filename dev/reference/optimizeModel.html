@@ -57,7 +57,7 @@
 <meta property="og:title" content="Optimize Model — optimizeModel" />
 <meta property="og:description" content="The function uses a Genetic Algorithm implementation to optimize the model
 hyperparameter configuration according to the chosen metric." />
-<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.svg" />
+<meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png" />
 
 
 <meta name="robots" content="noindex">
@@ -183,9 +183,20 @@ hyperparameter configuration according to the chosen metric." />
 hyperparameter configuration according to the chosen metric.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>optimizeModel</span>(<span class='no'>model</span>, <span class='no'>hypers</span>, <span class='no'>metric</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keep_best</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>keep_random</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-  <span class='kw'>mutation_chance</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>optimizeModel</span>(
+  <span class='no'>model</span>,
+  <span class='no'>hypers</span>,
+  <span class='no'>metric</span>,
+  <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>keep_best</span> <span class='kw'>=</span> <span class='fl'>0.4</span>,
+  <span class='kw'>keep_random</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+  <span class='kw'>mutation_chance</span> <span class='kw'>=</span> <span class='fl'>0.4</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
