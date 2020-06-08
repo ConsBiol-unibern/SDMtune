@@ -38,7 +38,7 @@ maxentTh(model)
 }
 }
 \seealso{
-\code{\link{maxentVarImp}}
+\link{maxentVarImp}.
 }
 \author{
 Sergio Vignali

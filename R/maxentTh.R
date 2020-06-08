@@ -9,7 +9,7 @@
 #'
 #' @author Sergio Vignali
 #'
-#' @seealso \code{\link{maxentVarImp}}
+#' @seealso \link{maxentVarImp}.
 #'
 #' @examples
 #' # Acquire environmental variables
