@@ -66,14 +66,13 @@ reference:
   - '`addSamplesToBg`'
   - '`prepareSWD`'
   - '`randomFolds`'
-  - '`swd2csv`'
   - '`thinData`'
   - '`trainValTest`'
 - title: Modeling
   desc: Function to train the model and get information from the model
   contents:
-  - '`get_tunable_args`'
   - '`getTunableArgs`'
+  - '`get_tunable_args`'
   - '`modelReport`'
   - '`maxentTh`'
   - '`maxentVarImp`'
@@ -97,7 +96,6 @@ reference:
 - title: Data-driven Variable selection
   desc: Function to perform Data-driven Variable selection
   contents:
-  - '`checkMaxentInstalation`'
   - '`corVar`'
   - '`reduceVar`'
   - '`varSel`'
@@ -121,8 +119,10 @@ reference:
 - title: Utilities
   desc: Some utility functions
   contents:
+  - '`checkMaxentInstallation`'
   - '`mergeSWD`'
   - '`SDMmodel2MaxEnt`'
+  - '`swd2csv`'
 - title: Dataset
   desc: Dataset provided with the package
   contents:
