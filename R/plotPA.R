@@ -2,21 +2,21 @@
 #'
 #' Plot a presence absence map using the given threshold.
 #'
-#' @param map \code{\link[raster]{raster}} object with the prediction.
+#' @param map \link[raster]{raster} object with the prediction.
 #' @param th numeric. The threshold used to convert the output in a
 #' presence/absence map.
-#' @param colors vector. Colors to be used, default is \code{NULL} and uses red
-#' and blue.
-#' @param hr logical, if \code{TRUE} produces an output with high resolution,
-#' default is {FALSE}.
+#' @param colors vector. Colors to be used, default is `NULL` and uses red and
+#' blue.
+#' @param hr logical, if `TRUE` produces an output with high resolution,
+#' default is `FALSE`.
 #' @param filename character, if provided the raster map is saved in a file,
-#' default is \code{NULL}.
-#' @param format character. The output format, see
-#' \code{\link[raster]{writeRaster}} for all the options, default is Geotiff.
-#' @param ... Additional arguments, see \code{\link{writeRaster}} for all the
+#' default is `NULL`.
+#' @param format character. The output format, see \link[raster]{writeRaster}
+#' for all the options, default is Geotiff.
+#' @param ... Additional arguments, see \link[raster]{writeRaster} for all the
 #' options.
 #'
-#' @return A \code{\link[ggplot2]{ggplot}} object.
+#' @return A \link[ggplot2]{ggplot} object.
 #' @export
 #' @importFrom ggplot2 geom_tile aes_ scale_fill_manual coord_equal labs
 #' scale_x_continuous scale_y_continuous theme_minimal theme element_text
@@ -25,7 +25,7 @@
 #'
 #' @author Sergio Vignali
 #'
-#' @seealso \code{\link{plotPred}}
+#' @seealso \link{plotPred}.
 #'
 #' @examples
 #' \donttest{

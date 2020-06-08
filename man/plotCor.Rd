@@ -7,8 +7,7 @@
 plotCor(bg, method = "spearman", cor_th = NULL)
 }
 \arguments{
-\item{bg}{code{\linkS4class{SWD}} object used to compute the correlation
-matrix.}
+\item{bg}{\linkS4class{SWD} object used to compute the correlation matrix.}
 
 \item{method}{character. The method used to compute the correlation matrix,
 default is "spearman".}
@@ -17,7 +16,7 @@ default is "spearman".}
 higher or lower than the given threshold, default is \code{NULL}.}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object.
+A \link[ggplot2]{ggplot} object.
 }
 \description{
 Plot a correlation matrix heat map with the value of the correlation

@@ -7,7 +7,7 @@
 plotJk(jk, type = c("train", "test"), ref = NULL)
 }
 \arguments{
-\item{jk}{data.frame with the output of the \strong{doJk} function.}
+\item{jk}{data.frame with the output of the \link{doJk} function.}
 
 \item{type}{character, "train" or "test" to plot the result of the test on
 the train or testing dataset.}
@@ -17,7 +17,7 @@ using all the variables. If provided it plots a vertical line showing the
 reference value. Default is \code{NULL}.}
 }
 \value{
-The \code{\link[ggplot2]{ggplot}} object.
+A \link[ggplot2]{ggplot} object.
 }
 \description{
 Plot the Jackknife Test for variable importance.

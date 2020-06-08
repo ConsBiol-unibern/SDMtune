@@ -5,14 +5,13 @@
 #' prints only the coefficients that are higher or lower than the given
 #' threshold.
 #'
-#' @param bg code{\linkS4class{SWD}} object used to compute the correlation
-#' matrix.
+#' @param bg \linkS4class{SWD} object used to compute the correlation matrix.
 #' @param method character. The method used to compute the correlation matrix,
 #' default is "spearman".
 #' @param cor_th numeric. If provided it prints only the coefficients that are
-#' higher or lower than the given threshold, default is \code{NULL}.
+#' higher or lower than the given threshold, default is `NULL`.
 #'
-#' @return A \code{\link[ggplot2]{ggplot}} object.
+#' @return A \link[ggplot2]{ggplot} object.
 #' @export
 #' @importFrom ggplot2 ggplot aes_ scale_fill_gradient2 theme_minimal theme
 #' element_text coord_fixed element_blank geom_text

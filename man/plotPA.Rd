@@ -15,28 +15,28 @@ plotPA(
 )
 }
 \arguments{
-\item{map}{\code{\link[raster]{raster}} object with the prediction.}
+\item{map}{\link[raster]{raster} object with the prediction.}
 
 \item{th}{numeric. The threshold used to convert the output in a
 presence/absence map.}
 
-\item{colors}{vector. Colors to be used, default is \code{NULL} and uses red
-and blue.}
+\item{colors}{vector. Colors to be used, default is \code{NULL} and uses red and
+blue.}
 
 \item{hr}{logical, if \code{TRUE} produces an output with high resolution,
-default is {FALSE}.}
+default is \code{FALSE}.}
 
 \item{filename}{character, if provided the raster map is saved in a file,
 default is \code{NULL}.}
 
-\item{format}{character. The output format, see
-\code{\link[raster]{writeRaster}} for all the options, default is Geotiff.}
+\item{format}{character. The output format, see \link[raster]{writeRaster}
+for all the options, default is Geotiff.}
 
-\item{...}{Additional arguments, see \code{\link{writeRaster}} for all the
+\item{...}{Additional arguments, see \link[raster]{writeRaster} for all the
 options.}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object.
+A \link[ggplot2]{ggplot} object.
 }
 \description{
 Plot a presence absence map using the given threshold.
@@ -55,7 +55,7 @@ plotPA(map, th = 0.7, filename = "my_map", format = "ascii")
 }
 }
 \seealso{
-\code{\link{plotPred}}
+\link{plotPred}.
 }
 \author{
 Sergio Vignali

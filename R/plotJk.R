@@ -2,14 +2,14 @@
 #'
 #' Plot the Jackknife Test for variable importance.
 #'
-#' @param jk data.frame with the output of the **doJk** function.
+#' @param jk data.frame with the output of the \link{doJk} function.
 #' @param type character, "train" or "test" to plot the result of the test on
 #' the train or testing dataset.
 #' @param ref numeric. The value of the chosen metric for the model trained
 #' using all the variables. If provided it plots a vertical line showing the
-#' reference value. Default is \code{NULL}.
+#' reference value. Default is `NULL`.
 #'
-#' @return The \code{\link[ggplot2]{ggplot}} object.
+#' @return A \link[ggplot2]{ggplot} object.
 #' @export
 #' @importFrom ggplot2 ggplot aes_ geom_bar position_dodge coord_flip labs
 #' theme_minimal geom_hline theme
