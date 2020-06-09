@@ -19,7 +19,15 @@ predictors <- raster::stack(files)
 
 ## Intro
 
-In the previous articles you have learned how to [prepare the data](./prepare-data.html) for the analysis, how to [train a model](./train-model.html) and how to [make predictions](./make-predictions.html) using **SDMtune**. In this article you will learn how to evaluate your model using three different metrics. We will compute the value of the metrics on the training dataset using the `default model` that we trained in a previous article.
+In the previous articles you have learned how to [prepare the data](./prepare-data.html) for the analysis, how to [train a model](./train-model.html) and how to [make predictions](./make-predictions.html) using **SDMtune**. In this article you will learn how to evaluate your model using three different metrics.
+
+`SDMtune` implements three evaluation metrics:
+
+* AUC: Area Under the ROC curve [@Fielding1997]
+* TSS: True Skill Statistic [@ALLOUCHE2006]
+* AICc: Akaike Information Criterion corrected for small sample size [@Warren2011a]
+
+We will compute the value of the metrics on the training dataset, using the `default model` that we trained in a previous article.
 
 ## AUC
 
@@ -29,7 +37,7 @@ As usually we first load the **SDMtune** package:
 library(SDMtune)
 ```
 
-The Area Under the ROC curve [@Fielding1997] can be calculated using the function `auc()`:
+The AUC can be calculated using the function `auc()`:
 ```{r auc}
 auc(default_model)
 ```
@@ -41,14 +49,14 @@ plotROC(default_model)
 
 ## TSS
 
-The True Skill Statistic [@ALLOUCHE2006] is computed with the `tss()` function:
+The TSS is computed with the function `tss()`:
 ```{r tss}
 tss(default_model)
 ```
 
 ## AICc
 
-For the Akaike Information Criterion corrected for small sample size [@Warren2011a] we use the function `aicc()`. In this case we need to pass to the `env` argument (i.e. the 'predictors' raster `stack` object we created in the [first article](./prepare-data.html#acquire-environmental-variables)):
+For the AICc we use the function `aicc()`. In this case we need to pass to the `env` argument the 'predictors' raster `stack` object that we created in the [first article](./prepare-data.html#acquire-environmental-variables):
 ```{r aicc}
 aicc(default_model, env = predictors)
 ```
