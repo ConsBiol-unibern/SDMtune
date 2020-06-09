@@ -12,7 +12,7 @@ plotPred(map, lt = "", colorramp = NULL, hr = FALSE)
 \item{lt}{character. Legend title, default is an empty string.}
 
 \item{colorramp}{vector. A custom color ramp given as a vector of colors
-(see example), default is \code{NULL} and uses a blu/red color ramp.}
+(see example), default is \code{NULL} and uses a blue/red color ramp.}
 
 \item{hr}{logical, if \code{TRUE} produces an output with high resolution,
 default is \code{FALSE}.}
