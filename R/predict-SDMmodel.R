@@ -28,8 +28,8 @@ setGeneric("predict", function(object, ...)
 #' function.
 #'
 #' @details
-#' * filename, format, extent, progress, and ... arguments are used
-#' only when the prediction is done for a \link[raster]{stack} object.
+#' * filename, format, extent, progress, and ... are arguments used only when
+#' the prediction is done for a \link[raster]{stack} object.
 #' * For models trained with the **Maxent** method the argument `type` can be:
 #' "raw", "logistic" and "cloglog". The function performs the prediction in
 #' **R** without calling the **MaxEnt** Java software. This results in a faster

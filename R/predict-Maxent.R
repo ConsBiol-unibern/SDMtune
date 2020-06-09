@@ -30,7 +30,8 @@ setGeneric("predict", function(object, ...)
 #' values from a lambdas file.
 setMethod("predict",
           signature = "Maxent",
-          definition = function(object, data,
+          definition = function(object,
+                                data,
                                 type = c("cloglog", "logistic", "raw"),
                                 clamp = TRUE) {
 
