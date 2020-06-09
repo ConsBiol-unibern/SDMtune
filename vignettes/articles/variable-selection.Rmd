@@ -26,7 +26,7 @@ In the previous articles you have learned the core functions of **SDMtune** for 
 
 ## Explore variable correlation
 
-We extract 10000 background locations using the [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) function included in the `dismo` package (we set the seed to have reproducible results). After we create an `SWD()` object using the `prepareSWD()` function:
+We extract 10000 background locations using the function  [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) included in the `dismo` package (we set the seed to have reproducible results). After we create an `SWD()` object using the `prepareSWD()` function:
 ```{r backgrounds}
 set.seed(25)
 bg <- dismo::randomPoints(predictors, 10000)
@@ -46,15 +46,14 @@ corVar(bg, method = "spearman", cor_th = 0.7)
 
 As you can see there are few variables that have a correlation coefficient greater than 0.7 in absolute value.
 
-
 ## Remove highly correlated variables
 
 **SDMtune** implements an algorithm that removes highly correlated variables repeating the following steps:
 
-* ranks the variables according to the permutation importance or the percent contribution ( the last method is available only for Maxent models).
-* checks if the variable ranked as most important is highly correlated with other variables, according to the given method and correlation threshold. If the algorithm finds correlated variables it moves to the next step, otherwise checks the other variables in the rank;
-* performs a leave one out Jackknife test among the correlated variables;
-* remove the variable that decreases the less the model performance when removed, according to the given metric on the training dataset.
+1. ranks the variables according to the permutation importance or the percent contribution (the second method is available only for Maxent models).
+2. checks if the variable ranked as most important is highly correlated with other variables, according to the given method and correlation threshold. If the algorithm finds correlated variables it moves to the next step, otherwise checks the other variables in the rank;
+3. performs a leave one out Jackknife test among the correlated variables;
+4. remove the variable that decreases the less the model performance when removed, according to the given metric on the training dataset.
 
 The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a **Spearman** correlation coefficient $|r_s|\leq0.7$ and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:
 ```{r varSel}
@@ -81,7 +80,7 @@ There are cases in which a model has some environmental variables ranked with ve
 varImp(maxnet_model, permut = 1)
 ```
 
-  We will use the function `reduceVar()` only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance greater than 6\%:
+We will use the function `reduceVar()` only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance greater than 6\%:
 ```{r reduce var 1}
 cat("Testing AUC before: ", auc(maxnet_model, test = test))
 reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1)
