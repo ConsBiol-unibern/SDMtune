@@ -29,7 +29,7 @@ First we load the **SDMtune** package:
 library(SDMtune)
 ```
 
-For a **Maxent** model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be extracted using the following command:
+For a **Maxent** model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:
 ```{r maxent results}
 default_model@model@results
 ```
@@ -151,9 +151,9 @@ All what you have learned till now con be saved and summarized calling the funct
 * create a report in a html format with the ROC curve, threshold values, response curves, predicted map and Jackknife test;
 * save the predicted distribution map;
 * save all the curves in the plot folder;
-* save the model with `.Rds` extension that can be loaded in R using the `read.RDS` function.
+* save the model with `.Rds` extension that can be loaded in R using the `readRDS` function.
 
-The function is totally inspired by the default output of the MaxEnt Java software [@Phillips2006] and extends it to other methods (for the moment only **Maxnet**). You can decide what to include in the report using dedicated function arguments, like `response_curves`, `jk` and `env` but the function cannot be used with `SDMmodelCV()` objects. Run the following code to create a report of the **Maxnet** model we trained before:
+The function is totally inspired by the default output of the MaxEnt Java software [@Phillips2006] and extends it to other methods. You can decide what to include in the report using dedicated function arguments, like `response_curves`, `jk` and `env` but the function cannot be used with `SDMmodelCV()` objects. Run the following code to create a report of the **Maxnet** model we trained before:
 ```{r report, eval=FALSE}
 modelReport(maxnet_model, type = "cloglog", folder = "virtual-sp", test = test, response_curves = TRUE, only_presence = TRUE, jk = TRUE, env = predictors)
 ```
