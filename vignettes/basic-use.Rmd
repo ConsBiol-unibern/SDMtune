@@ -192,7 +192,7 @@ swd2csv(data, file_name = c("presence.csv", "background.csv"))
     * **Maxnet** using the `maxnet` package [@Phillips2017b];
 * Random Forest **RF**, using the `randomForest` package [@Liaw2002].
 
-The code necessary to train a model is the same for all the implementations. We will show how to train a **Maxent** model, you can adapt the code for the other methods or check the last vignette.
+The code necessary to train a model is the same for all the implementations. We will show how to train a **Maxent** model, you can adapt the code for the other methods or check the `presence absence models` vignette.
 
 ## Train a model with default settings
 
