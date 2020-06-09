@@ -19,7 +19,7 @@
 A vector with the predicted values.
 }
 \description{
-Predict the output for a new dataset from a trained \linkS4class{BRT} model.
+Predict the output for a new dataset from a trained BRT model.
 }
 \details{
 Used by the \link{predict,SDMmodel-method}, not exported.

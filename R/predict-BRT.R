@@ -4,7 +4,7 @@ setGeneric("predict", function(object, ...)
 
 #' Predict BRT
 #'
-#' Predict the output for a new dataset from a trained \linkS4class{BRT} model.
+#' Predict the output for a new dataset from a trained BRT model.
 #'
 #' @param object \linkS4class{BRT} object.
 #' @param data data.frame with the data for the prediction.

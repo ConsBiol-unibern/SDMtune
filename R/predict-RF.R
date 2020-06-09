@@ -4,7 +4,7 @@ setGeneric("predict", function(object, ...)
 
 #' Predict RF
 #'
-#' Predict the output for a new dataset from a trained \linkS4class{RF} model.
+#' Predict the output for a new dataset from a trained RF model.
 #'
 #' @param object \linkS4class{RF} object.
 #' @param data data.frame with the data for the prediction.

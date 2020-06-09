@@ -7,7 +7,7 @@
 \S4method{predict}{ANN}(object, data, type, clamp)
 }
 \arguments{
-\item{object}{\linkS4class{BRT} object.}
+\item{object}{\linkS4class{ANN} object.}
 
 \item{data}{data.frame with the data for the prediction.}
 
@@ -19,7 +19,7 @@
 A vector with the predicted values.
 }
 \description{
-Predict the output for a new dataset from a trained \linkS4class{ANN} model.
+Predict the output for a new dataset from a trained ANN model.
 }
 \details{
 Used by the \link{predict,SDMmodel-method}, not exported.

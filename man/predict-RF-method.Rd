@@ -19,7 +19,7 @@
 A vector with the predicted probabilities of class 1.
 }
 \description{
-Predict the output for a new dataset from a trained \linkS4class{RF} model.
+Predict the output for a new dataset from a trained RF model.
 }
 \details{
 Used by the \link{predict,SDMmodel-method}, not exported.

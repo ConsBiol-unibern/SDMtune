@@ -20,8 +20,7 @@
 A vector with the prediction
 }
 \description{
-Predict the output for a new dataset from a trained \linkS4class{Maxent}
-model.
+Predict the output for a new dataset from a trained Maxent model.
 }
 \details{
 Used by the \link{predict,SDMmodel-method}, not exported.

@@ -4,8 +4,7 @@ setGeneric("predict", function(object, ...)
 
 #' Predict Maxent
 #'
-#' Predict the output for a new dataset from a trained \linkS4class{Maxent}
-#' model.
+#' Predict the output for a new dataset from a trained Maxent model.
 #'
 #' @param object \linkS4class{Maxent} object.
 #' @param data data.frame with the data for the prediction.
