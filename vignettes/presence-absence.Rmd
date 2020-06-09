@@ -1,0 +1,86 @@
+---
+title: "Presence absence models with 'SDMtune'"
+author: "Sergio Vignali, Arnaud Barras & Veronika Braunisch"
+bibliography: SDMtune.bib
+output:
+  html_vignette:
+    toc: yes
+    toc_depth: 2
+vignette: >
+ %\VignetteIndexEntry{SDMtune - presence absence models} 
+ %\VignetteEncoding{UTF-8}
+ %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
+                      fig.align = "center")
+```
+
+The other vignettes are based on presence only methods. Here you will learn how to train a presence absence model. The following examples are based on the Artificial Neural Networks method [@Venables2002], but you can adapt the code for any of the other supported methods. We use the first 8 environmental variables and the `virtualSp` dataset selecting the absence instead of the background locations.
+```{r load data}
+library(SDMtune)
+library(zeallot)
+
+# Prepare data
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
+p_coords <- virtualSp$presence
+a_coords <- virtualSp$absence
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords, env = predictors[[1:8]])
+
+# Split data in training and testing datasets
+c(train, test) %<-% trainValTest(data, test = 0.2, seed = 25)
+cat("# Training  : ", nrow(train@data))
+cat("\n# Testing   : ", nrow(test@data))
+
+# Create folds
+folds <- randomFolds(train, k = 4, seed = 25)
+```
+
+# Train the model
+
+We first train the model with default settings and using 10 neurons:
+```{r}
+set.seed(25)
+model <- train("ANN", data = train, size = 10, folds = folds)
+model
+```
+
+Let's check the training and testing AUC:
+```{r auc}
+auc(model)
+auc(model, test = TRUE)
+```
+
+# Tune model hyperparameters
+
+To check which hyperparameters can be tuned we use the function `getTunableArgs` function:
+```{r get tunable args}
+getTunableArgs(model)
+```
+
+We use the `optimizeModel` function to find the best hyperparameter combinations for the learning rate, the number of trees and the bag fraction:
+
+```{r optimize model}
+h <- list(size = 2:20, decay = c(0.01, 0.05, 0.1, 0.3, 0.5), maxit = c(100, 300, 500))
+
+om <- optimizeModel(model, hypers = h, metric = "auc", seed = 25)
+```
+
+The best model is:
+```{r best model}
+best_model <- om@models[[1]]
+om@results[1, ]
+```
+
+# Evaluate the final model
+
+We now train a model with the same configuration as found by the function`optimizeModel`, without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:
+```{r evaluate final model, fig.align="center"}
+set.seed(25)
+final_model <- train("ANN", data = train, size = om@results[1, 1], decay = om@results[1, 2], maxit = om@results[1, 4])
+plotROC(final_model, test = test)
+```
+
+# References
