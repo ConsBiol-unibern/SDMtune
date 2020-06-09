@@ -12,6 +12,11 @@ vignette: >
  %\VignetteEngine{knitr::rmarkdown}
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
+                      fig.align = "center")
+```
+
 # Training, validation and testing split
 
 When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn't represent anymore an independent set to evaluate the model [@Muller2016, @Chollet2018]. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function `trainValTest` allows to split the data in three folds containing the provided percentage of data. For illustration purpose let's split the presence locations in training (60\%), validation (20\%) and testing (20\%) datasets. The following steps are described in the **basic-use** vignette, refer to it if the following code is not clear:
