@@ -20,7 +20,6 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
 # Load data and train model
 
 The following steps are described in the **basic-use** vignette, refer to it if the following code is not clear:
-
 ```{r load data}
 library(SDMtune)
 library(zeallot)
