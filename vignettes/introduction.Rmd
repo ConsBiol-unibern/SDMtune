@@ -415,7 +415,7 @@ c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 
 Now we train the model using the `train` dataset:
 
 ```{r trai with train dataset}
-model <- train("Maxnet", data = train)
+model <- train("Maxent", data = train)
 ```
 
 The `only_presence` argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:
@@ -433,7 +433,7 @@ seeds <- sample.int(1000, 10) # Create 10 different random seeds
 
 for (i in 1:length(seeds)) { # Loop through the seeds
   c(train, test) %<-% trainValTest(data, test = 0.2, seed = seeds[i], only_presence = TRUE) # Make the train/test split
-  m <- train("Maxnet", data = train) # train the model
+  m <- train("Maxent", data = train) # train the model
   # Populate the output data.frame
   output[i, 1] <- seeds[i]
   output[i, 2] <- auc(m)
@@ -457,9 +457,9 @@ folds <- randomFolds(data, k = 4, only_presence = TRUE, seed = 25)
 
 The output of the function is a list containing two matrices, the first for the training and the second for the testing locations. Each column of one matrix represents a fold with `TRUE` for the locations included in and `FALSE` excluded from the partition.
 
-Let's perform a 4 fold cross validation using the **Maxnet** method (note that we use the full dataset):
+Let's perform a 4 fold cross validation using the **Maxent** method (note that we use the full dataset):
 ```{r cv, eval=FALSE}
-cv_model <- train("Maxnet", data = data, folds = folds)
+cv_model <- train("Maxent", data = data, folds = folds)
 cv_model
 ```
 
@@ -484,13 +484,13 @@ Block partition using the `ENMeval` package:
 ```{r enmeval block}
 library(ENMeval)
 block_folds <- get.block(occ = data@coords[data@pa == 1, ], bg.coords = data@coords[data@pa == 0, ])
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = block_folds)
+model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8, folds = block_folds)
 ```
 
 Checkerboard1 partition using the `ENMeval` package:
 ```{r enmeval checherboard1}
 cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ], env = predictors, bg.coords = data@coords[data@pa == 0, ], aggregation.factor = 4)
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = cb_folds)
+model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8, folds = cb_folds)
 ```
 
 Environmental block using the package `blockCV`:
@@ -500,7 +500,7 @@ library(raster)
 # Create spatial points data frame
 sp_df <- SpatialPointsDataFrame(data@coords, data = as.data.frame(data@pa), proj4string = crs(predictors))
 e_folds <- envBlock(rasterLayer = predictors, speciesData = sp_df, species = "data@pa", k = 4, standardization = "standard", rasterBlock = FALSE, numLimit = 100)
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = e_folds)
+model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8, folds = e_folds)
 ```
 
 # References
