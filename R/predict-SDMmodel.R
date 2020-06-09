@@ -33,8 +33,8 @@ setGeneric("predict", function(object, ...)
 #' * For models trained with the **Maxent** method the argument `type` can be:
 #' "raw", "logistic" and "cloglog". The function performs the prediction in
 #' **R** without calling the **MaxEnt** Java software. This results in a faster
-#' computation for large datasets and might result in slightly different results
-#' compare to the Java software.
+#' computation for large datasets and might result in a slightly different
+#' output compared to the Java software.
 #' * For models trained with the **Maxnet** method the argument `type` can be:
 #' "link", "exponential", "logistic" and "cloglog", see \link[maxnet]{maxnet}
 #' for more details.

@@ -27,7 +27,8 @@ Used by the \link{predict,SDMmodel-method}, not exported.
 
 The function performs the prediction in \strong{R} without calling the
 \strong{MaxEnt} Java software. This results in a faster computation for large
-datasets. The results might differ slightly from the Java software output.
+datasets and might result in a slightly different output compared to the Java
+software.
 }
 \references{
 Wilson P.D., (2009). Guidelines for computing MaxEnt model output

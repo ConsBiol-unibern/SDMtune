@@ -70,8 +70,8 @@ function name, the saved files are named as \code{filename_fun}, see example.
 \item For models trained with the \strong{Maxent} method the argument \code{type} can be:
 "raw", "logistic" and "cloglog". The function performs the prediction in
 \strong{R} without calling the \strong{MaxEnt} Java software. This results in a faster
-computation for large datasets. The results might differ slightly from the
-Java software output.
+computation for large datasets and might result in a slightly different
+output compared to the Java software.
 \item For models trained with the \strong{Maxnet} method the argument \code{type} can be:
 "link", "exponential", "logistic" and "cloglog", see \link[maxnet]{maxnet}
 for more details.
