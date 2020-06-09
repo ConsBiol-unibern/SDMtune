@@ -25,10 +25,14 @@ library(SDMtune)
 library(zeallot)
 
 # Prepare data
-files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
 predictors <- raster::stack(files)
-data <- prepareSWD(species = "Virtual species", p = virtualSp$presence, a = virtualSp$background, env = predictors, categorical = "biome")
-c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
+data <- prepareSWD(species = "Virtual species", p = virtualSp$presence,
+                   a = virtualSp$background, env = predictors,
+                   categorical = "biome")
+c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE,
+                                 seed = 25)
 
 # Train model
 model <- train("Maxent", data = train)
@@ -117,17 +121,20 @@ plotJk(jk, type = "test", ref = auc(maxnet_model, test = test))
 
 With the function `plotResponse` is possible to plot the marginal and the univariate response curve. Let's plot the **cloglog** univariate response curve of **bio1**:
 ```{r plot bio1, fig.align="center"}
-plotResponse(maxnet_model, var = "bio1", type = "cloglog", only_presence = TRUE, marginal = FALSE, rug = TRUE)
+plotResponse(maxnet_model, var = "bio1", type = "cloglog", only_presence = TRUE,
+             marginal = FALSE, rug = TRUE)
 ```
 
 On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the **logistic** marginal response curve of **biome** that is a categorical variable, keeping the other variables at the mean value:
 ```{r plot biome, fig.align="center"}
-plotResponse(maxnet_model, var = "biome", type = "logistic", only_presence = TRUE, marginal = TRUE, fun = mean, color = "blue")
+plotResponse(maxnet_model, var = "biome", type = "logistic",
+             only_presence = TRUE, marginal = TRUE, fun = mean, color = "blue")
 ```
 
 In the case of an `SDMmodelCV` the response curve shows the averaged value of the prediction together with one Standard Deviation error interval:
 ```{r plot cv response}
-plotResponse(cv_model, var = "bio1", type = "cloglog", only_presence = TRUE, marginal = TRUE, fun = mean, rug = TRUE)
+plotResponse(cv_model, var = "bio1", type = "cloglog", only_presence = TRUE,
+             marginal = TRUE, fun = mean, rug = TRUE)
 ```
 
 ## Model report
@@ -143,7 +150,9 @@ All what you have learned till now con be saved and summarized calling the funct
 
 The function is totally inspired by the default output of the MaxEnt Java software [@Phillips2006] and extends it to other methods. You can decide what to include in the report using dedicated function arguments, like `response_curves`, `jk` and `env` but the function cannot be used with `SDMmodelCV` objects. Run the following code to create a report of the **Maxnet** model we trained before:
 ```{r report}
-modelReport(maxnet_model, type = "cloglog", folder = "virtual-sp", test = test, response_curves = TRUE, only_presence = TRUE, jk = TRUE, env = predictors)
+modelReport(maxnet_model, type = "cloglog", folder = "virtual-sp", test = test,
+            response_curves = TRUE, only_presence = TRUE, jk = TRUE,
+            env = predictors)
 ```
 
 The output is displayed in the browser and all the files are saved in the **virtual-sp** folder.
@@ -154,7 +163,8 @@ To explore correlation among the variables we extract 10000 background locations
 ```{r backgrounds}
 set.seed(25)
 bg <- dismo::randomPoints(predictors, 10000)
-bg <- prepareSWD(species = "Bgs", a = bg, env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Bgs", a = bg, env = predictors,
+                 categorical = "biome")
 ```
 The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).
 
@@ -181,7 +191,9 @@ As you can see there are few variables that have a correlation coefficient great
 
 The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a **Spearman** correlation coefficient $|r_s|\leq0.7$ and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:
 ```{r varSel}
-selected_variables_model <- varSel(maxnet_model, metric = "auc", test = test, bg4cor = bg, method = "spearman", cor_th = 0.7, permut = 1)
+selected_variables_model <- varSel(maxnet_model, metric = "auc", test = test,
+                                   bg4cor = bg, method = "spearman",
+                                   cor_th = 0.7, permut = 1)
 ```
 
 As you can see some variables have been removed. The output of the function is the model trained with the selected variables:
@@ -191,7 +203,9 @@ selected_variables_model
 
 In the next example we remove the highly correlated variables using the **Maxent** model, ranking the variables with the percent contribution and using the AICc as evaluation metric:
 ```{r exercise 1}
-selected_variables_model <- varSel(model, metric = "aicc", bg4cor = bg, method = "spearman", cor_th = 0.7, env = predictors, use_pc = TRUE)
+selected_variables_model <- varSel(model, metric = "aicc", bg4cor = bg,
+                                   method = "spearman", cor_th = 0.7,
+                                   env = predictors, use_pc = TRUE)
 ```
 
 ## Remove variables with low importance
@@ -204,14 +218,16 @@ varImp(model, permut = 1)
 In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance greater than 6\%:
 ```{r reduce var 1}
 cat("Testing AUC before: ", auc(maxnet_model, test = test))
-reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1)
+reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc",
+                                     test = test, permut = 1)
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 
 In the second example we want to remove the environmental variables that have a permutation importance lower than 15\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
 ```{r reduce var 2}
 cat("Testing AUC before: ", auc(maxnet_model, test = test))
-reduced_variables_model <- reduceVar(maxnet_model, th = 15, metric = "auc", test = test, permut = 1, use_jk = TRUE)
+reduced_variables_model <- reduceVar(maxnet_model, th = 15, metric = "auc",
+                                     test = test, permut = 1, use_jk = TRUE)
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 

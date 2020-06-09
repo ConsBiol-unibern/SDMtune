@@ -34,7 +34,8 @@ library(rasterVis)  # To plot raster objects
 We use the climate data of [WorldClim](http://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestrial ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
 
 ```{r get predictors}
-files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
 ```
 
 We convert these files in a `raster stack` object that will be used later in the analysis:
@@ -128,7 +129,8 @@ ggplot(map_data("world"), aes(long, lat)) +
 Before training a model we have to prepare the data in the correct format. The `prepareSWD` function creates an `SWD` object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
 
 ```{r prepare SWD}
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
 
 ```
 
@@ -314,7 +316,8 @@ map
 The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the `predict` function. In the next example we save the map in a file called "**my_file**" in the **GeoTIFF** format:
 
 ```{r save map, eval=FALSE}
-map <- predict(model, data = predictors, type = "cloglog", file = "my_map", format = "GTiff")
+map <- predict(model, data = predictors, type = "cloglog", file = "my_map",
+               format = "GTiff")
 ```
 
 The function `predict` has other arguments useful when predicting large datasets:
@@ -342,7 +345,8 @@ plotPred(map)
 The function `plotPred` plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
 
 ```{r plot map custom}
-plotPred(map, lt = "Habitat\nsuitability", colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
+plotPred(map, lt = "Habitat\nsuitability",
+         colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
 ```
 
 ## Plot a presence/absence map
@@ -409,7 +413,8 @@ aicc(model, env = predictors)
 It's always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest` function for this purpose. Let's say we want to use 80\% of the species locations to train our model and 20\% as testing dataset to evaluate it:
 ```{r train test}
 library(zeallot)  # For unpacking assignment
-c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
+c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE,
+                                 seed = 25)
 ```
 
 Now we train the model using the `train` dataset:
@@ -431,14 +436,20 @@ plotROC(model, test = test)
 
 This approach is valid when we have a large dataset. In our case, with only few observations, the evaluation depends strongly on how we split our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the AUC:
 ```{r experiment}
-output <- data.frame(matrix(NA, nrow = 10, ncol = 3)) # Create an empty data.frame
+# Create an empty data.frame
+output <- data.frame(matrix(NA, nrow = 10, ncol = 3))
 colnames(output) <- c("seed", "trainAUC", "testAUC")
+# Create 10 different random seeds
 set.seed(25)
-seeds <- sample.int(1000, 10) # Create 10 different random seeds
+seeds <- sample.int(1000, 10)
 
-for (i in 1:length(seeds)) { # Loop through the seeds
-  c(train, test) %<-% trainValTest(data, test = 0.2, seed = seeds[i], only_presence = TRUE) # Make the train/test split
-  m <- train("Maxent", data = train) # train the model
+# Loop through the seeds
+for (i in 1:length(seeds)) {
+  # Make the train/test split
+  c(train, test) %<-% trainValTest(data, test = 0.2, seed = seeds[i],
+                                   only_presence = TRUE)
+  # train the model
+  m <- train("Maxent", data = train)
   # Populate the output data.frame
   output[i, 1] <- seeds[i]
   output[i, 2] <- auc(m)
@@ -488,14 +499,20 @@ The function will convert internally the created folds into the correct format f
 Block partition using the `ENMeval` package:
 ```{r enmeval block}
 library(ENMeval)
-block_folds <- get.block(occ = data@coords[data@pa == 1, ], bg.coords = data@coords[data@pa == 0, ])
-model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8, folds = block_folds)
+block_folds <- get.block(occ = data@coords[data@pa == 1, ],
+                         bg.coords = data@coords[data@pa == 0, ])
+model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8,
+               folds = block_folds)
 ```
 
 Checkerboard1 partition using the `ENMeval` package:
 ```{r enmeval checherboard1}
-cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ], env = predictors, bg.coords = data@coords[data@pa == 0, ], aggregation.factor = 4)
-model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8, folds = cb_folds)
+cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ],
+                              env = predictors,
+                              bg.coords = data@coords[data@pa == 0, ],
+                              aggregation.factor = 4)
+model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8,
+               folds = cb_folds)
 ```
 
 Environmental block using the package `blockCV`:
@@ -503,9 +520,14 @@ Environmental block using the package `blockCV`:
 library(blockCV)
 library(raster)
 # Create spatial points data frame
-sp_df <- SpatialPointsDataFrame(data@coords, data = as.data.frame(data@pa), proj4string = crs(predictors))
-e_folds <- envBlock(rasterLayer = predictors, speciesData = sp_df, species = "data@pa", k = 4, standardization = "standard", rasterBlock = FALSE, numLimit = 100)
-model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8, folds = e_folds)
+sp_df <- SpatialPointsDataFrame(data@coords,
+                                data = as.data.frame(data@pa),
+                                proj4string = crs(predictors))
+e_folds <- envBlock(rasterLayer = predictors, speciesData = sp_df,
+                    species = "data@pa", k = 4, standardization = "standard",
+                    rasterBlock = FALSE, numLimit = 100)
+model <- train(method = "Maxent", data = data, fc = "l", reg = 0.8,
+               folds = e_folds)
 ```
 
 # References
