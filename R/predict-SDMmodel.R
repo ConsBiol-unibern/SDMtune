@@ -37,10 +37,7 @@ setGeneric("predict", function(object, ...)
 #' compare to the Java software.
 #' * For models trained with the **Maxnet** method the argument `type` can be:
 #' "link", "exponential", "logistic" and "cloglog", see \link[maxnet]{maxnet}
-#' for more details. The function performs the prediction in **R** without
-#' calling the **MaxEnt** Java software. This results in a faster computation
-#' for large datasets. The results might differ slightly from the Java software
-#' output.
+#' for more details.
 #' * For models trained with the **ANN** method the function uses the "raw"
 #' output type.
 #' * For models trained with the **RF** method the output is the probability of
@@ -50,8 +47,7 @@ setGeneric("predict", function(object, ...)
 #'
 #' @include Maxent-class.R Maxnet-class.R ANN-class.R RF-class.R BRT-class.R
 #' @import methods
-#' @importFrom raster beginCluster clusterR endCluster predict clamp subset
-#' @importFrom stats formula model.matrix
+#' @importFrom raster predict subset
 #'
 #' @return A vector with the prediction or a \link[raster]{raster} object if
 #' data is a raster \link[raster]{stack}.

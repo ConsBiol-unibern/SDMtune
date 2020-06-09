@@ -66,10 +66,7 @@ computation for large datasets and might result in slightly different results
 compare to the Java software.
 \item For models trained with the \strong{Maxnet} method the argument \code{type} can be:
 "link", "exponential", "logistic" and "cloglog", see \link[maxnet]{maxnet}
-for more details. The function performs the prediction in \strong{R} without
-calling the \strong{MaxEnt} Java software. This results in a faster computation
-for large datasets. The results might differ slightly from the Java software
-output.
+for more details.
 \item For models trained with the \strong{ANN} method the function uses the "raw"
 output type.
 \item For models trained with the \strong{RF} method the output is the probability of
