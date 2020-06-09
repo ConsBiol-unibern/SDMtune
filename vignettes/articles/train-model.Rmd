@@ -18,13 +18,15 @@ default_model <- SDMtune:::bm_maxent
 ## Intro
 
 In the [previous article](./prepare-data.html) you have learned how to prepare the data for the analysis using the [virtualSp](../../reference/virtualSp.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
-**SDMtune** supports the following methods: Artificial Neural Networks, Boosted Regression Trees, Maximum Entropy and Random Forest. The following are the packages used for the different methods:
 
-* **ANN** using the `nnet` package [@Venables2002];
-* **BRT** using the `gbm` package [@Greenwell2019];
-* **Maxent** using the `dismo` package [@Hijmans2017];
-* **Maxnet** using the `maxnet` package [@Phillips2017b];
-* **RF** using the `andomForest` package [@Liaw2002].
+`SDMtune` supports four methods for model training:
+
+* Artificial Neural Networks **ANN**, using the `nnet` package [@Venables2002];
+* Boosted Regression Trees **BRT**, using the `gbm` package [@Greenwell2019];
+* Maximum Entropy with two implementations:
+    * **Maxent** using the `dismo` package [@Hijmans2017];
+    * **Maxnet** using the `maxnet` package [@Phillips2017b];
+* Random Forest **RF**, using the `randomForest` package [@Liaw2002].
 
 The code necessary to train a model is the same for all the implementations. We will show how to train a **Maxent** model, you can adapt the code for the other methods or check this [article](./train-tune-presence-absence-models.html).
 
@@ -49,7 +51,7 @@ library(SDMtune)
 We use the function `train()` to train a **Maxent** model. We need to provide two arguments:
 
 * `method`: "Maxent" in our case;
-* `data`: the `SWD()` object with the presence and background locations we created in the previous article.
+* `data`: the `SWD()` object with the presence and background locations that we created in the previous article.
 
 ```{r, echo=FALSE}
 default_model <- SDMtune:::bm_maxent
@@ -68,7 +70,7 @@ We will see later how to change the default settings, for the moment let's have 
 
 ## Explore an SDMmodel object
 
-The output of the `train()` function is an object of class `SDMmodel()`. Let's print the `model` object we've just created:
+The output of the function `train()` is an object of class `SDMmodel()`. Let's print it:
 ```{r print model}
 default_model
 ```
@@ -81,12 +83,12 @@ When we print an `SDMmodel` object we get the following information:
 * the number of presence locations;
 * the number of absence/background locations;
 * the model configurations:
-    + fc: the feature class combinations;
-    + reg: the regularization multiplier;
-    + iter: the number of iterations;
+    * fc: the feature class combinations;
+    * reg: the regularization multiplier;
+    * iter: the number of iterations;
 * the environmental variables used to train the model:
-    + the name of the continuous environmental variables, if any;
-    + the name of the categorical environmental variables, if any.
+    * the name of the continuous environmental variables, if any;
+    * the name of the categorical environmental variables, if any.
     
 An `SDMmodel()` object has two slots:
 
@@ -96,8 +98,6 @@ slotNames(default_model)
 
 * **data**: an `SWD()` object with the presence absence/background locations used to train the model;
 * **model**: a `Maxent()` object, in our case, with all the model configurations.
-
-We can access the different slots in the same way we explored the `SWD()` object in the previous article, using the **\@** symbol before the slot name (e.g. `default_model@data`).
 
 The slot `model` contains the configurations of the model plus other information used to make predictions.
 
@@ -109,7 +109,7 @@ For the moment the most important are: **fc**, **reg** and **iter** that contain
 
 ## Train a model changing the default settings
 
-The function `train()` accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the model also using:
+The function `train()` accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the same model using:
 
 ```{r retrain, eval = FALSE}
 default_model <- train(method = "Maxent", data = data, fc = "lqph", reg = 1, iter = 500)
@@ -122,7 +122,7 @@ Try to change the default settings  and train a model using linear and hinge as 
 model <- train(method = "Maxent", data = data, fc = "lh", reg = 0.5, iter = 700)
 ```
 
-By default Maxent models are trained using the arguments *"removeduplicates=false"* and *"addsamplestobackground=false"*. The user should have the full control of the data used to train the model, so is expected that duplicated locations are already removed and the presence locations are already included in the background locations, when desired. You can use the function `thinData()` to remove duplicated locations and the function `addSamplesToBg()` to add the presence locations to the background locations.
+By default Maxent models are trained using the arguments *"removeduplicates=false"* and *"addsamplestobackground=false"*. The user should have the full control of the data used to train the model, so is expected that duplicated locations are already removed and that the presence locations are already included in the background locations, when desired. You can use the function `thinData()` to remove duplicated locations and the function `addSamplesToBg()` to add the presence locations to the background locations.
 
 ## Train a Maxnet model
 
