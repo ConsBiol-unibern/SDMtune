@@ -22,7 +22,7 @@ predictors <- raster::stack(files)
 
 In the previous articles you have learned how to [prepare the data](./prepare-data.html) for the analysis, how to [train a model](./train-model.html), how to [make predictions](./make-predictions.html) and how to [evaluate a model](./evaluate-model.html) using **SDMtune**. In this article you will learn different evaluation strategies to achieve a better estimate of the model performance.
 
-## Train and testing datasets
+## Training and testing datasets
 
 First we load the **SDMtune** package:
 
@@ -30,7 +30,7 @@ First we load the **SDMtune** package:
 library(SDMtune)
 ```
 
-It's always a good practice to split the species locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest()` function for this purpose. Let's say we want to use 80\% of the species locations to train our model and 20\% as testing dataset to evaluate it:
+It's always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest()` function for this purpose. Let's say we want to use 80\% of the species locations to train our model and 20\% as testing dataset to evaluate it:
 ```{r train test}
 library(zeallot)  # For unpacking assignment
 c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
@@ -43,12 +43,13 @@ cat("Training auc: ", auc(maxnet_model))
 cat("Testing auc: ", auc(maxnet_model, test = test))
 ```
 
-This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the AUC:
+This approach is valid when we have a large dataset. In our case, with only `r nrow(train@data[train@pa == 1, ])` observations, the evaluation depends strongly on how we split our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the AUC:
 ```{r experiment}
 output <- data.frame(matrix(NA, nrow = 10, ncol = 3)) # Create an empty data.frame
 colnames(output) <- c("seed", "trainAUC", "testAUC")
 set.seed(25)
 seeds <- sample.int(1000, 10) # Create 10 different random seeds
+
 for (i in 1:length(seeds)) { # Loop through the seeds
   c(train, test) %<-% trainValTest(data, test = 0.2, seed = seeds[i], only_presence = TRUE) # Make the train/test split
   m <- train("Maxnet", data = train) # train the model
@@ -60,23 +61,11 @@ for (i in 1:length(seeds)) { # Loop through the seeds
 ```
 
 The testing AUC varies from `r min(output[, 3])` to `r max(output[, 3])`. When we have to deal with a small dataset a better approach is the cross validation.
-```{r table, eval=FALSE}
+```{r table}
 # Print the output
 output
-```
-```{r table kable, echo=FALSE}
-# Print the output
-kable(output) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE, position = "center")
-```
-```{r range}
-# compute the range of the testing AUC
 range(output[, 3])
 ```
-
-### Try yourself
-
-Repeat the same analysis using the TSS instead of the AUC.
 
 ## Cross validation
 
@@ -87,7 +76,7 @@ folds <- randomFolds(data, k = 4, only_presence = TRUE, seed = 25)
 
 The output of the function is a list containing two matrices, the first for the training and the second for the testing locations. Each column of one matrix represents a fold with `TRUE` for the locations included in and `FALSE` excluded from the partition.
 
-Let's perform a 4 fold cross validation using the **Maxnet** method:
+Let's perform a 4 fold cross validation using the **Maxnet** method (note that we use the full dataset):
 ```{r cv, eval=FALSE}
 cv_model <- train("Maxnet", data = data, folds = folds)
 cv_model
@@ -111,23 +100,28 @@ Repeat the analysis using the `default_model` that we created in the [train a mo
 
 ### Spatial Cross Validation
 
-The `train()` function accepts folds created with other packages (ENMeval and blockCV). The function will convert internally into the correct format for `SDMtune`. These packages have specific function to create folds partitions that are spatially or environmentally independent.
+The `train()` function accepts folds created with two other packages:
 
-Block partition using the ENMeval package:
+* `ENMeval` [@Muscarella2014]
+* `blockCV` [@Valavi2019]
+
+The function will convert internally the created folds into the correct format for `SDMtune`. These packages have specific function to create folds partitions that are spatially or environmentally independent.
+
+Block partition using the package `ENMeval`:
 ```{r enmeval block, eval=FALSE}
 library(ENMeval)
 block_folds <- get.block(occ = data@coords[data@pa == 1, ], bg.coords = data@coords[data@pa == 0, ])
 model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = block_folds)
 ```
 
-Checkerboard1 partition using the ENMeval package
+Checkerboard1 partition using the package `ENMeval`:
 ```{r enmeval checherboard1, eval=FALSE}
 cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ], env = predictors, bg.coords = data@coords[data@pa == 0, ], aggregation.factor = 4)
 model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = cb_folds)
 ```
 
 
-Environmental block using the blockCV package
+Environmental block using the package `blockCV`:
 ```{r blockCV, eval=FALSE}
 library(blockCV)
 library(raster)
