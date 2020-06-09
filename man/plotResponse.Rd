@@ -16,7 +16,7 @@ plotResponse(
 )
 }
 \arguments{
-\item{model}{\linkS4class{SDMmodel} or linkS4class{SDMmodelCV} object.}
+\item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{var}{character. Name of the variable to be plotted.}
 

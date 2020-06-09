@@ -2,7 +2,7 @@
 #'
 #' Plot the Response Curve of the given environmental variable.
 #'
-#' @param model \linkS4class{SDMmodel} or linkS4class{SDMmodelCV} object.
+#' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param var character. Name of the variable to be plotted.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
 #' methods, possible values are "cloglog" and "logistic", default is `NULL`.
