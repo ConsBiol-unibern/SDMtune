@@ -49,7 +49,7 @@
 #' trees defined to train the model and the "response" output type.
 #'
 #' @include SDMmodelCV-class.R
-#' @importFrom raster beginCluster clusterR endCluster calc
+#' @importFrom raster calc
 #' @importFrom progress progress_bar
 #'
 #' @return A vector with the prediction or a \link[raster]{raster} object if

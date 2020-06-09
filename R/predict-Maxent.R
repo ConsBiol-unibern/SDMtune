@@ -20,6 +20,7 @@ setGeneric("predict", function(object, ...)
 #' datasets. The results might differ slightly from the Java software output.
 #'
 #' @include Maxent-class.R
+#' @importFrom stats model.matrix
 #'
 #' @return A vector with the prediction
 #'
