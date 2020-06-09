@@ -55,9 +55,6 @@
   </a>
 </li>
 <li>
-  <a href="../../articles/SDMtune.html">Get started</a>
-</li>
-<li>
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -156,8 +153,8 @@
 <span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></pre></body></html></div>
 <p>New locations are predicted with the function <a href="../../reference/predict-SDMmodel-method.html">predict()</a>. The function takes three main arguments:</p>
 <ul>
-<li>a trained <code>SDMmodel()</code> object;</li>
-<li>a new dataset, used to make prediction; can be a <code>data.frame</code>, an <code>SWD()</code> object or a raster <code>stack</code> object;</li>
+<li>a trained model given as <code>SDMmodel()</code> object;</li>
+<li>a new dataset, used to make prediction (can be a <code>data.frame</code>, an <code>SWD()</code> object or a raster <code>stack</code> object);</li>
 <li>the output type, that for <strong>Maxent</strong> models can be: <strong>raw</strong>, <strong>logistic</strong> or <strong>cloglog</strong>.</li>
 </ul>
 <p>Next we get the prediction for our training locations using the <strong>cloglog</strong> output type:</p>
@@ -170,11 +167,12 @@
 <span class="no">pred</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">default_model</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">p</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="no">pred</span>)
 <span class="co">#&gt; [1] 0.9571988 0.9222179 0.6833005 0.2801192 0.6050091 0.7394861</span></pre></body></html></div>
+<p>For models trained with the <strong>Maxent</strong> method, the function performs the prediction in R without calling the MaxEnt Java software. This results in a faster computation for large datasets and might result in a slightly different output compared to the Java software.</p>
 </div>
 <div id="create-a-distribution-map" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-a-distribution-map" class="anchor"></a>Create a distribution map</h2>
-<p>We can use the same function to create a distribution map starting from the <code>predictors</code> raster `stack’ object we created in the <a href="./prepare-data.html#acquire-environmental-variables">first article</a>.</p>
+<p>We can use the same function to create a distribution map starting from the <code>predictors</code> raster `stack’ object that we created in the <a href="./prepare-data.html#acquire-environmental-variables">first article</a>.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">map</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">default_model</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>)</pre></body></html></div>
 <p>In this case the output is a <code>raster</code> object:</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">map</span>
@@ -202,7 +200,7 @@
 <p>To plot the distribution map we can use the function <code><a href="../../reference/plotPred.html">plotPred()</a></code>:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../../reference/plotPred.html">plotPred</a></span>(<span class="no">map</span>)</pre></body></html></div>
 <p><img src="make-predictions_files/figure-html/plot%20map%20default-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>The <code><a href="../../reference/plotPred.html">plotPred()</a></code> function plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:</p>
+<p>The function <code><a href="../../reference/plotPred.html">plotPred()</a></code> plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../../reference/plotPred.html">plotPred</a></span>(<span class="no">map</span>, <span class="kw">lt</span> <span class="kw">=</span> <span class="st">"Habitat\nsuitability"</span>, <span class="kw">colorramp</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#2c7bb6"</span>, <span class="st">"#abd9e9"</span>, <span class="st">"#ffffbf"</span>, <span class="st">"#fdae61"</span>, <span class="st">"#d7191c"</span>))</pre></body></html></div>
 <p><img src="make-predictions_files/figure-html/plot%20map%20custom-1.png" width="700" style="display: block; margin: auto;"></p>
 <div id="try-yourself" class="section level3">

@@ -55,9 +55,6 @@
   </a>
 </li>
 <li>
-  <a href="../../articles/SDMtune.html">Get started</a>
-</li>
-<li>
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -219,11 +216,11 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></pre></body></html></div>
 <p>For demonstrating how to use <code>SDMtune</code> we use the random generated virtual species <a href="../../reference/virtualSp.html">virtualSp</a> dataset included in the package. The dataset contains 400 coordinates for presence and 5000 for background locations.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span>(<span class="no">virtualSp</span>)</pre></body></html></div>
-<p>We select the the first two columns that contain the coordinates of the locations:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">p_coords</span> <span class="kw">&lt;-</span> <span class="no">virtualSp</span>$<span class="no">presence</span></pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span>(<span class="no">virtualSp</span>)
+<span class="no">p_coords</span> <span class="kw">&lt;-</span> <span class="no">virtualSp</span>$<span class="no">presence</span>
+<span class="no">bg_coords</span> <span class="kw">&lt;-</span> <span class="no">virtualSp</span>$<span class="no">background</span></pre></body></html></div>
 <p>Plot the study area together with the presence locations:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span>(<span class="st">"world"</span>), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">long</span>, <span class="no">lat</span>)) +
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span>(<span class="st">"world"</span>), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">long</span>, <span class="no">lat</span>)) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">group</span> <span class="kw">=</span> <span class="no">group</span>), <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="st">"gray40"</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.2</span>) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">p_coords</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>), <span class="kw">color</span> <span class="kw">=</span> <span class="st">"red"</span>,
                 <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.4</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">1</span>) +
@@ -234,9 +231,8 @@
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">125</span>, -<span class="fl">32</span>)) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">56</span>, <span class="fl">40</span>))</pre></body></html></div>
 <p><img src="prepare-data_files/figure-html/plot%20presence-1.png" width="700" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">bg_coords</span> <span class="kw">&lt;-</span> <span class="no">virtualSp</span>$<span class="no">background</span></pre></body></html></div>
 <p>To plot the background locations run the following code:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span>(<span class="st">"world"</span>), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">long</span>, <span class="no">lat</span>)) +
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span>(<span class="st">"world"</span>), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">long</span>, <span class="no">lat</span>)) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">group</span> <span class="kw">=</span> <span class="no">group</span>), <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="st">"gray40"</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.2</span>) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">bg_coords</span>), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>),
                 <span class="kw">color</span> <span class="kw">=</span> <span class="st">"blue"</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.4</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
@@ -252,15 +248,15 @@
 <h2 class="hasAnchor">
 <a href="#create-an-swd-object" class="anchor"></a>Create an SWD object</h2>
 <p>Before training a model we have to prepare the data in the correct format. The <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function creates an <code>SWD()</code> object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument <code>categorical</code> indicates which environmental variables are categorical. In our example <strong>biome</strong> is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have <code>NA</code> value for at least one environmental variable.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="st">"Virtual species"</span>, <span class="kw">p</span> <span class="kw">=</span> <span class="no">p_coords</span>, <span class="kw">a</span> <span class="kw">=</span> <span class="no">bg_coords</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">categorical</span> <span class="kw">=</span> <span class="st">"biome"</span>)
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="st">"Virtual species"</span>, <span class="kw">p</span> <span class="kw">=</span> <span class="no">p_coords</span>, <span class="kw">a</span> <span class="kw">=</span> <span class="no">bg_coords</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">categorical</span> <span class="kw">=</span> <span class="st">"biome"</span>)
 <span class="co">#&gt; Extracting predictor information for presence locations...</span>
 <span class="co">#&gt; Extracting predictor information for absence/background locations...</span></pre></body></html></div>
 </div>
-<div id="explore-an-swd-object" class="section level2">
+<div id="explore-the-swd-object" class="section level2">
 <h2 class="hasAnchor">
-<a href="#explore-an-swd-object" class="anchor"></a>Explore an SWD object</h2>
+<a href="#explore-the-swd-object" class="anchor"></a>Explore the SWD object</h2>
 <p>Let’s have a look at the created <code>SWD()</code> object:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">data</span>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">data</span>
 <span class="co">#&gt; Object of class SWD </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Species: Virtual species </span>
@@ -285,7 +281,7 @@
 </li>
 </ul>
 <p>The object contains four slots: <code>@species</code>, <code>@coords</code> <code>@data</code> and <code>@pa</code>. <code>@pa</code> contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">data</span>@<span class="kw">data</span>)
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">data</span>@<span class="kw">data</span>)
 <span class="co">#&gt;   bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 biome</span>
 <span class="co">#&gt; 1   32    59    55     0  152 -118  270   66    10</span>
 <span class="co">#&gt; 2  161  1427   426   275  323  -10  333   78     4</span>
@@ -294,7 +290,7 @@
 <span class="co">#&gt; 5  112   633   268    42  333 -106  440  218     8</span>
 <span class="co">#&gt; 6   92   196    64    37  254  -37  291   26     8</span></pre></body></html></div>
 <p>We can visualize the coordinates with:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">data</span>@<span class="kw">coords</span>)
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">data</span>@<span class="kw">coords</span>)
 <span class="co">#&gt;        X      Y</span>
 <span class="co">#&gt; 1 -67.75 -21.75</span>
 <span class="co">#&gt; 2 -86.75  33.75</span>
@@ -303,7 +299,7 @@
 <span class="co">#&gt; 5 -98.75  39.75</span>
 <span class="co">#&gt; 6 -68.75 -41.25</span></pre></body></html></div>
 <p>or the name of the species with:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">data</span>@<span class="kw">species</span>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">data</span>@<span class="kw">species</span>
 <span class="co">#&gt; [1] "Virtual species"</span></pre></body></html></div>
 </div>
 <div id="save-an-swd-object" class="section level2">
@@ -313,11 +309,11 @@
 <ul>
 <li>save the object in a single file with the column <strong>pa</strong> indicating if the location is a presence (1) or an absence/background (0) site</li>
 </ul>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../../reference/swd2csv.html">swd2csv</a></span>(<span class="no">data</span>, <span class="kw">file_name</span> <span class="kw">=</span> <span class="st">"data.csv"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../../reference/swd2csv.html">swd2csv</a></span>(<span class="no">data</span>, <span class="kw">file_name</span> <span class="kw">=</span> <span class="st">"data.csv"</span>)</pre></body></html></div>
 <ul>
 <li>save the object in two separate files: one for the presence and the other for the absence/background locations</li>
 </ul>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../../reference/swd2csv.html">swd2csv</a></span>(<span class="no">data</span>, <span class="kw">file_name</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"presence.csv"</span>, <span class="st">"background.csv"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../../reference/swd2csv.html">swd2csv</a></span>(<span class="no">data</span>, <span class="kw">file_name</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"presence.csv"</span>, <span class="st">"background.csv"</span>))</pre></body></html></div>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">

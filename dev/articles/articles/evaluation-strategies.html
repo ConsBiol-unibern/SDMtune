@@ -55,9 +55,6 @@
   </a>
 </li>
 <li>
-  <a href="../../articles/SDMtune.html">Get started</a>
-</li>
-<li>
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -123,7 +120,7 @@
 
       
 
-      </header><script src="evaluation-strategies_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Evaluation strategies</h1>
@@ -141,9 +138,9 @@
 <a href="#intro" class="anchor"></a>Intro</h2>
 <p>In the previous articles you have learned how to <a href="./prepare-data.html">prepare the data</a> for the analysis, how to <a href="./train-model.html">train a model</a>, how to <a href="./make-predictions.html">make predictions</a> and how to <a href="./evaluate-model.html">evaluate a model</a> using <strong>SDMtune</strong>. In this article you will learn different evaluation strategies to achieve a better estimate of the model performance.</p>
 </div>
-<div id="train-and-testing-datasets" class="section level2">
+<div id="training-and-testing-datasets" class="section level2">
 <h2 class="hasAnchor">
-<a href="#train-and-testing-datasets" class="anchor"></a>Train and testing datasets</h2>
+<a href="#training-and-testing-datasets" class="anchor"></a>Training and testing datasets</h2>
 <p>First we load the <strong>SDMtune</strong> package:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SDMtune</span>)
 <span class="co">#&gt; </span>
@@ -154,7 +151,7 @@
 <span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.1.0.9000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></pre></body></html></div>
-<p>It’s always a good practice to split the species locations in two parts and use one part to train the model and the remaining part to evaluate it. We can use the <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> function for this purpose. Let’s say we want to use 80% of the species locations to train our model and 20% as testing dataset to evaluate it:</p>
+<p>It’s always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> function for this purpose. Let’s say we want to use 80% of the species locations to train our model and 20% as testing dataset to evaluate it:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">zeallot</span>)  <span class="co"># For unpacking assignment</span>
 <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">train</span>, <span class="no">test</span>) <span class="kw">%&lt;-%</span> <span class="fu"><a href="../../reference/trainValTest.html">trainValTest</a></span>(<span class="no">data</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)
 <span class="no">maxnet_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>)</pre></body></html></div>
@@ -163,11 +160,12 @@
 <span class="co">#&gt; Training auc:  0.8752144</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing auc: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">maxnet_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))
 <span class="co">#&gt; Testing auc:  0.8505888</span></pre></body></html></div>
-<p>This approach is valid when we have a large dataset but in our case, with only 510 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the AUC:</p>
+<p>This approach is valid when we have a large dataset. In our case, with only 320 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the AUC:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">output</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">NA</span>, <span class="kw">nrow</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">3</span>)) <span class="co"># Create an empty data.frame</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">output</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
 <span class="no">seeds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample.int</a></span>(<span class="fl">1000</span>, <span class="fl">10</span>) <span class="co"># Create 10 different random seeds</span>
+
 <span class="kw">for</span> (<span class="no">i</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">seeds</span>)) { <span class="co"># Loop through the seeds</span>
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">train</span>, <span class="no">test</span>) <span class="kw">%&lt;-%</span> <span class="fu"><a href="../../reference/trainValTest.html">trainValTest</a></span>(<span class="no">data</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="no">seeds</span>[<span class="no">i</span>], <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="co"># Make the train/test split</span>
   <span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>) <span class="co"># train the model</span>
@@ -178,149 +176,29 @@
 }</pre></body></html></div>
 <p>The testing AUC varies from 0.8340675 to 0.8671762. When we have to deal with a small dataset a better approach is the cross validation.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># Print the output</span>
-<span class="no">output</span></pre></body></html></div>
-<table class="table table table-striped table-hover table-condensed">
-<thead><tr>
-<th style="text-align:right;">
-seed
-</th>
-<th style="text-align:right;">
-trainAUC
-</th>
-<th style="text-align:right;">
-testAUC
-</th>
-</tr></thead>
-<tbody>
-<tr>
-<td style="text-align:right;">
-647
-</td>
-<td style="text-align:right;">
-0.8698272
-</td>
-<td style="text-align:right;">
-0.8552425
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-477
-</td>
-<td style="text-align:right;">
-0.8782434
-</td>
-<td style="text-align:right;">
-0.8340675
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-536
-</td>
-<td style="text-align:right;">
-0.8680666
-</td>
-<td style="text-align:right;">
-0.8656850
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-444
-</td>
-<td style="text-align:right;">
-0.8735606
-</td>
-<td style="text-align:right;">
-0.8566337
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-985
-</td>
-<td style="text-align:right;">
-0.8712828
-</td>
-<td style="text-align:right;">
-0.8565025
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-49
-</td>
-<td style="text-align:right;">
-0.8719091
-</td>
-<td style="text-align:right;">
-0.8519175
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-72
-</td>
-<td style="text-align:right;">
-0.8719313
-</td>
-<td style="text-align:right;">
-0.8661387
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-617
-</td>
-<td style="text-align:right;">
-0.8743353
-</td>
-<td style="text-align:right;">
-0.8529850
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-282
-</td>
-<td style="text-align:right;">
-0.8695072
-</td>
-<td style="text-align:right;">
-0.8671275
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-59
-</td>
-<td style="text-align:right;">
-0.8709719
-</td>
-<td style="text-align:right;">
-0.8671762
-</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># compute the range of the testing AUC</span>
+<span class="no">output</span>
+<span class="co">#&gt;    seed  trainAUC   testAUC</span>
+<span class="co">#&gt; 1   647 0.8698272 0.8552425</span>
+<span class="co">#&gt; 2   477 0.8782434 0.8340675</span>
+<span class="co">#&gt; 3   536 0.8680666 0.8656850</span>
+<span class="co">#&gt; 4   444 0.8735606 0.8566337</span>
+<span class="co">#&gt; 5   985 0.8712828 0.8565025</span>
+<span class="co">#&gt; 6    49 0.8719091 0.8519175</span>
+<span class="co">#&gt; 7    72 0.8719313 0.8661387</span>
+<span class="co">#&gt; 8   617 0.8743353 0.8529850</span>
+<span class="co">#&gt; 9   282 0.8695072 0.8671275</span>
+<span class="co">#&gt; 10   59 0.8709719 0.8671762</span>
 <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="no">output</span>[, <span class="fl">3</span>])
 <span class="co">#&gt; [1] 0.8340675 0.8671762</span></pre></body></html></div>
-<div id="try-yourself" class="section level3">
-<h3 class="hasAnchor">
-<a href="#try-yourself" class="anchor"></a>Try yourself</h3>
-<p>Repeat the same analysis using the TSS instead of the AUC.</p>
-</div>
 </div>
 <div id="cross-validation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cross-validation" class="anchor"></a>Cross validation</h2>
 <p>To perform a cross validation in <strong>SDMtune</strong> we have to pass the <code>fold</code> argument to the <code><a href="../../reference/train.html">train()</a></code> function. First we have to create the folds. There are several way to create them, here we explain how to make a random partition of 4 folds using the function <code><a href="../../reference/randomFolds.html">randomFolds()</a></code>:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">folds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/randomFolds.html">randomFolds</a></span>(<span class="no">data</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">folds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/randomFolds.html">randomFolds</a></span>(<span class="no">data</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)</pre></body></html></div>
 <p>The output of the function is a list containing two matrices, the first for the training and the second for the testing locations. Each column of one matrix represents a fold with <code>TRUE</code> for the locations included in and <code>FALSE</code> excluded from the partition.</p>
-<p>Let’s perform a 4 fold cross validation using the <strong>Maxnet</strong> method:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">cv_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="no">folds</span>)
+<p>Let’s perform a 4 fold cross validation using the <strong>Maxnet</strong> method (note that we use the full dataset):</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">cv_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="no">folds</span>)
 <span class="no">cv_model</span></pre></body></html></div>
 <pre><code>#&gt; Object of class SDMmodelCV 
 #&gt; Method: Maxnet 
@@ -340,29 +218,38 @@ testAUC
 #&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
 #&gt; Categorical: biome</code></pre>
 <p>The output in this case is an <code>SDMmodelCV()</code> object. It contains the four trained models in the <code>models</code> slot and the fold partitions in the <code>folds</code> slot. We can compute the AUC of a <code>SDMmodelCV()</code> object using:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">cv_model</span>))
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">cv_model</span>))
 <span class="co">#&gt; Training AUC:  0.8734151</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">cv_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
 <span class="co">#&gt; Testing AUC:  0.8553538</span></pre></body></html></div>
 <p>this returns the AUC value averaged across the four different models.</p>
-<div id="try-yourself-1" class="section level3">
+<div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
-<a href="#try-yourself-1" class="anchor"></a>Try yourself</h3>
+<a href="#try-yourself" class="anchor"></a>Try yourself</h3>
 <p>Repeat the analysis using the <code>default_model</code> that we created in the <a href="./model-training.html#train-a-model-with-default-settings">train a model</a> article.</p>
 </div>
 <div id="spatial-cross-validation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#spatial-cross-validation" class="anchor"></a>Spatial Cross Validation</h3>
-<p>The <code><a href="../../reference/train.html">train()</a></code> function accepts folds created with other packages (ENMeval and blockCV). The function will convert internally into the correct format for <code>SDMtune</code>. These packages have specific function to create folds partitions that are spatially or environmentally independent.</p>
-<p>Block partition using the ENMeval package:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ENMeval</span>)
+<p>The <code><a href="../../reference/train.html">train()</a></code> function accepts folds created with two other packages:</p>
+<ul>
+<li>
+<code>ENMeval</code> <span class="citation">(Muscarella et al. 2014)</span>
+</li>
+<li>
+<code>blockCV</code> <span class="citation">(Valavi et al. 2019)</span>
+</li>
+</ul>
+<p>The function will convert internally the created folds into the correct format for <code>SDMtune</code>. These packages have specific function to create folds partitions that are spatially or environmentally independent.</p>
+<p>Block partition using the package <code>ENMeval</code>:</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ENMeval</span>)
 <span class="no">block_folds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ENMeval/man/get.evaluation.bins.html">get.block</a></span>(<span class="kw">occ</span> <span class="kw">=</span> <span class="no">data</span>@<span class="kw">coords</span>[<span class="no">data</span>@<span class="kw">pa</span> <span class="kw">==</span> <span class="fl">1</span>, ], <span class="kw">bg.coords</span> <span class="kw">=</span> <span class="no">data</span>@<span class="kw">coords</span>[<span class="no">data</span>@<span class="kw">pa</span> <span class="kw">==</span> <span class="fl">0</span>, ])
 <span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">fc</span> <span class="kw">=</span> <span class="st">"l"</span>, <span class="kw">reg</span> <span class="kw">=</span> <span class="fl">0.8</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="no">block_folds</span>)</pre></body></html></div>
-<p>Checkerboard1 partition using the ENMeval package</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">cb_folds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ENMeval/man/get.evaluation.bins.html">get.checkerboard1</a></span>(<span class="kw">occ</span> <span class="kw">=</span> <span class="no">data</span>@<span class="kw">coords</span>[<span class="no">data</span>@<span class="kw">pa</span> <span class="kw">==</span> <span class="fl">1</span>, ], <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">bg.coords</span> <span class="kw">=</span> <span class="no">data</span>@<span class="kw">coords</span>[<span class="no">data</span>@<span class="kw">pa</span> <span class="kw">==</span> <span class="fl">0</span>, ], <span class="kw">aggregation.factor</span> <span class="kw">=</span> <span class="fl">4</span>)
+<p>Checkerboard1 partition using the package <code>ENMeval</code>:</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">cb_folds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ENMeval/man/get.evaluation.bins.html">get.checkerboard1</a></span>(<span class="kw">occ</span> <span class="kw">=</span> <span class="no">data</span>@<span class="kw">coords</span>[<span class="no">data</span>@<span class="kw">pa</span> <span class="kw">==</span> <span class="fl">1</span>, ], <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">bg.coords</span> <span class="kw">=</span> <span class="no">data</span>@<span class="kw">coords</span>[<span class="no">data</span>@<span class="kw">pa</span> <span class="kw">==</span> <span class="fl">0</span>, ], <span class="kw">aggregation.factor</span> <span class="kw">=</span> <span class="fl">4</span>)
 <span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">fc</span> <span class="kw">=</span> <span class="st">"l"</span>, <span class="kw">reg</span> <span class="kw">=</span> <span class="fl">0.8</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="no">cb_folds</span>)</pre></body></html></div>
-<p>Environmental block using the blockCV package</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">blockCV</span>)
+<p>Environmental block using the package <code>blockCV</code>:</p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">blockCV</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)
 <span class="co"># Create spatial points data frame</span>
 <span class="no">sp_df</span> <span class="kw">&lt;-</span> <span class="fu">SpatialPointsDataFrame</span>(<span class="no">data</span>@<span class="kw">coords</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.data.frame.html">as.data.frame</a></span>(<span class="no">data</span>@<span class="kw">pa</span>), <span class="kw">proj4string</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">crs</a></span>(<span class="no">predictors</span>))
@@ -383,6 +270,14 @@ testAUC
 <li>how to evaluate an <code>SDMmodelCV()</code> object.</li>
 </ul>
 <p>In the <a href="./variable-importance.html">next article</a> you will learn how to display the variable importance and how to plot the response curve.</p>
+<div id="refs" class="references">
+<div id="ref-Muscarella2014">
+<p>Muscarella, Robert, Peter J. Galante, Mariano Soley-Guardia, Robert A. Boria, Jamie M. Kass, María Uriarte, and Robert P. Anderson. 2014. “ENMeval: An R package for conducting spatially independent evaluations and estimating optimal model complexity for Maxent ecological niche models.” <em>Methods in Ecology and Evolution</em> 5 (11): 1198–1205. <a href="https://doi.org/10.1111/2041-210X.12261">https://doi.org/10.1111/2041-210X.12261</a>.</p>
+</div>
+<div id="ref-Valavi2019">
+<p>Valavi, Roozbeh, Jane Elith, José J. Lahoz-Monfort, and Gurutzeta Guillera-Arroita. 2019. “block CV: An r package for generating spatially or environmentally separated folds for k -fold cross-validation of species distribution models.” <em>Methods in Ecology and Evolution</em> 10 (2): 225–32. <a href="https://doi.org/10.1111/2041-210X.13107">https://doi.org/10.1111/2041-210X.13107</a>.</p>
+</div>
+</div>
 </div>
   </div>
 

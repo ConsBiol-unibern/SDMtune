@@ -55,9 +55,6 @@
   </a>
 </li>
 <li>
-  <a href="../../articles/SDMtune.html">Get started</a>
-</li>
-<li>
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -139,18 +136,20 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>In the <a href="./prepare-data.html">previous article</a> you have learned how to prepare the data for the analysis using the <a href="../../reference/virtualSp.html">virtualSp</a> dataset and the <a href="http://www.worldclim.org/">WorldClim</a> environmental variables. Now it’s time to train your first model, let’s do it!<br><strong>SDMtune</strong> supports the following methods: Artificial Neural Networks, Boosted Regression Trees, Maximum Entropy and Random Forest. The following are the packages used for the different methods:</p>
+<p>In the <a href="./prepare-data.html">previous article</a> you have learned how to prepare the data for the analysis using the <a href="../../reference/virtualSp.html">virtualSp</a> dataset and the <a href="http://www.worldclim.org/">WorldClim</a> environmental variables. Now it’s time to train your first model, let’s do it!</p>
+<p><code>SDMtune</code> supports four methods for model training:</p>
 <ul>
-<li>
-<strong>ANN</strong> using the <code>nnet</code> package <span class="citation">(Venables and Ripley 2002)</span>;</li>
-<li>
-<strong>BRT</strong> using the <code>gbm</code> package <span class="citation">(Greenwell et al. 2019)</span>;</li>
+<li>Artificial Neural Networks <strong>ANN</strong>, using the <code>nnet</code> package <span class="citation">(Venables and Ripley 2002)</span>;</li>
+<li>Boosted Regression Trees <strong>BRT</strong>, using the <code>gbm</code> package <span class="citation">(Greenwell et al. 2019)</span>;</li>
+<li>Maximum Entropy with two implementations:
+<ul>
 <li>
 <strong>Maxent</strong> using the <code>dismo</code> package <span class="citation">(Hijmans et al. 2017)</span>;</li>
 <li>
 <strong>Maxnet</strong> using the <code>maxnet</code> package <span class="citation">(Phillips 2017)</span>;</li>
-<li>
-<strong>RF</strong> using the <code>andomForest</code> package <span class="citation">(Liaw and Wiener 2002)</span>.</li>
+</ul>
+</li>
+<li>Random Forest <strong>RF</strong>, using the <code>randomForest</code> package <span class="citation">(Liaw and Wiener 2002)</span>.</li>
 </ul>
 <p>The code necessary to train a model is the same for all the implementations. We will show how to train a <strong>Maxent</strong> model, you can adapt the code for the other methods or check this <a href="./train-tune-presence-absence-models.html">article</a>.</p>
 </div>
@@ -179,7 +178,7 @@
 <li>
 <code>method</code>: “Maxent” in our case;</li>
 <li>
-<code>data</code>: the <code>SWD()</code> object with the presence and background locations we created in the previous article.</li>
+<code>data</code>: the <code>SWD()</code> object with the presence and background locations that we created in the previous article.</li>
 </ul>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">default_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>)</pre></body></html></div>
 <p>The function trains the model using default settings that are:</p>
@@ -193,7 +192,7 @@
 <div id="explore-an-sdmmodel-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#explore-an-sdmmodel-object" class="anchor"></a>Explore an SDMmodel object</h2>
-<p>The output of the <code><a href="../../reference/train.html">train()</a></code> function is an object of class <code>SDMmodel()</code>. Let’s print the <code>model</code> object we’ve just created:</p>
+<p>The output of the function <code><a href="../../reference/train.html">train()</a></code> is an object of class <code>SDMmodel()</code>. Let’s print it:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">default_model</span>
 <span class="co">#&gt; Object of class SDMmodel </span>
 <span class="co">#&gt; Method: Maxent </span>
@@ -242,7 +241,6 @@
 <li>
 <strong>model</strong>: a <code>Maxent()</code> object, in our case, with all the model configurations.</li>
 </ul>
-<p>We can access the different slots in the same way we explored the <code>SWD()</code> object in the previous article, using the <strong>@</strong> symbol before the slot name (e.g. <code>default_model@data</code>).</p>
 <p>The slot <code>model</code> contains the configurations of the model plus other information used to make predictions.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">slotNames</span>(<span class="no">default_model</span>@<span class="kw">model</span>)
 <span class="co">#&gt;  [1] "results"    "reg"        "fc"         "iter"       "extra_args"</span>
@@ -253,14 +251,14 @@
 <div id="train-a-model-changing-the-default-settings" class="section level2">
 <h2 class="hasAnchor">
 <a href="#train-a-model-changing-the-default-settings" class="anchor"></a>Train a model changing the default settings</h2>
-<p>The function <code><a href="../../reference/train.html">train()</a></code> accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the model also using:</p>
+<p>The function <code><a href="../../reference/train.html">train()</a></code> accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the same model using:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">default_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">fc</span> <span class="kw">=</span> <span class="st">"lqph"</span>, <span class="kw">reg</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">500</span>)</pre></body></html></div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
 <p>Try to change the default settings and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">fc</span> <span class="kw">=</span> <span class="st">"lh"</span>, <span class="kw">reg</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">700</span>)</pre></body></html></div>
-<p>By default Maxent models are trained using the arguments <em>“removeduplicates=false”</em> and <em>“addsamplestobackground=false”</em>. The user should have the full control of the data used to train the model, so is expected that duplicated locations are already removed and the presence locations are already included in the background locations, when desired. You can use the function <code><a href="../../reference/thinData.html">thinData()</a></code> to remove duplicated locations and the function <code><a href="../../reference/addSamplesToBg.html">addSamplesToBg()</a></code> to add the presence locations to the background locations.</p>
+<p>By default Maxent models are trained using the arguments <em>“removeduplicates=false”</em> and <em>“addsamplestobackground=false”</em>. The user should have the full control of the data used to train the model, so is expected that duplicated locations are already removed and that the presence locations are already included in the background locations, when desired. You can use the function <code><a href="../../reference/thinData.html">thinData()</a></code> to remove duplicated locations and the function <code><a href="../../reference/addSamplesToBg.html">addSamplesToBg()</a></code> to add the presence locations to the background locations.</p>
 </div>
 </div>
 <div id="train-a-maxnet-model" class="section level2">
