@@ -84,13 +84,10 @@ library(SDMtune)
 ```
 
 For demonstrating how to use `SDMtune` we use the random generated virtual species [virtualSp](../../reference/virtualSp.html) dataset included in the package. The dataset contains `r nrow(virtualSp$presence)` coordinates for presence and `r nrow(virtualSp$background)` for background locations.
-```{r help dataset}
+```{r load data}
 help(virtualSp)
-```
-
-We select the the first two columns that contain the coordinates of the locations:
-```{r prepare presence}
 p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
 ```
 
 Plot the study area together with the presence locations:
@@ -105,9 +102,6 @@ ggplot(map_data("world"), aes(long, lat)) +
     coord_fixed() +
     scale_x_continuous(limits = c(-125, -32)) +
     scale_y_continuous(limits = c(-56, 40))
-```
-```{r prepare background}
-bg_coords <- virtualSp$background
 ```
 
 To plot the background locations run the following code:
@@ -129,12 +123,12 @@ ggplot(map_data("world"), aes(long, lat)) +
 
 Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
 
-```{r prepare presence SWD}
+```{r prepare SWD}
 data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords, env = predictors, categorical = "biome")
 
 ```
 
-## Explore an SWD object
+## Explore the SWD object
 
 Let's have a look at the created `SWD()` object:
 
@@ -154,18 +148,18 @@ When we print an `SWD()` object we get a bunch of information:
 
 The object contains four slots: `@species`, `@coords` `@data` and `@pa`. `@pa` contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:
 
-```{r show presence data}
+```{r show data}
 head(data@data)
 ```
 
 We can visualize the coordinates with:
 
-```{r show presence coords data}
+```{r show coords data}
 head(data@coords)
 ```
 
 or the name of the species with:
-```{r show presence species}
+```{r show species}
 data@species
 ```
 
