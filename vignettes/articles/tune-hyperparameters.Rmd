@@ -114,7 +114,7 @@ h <- list(reg = seq(0.2, 2, 0.2), fc = c("l", "lq", "lh", "lqp", "lqph", "lqpht"
 exp_5 <- gridSearch(model, hypers = h, metric = "auc", test = val)
 ```
 
-This code takes already quite long as it has to train 60 models. Imagine if you want to check also decrease the increments for the regularization multiplier values and maybe add the number of iterations (in the case of a **Maxent** model). The number of models to be trained increases exponentially and consequently the execution time. In the next two paragraphs we will present two possible alternative to the `gridSearch()` function.
+This code takes already quite long as it has to train 60 models. Imagine if you want to check more values for the regularization multiplier and maybe add the number of iterations (in the case of a **Maxent** model). The number of models to be trained increases exponentially and consequently the execution time. In the next two paragraphs we will present two possible alternative to the `gridSearch()` function.
 
 ## Random search
 
@@ -124,7 +124,7 @@ h <- list(reg = seq(0.2, 5, 0.2), fc = c("l", "lq", "lh", "lp", "lqp", "lqph"))
 exp_6 <- randomSearch(model, hypers = h, metric = "auc", test = val, pop = 10, seed = 65466)
 ```
 
-The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 20 instead of `r nrow(expand.grid(h))` models. The results includes the 20 trained model. If you are not happy with the solution, you can check the best hyperparameter combinations and this gives you an intuition of which ones are the hyperparameters to "refine" using the function `gridSearch()`. The `SDMtune()` object stores the results in a `data.frame` than can be accessed with the following command:
+The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 10 instead of `r nrow(expand.grid(h))` models. The results includes the 10 trained model. If you are not happy with the solution, you can check the best hyperparameter combinations and this gives you an intuition of which ones are the hyperparameters to "refine" using the function `gridSearch()`. The `SDMtune()` object stores the results in a `data.frame` than can be accessed with the following command:
 ```{r sdmtune results}
 exp_6@results
 ```
@@ -138,14 +138,14 @@ exp_7 <- optimizeModel(model, hypers = h, metric = "auc", test = val, pop = 15, 
 
 ## Evaluate final model
 
-Let's say we want to use the best tuned model found by the `randomSearch()` function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train a new model with the merged observations and the tuned configuration. At this point we may have removed variables using the `varSel()` or `reduceVar()` function, so we cannot merge directly the initial datasets, as they contain all the environmental variables. We can extract the train dataset with the selected variables from the output of the experiment and merge it using the `mergeSWD()` function:
+Let's say we want to use the best tuned model found by the `randomSearch()` function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train a new model with the merged observations and the tuned configuration. At this point we may have removed variables using the `varSel()` or `reduceVar()` function. If this is the case, we cannot merge directly the initial datasets which contain all the environmental variables. We can extract the train dataset with the selected variables from the output of the experiment and merge it with the validation dataset using the function `mergeSWD()`:
 ```{r merge}
 index <- which.max(exp_6@results$test_AUC)  # Index of the best model in the experiment
 new_train <- exp_6@models[[index]]@data  # New train dataset containing only the selected variables
 merged_data <- mergeSWD(new_train, val, only_presence = TRUE) # Merge only presence data
 ```
 
-The `val` dataset contains all the initial environmental variables but the `mergeSWD()` function will merge only those that are present in both datasets (i.e. the ones that are present in the `new_train` dataset, see warning message). 
+The `val` dataset contains all the initial environmental variables but the `mergeSWD()` function will merge only those that are present in both datasets (in case you have performed variable selection). 
 
 Then we get the model configuration from the experiment 6:
 ```{r configuration}
@@ -159,6 +159,28 @@ final_model <- train("Maxnet", data = merged_data, fc = exp_6@results[index, 1],
 
 Now we can evaluate the final model using the held apart testing dataset:
 ```{r final evaluation}
+auc(final_model, test = test)
+```
+
+# Hyperparameters tuning with cross validation
+
+Another approach would be to split the data in two folds: training and testing, use the cross validation strategy with the training dataset to tune the model hyperparameters, and evaluate the tuned model with the unseen held apart testing dataset.
+```{r cross validation, eval=FALSE}
+# Create the folds from the training dataset
+folds <- randomFolds(train, k = 4, only_presence = TRUE, seed = 25)
+# Train the model
+cv_model <- train("Maxent", data = train, folds = folds)
+```
+
+All the previous examples can be applied to the cross validation, here an example with `randomSearch` (note that in this case the testing dataset is not provided as is taken from the folds stored in the `SDMmodelCV`):
+```{r randomSearch cv, eval=FALSE}
+h <- list(reg = seq(0.2, 5, 0.2), fc = c("l", "lq", "lh", "lp", "lqp", "lqph"))
+exp_8 <- randomSearch(cv_model, hypers = h, metric = "auc", pop = 10, seed = 65466)
+```
+
+The function `randomSearch` orders the models according to the best value of the metric for the testing dataset. In this case we can train a model using the best hyperparameters configuration and without cross validation with:
+```{r final evaluation cv, eval=FALSE}
+final_model <- train("Maxent", data = exp_8@models[[1]]@data, fc = exp_8@results[1, 1], reg = exp_8@results[1, 2])
 auc(final_model, test = test)
 ```
 
