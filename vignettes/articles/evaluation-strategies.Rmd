@@ -45,7 +45,7 @@ cat("Testing auc: ", auc(maxnet_model, test = test))
 
 We can plot the ROC curve for both, training and testing datasets, with:
 ```{r plot AUC train/test}
-plotROC(model, test = test)
+plotROC(maxnet_model, test = test)
 ```
 
 This approach is valid when we have a large dataset. In our case, with only `r nrow(train@data[train@pa == 1, ])` observations, the evaluation depends strongly on how we split our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the AUC:
