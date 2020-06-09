@@ -32,8 +32,8 @@ library(SDMtune)
 
 New locations are predicted with the function [predict()](../../reference/predict-SDMmodel-method.html). The function takes three main arguments:
 
-* a trained `SDMmodel()` object;
-* a new dataset, used to make prediction; can be a `data.frame`, an `SWD()` object or a raster `stack` object;
+* a trained model given as `SDMmodel()` object;
+* a new dataset, used to make prediction (can be a `data.frame`, an `SWD()` object or a raster `stack` object);
 * the output type, that for **Maxent** models can be: **raw**, **logistic** or **cloglog**.
 
 Next we get the prediction for our training locations using the **cloglog** output type:
@@ -55,10 +55,11 @@ pred <- predict(default_model, data = p, type = "cloglog")
 tail(pred)
 ```
 
+For models trained with the **Maxent**  method, the function performs the prediction in R without calling the MaxEnt Java software. This results in a faster computation for large datasets and might result in slightly different results compare to the Java software.
 
 ## Create a distribution map
 
-We can use the same function to create a distribution map starting from the `predictors` raster `stack' object we created in the [first article](./prepare-data.html#acquire-environmental-variables).
+We can use the same function to create a distribution map starting from the `predictors` raster `stack' object that we created in the [first article](./prepare-data.html#acquire-environmental-variables).
 
 ```{r predict raster}
 map <- predict(default_model, data = predictors, type = "cloglog")
@@ -89,7 +90,7 @@ To plot the distribution map we can use the function `plotPred()`:
 plotPred(map)
 ```
 
-The `plotPred()` function plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
+The function `plotPred()` plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
 
 ```{r plot map custom, fig.align="center"}
 plotPred(map, lt = "Habitat\nsuitability", colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
