@@ -1,5 +1,5 @@
 ---
-title: "An introduction to the 'SDMtune' package"
+title: "Basic use of the 'SDMtune' package"
 author: "Sergio Vignali, Arnaud Barras & Veronika Braunisch"
 bibliography: SDMtune.bib
 output:
@@ -7,7 +7,7 @@ output:
     toc: yes
     toc_depth: 2
 vignette: >
- %\VignetteIndexEntry{SDMtune basic use} 
+ %\VignetteIndexEntry{SDMtune - basic use} 
  %\VignetteEncoding{UTF-8}
  %\VignetteEngine{knitr::rmarkdown}
 ---
