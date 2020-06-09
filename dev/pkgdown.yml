@@ -11,8 +11,8 @@ articles:
   tune-hyperparameters: articles/tune-hyperparameters.html
   variable-importance: articles/variable-importance.html
   variable-selection: articles/variable-selection.html
-  introduction: introduction.html
-last_built: 2020-06-09T11:33Z
+  basic-use: basic-use.html
+last_built: 2020-06-09T12:00Z
 urls:
   reference: https://consbiol-unibern.github.io/SDMtune//reference
   article: https://consbiol-unibern.github.io/SDMtune//articles
