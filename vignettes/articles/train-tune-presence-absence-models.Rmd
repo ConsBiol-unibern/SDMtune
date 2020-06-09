@@ -46,14 +46,14 @@ folds <- randomFolds(train, k = 4, seed = 25)
 
 ## Train the model
 
-We first train the model with default settings and running the cross validation:
+We first train the model with default settings and 10 neurons:
 ```{r}
 set.seed(25)
 model <- train("ANN", data = train, size = 10, folds = folds)
 model
 ```
 
-Let's check the training and testing auc:
+Let's check the training and testing AUC:
 ```{r auc}
 auc(model)
 auc(model, test = TRUE)
@@ -80,11 +80,11 @@ best_model <- om@models[[1]]
 om@results[1, ]
 ```
 
-The validation auc increased from `r auc(model, test = TRUE)` of the default models to `r om@results[1, 6]` of the optimized one.
+The validation AUC increased from `r auc(model, test = TRUE)` of the default models to `r om@results[1, 6]` of the optimized one.
 
 ## Evaluate the final model
 
-We now train a model with the same configuration as found by the `optimizeModel()` function without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:
+We now train a model with the same configuration as found by the function `optimizeModel()` without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:
 ```{r evaluate final model, fig.align="center"}
 set.seed(25)
 final_model <- train("ANN", data = train, size = om@results[1, 1], decay = om@results[1, 2], maxit = om@results[1, 4])
