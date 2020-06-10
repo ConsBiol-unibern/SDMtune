@@ -219,8 +219,7 @@
 <a href="#optimize-model" class="anchor"></a>Optimize Model</h2>
 <p>The previous function doesn’t learn anything from the trained models, it just selects n random combinations of hyperparameters. The function <code>optimizeModel</code> instead uses a <em>genetic algorithm</em> to find an optimum or near optimum solution. Check the function documentation to understand how it works, here we provide the code to execute it:</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">exp_7</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>, <span class="kw">pop</span> <span class="kw">=</span> <span class="fl">15</span>,
-                       <span class="kw">gen</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">keep_best</span> <span class="kw">=</span> <span class="fl">0.4</span>, <span class="kw">keep_random</span> <span class="kw">=</span> <span class="fl">0.2</span>,
-                       <span class="kw">mutation_chance</span> <span class="kw">=</span> <span class="fl">0.4</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">798</span>)</pre></body></html></div>
+                       <span class="kw">gen</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">798</span>)</pre></body></html></div>
 </div>
 <div id="evaluate-final-model" class="section level2">
 <h2 class="hasAnchor">

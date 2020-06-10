@@ -288,6 +288,7 @@ importance, default is <code>FALSE</code>.</p></td>
 
 <span class='co'># Remove variables with permuation importance lower than 2% only if testing</span>
 <span class='co'># TSS doesn't decrease</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"tss"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>1</span>,
                     <span class='kw'>use_jk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
@@ -305,6 +306,7 @@ importance, default is <code>FALSE</code>.</p></td>
 <span class='co'># Remove all variables with percent contribution lower than 2%</span>
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>reduceVar</span>(<span class='no'>model</span>, <span class='kw'>th</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
                     <span class='kw'>use_pc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+}
 }
 <span class='co'># }</span></pre>
   </div>
