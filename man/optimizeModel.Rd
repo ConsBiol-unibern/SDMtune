@@ -86,22 +86,26 @@ data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
                    env = predictors, categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+datasets <- trainValTest(data, val = 0.2, test = 0.2, only_presence = TRUE,
+                         seed = 61516)
 train <- datasets[[1]]
-test <- datasets[[2]]
+val <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", data = train, fc = "l")
+model <- train("Maxnet", data = train)
 
 # Define the hyperparameters to test
-h <- list(reg = seq(0.2, 3, 0.2), fc = c("lh", "lqp", "lqph", "lqpht"))
+h <- list(reg = seq(0.2, 5, 0.2),
+          fc = c("l", "lq", "lh", "lp", "lqp", "lqph"))
 
 # Run the function using as metric the AUC
-output <- optimizeModel(model, hypers = h, metric = "auc", test = test,
-                        pop = 10, gen = 4, seed = 25)
+\dontrun{
+output <- optimizeModel(model, hypers = h, metric = "auc", test = val,
+                        pop = 15, gen = 2, seed = 798)
 output@results
 output@models
 output@models[[1]]  # Best model
+}
 }
 }
 \seealso{
