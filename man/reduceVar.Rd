@@ -85,6 +85,7 @@ output <- reduceVar(model, th = 2, metric = "auc", test = test, permut = 1)
 
 # Remove variables with permuation importance lower than 2\% only if testing
 # TSS doesn't decrease
+\dontrun{
 output <- reduceVar(model, th = 2, metric = "tss", test = test, permut = 1,
                     use_jk = TRUE)
 
@@ -102,6 +103,7 @@ model <- train(method = "Maxent", data = train, fc = "lq")
 # Remove all variables with percent contribution lower than 2\%
 output <- reduceVar(model, th = 2, metric = "auc", test = test,
                     use_pc = TRUE)
+}
 }
 }
 }
