@@ -7,6 +7,7 @@
 #'
 #' @return The converted dismo \linkS4class{MaxEnt} object.
 #' @export
+#' @importFrom dismo maxent
 #'
 #' @examples
 #' # Acquire environmental variables
