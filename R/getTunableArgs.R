@@ -5,7 +5,7 @@
 #'
 #' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #'
-#' @return character vector
+#' @return character vector.
 #' @export
 #'
 #' @author Sergio Vignali
