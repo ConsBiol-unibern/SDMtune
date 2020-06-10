@@ -13,7 +13,6 @@
 #'
 #' @return The computed AICc
 #' @export
-#' @importFrom raster extract cellStats
 #'
 #' @author Sergio Vignali
 #'
