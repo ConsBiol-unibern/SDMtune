@@ -20,7 +20,6 @@
 #' @return A data frame with the test results. If `return_model = TRUE` it
 #' returns a list containing the test results together with the models.
 #' @export
-#' @importFrom progress progress_bar
 #'
 #' @author Sergio Vignali
 #'
