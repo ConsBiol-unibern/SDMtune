@@ -20,7 +20,6 @@
 #'
 #' @return data.frame with the thresholds.
 #' @export
-#' @importFrom stats binom.test
 #'
 #' @author Sergio Vignali
 #'
