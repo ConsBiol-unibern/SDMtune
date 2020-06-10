@@ -11,8 +11,8 @@
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export
-#' @importFrom ggplot2 ggplot aes_ geom_bar position_dodge coord_flip labs
-#' theme_minimal geom_hline theme
+#' @importFrom rlang .data
+#' @importFrom ggplot2 ggplot aes
 #'
 #' @author Sergio Vignali
 #'
@@ -96,18 +96,19 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
   df_plot <- rbind(df_with, df_without)
   df_plot$test <- c(rep("With only", nrow(df_with)),
                     rep("Without", nrow(df_without)))
-  my_plot <- ggplot(df_plot, aes_(x = ~Variable, y = ~value, fill = ~test)) +
-    geom_bar(stat = "identity", position = position_dodge()) +
-    coord_flip() +
-    labs(x = "", y = y_label) +
-    theme_minimal() +
-    theme(text = element_text(colour = "#666666"),
-          legend.title = element_blank())
+  my_plot <- ggplot(df_plot, aes(x = .data$Variable, y = .data$value,
+                                 fill = .data$test)) +
+    ggplot2::geom_bar(stat = "identity", position = ggplot2::position_dodge()) +
+    ggplot2::coord_flip() +
+    ggplot2::labs(x = "", y = y_label) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(text = ggplot2::element_text(colour = "#666666"),
+                   legend.title = ggplot2::element_blank())
 
 
   if (!is.null(ref))
     my_plot <- my_plot +
-      geom_hline(yintercept = ref, linetype = "dashed", color = "red")
+    ggplot2::geom_hline(yintercept = ref, linetype = "dashed", color = "red")
 
   return(my_plot)
 }
