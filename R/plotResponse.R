@@ -22,6 +22,7 @@
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export
+#' @importFrom rlang .data
 #' @importFrom ggplot2 ggplot aes
 #'
 #' @author Sergio Vignali
