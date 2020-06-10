@@ -1,4 +1,3 @@
-#' @importFrom randomForest randomForest
 trainRF <- function(data, mtry = NULL, ntree = 500, nodesize = 1) {
 
   result <- SDMmodel(data = data)
