@@ -19,7 +19,7 @@ setGeneric("predict", function(object, ...)
 #' in a file.
 #' @param format character. The output format, see \link[raster]{writeRaster}
 #' for all the options, default is "GTiff".
-#' @param extent \link[raster]{Extent} object, if provided it restricts
+#' @param extent \link[raster]{extent} object, if provided it restricts
 #' the prediction to the given extent, default is `NULL`.
 #' @param parallel deprecated.
 #' @param progress character to display a progress bar: "text", "window" or ""
@@ -47,7 +47,6 @@ setGeneric("predict", function(object, ...)
 #'
 #' @include Maxent-class.R Maxnet-class.R ANN-class.R RF-class.R BRT-class.R
 #' @import methods
-#' @importFrom raster predict subset
 #'
 #' @return A vector with the prediction or a \link[raster]{raster} object if
 #' data is a raster \link[raster]{stack}.

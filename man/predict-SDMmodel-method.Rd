@@ -36,7 +36,7 @@ in a file.}
 \item{format}{character. The output format, see \link[raster]{writeRaster}
 for all the options, default is "GTiff".}
 
-\item{extent}{\link[raster]{Extent} object, if provided it restricts
+\item{extent}{\link[raster]{extent} object, if provided it restricts
 the prediction to the given extent, default is \code{NULL}.}
 
 \item{parallel}{deprecated.}
