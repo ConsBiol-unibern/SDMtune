@@ -16,7 +16,6 @@
 #' locations.
 #'
 #' @export
-#' @importFrom utils write.csv
 #'
 #' @author Sergio Vignali
 #'
@@ -48,11 +47,11 @@ swd2csv <- function(swd, file_name) {
   if (length(file_name) == 2) {
     df <- cbind(swd@species, swd@coords, swd@data)
     colnames(df)[1] <- "Species"
-    write.csv(df[swd@pa == 1, ], file_name[1], row.names = FALSE)
-    write.csv(df[swd@pa == 0, ], file_name[2], row.names = FALSE)
+    utils::write.csv(df[swd@pa == 1, ], file_name[1], row.names = FALSE)
+    utils::write.csv(df[swd@pa == 0, ], file_name[2], row.names = FALSE)
   } else {
     df <- cbind(swd@species, swd@pa, swd@coords, swd@data)
     colnames(df)[1:2] <- c("Species", "pa")
-    write.csv(df, file_name[1], row.names = FALSE)
+    utils::write.csv(df, file_name[1], row.names = FALSE)
   }
 }
