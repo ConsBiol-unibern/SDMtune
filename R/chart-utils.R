@@ -17,7 +17,6 @@
   .render_script(folder, script, settings, data)
 }
 
-#' @importFrom rstudioapi viewer
 .show_chart <- function(folder, height = 300) {
 
   # Show chart if not called from testthat
@@ -33,8 +32,6 @@
   }
 }
 
-#' @importFrom jsonlite toJSON
-#' @importFrom whisker whisker.render
 .render_script <- function(folder, script, settings, data) {
 
   template <- paste(readLines(file.path(system.file("scripts",
@@ -50,14 +47,11 @@
   writeLines(rendered_script, file.path(folder, "lib", "chart_script.js"))
 }
 
-#' @importFrom jsonlite write_json
 .update_data <- function(folder, data) {
   jsonlite::write_json(data, file.path(folder, "data.json"))
   Sys.sleep(.1)
 }
 
-#' @importFrom tools startDynamicHelp
-#' @importFrom utils browseURL
 .start_server <- function(folder) {
 
   port <- suppressMessages(tools::startDynamicHelp(start = NA))
