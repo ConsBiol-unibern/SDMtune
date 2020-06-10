@@ -10,12 +10,12 @@
 #' @param seed integer. The value used to set the seed for the fold partition,
 #' default is `NULL`.
 #'
+#' @details When `only_presence = FALSE`, the proportion of presence and absence
+#' is preserved.
+#'
 #' @return list with two matrices, the first for the training and the second for
 #' the testing dataset. Each column of one matrix represents a fold with
 #' `TRUE` for the locations included in and `FALSE` excluded from the partition.
-#'
-#' When `only_presence = FALSE`, the proportion of presence and absence is
-#' preserved.
 #'
 #' @export
 #'

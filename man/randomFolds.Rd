@@ -22,12 +22,13 @@ default is \code{NULL}.}
 list with two matrices, the first for the training and the second for
 the testing dataset. Each column of one matrix represents a fold with
 \code{TRUE} for the locations included in and \code{FALSE} excluded from the partition.
-
-When \code{only_presence = FALSE}, the proportion of presence and absence is
-preserved.
 }
 \description{
 Create random folds for cross validation.
+}
+\details{
+When \code{only_presence = FALSE}, the proportion of presence and absence
+is preserved.
 }
 \examples{
 # Acquire environmental variables
