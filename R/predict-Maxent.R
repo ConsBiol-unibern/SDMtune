@@ -20,7 +20,6 @@ setGeneric("predict", function(object, ...)
 #' software.
 #'
 #' @include Maxent-class.R
-#' @importFrom stats model.matrix
 #'
 #' @return A vector with the prediction
 #'
@@ -48,7 +47,7 @@ setMethod("predict",
 
     f <- object@formula
     # Make the design matrix
-    dm <- model.matrix(f, data)
+    dm <- stats::model.matrix(f, data)
     # Scale features and clamp if clamp is TRUE
     cols <- !grepl("categorical.*|hinge.*|threshold.*", colnames(dm))
     dm[, cols] <- scaleClamp(dm[, cols, drop = FALSE], object@coeff$min[cols],
