@@ -20,7 +20,6 @@
 #'
 #' @aliases NULL Maxent-class
 #' @export
-#' @importFrom utils browseURL
 #'
 #' @author Sergio Vignali
 Maxent <- setClass("Maxent",
