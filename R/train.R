@@ -63,7 +63,6 @@
 #' @return An \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} or a list of
 #' model objects.
 #' @export
-#' @importFrom progress progress_bar
 #'
 #' @seealso \link{randomFolds}.
 #'
