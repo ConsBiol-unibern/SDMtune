@@ -17,7 +17,6 @@
 #'
 #' @return The name of the correlated variables.
 #' @export
-#' @importFrom stats cor
 #'
 #' @author Sergio Vignali
 #'
@@ -56,7 +55,7 @@ corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
   # Remove categorical environmental variables
   categorical <- names(Filter(is.factor, df))
   df[categorical] <- list(NULL)
-  cor_matrix <- cor(df, method = method)
+  cor_matrix <- stats::cor(df, method = method)
   # Remove lower triangle
   cor_matrix[lower.tri(cor_matrix, diag = remove_diagonal)] <- NA
   if (!is.null(cor_th))
