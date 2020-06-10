@@ -25,7 +25,6 @@
 #' software.
 #'
 #' @export
-#' @importFrom utils menu browseURL
 #'
 #' @author Sergio Vignali
 #'
