@@ -97,6 +97,7 @@ bg_coords <- dismo::randomPoints(predictors, 10000)
 bg <- prepareSWD(species = "Virtual species", a = bg_coords,
                  env = predictors, categorical = "biome")
 
+\dontrun{
 # Remove variables with correlation higher than 0.7 accounting for the AUC,
 # in the following example the variable importance is computed as permutation
 # importance
@@ -122,6 +123,7 @@ vs
 vs <- varSel(model, metric = "aicc", bg4cor = bg, cor_th = 0.7,
              use_pc = TRUE, env = predictors)
 vs
+}
 }
 }
 }

@@ -36,8 +36,6 @@
 #' @return The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained
 #' using the selected variables.
 #' @export
-#' @importFrom progress progress_bar
-#' @importFrom stats cor
 #'
 #' @author Sergio Vignali
 #'
@@ -70,6 +68,7 @@
 #' bg <- prepareSWD(species = "Virtual species", a = bg_coords,
 #'                  env = predictors, categorical = "biome")
 #'
+#' \dontrun{
 #' # Remove variables with correlation higher than 0.7 accounting for the AUC,
 #' # in the following example the variable importance is computed as permutation
 #' # importance
@@ -95,6 +94,7 @@
 #' vs <- varSel(model, metric = "aicc", bg4cor = bg, cor_th = 0.7,
 #'              use_pc = TRUE, env = predictors)
 #' vs
+#' }
 #' }
 #' }
 varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
@@ -135,7 +135,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   df <- bg4cor@data
   categorical <- names(Filter(is.factor, df))
   df[categorical] <- list(NULL)
-  cor_matrix <- cor(df, method = method)
+  cor_matrix <- stats::cor(df, method = method)
 
   # metric used for chart
   train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
