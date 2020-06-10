@@ -19,6 +19,7 @@
 #'
 #' @return data.frame with the ordered permutation importance.
 #' @export
+#' @importFrom stats sd
 #'
 #' @author Sergio Vignali
 #'
@@ -87,7 +88,7 @@ varImp <- function(model, permut = 10) {
     }
     output <- data.frame(Variable = vars,
                          Permutation_importance = rowMeans(pis),
-                         sd = round(apply(pis, 1, stats::sd), 3),
+                         sd = round(apply(pis, 1, sd), 3),
                          stringsAsFactors = FALSE)
   }
 
@@ -115,7 +116,7 @@ varImp <- function(model, permut = 10) {
   }
 
   if (permut > 1) {
-    sd_auc <- apply(permuted_auc, 2, stats::sd)
+    sd_auc <- apply(permuted_auc, 2, sd)
     permuted_auc <- apply(permuted_auc, 2, mean)
   }
 
