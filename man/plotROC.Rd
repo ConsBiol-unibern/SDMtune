@@ -12,7 +12,7 @@ plotROC(model, test = NULL)
 \item{test}{\linkS4class{SWD} object. The testing dataset, default is \code{NULL}.}
 }
 \value{
-The plot object.
+A \link[ggplot2]{ggplot} object.
 }
 \description{
 Plot the ROC curve of the given model and print the AUC value.
