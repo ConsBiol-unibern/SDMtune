@@ -22,9 +22,7 @@
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export
-#' @importFrom ggplot2 ggplot aes_string geom_line geom_bar scale_x_continuous
-#' geom_ribbon geom_errorbar geom_rug labs theme
-#' @importFrom raster modal
+#' @importFrom ggplot2 ggplot aes
 #'
 #' @author Sergio Vignali
 #'
@@ -107,14 +105,14 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
                                 fun, marginal, type, categ)
 
     if (var %in% cont_vars) {
-      my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
-        geom_line(colour = color)
+      my_plot <- ggplot(plot_data, aes(x = .data$x, y = .data$y)) +
+        ggplot2::geom_line(colour = color)
 
     } else {
-      my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
-        geom_bar(stat = "identity", fill = color) +
-        scale_x_continuous(breaks = seq(min(plot_data$x),
-                                        max(plot_data$x), 1))
+      my_plot <- ggplot(plot_data, aes(x = .data$x, y = .data$y)) +
+        ggplot2::geom_bar(stat = "identity", fill = color) +
+        ggplot2::scale_x_continuous(breaks = seq(min(plot_data$x),
+                                                 max(plot_data$x), 1))
     }
   } else {
     nf <- length(model@models)
@@ -131,33 +129,34 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
     plot_data$y_max <- plot_data$y + plot_data$sd
 
     if (var %in% cont_vars) {
-      my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y", ymin = "y_min",
-                                              ymax = "y_max")) +
-        geom_line(colour = color) +
-        geom_ribbon(fill = color, alpha = 0.2)
+      my_plot <- ggplot(plot_data,
+                        aes(x = .data$x, y = .data$y, ymin = .data$y_min,
+                            ymax = .data$y_max)) +
+        ggplot2::geom_line(colour = color) +
+        ggplot2:: geom_ribbon(fill = color, alpha = 0.2)
 
     } else {
-      my_plot <- ggplot(plot_data, aes_string(x = "x", y = "y")) +
-        geom_bar(stat = "identity", fill = color) +
-        geom_errorbar(aes_string(ymin = "y_min", ymax = "y_max"),
-                      width = 0.2, size = 0.3) +
-        scale_x_continuous(breaks = seq(min(plot_data$x),
-                                        max(plot_data$x), 1))
+      my_plot <- ggplot(plot_data, aes(x = .data$x, y = .data$y)) +
+        ggplot2::geom_bar(stat = "identity", fill = color) +
+        ggplot2::geom_errorbar(aes(ymin = .data$y_min, ymax = .data$y_max),
+                               width = 0.2, size = 0.3) +
+        ggplot2::scale_x_continuous(breaks = seq(min(plot_data$x),
+                                                 max(plot_data$x), 1))
     }
   }
 
   my_plot <- my_plot +
-    labs(x = var, y = ifelse(!is.null(type), paste(type, "output"),
-                             "Probability of presence")) +
-    theme_minimal() +
-    theme(text = element_text(colour = "#666666"))
+    ggplot2::labs(x = var, y = ifelse(!is.null(type), paste(type, "output"),
+                                      "Probability of presence")) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(text = ggplot2::element_text(colour = "#666666"))
 
   if (rug == TRUE & var %in% cont_vars) {
     my_plot <- my_plot +
-      geom_rug(data = p_rug, inherit.aes = FALSE, aes_string("x"),
-               sides = "t", color = "#4C4C4C") +
-      geom_rug(data = a_rug, inherit.aes = FALSE, aes_string("x"),
-               sides = "b", color = "#4C4C4C")
+      ggplot2::geom_rug(data = p_rug, inherit.aes = FALSE, aes(.data$x),
+                        sides = "t", color = "#4C4C4C") +
+      ggplot2::geom_rug(data = a_rug, inherit.aes = FALSE, aes(.data$x),
+                        sides = "b", color = "#4C4C4C")
   }
 
   return(my_plot)
