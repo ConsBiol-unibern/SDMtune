@@ -5,10 +5,10 @@
 #' @param model \linkS4class{SDMmodel} object.
 #' @param test \linkS4class{SWD} object. The testing dataset, default is `NULL`.
 #'
-#' @return The plot object.
+#' @return A \link[ggplot2]{ggplot} object.
 #' @export
-#' @importFrom ggplot2 ggplot aes_ geom_segment labs coord_fixed theme_minimal
-#' theme scale_color_discrete guides guide_legend
+#' @importFrom rlang .data
+#' @importFrom ggplot2 ggplot aes
 #'
 #' @examples
 #' # Acquire environmental variables
@@ -68,18 +68,19 @@ plotROC <- function(model, test = NULL) {
     labels <- c(paste("Test", round(auc, 3)), labels)
   }
 
-  my_plot <- ggplot(df, aes_(m = ~pred, d = ~pa, group = ~set)) +
-    plotROC::geom_roc(n.cuts = 0, aes_(color = ~set), size = 0.5) +
-    scale_color_discrete(name = "AUC", labels = labels) +
-    geom_segment(aes_(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
+  my_plot <- ggplot(df, aes(m = .data$pred, d = .data$pa, group = .data$set)) +
+    plotROC::geom_roc(n.cuts = 0, aes(color = .data$set), size = 0.5) +
+    ggplot2::scale_color_discrete(name = "AUC", labels = labels) +
+    ggplot2::geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), color = "grey",
                  linetype = 2) +
-    labs(x = "False Positive Rate", y = "True Positive Rate") +
-    coord_fixed() +
-    theme_minimal() +
-    theme(text = element_text(colour = "#666666"))
+    ggplot2::labs(x = "False Positive Rate", y = "True Positive Rate") +
+    ggplot2::coord_fixed() +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(text = ggplot2::element_text(colour = "#666666"))
 
   if (!is.null(test)) {
-    my_plot <- my_plot + guides(colour = guide_legend(reverse = TRUE))
+    my_plot <- my_plot +
+      ggplot2::guides(colour = ggplot2::guide_legend(reverse = TRUE))
   }
 
   return(my_plot)
