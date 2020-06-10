@@ -21,8 +21,7 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
 
 In this section you will learn how to prepare the data to train models using `SDMtune`. We will use the `virtualSp` dataset included in the package and environmental predictors from the  [WorldClim](http://www.worldclim.org/) dataset.
 
-First let's load some packages used to make some plots:
-
+First let's load some packages that we will use to visualize the data:
 ```{r load pkgs}
 library(ggplot2)    # To plot locations
 library(maps)       # To access useful maps

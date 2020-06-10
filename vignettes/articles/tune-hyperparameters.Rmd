@@ -133,7 +133,7 @@ exp_6@results
 
 The previous function doesn't learn anything from the trained models, it just selects n random combinations of hyperparameters. The function `optimizeModel()` uses a *genetic algorithm* to find an optimum or near optimum solution. Check the function documentation to understand how it works, here we provide the code to execute it:
 ```{r optimize model, eval=FALSE}
-exp_7 <- optimizeModel(model, hypers = h, metric = "auc", test = val, pop = 15, gen = 2, keep_best = 0.4, keep_random = 0.2, mutation_chance = 0.4, seed = 798)
+exp_7 <- optimizeModel(model, hypers = h, metric = "auc", test = val, pop = 15, gen = 2, seed = 798)
 ```
 
 ## Evaluate final model
