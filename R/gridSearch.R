@@ -25,7 +25,6 @@
 #'
 #' @return \linkS4class{SDMtune} object.
 #' @export
-#' @importFrom progress progress_bar
 #'
 #' @author Sergio Vignali
 #'
