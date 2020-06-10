@@ -20,7 +20,7 @@
 #' in a file, see details.
 #' @param format character. The output format, see \link[raster]{writeRaster}
 #' for all the options, default is "GTiff".
-#' @param extent \link[raster]{Extent} object, if provided it restricts the
+#' @param extent \link[raster]{extent} object, if provided it restricts the
 #' prediction to the given extent, default is `NULL`.
 #' @param parallel deprecated.
 #' @param ... Additional arguments to pass to the \link[raster]{writeRaster}
@@ -49,8 +49,6 @@
 #' trees defined to train the model and the "response" output type.
 #'
 #' @include SDMmodelCV-class.R
-#' @importFrom raster calc
-#' @importFrom progress progress_bar
 #'
 #' @return A vector with the prediction or a \link[raster]{raster} object if
 #' data is a raster \link[raster]{stack} or a list in the case of multiple
