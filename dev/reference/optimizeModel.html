@@ -293,22 +293,26 @@ of the function <a href='getTunableArgs.html'>getTunableArgs</a>. Hyperparameter
                    <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>val</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                         <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>61516</span>)
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+<span class='no'>val</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
 
 <span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>)
 
 <span class='co'># Define the hyperparameters to test</span>
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>reg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.2</span>, <span class='fl'>3</span>, <span class='fl'>0.2</span>), <span class='kw'>fc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lh"</span>, <span class='st'>"lqp"</span>, <span class='st'>"lqph"</span>, <span class='st'>"lqpht"</span>))
+<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>reg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.2</span>, <span class='fl'>5</span>, <span class='fl'>0.2</span>),
+          <span class='kw'>fc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"l"</span>, <span class='st'>"lq"</span>, <span class='st'>"lh"</span>, <span class='st'>"lp"</span>, <span class='st'>"lqp"</span>, <span class='st'>"lqph"</span>))
 
 <span class='co'># Run the function using as metric the AUC</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>optimizeModel</span>(<span class='no'>model</span>, <span class='kw'>hypers</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>test</span>,
-                        <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>25</span>)
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>optimizeModel</span>(<span class='no'>model</span>, <span class='kw'>hypers</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='no'>val</span>,
+                        <span class='kw'>pop</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>798</span>)
 <span class='no'>output</span>@<span class='kw'>results</span>
 <span class='no'>output</span>@<span class='kw'>models</span>
 <span class='no'>output</span>@<span class='kw'>models</span><span class='kw'>[[</span><span class='fl'>1</span>]]  <span class='co'># Best model</span>
+}
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
