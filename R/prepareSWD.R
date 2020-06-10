@@ -16,7 +16,6 @@
 #'
 #' @return An \linkS4class{SWD} object.
 #' @export
-#' @importFrom stats complete.cases
 #'
 #' @author Sergio Vignali
 #'
@@ -50,7 +49,7 @@ prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL) {
               " locations...")
       data <- as.data.frame(raster::extract(env, coords))
       # Remove any occurrence point with NA for at least one variable
-      index <- complete.cases(data)
+      index <- stats::complete.cases(data)
       discarded <- nrow(data) - sum(index)
       if (discarded > 0) {
         data <- data[index, ]
