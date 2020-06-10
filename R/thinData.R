@@ -23,9 +23,6 @@
 #'
 #' @return a matrix or a data frame with the thinned locations.
 #' @export
-#' @importFrom raster cellFromXY extract
-#' @importFrom stats complete.cases
-#' @importFrom progress progress_bar
 #'
 #' @author Sergio Vignali
 #'
@@ -77,7 +74,7 @@ thinData <- function(coords, env, x = "x", y = "y") {
   coords <- data[, c(x, y)]
 
   # Remove coords where env are NA
-  index <- complete.cases(raster::extract(env, coords))
+  index <- stats::complete.cases(raster::extract(env, coords))
   coords <- coords[index, ]
   data <- data[index, ]
   # Get the relative cell numbers of the coordinates
