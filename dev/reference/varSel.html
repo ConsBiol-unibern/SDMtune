@@ -306,6 +306,7 @@ $$| coeff | \le cor_th$$</p></li>
 <span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
                  <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
 
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Remove variables with correlation higher than 0.7 accounting for the AUC,</span>
 <span class='co'># in the following example the variable importance is computed as permutation</span>
 <span class='co'># importance</span>
@@ -331,6 +332,7 @@ $$| coeff | \le cor_th$$</p></li>
 <span class='no'>vs</span> <span class='kw'>&lt;-</span> <span class='fu'>varSel</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"aicc"</span>, <span class='kw'>bg4cor</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>cor_th</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
              <span class='kw'>use_pc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)
 <span class='no'>vs</span>
+}
 }
 <span class='co'># }</span></pre>
   </div>
