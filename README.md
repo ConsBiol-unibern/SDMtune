@@ -16,7 +16,7 @@ Status](https://www.r-pkg.org/badges/version/SDMtune)](https://cran.r-project.or
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune)
 [![Contributor
-Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](.github/CODE_OF_CONDUCT.md)
+Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](https://consbiol-unibern.github.io/SDMtune/CODE_OF_CONDUCT.html)
 <!-- badges: end -->
 
 **SDMtune** provides a user-friendly framework that enables the training
