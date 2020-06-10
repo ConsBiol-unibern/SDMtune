@@ -10,7 +10,7 @@ getTunableArgs(model)
 \item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 }
 \value{
-character vector
+character vector.
 }
 \description{
 Returns the name of all function arguments that can be tuned for a given
