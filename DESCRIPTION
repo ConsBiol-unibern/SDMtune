@@ -53,6 +53,7 @@ Suggests:
     plotROC (>= 2.2.1),
     rasterVis (>= 0.47),
     reshape2 (>= 1.4.3),
+    rgdal (>= 1.4-4),
     rJava (>= 0.9-11),
     rmarkdown (>= 1.13),
     scales (>= 1.0.0),
