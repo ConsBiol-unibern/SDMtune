@@ -1,4 +1,3 @@
-#' @importFrom gbm gbm
 trainBRT <- function(data, distribution = "bernoulli", n.trees = 100,
                      interaction.depth = 1, shrinkage = 0.1,
                      bag.fraction = 0.5) {
