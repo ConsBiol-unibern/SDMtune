@@ -48,9 +48,8 @@ if (!isGeneric("plot"))
 #' \code{FALSE}.
 #'
 #' @rdname plot-methods
-#' @importFrom graphics plot
-#' @importFrom ggplot2 ggplot aes_string geom_point labs scale_color_manual
-#' theme_minimal theme element_text geom_line
+#' @importFrom rlang .data
+#' @importFrom ggplot2 ggplot aes
 #' @exportMethod plot
 #'
 #' @return If \code{interactive = FALSE} the function returns a

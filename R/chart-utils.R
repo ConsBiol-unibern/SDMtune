@@ -131,19 +131,19 @@
     }
 
     #  Create scatterplot
-    p <- ggplot(data, aes_string(x = "x", y = "y", colour = "type",
-                                 group = "type")) +
-      geom_point() +
-      labs(x = "model", y = metric, title = title) +
-      scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
-      theme_minimal() +
-      theme(plot.title = element_text(hjust = 0.5),
-            text = element_text(colour = "#666666"),
-            legend.position = "bottom")
+    p <- ggplot(data, aes(x = .data$x, y = .data$y, colour = .data$type,
+                          group = .data$type)) +
+      ggplot2::geom_point() +
+      ggplot2::labs(x = "model", y = metric, title = title) +
+      ggplot2::scale_color_manual(name = "", values = c("#4bc0c0", "#f58410")) +
+      ggplot2::theme_minimal() +
+      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5),
+                     text = ggplot2::element_text(colour = "#666666"),
+                     legend.position = "bottom")
 
-    # Add line if is the rusult of a tune function
+    # Add line if is the result of a tune function
     if (show_line)
-      p <- p + geom_line(linetype = "dashed", size = .3)
+      p <- p + ggplot2::geom_line(linetype = "dashed", size = .3)
 
     return(p)
   }
