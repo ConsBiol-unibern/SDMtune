@@ -71,7 +71,7 @@ plotVarImp(vi[, c(1,3)])
 
 ### Permutation importance
 
-For this example we use a **Maxnet** model and a training/testing validation strategy like in the [previous article](./evaluation-strategies.html#train-and-testing-datasets):
+For this example we train a **Maxnet** model:
 ```{r maxnet model}
 maxnet_model <- train("Maxnet", data = train)
 ```
