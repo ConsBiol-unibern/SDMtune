@@ -1,4 +1,3 @@
-#' @importFrom stats formula
 trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500) {
 
   extra_args <- c("removeduplicates=false", "addsamplestobackground=false")
