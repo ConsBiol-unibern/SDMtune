@@ -151,7 +151,7 @@
 <span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.1.0.9000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></pre></body></html></div>
-<p>For a <strong>Maxent</strong> model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be extracted using the following command:</p>
+<p>For a <strong>Maxent</strong> model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">default_model</span>@<span class="kw">model</span>@<span class="kw">results</span>
 <span class="co">#&gt;                                                                                         [,1]</span>
 <span class="co">#&gt; X.Training.samples                                                                  400.0000</span>
@@ -347,9 +347,9 @@
 <li>create a report in a html format with the ROC curve, threshold values, response curves, predicted map and Jackknife test;</li>
 <li>save the predicted distribution map;</li>
 <li>save all the curves in the plot folder;</li>
-<li>save the model with <code>.Rds</code> extension that can be loaded in R using the <code>read.RDS</code> function.</li>
+<li>save the model with <code>.Rds</code> extension that can be loaded in R using the <code>readRDS</code> function.</li>
 </ul>
-<p>The function is totally inspired by the default output of the MaxEnt Java software <span class="citation">[@Phillips2006]</span> and extends it to other methods (for the moment only <strong>Maxnet</strong>). You can decide what to include in the report using dedicated function arguments, like <code>response_curves</code>, <code>jk</code> and <code>env</code> but the function cannot be used with <code>SDMmodelCV()</code> objects. Run the following code to create a report of the <strong>Maxnet</strong> model we trained before:</p>
+<p>The function is totally inspired by the default output of the MaxEnt Java software <span class="citation">[@Phillips2006]</span> and extends it to other methods. You can decide what to include in the report using dedicated function arguments, like <code>response_curves</code>, <code>jk</code> and <code>env</code> but the function cannot be used with <code>SDMmodelCV()</code> objects. Run the following code to create a report of the <strong>Maxnet</strong> model we trained before:</p>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../../reference/modelReport.html">modelReport</a></span>(<span class="no">maxnet_model</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>, <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"virtual-sp"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">response_curves</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">jk</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>)</pre></body></html></div>
 <p>The output is displayed in the browser and all the files are saved in the <strong>virtual-sp</strong> folder.</p>
 </div>

@@ -141,7 +141,7 @@
 <div id="explore-variable-correlation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#explore-variable-correlation" class="anchor"></a>Explore variable correlation</h2>
-<p>We extract 10000 background locations using the <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints">randomPoints</a> function included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code>SWD()</code> object using the <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function:</p>
+<p>We extract 10000 background locations using the function <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints">randomPoints</a> included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code>SWD()</code> object using the <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
 <span class="no">bg</span> <span class="kw">&lt;-</span> <span class="kw pkg">dismo</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html">randomPoints</a></span>(<span class="no">predictors</span>, <span class="fl">10000</span>)
 <span class="co">#&gt; Warning in dismo::randomPoints(predictors, 10000): generated random points =</span>
@@ -171,12 +171,12 @@
 <h2 class="hasAnchor">
 <a href="#remove-highly-correlated-variables" class="anchor"></a>Remove highly correlated variables</h2>
 <p><strong>SDMtune</strong> implements an algorithm that removes highly correlated variables repeating the following steps:</p>
-<ul>
-<li>ranks the variables according to the permutation importance or the percent contribution ( the last method is available only for Maxent models).</li>
+<ol style="list-style-type: decimal">
+<li>ranks the variables according to the permutation importance or the percent contribution (the second method is available only for Maxent models).</li>
 <li>checks if the variable ranked as most important is highly correlated with other variables, according to the given method and correlation threshold. If the algorithm finds correlated variables it moves to the next step, otherwise checks the other variables in the rank;</li>
 <li>performs a leave one out Jackknife test among the correlated variables;</li>
 <li>remove the variable that decreases the less the model performance when removed, according to the given metric on the training dataset.</li>
-</ul>
+</ol>
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">selected_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/varSel.html">varSel</a></span>(<span class="no">maxnet_model</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">bg4cor</span> <span class="kw">=</span> <span class="no">bg</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>, <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>)
 <span class="co">#&gt; Removed variables: bio16, bio6, bio7, bio8</span></pre></body></html></div>

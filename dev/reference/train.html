@@ -338,13 +338,13 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='co'># Run only if you have the package ENMeval installed</span>
 <span class='co'>## Block partition using the ENMeval package</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>ENMeval</span>)
-<span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ENMeval/man/get.evaluation.bins.html'>get.block</a></span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
+<span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.block</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
                          <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ])
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
                <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>block_folds</span>)
 
 <span class='co'>## Checkerboard1 partition using the ENMeval package</span>
-<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ENMeval/man/get.evaluation.bins.html'>get.checkerboard1</a></span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
+<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
                               <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
                               <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
                               <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
@@ -358,7 +358,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
 <span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>data</span>@<span class='kw'>pa</span>),
                                 <span class='kw'>proj4string</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/projection.html'>crs</a></span>(<span class='no'>predictors</span>))
-<span class='no'>e_folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/blockCV/man/envBlock.html'>envBlock</a></span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
+<span class='no'>e_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>envBlock</span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
                     <span class='kw'>speciesData</span> <span class='kw'>=</span> <span class='no'>sp_df</span>,
                     <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"data@pa"</span>,
                     <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>,

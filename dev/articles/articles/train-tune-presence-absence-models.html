@@ -168,7 +168,7 @@
 <div id="train-the-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#train-the-model" class="anchor"></a>Train the model</h2>
-<p>We first train the model with default settings and running the cross validation:</p>
+<p>We first train the model with default settings and 10 neurons:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
 <span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"ANN"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="no">folds</span>)
 <span class="no">model</span>
@@ -191,7 +191,7 @@
 <span class="co">#&gt; ---------</span>
 <span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
 <span class="co">#&gt; Categorical: NA</span></pre></body></html></div>
-<p>Let’s check the training and testing auc:</p>
+<p>Let’s check the training and testing AUC:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">model</span>)
 <span class="co">#&gt; [1] 0.8093953</span>
 <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
@@ -212,12 +212,12 @@
 <span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, ]
 <span class="co">#&gt;   size decay rang maxit train_AUC  test_AUC   diff_AUC</span>
 <span class="co">#&gt; 1   14   0.5  0.7   300 0.9803993 0.9554167 0.02498264</span></pre></body></html></div>
-<p>The validation auc increased from 0.7939844 of the default models to 0.9554167 of the optimized one.</p>
+<p>The validation AUC increased from 0.7939844 of the default models to 0.9554167 of the optimized one.</p>
 </div>
 <div id="evaluate-the-final-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#evaluate-the-final-model" class="anchor"></a>Evaluate the final model</h2>
-<p>We now train a model with the same configuration as found by the <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> function without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:</p>
+<p>We now train a model with the same configuration as found by the function <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
 <span class="no">final_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"ANN"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, <span class="fl">1</span>], <span class="kw">decay</span> <span class="kw">=</span> <span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, <span class="fl">2</span>], <span class="kw">maxit</span> <span class="kw">=</span> <span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, <span class="fl">4</span>])
 <span class="fu"><a href="../../reference/plotROC.html">plotROC</a></span>(<span class="no">final_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>)</pre></body></html></div>
