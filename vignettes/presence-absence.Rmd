@@ -62,7 +62,7 @@ To check which hyperparameters can be tuned we use the function `getTunableArgs`
 getTunableArgs(model)
 ```
 
-We use the `optimizeModel` function to find the best hyperparameter combinations for the learning rate, the number of trees and the bag fraction:
+We use the function `optimizeModel` to tune the hyperparameters:
 
 ```{r optimize model}
 h <- list(size = 10:50, decay = c(0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5),
