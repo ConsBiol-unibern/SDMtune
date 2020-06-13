@@ -203,16 +203,17 @@
 <p>To check which hyperparameters can be tuned we use the function <code><a href="../../reference/getTunableArgs.html">getTunableArgs()</a></code> function:</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../../reference/getTunableArgs.html">getTunableArgs</a></span>(<span class="no">model</span>)
 <span class="co">#&gt; [1] "size"  "decay" "rang"  "maxit"</span></pre></body></html></div>
-<p>We use the <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> function to find the best hyperparameter combinations for the learning rate, the number of trees and the bag fraction:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">2</span>:<span class="fl">20</span>, <span class="kw">decay</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>), <span class="kw">maxit</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span>))
+<p>We use the function <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> to tune the hyperparameters:</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">10</span>:<span class="fl">50</span>, <span class="kw">decay</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>),
+          <span class="kw">maxit</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span>))
 
 <span class="no">om</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/optimizeModel.html">optimizeModel</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)</pre></body></html></div>
 <p>The best model is:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">best_model</span> <span class="kw">&lt;-</span> <span class="no">om</span>@<span class="kw">models</span><span class="kw">[[</span><span class="fl">1</span>]]
 <span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, ]
-<span class="co">#&gt;   size decay rang maxit train_AUC  test_AUC   diff_AUC</span>
-<span class="co">#&gt; 1   14   0.5  0.7   300 0.9803993 0.9554167 0.02498264</span></pre></body></html></div>
-<p>The validation AUC increased from 0.7939844 of the default models to 0.9554167 of the optimized one.</p>
+<span class="co">#&gt;   size decay rang maxit train_AUC  test_AUC  diff_AUC</span>
+<span class="co">#&gt; 1   34   0.4  0.7   100 0.9631337 0.9522396 0.0108941</span></pre></body></html></div>
+<p>The validation AUC increased from 0.7939844 of the default models to 0.9522396 of the optimized one.</p>
 </div>
 <div id="evaluate-the-final-model" class="section level2">
 <h2 class="hasAnchor">
