@@ -35,7 +35,7 @@
 #'     + mtry: integer. Number of variable randomly sampled at each split,
 #'     default is `floor(sqrt(number of variables))`.
 #'     + ntree: integer. Number of tree to grow, default is 500.
-#'     + nodesize: integer. Minimum size of terminal nodes.
+#'     + nodesize: integer. Minimum size of terminal nodes, default is 1.
 #' * Maxent models are trained using the arguments
 #' `"removeduplicates=false"` and `"addsamplestobackground=false"`.
 #' Use the function \link{thinData} to remove duplicates and the function

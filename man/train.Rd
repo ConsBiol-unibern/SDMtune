@@ -57,7 +57,7 @@ arguments are (for more details see
 \item mtry: integer. Number of variable randomly sampled at each split,
 default is \verb{floor(sqrt(number of variables))}.
 \item ntree: integer. Number of tree to grow, default is 500.
-\item nodesize: integer. Minimum size of terminal nodes.
+\item nodesize: integer. Minimum size of terminal nodes, default is 1.
 }
 \item Maxent models are trained using the arguments
 \code{"removeduplicates=false"} and \code{"addsamplestobackground=false"}.
