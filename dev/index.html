@@ -148,13 +148,13 @@
 <p><strong>SDMtune</strong> implements three functions for hyperparameters tuning:</p>
 <ul>
 <li>
-<code><a href="reference/gridSearch.html">gridSearch()</a></code>: runs all the possible combinations of the predefined hyperparameters’ values;</li>
+<code>gridSearch</code>: runs all the possible combinations of predefined hyperparameters’ values;</li>
 <li>
-<code><a href="reference/randomSearch.html">randomSearch()</a></code>: randomly selects some of the possible combinations of the predefined hyperparameters’ values;</li>
+<code>randomSearch</code>: randomly selects a fraction of the possible combinations of predefined hyperparameters’ values;</li>
 <li>
-<code><a href="reference/optimizeModel.html">optimizeModel()</a></code>: uses a <em>genetic algorithm</em> that aims to optimize the values of the hyperparameters.</li>
+<code>optimizeModel</code>: uses a <em>genetic algorithm</em> that aims to optimize the given evaluation metric by combining the predefined hyperparameters’ values.</li>
 </ul>
-<p>When the number of hyperparameters’ combinations is high, the computation time necessary to train all the defined models could be very long. The function <code><a href="reference/optimizeModel.html">optimizeModel()</a></code> offers a valid alternative that reduces the computation time thanks to the implemented <em>genetic algorithm</em>. This function tries to find the best combination of hyperparameters reaching a near optimal or optimal solution. The following code shows an example using a simulated dataset. First a model is trained using the <strong>Maxnet</strong> algorithm implemented in the <code>maxnet</code> package and default values of hyperparameters. After the model is trained, the <code><a href="reference/gridSearch.html">gridSearch()</a></code> and <code><a href="reference/optimizeModel.html">optimizeModel()</a></code> functions are executed to see the difference in execution time and model performance evaluated with the AUC metric. If the following code is not clear, please check the articles in the <a href="https://consbiol-unibern.github.io/SDMtune/">website</a>.</p>
+<p>When the amount of hyperparameters’ combinations is high, the computation time necessary to train all the defined models could be very long. The function <code>optimizeModel</code> offers a valid alternative that reduces computation time thanks to an implemented <em>genetic algorithm</em>. This function seeks the best combination of hyperparameters reaching a near optimal or optimal solution in a reduced amount of time compared to <code>gridSearch</code>. The following code shows an example using a simulated dataset. First a model is trained using the <strong>Maxnet</strong> algorithm implemented in the <code>maxnet</code> package with default hyperparameters’ values. After the model is trained, both the <code>gridSearch</code> and <code>optimizeModel</code> functions are executed to compare the execution time and model performance evaluated with the AUC metric. If the following code is not clear, please check the articles in the <a href="https://consbiol-unibern.github.io/SDMtune/">website</a>.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SDMtune</span>)
 
 <span class="co"># Acquire environmental variables</span>
@@ -185,10 +185,10 @@
 <span class="no">gs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gridSearch.html">gridSearch</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">gs</span>@<span class="kw">results</span>[<span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(-<span class="no">gs</span>@<span class="kw">results</span>$<span class="no">test_AUC</span>), ])  <span class="co"># Best combinations</span>
 
-<span class="co"># Use the genetic algorithm</span>
+<span class="co"># Use the genetic algorithm instead with optimizeModel</span>
 <span class="no">om</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/optimizeModel.html">optimizeModel</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">4</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">om</span>@<span class="kw">results</span>)  <span class="co"># Best combinations</span></pre></div>
-<p>During the execution of the tuning and variable selection functions, real-time charts displaying the training and the validation metrics are displayed in the RStudio viewer pane (below is a screencast of the previous executed <code><a href="reference/optimizeModel.html">optimizeModel()</a></code> function).</p>
+<p>During the execution of “tuning” and “variable selection” functions, real-time charts displaying training and validation metrics are displayed in the RStudio viewer pane (below is a screencast of the previous executed <code>optimizeModel</code> function).</p>
 <div style="text-align: center">
 <p><img src="reference/figures/realtime-chart.gif" alt=""></p>
 </div>
@@ -201,7 +201,7 @@
 <span class="no">sdmtune_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>)</pre></div>
 <p>We compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> (Hijmans et al. 2017) that calls the MaxEnt Java software (Phillips, Anderson, and Schapire 2006). We first convert the object <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">maxent_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span>(<span class="no">sdmtune_model</span>)</pre></div>
-<p>Here a function to test that the results are equal, with a tolerance of <code>1e-7</code>:</p>
+<p>Next is a function used below to test if the results are equal, with a tolerance of <code>1e-7</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="no">my_check</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">values</span>) {
   <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">values</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="no">values</span><span class="kw">[[</span><span class="fl">2</span>]], <span class="kw">tolerance</span> <span class="kw">=</span> <span class="fl">1e-7</span>))
 }</pre></div>
@@ -230,9 +230,9 @@
 <li>the package <strong>rJava</strong> is installed;</li>
 <li>the file <strong>maxent.jar</strong> is copied in the correct folder.</li>
 </ul>
-<p>The file <strong>maxent.jar</strong> can be download <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/">here</a> (note that you need <strong>MaxEnt</strong> version &gt;= 3.4.1 (Phillips et al. 2017)). This file must be copied into the right folder to be available for the <code>dismo</code> package (Hijmans et al. 2017). To do that, copy the file <strong>maxent.jar</strong> into the folder named <strong>java</strong> that is located inside the folder returned by the following command:</p>
+<p>The file <strong>maxent.jar</strong> can be downloaded <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/">here</a> (note that you need <strong>MaxEnt</strong> version &gt;= 3.4.1 (Phillips et al. 2017)). This file must be copied into the right folder to be available for the <code>dismo</code> package (Hijmans et al. 2017): copy the file <strong>maxent.jar</strong> into the folder named <strong>java</strong> that is located inside the folder returned by the following command:</p>
 <div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="kw">package</span><span class="kw">=</span><span class="st">"dismo"</span>)</pre></div>
-<p>The function <code><a href="reference/checkMaxentInstallation.html">checkMaxentInstallation()</a></code> checks that Java JDK and rJava are installed, and that the file maxent.jar is in the correct folder.</p>
+<p>The function <code>checkMaxentInstallation</code> checks that Java JDK and rJava are installed, and that the file maxent.jar is in the correct folder.</p>
 <div class="sourceCode" id="cb10"><pre class="r"><span class="fu"><a href="reference/checkMaxentInstallation.html">checkMaxentInstallation</a></span>()</pre></div>
 <p>If everything is correctly configured for <code>dismo</code>, the following command will return the used MaxEnt version (make sure that the version is &gt;= 3.4.1):</p>
 <div class="sourceCode" id="cb11"><pre class="r"><span class="kw pkg">dismo</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/maxent.html">maxent</a></span>()</pre></div>
