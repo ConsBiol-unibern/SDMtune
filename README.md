@@ -48,26 +48,27 @@ devtools::install_github("ConsBiol-unibern/SDMtune")
 
 **SDMtune** implements three functions for hyperparameters tuning:
 
-  - `gridSearch()`: runs all the possible combinations of the predefined
+  - `gridSearch`: runs all the possible combinations of predefined
     hyperparameters’ values;
-  - `randomSearch()`: randomly selects some of the possible combinations
-    of the predefined hyperparameters’ values;
-  - `optimizeModel()`: uses a *genetic algorithm* that aims to optimize
-    the values of the hyperparameters.
+  - `randomSearch`: randomly selects a fraction of the possible
+    combinations of predefined hyperparameters’ values;
+  - `optimizeModel`: uses a *genetic algorithm* that aims to optimize
+    the given evaluation metric by combining the predefined
+    hyperparameters’ values.
 
-When the number of hyperparameters’ combinations is high, the
+When the amount of hyperparameters’ combinations is high, the
 computation time necessary to train all the defined models could be very
-long. The function `optimizeModel()` offers a valid alternative that
-reduces the computation time thanks to the implemented *genetic
-algorithm*. This function tries to find the best combination of
-hyperparameters reaching a near optimal or optimal solution. The
-following code shows an example using a simulated dataset. First a model
-is trained using the **Maxnet** algorithm implemented in the `maxnet`
-package and default values of hyperparameters. After the model is
-trained, the `gridSearch()` and `optimizeModel()` functions are executed
-to see the difference in execution time and model performance evaluated
-with the AUC metric. If the following code is not clear, please check
-the articles in the
+long. The function `optimizeModel` offers a valid alternative that
+reduces computation time thanks to an implemented *genetic algorithm*.
+This function seeks the best combination of hyperparameters reaching a
+near optimal or optimal solution in a reduced amount of time compared to
+`gridSearch`. The following code shows an example using a simulated
+dataset. First a model is trained using the **Maxnet** algorithm
+implemented in the `maxnet` package with default hyperparameters’
+values. After the model is trained, both the `gridSearch` and
+`optimizeModel` functions are executed to compare the execution time and
+model performance evaluated with the AUC metric. If the following code
+is not clear, please check the articles in the
 [website](https://consbiol-unibern.github.io/SDMtune/).
 
 ``` r
@@ -101,15 +102,15 @@ h <- list(reg = seq(0.1, 3, 0.1), fc = c("lq", "lh", "lqp", "lqph", "lqpht"))
 gs <- gridSearch(model, hypers = h, metric = "auc", test = test)
 head(gs@results[order(-gs@results$test_AUC), ])  # Best combinations
 
-# Use the genetic algorithm
+# Use the genetic algorithm instead with optimizeModel
 om <- optimizeModel(model, hypers = h, metric = "auc", test = test, seed = 4)
 head(om@results)  # Best combinations
 ```
 
-During the execution of the tuning and variable selection functions,
-real-time charts displaying the training and the validation metrics are
+During the execution of “tuning” and “variable selection” functions,
+real-time charts displaying training and validation metrics are
 displayed in the RStudio viewer pane (below is a screencast of the
-previous executed `optimizeModel()` function).
+previous executed `optimizeModel` function).
 
 <div style="text-align: center">
 
@@ -138,8 +139,8 @@ that is accepted by **dismo**:
 maxent_model <- SDMmodel2MaxEnt(sdmtune_model)
 ```
 
-Here a function to test that the results are equal, with a tolerance of
-`1e-7`:
+Next is a function used below to test if the results are equal, with a
+tolerance of `1e-7`:
 
 ``` r
 my_check <- function(values) {
@@ -181,11 +182,11 @@ To train a **Maxent** model using the Java implementation you need that:
   - the package **rJava** is installed;
   - the file **maxent.jar** is copied in the correct folder.
 
-The file **maxent.jar** can be download
+The file **maxent.jar** can be downloaded
 [here](https://biodiversityinformatics.amnh.org/open_source/maxent/)
 (note that you need **MaxEnt** version \>= 3.4.1 (Phillips et al.
 2017)). This file must be copied into the right folder to be available
-for the `dismo` package (Hijmans et al. 2017). To do that, copy the file
+for the `dismo` package (Hijmans et al. 2017): copy the file
 **maxent.jar** into the folder named **java** that is located inside the
 folder returned by the following command:
 
@@ -193,7 +194,7 @@ folder returned by the following command:
 system.file(package="dismo")
 ```
 
-The function `checkMaxentInstallation()` checks that Java JDK and rJava
+The function `checkMaxentInstallation` checks that Java JDK and rJava
 are installed, and that the file maxent.jar is in the correct folder.
 
 ``` r
