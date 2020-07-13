@@ -10,6 +10,7 @@
 #' @importFrom dismo maxent
 #'
 #' @examples
+#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -31,6 +32,7 @@
 #'
 #' dismo_model <- SDMmodel2MaxEnt(model)
 #' dismo_model
+#' }
 #' }
 #'
 #' @author Sergio Vignali

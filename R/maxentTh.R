@@ -12,6 +12,7 @@
 #' @seealso \link{maxentVarImp}.
 #'
 #' @examples
+#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -31,6 +32,7 @@
 #' if (checkMaxentInstallation(verbose = FALSE)) {
 #' model <- train(method = "Maxent", data = data, fc = "l")
 #' maxentTh(model)
+#' }
 #' }
 maxentTh <- function(model) {
 
