@@ -21,7 +21,7 @@ License: GPL-3
 URL: https://consbiol-unibern.github.io/SDMtune/, https://github.com/ConsBiol-unibern/SDMtune
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
 SystemRequirements: Java JDK and maxent.jar >= 3.4.1 to use Maxent
-Depends: R (>= 3.2.0)
+Depends: R (>= 3.6.0)
 Imports: dismo (>= 1.1-4),
          gbm (>= 2.1.5),
          ggplot2 (>= 3.3.1),
