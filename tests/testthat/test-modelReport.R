@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 folder <- "trash"
 m <- SDMtune:::bm_maxnet

@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 test_that("The function trainRF produces the correct ouput", {
   data <- SDMtune:::t

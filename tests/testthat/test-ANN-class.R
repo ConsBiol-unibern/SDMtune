@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 test_that("Show method for ANN class produces the correct output", {
   data <- SDMtune:::t

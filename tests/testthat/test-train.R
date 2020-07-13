@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 train <- SDMtune:::t
 folds <- randomFolds(train, k = 2)

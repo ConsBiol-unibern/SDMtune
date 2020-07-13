@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 v <- c("bio1", "bio12")
 t <- SDMtune:::t

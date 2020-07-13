@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),

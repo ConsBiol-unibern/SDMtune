@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 test_that("The function trainMaxent produces the correct ouput", {
   m <- trainMaxnet(data = SDMtune:::t, reg = 1.2, fc = "l")

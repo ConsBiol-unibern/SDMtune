@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 test_that("The function produces the correct output with SDMmodel objects", {
   x <- varImp(SDMtune:::bm_maxent, permut = 2)

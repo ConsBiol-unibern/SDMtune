@@ -1,5 +1,4 @@
 skip_on_cran()
-skip_on_appveyor()
 
 # .get_fc_args
 test_that("The correct fc arguments are created", {
@@ -126,7 +125,6 @@ test_that("The correct categorical feature is created", {
 })
 
 skip_on_travis()
-skip_on_appveyor()
 skip_on_covr()
 
 #.train
