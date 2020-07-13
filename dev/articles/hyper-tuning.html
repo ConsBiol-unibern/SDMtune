@@ -120,7 +120,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="hyper-tuning_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tune hyperparameters with ‘SDMtune’</h1>
@@ -138,120 +138,162 @@
 <h1 class="hasAnchor">
 <a href="#training-validation-and-testing-split" class="anchor"></a>Training, validation and testing split</h1>
 <p>When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn’t represent anymore an independent set to evaluate the model <span class="citation">(Müller and Guido 2016, @Chollet2018)</span>. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function <code>trainValTest</code> allows to split the data in three folds containing the provided percentage of data. For illustration purpose let’s split the presence locations in training (60%), validation (20%) and testing (20%) datasets. The following steps are described in the <strong>basic-use</strong> vignette, refer to it if the following code is not clear:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SDMtune</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">zeallot</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://consbiol-unibern.github.io/SDMtune">SDMtune</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nteetor/zeallot">zeallot</a></span>)
 
 <span class="co"># Prepare data</span>
-<span class="no">files</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="kw">package</span> <span class="kw">=</span> <span class="st">"dismo"</span>), <span class="st">"ex"</span>),
-                    <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">"grd"</span>, <span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">predictors</span> <span class="kw">&lt;-</span> <span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html">stack</a></span>(<span class="no">files</span>)
-<span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="st">"Virtual species"</span>, <span class="kw">p</span> <span class="kw">=</span> <span class="no">virtualSp</span>$<span class="no">presence</span>,
-                   <span class="kw">a</span> <span class="kw">=</span> <span class="no">virtualSp</span>$<span class="no">background</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>,
-                   <span class="kw">categorical</span> <span class="kw">=</span> <span class="st">"biome"</span>)
+<span class="kw">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(path = <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(package = <span class="st">"dismo"</span>), <span class="st">"ex"</span>),
+                    pattern = <span class="st">"grd"</span>, full.names = <span class="fl">TRUE</span>)
+<span class="kw">predictors</span> <span class="op">&lt;-</span> <span class="kw">raster</span>::<span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html">stack</a></span>(<span class="kw">files</span>)
+<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span>(species = <span class="st">"Virtual species"</span>, p = <span class="kw">virtualSp</span><span class="op">$</span><span class="kw">presence</span>,
+                   a = <span class="kw">virtualSp</span><span class="op">$</span><span class="kw">background</span>, env = <span class="kw">predictors</span>,
+                   categorical = <span class="st">"biome"</span>)
 
 <span class="co"># Split data in training, validation and testing datasets</span>
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">train</span>, <span class="no">val</span>, <span class="no">test</span>) <span class="kw">%&lt;-%</span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span>(<span class="no">data</span>, <span class="kw">val</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">0.2</span>,
-                                      <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">61516</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"# Training  : "</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">train</span>@<span class="kw">data</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"\n# Validation: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">val</span>@<span class="kw">data</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"\n# Testing   : "</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">test</span>@<span class="kw">data</span>))
+<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">train</span>, <span class="kw">val</span>, <span class="kw">test</span>) <span class="op">%&lt;-%</span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span>(<span class="kw">data</span>, val = <span class="fl">0.2</span>, test = <span class="fl">0.2</span>,
+                                      only_presence = <span class="fl">TRUE</span>, seed = <span class="fl">61516</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"# Training  : "</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/ncell.html">nrow</a></span>(<span class="kw">train</span><span class="op">@</span>data))
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"\n# Validation: "</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/ncell.html">nrow</a></span>(<span class="kw">val</span><span class="op">@</span>data))
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"\n# Testing   : "</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/ncell.html">nrow</a></span>(<span class="kw">test</span><span class="op">@</span>data))
 
 <span class="co"># Train Maxnet model with default settings</span>
-<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>)</pre></body></html></div>
+<span class="kw">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, data = <span class="kw">train</span>)
+</pre></div>
 <div id="check-the-effect-of-varying-one-hyperparameter" class="section level2">
 <h2 class="hasAnchor">
 <a href="#check-the-effect-of-varying-one-hyperparameter" class="anchor"></a>Check the effect of varying one hyperparameter</h2>
 <p>To see the effect of varying one hyperparameter on the model performance we can use the function <code>gridSearch</code>. The function iterates through a set of predefined hyperparameter values, train the model and displays in real-time the evaluation metric in the RStudio viewer pane (hover over the points to get a tooltip with extra information). Let’s see how the AUC changes varying the regularization multiplier. First we have to define the values for the hyperparameter that we want to test. For that we create a named list that we will use as an argument for the function <code>gridSearch</code>:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># Define the values for bg</span>
-<span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">reg</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span>))
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># Define the values for bg</span>
+<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(reg = <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span>))
 <span class="co"># Call the gridSearch function</span>
-<span class="no">exp_1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>)</pre></body></html></div>
+<span class="kw">exp_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="kw">model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">val</span>)
+</pre></div>
 <p>As you noticed we used the validation dataset as test argument. The output of the function is an object of class <code>SDMtune</code>. Let’s print it:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">exp_1</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">exp_1</span>
+</pre></div>
 <p>When you print the output, the text contains the models configuration that have been used during the execution of the function. In our case, only the regularization multiplier <code>reg</code> has multiple values. You can plot the <code>SDMtune</code> object:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">exp_1</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Experiment 1"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw">exp_1</span>, title = <span class="st">"Experiment 1"</span>)
+</pre></div>
 <p>and you can also recreate the interactive chart using:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">exp_1</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Experiment 1"</span>, <span class="kw">interactive</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw">exp_1</span>, title = <span class="st">"Experiment 1"</span>, interactive = <span class="fl">TRUE</span>)
+</pre></div>
 <p>The <code>SDMtune</code> object stores the results in the slot <code>@results</code>:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">exp_1</span>@<span class="kw">results</span></pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">exp_1</span><span class="op">@</span>results
+</pre></div>
 <p>You can order them with:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">exp_1</span>@<span class="kw">results</span>[<span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(-<span class="no">exp_1</span>@<span class="kw">results</span>$<span class="no">test_AUC</span>), ]</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw">exp_1</span><span class="op">@</span>results[<span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(<span class="op">-</span><span class="kw">exp_1</span><span class="op">@</span>results<span class="op">$</span><span class="kw">test_AUC</span>), ]
+</pre></div>
 <p>In the next example we check how the TSS changes varying the regularization multiplier from 1 to 4:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co"># Define the values for reg</span>
-<span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">reg</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">4</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="co"># Define the values for reg</span>
+<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(reg = <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>)
 <span class="co"># Call the gridSearch function</span>
-<span class="no">exp_2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"tss"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>)</pre></body></html></div>
+<span class="kw">exp_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="kw">model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"tss"</span>, test = <span class="kw">val</span>)
+</pre></div>
 <p>and how AUC changes varying the feature combinations using the following values: l, lq, lh, lqp, lqph and lqpht:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># Define the values for fc</span>
-<span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">fc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span>))
-<span class="co"># Call the gridSearch function</span>
-<span class="no">exp_3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>)</pre></body></html></div>
-<p>Train a <strong>Maxent</strong> model and see how the AUC changes varying the number of iterations from 300 to 1100 with increments of 200 (highlight to see the solution):</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">maxent_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="co"># Define the values for fc</span>
-<span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"iter"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">300</span>, <span class="fl">1100</span>, <span class="fl">200</span>))
+<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(fc = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span>))
 <span class="co"># Call the gridSearch function</span>
-<span class="no">exp_4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="no">maxent_model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>)</pre></body></html></div>
+<span class="kw">exp_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="kw">model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">val</span>)
+</pre></div>
+<p>Train a <strong>Maxent</strong> model and see how the AUC changes varying the number of iterations from 300 to 1100 with increments of 200 (highlight to see the solution):</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="kw">maxent_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, data = <span class="kw">data</span>)
+<span class="co"># Define the values for fc</span>
+<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"iter"</span> = <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">300</span>, <span class="fl">1100</span>, <span class="fl">200</span>))
+<span class="co"># Call the gridSearch function</span>
+<span class="kw">exp_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="kw">maxent_model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">val</span>)
+</pre></div>
 <p>To see which hyperparameters can be tuned in a given model use the function <code>getTunableArgs</code>. For example:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/getTunableArgs.html">getTunableArgs</a></span>(<span class="no">model</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu"><a href="../reference/getTunableArgs.html">getTunableArgs</a></span>(<span class="kw">model</span>)
+</pre></div>
 </div>
 </div>
 <div id="tune-hyperparameters" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tune-hyperparameters" class="anchor"></a>Tune hyperparameters</h1>
 <p>To tune the model hyperparameters you should run all the possible combinations of hyperparameters. Here is an example using combinations of regularization multiplier and feature classes:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">reg</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">2</span>, <span class="fl">0.2</span>),
-          <span class="kw">fc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span>))
-<span class="no">exp_5</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(reg = <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">2</span>, <span class="fl">0.2</span>),
+          fc = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span>))
+<span class="kw">exp_5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span>(<span class="kw">model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">val</span>)
+</pre></div>
 <p>This code takes already quite long as it has to train 60 models. Imagine if you want to check more values for the regularization multiplier and maybe add the number of iterations (in the case of a <strong>Maxent</strong> model). The number of models to be trained increases exponentially and consequently the execution time. In the next two paragraphs we will present two possible alternative to the <code>gridSearch</code> function.</p>
 <div id="random-search" class="section level2">
 <h2 class="hasAnchor">
 <a href="#random-search" class="anchor"></a>Random search</h2>
 <p>The function <code>randomSearch</code> trains models taking a random sample of the predefined configurations. In the next example we select 10 random configurations:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">reg</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span>), <span class="kw">fc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>))
-<span class="no">exp_6</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/randomSearch.html">randomSearch</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>, <span class="kw">pop</span> <span class="kw">=</span> <span class="fl">10</span>,
-                      <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">65466</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(reg = <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span>), fc = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>))
+<span class="kw">exp_6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomSearch.html">randomSearch</a></span>(<span class="kw">model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">val</span>, pop = <span class="fl">10</span>,
+                      seed = <span class="fl">65466</span>)
+</pre></div>
 <p>The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 10 instead of 150 models. The results includes the 10 trained model. If you are not happy with the solution, you can check the best hyperparameter combinations and this gives you an intuition of which ones are the hyperparameters to “refine” using the function <code>gridSearch</code>. The <code>SDMtune</code> object stores the results in a <code>data.frame</code> than can be accessed with the following command:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">exp_6</span>@<span class="kw">results</span></pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="kw">exp_6</span><span class="op">@</span>results
+</pre></div>
 </div>
 <div id="optimize-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#optimize-model" class="anchor"></a>Optimize Model</h2>
 <p>The previous function doesn’t learn anything from the trained models, it just selects n random combinations of hyperparameters. The function <code>optimizeModel</code> instead uses a <em>genetic algorithm</em> to find an optimum or near optimum solution. Check the function documentation to understand how it works, here we provide the code to execute it:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">exp_7</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">val</span>, <span class="kw">pop</span> <span class="kw">=</span> <span class="fl">15</span>,
-                       <span class="kw">gen</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">798</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="kw">exp_7</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span>(<span class="kw">model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">val</span>, pop = <span class="fl">15</span>,
+                       gen = <span class="fl">2</span>, seed = <span class="fl">798</span>)
+</pre></div>
 </div>
 <div id="evaluate-final-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#evaluate-final-model" class="anchor"></a>Evaluate final model</h2>
 <p>Let’s say we want to use the best tuned model found by the <code>randomSearch</code> function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train a new model with the merged observations and the tuned configuration. At this point we may have removed variables using the <code>varSel</code> or <code>reduceVar</code> function. If this is the case, we cannot merge directly the initial datasets which contain all the environmental variables. We can extract the train dataset with the selected variables from the output of the experiment and merge it with the validation dataset using the function <code>mergeSWD</code>:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">index</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.max</a></span>(<span class="no">exp_6</span>@<span class="kw">results</span>$<span class="no">test_AUC</span>)  <span class="co"># Index of the best model in the experiment</span>
-<span class="no">new_train</span> <span class="kw">&lt;-</span> <span class="no">exp_6</span>@<span class="kw">models</span><span class="kw">[[</span><span class="no">index</span>]]@<span class="kw">data</span>  <span class="co"># New train dataset containing only the selected variables</span>
-<span class="no">merged_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mergeSWD.html">mergeSWD</a></span>(<span class="no">new_train</span>, <span class="no">val</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="co"># Merge only presence data</span></pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="kw">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/which.minmax.html">which.max</a></span>(<span class="kw">exp_6</span><span class="op">@</span>results<span class="op">$</span><span class="kw">test_AUC</span>)  <span class="co"># Index of the best model in the experiment</span>
+<span class="kw">new_train</span> <span class="op">&lt;-</span> <span class="kw">exp_6</span><span class="op">@</span>models[[<span class="kw">index</span>]]<span class="op">@</span>data  <span class="co"># New train dataset containing only the selected variables</span>
+<span class="kw">merged_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mergeSWD.html">mergeSWD</a></span>(<span class="kw">new_train</span>, <span class="kw">val</span>, only_presence = <span class="fl">TRUE</span>) <span class="co"># Merge only presence data</span>
+</pre></div>
 <p>The <code>val</code> dataset contains all the initial environmental variables but the <code>mergeSWD</code> function will merge only those that are present in both datasets (in case you have performed variable selection).</p>
 <p>Then we get the model configuration from the experiment 6:</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">final_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">merged_data</span>, <span class="kw">fc</span> <span class="kw">=</span> <span class="no">exp_6</span>@<span class="kw">results</span>[<span class="no">index</span>, <span class="fl">1</span>],
-                     <span class="kw">reg</span> <span class="kw">=</span> <span class="no">exp_6</span>@<span class="kw">results</span>[<span class="no">index</span>, <span class="fl">2</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="kw">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, data = <span class="kw">merged_data</span>, fc = <span class="kw">exp_6</span><span class="op">@</span>results[<span class="kw">index</span>, <span class="fl">1</span>],
+                     reg = <span class="kw">exp_6</span><span class="op">@</span>results[<span class="kw">index</span>, <span class="fl">2</span>])
+</pre></div>
 <p>Now we can evaluate the final model using the held apart testing dataset:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="no">final_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="kw">final_model</span>, test = <span class="kw">test</span>)
+</pre></div>
 </div>
 </div>
 <div id="hyperparameters-tuning-with-cross-validation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#hyperparameters-tuning-with-cross-validation" class="anchor"></a>Hyperparameters tuning with cross validation</h1>
 <p>Another approach would be to split the data in two folds: training and testing, use the cross validation strategy with the training dataset to tune the model hyperparameters, and evaluate the tuned model with the unseen held apart testing dataset.</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="co"># Create the folds from the training dataset</span>
-<span class="no">folds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span>(<span class="no">train</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="co"># Create the folds from the training dataset</span>
+<span class="kw">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span>(<span class="kw">train</span>, k = <span class="fl">4</span>, only_presence = <span class="fl">TRUE</span>, seed = <span class="fl">25</span>)
 <span class="co"># Train the model</span>
-<span class="no">cv_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="no">folds</span>)</pre></body></html></div>
+<span class="kw">cv_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, data = <span class="kw">train</span>, folds = <span class="kw">folds</span>)
+</pre></div>
 <p>All the previous examples can be applied to the cross validation, here an example with <code>randomSearch</code> (note that in this case the testing dataset is not provided as is taken from the folds stored in the <code>SDMmodelCV</code>):</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">reg</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span>), <span class="kw">fc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>))
-<span class="no">exp_8</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/randomSearch.html">randomSearch</a></span>(<span class="no">cv_model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">pop</span> <span class="kw">=</span> <span class="fl">10</span>,
-                      <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">65466</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(reg = <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span>), fc = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>))
+<span class="kw">exp_8</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomSearch.html">randomSearch</a></span>(<span class="kw">cv_model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"auc"</span>, pop = <span class="fl">10</span>,
+                      seed = <span class="fl">65466</span>)
+</pre></div>
 <p>The function <code>randomSearch</code> orders the models according to the best value of the metric for the testing dataset. In this case we can train a model using the best hyperparameters configuration and without cross validation with:</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">final_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">exp_8</span>@<span class="kw">models</span><span class="kw">[[</span><span class="fl">1</span>]]@<span class="kw">data</span>,
-                     <span class="kw">fc</span> <span class="kw">=</span> <span class="no">exp_8</span>@<span class="kw">results</span>[<span class="fl">1</span>, <span class="fl">1</span>], <span class="kw">reg</span> <span class="kw">=</span> <span class="no">exp_8</span>@<span class="kw">results</span>[<span class="fl">1</span>, <span class="fl">2</span>])
-<span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="no">final_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="kw">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, data = <span class="kw">exp_8</span><span class="op">@</span>models[[<span class="fl">1</span>]]<span class="op">@</span>data,
+                     fc = <span class="kw">exp_8</span><span class="op">@</span>results[<span class="fl">1</span>, <span class="fl">1</span>], reg = <span class="kw">exp_8</span><span class="op">@</span>results[<span class="fl">1</span>, <span class="fl">2</span>])
+<span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="kw">final_model</span>, test = <span class="kw">test</span>)
+</pre></div>
 <div id="refs" class="references">
 <div id="ref-Chollet2018">
 <p>Chollet, François, and J. J. Allaire. 2018. <em>Deep learning with R</em>. 1st ed. Manning Publications Co.</p>

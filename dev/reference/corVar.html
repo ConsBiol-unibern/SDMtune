@@ -180,12 +180,12 @@ correlation coefficient value." />
 correlation coefficient value.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>corVar</span>(
-  <span class='no'>bg</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>,
-  <span class='kw'>cor_th</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>remove_diagonal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+    <pre class="usage"><span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/corVar.html'>corVar</a></span>(
+  <span class='kw'>bg</span>,
+  method = <span class='st'>"spearman"</span>,
+  cor_th = <span class='kw'>NULL</span>,
+  order = <span class='fl'>TRUE</span>,
+  remove_diagonal = <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -193,7 +193,7 @@ correlation coefficient value.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bg</th>
-      <td><p><a href='SWD-class.html'>SWD</a> object with the locations used to compute the
+      <td><p><a href='https://consbiol-unibern.github.io/SDMtune//reference/SWD-class.html'>SWD</a> object with the locations used to compute the
 correlation between environmental variables.</p></td>
     </tr>
     <tr>
@@ -228,23 +228,23 @@ removed, default is <code>TRUE</code>.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># Acquire environmental variables</span>
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
-                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
+<span class='kw'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
+                    pattern = <span class='st'>"grd"</span>, full.names = <span class='fl'>TRUE</span>)
+<span class='kw'>predictors</span> <span class='op'>&lt;-</span> <span class='kw'>raster</span>::<span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='kw'>files</span>)
 
 <span class='co'># Prepare background locations</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/dismo/man/randomPoints.html'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>10000</span>)
+<span class='kw'>bg_coords</span> <span class='op'>&lt;-</span> <span class='kw'>dismo</span>::<span class='fu'><a href='https://rdrr.io/pkg/dismo/man/randomPoints.html'>randomPoints</a></span>(<span class='kw'>predictors</span>, <span class='fl'>10000</span>)
 
 <span class='co'># Create SWD object</span>
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                 <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='kw'>bg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/prepareSWD.html'>prepareSWD</a></span>(species = <span class='st'>"Virtual species"</span>, a = <span class='kw'>bg_coords</span>,
+                 env = <span class='kw'>predictors</span>, categorical = <span class='st'>"biome"</span>)
 
 <span class='co'># Get the correlation among all the environmental variables</span>
-<span class='fu'>corVar</span>(<span class='no'>bg</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>)
+<span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/corVar.html'>corVar</a></span>(<span class='kw'>bg</span>, method = <span class='st'>"spearman"</span>)
 
 <span class='co'># Get the environmental variables that have a correlation greater or equal to</span>
 <span class='co'># the given threshold</span>
-<span class='fu'>corVar</span>(<span class='no'>bg</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>cor_th</span> <span class='kw'>=</span> <span class='fl'>0.8</span>)</pre>
+<span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/corVar.html'>corVar</a></span>(<span class='kw'>bg</span>, method = <span class='st'>"pearson"</span>, cor_th = <span class='fl'>0.8</span>)</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

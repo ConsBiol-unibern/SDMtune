@@ -180,7 +180,7 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
 Boosted Regression Trees, Maxent, Maxnet or Random Forest.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>train</span>(<span class='no'>method</span>, <span class='no'>data</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(<span class='kw'>method</span>, <span class='kw'>data</span>, folds = <span class='kw'>NULL</span>, verbose = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,12 +192,12 @@ possible values are "ANN", "BRT", "Maxent", "Maxnet" or "RF", see details.</p></
     </tr>
     <tr>
       <th>data</th>
-      <td><p><a href='SWD-class.html'>SWD</a> object with presence and absence/background
+      <td><p><a href='https://consbiol-unibern.github.io/SDMtune//reference/SWD-class.html'>SWD</a> object with presence and absence/background
 locations.</p></td>
     </tr>
     <tr>
       <th>folds</th>
-      <td><p>list. Output of the function <a href='randomFolds.html'>randomFolds</a> or folds object
+      <td><p>list. Output of the function <a href='https://consbiol-unibern.github.io/SDMtune//reference/randomFolds.html'>randomFolds</a> or folds object
 created with other packages, see details, default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
@@ -213,7 +213,7 @@ validation, default is <code>TRUE</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An <a href='SDMmodel-class.html'>SDMmodel</a> or <a href='SDMmodelCV-class.html'>SDMmodelCV</a> or a list of
+    <p>An <a href='https://consbiol-unibern.github.io/SDMtune//reference/SDMmodel-class.html'>SDMmodel</a> or <a href='https://consbiol-unibern.github.io/SDMtune//reference/SDMmodelCV-class.html'>SDMmodelCV</a> or a list of
 model objects.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -246,8 +246,8 @@ default is <code>floor(sqrt(number of variables))</code>.</p></li>
 </ul></li>
 <li><p>Maxent models are trained using the arguments
 <code>"removeduplicates=false"</code> and <code>"addsamplestobackground=false"</code>.
-Use the function <a href='thinData.html'>thinData</a> to remove duplicates and the function
-<a href='addSamplesToBg.html'>addSamplesToBg</a> to add presence locations to background locations. For
+Use the function <a href='https://consbiol-unibern.github.io/SDMtune//reference/thinData.html'>thinData</a> to remove duplicates and the function
+<a href='https://consbiol-unibern.github.io/SDMtune//reference/addSamplesToBg.html'>addSamplesToBg</a> to add presence locations to background locations. For
 the Maxent method, possible arguments are:</p><ul>
 <li><p>reg: numeric. The value of the regularization multiplier, default is 1.</p></li>
 <li><p>fc: character. The value of the feature classes, possible values are
@@ -292,7 +292,7 @@ for ecological niche models. Methods in Ecology and Evolution.</p>
 cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.com/rvalavi/blockCV</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='randomFolds.html'>randomFolds</a>.</p></div>
+    <div class='dont-index'><p><a href='https://consbiol-unibern.github.io/SDMtune//reference/randomFolds.html'>randomFolds</a>.</p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Sergio Vignali</p>
@@ -300,101 +300,101 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
-                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
+<span class='kw'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
+                    pattern = <span class='st'>"grd"</span>, full.names = <span class='fl'>TRUE</span>)
+<span class='kw'>predictors</span> <span class='op'>&lt;-</span> <span class='kw'>raster</span>::<span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='kw'>files</span>)
 
 <span class='co'># Prepare presence and background locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
+<span class='kw'>p_coords</span> <span class='op'>&lt;-</span> <span class='kw'>virtualSp</span><span class='op'>$</span><span class='kw'>presence</span>
+<span class='kw'>bg_coords</span> <span class='op'>&lt;-</span> <span class='kw'>virtualSp</span><span class='op'>$</span><span class='kw'>background</span>
 
 <span class='co'># Create SWD object</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/prepareSWD.html'>prepareSWD</a></span>(species = <span class='st'>"Virtual species"</span>, p = <span class='kw'>p_coords</span>, a = <span class='kw'>bg_coords</span>,
+                   env = <span class='kw'>predictors</span>, categorical = <span class='st'>"biome"</span>)
 
 <span class='co'>## Train a Maxent model</span>
 <span class='co'># The next line checks if Maxent is correctly configured but you don't need</span>
 <span class='co'># to run it in your script</span>
-<span class='kw'>if</span> (<span class='fu'><a href='checkMaxentInstallation.html'>checkMaxentInstallation</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) {
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-               <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>700</span>)
+<span class='co'>if</span> (<span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/checkMaxentInstallation.html'>checkMaxentInstallation</a></span>(verbose = <span class='fl'>FALSE</span>)) {
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(method = <span class='st'>"Maxent"</span>, data = <span class='kw'>data</span>, fc = <span class='st'>"l"</span>, reg = <span class='fl'>1.5</span>,
+               iter = <span class='fl'>700</span>)
 
 <span class='co'># Add samples to background. This should be done preparing the data before</span>
 <span class='co'># training the model without using</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='addSamplesToBg.html'>addSamplesToBg</a></span>(<span class='no'>data</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/addSamplesToBg.html'>addSamplesToBg</a></span>(<span class='kw'>data</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(<span class='st'>"Maxent"</span>, data = <span class='kw'>data</span>)
 }
 
 <span class='co'>## Train a Maxnet model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1.5</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(method = <span class='st'>"Maxnet"</span>, data = <span class='kw'>data</span>, fc = <span class='st'>"lq"</span>, reg = <span class='fl'>1.5</span>)
 
 <span class='co'>## Cross Validation</span>
 <span class='co'># Create 4 random folds splitting only the presence data</span>
-<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
+<span class='kw'>folds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/randomFolds.html'>randomFolds</a></span>(<span class='kw'>data</span>, k = <span class='fl'>4</span>, only_presence = <span class='fl'>TRUE</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(method = <span class='st'>"Maxnet"</span>, data = <span class='kw'>data</span>, fc = <span class='st'>"l"</span>, reg = <span class='fl'>0.8</span>,
+               folds = <span class='kw'>folds</span>)
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Run only if you have the package ENMeval installed</span>
 <span class='co'>## Block partition using the ENMeval package</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>ENMeval</span>)
-<span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.block</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
-                         <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ])
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>block_folds</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'>ENMeval</span>)
+<span class='kw'>block_folds</span> <span class='op'>&lt;-</span> <span class='fu'>get.block</span>(occ = <span class='kw'>data</span><span class='op'>@</span>coords[<span class='kw'>data</span><span class='op'>@</span>pa <span class='op'>==</span> <span class='fl'>1</span>, ],
+                         bg.coords = <span class='kw'>data</span><span class='op'>@</span>coords[<span class='kw'>data</span><span class='op'>@</span>pa <span class='op'>==</span> <span class='fl'>0</span>, ])
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(method = <span class='st'>"Maxnet"</span>, data = <span class='kw'>data</span>, fc = <span class='st'>"l"</span>, reg = <span class='fl'>0.8</span>,
+               folds = <span class='kw'>block_folds</span>)
 
 <span class='co'>## Checkerboard1 partition using the ENMeval package</span>
-<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
-                              <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
-                              <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
-                              <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>cb_folds</span>)
+<span class='kw'>cb_folds</span> <span class='op'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(occ = <span class='kw'>data</span><span class='op'>@</span>coords[<span class='kw'>data</span><span class='op'>@</span>pa <span class='op'>==</span> <span class='fl'>1</span>, ],
+                              env = <span class='kw'>predictors</span>,
+                              bg.coords = <span class='kw'>data</span><span class='op'>@</span>coords[<span class='kw'>data</span><span class='op'>@</span>pa <span class='op'>==</span> <span class='fl'>0</span>, ],
+                              aggregation.factor = <span class='fl'>4</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(method = <span class='st'>"Maxnet"</span>, data = <span class='kw'>data</span>, fc = <span class='st'>"l"</span>, reg = <span class='fl'>0.8</span>,
+               folds = <span class='kw'>cb_folds</span>)
 
 <span class='co'>## Environmental block using the blockCV package</span>
 <span class='co'># Run only if you have the package blockCV</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>blockCV</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'>blockCV</span>)
 <span class='co'># Create spatial points data frame</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
-<span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>data</span>@<span class='kw'>pa</span>),
-                                <span class='kw'>proj4string</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/projection.html'>crs</a></span>(<span class='no'>predictors</span>))
-<span class='no'>e_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>envBlock</span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
-                    <span class='kw'>speciesData</span> <span class='kw'>=</span> <span class='no'>sp_df</span>,
-                    <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"data@pa"</span>,
-                    <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-                    <span class='kw'>standardization</span> <span class='kw'>=</span> <span class='st'>"standard"</span>,
-                    <span class='kw'>rasterBlock</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>e_folds</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://rspatial.org/raster'>raster</a></span>)
+<span class='kw'>sp_df</span> <span class='op'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='kw'>data</span><span class='op'>@</span>coords, data = <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span>(<span class='kw'>data</span><span class='op'>@</span>pa),
+                                proj4string = <span class='fu'><a href='https://rdrr.io/pkg/raster/man/projection.html'>crs</a></span>(<span class='kw'>predictors</span>))
+<span class='kw'>e_folds</span> <span class='op'>&lt;-</span> <span class='fu'>envBlock</span>(rasterLayer = <span class='kw'>predictors</span>,
+                    speciesData = <span class='kw'>sp_df</span>,
+                    species = <span class='st'>"data@pa"</span>,
+                    k = <span class='fl'>4</span>,
+                    standardization = <span class='st'>"standard"</span>,
+                    rasterBlock = <span class='fl'>FALSE</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(method = <span class='st'>"Maxnet"</span>, data = <span class='kw'>data</span>, fc = <span class='st'>"l"</span>, reg = <span class='fl'>0.8</span>,
+               folds = <span class='kw'>e_folds</span>)
 }
 
 <span class='co'>## Train presence absence models</span>
 <span class='co'># Prepare presence and absence locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span>
+<span class='kw'>p_coords</span> <span class='op'>&lt;-</span> <span class='kw'>virtualSp</span><span class='op'>$</span><span class='kw'>presence</span>
+<span class='kw'>a_coords</span> <span class='op'>&lt;-</span> <span class='kw'>virtualSp</span><span class='op'>$</span><span class='kw'>absence</span>
 <span class='co'># Create SWD object</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>a_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>5</span>]])
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/prepareSWD.html'>prepareSWD</a></span>(species = <span class='st'>"Virtual species"</span>, p = <span class='kw'>p_coords</span>, a = <span class='kw'>a_coords</span>,
+                   env = <span class='kw'>predictors</span>[[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>]])
 
 <span class='co'>## Train an Artificial Neural Network model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"ANN"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(<span class='st'>"ANN"</span>, data = <span class='kw'>data</span>, size = <span class='fl'>10</span>)
 
 <span class='co'>## Train a Random Forest model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"RF"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(<span class='st'>"RF"</span>, data = <span class='kw'>data</span>, ntree = <span class='fl'>300</span>)
 
 <span class='co'>## Train a Boosted Regression Tree model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"BRT"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(<span class='st'>"BRT"</span>, data = <span class='kw'>data</span>, n.trees = <span class='fl'>300</span>, shrinkage = <span class='fl'>0.001</span>)
 
 <span class='co'>## Multiple methods trained together with default arguments</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>output</span>$<span class='no'>ANN</span>
-<span class='no'>output</span>$<span class='no'>BRT</span>
-<span class='no'>output</span>$<span class='no'>RF</span>
+<span class='kw'>output</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(method = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), data = <span class='kw'>data</span>, size = <span class='fl'>10</span>)
+<span class='kw'>output</span><span class='op'>$</span><span class='kw'>ANN</span>
+<span class='kw'>output</span><span class='op'>$</span><span class='kw'>BRT</span>
+<span class='kw'>output</span><span class='op'>$</span><span class='kw'>RF</span>
 
 <span class='co'>## Multiple methods trained together passing extra arguments</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-                <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
-<span class='no'>output</span>
+<span class='kw'>output</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/train.html'>train</a></span>(method = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), data = <span class='kw'>data</span>, size = <span class='fl'>10</span>,
+                ntree = <span class='fl'>300</span>, n.trees = <span class='fl'>300</span>, shrinkage = <span class='fl'>0.001</span>)
+<span class='kw'>output</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

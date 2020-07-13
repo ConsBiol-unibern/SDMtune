@@ -182,7 +182,7 @@ more than one location falls within the same raster cell it selects randomly
 one.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>thinData</span>(<span class='no'>coords</span>, <span class='no'>env</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"x"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/thinData.html'>thinData</a></span>(<span class='kw'>coords</span>, <span class='kw'>env</span>, x = <span class='st'>"x"</span>, y = <span class='st'>"y"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -232,34 +232,34 @@ specified using the arguments <code>x</code> and <code>y</code>.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
-                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
+<span class='kw'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
+                    pattern = <span class='st'>"grd"</span>, full.names = <span class='fl'>TRUE</span>)
+<span class='kw'>predictors</span> <span class='op'>&lt;-</span> <span class='kw'>raster</span>::<span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='kw'>files</span>)
 
 <span class='co'># Prepare background locations</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dismo</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/dismo/man/randomPoints.html'>randomPoints</a></span>(<span class='no'>predictors</span>, <span class='fl'>9000</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bg_coords</span>)
+<span class='kw'>bg_coords</span> <span class='op'>&lt;-</span> <span class='kw'>dismo</span>::<span class='fu'><a href='https://rdrr.io/pkg/dismo/man/randomPoints.html'>randomPoints</a></span>(<span class='kw'>predictors</span>, <span class='fl'>9000</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>bg_coords</span>)
 
 <span class='co'># Thin the locations</span>
 <span class='co'># There are probably few coordinates that have NAs for some predictors, the</span>
 <span class='co'># function will remove these coordinates. Note that the function expects to</span>
 <span class='co'># the coordinates in two column named "x" and "y"</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>bg_coords</span>)
-<span class='no'>thinned_bg</span> <span class='kw'>&lt;-</span> <span class='fu'>thinData</span>(<span class='no'>bg_coords</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>thinned_bg</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>bg_coords</span>)
+<span class='kw'>thinned_bg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/thinData.html'>thinData</a></span>(<span class='kw'>bg_coords</span>, env = <span class='kw'>predictors</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>thinned_bg</span>)
 
 <span class='co'># Here we double the coordinates and run the function again</span>
-<span class='no'>thinned_bg</span> <span class='kw'>&lt;-</span> <span class='fu'>thinData</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='no'>bg_coords</span>, <span class='no'>bg_coords</span>), <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>thinned_bg</span>)
+<span class='kw'>thinned_bg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/thinData.html'>thinData</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='kw'>bg_coords</span>, <span class='kw'>bg_coords</span>), env = <span class='kw'>predictors</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>thinned_bg</span>)
 
 <span class='co'># In case of a dataframe containing more than two columns (e.g. a dataframe</span>
 <span class='co'># with the coordinates plus an additional column with the age of the species)</span>
 <span class='co'># and custom column names, use the function in this way</span>
-<span class='no'>age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bg_coords</span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>age</span>, <span class='no'>bg_coords</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>data</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"X"</span>, <span class='st'>"Y"</span>)
-<span class='no'>thinned_bg</span> <span class='kw'>&lt;-</span> <span class='fu'>thinData</span>(<span class='no'>data</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"X"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"Y"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>data</span>)
+<span class='kw'>age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), size = <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>bg_coords</span>), replace = <span class='fl'>TRUE</span>)
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='kw'>age</span>, <span class='kw'>bg_coords</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>data</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"age"</span>, <span class='st'>"X"</span>, <span class='st'>"Y"</span>)
+<span class='kw'>thinned_bg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://consbiol-unibern.github.io/SDMtune//reference/thinData.html'>thinData</a></span>(<span class='kw'>data</span>, env = <span class='kw'>predictors</span>, x = <span class='st'>"X"</span>, y = <span class='st'>"Y"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>data</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

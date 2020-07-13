@@ -120,7 +120,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="variable-selection_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data-driven variable selection</h1>
@@ -133,6 +133,35 @@
 
     
     
+<pre><code>#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved
+
+#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
+#&gt;  but +towgs84= values preserved</code></pre>
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
@@ -142,19 +171,24 @@
 <h2 class="hasAnchor">
 <a href="#explore-variable-correlation" class="anchor"></a>Explore variable correlation</h2>
 <p>We extract 10000 background locations using the function <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints">randomPoints</a> included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code>SWD()</code> object using the <code><a href="../../reference/prepareSWD.html">prepareSWD()</a></code> function:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
-<span class="no">bg</span> <span class="kw">&lt;-</span> <span class="kw pkg">dismo</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html">randomPoints</a></span>(<span class="no">predictors</span>, <span class="fl">10000</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
+<span class="kw">bg</span> <span class="op">&lt;-</span> <span class="kw">dismo</span>::<span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html">randomPoints</a></span>(<span class="kw">predictors</span>, <span class="fl">10000</span>)
 <span class="co">#&gt; Warning in dismo::randomPoints(predictors, 10000): generated random points =</span>
 <span class="co">#&gt; 0.9775 times requested number</span>
-<span class="no">bg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="st">"Bgs"</span>, <span class="kw">a</span> <span class="kw">=</span> <span class="no">bg</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">categorical</span> <span class="kw">=</span> <span class="st">"biome"</span>)
+<span class="kw">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(species = <span class="st">"Bgs"</span>, a = <span class="kw">bg</span>, env = <span class="kw">predictors</span>, categorical = <span class="st">"biome"</span>)
 <span class="co">#&gt; Extracting predictor information for absence/background locations...</span>
-<span class="co">#&gt; Info: 9 absence/background locations are NA for some environmental variables, they are discarded!</span></pre></body></html></div>
+<span class="co">#&gt; Info: 9 absence/background locations are NA for some environmental variables, they are discarded!</span>
+</pre></div>
 <p>The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).</p>
 <p>With the function <code><a href="../../reference/plotCor.html">plotCor()</a></code> you can create an heat map showing the degree of autocorrelation:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../../reference/plotCor.html">plotCor</a></span>(<span class="no">bg</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>, <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="../../reference/plotCor.html">plotCor</a></span>(<span class="kw">bg</span>, method = <span class="st">"spearman"</span>, cor_th = <span class="fl">0.7</span>)
+</pre></div>
 <p><img src="variable-selection_files/figure-html/heat%20map-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>You can select a different correlation method or set a different correlation threshold. Another useful function is <code><a href="../../reference/corVar.html">corVar()</a></code> that instead of creating a heat map prints the pairs of correlated variables according to the given method and correlation threshold:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../../reference/corVar.html">corVar</a></span>(<span class="no">bg</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>, <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="../../reference/corVar.html">corVar</a></span>(<span class="kw">bg</span>, method = <span class="st">"spearman"</span>, cor_th = <span class="fl">0.7</span>)
 <span class="co">#&gt;    Var1  Var2      value</span>
 <span class="co">#&gt; 1  bio1  bio6  0.9513541</span>
 <span class="co">#&gt; 2 bio12 bio16  0.9447559</span>
@@ -164,7 +198,8 @@
 <span class="co">#&gt; 6  bio6  bio8  0.7286723</span>
 <span class="co">#&gt; 7  bio1  bio7 -0.7119135</span>
 <span class="co">#&gt; 8 bio16  bio7 -0.7027568</span>
-<span class="co">#&gt; 9  bio1 bio16  0.7023585</span></pre></body></html></div>
+<span class="co">#&gt; 9  bio1 bio16  0.7023585</span>
+</pre></div>
 <p>As you can see there are few variables that have a correlation coefficient greater than 0.7 in absolute value.</p>
 </div>
 <div id="remove-highly-correlated-variables" class="section level2">
@@ -178,10 +213,13 @@
 <li>remove the variable that decreases the less the model performance when removed, according to the given metric on the training dataset.</li>
 </ol>
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">selected_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/varSel.html">varSel</a></span>(<span class="no">maxnet_model</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">bg4cor</span> <span class="kw">=</span> <span class="no">bg</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>, <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>)
-<span class="co">#&gt; Removed variables: bio16, bio6, bio7, bio8</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">selected_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/varSel.html">varSel</a></span>(<span class="kw">maxnet_model</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">test</span>, bg4cor = <span class="kw">bg</span>, method = <span class="st">"spearman"</span>, cor_th = <span class="fl">0.7</span>, permut = <span class="fl">1</span>)
+<span class="co">#&gt; Removed variables: bio16, bio6, bio7, bio8</span>
+</pre></div>
 <p>As you can see some variables have been removed. The output of the function is the model trained with the selected variables:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">selected_variables_model</span>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">selected_variables_model</span>
 <span class="co">#&gt; Object of class SDMmodel </span>
 <span class="co">#&gt; Method: Maxnet </span>
 <span class="co">#&gt; </span>
@@ -197,20 +235,24 @@
 <span class="co">#&gt; Variables:</span>
 <span class="co">#&gt; ---------</span>
 <span class="co">#&gt; Continuous: bio1 bio12 bio17 bio5 </span>
-<span class="co">#&gt; Categorical: biome</span></pre></body></html></div>
+<span class="co">#&gt; Categorical: biome</span>
+</pre></div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
 <p>Remove highly correlated variables using the <code>default_model</code>, ranking the variables with the percent contribution and using the AICc as evaluation metric. Check the help of the function <code><a href="../../reference/varSel.html">varSel()</a></code> and highlight the next cell to see the solution:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># You need to pass the env argument for the AICc and the use_pc argument to use the percent contribution</span>
-<span class="no">selected_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/varSel.html">varSel</a></span>(<span class="no">default_model</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"aicc"</span>, <span class="kw">bg4cor</span> <span class="kw">=</span> <span class="no">bg</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>, <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">use_pc</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="co"># You need to pass the env argument for the AICc and the use_pc argument to use the percent contribution</span>
+<span class="kw">selected_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/varSel.html">varSel</a></span>(<span class="kw">default_model</span>, metric = <span class="st">"aicc"</span>, bg4cor = <span class="kw">bg</span>, method = <span class="st">"spearman"</span>, cor_th = <span class="fl">0.7</span>, env = <span class="kw">predictors</span>, use_pc = <span class="fl">TRUE</span>)
+</pre></div>
 </div>
 </div>
 <div id="remove-variables-with-low-importance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#remove-variables-with-low-importance" class="anchor"></a>Remove variables with low importance</h2>
 <p>There are cases in which a model has some environmental variables ranked with very low contribution and you may want to remove some of them to reduce the model complexity. <strong>SDMtune</strong> offers two different strategies implemented in the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code>. We will use the <code>maxnet_model</code> trained with all the variables. Let’s first check the permutation importance (we use only one permutation to save time):</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../../reference/varImp.html">varImp</a></span>(<span class="no">maxnet_model</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="../../reference/varImp.html">varImp</a></span>(<span class="kw">maxnet_model</span>, permut = <span class="fl">1</span>)
 <span class="co">#&gt;   Variable Permutation_importance</span>
 <span class="co">#&gt; 1     bio1                   56.1</span>
 <span class="co">#&gt; 2     bio8                   19.5</span>
@@ -220,28 +262,35 @@
 <span class="co">#&gt; 6     bio5                    3.5</span>
 <span class="co">#&gt; 7     bio7                    3.2</span>
 <span class="co">#&gt; 8     bio6                    1.6</span>
-<span class="co">#&gt; 9    bio16                    1.5</span></pre></body></html></div>
+<span class="co">#&gt; 9    bio16                    1.5</span>
+</pre></div>
 <p>We will use the function <code><a href="../../reference/reduceVar.html">reduceVar()</a></code> only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance greater than 6%:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">maxnet_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>, test = <span class="kw">test</span>))
 <span class="co">#&gt; Testing AUC before:  0.8505888</span>
-<span class="no">reduced_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/reduceVar.html">reduceVar</a></span>(<span class="no">maxnet_model</span>, <span class="kw">th</span> <span class="kw">=</span> <span class="fl">6</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>)
+<span class="kw">reduced_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/reduceVar.html">reduceVar</a></span>(<span class="kw">maxnet_model</span>, th = <span class="fl">6</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">test</span>, permut = <span class="fl">1</span>)
 <span class="co">#&gt; Removed variables: bio16, bio6, bio7, bio5, bio17, biome</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">reduced_variables_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))
-<span class="co">#&gt; Testing AUC after:  0.8520787</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">reduced_variables_model</span>, test = <span class="kw">test</span>))
+<span class="co">#&gt; Testing AUC after:  0.8520787</span>
+</pre></div>
 <p>In the second example we want to remove the environmental variables that have a permutation importance lower than 15% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn’t drop:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">maxnet_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>, test = <span class="kw">test</span>))
 <span class="co">#&gt; Testing AUC before:  0.8505888</span>
-<span class="no">reduced_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/reduceVar.html">reduceVar</a></span>(<span class="no">maxnet_model</span>, <span class="kw">th</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">use_jk</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="kw">reduced_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/reduceVar.html">reduceVar</a></span>(<span class="kw">maxnet_model</span>, th = <span class="fl">15</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">test</span>, permut = <span class="fl">1</span>, use_jk = <span class="fl">TRUE</span>)
 <span class="co">#&gt; Removed variables: bio16, bio6, bio5, bio12, biome, bio8</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">reduced_variables_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))
-<span class="co">#&gt; Testing AUC after:  0.8533188</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">reduced_variables_model</span>, test = <span class="kw">test</span>))
+<span class="co">#&gt; Testing AUC after:  0.8533188</span>
+</pre></div>
 <p>As you can see in this case several variables have been removed and the AUC in the testing dataset didn’t decrease.</p>
 <div id="try-yourself-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself-1" class="anchor"></a>Try yourself</h3>
 <p>Reduce the number of variables using the model trained with the <a href="./evaluation-strategies.html#cross-validation">cross validation</a> and using as metric the TSS. Highlight the following cell for the solution:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co"># You need to pass TRUE to the test argument</span>
-<span class="no">selected_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/reduceVar.html">reduceVar</a></span>(<span class="no">cv_model</span>, <span class="kw">th</span> <span class="kw">=</span> <span class="fl">6</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"tss"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="co"># You need to pass TRUE to the test argument</span>
+<span class="kw">selected_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/reduceVar.html">reduceVar</a></span>(<span class="kw">cv_model</span>, th = <span class="fl">6</span>, metric = <span class="st">"tss"</span>, test = <span class="fl">TRUE</span>, permut = <span class="fl">1</span>)
+</pre></div>
 </div>
 </div>
 <div id="conclusion" class="section level2">

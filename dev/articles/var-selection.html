@@ -120,7 +120,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="var-selection_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Variable selection with ‘SDMtune’</h1>
@@ -138,82 +138,112 @@
 <h1 class="hasAnchor">
 <a href="#load-data-and-train-model" class="anchor"></a>Load data and train model</h1>
 <p>The following steps are described in the <strong>basic-use</strong> vignette, refer to it if the following code is not clear:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SDMtune</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">zeallot</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://consbiol-unibern.github.io/SDMtune">SDMtune</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nteetor/zeallot">zeallot</a></span>)
 
 <span class="co"># Prepare data</span>
-<span class="no">files</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="kw">package</span> <span class="kw">=</span> <span class="st">"dismo"</span>), <span class="st">"ex"</span>),
-                    <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">"grd"</span>, <span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">predictors</span> <span class="kw">&lt;-</span> <span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html">stack</a></span>(<span class="no">files</span>)
-<span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="st">"Virtual species"</span>, <span class="kw">p</span> <span class="kw">=</span> <span class="no">virtualSp</span>$<span class="no">presence</span>,
-                   <span class="kw">a</span> <span class="kw">=</span> <span class="no">virtualSp</span>$<span class="no">background</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>,
-                   <span class="kw">categorical</span> <span class="kw">=</span> <span class="st">"biome"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">train</span>, <span class="no">test</span>) <span class="kw">%&lt;-%</span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span>(<span class="no">data</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                                 <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)
+<span class="kw">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(path = <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(package = <span class="st">"dismo"</span>), <span class="st">"ex"</span>),
+                    pattern = <span class="st">"grd"</span>, full.names = <span class="fl">TRUE</span>)
+<span class="kw">predictors</span> <span class="op">&lt;-</span> <span class="kw">raster</span>::<span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html">stack</a></span>(<span class="kw">files</span>)
+<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span>(species = <span class="st">"Virtual species"</span>, p = <span class="kw">virtualSp</span><span class="op">$</span><span class="kw">presence</span>,
+                   a = <span class="kw">virtualSp</span><span class="op">$</span><span class="kw">background</span>, env = <span class="kw">predictors</span>,
+                   categorical = <span class="st">"biome"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">train</span>, <span class="kw">test</span>) <span class="op">%&lt;-%</span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span>(<span class="kw">data</span>, test = <span class="fl">0.2</span>, only_presence = <span class="fl">TRUE</span>,
+                                 seed = <span class="fl">25</span>)
 
 <span class="co"># Train model</span>
-<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>)
+<span class="kw">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, data = <span class="kw">train</span>)
 
 <span class="co"># Train cross validation model</span>
-<span class="no">folds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span>(<span class="no">data</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)
-<span class="no">cv_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="no">folds</span>)</pre></body></html></div>
+<span class="kw">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span>(<span class="kw">data</span>, k = <span class="fl">4</span>, only_presence = <span class="fl">TRUE</span>, seed = <span class="fl">25</span>)
+<span class="kw">cv_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxent"</span>, data = <span class="kw">data</span>, folds = <span class="kw">folds</span>)
+</pre></div>
 </div>
 <div id="variable-importance" class="section level1">
 <h1 class="hasAnchor">
 <a href="#variable-importance" class="anchor"></a>Variable importance</h1>
 <p>For a <strong>Maxent</strong> model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">model</span>@<span class="kw">model</span>@<span class="kw">results</span></pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw">model</span><span class="op">@</span>model<span class="op">@</span>results
+</pre></div>
 <p>The function <code>maxentVarImp</code> extracts the variable importance values from the previous output and formats them in a more human readable way:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">vi</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/maxentVarImp.html">maxentVarImp</a></span>(<span class="no">model</span>)
-<span class="no">vi</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">vi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxentVarImp.html">maxentVarImp</a></span>(<span class="kw">model</span>)
+<span class="kw">vi</span>
+</pre></div>
 <p>As you can see the function returns a <code>data.frame</code> with the variable name, the percent contribution and the permutation importance.</p>
 <p>You can plot the variable importance as a bar chart using the function <code>plotVarImp</code>. For example you can plot the percent contribution using:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/plotVarImp.html">plotVarImp</a></span>(<span class="no">vi</span>[, <span class="fl">1</span>:<span class="fl">2</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="../reference/plotVarImp.html">plotVarImp</a></span>(<span class="kw">vi</span>[, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>])
+</pre></div>
 <p>or the permutation importance with:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/plotVarImp.html">plotVarImp</a></span>(<span class="no">vi</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">3</span>)])</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="../reference/plotVarImp.html">plotVarImp</a></span>(<span class="kw">vi</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">3</span>)])
+</pre></div>
 <p><strong>SDMtune</strong> has its own function to compute the permutation importance that iterates through several permutations and return an averaged value together with the standard deviation. We will use this function to compute the permutation importance of a <strong>Maxnet</strong> model.</p>
 <div id="permutation-importance" class="section level3">
 <h3 class="hasAnchor">
 <a href="#permutation-importance" class="anchor"></a>Permutation importance</h3>
 <p>For this example we train a <strong>Maxnet</strong> model:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">maxnet_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">maxnet_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, data = <span class="kw">train</span>)
+</pre></div>
 <p>Now we can calculate the variable importance with the function <code><a href="../reference/varImp.html">varImp()</a></code> using 5 permutations:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">vi_maxnet</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varImp.html">varImp</a></span>(<span class="no">maxnet_model</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">5</span>)
-<span class="no">vi_maxnet</span></pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw">vi_maxnet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varImp.html">varImp</a></span>(<span class="kw">maxnet_model</span>, permut = <span class="fl">5</span>)
+<span class="kw">vi_maxnet</span>
+</pre></div>
 <p>And plot it with:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/plotVarImp.html">plotVarImp</a></span>(<span class="no">vi_maxnet</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="../reference/plotVarImp.html">plotVarImp</a></span>(<span class="kw">vi_maxnet</span>)
+</pre></div>
 <p>Next we compute the permutation importance for the <strong>Maxent</strong> model using 10 permutations and compare the results with the Maxent output:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># Compute the permutation importance</span>
-<span class="no">vi_maxent</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varImp.html">varImp</a></span>(<span class="no">model</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">10</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="co"># Compute the permutation importance</span>
+<span class="kw">vi_maxent</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varImp.html">varImp</a></span>(<span class="kw">model</span>, permut = <span class="fl">10</span>)
 <span class="co"># Print it</span>
-<span class="no">vi_maxent</span>
+<span class="kw">vi_maxent</span>
 <span class="co"># Compare with Maxent output</span>
-<span class="fu"><a href="../reference/maxentVarImp.html">maxentVarImp</a></span>(<span class="no">model</span>)</pre></body></html></div>
+<span class="fu"><a href="../reference/maxentVarImp.html">maxentVarImp</a></span>(<span class="kw">model</span>)
+</pre></div>
 <p>The difference is probably due to a different shuffling of the presence and background locations during the permutation process and because in this example we performed 10 permutations and averaged the values.</p>
 </div>
 <div id="jackknife-test-for-variable-importance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#jackknife-test-for-variable-importance" class="anchor"></a>Jackknife test for variable importance</h2>
 <p>Another method to estimate the variable importance is the leave one out Jackknife test. The test removes one variable at time and records the change in the chosen metric. We use the function <code>doJk</code>, the AUC as evaluation metric and the <code>maxnet_model</code>:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">jk</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/doJk.html">doJk</a></span>(<span class="no">maxnet_model</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>)
-<span class="no">jk</span></pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="kw">jk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/doJk.html">doJk</a></span>(<span class="kw">maxnet_model</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">test</span>)
+<span class="kw">jk</span>
+</pre></div>
 <p>We can also plot the output using the function <code>plotJk</code>. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/plotJk.html">plotJk</a></span>(<span class="no">jk</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"train"</span>, <span class="kw">ref</span> <span class="kw">=</span> <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="no">maxnet_model</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu"><a href="../reference/plotJk.html">plotJk</a></span>(<span class="kw">jk</span>, type = <span class="st">"train"</span>, ref = <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>))
+</pre></div>
 <p>and the Jackknife test for the testing AUC:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/plotJk.html">plotJk</a></span>(<span class="no">jk</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"test"</span>, <span class="kw">ref</span> <span class="kw">=</span> <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="no">maxnet_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="fu"><a href="../reference/plotJk.html">plotJk</a></span>(<span class="kw">jk</span>, type = <span class="st">"test"</span>, ref = <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>, test = <span class="kw">test</span>))
+</pre></div>
 </div>
 <div id="response-curves" class="section level2">
 <h2 class="hasAnchor">
 <a href="#response-curves" class="anchor"></a>Response curves</h2>
 <p>With the function <code>plotResponse</code> is possible to plot the marginal and the univariate response curve. Let’s plot the <strong>cloglog</strong> univariate response curve of <strong>bio1</strong>:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span>(<span class="no">maxnet_model</span>, <span class="kw">var</span> <span class="kw">=</span> <span class="st">"bio1"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-             <span class="kw">marginal</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">rug</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span>(<span class="kw">maxnet_model</span>, var = <span class="st">"bio1"</span>, type = <span class="st">"cloglog"</span>, only_presence = <span class="fl">TRUE</span>,
+             marginal = <span class="fl">FALSE</span>, rug = <span class="fl">TRUE</span>)
+</pre></div>
 <p>On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the <strong>logistic</strong> marginal response curve of <strong>biome</strong> that is a categorical variable, keeping the other variables at the mean value:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span>(<span class="no">maxnet_model</span>, <span class="kw">var</span> <span class="kw">=</span> <span class="st">"biome"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"logistic"</span>,
-             <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">marginal</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">fun</span> <span class="kw">=</span> <span class="no">mean</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="st">"blue"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span>(<span class="kw">maxnet_model</span>, var = <span class="st">"biome"</span>, type = <span class="st">"logistic"</span>,
+             only_presence = <span class="fl">TRUE</span>, marginal = <span class="fl">TRUE</span>, fun = <span class="kw">mean</span>, color = <span class="st">"blue"</span>)
+</pre></div>
 <p>In the case of an <code>SDMmodelCV</code> the response curve shows the averaged value of the prediction together with one Standard Deviation error interval:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span>(<span class="no">cv_model</span>, <span class="kw">var</span> <span class="kw">=</span> <span class="st">"bio1"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-             <span class="kw">marginal</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">fun</span> <span class="kw">=</span> <span class="no">mean</span>, <span class="kw">rug</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span>(<span class="kw">cv_model</span>, var = <span class="st">"bio1"</span>, type = <span class="st">"cloglog"</span>, only_presence = <span class="fl">TRUE</span>,
+             marginal = <span class="fl">TRUE</span>, fun = <span class="kw">mean</span>, rug = <span class="fl">TRUE</span>)
+</pre></div>
 </div>
 <div id="model-report" class="section level2">
 <h2 class="hasAnchor">
@@ -228,9 +258,11 @@
 <li>save the model with <code>.Rds</code> extension that can be loaded in R using the <code>readRDS</code> function.</li>
 </ul>
 <p>The function is totally inspired by the default output of the MaxEnt Java software <span class="citation">(Phillips, Anderson, and Schapire 2006)</span> and extends it to other methods. You can decide what to include in the report using dedicated function arguments, like <code>response_curves</code>, <code>jk</code> and <code>env</code> but the function cannot be used with <code>SDMmodelCV</code> objects. Run the following code to create a report of the <strong>Maxnet</strong> model we trained before:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/modelReport.html">modelReport</a></span>(<span class="no">maxnet_model</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>, <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"virtual-sp"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>,
-            <span class="kw">response_curves</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">jk</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-            <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu"><a href="../reference/modelReport.html">modelReport</a></span>(<span class="kw">maxnet_model</span>, type = <span class="st">"cloglog"</span>, folder = <span class="st">"virtual-sp"</span>, test = <span class="kw">test</span>,
+            response_curves = <span class="fl">TRUE</span>, only_presence = <span class="fl">TRUE</span>, jk = <span class="fl">TRUE</span>,
+            env = <span class="kw">predictors</span>)
+</pre></div>
 <p>The output is displayed in the browser and all the files are saved in the <strong>virtual-sp</strong> folder.</p>
 </div>
 </div>
@@ -238,15 +270,21 @@
 <h1 class="hasAnchor">
 <a href="#data-driven-variable-selection" class="anchor"></a>Data-driven variable selection</h1>
 <p>To explore correlation among the variables we extract 10000 background locations using the function<code>randomPoints</code> included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code>SWD</code> object using the <code>prepareSWD</code> function:</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
-<span class="no">bg</span> <span class="kw">&lt;-</span> <span class="kw pkg">dismo</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html">randomPoints</a></span>(<span class="no">predictors</span>, <span class="fl">10000</span>)
-<span class="no">bg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="st">"Bgs"</span>, <span class="kw">a</span> <span class="kw">=</span> <span class="no">bg</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>,
-                 <span class="kw">categorical</span> <span class="kw">=</span> <span class="st">"biome"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
+<span class="kw">bg</span> <span class="op">&lt;-</span> <span class="kw">dismo</span>::<span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html">randomPoints</a></span>(<span class="kw">predictors</span>, <span class="fl">10000</span>)
+<span class="kw">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span>(species = <span class="st">"Bgs"</span>, a = <span class="kw">bg</span>, env = <span class="kw">predictors</span>,
+                 categorical = <span class="st">"biome"</span>)
+</pre></div>
 <p>The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).</p>
 <p>With the function <code>plotCor</code> you can create an heat map showing the degree of autocorrelation:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/plotCor.html">plotCor</a></span>(<span class="no">bg</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>, <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="fu"><a href="../reference/plotCor.html">plotCor</a></span>(<span class="kw">bg</span>, method = <span class="st">"spearman"</span>, cor_th = <span class="fl">0.7</span>)
+</pre></div>
 <p>You can select a different correlation method or set a different correlation threshold. Another useful function is <code>corVar</code> that instead of creating a heat map prints the pairs of correlated variables according to the given method and correlation threshold:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../reference/corVar.html">corVar</a></span>(<span class="no">bg</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>, <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="fu"><a href="../reference/corVar.html">corVar</a></span>(<span class="kw">bg</span>, method = <span class="st">"spearman"</span>, cor_th = <span class="fl">0.7</span>)
+</pre></div>
 <p>As you can see there are few variables that have a correlation coefficient greater than 0.7 in absolute value.</p>
 <div id="remove-highly-correlated-variables" class="section level2">
 <h2 class="hasAnchor">
@@ -259,31 +297,43 @@
 <li>remove the variable that decreases the less the model performance when removed, according to the given metric on the training dataset.</li>
 </ol>
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">selected_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varSel.html">varSel</a></span>(<span class="no">maxnet_model</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>,
-                                   <span class="kw">bg4cor</span> <span class="kw">=</span> <span class="no">bg</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>,
-                                   <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="kw">selected_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varSel.html">varSel</a></span>(<span class="kw">maxnet_model</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">test</span>,
+                                   bg4cor = <span class="kw">bg</span>, method = <span class="st">"spearman"</span>,
+                                   cor_th = <span class="fl">0.7</span>, permut = <span class="fl">1</span>)
+</pre></div>
 <p>As you can see some variables have been removed. The output of the function is the model trained with the selected variables:</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">selected_variables_model</span></pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="kw">selected_variables_model</span>
+</pre></div>
 <p>In the next example we remove the highly correlated variables using the <strong>Maxent</strong> model, ranking the variables with the percent contribution and using the AICc as evaluation metric:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">selected_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varSel.html">varSel</a></span>(<span class="no">model</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"aicc"</span>, <span class="kw">bg4cor</span> <span class="kw">=</span> <span class="no">bg</span>,
-                                   <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spearman"</span>, <span class="kw">cor_th</span> <span class="kw">=</span> <span class="fl">0.7</span>,
-                                   <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">use_pc</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="kw">selected_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varSel.html">varSel</a></span>(<span class="kw">model</span>, metric = <span class="st">"aicc"</span>, bg4cor = <span class="kw">bg</span>,
+                                   method = <span class="st">"spearman"</span>, cor_th = <span class="fl">0.7</span>,
+                                   env = <span class="kw">predictors</span>, use_pc = <span class="fl">TRUE</span>)
+</pre></div>
 </div>
 <div id="remove-variables-with-low-importance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#remove-variables-with-low-importance" class="anchor"></a>Remove variables with low importance</h2>
 <p>There are cases in which a model has some environmental variables ranked with very low contribution and you may want to remove some of them to reduce the model complexity. <strong>SDMtune</strong> offers two different strategies implemented in the function <code>reduceVar</code>. We will use the <strong>Maxent</strong> model trained with all the variables. Let’s first check the permutation importance (we use only one permutation to save time):</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../reference/varImp.html">varImp</a></span>(<span class="no">model</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="fu"><a href="../reference/varImp.html">varImp</a></span>(<span class="kw">model</span>, permut = <span class="fl">1</span>)
+</pre></div>
 <p>In the first example we want to remove all the environmental variables that have a permutation importance lower than 6%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance greater than 6%:</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="no">maxnet_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))
-<span class="no">reduced_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/reduceVar.html">reduceVar</a></span>(<span class="no">maxnet_model</span>, <span class="kw">th</span> <span class="kw">=</span> <span class="fl">6</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>,
-                                     <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="no">reduced_variables_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>, test = <span class="kw">test</span>))
+<span class="kw">reduced_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reduceVar.html">reduceVar</a></span>(<span class="kw">maxnet_model</span>, th = <span class="fl">6</span>, metric = <span class="st">"auc"</span>,
+                                     test = <span class="kw">test</span>, permut = <span class="fl">1</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="kw">reduced_variables_model</span>, test = <span class="kw">test</span>))
+</pre></div>
 <p>In the second example we want to remove the environmental variables that have a permutation importance lower than 15% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn’t drop:</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="no">maxnet_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))
-<span class="no">reduced_variables_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/reduceVar.html">reduceVar</a></span>(<span class="no">maxnet_model</span>, <span class="kw">th</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>,
-                                     <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">permut</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">use_jk</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="no">reduced_variables_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb25"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC before: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>, test = <span class="kw">test</span>))
+<span class="kw">reduced_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reduceVar.html">reduceVar</a></span>(<span class="kw">maxnet_model</span>, th = <span class="fl">15</span>, metric = <span class="st">"auc"</span>,
+                                     test = <span class="kw">test</span>, permut = <span class="fl">1</span>, use_jk = <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC after: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span>(<span class="kw">reduced_variables_model</span>, test = <span class="kw">test</span>))
+</pre></div>
 <p>As you can see in this case several variables have been removed and the AUC in the testing dataset didn’t decrease.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
