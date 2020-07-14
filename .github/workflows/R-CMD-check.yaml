@@ -69,7 +69,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install gdal
-          install.packages('rgdal', type = 'source', configure.args = '--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/ --with-proj_api=proj_api.h')
+          install.packages(pkgs = "rgdal", type = "source", configure.args = "--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/ --with-proj_api=proj_api.h")
 
       - name: Install dependencies
         run: |
