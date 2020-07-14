@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check/badge.svg)](https://github.com/ConsBiol-unibern/SDMtune/actions)
 [![Travis-CI build
 status](https://travis-ci.org/ConsBiol-unibern/SDMtune.svg?branch=master)](https://travis-ci.org/ConsBiol-unibern/SDMtune)
 [![Coverage
