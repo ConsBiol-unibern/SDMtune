@@ -124,7 +124,7 @@ test_that("The correct categorical feature is created", {
   expect_equal(.categorical(2, 1), 0)
 })
 
-skip_on_travis()
+skip_on_ci()
 skip_on_covr()
 
 #.train

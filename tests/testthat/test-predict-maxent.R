@@ -1,5 +1,5 @@
 skip_on_cran()
-skip_on_travis()
+skip_on_ci()
 skip_on_covr()
 
 model <- SDMtune:::bm_maxent
