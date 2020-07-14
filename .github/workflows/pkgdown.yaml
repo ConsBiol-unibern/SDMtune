@@ -18,6 +18,7 @@ jobs:
 
       - name: Install gdal
         run: |
+          brew install udunits
           brew install gdal
 
       - name: Query dependencies
