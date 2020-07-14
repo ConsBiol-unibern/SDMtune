@@ -65,16 +65,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install libgdal-dev
 
-      - name: Install system dependencies for Mac
+      - name: Install system dependencies and rgdal for Mac
         if: runner.os == 'macOS'
         run: |
+          brew install udunits
           brew install gdal
-
-      - name: Install rgdal for Mac
-        if: runner.os == 'macOS'
-        run: |
-          install.packages("rgdal", type = "source", configure.args = "--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/ --with-proj_api=proj_api.h")
-        shell: Rscript {0}
+          R CMD javareconf
+          Rscript -e "install.packages('rgdal', type = 'source', configure.args = '--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/ --with-proj_api=proj_api.h')"
 
       - name: Install dependencies
         run: |
