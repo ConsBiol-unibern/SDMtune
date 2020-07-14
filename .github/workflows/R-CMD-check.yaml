@@ -54,27 +54,27 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install system dependencies
-        if: runner.os == 'Linux'
-        env:
-          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
-        run: |
-          Rscript -e "remotes::install_github('r-hub/sysreqs')"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-          sudo -s eval "$sysreqs"
-          sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable -y
-          sudo apt-get update
-          sudo apt-get install libgdal-dev
+        - if: runner.os == 'Linux'
+          env:
+            RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+          run: |
+            Rscript -e "remotes::install_github('r-hub/sysreqs')"
+            sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+            sudo -s eval "$sysreqs"
+            sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable -y
+            sudo apt-get update
+            sudo apt-get install libgdal-dev
 
-        if: runner.os == 'macOS'
-        run: |
-          brew install gdal
+        - if: runner.os == 'macOS'
+          run: |
+            brew install gdal
 
       - name: Install dependencies
-        if: runner.os == 'macOS'
-        run: |
-          install.packages("rgdal", type = "source", configure.args = "--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/ --with-proj_api=proj_api.h")
+        - if: runner.os == 'macOS'
+          run: |
+            install.packages("rgdal", type = "source", configure.args = "--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/ --with-proj_api=proj_api.h")
 
-        run: |
+        - run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
