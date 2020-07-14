@@ -7,8 +7,6 @@
 
 [![R build
 status](https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check/badge.svg)](https://github.com/ConsBiol-unibern/SDMtune/actions)
-[![Travis-CI build
-status](https://travis-ci.org/ConsBiol-unibern/SDMtune.svg?branch=master)](https://travis-ci.org/ConsBiol-unibern/SDMtune)
 [![Coverage
 status](https://codecov.io/gh/ConsBiol-unibern/SDMtune/branch/master/graph/badge.svg)](https://codecov.io/github/ConsBiol-unibern/SDMtune?branch=master)
 [![CRAN
@@ -121,7 +119,7 @@ previous executed `optimizeModel` function).
 ## Speed test
 
 In the following example we train a **Maxent** model:
-<!-- The next code is not evaluated because MaxEnt jar file is not bundled in the package and Travis will not execute it! -->
+<!-- The next code is not evaluated because MaxEnt jar file is not bundled in the package and Github will not execute it! -->
 <!-- the plot is saved as an image in the man/figures folder -->
 
 ``` r

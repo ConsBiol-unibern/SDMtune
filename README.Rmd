@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 # SDMtune <img src="man/figures/logo.png" align="right" alt="" width="120" />
 <!-- badges: start -->
 [![R build status](https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check/badge.svg)](https://github.com/ConsBiol-unibern/SDMtune/actions)
-[![Travis-CI build status](https://travis-ci.org/ConsBiol-unibern/SDMtune.svg?branch=master)](https://travis-ci.org/ConsBiol-unibern/SDMtune)
 [![Coverage status](https://codecov.io/gh/ConsBiol-unibern/SDMtune/branch/master/graph/badge.svg)](https://codecov.io/github/ConsBiol-unibern/SDMtune?branch=master)
 [![CRAN Status](https://www.r-pkg.org/badges/version/SDMtune)](https://cran.r-project.org/package=SDMtune)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune)
@@ -94,7 +93,7 @@ During the execution of "tuning" and "variable selection" functions, real-time c
 ## Speed test
 
 In the following example we train a **Maxent** model:
-<!-- The next code is not evaluated because MaxEnt jar file is not bundled in the package and Travis will not execute it! --> 
+<!-- The next code is not evaluated because MaxEnt jar file is not bundled in the package and Github will not execute it! --> 
 <!-- the plot is saved as an image in the man/figures folder --> 
 ```{r train Maxent, eval=FALSE}
 # Train a Maxent model
