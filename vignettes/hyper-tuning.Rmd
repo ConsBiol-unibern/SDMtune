@@ -1,5 +1,5 @@
 ---
-title: "Tune hyperparameters with 'SDMtune'"
+title: "SDMtune - hyperparameter tuning"
 author: "Sergio Vignali, Arnaud Barras & Veronika Braunisch"
 bibliography: SDMtune.bib
 output:

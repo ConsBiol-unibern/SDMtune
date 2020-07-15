@@ -1,5 +1,5 @@
 ---
-title: "Variable selection with 'SDMtune'"
+title: "SDMtune - variable selection"
 author: "Sergio Vignali, Arnaud Barras & Veronika Braunisch"
 bibliography: SDMtune.bib
 output:
