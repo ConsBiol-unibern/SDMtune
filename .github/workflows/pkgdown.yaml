@@ -6,7 +6,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: macOS-latest
+    runs-on: ubuntu-16.04
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -15,11 +15,6 @@ jobs:
       - uses: r-lib/actions/setup-r@master
 
       - uses: r-lib/actions/setup-pandoc@master
-
-      - name: Install gdal
-        run: |
-          brew install udunits
-          brew install gdal
 
       - name: Query dependencies
         run: |
@@ -35,10 +30,20 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
+
+      - name: Install system dependencies
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
+          sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable -y
+          sudo apt-get update
+          sudo apt-get install libgdal-dev
+
       - name: Install dependencies
         run: |
-          install.packages("rgdal", type = "source", configure.args = "--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/ --with-proj_api=proj_api.h")
-          install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_dev("pkgdown")
         shell: Rscript {0}
