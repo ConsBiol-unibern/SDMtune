@@ -4,7 +4,7 @@
 * Github actions:
   * linux: R release and oldrel
   * windows: R release
-  * mac: R release and devel
+  * mac: R release
 
 ## R CMD check results
 0 errors | 0 warnings | 0 notes
