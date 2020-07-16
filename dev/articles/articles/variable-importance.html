@@ -133,35 +133,6 @@
 
     
     
-<pre><code>#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved</code></pre>
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
@@ -171,7 +142,7 @@
 <h2 class="hasAnchor">
 <a href="#variable-importance-for-maxent-models" class="anchor"></a>Variable importance for Maxent models</h2>
 <p>First we load the <strong>SDMtune</strong> package:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
+<div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://consbiol-unibern.github.io/SDMtune">SDMtune</a></span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    _____  ____   __  ___ __</span>
@@ -183,7 +154,7 @@
 <span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span>
 </pre></div>
 <p>For a <strong>Maxent</strong> model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
+<div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="kw">default_model</span><span class="op">@</span>model<span class="op">@</span>results
 <span class="co">#&gt;                                                                                         [,1]</span>
 <span class="co">#&gt; X.Training.samples                                                                  400.0000</span>
@@ -250,7 +221,7 @@
 <span class="co">#&gt; Equate.entropy.of.thresholded.and.original.distributions.training.omission            0.0300</span>
 </pre></div>
 <p>The function <code><a href="../../reference/maxentVarImp.html">maxentVarImp()</a></code> extracts the variable importance values from the previous output and formats them in a more human readable way:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
+<div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw">vi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/maxentVarImp.html">maxentVarImp</a></span>(<span class="kw">default_model</span>)
 <span class="kw">vi</span>
 <span class="co">#&gt;   Variable Percent_contribution Permutation_importance</span>
@@ -266,7 +237,7 @@
 </pre></div>
 <p>As you can see the function returns a <code>data.frame</code> with the variable name, the percent contribution and the permutation importance.</p>
 <p>You can plot the variable importance as a bar chart using the function <code><a href="../../reference/plotVarImp.html">plotVarImp()</a></code>. For example you can plot the percent contribution using:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
+<div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotVarImp.html">plotVarImp</a></span>(<span class="kw">vi</span>[, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>])
 </pre></div>
 <p><img src="variable-importance_files/figure-html/maxent%20percent%20contribution%20plot-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -274,7 +245,7 @@
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>
 <p>Plot the permutation importance as a bar chart. To see the solution highlight the following cell:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
+<div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="co"># The function accepts a data.frame with 2 columns: one with the variable name</span>
 <span class="co"># and one with the values, so it is enough to select the first and the third</span>
 <span class="co"># columns from the vi data.frame</span>
@@ -287,13 +258,13 @@
 <h2 class="hasAnchor">
 <a href="#permutation-importance" class="anchor"></a>Permutation importance</h2>
 <p>For this example we use a <strong>Maxnet</strong> model and a training/testing validation strategy like in the <a href="./evaluation-strategies.html#train-and-testing-datasets">previous article</a>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
+<div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nteetor/zeallot">zeallot</a></span>)  <span class="co"># For unpacking assignment</span>
 <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">train</span>, <span class="kw">test</span>) <span class="op">%&lt;-%</span> <span class="fu"><a href="../../reference/trainValTest.html">trainValTest</a></span>(<span class="kw">data</span>, test = <span class="fl">0.2</span>, only_presence = <span class="fl">TRUE</span>, seed = <span class="fl">25</span>)
 <span class="kw">maxnet_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, data = <span class="kw">train</span>)
 </pre></div>
 <p>Now we can calculate the variable importance with the function <code><a href="../../reference/varImp.html">varImp()</a></code> using 5 permutations:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
+<div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="kw">vi_maxnet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/varImp.html">varImp</a></span>(<span class="kw">maxnet_model</span>, permut = <span class="fl">5</span>)
 <span class="kw">vi_maxnet</span>
 <span class="co">#&gt;   Variable Permutation_importance    sd</span>
@@ -308,7 +279,7 @@
 <span class="co">#&gt; 9     bio6                    1.2 0.001</span>
 </pre></div>
 <p>And plot it with:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
+<div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotVarImp.html">plotVarImp</a></span>(<span class="kw">vi_maxnet</span>)
 </pre></div>
 <p><img src="variable-importance_files/figure-html/plot%20var%20imp-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -316,7 +287,7 @@
 <h3 class="hasAnchor">
 <a href="#try-yourself-1" class="anchor"></a>Try yourself</h3>
 <p>Use the <code><a href="../../reference/varImp.html">varImp()</a></code> function to compute the permutation importance for the <code>default_model</code> using 10 permutations and compare the results with the Maxent output. To see the solution highlight the following cell:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
+<div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="co"># Compute the permutation importance</span>
 <span class="kw">vi_maxent</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/varImp.html">varImp</a></span>(<span class="kw">default_model</span>, permut = <span class="fl">10</span>)
 <span class="co"># Print it</span>
@@ -331,7 +302,7 @@
 <h2 class="hasAnchor">
 <a href="#jackknife-test-for-variable-importance" class="anchor"></a>Jackknife test for variable importance</h2>
 <p>Another method to estimate the variable importance is the leave one out Jackknife test. The test removes one variable at time and records the change in the chosen metric. We use the function <code><a href="../../reference/doJk.html">doJk()</a></code>, the AUC as evaluation metric and the <code>maxnet_model</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="kw">jk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/doJk.html">doJk</a></span>(<span class="kw">maxnet_model</span>, metric = <span class="st">"auc"</span>, test = <span class="kw">test</span>)
 <span class="kw">jk</span>
 <span class="co">#&gt;   Variable Train_AUC_without Train_AUC_withonly Test_AUC_without</span>
@@ -356,12 +327,12 @@
 <span class="co">#&gt; 9         0.7857500</span>
 </pre></div>
 <p>We can also plot the output using the function <code><a href="../../reference/plotJk.html">plotJk()</a></code>. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotJk.html">plotJk</a></span>(<span class="kw">jk</span>, type = <span class="st">"train"</span>, ref = <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>))
 </pre></div>
 <p><img src="variable-importance_files/figure-html/plot%20jk%20train-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>and the Jackknife test for the testing AUC:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
+<div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotJk.html">plotJk</a></span>(<span class="kw">jk</span>, type = <span class="st">"test"</span>, ref = <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>, test = <span class="kw">test</span>))
 </pre></div>
 <p><img src="variable-importance_files/figure-html/plot%20jk%20test-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -375,12 +346,12 @@
 <h2 class="hasAnchor">
 <a href="#response-curves" class="anchor"></a>Response curves</h2>
 <p>With the function <code><a href="../../reference/plotResponse.html">plotResponse()</a></code> is possible to plot the marginal and the univariate response curve. Let’s plot the <strong>cloglog</strong> univariate response curve of <strong>bio1</strong>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
+<div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotResponse.html">plotResponse</a></span>(<span class="kw">maxnet_model</span>, var = <span class="st">"bio1"</span>, type = <span class="st">"cloglog"</span>, only_presence = <span class="fl">TRUE</span>, marginal = <span class="fl">FALSE</span>, rug = <span class="fl">TRUE</span>)
 </pre></div>
 <p><img src="variable-importance_files/figure-html/plot%20bio1-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the <strong>logistic</strong> marginal response curve of <strong>biome</strong> that is a categorical variable, keeping the other variables at the mean value:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
+<div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotResponse.html">plotResponse</a></span>(<span class="kw">maxnet_model</span>, var = <span class="st">"biome"</span>, type = <span class="st">"logistic"</span>, only_presence = <span class="fl">TRUE</span>, marginal = <span class="fl">TRUE</span>, fun = <span class="kw">mean</span>, color = <span class="st">"blue"</span>)
 </pre></div>
 <p><img src="variable-importance_files/figure-html/plot%20biome-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -388,11 +359,11 @@
 <h3 class="hasAnchor">
 <a href="#try-yourself-3" class="anchor"></a>Try yourself</h3>
 <p>Plot in green the univariate cloglog response curve of <strong>bio17</strong> removing the rug and using the <code>default_model</code>, to see the solution highlight the following cell:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
+<div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotResponse.html">plotResponse</a></span>(<span class="kw">default_model</span>, var = <span class="st">"bio17"</span>, type = <span class="st">"cloglog"</span>, only_presence = <span class="fl">TRUE</span>, marginal = <span class="fl">FALSE</span>, color = <span class="st">"green"</span>)
 </pre></div>
 <p>In the case of an <code>SDMmodelCV()</code> the response curve shows the averaged value of the prediction together with one Standard Deviation error interval. We use the cross validation model trained in the <a href="./evaluation-strategies.html#cross-validation">previous article</a></p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
+<div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotResponse.html">plotResponse</a></span>(<span class="kw">cv_model</span>, var = <span class="st">"bio1"</span>, type = <span class="st">"cloglog"</span>, only_presence = <span class="fl">TRUE</span>, marginal = <span class="fl">TRUE</span>, fun = <span class="kw">mean</span>, rug = <span class="fl">TRUE</span>)
 </pre></div>
 <p><img src="variable-importance_files/figure-html/plot%20cv%20response-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -411,7 +382,7 @@
 <li>save the model with <code>.Rds</code> extension that can be loaded in R using the <code>readRDS</code> function.</li>
 </ul>
 <p>The function is totally inspired by the default output of the MaxEnt Java software <span class="citation">[@Phillips2006]</span> and extends it to other methods. You can decide what to include in the report using dedicated function arguments, like <code>response_curves</code>, <code>jk</code> and <code>env</code> but the function cannot be used with <code>SDMmodelCV()</code> objects. Run the following code to create a report of the <strong>Maxnet</strong> model we trained before:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
+<div class="sourceCode" id="cb17"><pre class="downlit">
 <span class="fu"><a href="../../reference/modelReport.html">modelReport</a></span>(<span class="kw">maxnet_model</span>, type = <span class="st">"cloglog"</span>, folder = <span class="st">"virtual-sp"</span>, test = <span class="kw">test</span>, response_curves = <span class="fl">TRUE</span>, only_presence = <span class="fl">TRUE</span>, jk = <span class="fl">TRUE</span>, env = <span class="kw">predictors</span>)
 </pre></div>
 <p>The output is displayed in the browser and all the files are saved in the <strong>virtual-sp</strong> folder.</p>

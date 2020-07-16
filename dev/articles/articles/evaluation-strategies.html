@@ -133,35 +133,6 @@
 
     
     
-<pre><code>#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved
-
-#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO"): Discarded datum WGS_1984 in CRS definition,
-#&gt;  but +towgs84= values preserved</code></pre>
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
@@ -171,7 +142,7 @@
 <h2 class="hasAnchor">
 <a href="#training-and-testing-datasets" class="anchor"></a>Training and testing datasets</h2>
 <p>First we load the <strong>SDMtune</strong> package:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
+<div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://consbiol-unibern.github.io/SDMtune">SDMtune</a></span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    _____  ____   __  ___ __</span>
@@ -183,25 +154,25 @@
 <span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span>
 </pre></div>
 <p>It’s always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the <code><a href="../../reference/trainValTest.html">trainValTest()</a></code> function for this purpose. Let’s say we want to use 80% of the species locations to train our model and 20% as testing dataset to evaluate it:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
+<div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nteetor/zeallot">zeallot</a></span>)  <span class="co"># For unpacking assignment</span>
 <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">train</span>, <span class="kw">test</span>) <span class="op">%&lt;-%</span> <span class="fu"><a href="../../reference/trainValTest.html">trainValTest</a></span>(<span class="kw">data</span>, test = <span class="fl">0.2</span>, only_presence = <span class="fl">TRUE</span>, seed = <span class="fl">25</span>)
 <span class="kw">maxnet_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, data = <span class="kw">train</span>)
 </pre></div>
 <p>The <code>only_presence</code> argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
+<div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Training auc: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>))
 <span class="co">#&gt; Training auc:  0.8752144</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing auc: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">maxnet_model</span>, test = <span class="kw">test</span>))
 <span class="co">#&gt; Testing auc:  0.8505888</span>
 </pre></div>
 <p>We can plot the ROC curve for both, training and testing datasets, with:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
+<div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="../../reference/plotROC.html">plotROC</a></span>(<span class="kw">maxnet_model</span>, test = <span class="kw">test</span>)
 </pre></div>
 <p><img src="evaluation-strategies_files/figure-html/plot%20AUC%20train/test-1.png" width="700"></p>
 <p>This approach is valid when we have a large dataset. In our case, with only 320 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the AUC:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
+<div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="kw">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">NA</span>, nrow = <span class="fl">10</span>, ncol = <span class="fl">3</span>)) <span class="co"># Create an empty data.frame</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="kw">output</span>) <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
@@ -217,7 +188,7 @@
 }
 </pre></div>
 <p>The testing AUC varies from 0.8340675 to 0.8671762. When we have to deal with a small dataset a better approach is the cross validation.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
+<div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="co"># Print the output</span>
 <span class="kw">output</span>
 <span class="co">#&gt;    seed  trainAUC   testAUC</span>
@@ -239,12 +210,12 @@
 <h2 class="hasAnchor">
 <a href="#cross-validation" class="anchor"></a>Cross validation</h2>
 <p>To perform a cross validation in <strong>SDMtune</strong> we have to pass the <code>fold</code> argument to the <code><a href="../../reference/train.html">train()</a></code> function. First we have to create the folds. There are several way to create them, here we explain how to make a random partition of 4 folds using the function <code><a href="../../reference/randomFolds.html">randomFolds()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
+<div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="kw">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/randomFolds.html">randomFolds</a></span>(<span class="kw">data</span>, k = <span class="fl">4</span>, only_presence = <span class="fl">TRUE</span>, seed = <span class="fl">25</span>)
 </pre></div>
 <p>The output of the function is a list containing two matrices, the first for the training and the second for the testing locations. Each column of one matrix represents a fold with <code>TRUE</code> for the locations included in and <code>FALSE</code> excluded from the partition.</p>
 <p>Let’s perform a 4 fold cross validation using the <strong>Maxnet</strong> method (note that we use the full dataset):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
+<div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="kw">cv_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"Maxnet"</span>, data = <span class="kw">data</span>, folds = <span class="kw">folds</span>)
 <span class="kw">cv_model</span>
 </pre></div>
@@ -266,7 +237,7 @@
 #&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
 #&gt; Categorical: biome</code></pre>
 <p>The output in this case is an <code>SDMmodelCV()</code> object. It contains the four trained models in the <code>models</code> slot and the fold partitions in the <code>folds</code> slot. We can compute the AUC of a <code>SDMmodelCV()</code> object using:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Training AUC: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">cv_model</span>))
 <span class="co">#&gt; Training AUC:  0.8734151</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Testing AUC: "</span>, <span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">cv_model</span>, test = <span class="fl">TRUE</span>))
@@ -292,18 +263,18 @@
 </ul>
 <p>The function will convert internally the created folds into the correct format for <code>SDMtune</code>. These packages have specific function to create folds partitions that are spatially or environmentally independent.</p>
 <p>Block partition using the package <code>ENMeval</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">ENMeval</span>)
 <span class="kw">block_folds</span> <span class="op">&lt;-</span> <span class="fu">get.block</span>(occ = <span class="kw">data</span><span class="op">@</span>coords[<span class="kw">data</span><span class="op">@</span>pa <span class="op">==</span> <span class="fl">1</span>, ], bg.coords = <span class="kw">data</span><span class="op">@</span>coords[<span class="kw">data</span><span class="op">@</span>pa <span class="op">==</span> <span class="fl">0</span>, ])
 <span class="kw">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(method = <span class="st">"Maxnet"</span>, data = <span class="kw">data</span>, fc = <span class="st">"l"</span>, reg = <span class="fl">0.8</span>, folds = <span class="kw">block_folds</span>)
 </pre></div>
 <p>Checkerboard1 partition using the package <code>ENMeval</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
+<div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="kw">cb_folds</span> <span class="op">&lt;-</span> <span class="fu">get.checkerboard1</span>(occ = <span class="kw">data</span><span class="op">@</span>coords[<span class="kw">data</span><span class="op">@</span>pa <span class="op">==</span> <span class="fl">1</span>, ], env = <span class="kw">predictors</span>, bg.coords = <span class="kw">data</span><span class="op">@</span>coords[<span class="kw">data</span><span class="op">@</span>pa <span class="op">==</span> <span class="fl">0</span>, ], aggregation.factor = <span class="fl">4</span>)
 <span class="kw">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(method = <span class="st">"Maxnet"</span>, data = <span class="kw">data</span>, fc = <span class="st">"l"</span>, reg = <span class="fl">0.8</span>, folds = <span class="kw">cb_folds</span>)
 </pre></div>
 <p>Environmental block using the package <code>blockCV</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
+<div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">blockCV</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rspatial.org/raster">raster</a></span>)
 <span class="co"># Create spatial points data frame</span>
