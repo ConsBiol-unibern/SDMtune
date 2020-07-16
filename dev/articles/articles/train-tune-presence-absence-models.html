@@ -142,13 +142,12 @@
 <h2 class="hasAnchor">
 <a href="#prepare-the-data-for-the-analysis" class="anchor"></a>Prepare the data for the analysis</h2>
 <p>We use the first 8 environmental variables and the same <code><a href="../../reference/virtualSp.html">virtualSp()</a></code> dataset selecting the absence instead of the background locations.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">p_coords</span> <span class="op">&lt;-</span> <span class="kw">virtualSp</span><span class="op">$</span><span class="kw">presence</span>
-<span class="kw">a_coords</span> <span class="op">&lt;-</span> <span class="kw">virtualSp</span><span class="op">$</span><span class="kw">absence</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(species = <span class="st">"Virtual species"</span>, p = <span class="kw">p_coords</span>, a = <span class="kw">a_coords</span>, env = <span class="kw">predictors</span>[[<span class="fl">1</span><span class="op">:</span><span class="fl">8</span>]])
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">p_coords</span> <span class="kw">&lt;-</span> <span class="no">virtualSp</span>$<span class="no">presence</span>
+<span class="no">a_coords</span> <span class="kw">&lt;-</span> <span class="no">virtualSp</span>$<span class="no">absence</span>
+<span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/prepareSWD.html">prepareSWD</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="st">"Virtual species"</span>, <span class="kw">p</span> <span class="kw">=</span> <span class="no">p_coords</span>, <span class="kw">a</span> <span class="kw">=</span> <span class="no">a_coords</span>, <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span><span class="kw">[[</span><span class="fl">1</span>:<span class="fl">8</span>]])
 <span class="co">#&gt; Extracting predictor information for presence locations...</span>
 <span class="co">#&gt; Extracting predictor information for absence/background locations...</span>
-<span class="kw">data</span>
+<span class="no">data</span>
 <span class="co">#&gt; Object of class SWD </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Species: Virtual species </span>
@@ -158,27 +157,21 @@
 <span class="co">#&gt; Variables:</span>
 <span class="co">#&gt; ---------</span>
 <span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
-<span class="co">#&gt; Categorical: NA</span>
-</pre></div>
+<span class="co">#&gt; Categorical: NA</span></pre></body></html></div>
 <p>There are 400 presence and 300 absence locations.</p>
 <p>For the model evaluation we will create a training and testing datasets, holding apart 20% of the data:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nteetor/zeallot">zeallot</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">train</span>, <span class="kw">test</span>) <span class="op">%&lt;-%</span> <span class="fu"><a href="../../reference/trainValTest.html">trainValTest</a></span>(<span class="kw">data</span>, test = <span class="fl">0.2</span>, seed = <span class="fl">25</span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">zeallot</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">train</span>, <span class="no">test</span>) <span class="kw">%&lt;-%</span> <span class="fu"><a href="../../reference/trainValTest.html">trainValTest</a></span>(<span class="no">data</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)</pre></body></html></div>
 <p>At this point we have 560 training and 140 testing locations. We create a 4-folds partition to run cross validation:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/randomFolds.html">randomFolds</a></span>(<span class="kw">train</span>, k = <span class="fl">4</span>, seed = <span class="fl">25</span>)
-</pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">folds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/randomFolds.html">randomFolds</a></span>(<span class="no">train</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)</pre></body></html></div>
 </div>
 <div id="train-the-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#train-the-model" class="anchor"></a>Train the model</h2>
 <p>We first train the model with default settings and 10 neurons:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
-<span class="kw">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"ANN"</span>, data = <span class="kw">train</span>, size = <span class="fl">10</span>, folds = <span class="kw">folds</span>)
-<span class="kw">model</span>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
+<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"ANN"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="no">folds</span>)
+<span class="no">model</span>
 <span class="co">#&gt; Object of class SDMmodelCV </span>
 <span class="co">#&gt; Method: ANN </span>
 <span class="co">#&gt; </span>
@@ -197,49 +190,38 @@
 <span class="co">#&gt; Variables:</span>
 <span class="co">#&gt; ---------</span>
 <span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
-<span class="co">#&gt; Categorical: NA</span>
-</pre></div>
+<span class="co">#&gt; Categorical: NA</span></pre></body></html></div>
 <p>Let’s check the training and testing AUC:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">model</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">model</span>)
 <span class="co">#&gt; [1] 0.8164149</span>
-<span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="kw">model</span>, test = <span class="fl">TRUE</span>)
-<span class="co">#&gt; [1] 0.8029688</span>
-</pre></div>
+<span class="fu"><a href="../../reference/auc.html">auc</a></span>(<span class="no">model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co">#&gt; [1] 0.8029688</span></pre></body></html></div>
 </div>
 <div id="tune-model-hyperparameters" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tune-model-hyperparameters" class="anchor"></a>Tune model hyperparameters</h2>
 <p>To check which hyperparameters can be tuned we use the function <code><a href="../../reference/getTunableArgs.html">getTunableArgs()</a></code> function:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="../../reference/getTunableArgs.html">getTunableArgs</a></span>(<span class="kw">model</span>)
-<span class="co">#&gt; [1] "size"  "decay" "rang"  "maxit"</span>
-</pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../../reference/getTunableArgs.html">getTunableArgs</a></span>(<span class="no">model</span>)
+<span class="co">#&gt; [1] "size"  "decay" "rang"  "maxit"</span></pre></body></html></div>
 <p>We use the function <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> to tune the hyperparameters:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(size = <span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, decay = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>),
-          maxit = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span>))
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">10</span>:<span class="fl">50</span>, <span class="kw">decay</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>),
+          <span class="kw">maxit</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span>))
 
-<span class="kw">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/optimizeModel.html">optimizeModel</a></span>(<span class="kw">model</span>, hypers = <span class="kw">h</span>, metric = <span class="st">"auc"</span>, seed = <span class="fl">25</span>)
-</pre></div>
+<span class="no">om</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/optimizeModel.html">optimizeModel</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)</pre></body></html></div>
 <p>The best model is:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">best_model</span> <span class="op">&lt;-</span> <span class="kw">om</span><span class="op">@</span>models[[<span class="fl">1</span>]]
-<span class="kw">om</span><span class="op">@</span>results[<span class="fl">1</span>, ]
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">best_model</span> <span class="kw">&lt;-</span> <span class="no">om</span>@<span class="kw">models</span><span class="kw">[[</span><span class="fl">1</span>]]
+<span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, ]
 <span class="co">#&gt;   size decay rang maxit train_AUC  test_AUC   diff_AUC</span>
-<span class="co">#&gt; 1   39   0.5  0.7   300 0.9902836 0.9520312 0.03825231</span>
-</pre></div>
+<span class="co">#&gt; 1   39   0.5  0.7   300 0.9902836 0.9520312 0.03825231</span></pre></body></html></div>
 <p>The validation AUC increased from 0.8029688 of the default models to 0.9520312 of the optimized one.</p>
 </div>
 <div id="evaluate-the-final-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#evaluate-the-final-model" class="anchor"></a>Evaluate the final model</h2>
 <p>We now train a model with the same configuration as found by the function <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
-<span class="kw">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"ANN"</span>, data = <span class="kw">train</span>, size = <span class="kw">om</span><span class="op">@</span>results[<span class="fl">1</span>, <span class="fl">1</span>], decay = <span class="kw">om</span><span class="op">@</span>results[<span class="fl">1</span>, <span class="fl">2</span>], maxit = <span class="kw">om</span><span class="op">@</span>results[<span class="fl">1</span>, <span class="fl">4</span>])
-<span class="fu"><a href="../../reference/plotROC.html">plotROC</a></span>(<span class="kw">final_model</span>, test = <span class="kw">test</span>)
-</pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">25</span>)
+<span class="no">final_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span>(<span class="st">"ANN"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, <span class="fl">1</span>], <span class="kw">decay</span> <span class="kw">=</span> <span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, <span class="fl">2</span>], <span class="kw">maxit</span> <span class="kw">=</span> <span class="no">om</span>@<span class="kw">results</span>[<span class="fl">1</span>, <span class="fl">4</span>])
+<span class="fu"><a href="../../reference/plotROC.html">plotROC</a></span>(<span class="no">final_model</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>)</pre></body></html></div>
 <p><img src="train-tune-presence-absence-models_files/figure-html/evaluate%20final%20model-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="conclusion" class="section level2">
@@ -273,7 +255,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
