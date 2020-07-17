@@ -31,7 +31,7 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMtune-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMtune-pkg.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMtune-package.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/SWD-class.html</loc>
@@ -46,6 +46,9 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/auc.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/checkMaxentInstallation.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/confMatrix.html</loc>
   </url>
   <url>
@@ -53,6 +56,9 @@
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/doJk.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//reference/getTunableArgs.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/get_tunable_args.html</loc>
@@ -157,9 +163,6 @@
     <loc>https://consbiol-unibern.github.io/SDMtune//reference/virtualSp.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/SDMtune.html</loc>
-  </url>
-  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/evaluate-model.html</loc>
   </url>
   <url>
@@ -185,5 +188,17 @@
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/variable-selection.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//articles/basic-use.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//articles/hyper-tuning.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//articles/presence-absence.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune//articles/var-selection.html</loc>
   </url>
 </urlset>
