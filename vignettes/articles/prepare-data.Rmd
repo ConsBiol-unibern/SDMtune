@@ -13,7 +13,7 @@ options(knitr.table.format = "html")
 
 ## Intro
 
-In this article you will learn how to prepare the data to train models using `SDMtune`. We will use the [virtualSp](../../reference/virtualSp.html) dataset included in the package and environmental predictors from the  [WorldClim](http://www.worldclim.org/) dataset.
+In this article you will learn how to prepare the data to train models using `SDMtune`. We will use the [virtualSp](../../reference/virtualSp.html) dataset included in the package and environmental predictors from the  [WorldClim](https://www.worldclim.org/) dataset.
 
 ## Set working environment
 
@@ -27,7 +27,7 @@ library(rasterVis)  # To plot raster objects
 
 ## Acquire environmental variables
 
-For the analysis we use the climate data of [WorldClim](http://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestrial ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
+For the analysis we use the climate data of [WorldClim](https://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestrial ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
 
 ```{r get predictors, fig.align="center"}
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)

@@ -17,7 +17,7 @@ default_model <- SDMtune:::bm_maxent
 
 ## Intro
 
-In the [previous article](./prepare-data.html) you have learned how to prepare the data for the analysis using the [virtualSp](../../reference/virtualSp.html) dataset and the [WorldClim](http://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
+In the [previous article](./prepare-data.html) you have learned how to prepare the data for the analysis using the [virtualSp](../../reference/virtualSp.html) dataset and the [WorldClim](https://www.worldclim.org/) environmental variables. Now it's time to train your first model, let's do it!  
 
 `SDMtune` supports four methods for model training:
 
