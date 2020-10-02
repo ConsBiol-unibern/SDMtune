@@ -11,7 +11,6 @@ doJk(
   test = NULL,
   with_only = TRUE,
   env = NULL,
-  parallel = FALSE,
   return_models = FALSE
 )
 }
@@ -32,8 +31,6 @@ variable in isolation, default is \code{TRUE}.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
 only with "aicc", default is \code{NULL}.}
-
-\item{parallel}{deprecated.}
 
 \item{return_models}{logical, if \code{TRUE} returns all the models together with
 the test result, default is \code{FALSE}.}

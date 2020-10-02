@@ -10,7 +10,6 @@ reduceVar(
   metric,
   test = NULL,
   env = NULL,
-  parallel = FALSE,
   use_jk = FALSE,
   permut = 10,
   use_pc = FALSE
@@ -30,8 +29,6 @@ evaluate the model, not used with aicc, and if \code{use_jk = FALSE}, default is
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
 only with "aicc", default is \code{NULL}.}
-
-\item{parallel}{deprecated.}
 
 \item{use_jk}{Flag to use the Jackknife AUC test during the variable
 selection, if \code{FALSE} the function uses the percent variable contribution,

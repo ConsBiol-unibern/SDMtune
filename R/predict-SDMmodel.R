@@ -21,7 +21,6 @@ setGeneric("predict", function(object, ...)
 #' for all the options, default is "GTiff".
 #' @param extent \link[raster]{extent} object, if provided it restricts
 #' the prediction to the given extent, default is `NULL`.
-#' @param parallel deprecated.
 #' @param progress character to display a progress bar: "text", "window" or ""
 #' (default) for no progress bar.
 #' @param ... Additional arguments to pass to the \link[raster]{writeRaster}
@@ -94,12 +93,7 @@ setMethod("predict",
           signature = "SDMmodel",
           definition = function(object, data, type = NULL, clamp = TRUE,
                                 filename = "", format = "GTiff", extent = NULL,
-                                parallel = FALSE, progress = "", ...) {
-
-            # TODO remove this code in a next release
-            if (parallel)
-              warning("parallel argument is deprecated and not used anymore",
-                      call. = FALSE, immediate. = TRUE)
+                                progress = "", ...) {
 
             if (class(object@model) != "Maxnet") {
               model <- object@model

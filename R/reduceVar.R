@@ -17,7 +17,6 @@
 #' `NULL`.
 #' @param env \link[raster]{stack} containing the environmental variables, used
 #' only with "aicc", default is `NULL`.
-#' @param parallel deprecated.
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
 #' selection, if `FALSE` the function uses the percent variable contribution,
 #' default is `FALSE`.
@@ -83,13 +82,7 @@
 #' }
 #' }
 reduceVar <- function(model, th, metric, test = NULL, env = NULL,
-                      parallel = FALSE, use_jk = FALSE, permut = 10,
-                      use_pc = FALSE) {
-
-  # TODO remove this code in a next release
-  if (parallel)
-    warning("parallel argument is deprecated and not used anymore",
-            call. = FALSE, immediate. = TRUE)
+                      use_jk = FALSE, permut = 10, use_pc = FALSE) {
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 

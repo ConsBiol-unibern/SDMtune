@@ -15,7 +15,6 @@
 #' @param gen numeric. Number of generations, default is 20.
 #' @param env \link[raster]{stack} containing the environmental variables, used
 #' only with "aicc", default is `NULL`.
-#' @param parallel deprecated.
 #' @param keep_best numeric. Percentage of the best models in the population to
 #' be retained during each iteration, expressed as decimal number. Default
 #' is 0.4.
@@ -77,14 +76,8 @@
 #' }
 #' }
 optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
-                          env = NULL, parallel = FALSE, keep_best = 0.4,
-                          keep_random = 0.2, mutation_chance = 0.4,
-                          seed = NULL) {
-
-  # TODO remove this code in a next release
-  if (parallel)
-    warning("parallel argument is deprecated and not used anymore",
-            call. = FALSE, immediate. = TRUE)
+                          env = NULL, keep_best = 0.4, keep_random = 0.2,
+                          mutation_chance = 0.4, seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 

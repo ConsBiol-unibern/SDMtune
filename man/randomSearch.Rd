@@ -11,7 +11,6 @@ randomSearch(
   test = NULL,
   pop = 20,
   env = NULL,
-  parallel = FALSE,
   seed = NULL
 )
 }
@@ -32,8 +31,6 @@ default is \code{NULL}.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
 only with "aicc", default is \code{NULL}.}
-
-\item{parallel}{deprecated.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is \code{NULL}.}

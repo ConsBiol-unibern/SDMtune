@@ -15,7 +15,6 @@
 #' @param pop numeric. Size of the population, default is 20.
 #' @param env \link[raster]{stack} containing the environmental variables, used
 #' only with "aicc", default is `NULL`.
-#' @param parallel deprecated.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is `NULL`.
 #'
@@ -63,12 +62,7 @@
 #' output@results[order(-output@results$test_AUC), ]
 #' }
 randomSearch <- function(model, hypers, metric, test = NULL, pop = 20,
-                         env = NULL, parallel = FALSE, seed = NULL) {
-
-  # TODO remove this code in a next release
-  if (parallel)
-    warning("parallel argument is deprecated and not used anymore",
-            call. = FALSE, immediate. = TRUE)
+                         env = NULL, seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 

@@ -12,7 +12,6 @@
   filename = "",
   format = "GTiff",
   extent = NULL,
-  parallel = FALSE,
   progress = "",
   ...
 )
@@ -38,8 +37,6 @@ for all the options, default is "GTiff".}
 
 \item{extent}{\link[raster]{extent} object, if provided it restricts
 the prediction to the given extent, default is \code{NULL}.}
-
-\item{parallel}{deprecated.}
 
 \item{progress}{character to display a progress bar: "text", "window" or ""
 (default) for no progress bar.}

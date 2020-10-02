@@ -19,7 +19,6 @@
 #' used with aicc and \linkS4class{SDMmodelCV} objects, default is `NULL`.
 #' @param env \link[raster]{stack} containing the environmental variables, used
 #' only with "aicc", default is `NULL`.
-#' @param parallel deprecated.
 #' @param method character. The method used to compute the correlation matrix,
 #' default "spearman".
 #' @param cor_th numeric. The correlation threshold used to select highly
@@ -98,13 +97,8 @@
 #' }
 #' }
 varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
-                   parallel = FALSE, method = "spearman", cor_th = 0.7,
-                   permut = 10, use_pc = FALSE) {
-
-  # TODO remove this code in a next release
-  if (parallel)
-    warning("parallel argument is deprecated and not used anymore",
-            call. = FALSE, immediate. = TRUE)
+                   method = "spearman", cor_th = 0.7, permut = 10,
+                   use_pc = FALSE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 

@@ -4,15 +4,7 @@
 \alias{gridSearch}
 \title{Grid Search}
 \usage{
-gridSearch(
-  model,
-  hypers,
-  metric,
-  test = NULL,
-  env = NULL,
-  parallel = FALSE,
-  save_models = TRUE
-)
+gridSearch(model, hypers, metric, test = NULL, env = NULL, save_models = TRUE)
 }
 \arguments{
 \item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
@@ -29,8 +21,6 @@ default is \code{NULL}.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
 only with "aicc", default is \code{NULL}.}
-
-\item{parallel}{deprecated.}
 
 \item{save_models}{logical, if \code{FALSE} the models are not saved and the
 output contains only a data frame with the metric values for each

@@ -12,7 +12,6 @@ optimizeModel(
   pop = 20,
   gen = 5,
   env = NULL,
-  parallel = FALSE,
   keep_best = 0.4,
   keep_random = 0.2,
   mutation_chance = 0.4,
@@ -38,8 +37,6 @@ is \code{NULL}.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
 only with "aicc", default is \code{NULL}.}
-
-\item{parallel}{deprecated.}
 
 \item{keep_best}{numeric. Percentage of the best models in the population to
 be retained during each iteration, expressed as decimal number. Default

@@ -13,7 +13,6 @@
 #' variable in isolation, default is `TRUE`.
 #' @param env \link[raster]{stack} containing the environmental variables, used
 #' only with "aicc", default is `NULL`.
-#' @param parallel deprecated.
 #' @param return_models logical, if `TRUE` returns all the models together with
 #' the test result, default is `FALSE`.
 #'
@@ -70,12 +69,7 @@
 #' jk$models_withonly
 #' }
 doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
-                 env = NULL, parallel = FALSE, return_models = FALSE) {
-
-  # TODO remove this code in a next release
-  if (parallel)
-    warning("parallel argument is deprecated and not used anymore",
-            call. = FALSE, immediate. = TRUE)
+                 env = NULL, return_models = FALSE) {
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 

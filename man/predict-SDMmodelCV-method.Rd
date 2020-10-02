@@ -13,7 +13,6 @@
   filename = "",
   format = "GTiff",
   extent = NULL,
-  parallel = FALSE,
   ...
 )
 }
@@ -43,8 +42,6 @@ for all the options, default is "GTiff".}
 
 \item{extent}{\link[raster]{extent} object, if provided it restricts the
 prediction to the given extent, default is \code{NULL}.}
-
-\item{parallel}{deprecated.}
 
 \item{...}{Additional arguments to pass to the \link[raster]{writeRaster}
 function.}

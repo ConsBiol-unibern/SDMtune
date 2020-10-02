@@ -13,7 +13,6 @@
 #' default is `NULL`.
 #' @param env \link[raster]{stack} containing the environmental variables, used
 #' only with "aicc", default is `NULL`.
-#' @param parallel deprecated.
 #' @param save_models logical, if `FALSE` the models are not saved and the
 #' output contains only a data frame with the metric values for each
 #' hyperparameter combination. Default is `TRUE`, set it to `FALSE` when there
@@ -71,12 +70,7 @@
 #' output@results
 #' }
 gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
-                       parallel = FALSE, save_models = TRUE) {
-
-  # TODO remove this code in a next release
-  if (parallel)
-    warning("parallel argument is deprecated and not used anymore",
-            call. = FALSE, immediate. = TRUE)
+                       save_models = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
   # Create a grid with all the possible combination of hyperparameters

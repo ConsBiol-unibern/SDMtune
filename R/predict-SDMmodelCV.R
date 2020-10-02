@@ -22,7 +22,6 @@
 #' for all the options, default is "GTiff".
 #' @param extent \link[raster]{extent} object, if provided it restricts the
 #' prediction to the given extent, default is `NULL`.
-#' @param parallel deprecated.
 #' @param ... Additional arguments to pass to the \link[raster]{writeRaster}
 #' function.
 #'
@@ -107,12 +106,7 @@ setMethod(
   "predict", signature = "SDMmodelCV",
   definition = function(object, data, fun = "mean", type = NULL,
                         clamp = TRUE, filename = "", format = "GTiff",
-                        extent = NULL, parallel = FALSE, ...) {
-
-    # TODO remove this code in a next release
-    if (parallel)
-      warning("parallel argument is deprecated and not used anymore",
-              call. = FALSE, immediate. = TRUE)
+                        extent = NULL, ...) {
 
     k <- length(object@models)
     l <- length(fun)

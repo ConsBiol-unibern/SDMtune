@@ -10,7 +10,6 @@ varSel(
   bg4cor,
   test = NULL,
   env = NULL,
-  parallel = FALSE,
   method = "spearman",
   cor_th = 0.7,
   permut = 10,
@@ -31,8 +30,6 @@ used with aicc and \linkS4class{SDMmodelCV} objects, default is \code{NULL}.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
 only with "aicc", default is \code{NULL}.}
-
-\item{parallel}{deprecated.}
 
 \item{method}{character. The method used to compute the correlation matrix,
 default "spearman".}
