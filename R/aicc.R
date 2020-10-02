@@ -6,7 +6,6 @@
 #' @param model \linkS4class{SDMmodel} object.
 #' @param env \link[raster]{stack} containing the environmental
 #' variables.
-#' @param parallel deprecated.
 #'
 #' @details The function is available only for **Maxent** and **Maxnet**
 #' methods.
@@ -41,12 +40,7 @@
 #'
 #' # Compute the AICc
 #' aicc(model, predictors)
-aicc <- function(model, env, parallel = FALSE) {
-
-  # TODO remove this code in a next release
-  if (parallel)
-    warning("parallel argument is deprecated and not used anymore",
-            call. = FALSE, immediate. = TRUE)
+aicc <- function(model, env) {
 
   if (!class(model@model) %in% c("Maxent", "Maxnet"))
     stop("AICc available only for \"Maxent\" and \"Maxnet\" methods.")

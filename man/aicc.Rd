@@ -4,15 +4,13 @@
 \alias{aicc}
 \title{AICc}
 \usage{
-aicc(model, env, parallel = FALSE)
+aicc(model, env)
 }
 \arguments{
 \item{model}{\linkS4class{SDMmodel} object.}
 
 \item{env}{\link[raster]{stack} containing the environmental
 variables.}
-
-\item{parallel}{deprecated.}
 }
 \value{
 The computed AICc
