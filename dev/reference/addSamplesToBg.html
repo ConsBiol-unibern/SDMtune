@@ -180,7 +180,7 @@ to the Maxent argument addsamplestobackground=true." />
 to the Maxent argument <code>addsamplestobackground=true</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>addSamplesToBg</span>(<span class='no'>x</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>addSamplesToBg</span><span class='op'>(</span><span class='va'>x</span>, all <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,30 +200,34 @@ is equivalent to the Maxent argument <code>addallsamplestobackground=true</code>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class <a href='SWD-class.html'>SWD</a>.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># Acquire environmental variables</span>
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
-                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
+<span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
+                    pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>predictors</span> <span class='op'>&lt;-</span> <span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span>
 
 <span class='co'># Prepare presence and background locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
+<span class='va'>p_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>presence</span>
+<span class='va'>bg_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>background</span>
 
 <span class='co'># Create SWD object</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
+                   env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
 
 <span class='co'># Add presence locations with values not included in the background to the</span>
 <span class='co'># background locations</span>
-<span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>addSamplesToBg</span>(<span class='no'>data</span>)
-<span class='no'>new_data</span>
+<span class='va'>new_data</span> <span class='op'>&lt;-</span> <span class='fu'>addSamplesToBg</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
+<span class='va'>new_data</span>
 
 <span class='co'># Add all the presence locations to the background locations, even if they</span>
 <span class='co'># have values already included in the background</span>
-<span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>addSamplesToBg</span>(<span class='no'>data</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>new_data</span></pre>
+<span class='va'>new_data</span> <span class='op'>&lt;-</span> <span class='fu'>addSamplesToBg</span><span class='op'>(</span><span class='va'>data</span>, all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>new_data</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -239,7 +243,7 @@ is equivalent to the Maxent argument <code>addallsamplestobackground=true</code>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

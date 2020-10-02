@@ -180,7 +180,7 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
 Boosted Regression Trees, Maxent, Maxnet or Random Forest.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>train</span>(<span class='no'>method</span>, <span class='no'>data</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>train</span><span class='op'>(</span><span class='va'>method</span>, <span class='va'>data</span>, folds <span class='op'>=</span> <span class='cn'>NULL</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -293,106 +293,110 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='randomFolds.html'>randomFolds</a>.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
-                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
+<span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
+                    pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>predictors</span> <span class='op'>&lt;-</span> <span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span>
 
 <span class='co'># Prepare presence and background locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
+<span class='va'>p_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>presence</span>
+<span class='va'>bg_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>background</span>
 
 <span class='co'># Create SWD object</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
+                   env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
 
 <span class='co'>## Train a Maxent model</span>
 <span class='co'># The next line checks if Maxent is correctly configured but you don't need</span>
 <span class='co'># to run it in your script</span>
-<span class='kw'>if</span> (<span class='fu'><a href='checkMaxentInstallation.html'>checkMaxentInstallation</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) {
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-               <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>700</span>)
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='checkMaxentInstallation.html'>checkMaxentInstallation</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxent"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"l"</span>, reg <span class='op'>=</span> <span class='fl'>1.5</span>,
+               iter <span class='op'>=</span> <span class='fl'>700</span><span class='op'>)</span>
 
 <span class='co'># Add samples to background. This should be done preparing the data before</span>
 <span class='co'># training the model without using</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='addSamplesToBg.html'>addSamplesToBg</a></span>(<span class='no'>data</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"Maxent"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)
-}
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='addSamplesToBg.html'>addSamplesToBg</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span><span class='st'>"Maxent"</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'>## Train a Maxnet model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"lq"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>1.5</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"lq"</span>, reg <span class='op'>=</span> <span class='fl'>1.5</span><span class='op'>)</span>
 
 <span class='co'>## Cross Validation</span>
 <span class='co'># Create 4 random folds splitting only the presence data</span>
-<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
+<span class='va'>folds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span><span class='op'>(</span><span class='va'>data</span>, k <span class='op'>=</span> <span class='fl'>4</span>, only_presence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"l"</span>, reg <span class='op'>=</span> <span class='fl'>0.8</span>,
+               folds <span class='op'>=</span> <span class='va'>folds</span><span class='op'>)</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Run only if you have the package ENMeval installed</span>
 <span class='co'>## Block partition using the ENMeval package</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>ENMeval</span>)
-<span class='no'>block_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.block</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
-                         <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ])
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>block_folds</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>ENMeval</span><span class='op'>)</span>
+<span class='va'>block_folds</span> <span class='op'>&lt;-</span> <span class='fu'>get.block</span><span class='op'>(</span>occ <span class='op'>=</span> <span class='va'>data</span><span class='op'>@</span><span class='va'>coords</span><span class='op'>[</span><span class='va'>data</span><span class='op'>@</span><span class='va'>pa</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='op'>]</span>,
+                         bg.coords <span class='op'>=</span> <span class='va'>data</span><span class='op'>@</span><span class='va'>coords</span><span class='op'>[</span><span class='va'>data</span><span class='op'>@</span><span class='va'>pa</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='op'>]</span><span class='op'>)</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"l"</span>, reg <span class='op'>=</span> <span class='fl'>0.8</span>,
+               folds <span class='op'>=</span> <span class='va'>block_folds</span><span class='op'>)</span>
 
 <span class='co'>## Checkerboard1 partition using the ENMeval package</span>
-<span class='no'>cb_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>get.checkerboard1</span>(<span class='kw'>occ</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>1</span>, ],
-                              <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
-                              <span class='kw'>bg.coords</span> <span class='kw'>=</span> <span class='no'>data</span>@<span class='kw'>coords</span>[<span class='no'>data</span>@<span class='kw'>pa</span> <span class='kw'>==</span> <span class='fl'>0</span>, ],
-                              <span class='kw'>aggregation.factor</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>cb_folds</span>)
+<span class='va'>cb_folds</span> <span class='op'>&lt;-</span> <span class='fu'>get.checkerboard1</span><span class='op'>(</span>occ <span class='op'>=</span> <span class='va'>data</span><span class='op'>@</span><span class='va'>coords</span><span class='op'>[</span><span class='va'>data</span><span class='op'>@</span><span class='va'>pa</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='op'>]</span>,
+                              env <span class='op'>=</span> <span class='va'>predictors</span>,
+                              bg.coords <span class='op'>=</span> <span class='va'>data</span><span class='op'>@</span><span class='va'>coords</span><span class='op'>[</span><span class='va'>data</span><span class='op'>@</span><span class='va'>pa</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='op'>]</span>,
+                              aggregation.factor <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"l"</span>, reg <span class='op'>=</span> <span class='fl'>0.8</span>,
+               folds <span class='op'>=</span> <span class='va'>cb_folds</span><span class='op'>)</span>
 
 <span class='co'>## Environmental block using the blockCV package</span>
 <span class='co'># Run only if you have the package blockCV</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>blockCV</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>blockCV</span><span class='op'>)</span>
 <span class='co'># Create spatial points data frame</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
-<span class='no'>sp_df</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span>(<span class='no'>data</span>@<span class='kw'>coords</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>data</span>@<span class='kw'>pa</span>),
-                                <span class='kw'>proj4string</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/projection.html'>crs</a></span>(<span class='no'>predictors</span>))
-<span class='no'>e_folds</span> <span class='kw'>&lt;-</span> <span class='fu'>envBlock</span>(<span class='kw'>rasterLayer</span> <span class='kw'>=</span> <span class='no'>predictors</span>,
-                    <span class='kw'>speciesData</span> <span class='kw'>=</span> <span class='no'>sp_df</span>,
-                    <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"data@pa"</span>,
-                    <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-                    <span class='kw'>standardization</span> <span class='kw'>=</span> <span class='st'>"standard"</span>,
-                    <span class='kw'>rasterBlock</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>reg</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-               <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>e_folds</span>)
-}
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rspatial.org/raster'>raster</a></span><span class='op'>)</span>
+<span class='va'>sp_df</span> <span class='op'>&lt;-</span> <span class='fu'>SpatialPointsDataFrame</span><span class='op'>(</span><span class='va'>data</span><span class='op'>@</span><span class='va'>coords</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>@</span><span class='va'>pa</span><span class='op'>)</span>,
+                                proj4string <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/projection.html'>crs</a></span><span class='op'>(</span><span class='va'>predictors</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>e_folds</span> <span class='op'>&lt;-</span> <span class='fu'>envBlock</span><span class='op'>(</span>rasterLayer <span class='op'>=</span> <span class='va'>predictors</span>,
+                    speciesData <span class='op'>=</span> <span class='va'>sp_df</span>,
+                    species <span class='op'>=</span> <span class='st'>"data@pa"</span>,
+                    k <span class='op'>=</span> <span class='fl'>4</span>,
+                    standardization <span class='op'>=</span> <span class='st'>"standard"</span>,
+                    rasterBlock <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"l"</span>, reg <span class='op'>=</span> <span class='fl'>0.8</span>,
+               folds <span class='op'>=</span> <span class='va'>e_folds</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'>## Train presence absence models</span>
 <span class='co'># Prepare presence and absence locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>a_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>absence</span>
+<span class='va'>p_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>presence</span>
+<span class='va'>a_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>absence</span>
 <span class='co'># Create SWD object</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>a_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span><span class='kw'>[[</span><span class='fl'>1</span>:<span class='fl'>5</span>]])
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>a_coords</span>,
+                   env <span class='op'>=</span> <span class='va'>predictors</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
 
 <span class='co'>## Train an Artificial Neural Network model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"ANN"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span><span class='st'>"ANN"</span>, data <span class='op'>=</span> <span class='va'>data</span>, size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 
 <span class='co'>## Train a Random Forest model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"RF"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span><span class='st'>"RF"</span>, data <span class='op'>=</span> <span class='va'>data</span>, ntree <span class='op'>=</span> <span class='fl'>300</span><span class='op'>)</span>
 
 <span class='co'>## Train a Boosted Regression Tree model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='st'>"BRT"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span><span class='st'>"BRT"</span>, data <span class='op'>=</span> <span class='va'>data</span>, n.trees <span class='op'>=</span> <span class='fl'>300</span>, shrinkage <span class='op'>=</span> <span class='fl'>0.001</span><span class='op'>)</span>
 
 <span class='co'>## Multiple methods trained together with default arguments</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>output</span>$<span class='no'>ANN</span>
-<span class='no'>output</span>$<span class='no'>BRT</span>
-<span class='no'>output</span>$<span class='no'>RF</span>
+<span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>data</span>, size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>output</span><span class='op'>$</span><span class='va'>ANN</span>
+<span class='va'>output</span><span class='op'>$</span><span class='va'>BRT</span>
+<span class='va'>output</span><span class='op'>$</span><span class='va'>RF</span>
 
 <span class='co'>## Multiple methods trained together passing extra arguments</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>train</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-                <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>n.trees</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)
-<span class='no'>output</span>
-<span class='co'># }</span></pre>
+<span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>data</span>, size <span class='op'>=</span> <span class='fl'>10</span>,
+                ntree <span class='op'>=</span> <span class='fl'>300</span>, n.trees <span class='op'>=</span> <span class='fl'>300</span>, shrinkage <span class='op'>=</span> <span class='fl'>0.001</span><span class='op'>)</span>
+<span class='va'>output</span>
+<span class='co'># }</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -408,7 +412,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

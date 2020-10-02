@@ -181,18 +181,18 @@ model.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for SDMmodel</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(
-  <span class='no'>object</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>clamp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"GTiff"</span>,
-  <span class='kw'>extent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>data</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  clamp <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  filename <span class='op'>=</span> <span class='st'>""</span>,
+  format <span class='op'>=</span> <span class='st'>"GTiff"</span>,
+  extent <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parallel <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  progress <span class='op'>=</span> <span class='st'>""</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -278,40 +278,44 @@ trees defined to train the model and the "response" output type.</p></li>
 
     <p>Wilson P.D., (2009). Guidelines for computing MaxEnt model output
 values from a lambdas file.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># Acquire environmental variables</span>
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
-                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
+<span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
+                    pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>predictors</span> <span class='op'>&lt;-</span> <span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span>
 
 <span class='co'># Prepare presence and background locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
+<span class='va'>p_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>presence</span>
+<span class='va'>bg_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>background</span>
 
 <span class='co'># Create SWD object</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
+                   env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
 
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+<span class='va'>datasets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span><span class='op'>(</span><span class='va'>data</span>, test <span class='op'>=</span> <span class='fl'>0.2</span>, only_presence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>train</span> <span class='op'>&lt;-</span> <span class='va'>datasets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>test</span> <span class='op'>&lt;-</span> <span class='va'>datasets</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
 
 <span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>train</span>, fc <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
 
 <span class='co'># Make cloglog prediction for the test dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>model</span>, data <span class='op'>=</span> <span class='va'>test</span>, type <span class='op'>=</span> <span class='st'>"cloglog"</span><span class='op'>)</span>
 
 <span class='co'># Make logistic prediction for the all study area</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>model</span>, data <span class='op'>=</span> <span class='va'>predictors</span>, type <span class='op'>=</span> <span class='st'>"logistic"</span><span class='op'>)</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Make logistic prediction for the all study area and save it in a file</span>
 <span class='co'># The function saves the file in your working directory</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"my_map"</span>)
-}</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>model</span>, data <span class='op'>=</span> <span class='va'>predictors</span>, type <span class='op'>=</span> <span class='st'>"logistic"</span>, filename <span class='op'>=</span> <span class='st'>"my_map"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -327,7 +331,7 @@ values from a lambdas file.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
