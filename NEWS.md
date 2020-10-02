@@ -1,4 +1,7 @@
 # SDMtune 1.1.1.9000
+* Removed deprecated function `get_tunable_args()`.
+* Removed deprecated argument "parallel" form functions.
+* Updated citation text
 
 # SDMtune 1.1.1
 Main changes:
