@@ -10,7 +10,7 @@ status](https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check/badge.
 [![Coverage
 status](https://codecov.io/gh/ConsBiol-unibern/SDMtune/branch/master/graph/badge.svg)](https://codecov.io/github/ConsBiol-unibern/SDMtune?branch=master)
 [![CRAN
-Status](https://www.r-pkg.org/badges/version/SDMtune)](https://cran.r-project.org/package=SDMtune)
+Status](https://www.r-pkg.org/badges/version-last-release/SDMtune)](https://cran.r-project.org/package=SDMtune)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/SDMtune)](http://www.r-pkg.org/pkg/SDMtune)
 [![Contributor
