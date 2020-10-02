@@ -154,19 +154,6 @@ test_that(".get_train_args", {
   expect_type(.get_train_args(model), "list")
 })
 
-test_that("get_tunable_args", {
-  expect_warning(expect_equal(get_tunable_args(model_mx),
-                              c("fc", "reg", "iter")))
-  expect_warning(expect_equal(get_tunable_args(model), c("fc", "reg")))
-  expect_warning(expect_equal(get_tunable_args(model_ann),
-                              c("size", "decay", "rang", "maxit")))
-  expect_warning(expect_equal(get_tunable_args(model_rf),
-                              c("mtry", "ntree", "nodesize")))
-  expect_warning(expect_equal(get_tunable_args(model_brt),
-                 c("distribution", "n.trees", "interaction.depth", "shrinkage",
-                   "bag.fraction")))
-})
-
 test_that(".create_model_from_settings", {
   m <- .create_model_from_settings(model, list(fc = "l", reg = 2))
   expect_s4_class(m, "SDMmodel")
