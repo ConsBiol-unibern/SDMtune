@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -137,9 +137,11 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the latest release version from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"SDMtune"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"SDMtune"</span><span class="op">)</span></pre></div>
 <p>Or the development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"ConsBiol-unibern/SDMtune"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ConsBiol-unibern/SDMtune"</span><span class="op">)</span></pre></div>
 </div>
 <div id="hyperparameters-tuning--real-time-charts" class="section level2">
 <h2 class="hasAnchor">
@@ -154,39 +156,40 @@
 <code>optimizeModel</code>: uses a <em>genetic algorithm</em> that aims to optimize the given evaluation metric by combining the predefined hyperparameters’ values.</li>
 </ul>
 <p>When the amount of hyperparameters’ combinations is high, the computation time necessary to train all the defined models could be very long. The function <code>optimizeModel</code> offers a valid alternative that reduces computation time thanks to an implemented <em>genetic algorithm</em>. This function seeks the best combination of hyperparameters reaching a near optimal or optimal solution in a reduced amount of time compared to <code>gridSearch</code>. The following code shows an example using a simulated dataset. First a model is trained using the <strong>Maxnet</strong> algorithm implemented in the <code>maxnet</code> package with default hyperparameters’ values. After the model is trained, both the <code>gridSearch</code> and <code>optimizeModel</code> functions are executed to compare the execution time and model performance evaluated with the AUC metric. If the following code is not clear, please check the articles in the <a href="https://consbiol-unibern.github.io/SDMtune/">website</a>.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SDMtune</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://consbiol-unibern.github.io/SDMtune/">SDMtune</a></span><span class="op">)</span>
 
 <span class="co"># Acquire environmental variables</span>
-<span class="no">files</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="kw">package</span> <span class="kw">=</span> <span class="st">"dismo"</span>), <span class="st">"ex"</span>),
-                    <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">"grd"</span>, <span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">predictors</span> <span class="kw">&lt;-</span> <span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html">stack</a></span>(<span class="no">files</span>)
+<span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dismo"</span><span class="op">)</span>, <span class="st">"ex"</span><span class="op">)</span>,
+                    pattern <span class="op">=</span> <span class="st">"grd"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html">stack</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span>
 
 <span class="co"># Prepare presence and background locations</span>
-<span class="no">p_coords</span> <span class="kw">&lt;-</span> <span class="no">virtualSp</span>$<span class="no">presence</span>
-<span class="no">bg_coords</span> <span class="kw">&lt;-</span> <span class="no">virtualSp</span>$<span class="no">background</span>
+<span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span>
+<span class="va">bg_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">background</span>
 
 <span class="co"># Create SWD object</span>
-<span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/prepareSWD.html">prepareSWD</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="st">"Virtual species"</span>, <span class="kw">p</span> <span class="kw">=</span> <span class="no">p_coords</span>, <span class="kw">a</span> <span class="kw">=</span> <span class="no">bg_coords</span>,
-                   <span class="kw">env</span> <span class="kw">=</span> <span class="no">predictors</span>, <span class="kw">categorical</span> <span class="kw">=</span> <span class="st">"biome"</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,
+                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span>
 
 <span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class="no">datasets</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/trainValTest.html">trainValTest</a></span>(<span class="no">data</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">only_presence</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">25</span>)
-<span class="no">train</span> <span class="kw">&lt;-</span> <span class="no">datasets</span><span class="kw">[[</span><span class="fl">1</span>]]
-<span class="no">test</span> <span class="kw">&lt;-</span> <span class="no">datasets</span><span class="kw">[[</span><span class="fl">2</span>]]
+<span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, test <span class="op">=</span> <span class="fl">0.2</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span>
+<span class="va">train</span> <span class="op">&lt;-</span> <span class="va">datasets</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">test</span> <span class="op">&lt;-</span> <span class="va">datasets</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
 
 <span class="co"># Train a Maxnet model</span>
-<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxnet"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">train</span>)
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">train</span><span class="op">)</span>
 
 <span class="co"># Define the hyperparameters to test</span>
-<span class="no">h</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">reg</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.1</span>, <span class="fl">3</span>, <span class="fl">0.1</span>), <span class="kw">fc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span>))
+<span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">3</span>, <span class="fl">0.1</span><span class="op">)</span>, fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Test all the possible combinations with gridSearch</span>
-<span class="no">gs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gridSearch.html">gridSearch</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">gs</span>@<span class="kw">results</span>[<span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(-<span class="no">gs</span>@<span class="kw">results</span>$<span class="no">test_AUC</span>), ])  <span class="co"># Best combinations</span>
+<span class="va">gs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gridSearch.html">gridSearch</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gs</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">gs</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span>  <span class="co"># Best combinations</span>
 
 <span class="co"># Use the genetic algorithm instead with optimizeModel</span>
-<span class="no">om</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/optimizeModel.html">optimizeModel</a></span>(<span class="no">model</span>, <span class="kw">hypers</span> <span class="kw">=</span> <span class="no">h</span>, <span class="kw">metric</span> <span class="kw">=</span> <span class="st">"auc"</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">4</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">om</span>@<span class="kw">results</span>)  <span class="co"># Best combinations</span></pre></div>
+<span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span>, seed <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">)</span>  <span class="co"># Best combinations</span></pre></div>
 <p>During the execution of “tuning” and “variable selection” functions, real-time charts displaying training and validation metrics are displayed in the RStudio viewer pane (below is a screencast of the previous executed <code>optimizeModel</code> function).</p>
 <div style="text-align: center">
 <p><img src="reference/figures/realtime-chart.gif" alt=""></p>
@@ -196,26 +199,31 @@
 <h2 class="hasAnchor">
 <a href="#speed-test" class="anchor"></a>Speed test</h2>
 <p>In the following example we train a <strong>Maxent</strong> model: <!-- The next code is not evaluated because MaxEnt jar file is not bundled in the package and Github will not execute it! --> <!-- the plot is saved as an image in the man/figures folder --></p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="co"># Train a Maxent model</span>
-<span class="no">sdmtune_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/train.html">train</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"Maxent"</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>)</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="co"># Train a Maxent model</span>
+<span class="va">sdmtune_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxent"</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></pre></div>
 <p>We compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> (Hijmans et al. 2017) that calls the MaxEnt Java software (Phillips, Anderson, and Schapire 2006). We first convert the object <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">maxent_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span>(<span class="no">sdmtune_model</span>)</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">maxent_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span><span class="op">(</span><span class="va">sdmtune_model</span><span class="op">)</span></pre></div>
 <p>Next is a function used below to test if the results are equal, with a tolerance of <code>1e-7</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">my_check</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">values</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">values</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="no">values</span><span class="kw">[[</span><span class="fl">2</span>]], <span class="kw">tolerance</span> <span class="kw">=</span> <span class="fl">1e-7</span>))
-}</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="va">my_check</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">values</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">values</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">values</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, tolerance <span class="op">=</span> <span class="fl">1e-7</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span></pre></div>
 <p>Now we test the execution time using the <strong>microbenckmark</strong> package:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">bench</span> <span class="kw">&lt;-</span> <span class="kw pkg">microbenchmark</span><span class="kw ns">::</span><span class="fu">microbenchmark</span>(
-  <span class="kw">SDMtune</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">sdmtune_model</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cloglog"</span>),
-  <span class="kw">dismo</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">maxent_model</span>, <span class="no">data</span>@<span class="kw">data</span>),
-  <span class="kw">check</span> <span class="kw">=</span> <span class="no">my_check</span>
-)</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="va">bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span>
+  SDMtune <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">sdmtune_model</span>, data <span class="op">=</span> <span class="va">data</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span>,
+  dismo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">maxent_model</span>, <span class="va">data</span><span class="op">@</span><span class="va">data</span><span class="op">)</span>,
+  check <span class="op">=</span> <span class="va">my_check</span>
+<span class="op">)</span></pre></div>
 <p>and plot the output:</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">bench</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">expr</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">time</span>/<span class="fl">1000000</span>, <span class="kw">fill</span> <span class="kw">=</span> <span class="no">expr</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="st">""</span>, <span class="kw">x</span> <span class="kw">=</span> <span class="st">"Package"</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="st">"time (milliseconds)"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>()</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">bench</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">expr</span>, y <span class="op">=</span> <span class="va">time</span><span class="op">/</span><span class="fl">1000000</span>, fill <span class="op">=</span> <span class="va">expr</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="st">"Package"</span>, y <span class="op">=</span> <span class="st">"time (milliseconds)"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <div style="text-align: center">
 <p><img src="reference/figures/bench.png" alt=""></p>
 </div>
@@ -230,11 +238,14 @@
 <li>the file <strong>maxent.jar</strong> is copied in the correct folder.</li>
 </ul>
 <p>The file <strong>maxent.jar</strong> can be downloaded <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/">here</a> (note that you need <strong>MaxEnt</strong> version &gt;= 3.4.1 (Phillips et al. 2017)). This file must be copied into the right folder to be available for the <code>dismo</code> package (Hijmans et al. 2017): copy the file <strong>maxent.jar</strong> into the folder named <strong>java</strong> that is located inside the folder returned by the following command:</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="kw">package</span><span class="kw">=</span><span class="st">"dismo"</span>)</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"dismo"</span><span class="op">)</span></pre></div>
 <p>The function <code>checkMaxentInstallation</code> checks that Java JDK and rJava are installed, and that the file maxent.jar is in the correct folder.</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="fu"><a href="reference/checkMaxentInstallation.html">checkMaxentInstallation</a></span>()</pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="reference/checkMaxentInstallation.html">checkMaxentInstallation</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>If everything is correctly configured for <code>dismo</code>, the following command will return the used MaxEnt version (make sure that the version is &gt;= 3.4.1):</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="kw pkg">dismo</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/maxent.html">maxent</a></span>()</pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu">dismo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/maxent.html">maxent</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
@@ -310,9 +321,9 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/ConsBiol-unibern/SDMtune/actions"><img src="https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://cran.r-project.org/package=SDMtune"><img src="https://www.r-pkg.org/badges/version-last-release/SDMtune" alt="CRAN Status"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/SDMtune"><img src="https://cranlogs.r-pkg.org/badges/grand-total/SDMtune" alt="CRAN RStudio mirror downloads"></a></li>
 <li><a href="https://codecov.io/github/ConsBiol-unibern/SDMtune?branch=master"><img src="https://codecov.io/gh/ConsBiol-unibern/SDMtune/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
-<li><a href="https://cran.r-project.org/package=SDMtune"><img src="https://www.r-pkg.org/badges/version/SDMtune" alt="CRAN Status"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/SDMtune"><img src="https://cranlogs.r-pkg.org/badges/grand-total/SDMtune" alt="CRAN RStudio mirror downloads"></a></li>
 <li><a href="https://consbiol-unibern.github.io/SDMtune/CODE_OF_CONDUCT.html"><img src="https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg" alt="Contributor Covenant"></a></li>
 </ul>
 </div>
@@ -325,7 +336,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

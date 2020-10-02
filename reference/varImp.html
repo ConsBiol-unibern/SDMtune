@@ -94,7 +94,7 @@ AUC is computed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -190,7 +190,7 @@ than one permutation (default is 10) the average of the decrease in training
 AUC is computed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>varImp</span>(<span class='no'>model</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>varImp</span><span class='op'>(</span><span class='va'>model</span>, permut <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,43 +214,47 @@ AUC is computed.</p>
 software due to a different random permutation.</p>
 <p>For <a href='SDMmodelCV-class.html'>SDMmodelCV</a> objects the function returns the average and the
 standard deviation of the permutation importances of the single models.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dismo"</span>), <span class='st'>"ex"</span>),
-                    <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"grd"</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='no'>files</span>)
+<span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
+                    pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>predictors</span> <span class='op'>&lt;-</span> <span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span>
 
 <span class='co'># Prepare presence and background locations</span>
-<span class='no'>p_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>presence</span>
-<span class='no'>bg_coords</span> <span class='kw'>&lt;-</span> <span class='no'>virtualSp</span>$<span class='no'>background</span>
+<span class='va'>p_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>presence</span>
+<span class='va'>bg_coords</span> <span class='op'>&lt;-</span> <span class='va'>virtualSp</span><span class='op'>$</span><span class='va'>background</span>
 
 <span class='co'># Create SWD object</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span>(<span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"Virtual species"</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='no'>p_coords</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>bg_coords</span>,
-                   <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>predictors</span>, <span class='kw'>categorical</span> <span class='kw'>=</span> <span class='st'>"biome"</span>)
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
+                   env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
 
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
-<span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span>(<span class='no'>data</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>datasets</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+<span class='va'>datasets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span><span class='op'>(</span><span class='va'>data</span>, test <span class='op'>=</span> <span class='fl'>0.2</span>, only_presence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>train</span> <span class='op'>&lt;-</span> <span class='va'>datasets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>test</span> <span class='op'>&lt;-</span> <span class='va'>datasets</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
 
 <span class='co'># Train a model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>train</span>, fc <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
 
 <span class='co'># Compute variable importance</span>
-<span class='no'>vi</span> <span class='kw'>&lt;-</span> <span class='fu'>varImp</span>(<span class='no'>model</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>vi</span>
+<span class='va'>vi</span> <span class='op'>&lt;-</span> <span class='fu'>varImp</span><span class='op'>(</span><span class='va'>model</span>, permut <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>vi</span>
 
 <span class='co'># Same example but using cross validation instead of training and testing</span>
 <span class='co'># datasets</span>
 <span class='co'># Create 4 random folds splitting only the presence locations</span>
-<span class='no'>folds</span> <span class='kw'>=</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span>(<span class='no'>data</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>only_presence</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Maxnet"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>fc</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='no'>folds</span>)
+<span class='va'>folds</span> <span class='op'>=</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span><span class='op'>(</span><span class='va'>data</span>, k <span class='op'>=</span> <span class='fl'>4</span>, only_presence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"l"</span>, folds <span class='op'>=</span> <span class='va'>folds</span><span class='op'>)</span>
 <span class='co'># Compute variable importance</span>
-<span class='no'>vi</span> <span class='kw'>&lt;-</span> <span class='fu'>varImp</span>(<span class='no'>model</span>, <span class='kw'>permut</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>vi</span>
-<span class='co'># }</span></pre>
+<span class='va'>vi</span> <span class='op'>&lt;-</span> <span class='fu'>varImp</span><span class='op'>(</span><span class='va'>model</span>, permut <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>vi</span>
+<span class='co'># }</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -266,7 +270,7 @@ standard deviation of the permutation importances of the single models.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
