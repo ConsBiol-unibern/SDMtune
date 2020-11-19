@@ -8,3 +8,6 @@
 
 ## R CMD check results
 0 errors | 0 warnings | 0 notes
+
+I added Java >= 8 as system requirements and updated the dismo version, all my
+tests don't generate any error message

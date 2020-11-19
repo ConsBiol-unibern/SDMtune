@@ -1,4 +1,5 @@
-# SDMtune 1.1.2.9000
+# SDMtune 1.1.3
+Include Java >=8 in system requirements
 
 # SDMtune 1.1.2
 * Removed deprecated function `get_tunable_args()`.
