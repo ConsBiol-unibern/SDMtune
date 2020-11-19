@@ -72,7 +72,7 @@
 #' # Train a Maxent model
 #' # The next line checks if Maxent is correctly configured but you don't need
 #' # to run it in your script
-#' if (checkMaxentInstallation(verbose = FALSE)) {
+#' if (dismo::maxent(silent = TRUE)) {
 #' model <- train(method = "Maxent", data = train, fc = "lq")
 #'
 #' # Remove all variables with percent contribution lower than 2%

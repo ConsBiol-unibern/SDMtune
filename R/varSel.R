@@ -81,7 +81,7 @@
 #' # Train a model
 #' # The next line checks if Maxent is correctly configured but you don't need
 #' # to run it in your script
-#' if (checkMaxentInstallation(verbose = FALSE)) {
+#' if (dismo::maxent(silent = TRUE)) {
 #' model <- train(method = "Maxent", data = train, fc = "l")
 #' vs <- varSel(model, metric = "tss", bg4cor = bg, test = test, cor_th = 0.7,
 #'              use_pc = TRUE)
