@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -119,7 +119,8 @@
 
       
 
-      </header><script src="evaluate-model_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="evaluate-model_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="evaluate-model_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="evaluate-model_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Evaluate a model</h1>
@@ -151,40 +152,40 @@
 <h2 class="hasAnchor">
 <a href="#auc" class="anchor"></a>AUC</h2>
 <p>As usually we first load the <strong>SDMtune</strong> package:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://consbiol-unibern.github.io/SDMtune/">SDMtune</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://consbiol-unibern.github.io/SDMtune/">SDMtune</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    _____  ____   __  ___ __</span>
 <span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span>
 <span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span>
 <span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span>
-<span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.1.2</span>
+<span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.1.3</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></pre></div>
+<span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></code></pre></div>
 <p>The AUC can be calculated using the function <code><a href="../../reference/auc.html">auc()</a></code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="../../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.8728322</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.8728322</span></code></pre></div>
 <p>We can also plot the ROC curve using the function <code><a href="../../reference/plotROC.html">plotROC()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="../../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></code></pre></div>
 <p><img src="evaluate-model_files/figure-html/plot%20roc-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="tss" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tss" class="anchor"></a>TSS</h2>
 <p>The TSS is computed with the function <code><a href="../../reference/tss.html">tss()</a></code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="../../reference/tss.html">tss</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.6419</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/tss.html">tss</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.6419</span></code></pre></div>
 </div>
 <div id="aicc" class="section level2">
 <h2 class="hasAnchor">
 <a href="#aicc" class="anchor"></a>AICc</h2>
 <p>For the AICc we use the function <code><a href="../../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument the ‘predictors’ raster <code>stack</code> object that we created in the <a href="./prepare-data.html#acquire-environmental-variables">first article</a>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../../reference/aicc.html">aicc</a></span><span class="op">(</span><span class="va">default_model</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span>
-<span class="co">#&gt; [1] 6618.725</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/aicc.html">aicc</a></span><span class="op">(</span><span class="va">default_model</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span>
+<span class="co">#&gt; [1] 6618.725</span></code></pre></div>
 <div id="try-yourself" class="section level3">
 <h3 class="hasAnchor">
 <a href="#try-yourself" class="anchor"></a>Try yourself</h3>

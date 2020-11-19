@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -119,7 +119,8 @@
 
       
 
-      </header><script src="presence-absence_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="presence-absence_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="presence-absence_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="presence-absence_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>SDMtune - presence absence models</h1>
@@ -134,8 +135,8 @@
     
     
 <p>The other vignettes are based on presence only methods. Here you will learn how to train a presence absence model. The following examples are based on the Artificial Neural Networks method <span class="citation">(Venables and Ripley 2002)</span>, but you can adapt the code for any of the other supported methods. We use the first 8 environmental variables and the <code>virtualSp</code> dataset selecting the absence instead of the background locations.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://consbiol-unibern.github.io/SDMtune/">SDMtune</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://consbiol-unibern.github.io/SDMtune/">SDMtune</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot">zeallot</a></span><span class="op">)</span>
 
 <span class="co"># Prepare data</span>
@@ -153,46 +154,46 @@
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\n# Testing   : "</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/ncell.html">nrow</a></span><span class="op">(</span><span class="va">test</span><span class="op">@</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Create folds</span>
-<span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">train</span>, k <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></pre></div>
+<span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">train</span>, k <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></code></pre></div>
 <div id="train-the-model" class="section level1">
 <h1 class="hasAnchor">
 <a href="#train-the-model" class="anchor"></a>Train the model</h1>
 <p>We first train the model with default settings and using 10 neurons:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span>
 <span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, data <span class="op">=</span> <span class="va">train</span>, size <span class="op">=</span> <span class="fl">10</span>, folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span>
-<span class="va">model</span></pre></div>
+<span class="va">model</span></code></pre></div>
 <p>Let’s check the training and testing AUC:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
-<span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
+<span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="tune-model-hyperparameters" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tune-model-hyperparameters" class="anchor"></a>Tune model hyperparameters</h1>
 <p>To check which hyperparameters can be tuned we use the function <code>getTunableArgs</code> function:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="../reference/getTunableArgs.html">getTunableArgs</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/getTunableArgs.html">getTunableArgs</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></code></pre></div>
 <p>We use the function <code>optimizeModel</code> to tune the hyperparameters:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, decay <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span><span class="op">)</span>,
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, decay <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span><span class="op">)</span>,
           maxit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></pre></div>
+<span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></code></pre></div>
 <p>The best model is:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">best_model</span> <span class="op">&lt;-</span> <span class="va">om</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">best_model</span> <span class="op">&lt;-</span> <span class="va">om</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></code></pre></div>
 </div>
 <div id="evaluate-the-final-model" class="section level1">
 <h1 class="hasAnchor">
 <a href="#evaluate-the-final-model" class="anchor"></a>Evaluate the final model</h1>
 <p>We now train a model with the same configuration as found by the function<code>optimizeModel</code>, without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span>
 <span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, data <span class="op">=</span> <span class="va">train</span>, size <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>,
                      decay <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span>, maxit <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">]</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">final_model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">final_model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
