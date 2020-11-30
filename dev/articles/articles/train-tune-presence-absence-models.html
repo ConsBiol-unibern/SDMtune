@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">SDMtune</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.2.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.3.9000</span>
       </span>
     </div>
 
@@ -120,7 +120,8 @@
 
       
 
-      </header><script src="train-tune-presence-absence-models_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="train-tune-presence-absence-models_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="train-tune-presence-absence-models_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="train-tune-presence-absence-models_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Train presence absence models</h1>
@@ -142,8 +143,8 @@
 <h2 class="hasAnchor">
 <a href="#prepare-the-data-for-the-analysis" class="anchor"></a>Prepare the data for the analysis</h2>
 <p>We use the first 8 environmental variables and the same <code><a href="../../reference/virtualSp.html">virtualSp()</a></code> dataset selecting the absence instead of the background locations.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span>
 <span class="va">a_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">absence</span>
 <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">a_coords</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">[[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; Extracting predictor information for presence locations...</span>
@@ -158,22 +159,22 @@
 <span class="co">#&gt; Variables:</span>
 <span class="co">#&gt; ---------</span>
 <span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
-<span class="co">#&gt; Categorical: NA</span></pre></div>
+<span class="co">#&gt; Categorical: NA</span></code></pre></div>
 <p>There are 400 presence and 300 absence locations.</p>
 <p>For the model evaluation we will create a training and testing datasets, holding apart 20% of the data:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot">zeallot</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op">%&lt;-%</span> <span class="fu"><a href="../../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, test <span class="op">=</span> <span class="fl">0.2</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot">zeallot</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op">%&lt;-%</span> <span class="fu"><a href="../../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, test <span class="op">=</span> <span class="fl">0.2</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></code></pre></div>
 <p>At this point we have 560 training and 140 testing locations. We create a 4-folds partition to run cross validation:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">train</span>, k <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">train</span>, k <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="train-the-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#train-the-model" class="anchor"></a>Train the model</h2>
 <p>We first train the model with default settings and 10 neurons:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span>
 <span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, data <span class="op">=</span> <span class="va">train</span>, size <span class="op">=</span> <span class="fl">10</span>, folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span>
 <span class="va">model</span>
 <span class="co">#&gt; Object of class SDMmodelCV </span>
@@ -194,43 +195,43 @@
 <span class="co">#&gt; Variables:</span>
 <span class="co">#&gt; ---------</span>
 <span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
-<span class="co">#&gt; Categorical: NA</span></pre></div>
+<span class="co">#&gt; Categorical: NA</span></code></pre></div>
 <p>Let’s check the training and testing AUC:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8164149</span>
 <span class="fu"><a href="../../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.8029688</span></pre></div>
+<span class="co">#&gt; [1] 0.8029688</span></code></pre></div>
 </div>
 <div id="tune-model-hyperparameters" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tune-model-hyperparameters" class="anchor"></a>Tune model hyperparameters</h2>
 <p>To check which hyperparameters can be tuned we use the function <code><a href="../../reference/getTunableArgs.html">getTunableArgs()</a></code> function:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="../../reference/getTunableArgs.html">getTunableArgs</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
-<span class="co">#&gt; [1] "size"  "decay" "rang"  "maxit"</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/getTunableArgs.html">getTunableArgs</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
+<span class="co">#&gt; [1] "size"  "decay" "rang"  "maxit"</span></code></pre></div>
 <p>We use the function <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> to tune the hyperparameters:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, decay <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span><span class="op">)</span>,
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, decay <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span><span class="op">)</span>,
           maxit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></pre></div>
+<span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></code></pre></div>
 <p>The best model is:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">best_model</span> <span class="op">&lt;-</span> <span class="va">om</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">best_model</span> <span class="op">&lt;-</span> <span class="va">om</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>
 <span class="co">#&gt;   size decay rang maxit train_AUC  test_AUC   diff_AUC</span>
-<span class="co">#&gt; 1   39   0.5  0.7   300 0.9902836 0.9520312 0.03825231</span></pre></div>
+<span class="co">#&gt; 1   39   0.5  0.7   300 0.9902836 0.9520312 0.03825231</span></code></pre></div>
 <p>The validation AUC increased from 0.8029688 of the default models to 0.9520312 of the optimized one.</p>
 </div>
 <div id="evaluate-the-final-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#evaluate-the-final-model" class="anchor"></a>Evaluate the final model</h2>
 <p>We now train a model with the same configuration as found by the function <code><a href="../../reference/optimizeModel.html">optimizeModel()</a></code> without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span>
 <span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, data <span class="op">=</span> <span class="va">train</span>, size <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>, decay <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span>, maxit <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">]</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">final_model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">final_model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></code></pre></div>
 <p><img src="train-tune-presence-absence-models_files/figure-html/evaluate%20final%20model-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="conclusion" class="section level2">
