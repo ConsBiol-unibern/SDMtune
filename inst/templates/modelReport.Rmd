@@ -15,6 +15,7 @@ params:
   env: null
   clamp: true
   permut: 10
+  factors: null
 ---
 
 ```{r, echo=F}
@@ -112,7 +113,7 @@ if (params$response_curves) {
 ```{r, echo=FALSE, message=FALSE}
 if (!is.null(env)) {
   message("- Predicting distribution map...", appendLF = FALSE)
-  pred <- predict(params$model, data = params$env, type = params$type, filename = paste0(params$folder, "/map"), overwrite = TRUE, clamp = params$clamp)
+  pred <- predict(params$model, data = params$env, type = params$type, filename = paste0(params$folder, "/map"), overwrite = TRUE, clamp = params$clamp, factors = params$factors)
   plot <- plotPred(pred, lt = params$type, hr = TRUE, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
 suppressMessages(ggplot2::ggsave(filename = "map.png", plot = plot, device = "png", path = plot_folder))
 element <- "<p><a href=\"./plots/map.png\"><img src=\"./plots/map.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
@@ -212,4 +213,5 @@ message("\r", crayon::green(cli::symbol$tick)," Writing model settings...")
 
 # References
 
+- Vignali, S, Barras, AG, Arlettaz, R, Braunisch, V. SDMtune: An R package to tune and evaluate species distribution models. Ecol Evol. 2020; 00: 1– 18. https://doi.org/10.1002/ece3.6786
 - Sergio Vignali, Arnaud Barras and Veronika Braunisch (2019). SDMtune: Species Distribution Model Selection. R package version `r packageVersion("SDMtune")`.
