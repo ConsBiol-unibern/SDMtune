@@ -20,6 +20,8 @@
 #' @param clamp logical for clumping during prediction, used for response curves
 #' and for the prediction map, default is `TRUE`.
 #' @param permut integer. Number of permutations, default is 10.
+#' @param factors list with levels for factor variables,
+#' see \link[raster]{predict}
 #'
 #' @details The function produces a report similar to the one created by MaxEnt
 #' software.
@@ -62,7 +64,8 @@
 #' }
 modelReport <- function(model, folder, test = NULL, type = NULL,
                         response_curves = FALSE, only_presence = FALSE,
-                        jk = FALSE, env = NULL, clamp = TRUE, permut = 10) {
+                        jk = FALSE, env = NULL, clamp = TRUE, permut = 10,
+                        factors = NULL) {
 
   if (!requireNamespace("kableExtra", quietly = TRUE)) {
     stop("You need the packege \"kableExtra\" to run this function,",
@@ -114,7 +117,8 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
                                     folder = folder, env = env, jk = jk,
                                     response_curves = response_curves,
                                     only_presence = only_presence,
-                                    clamp = clamp, permut = permut),
+                                    clamp = clamp, permut = permut,
+                                    factors = factors),
                       output_options = list(pandoc_args = args),
                       quiet = TRUE
                       )
