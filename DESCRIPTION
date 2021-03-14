@@ -52,11 +52,11 @@ Suggests:
     maps (>= 3.3.0),
     pkgdown (>= 1.5.0),
     plotROC (>= 2.2.1),
-    rasterVis (>= 0.47),
+    rasterVis (>= 0.50),
     reshape2 (>= 1.4.3),
     rgdal (>= 1.4-4),
     rJava (>= 0.9-11),
-    rmarkdown (>= 1.13),
+    rmarkdown (>= 2.7),
     scales (>= 1.0.0),
     testthat (>= 2.3.2),
     zeallot (>= 0.1.0)
