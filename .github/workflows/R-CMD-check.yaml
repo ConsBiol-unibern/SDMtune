@@ -66,7 +66,6 @@ jobs:
       - name: Install system dependencies and rgdal for Mac
         if: runner.os == 'macOS'
         run: |
-          brew cask uninstall gfortran
           brew install udunits
           brew install gdal
           R CMD javareconf
