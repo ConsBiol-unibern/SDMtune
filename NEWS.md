@@ -1,4 +1,5 @@
 # SDMtune 1.1.3.9000
+Bug fixes: Add the argument `factors` to the function `modelReport()` to allow predictions for raster objects including categorical variables
 
 # SDMtune 1.1.3
 Include Java >=8 in system requirements
