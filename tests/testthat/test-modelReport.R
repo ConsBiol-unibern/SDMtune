@@ -1,6 +1,7 @@
 skip_on_cran()
+skip_on_ci()
+skip_on_covr()
 
-library(maxnet)
 folder <- "trash"
 m <- SDMtune:::bm_maxnet
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
