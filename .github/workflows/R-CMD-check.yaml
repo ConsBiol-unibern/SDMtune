@@ -61,6 +61,7 @@ jobs:
           sudo apt-get install libgdal-dev
           sudo apt-get install libharfbuzz-dev
           sudo apt-get install libfribidi-dev
+          sudo R CMD javareconf
 
       - name: Install system dependencies and rgdal for Mac
         if: runner.os == 'macOS'
