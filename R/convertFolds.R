@@ -3,17 +3,18 @@
 
   if ("train" %in% names(x) & "test" %in% names(x)) {
     return(x)
-  } else if ("occ.grp" %in% names(x)) {
+  } else if (any(grepl("occ", names(x)))) {
     # ENMeval fold partition
-    k <- length(unique(x$occ.grp))
+    occ <- names(x)[1]
+    k <- length(unique(x[[occ]]))
     train <- test <- matrix(TRUE, nrow = n, ncol = k)
 
     for (i in 1:k) {
       if (sum(x$bg.grp) == 0) {
-        train[, i] <- c(x$occ.grp != i, rep(TRUE, length(x$bg.grp)))
-        test[, i] <- c(x$occ.grp == i, rep(TRUE, length(x$bg.grp)))
+        train[, i] <- c(x[[occ]] != i, rep(TRUE, length(x$bg.grp)))
+        test[, i] <- c(x[[occ]] == i, rep(TRUE, length(x$bg.grp)))
       } else {
-        folds <- c(x$occ.grp, x$bg.grp)
+        folds <- c(x[[occ]], x$bg.grp)
         train[, i] <- folds != i
         test[, i] <- folds == i
       }
