@@ -92,7 +92,7 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
   cat_vars <- names(Filter(is.factor, p))
 
   if (var %in% cat_vars) {
-    categ <- unique(as.numeric(levels(df[, var]))[df[, var]])
+    categ <- as.numeric(levels(df[, var]))
     n_rows <- length(categ)
   } else {
     n_rows <- 100
@@ -111,9 +111,7 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
 
     } else {
       my_plot <- ggplot(plot_data, aes(x = .data$x, y = .data$y)) +
-        ggplot2::geom_bar(stat = "identity", fill = color) +
-        ggplot2::scale_x_continuous(breaks = seq(min(plot_data$x),
-                                                 max(plot_data$x), 1))
+        ggplot2::geom_bar(stat = "identity", fill = color)
     }
   } else {
     nf <- length(model@models)
@@ -140,9 +138,7 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
       my_plot <- ggplot(plot_data, aes(x = .data$x, y = .data$y)) +
         ggplot2::geom_bar(stat = "identity", fill = color) +
         ggplot2::geom_errorbar(aes(ymin = .data$y_min, ymax = .data$y_max),
-                               width = 0.2, size = 0.3) +
-        ggplot2::scale_x_continuous(breaks = seq(min(plot_data$x),
-                                                 max(plot_data$x), 1))
+                               width = 0.2, size = 0.3)
     }
   }
 
@@ -178,7 +174,7 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
     var_max <- max(model@data@data[var])
     data[var] <- seq(var_min, var_max, length.out = n_rows)
   } else {
-    data[var] <- categ
+    data[var] <- factor(categ)
   }
 
   if (!marginal) {
