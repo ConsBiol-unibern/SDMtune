@@ -71,8 +71,10 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".
 \item iter: numeric. Number of iterations used by the MaxEnt algorithm,
 default is 500.
 }
-\item For the Maxnet method, possible arguments are (for more details see
-\link[maxnet]{maxnet}):
+\item Maxnet models are trained using the argument
+\code{"addsamplestobackground = FALSE"}, use the function \link{addSamplesToBg}
+to add presence locations to background locations. For the Maxnet method,
+possible arguments are (for more details see \link[maxnet]{maxnet}):
 \itemize{
 \item reg: numeric. The value of the regularization intensity, default is 1.
 \item fc: character. The value of the feature classes, possible values are

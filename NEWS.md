@@ -2,6 +2,7 @@
 Bug fixes:
 * Allow fold partitions created with ENMeval >= 2.0
 * Fix error generated when plotting response for categorical predictors using RF
+* Update maxnet to version 0.1.4 to solve issue in cran checks
 
 # SDMtune 1.1.4
 Bug fixes: Add the argument `factors` to the function `modelReport()` to allow predictions for raster objects including categorical variables

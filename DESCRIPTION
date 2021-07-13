@@ -26,7 +26,7 @@ Imports: dismo (>= 1.3-3),
          gbm (>= 2.1.5),
          ggplot2 (>= 3.3.1),
          jsonlite (>= 1.6),
-         maxnet (>= 0.1.2),
+         maxnet (>= 0.1.4),
          methods,
          nnet (>= 7.3-12),
          progress (>= 1.2.2),
@@ -58,7 +58,7 @@ Suggests:
     rJava (>= 0.9-11),
     rmarkdown (>= 2.7),
     scales (>= 1.0.0),
-    testthat (>= 2.3.2),
+    testthat (>= 3.0.4),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Collate: 
