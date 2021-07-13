@@ -2,7 +2,7 @@
 * local ubuntu 18.04 install, R 3.6.3
 * win-builder (devel, release and oldrelease)
 * Github actions:
-  * linux: R release and oldrel
+  * linux: R devel, release, and oldrel
   * windows: R release
   * mac: R release
 
