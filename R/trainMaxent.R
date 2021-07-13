@@ -8,7 +8,7 @@ trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500) {
 
   x <- data@data
   p <- data@pa
-  dismo_model <- dismo::maxent(x, p, args = args, path = folder)
+  dismo_model <- dismo::maxent(x, p, args = args, path = folder, silent = TRUE)
 
   l <- .get_lambdas(dismo_model@lambdas)
   f <- stats::formula(paste("~", paste(l$lambdas$feature, collapse = " + "),
