@@ -18,6 +18,7 @@
 #' @seealso \link{maxentTh}.
 #'
 #' @examples
+#' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd", full.names = TRUE)
@@ -37,6 +38,7 @@
 #' if (dismo::maxent(silent = TRUE)) {
 #' model <- train(method = "Maxent", data = data, fc = "l")
 #' maxentVarImp(model)
+#' }
 #' }
 maxentVarImp <- function(model) {
 
