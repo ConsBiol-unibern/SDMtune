@@ -66,6 +66,7 @@ jobs:
           sudo apt-get install libfribidi-dev
           sudo R CMD javareconf
           gdalinfo --version
+          sudo apt-get install locate
           locate libgdal.so
 
       - name: Install system dependencies Linux 2
