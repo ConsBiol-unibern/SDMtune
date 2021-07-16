@@ -66,15 +66,13 @@ jobs:
           sudo apt-get install libfribidi-dev
           sudo R CMD javareconf
           gdalinfo --version
-          sudo apt-get install locate
-          locate libgdal.so
 
       - name: Install system dependencies Linux 2
         if: runner.os == 'Linux'
         run: |
           pak::local_system_requirements(execute = TRUE)
           pak::pkg_system_requirements("rcmdcheck", execute = TRUE)
-          install.packages('rgdal', type = 'source')
+          Rscript -e "install.packages('rgdal', type = 'source', configure.args = '--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/ --with-proj_api=proj_api.h')"
         shell: Rscript {0}
 
       - name: Install system dependencies and rgdal for Mac
