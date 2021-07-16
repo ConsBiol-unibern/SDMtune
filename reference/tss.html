@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -146,7 +146,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -219,7 +219,7 @@ Journal of Applied Ecology, 43(6), 1223–1232.</p>
     <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># Acquire environmental variables</span>
+    <pre class="examples"><div class='input'><span class='co'># Acquire environmental variables</span>
 <span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
                     pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>predictors</span> <span class='op'>&lt;-</span> <span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span>
@@ -231,7 +231,7 @@ Journal of Applied Ecology, 43(6), 1223–1232.</p>
 <span class='co'># Create SWD object</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
                    env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
 <span class='va'>datasets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span><span class='op'>(</span><span class='va'>data</span>, test <span class='op'>=</span> <span class='fl'>0.2</span>, only_presence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>train</span> <span class='op'>&lt;-</span> <span class='va'>datasets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
@@ -242,10 +242,10 @@ Journal of Applied Ecology, 43(6), 1223–1232.</p>
 
 <span class='co'># Compute the training TSS</span>
 <span class='fu'>tss</span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; [1] 0.61225</div><div class='input'>
 <span class='co'># Compute the testing TSS</span>
 <span class='fu'>tss</span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>test</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; [1] 0.5472</div><div class='input'>
 <span class='co'># \donttest{</span>
 <span class='co'># Same example but using cross validation instead of training and testing</span>
 <span class='co'># datasets</span>
@@ -255,14 +255,14 @@ Journal of Applied Ecology, 43(6), 1223–1232.</p>
 
 <span class='co'># Compute the training TSS</span>
 <span class='fu'>tss</span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; [1] 0.612925</div><div class='input'>
 <span class='co'># Compute the testing TSS</span>
 <span class='fu'>tss</span><span class='op'>(</span><span class='va'>model</span>, test <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; [1] 0.606525</div><div class='input'>
 <span class='co'># Compute the TSS for the held apart testing dataset</span>
 <span class='fu'>tss</span><span class='op'>(</span><span class='va'>model</span>, test <span class='op'>=</span> <span class='va'>test</span><span class='op'>)</span>
-<span class='co'># }</span>
-</pre>
+</div><div class='output co'>#&gt; [1] 0.550825</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

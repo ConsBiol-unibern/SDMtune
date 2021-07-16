@@ -90,7 +90,7 @@ one." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@ one." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -148,7 +148,7 @@ one." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -230,7 +230,7 @@ specified using the arguments <code>x</code> and <code>y</code>.</p></li>
     <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># \donttest{</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
 <span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
                     pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -239,19 +239,19 @@ specified using the arguments <code>x</code> and <code>y</code>.</p></li>
 <span class='co'># Prepare background locations</span>
 <span class='va'>bg_coords</span> <span class='op'>&lt;-</span> <span class='fu'>dismo</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/dismo/man/randomPoints.html'>randomPoints</a></span><span class='op'>(</span><span class='va'>predictors</span>, <span class='fl'>9000</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bg_coords</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; [1] 9000</div><div class='input'>
 <span class='co'># Thin the locations</span>
 <span class='co'># There are probably few coordinates that have NAs for some predictors, the</span>
 <span class='co'># function will remove these coordinates. Note that the function expects to</span>
 <span class='co'># the coordinates in two column named "x" and "y"</span>
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>bg_coords</span><span class='op'>)</span>
-<span class='va'>thinned_bg</span> <span class='op'>&lt;-</span> <span class='fu'>thinData</span><span class='op'>(</span><span class='va'>bg_coords</span>, env <span class='op'>=</span> <span class='va'>predictors</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "x" "y"</div><div class='input'><span class='va'>thinned_bg</span> <span class='op'>&lt;-</span> <span class='fu'>thinData</span><span class='op'>(</span><span class='va'>bg_coords</span>, env <span class='op'>=</span> <span class='va'>predictors</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>thinned_bg</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; [1] 8993</div><div class='input'>
 <span class='co'># Here we double the coordinates and run the function again</span>
 <span class='va'>thinned_bg</span> <span class='op'>&lt;-</span> <span class='fu'>thinData</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>bg_coords</span>, <span class='va'>bg_coords</span><span class='op'>)</span>, env <span class='op'>=</span> <span class='va'>predictors</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>thinned_bg</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; [1] 8993</div><div class='input'>
 <span class='co'># In case of a dataframe containing more than two columns (e.g. a dataframe</span>
 <span class='co'># with the coordinates plus an additional column with the age of the species)</span>
 <span class='co'># and custom column names, use the function in this way</span>
@@ -260,8 +260,14 @@ specified using the arguments <code>x</code> and <code>y</code>.</p></li>
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"age"</span>, <span class='st'>"X"</span>, <span class='st'>"Y"</span><span class='op'>)</span>
 <span class='va'>thinned_bg</span> <span class='op'>&lt;-</span> <span class='fu'>thinData</span><span class='op'>(</span><span class='va'>data</span>, env <span class='op'>=</span> <span class='va'>predictors</span>, x <span class='op'>=</span> <span class='st'>"X"</span>, y <span class='op'>=</span> <span class='st'>"Y"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
-<span class='co'># }</span>
-</pre>
+</div><div class='output co'>#&gt;      age      X      Y
+#&gt; [1,]   2 -68.25  -1.75
+#&gt; [2,]   1 -44.75 -11.75
+#&gt; [3,]   2 -78.25   0.25
+#&gt; [4,]   1 -75.25   8.25
+#&gt; [5,]   1 -46.75 -17.25
+#&gt; [6,]   1 -68.25 -34.25</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,7 +104,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -202,7 +202,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Train a Maxent model</span>
 <span class="va">sdmtune_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxent"</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></code></pre></div>
-<p>We compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> (Hijmans et al. 2017) that calls the MaxEnt Java software (Phillips, Anderson, and Schapire 2006). We first convert the object <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
+<p>We compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> (Hijmans et al. 2017) that calls the MaxEnt Java software (Steven J. Phillips, Anderson, and Schapire 2006). We first convert the object <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxent_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span><span class="op">(</span><span class="va">sdmtune_model</span><span class="op">)</span></code></pre></div>
 <p>Next is a function used below to test if the results are equal, with a tolerance of <code>1e-7</code>:</p>
@@ -237,7 +237,7 @@
 <li>the package <strong>rJava</strong> is installed;</li>
 <li>the file <strong>maxent.jar</strong> is copied in the correct folder.</li>
 </ul>
-<p>The file <strong>maxent.jar</strong> can be downloaded <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/">here</a> (note that you need <strong>MaxEnt</strong> version &gt;= 3.4.1 (Phillips et al. 2017)). This file must be copied into the right folder to be available for the <code>dismo</code> package (Hijmans et al. 2017): copy the file <strong>maxent.jar</strong> into the folder named <strong>java</strong> that is located inside the folder returned by the following command:</p>
+<p>The file <strong>maxent.jar</strong> can be downloaded <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/">here</a> (note that you need <strong>MaxEnt</strong> version &gt;= 3.4.1 (Steven J. Phillips et al. 2017)). This file must be copied into the right folder to be available for the <code>dismo</code> package (Hijmans et al. 2017): copy the file <strong>maxent.jar</strong> into the folder named <strong>java</strong> that is located inside the folder returned by the following command:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"dismo"</span><span class="op">)</span></code></pre></div>
 <p>The function <code>checkMaxentInstallation</code> checks that Java JDK and rJava are installed, and that the file maxent.jar is in the correct folder.</p>
@@ -254,18 +254,18 @@
 <div id="references" class="section level3">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>
-<div id="refs" class="references">
-<div id="ref-Hijmans2017">
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Hijmans2017" class="csl-entry">
 <p>Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith.</p>
 <ol>
-<li>“dismo: Species Distribution Modeling. R package version 1.1-4.” <a href="https://cran.r-project.org/package=dismo" class="uri">https://cran.r-project.org/package=dismo</a>.</li>
+<li>“<span class="nocase">dismo: Species Distribution Modeling. R package version 1.1-4</span>.” <a href="https://cran.r-project.org/package=dismo" class="uri">https://cran.r-project.org/package=dismo</a>.</li>
 </ol>
 </div>
-<div id="ref-Phillips2017a">
-<p>Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E. Schapire, and Mary E. Blair. 2017. “Opening the black box: an open-source release of Maxent.” <em>Ecography</em> 40 (7): 887–93. <a href="https://doi.org/10.1111/ecog.03049" class="uri">https://doi.org/10.1111/ecog.03049</a>.</p>
+<div id="ref-Phillips2017a" class="csl-entry">
+<p>Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E. Schapire, and Mary E. Blair. 2017. “<span class="nocase">Opening the black box: an open-source release of Maxent</span>.” <em>Ecography</em> 40 (7): 887–93. <a href="https://doi.org/10.1111/ecog.03049" class="uri">https://doi.org/10.1111/ecog.03049</a>.</p>
 </div>
-<div id="ref-Phillips2006">
-<p>Phillips, Steven J, Robert P Anderson, and Robert E Schapire. 2006. “Maximum entropy modeling of species geographic distributions.” <em>Ecological Modelling</em> 190: 231–59. <a href="https://doi.org/10.1016/j.ecolmodel.2005.03.026" class="uri">https://doi.org/10.1016/j.ecolmodel.2005.03.026</a>.</p>
+<div id="ref-Phillips2006" class="csl-entry">
+<p>Phillips, Steven J, Robert P Anderson, and Robert E Schapire. 2006. “<span class="nocase">Maximum entropy modeling of species geographic distributions</span>.” <em>Ecological Modelling</em> 190: 231–59. <a href="https://doi.org/10.1016/j.ecolmodel.2005.03.026" class="uri">https://doi.org/10.1016/j.ecolmodel.2005.03.026</a>.</p>
 </div>
 </div>
 </div>
@@ -320,7 +320,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/ConsBiol-unibern/SDMtune/actions"><img src="https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/ConsBiol-unibern/SDMtune/actions"><img src="https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check-pak/badge.svg" alt="R build status"></a></li>
 <li><a href="https://cran.r-project.org/package=SDMtune"><img src="https://www.r-pkg.org/badges/version-last-release/SDMtune" alt="CRAN Status"></a></li>
 <li><a href="https://www.r-pkg.org/pkg/SDMtune"><img src="https://cranlogs.r-pkg.org/badges/grand-total/SDMtune" alt="CRAN RStudio mirror downloads"></a></li>
 <li><a href="https://codecov.io/github/ConsBiol-unibern/SDMtune?branch=master"><img src="https://codecov.io/gh/ConsBiol-unibern/SDMtune/branch/master/graph/badge.svg" alt="Coverage status"></a></li>

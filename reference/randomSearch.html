@@ -90,7 +90,7 @@ provided hyperparameters values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@ provided hyperparameters values." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -148,7 +148,7 @@ provided hyperparameters values." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -248,7 +248,7 @@ of the function <a href='getTunableArgs.html'>getTunableArgs</a>. Hyperparameter
     <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># \donttest{</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
 <span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
                     pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -261,7 +261,7 @@ of the function <a href='getTunableArgs.html'>getTunableArgs</a>. Hyperparameter
 <span class='co'># Create SWD object</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
                    env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
 <span class='va'>datasets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span><span class='op'>(</span><span class='va'>data</span>, test <span class='op'>=</span> <span class='fl'>0.2</span>, only_presence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>train</span> <span class='op'>&lt;-</span> <span class='va'>datasets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
@@ -277,11 +277,200 @@ of the function <a href='getTunableArgs.html'>getTunableArgs</a>. Hyperparameter
 <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>randomSearch</span><span class='op'>(</span><span class='va'>model</span>, hypers <span class='op'>=</span> <span class='va'>h</span>, metric <span class='op'>=</span> <span class='st'>"auc"</span>, test <span class='op'>=</span> <span class='va'>test</span>,
                        pop <span class='op'>=</span> <span class='fl'>10</span>, seed <span class='op'>=</span> <span class='fl'>25</span><span class='op'>)</span>
 <span class='va'>output</span><span class='op'>@</span><span class='va'>results</span>
-<span class='va'>output</span><span class='op'>@</span><span class='va'>models</span>
-<span class='co'># Order results by highest test AUC</span>
+</div><div class='output co'>#&gt;      fc reg train_AUC  test_AUC   diff_AUC
+#&gt; 1   lqp 0.2 0.8683369 0.8452413 0.02309562
+#&gt; 2   lqp 0.6 0.8667788 0.8447712 0.02200750
+#&gt; 3   lqp 1.2 0.8649231 0.8442637 0.02065938
+#&gt; 4   lqp 1.8 0.8626844 0.8433263 0.01935812
+#&gt; 5  lqph 0.6 0.8774013 0.8422513 0.03515000
+#&gt; 6  lqph 1.8 0.8686994 0.8387788 0.02992063
+#&gt; 7    lh 1.6 0.8671119 0.8378788 0.02923312
+#&gt; 8  lqph 2.0 0.8674688 0.8377488 0.02972000
+#&gt; 9  lqph 2.8 0.8639156 0.8366712 0.02724437
+#&gt; 10   lh 2.4 0.8626194 0.8358887 0.02673063</div><div class='input'><span class='va'>output</span><span class='op'>@</span><span class='va'>models</span>
+</div><div class='output co'>#&gt; [[1]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lqp
+#&gt; reg: 0.2
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[2]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lqp
+#&gt; reg: 0.6
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[3]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lqp
+#&gt; reg: 1.2
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[4]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lqp
+#&gt; reg: 1.8
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[5]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lqph
+#&gt; reg: 0.6
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[6]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lqph
+#&gt; reg: 1.8
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[7]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lh
+#&gt; reg: 1.6
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[8]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lqph
+#&gt; reg: 2
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[9]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lqph
+#&gt; reg: 2.8
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome
+#&gt; [[10]]
+#&gt; Object of class SDMmodel 
+#&gt; Method: Maxnet 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 320 
+#&gt; Absence locations: 5000 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; fc: lh
+#&gt; reg: 2.4
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 
+#&gt; Categorical: biome</div><div class='input'><span class='co'># Order results by highest test AUC</span>
 <span class='va'>output</span><span class='op'>@</span><span class='va'>results</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>output</span><span class='op'>@</span><span class='va'>results</span><span class='op'>$</span><span class='va'>test_AUC</span><span class='op'>)</span>, <span class='op'>]</span>
-<span class='co'># }</span>
-</pre>
+</div><div class='output co'>#&gt;      fc reg train_AUC  test_AUC   diff_AUC
+#&gt; 1   lqp 0.2 0.8683369 0.8452413 0.02309562
+#&gt; 2   lqp 0.6 0.8667788 0.8447712 0.02200750
+#&gt; 3   lqp 1.2 0.8649231 0.8442637 0.02065938
+#&gt; 4   lqp 1.8 0.8626844 0.8433263 0.01935812
+#&gt; 5  lqph 0.6 0.8774013 0.8422513 0.03515000
+#&gt; 6  lqph 1.8 0.8686994 0.8387788 0.02992063
+#&gt; 7    lh 1.6 0.8671119 0.8378788 0.02923312
+#&gt; 8  lqph 2.0 0.8674688 0.8377488 0.02972000
+#&gt; 9  lqph 2.8 0.8639156 0.8366712 0.02724437
+#&gt; 10   lh 2.4 0.8626194 0.8358887 0.02673063</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
