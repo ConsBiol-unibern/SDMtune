@@ -68,7 +68,7 @@ jobs:
           gdalinfo --version
 
       - name: Install system dependencies Linux for r release and old release
-        if: steps.install-r.outputs.installed-r-version != 'devel'
+        if: steps.install-r.outputs.installed-r-version != 'devel' && runner.os == 'Linux'
         run: |
           sudo apt-get install gdal-bin proj-bin libgdal-dev libproj-dev libgeos-dev libudunits2-dev
           sudo apt-get install libharfbuzz-dev
