@@ -72,6 +72,7 @@ jobs:
         run: |
           pak::local_system_requirements(execute = TRUE)
           pak::pkg_system_requirements("rcmdcheck", execute = TRUE)
+          install.packages('rgdal', type = 'source')
         shell: Rscript {0}
 
       - name: Install system dependencies and rgdal for Mac
