@@ -9,4 +9,4 @@
 ## R CMD check results
 0 errors | 0 warnings | 0 notes
 
-This solves the errors in checks
+This solves the error in donttest. I could not reproduce the error for macos with arm architecture. From the message it looks like a crash given that the check stops after an if statement without any error message.

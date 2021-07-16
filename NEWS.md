@@ -1,4 +1,4 @@
-# SDMtune 1.1.4.9000
+# SDMtune 1.1.5
 Bug fixes:
 * Allow fold partitions created with ENMeval >= 2.0
 * Fix error generated when plotting response for categorical predictors using RF
