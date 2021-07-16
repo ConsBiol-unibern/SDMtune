@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check/badge.svg)](https://github.com/ConsBiol-unibern/SDMtune/actions)
+status](https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check-pak/badge.svg)](https://github.com/ConsBiol-unibern/SDMtune/actions)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version-last-release/SDMtune)](https://cran.r-project.org/package=SDMtune)
 [![CRAN RStudio mirror
@@ -46,11 +46,11 @@ devtools::install_github("ConsBiol-unibern/SDMtune")
 
 **SDMtune** implements three functions for hyperparameters tuning:
 
-  - `gridSearch`: runs all the possible combinations of predefined
+-   `gridSearch`: runs all the possible combinations of predefined
     hyperparameters’ values;
-  - `randomSearch`: randomly selects a fraction of the possible
+-   `randomSearch`: randomly selects a fraction of the possible
     combinations of predefined hyperparameters’ values;
-  - `optimizeModel`: uses a *genetic algorithm* that aims to optimize
+-   `optimizeModel`: uses a *genetic algorithm* that aims to optimize
     the given evaluation metric by combining the predefined
     hyperparameters’ values.
 
@@ -129,9 +129,9 @@ sdmtune_model <- train(method = "Maxent", data = data)
 
 We compare the execution time of the `predict` function between
 **SDMtune** that uses its own algorithm and **dismo** (Hijmans et al.
-2017) that calls the MaxEnt Java software (Phillips, Anderson, and
-Schapire 2006). We first convert the object `sdmtune_model` in a object
-that is accepted by **dismo**:
+2017) that calls the MaxEnt Java software (Steven J. Phillips, Anderson,
+and Schapire 2006). We first convert the object `sdmtune_model` in a
+object that is accepted by **dismo**:
 
 ``` r
 maxent_model <- SDMmodel2MaxEnt(sdmtune_model)
@@ -176,15 +176,15 @@ ggplot(bench, aes(x = expr, y = time/1000000, fill = expr)) +
 
 To train a **Maxent** model using the Java implementation you need that:
 
-  - the **Java JDK** software is installed;
-  - the package **rJava** is installed;
-  - the file **maxent.jar** is copied in the correct folder.
+-   the **Java JDK** software is installed;
+-   the package **rJava** is installed;
+-   the file **maxent.jar** is copied in the correct folder.
 
 The file **maxent.jar** can be downloaded
 [here](https://biodiversityinformatics.amnh.org/open_source/maxent/)
-(note that you need **MaxEnt** version \>= 3.4.1 (Phillips et al.
-2017)). This file must be copied into the right folder to be available
-for the `dismo` package (Hijmans et al. 2017): copy the file
+(note that you need **MaxEnt** version &gt;= 3.4.1 (Steven J. Phillips
+et al. 2017)). This file must be copied into the right folder to be
+available for the `dismo` package (Hijmans et al. 2017): copy the file
 **maxent.jar** into the folder named **java** that is located inside the
 folder returned by the following command:
 
@@ -200,7 +200,7 @@ checkMaxentInstallation()
 ```
 
 If everything is correctly configured for `dismo`, the following command
-will return the used MaxEnt version (make sure that the version is \>=
+will return the used MaxEnt version (make sure that the version is &gt;=
 3.4.1):
 
 ``` r
@@ -215,30 +215,30 @@ By contributing to this project, you agree to abide by its terms.
 
 ### References
 
-<div id="refs" class="references">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-Hijmans2017">
+<div id="ref-Hijmans2017" class="csl-entry">
 
 Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith.
-2017. “dismo: Species Distribution Modeling. R package version 1.1-4.”
-https://cran.r-project.org/package=dismo.
+2017. “<span class="nocase">dismo: Species Distribution Modeling. R
+package version 1.1-4</span>.” https://cran.r-project.org/package=dismo.
 
 </div>
 
-<div id="ref-Phillips2017a">
+<div id="ref-Phillips2017a" class="csl-entry">
 
 Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E.
-Schapire, and Mary E. Blair. 2017. “Opening the black box: an
-open-source release of Maxent.” *Ecography* 40 (7): 887–93.
-<https://doi.org/10.1111/ecog.03049>.
+Schapire, and Mary E. Blair. 2017. “<span class="nocase">Opening the
+black box: an open-source release of Maxent</span>.” *Ecography* 40 (7):
+887–93. <https://doi.org/10.1111/ecog.03049>.
 
 </div>
 
-<div id="ref-Phillips2006">
+<div id="ref-Phillips2006" class="csl-entry">
 
 Phillips, Steven J, Robert P Anderson, and Robert E Schapire. 2006.
-“Maximum entropy modeling of species geographic distributions.”
-*Ecological Modelling* 190: 231–59.
+“<span class="nocase">Maximum entropy modeling of species geographic
+distributions</span>.” *Ecological Modelling* 190: 231–59.
 <https://doi.org/10.1016/j.ecolmodel.2005.03.026>.
 
 </div>
