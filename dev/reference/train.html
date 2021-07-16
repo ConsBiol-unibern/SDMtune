@@ -97,7 +97,7 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -147,7 +147,7 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -255,8 +255,10 @@ combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
 <li><p>iter: numeric. Number of iterations used by the MaxEnt algorithm,
 default is 500.</p></li>
 </ul></li>
-<li><p>For the Maxnet method, possible arguments are (for more details see
-<a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a>):</p><ul>
+<li><p>Maxnet models are trained using the argument
+<code>"addsamplestobackground = FALSE"</code>, use the function <a href='addSamplesToBg.html'>addSamplesToBg</a>
+to add presence locations to background locations. For the Maxnet method,
+possible arguments are (for more details see <a href='https://rdrr.io/pkg/maxnet/man/maxnet.html'>maxnet</a>):</p><ul>
 <li><p>reg: numeric. The value of the regularization intensity, default is 1.</p></li>
 <li><p>fc: character. The value of the feature classes, possible values are
 combinations of "l", "q", "p", "h" and "t", default is "lqph".</p></li>
@@ -298,7 +300,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
     <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># \donttest{</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
 <span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
                     pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -311,7 +313,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='co'># Create SWD object</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
                    env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
 <span class='co'>## Train a Maxent model</span>
 <span class='co'># The next line checks if Maxent is correctly configured but you don't need</span>
 <span class='co'># to run it in your script</span>
@@ -324,7 +326,8 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='addSamplesToBg.html'>addSamplesToBg</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
 <span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span><span class='st'>"Maxent"</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span>
 <span class='op'>}</span>
-
+</div><div class='output co'>#&gt; This is MaxEnt version 3.4.1 
+#&gt; This is MaxEnt version 3.4.1 </div><div class='input'>
 <span class='co'>## Train a Maxnet model</span>
 <span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"lq"</span>, reg <span class='op'>=</span> <span class='fl'>1.5</span><span class='op'>)</span>
 
@@ -375,7 +378,7 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='co'># Create SWD object</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>a_coords</span>,
                    env <span class='op'>=</span> <span class='va'>predictors</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
 <span class='co'>## Train an Artificial Neural Network model</span>
 <span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span><span class='st'>"ANN"</span>, data <span class='op'>=</span> <span class='va'>data</span>, size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 
@@ -388,15 +391,122 @@ cross-validation. <a href='https://github.com/rvalavi/blockCV'>https://github.co
 <span class='co'>## Multiple methods trained together with default arguments</span>
 <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>data</span>, size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 <span class='va'>output</span><span class='op'>$</span><span class='va'>ANN</span>
-<span class='va'>output</span><span class='op'>$</span><span class='va'>BRT</span>
-<span class='va'>output</span><span class='op'>$</span><span class='va'>RF</span>
-
+</div><div class='output co'>#&gt; Object of class SDMmodel 
+#&gt; Method: ANN 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 400 
+#&gt; Absence locations: 300 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; size: 10
+#&gt; decay: 0
+#&gt; rang: 0.7
+#&gt; maxit: 100
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
+#&gt; Categorical: NA</div><div class='input'><span class='va'>output</span><span class='op'>$</span><span class='va'>BRT</span>
+</div><div class='output co'>#&gt; Object of class SDMmodel 
+#&gt; Method: BRT 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 400 
+#&gt; Absence locations: 300 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; distribution: bernoulli
+#&gt; n.trees: 100
+#&gt; interaction.depth: 1
+#&gt; shrinkage: 0.1
+#&gt; bag.fraction: 0.5
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
+#&gt; Categorical: NA</div><div class='input'><span class='va'>output</span><span class='op'>$</span><span class='va'>RF</span>
+</div><div class='output co'>#&gt; Object of class SDMmodel 
+#&gt; Method: RF 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 400 
+#&gt; Absence locations: 300 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; mtry: 2
+#&gt; ntree: 500
+#&gt; nodesize: 1
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
+#&gt; Categorical: NA</div><div class='input'>
 <span class='co'>## Multiple methods trained together passing extra arguments</span>
 <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>train</span><span class='op'>(</span>method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ANN"</span>, <span class='st'>"BRT"</span>, <span class='st'>"RF"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>data</span>, size <span class='op'>=</span> <span class='fl'>10</span>,
                 ntree <span class='op'>=</span> <span class='fl'>300</span>, n.trees <span class='op'>=</span> <span class='fl'>300</span>, shrinkage <span class='op'>=</span> <span class='fl'>0.001</span><span class='op'>)</span>
 <span class='va'>output</span>
-<span class='co'># }</span>
-</pre>
+</div><div class='output co'>#&gt; $ANN
+#&gt; Object of class SDMmodel 
+#&gt; Method: ANN 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 400 
+#&gt; Absence locations: 300 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; size: 10
+#&gt; decay: 0
+#&gt; rang: 0.7
+#&gt; maxit: 100
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
+#&gt; Categorical: NA
+#&gt; $BRT
+#&gt; Object of class SDMmodel 
+#&gt; Method: BRT 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 400 
+#&gt; Absence locations: 300 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; distribution: bernoulli
+#&gt; n.trees: 300
+#&gt; interaction.depth: 1
+#&gt; shrinkage: 0.001
+#&gt; bag.fraction: 0.5
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
+#&gt; Categorical: NA
+#&gt; $RF
+#&gt; Object of class SDMmodel 
+#&gt; Method: RF 
+#&gt; 
+#&gt; Species: Virtual species 
+#&gt; Presence locations: 400 
+#&gt; Absence locations: 300 
+#&gt; 
+#&gt; Model configurations:
+#&gt; --------------------
+#&gt; mtry: 2
+#&gt; ntree: 300
+#&gt; nodesize: 1
+#&gt; 
+#&gt; Variables:
+#&gt; ---------
+#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 
+#&gt; Categorical: NA</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

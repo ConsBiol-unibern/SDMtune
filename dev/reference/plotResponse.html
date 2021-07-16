@@ -96,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -146,7 +146,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -244,7 +244,7 @@ not <code>"mean"</code>.</p>
     <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># \donttest{</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
 <span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
                     pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -257,38 +257,38 @@ not <code>"mean"</code>.</p>
 <span class='co'># Create SWD object</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
                    env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
 <span class='co'># Train a model</span>
 <span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"lq"</span><span class='op'>)</span>
 
 <span class='co'># Plot cloglog response curve for a continuous environmental variable (bio1)</span>
 <span class='fu'>plotResponse</span><span class='op'>(</span><span class='va'>model</span>, var <span class='op'>=</span> <span class='st'>"bio1"</span>, type <span class='op'>=</span> <span class='st'>"cloglog"</span><span class='op'>)</span>
-
+</div><div class='img'><img src='plotResponse-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Plot marginal cloglog response curve for a continuous environmental</span>
 <span class='co'># variable (bio1)</span>
 <span class='fu'>plotResponse</span><span class='op'>(</span><span class='va'>model</span>, var <span class='op'>=</span> <span class='st'>"bio1"</span>, type <span class='op'>=</span> <span class='st'>"cloglog"</span>, marginal <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
+</div><div class='img'><img src='plotResponse-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Plot logistic response curve for a continuous environmental variable</span>
 <span class='co'># (bio12) adding the rugs and giving a custom color</span>
 <span class='fu'>plotResponse</span><span class='op'>(</span><span class='va'>model</span>, var <span class='op'>=</span> <span class='st'>"bio12"</span>, type <span class='op'>=</span> <span class='st'>"logistic"</span>, rug <span class='op'>=</span> <span class='cn'>TRUE</span>,
              color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
-
+</div><div class='img'><img src='plotResponse-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Plot response curve for a categorical environmental variable (biome) giving</span>
 <span class='co'># a custom color</span>
 <span class='fu'>plotResponse</span><span class='op'>(</span><span class='va'>model</span>, var <span class='op'>=</span> <span class='st'>"biome"</span>, type <span class='op'>=</span> <span class='st'>"logistic"</span>, color <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span>
-
+</div><div class='img'><img src='plotResponse-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Train a model with cross validation</span>
 <span class='va'>folds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='randomFolds.html'>randomFolds</a></span><span class='op'>(</span><span class='va'>data</span>, k <span class='op'>=</span> <span class='fl'>4</span>, only_presence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='train.html'>train</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"Maxnet"</span>, data <span class='op'>=</span> <span class='va'>data</span>, fc <span class='op'>=</span> <span class='st'>"lq"</span>, folds <span class='op'>=</span> <span class='va'>folds</span><span class='op'>)</span>
 
 <span class='co'># Plot cloglog response curve for a continuous environmental variable (bio17)</span>
 <span class='fu'>plotResponse</span><span class='op'>(</span><span class='va'>model</span>, var <span class='op'>=</span> <span class='st'>"bio1"</span>, type <span class='op'>=</span> <span class='st'>"cloglog"</span><span class='op'>)</span>
-
+</div><div class='img'><img src='plotResponse-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Plot logistic response curve for a categorical environmental variable</span>
 <span class='co'># (biome) giving a custom color</span>
 <span class='fu'>plotResponse</span><span class='op'>(</span><span class='va'>model</span>, var <span class='op'>=</span> <span class='st'>"biome"</span>, type <span class='op'>=</span> <span class='st'>"logistic"</span>, color <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span>
-<span class='co'># }</span>
-</pre>
+</div><div class='img'><img src='plotResponse-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

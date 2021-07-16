@@ -102,7 +102,7 @@ AUC is computed." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -152,7 +152,7 @@ AUC is computed." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ConsBiol-unibern/SDMtune">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -219,7 +219,7 @@ standard deviation of the permutation importances of the single models.</p>
     <p>Sergio Vignali</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># \donttest{</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Acquire environmental variables</span>
 <span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"dismo"</span><span class='op'>)</span>, <span class='st'>"ex"</span><span class='op'>)</span>,
                     pattern <span class='op'>=</span> <span class='st'>"grd"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -232,7 +232,7 @@ standard deviation of the permutation importances of the single models.</p>
 <span class='co'># Create SWD object</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prepareSWD.html'>prepareSWD</a></span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"Virtual species"</span>, p <span class='op'>=</span> <span class='va'>p_coords</span>, a <span class='op'>=</span> <span class='va'>bg_coords</span>,
                    env <span class='op'>=</span> <span class='va'>predictors</span>, categorical <span class='op'>=</span> <span class='st'>"biome"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for presence locations...</span></div><div class='output co'>#&gt; <span class='message'>Extracting predictor information for absence/background locations...</span></div><div class='input'>
 <span class='co'># Split presence locations in training (80%) and testing (20%) datasets</span>
 <span class='va'>datasets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trainValTest.html'>trainValTest</a></span><span class='op'>(</span><span class='va'>data</span>, test <span class='op'>=</span> <span class='fl'>0.2</span>, only_presence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>train</span> <span class='op'>&lt;-</span> <span class='va'>datasets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
@@ -244,7 +244,16 @@ standard deviation of the permutation importances of the single models.</p>
 <span class='co'># Compute variable importance</span>
 <span class='va'>vi</span> <span class='op'>&lt;-</span> <span class='fu'>varImp</span><span class='op'>(</span><span class='va'>model</span>, permut <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='va'>vi</span>
-
+</div><div class='output co'>#&gt;   Variable Permutation_importance    sd
+#&gt; 1     bio6                   68.4 0.013
+#&gt; 2     bio8                   22.5 0.004
+#&gt; 3    biome                    5.5 0.003
+#&gt; 4    bio12                    3.4 0.001
+#&gt; 5    bio16                    0.2 0.001
+#&gt; 6     bio1                    0.0 0.000
+#&gt; 7    bio17                    0.0 0.000
+#&gt; 8     bio5                    0.0 0.000
+#&gt; 9     bio7                    0.0 0.000</div><div class='input'>
 <span class='co'># Same example but using cross validation instead of training and testing</span>
 <span class='co'># datasets</span>
 <span class='co'># Create 4 random folds splitting only the presence locations</span>
@@ -253,8 +262,17 @@ standard deviation of the permutation importances of the single models.</p>
 <span class='co'># Compute variable importance</span>
 <span class='va'>vi</span> <span class='op'>&lt;-</span> <span class='fu'>varImp</span><span class='op'>(</span><span class='va'>model</span>, permut <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='va'>vi</span>
-<span class='co'># }</span>
-</pre>
+</div><div class='output co'>#&gt;   Variable Permutation_importance     sd
+#&gt; 1     bio6                 60.575 12.898
+#&gt; 2     bio8                 19.900 10.478
+#&gt; 3    biome                 10.900  6.154
+#&gt; 4    bio12                  6.825  2.350
+#&gt; 5     bio5                  1.700  1.990
+#&gt; 6    bio17                  0.175  0.287
+#&gt; 7     bio1                  0.000  0.000
+#&gt; 8    bio16                  0.000  0.000
+#&gt; 9     bio7                  0.000  0.000</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
