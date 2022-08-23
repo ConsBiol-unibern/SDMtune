@@ -6,14 +6,9 @@
 \alias{_PACKAGE}
 \title{SDMtune: Species Distribution Model Selection}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-User-friendly framework that enables the training and the
-    evaluation of species distribution models (SDMs). The package implements
-    functions for data driven variable selection and model tuning and includes
-    numerous utilities to display the results. All the functions used to select
-    variables or to tune model hyperparameters have an interactive real-time
-    chart displayed in the 'RStudio' viewer pane during their execution.
+User-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the 'RStudio' viewer pane during their execution.
 }
 \seealso{
 Useful links:
