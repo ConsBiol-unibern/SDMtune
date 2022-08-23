@@ -36,7 +36,7 @@
 #' }
 maxentTh <- function(model) {
 
-  if (class(model@model) != "Maxent")
+  if (!inherits(model@model, "Maxent"))
     stop("model must be an SDMmodel object trained using the 'Maxent' method!")
 
   thresholds <- grep(".threshold", rownames(model@model@results), value = TRUE)

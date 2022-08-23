@@ -45,7 +45,7 @@ maxentVarImp <- function(model) {
   if (.get_model_class(model) != "Maxent")
     stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
 
-  if (class(model) == "SDMmodel") {
+  if (inherits(model, "SDMmodel")) {
     x <- model@model@results
     df <- .fetch_var_imp(x)
   } else {

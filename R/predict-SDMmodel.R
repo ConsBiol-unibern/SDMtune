@@ -95,7 +95,7 @@ setMethod("predict",
                                 filename = "", format = "GTiff", extent = NULL,
                                 progress = "", ...) {
 
-            if (class(object@model) != "Maxnet") {
+            if (!inherits(object@model, "Maxnet")) {
               model <- object@model
             } else {
               model <- object@model@model

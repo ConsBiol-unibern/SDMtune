@@ -142,7 +142,7 @@ setMethod(
         pb$tick(1)
       }
     } else {
-      if (class(data) == "SWD")
+      if (inherits(data, "SWD"))
         data <- data@data
       preds <- matrix(nrow = nrow(data), ncol = k)
       for (i in 1:k) {

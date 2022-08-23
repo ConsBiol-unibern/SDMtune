@@ -79,7 +79,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
   # Check that areguments are correctly provided
   .check_args(model, metric, test, env, hypers)
 
-  if (class(model) == "SDMmodelCV")
+  if (inherits(model, "SDMmodelCV"))
     test <- TRUE
 
   pb <- progress::progress_bar$new(

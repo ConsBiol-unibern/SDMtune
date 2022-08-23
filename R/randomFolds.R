@@ -40,7 +40,7 @@
 #' folds <- randomFolds(data, k = 4, only_presence = TRUE)
 randomFolds <- function(data, k, only_presence = FALSE, seed = NULL) {
 
-  if (class(data) != "SWD")
+  if (!inherits(data, "SWD"))
     stop("\"data\" argument is not of class SWD.")
 
   if (!is.null(seed))

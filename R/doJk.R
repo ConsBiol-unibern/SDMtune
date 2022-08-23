@@ -107,14 +107,14 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
 
   old_model <- model
 
-  if (class(model) == "SDMmodelCV")
+  if (inherits(model, "SDMmodelCV"))
     t <- TRUE
 
   for (i in 1:n) {
     data <- old_model@data
     data@data[variables[i]] <- NULL
 
-    if (metric != "aicc" & class(model) != "SDMmodelCV") {
+    if (metric != "aicc" & !inherits(model, "SDMmodelCV")) {
       t <- test
       t@data[variables[i]] <- NULL
     }
@@ -134,7 +134,7 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
       data <- old_model@data
       data@data <- data@data[variables[i]]
 
-      if (metric != "aicc" & class(model) != "SDMmodelCV") {
+      if (metric != "aicc" & !inherits(model, "SDMmodelCV")) {
         t <- test
         t@data <- t@data[variables[i]]
       }

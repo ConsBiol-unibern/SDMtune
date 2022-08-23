@@ -51,7 +51,7 @@
 #' test <- datasets[[3]]
 trainValTest <- function(x, test, val = 0, only_presence = FALSE, seed = NULL) {
 
-  if (class(x) != "SWD")
+  if (!inherits(x, "SWD"))
     stop("x must be an SWD object!")
 
   if (!is.null(seed))

@@ -23,21 +23,21 @@
 }
 
 .get_model_class <- function(model) {
-  if (class(model) == "SDMmodelCV") {
+  if (inherits(model, "SDMmodelCV")) {
     model <- model@models[[1]]
   }
   return(class(model@model))
 }
 
 .get_model_reg <- function(model) {
-  if (class(model) == "SDMmodelCV") {
+  if (inherits(model, "SDMmodelCV")) {
     model <- model@models[[1]]
   }
   return(model@model@reg)
 }
 
 .get_model_fc <- function(model) {
-  if (class(model) == "SDMmodelCV") {
+  if (inherits(model, "SDMmodelCV")) {
     model <- model@models[[1]]
   }
   return(model@model@fc)
@@ -98,7 +98,7 @@
   res <- list()
 
   for (j in 1:l) {
-    if (class(model) == "SDMmodel") {
+    if (inherits(model, "SDMmodel")) {
       m <- model
     } else {
       m <- model@models[[1]]
@@ -131,7 +131,7 @@
   distrs <- vector("character", length = length(models))
 
   for (i in seq_along(models)) {
-    if (class(models[[i]]) == "SDMmodel") {
+    if (inherits(models[[i]], "SDMmodel")) {
       m <- models[[i]]
     } else {
       m <- models[[i]]@models[[1]]
@@ -174,7 +174,7 @@
 
   args <- list(data = model@data)
 
-  if (class(model) == "SDMmodelCV") {
+  if (inherits(model, "SDMmodelCV")) {
     args$folds <- model@folds
     model <- model@models[[1]]@model
   } else {
@@ -222,16 +222,16 @@
 
 .check_args <- function(model, metric, test = NULL, env = NULL, hypers = NULL) {
   # Throws exception if metric is aicc and env is not provided
-  if (metric == "aicc" & is.null(env) & class(model) == "SDMmodel")
+  if (metric == "aicc" & is.null(env) & inherits(model, "SDMmodel"))
     stop("You must provide the 'env' argument if you want to use the AICc ",
          "metric!")
   # Throws exception if model is SDMmodel, metric is not aicc and
   # test is not provided
-  if (class(model) == "SDMmodel" & is.null(test) & metric != "aicc") {
+  if (inherits(model, "SDMmodel") & is.null(test) & metric != "aicc") {
     stop("You need to provide a test dataset!")
   }
   # Throws exception if metric is aicc and model is SDMmodelCV
-  if (class(model) == "SDMmodelCV" & metric == "aicc")
+  if (inherits(model, "SDMmodelCV") & metric == "aicc")
     stop("Metric 'aicc' not allowed with SDMmodelCV objects!")
   # Check hypers
   if (!is.null(hypers)) {

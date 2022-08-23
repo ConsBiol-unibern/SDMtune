@@ -34,7 +34,7 @@ plotPred <- function(map, lt = "", colorramp = NULL, hr = FALSE) {
          call. = FALSE)
   }
 
-  if (class(map) != "RasterLayer")
+  if (!inherits(map, "RasterLayer"))
     stop("Prediction must be a RasterLayer object!")
   if (is.null(colorramp))
     colorramp <- c("blue", "cyan", "green", "yellow", "red")

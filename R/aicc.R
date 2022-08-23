@@ -42,7 +42,7 @@
 #' aicc(model, predictors)
 aicc <- function(model, env) {
 
-  if (!class(model@model) %in% c("Maxent", "Maxnet"))
+  if (!inherits(model@model, c("Maxent", "Maxnet")))
     stop("AICc available only for \"Maxent\" and \"Maxnet\" methods.")
 
   # k is the number of non-zero parameter in the model

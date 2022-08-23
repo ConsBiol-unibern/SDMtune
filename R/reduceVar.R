@@ -92,7 +92,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     stop(paste("Percent contribution cannot be used with model of method",
                .get_model_class(model)))
 
-  if (class(model) == "SDMmodelCV")
+  if (inherits(model, "SDMmodelCV"))
     test <- TRUE
 
   variables_reduced <- FALSE

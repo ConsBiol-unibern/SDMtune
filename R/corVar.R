@@ -48,7 +48,7 @@ corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
          call. = FALSE)
   }
 
-  if (class(bg) != "SWD")
+  if (!inherits(bg, "SWD"))
     stop("\"bg\" must be an SWD object!")
 
   df <- bg@data

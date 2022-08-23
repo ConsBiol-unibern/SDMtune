@@ -72,7 +72,7 @@
 #' }
 auc <- function(model, test = NULL) {
 
-  if (class(model) == "SDMmodel") {
+  if (inherits(model, "SDMmodel")) {
     auc <- .compute_auc(model, test)
   } else {
     aucs <- vector("numeric", length = length(model@models))
@@ -98,7 +98,7 @@ auc <- function(model, test = NULL) {
 
 .compute_auc <- function(model, test) {
 
-  if (class(model@model) == "Maxent") {
+  if (inherits(model@model, "Maxent")) {
     type <- "raw"
   } else {
     type <- "link"
@@ -107,7 +107,7 @@ auc <- function(model, test = NULL) {
   if (is.null(test)) {
     data <- model@data
   } else {
-    if (class(test) != "SWD")
+    if (!inherits(test, "SWD"))
       stop("\"test\" argument invalid, use an SWD object.")
     data <- test
   }

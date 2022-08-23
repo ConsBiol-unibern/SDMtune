@@ -51,11 +51,11 @@
 #' merged <- mergeSWD(train, test)
 mergeSWD <- function(swd1, swd2, only_presence = FALSE) {
 
-  if (class(swd1) != "SWD" | class(swd2) != "SWD")
+  if (!inherits(swd1, "SWD") | !inherits(swd2, "SWD"))
     stop("The function accepts only SWD objects!")
 
   if (swd1@species != swd2@species)
-    stop("SWD1 and SWS2 have a different spwcies!")
+    stop("SWD1 and SWS2 have a different species!")
 
   if (length(colnames(swd1@data)) != length(colnames(swd2@data)) ||
       length(intersect(colnames(swd1@data), colnames(swd2@data))) !=

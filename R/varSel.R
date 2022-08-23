@@ -108,7 +108,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     stop(paste("Percent contribution cannot be used with model of method",
                .get_model_class(model)))
 
-  if (class(model) == "SDMmodelCV")
+  if (inherits(model, "SDMmodelCV"))
     test <- TRUE
 
   cor_vars <- corVar(bg4cor, method = method, cor_th = cor_th)

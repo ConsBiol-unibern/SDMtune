@@ -63,7 +63,7 @@ varImp <- function(model, permut = 10) {
 
   vars <- colnames(model@data@data)
 
-  if (class(model) == "SDMmodel") {
+  if (inherits(model, "SDMmodel")) {
     total <- length(vars)
   } else {
     l <- length(model@models)
@@ -75,7 +75,7 @@ varImp <- function(model, permut = 10) {
     total = total, clear = FALSE, width = 60, show_after = 0)
   pb$tick(0)
 
-  if (class(model) == "SDMmodel") {
+  if (inherits(model, "SDMmodel")) {
     model_auc <- auc(model)
     output <- .compute_permutation(model, model_auc, vars, permut, pb)
   } else {

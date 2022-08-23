@@ -72,7 +72,7 @@
 #' }
 tss <- function(model, test = NULL) {
 
-  if (class(model) == "SDMmodel") {
+  if (inherits(model, "SDMmodel")) {
     tss <- .compute_tss(model, test)
   } else {
     tsss <- vector("numeric", length = length(model@models))
@@ -97,7 +97,7 @@ tss <- function(model, test = NULL) {
 
 .compute_tss <- function(model, test) {
 
-  if (class(model@model) == "Maxent") {
+  if (inherits(model@model, "Maxent")) {
     type <- "raw"
   } else {
     type <- "link"

@@ -38,7 +38,7 @@
 #' @author Sergio Vignali
 SDMmodel2MaxEnt <- function(model) {
 
-  if (class(model@model) != "Maxent")
+  if (!inherits(model@model, "Maxent"))
     stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
 
   maxent_model <- new("MaxEnt")

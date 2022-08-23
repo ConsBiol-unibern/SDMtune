@@ -29,7 +29,7 @@
 #' getTunableArgs(model)
 getTunableArgs <- function(model) {
 
-  if (class(model) == "SDMmodelCV") {
+  if (inherits(model, "SDMmodelCV")) {
     method <- class(model@models[[1]]@model)
   } else {
     method <- class(model@model)

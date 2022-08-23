@@ -38,7 +38,7 @@
 #' new_data
 addSamplesToBg <- function(x, all = FALSE) {
 
-  if (class(x) != "SWD")
+  if (!inherits(x, "SWD"))
     stop("The function accepts only SWD objects.")
 
   # Append presence locations after background locations

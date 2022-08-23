@@ -46,7 +46,7 @@ plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
          call. = FALSE)
   }
 
-  if (class(map) != "RasterLayer")
+  if (!inherits(map, "RasterLayer"))
     stop("Prediction must be a RasterLayer object!")
 
   pa <- map >= th

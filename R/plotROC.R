@@ -47,7 +47,7 @@ plotROC <- function(model, test = NULL) {
          call. = FALSE)
   }
 
-  if (class(model@model) == "Maxent") {
+  if (inherits(model@model, "Maxent")) {
     type <- "raw"
   } else {
     type <- "link"

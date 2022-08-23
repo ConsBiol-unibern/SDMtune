@@ -101,7 +101,7 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
   p_rug <- data.frame(x = p[, var])
   a_rug <- data.frame(x = a[, var])
 
-  if (class(model) == "SDMmodel") {
+  if (inherits(model, "SDMmodel")) {
     plot_data <- .get_plot_data(model, var, df, cont_vars, cat_vars, n_rows,
                                 fun, marginal, type, categ)
 

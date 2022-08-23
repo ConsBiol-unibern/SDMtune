@@ -84,7 +84,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   # Create data frame with all possible combinations of hyperparameters
   grid <- .get_hypers_grid(model, hypers)
 
-  # Check that areguments are correctly provided
+  # Check that arguments are correctly provided
   .check_args(model, metric, test, env, hypers)
   # Check if at least two hyperparameters have more than one value
   .check_optimize_args(hypers, grid, pop)
@@ -92,7 +92,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   if (keep_best + keep_random > 1)
     stop("Sum of 'keep_best' and 'keep_random' cannot be more than 1!")
 
-  if (class(model) == "SDMmodelCV")
+  if (inherits(model, "SDMmodelCV"))
     test <- TRUE
 
   kept_good <- round(pop * keep_best)
