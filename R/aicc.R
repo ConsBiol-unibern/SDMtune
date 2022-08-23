@@ -46,7 +46,7 @@ aicc <- function(model, env) {
     stop("AICc available only for \"Maxent\" and \"Maxnet\" methods.")
 
   # k is the number of non-zero parameter in the model
-  if (class(model@model) == "Maxent") {
+  if (inherits(model@model, "Maxent")) {
     k <- nrow(model@model@coeff)
     type <- "raw"
   } else {
