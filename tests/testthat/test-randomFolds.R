@@ -1,8 +1,8 @@
 train <- SDMtune:::t
 
 test_that("Error are raised", {
-  expect_error(folds <- randomFolds(train@data, k = 2,
-                       "\"data\" argument is not of class SWD."))
+  expect_error(randomFolds(train@data, k = 2),
+               "\"data\" argument is not of class SWD.")
 })
 
 test_that("The output is correct for only_presence = FALSE", {

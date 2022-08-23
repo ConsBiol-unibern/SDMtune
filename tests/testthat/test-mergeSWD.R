@@ -1,6 +1,6 @@
 t <- SDMtune:::t
 
-test_that("Both preence and absence locations are merged", {
+test_that("Both presence and absence locations are merged", {
   x <- mergeSWD(t, t)
   np <- nrow(t@data[t@pa == 1, ])
   na <- nrow(t@data[t@pa == 0, ])
@@ -14,7 +14,7 @@ test_that("Both preence and absence locations are merged", {
   expect_equal(x@pa, c(rep(1, np * 2), rep(0, na * 2)))
 })
 
-test_that("Only preence locations are merged if only_presence is TRUE", {
+test_that("Only presence locations are merged if only_presence is TRUE", {
   x <- mergeSWD(t, t, only_presence = TRUE)
   np <- nrow(t@data[t@pa == 1, ])
   na <- nrow(t@data[t@pa == 0, ])
@@ -32,7 +32,7 @@ test_that("The function raises errors", {
   expect_error(mergeSWD(t, t@data), "The function accepts only SWD objects!")
   x <- t
   x@species <- "Gypaetus barbatus"
-  expect_error(mergeSWD(x, t), "SWD1 and SWS2 have a different spwcies!")
+  expect_error(mergeSWD(x, t), "SWD1 and SWS2 have a different species!")
 })
 
 test_that("The function warns if datasets have different variables", {
