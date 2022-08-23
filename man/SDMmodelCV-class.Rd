@@ -3,7 +3,15 @@
 \docType{class}
 \name{SDMmodelCV-class}
 \alias{SDMmodelCV-class}
+\alias{SDMmodelCV}
+\alias{show,SDMmodelCV-method}
 \title{SDMmodelCV}
+\usage{
+\S4method{show}{SDMmodelCV}(object)
+}
+\arguments{
+\item{object}{SDMmodelCV object}
+}
 \description{
 This Class represents an SDMmodel model object with replicates and hosts all
 the models trained during the cross validation.

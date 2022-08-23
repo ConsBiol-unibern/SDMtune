@@ -18,7 +18,7 @@
 #' @slot min_max data.frame. The minimum and maximum values of the continuous
 #' variables, used for clamping.
 #'
-#' @aliases NULL Maxent-class
+#' @rdname Maxent-class
 #' @export
 #'
 #' @author Sergio Vignali
@@ -38,6 +38,8 @@ Maxent <- setClass("Maxent",
                      min_max = "data.frame")
                    )
 
+#' @param object Maxent object
+#' @rdname Maxent-class
 setMethod("show",
           signature = "Maxent",
           definition = function(object) {

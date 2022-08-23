@@ -3,7 +3,15 @@
 \docType{class}
 \name{Maxent-class}
 \alias{Maxent-class}
+\alias{Maxent}
+\alias{show,Maxent-method}
 \title{Maxent}
+\usage{
+\S4method{show}{Maxent}(object)
+}
+\arguments{
+\item{object}{Maxent object}
+}
 \description{
 This Class represents a MaxEnt model objects and hosts all the information
 related to the model.

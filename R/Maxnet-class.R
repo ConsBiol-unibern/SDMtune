@@ -9,7 +9,7 @@ setOldClass("maxnet")
 #' @slot fc character. The feature class combination used to train the model.
 #' @slot model maxnet. The maxnet model object.
 #'
-#' @aliases  NULL Maxnet-class
+#' @rdname Maxnet-class
 #' @export
 #'
 #' @author Sergio Vignali
@@ -20,6 +20,8 @@ Maxnet <- setClass("Maxnet",
                      model = "maxnet")
 )
 
+#' @param object Maxnet object
+#' @rdname Maxnet-class
 setMethod("show",
           signature = "Maxnet",
           definition = function(object) {

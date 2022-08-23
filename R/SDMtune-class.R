@@ -6,7 +6,7 @@
 #' @slot results data.frame. Results with the evaluation of the models.
 #' @slot models list. List of \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV}
 #' objects.
-#' @aliases NULL SDMtune-class
+#' @rdname SDMtune-class
 #' @export
 #'
 #' @author Sergio Vignali
@@ -15,6 +15,8 @@ SDMtune <- setClass("SDMtune",
                               models = "list")
                     )
 
+#' @param object SDMtune object
+#' @rdname SDMtune-class
 setMethod("show",
   signature = "SDMtune",
   definition = function(object) {
@@ -39,15 +41,15 @@ if (!isGeneric("plot"))
 
 #' Plot SDMtune object
 #'
-#' Plot an \linkS4class{SDMtune} object. Use the interactive argument to create
+#' Plot an SDMtune object. Use the interactive argument to create
 #' an interactive chart.
 #'
-#' @param x \linkS4class{SDMtune} object.
+#' @param x SDMtune object.
 #' @param title character. The title of the plot, by default is an empty string.
 #' @param interactive logical, if TRUE plot an interactive chart, default is
 #' \code{FALSE}.
 #'
-#' @rdname plot-methods
+#' @rdname SDMtune-class
 #' @importFrom rlang .data
 #' @importFrom ggplot2 ggplot aes
 #' @exportMethod plot

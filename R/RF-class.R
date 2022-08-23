@@ -11,7 +11,7 @@ setOldClass("randomForest")
 #'
 #' @details See \link{randomForest} for the meaning of the slots.
 #'
-#' @aliases NULL RF-class
+#' @rdname RF-class
 #' @export
 #'
 #' @author Sergio Vignali
@@ -23,6 +23,8 @@ RF <- setClass("RF",
                  model = "randomForest")
 )
 
+#' @param object RF object
+#' @rdname RF-class
 setMethod("show",
           signature = "RF",
           definition = function(object) {

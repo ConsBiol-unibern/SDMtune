@@ -3,7 +3,15 @@
 \docType{class}
 \name{BRT-class}
 \alias{BRT-class}
+\alias{BRT}
+\alias{show,BRT-method}
 \title{Boosted Regression Tree}
+\usage{
+\S4method{show}{BRT}(object)
+}
+\arguments{
+\item{object}{BRT object}
+}
 \description{
 This Class represents a Boosted Regression Tree model objects and hosts all
 the information related to the model.

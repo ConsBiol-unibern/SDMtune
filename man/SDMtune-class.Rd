@@ -3,10 +3,38 @@
 \docType{class}
 \name{SDMtune-class}
 \alias{SDMtune-class}
+\alias{SDMtune}
+\alias{show,SDMtune-method}
+\alias{plot,SDMtune,missing-method}
 \title{SDMtune class}
+\usage{
+\S4method{show}{SDMtune}(object)
+
+\S4method{plot}{SDMtune,missing}(x, title = "", interactive = FALSE)
+}
+\arguments{
+\item{object}{SDMtune object}
+
+\item{x}{SDMtune object.}
+
+\item{title}{character. The title of the plot, by default is an empty string.}
+
+\item{interactive}{logical, if TRUE plot an interactive chart, default is
+\code{FALSE}.}
+}
+\value{
+If \code{interactive = FALSE} the function returns a
+\code{\link[ggplot2]{ggplot}} object otherwise it returns an SDMtuneChart
+object that contains the path of the temporary folder where the necessary
+files to create the chart are saved. In both cases the objects are returned
+as invisible.
+}
 \description{
 Class used to save the results of one of the following functions:
 \link{gridSearch}, \link{randomSearch} or \link{optimizeModel}.
+
+Plot an SDMtune object. Use the interactive argument to create
+an interactive chart.
 }
 \section{Slots}{
 
@@ -17,6 +45,44 @@ Class used to save the results of one of the following functions:
 objects.}
 }}
 
+\examples{
+\donttest{
+# Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd", full.names = TRUE)
+predictors <- raster::stack(files)
+
+# Prepare presence and background locations
+p_coords <- virtualSp$presence
+bg_coords <- virtualSp$background
+
+# Create SWD object
+data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
+                   env = predictors, categorical = "biome")
+
+# Split presence locations in training (80\%) and testing (20\%) datasets
+datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a model
+model <- train(method = "Maxnet", data = train, fc = "l")
+
+# Define the hyperparameters to test
+h <- list(reg = 1:5, fc = c("lqp", "lqph"))
+
+# Run the gridSearch function using as metric the AUC
+output <- gridSearch(model, hypers = h, metric = "auc", test = test)
+
+# Plot the output
+plot(output, title = "My experiment")
+
+# Plot the interactive chart
+p <- plot(output, title = "My experiment", interactive = TRUE)
+# Print the temporary folder that stores the files used to create the chart
+str(p)
+}
+}
 \author{
 Sergio Vignali
 }

@@ -1,7 +1,7 @@
 setOldClass("nnet")
 #' Artificial Neural Network
 #'
-#' This Class represents an Artificial Neural Network model objects and hosts
+#' This Class represents an Artificial Neural Network model object and hosts
 #' all the information related to the model.
 #'
 #' @slot size integer. Number of the units in the hidden layer.
@@ -12,7 +12,7 @@ setOldClass("nnet")
 #'
 #' @details See \link{nnet} for the meaning of the slots.
 #'
-#' @aliases NULL ANN-class
+#' @rdname ANN-class
 #' @export
 #'
 #' @author Sergio Vignali
@@ -25,6 +25,8 @@ ANN <- setClass("ANN",
                   model = "nnet")
 )
 
+#' @param object ANN object
+#' @rdname ANN-class
 setMethod("show",
           signature = "ANN",
           definition = function(object) {

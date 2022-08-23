@@ -14,7 +14,7 @@ setOldClass("gbm")
 #'
 #' @details See \link{gbm} for the meaning of the slots.
 #'
-#' @aliases NULL BRT-class
+#' @rdname BRT-class
 #' @export
 #'
 #' @author Sergio Vignali
@@ -28,6 +28,8 @@ BRT <- setClass("BRT",
                   model = "gbm")
 )
 
+#' @param object BRT object
+#' @rdname BRT-class
 setMethod("show",
           signature = "BRT",
           definition = function(object) {

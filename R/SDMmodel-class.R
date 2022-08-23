@@ -8,7 +8,7 @@ setClassUnion("model", c("Maxent", "Maxnet", "ANN", "RF", "BRT"))
 #' @slot model An object of class \linkS4class{ANN}, \linkS4class{BRT},
 #' \linkS4class{RF}, \linkS4class{Maxent} or \linkS4class{Maxnet}.
 #'
-#' @aliases NULL SDMmodel-class
+#' @rdname SDMmodel-class
 #' @include SWD-class.R Maxent-class.R Maxnet-class.R RF-class.R BRT-class.R
 #' ANN-class.R
 #' @export
@@ -20,6 +20,8 @@ SDMmodel <- setClass("SDMmodel",
     model = "model")
 )
 
+#' @param object SDMmodel object
+#' @rdname SDMmodel-class
 setMethod(
   "show",
   signature = "SDMmodel",

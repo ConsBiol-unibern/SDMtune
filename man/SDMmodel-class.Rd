@@ -3,7 +3,15 @@
 \docType{class}
 \name{SDMmodel-class}
 \alias{SDMmodel-class}
+\alias{SDMmodel}
+\alias{show,SDMmodel-method}
 \title{SDMmodel}
+\usage{
+\S4method{show}{SDMmodel}(object)
+}
+\arguments{
+\item{object}{SDMmodel object}
+}
 \description{
 This Class represents an SDMmodel object and hosts all the information
 related to the model.

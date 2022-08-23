@@ -3,9 +3,17 @@
 \docType{class}
 \name{ANN-class}
 \alias{ANN-class}
+\alias{ANN}
+\alias{show,ANN-method}
 \title{Artificial Neural Network}
+\usage{
+\S4method{show}{ANN}(object)
+}
+\arguments{
+\item{object}{ANN object}
+}
 \description{
-This Class represents an Artificial Neural Network model objects and hosts
+This Class represents an Artificial Neural Network model object and hosts
 all the information related to the model.
 }
 \details{

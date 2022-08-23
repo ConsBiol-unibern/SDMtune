@@ -11,7 +11,7 @@
 #' for the testing dataset. Each column of one matrix represents a fold with
 #' `TRUE` for the locations included in and `FALSE` excluded from the partition.
 #'
-#' @aliases NULL SDMmodelCV-class
+#' @rdname SDMmodelCV-class
 #' @include SWD-class.R
 #' @export
 #'
@@ -24,6 +24,8 @@ SDMmodelCV <- setClass("SDMmodelCV",
                        )
 )
 
+#' @param object SDMmodelCV object
+#' @rdname SDMmodelCV-class
 setMethod(
   "show",
   signature = "SDMmodelCV",

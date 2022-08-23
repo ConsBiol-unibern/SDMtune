@@ -3,7 +3,15 @@
 \docType{class}
 \name{SWD-class}
 \alias{SWD-class}
+\alias{SWD}
+\alias{show,SWD-method}
 \title{Sample With Data}
+\usage{
+\S4method{show}{SWD}(object)
+}
+\arguments{
+\item{object}{SWD object}
+}
 \description{
 Object similar to the MaxEnt SWD format that hosts the species name, the
 coordinates of the locations and the value of the environmental variables at

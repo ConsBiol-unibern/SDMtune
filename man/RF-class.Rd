@@ -3,7 +3,15 @@
 \docType{class}
 \name{RF-class}
 \alias{RF-class}
+\alias{RF}
+\alias{show,RF-method}
 \title{Random Forest}
+\usage{
+\S4method{show}{RF}(object)
+}
+\arguments{
+\item{object}{RF object}
+}
 \description{
 This Class represents a Random Forest model objects and hosts all the
 information related to the model.

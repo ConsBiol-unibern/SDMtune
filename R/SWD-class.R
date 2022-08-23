@@ -15,7 +15,7 @@
 #' presence only or absence/background only data. Use the \link{prepareSWD}
 #' function to create the object.
 #'
-#' @aliases NULL SWD-class
+#' @rdname SWD-class
 #' @export
 #'
 #' @author Sergio Vignali
@@ -40,6 +40,8 @@ SWD <- setClass("SWD",
                 }
 )
 
+#' @param object SWD object
+#' @rdname SWD-class
 setMethod(
   "show",
   signature = "SWD",

@@ -3,7 +3,15 @@
 \docType{class}
 \name{Maxnet-class}
 \alias{Maxnet-class}
+\alias{Maxnet}
+\alias{show,Maxnet-method}
 \title{Maxnet}
+\usage{
+\S4method{show}{Maxnet}(object)
+}
+\arguments{
+\item{object}{Maxnet object}
+}
 \description{
 This Class represents a Maxnet model objects and hosts all the information
 related to the model.
