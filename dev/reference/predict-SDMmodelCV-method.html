@@ -34,7 +34,7 @@ of the k models."><meta property="og:image" content="https://consbiol-unibern.gi
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -101,54 +101,75 @@ model. The output is given as the provided function applied to the prediction
 of the k models.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S4 method for SDMmodelCV</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>
-  <span class="va">object</span>,
-  <span class="va">data</span>,
-  fun <span class="op">=</span> <span class="st">"mean"</span>,
-  type <span class="op">=</span> <span class="cn">NULL</span>,
-  clamp <span class="op">=</span> <span class="cn">TRUE</span>,
-  filename <span class="op">=</span> <span class="st">""</span>,
-  format <span class="op">=</span> <span class="st">"GTiff"</span>,
-  extent <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for SDMmodelCV</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">data</span>,</span>
+<span>  fun <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  clamp <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  filename <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  format <span class="op">=</span> <span class="st">"GTiff"</span>,</span>
+<span>  extent <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
 <dd><p><a href="SDMmodelCV-class.html">SDMmodelCV</a> object.</p></dd>
+
+
 <dt>data</dt>
 <dd><p>data.frame, <a href="SWD-class.html">SWD</a> or raster <a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a> with
 the data for the prediction.</p></dd>
+
+
 <dt>fun</dt>
 <dd><p>character. function used to combine the output of the k models,
 default is <code>"mean"</code>. Note that fun is a character argument, you must use
 <code>"mean"</code> and not <code>mean</code>. You can also pass a vector of character containing
 multiple function names, see details.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>character. Output type, see details, used only for <strong>Maxent</strong> and
 <strong>Maxnet</strong> methods, default is <code>NULL</code>.</p></dd>
+
+
 <dt>clamp</dt>
 <dd><p>logical for clumping during prediction, used only for <strong>Maxent</strong>
 and <strong>Maxnet</strong> methods, default is <code>TRUE</code>.</p></dd>
+
+
 <dt>filename</dt>
 <dd><p>character. Output file name for the prediction map, used only
 when <code>data</code> is a <a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a> object. If provided the output is saved
 in a file, see details.</p></dd>
+
+
 <dt>format</dt>
-<dd><p>character. The output format, see <a href="https://rdrr.io/pkg/raster/man/writeRaster.html" class="external-link">writeRaster</a>
+<dd><p>character. The output format, see <a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">writeRaster</a>
 for all the options, default is "GTiff".</p></dd>
+
+
 <dt>extent</dt>
 <dd><p><a href="https://rdrr.io/pkg/raster/man/extent.html" class="external-link">extent</a> object, if provided it restricts the
 prediction to the given extent, default is <code>NULL</code>.</p></dd>
+
+
 <dt>...</dt>
-<dd><p>Additional arguments to pass to the <a href="https://rdrr.io/pkg/raster/man/writeRaster.html" class="external-link">writeRaster</a>
+<dd><p>Additional arguments to pass to the <a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">writeRaster</a>
 function.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A vector with the prediction or a <a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a> object if
+    
+
+<p>A vector with the prediction or a <a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a> object if
 data is a raster <a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a> or a list in the case of multiple
 functions.</p>
     </div>
@@ -188,29 +209,29 @@ values from a lambdas file.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># Acquire environmental variables</span></span>
-<span class="r-in"><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dismo"</span><span class="op">)</span>, <span class="st">"ex"</span><span class="op">)</span>,</span>
-<span class="r-in">                    pattern <span class="op">=</span> <span class="st">"grd"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Prepare presence and background locations</span></span>
-<span class="r-in"><span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span></span>
-<span class="r-in"><span class="va">bg_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">background</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create SWD object</span></span>
-<span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span>
-<span class="r-in">                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Acquire environmental variables</span></span></span>
+<span class="r-in"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dismo"</span><span class="op">)</span>, <span class="st">"ex"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    pattern <span class="op">=</span> <span class="st">"grd"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Prepare presence and background locations</span></span></span>
+<span class="r-in"><span><span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span></span></span>
+<span class="r-in"><span><span class="va">bg_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">background</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create SWD object</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
+<span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Extracting predictor information for presence locations...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Extracting predictor information for absence/background locations...</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create 4 random folds splitting only the presence data</span></span>
-<span class="r-in"><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">data</span>, k <span class="op">=</span> <span class="fl">4</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">data</span>, fc <span class="op">=</span> <span class="st">"l"</span>, folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Make cloglog prediction for the all study area and get the result as</span></span>
-<span class="r-in"><span class="co"># average of the k models</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, data <span class="op">=</span> <span class="va">predictors</span>, fun <span class="op">=</span> <span class="st">"mean"</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create 4 random folds splitting only the presence data</span></span></span>
+<span class="r-in"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">data</span>, k <span class="op">=</span> <span class="fl">4</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">data</span>, fc <span class="op">=</span> <span class="st">"l"</span>, folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make cloglog prediction for the all study area and get the result as</span></span></span>
+<span class="r-in"><span><span class="co"># average of the k models</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, data <span class="op">=</span> <span class="va">predictors</span>, fun <span class="op">=</span> <span class="st">"mean"</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class      : RasterLayer </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> dimensions : 192, 186, 35712  (nrow, ncol, ncell)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution : 0.5, 0.5  (x, y)</span>
@@ -220,27 +241,27 @@ values from a lambdas file.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> names      : layer </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> values     : 0.002795287, 0.9976156  (min, max)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Make cloglog prediction for the all study area, get the average, standard</span></span>
-<span class="r-in"><span class="co"># deviation, and maximum values of the k models, and save the output in three</span></span>
-<span class="r-in"><span class="co"># files</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># The following commands save the output in the working directory</span></span>
-<span class="r-in"><span class="va">maps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, data <span class="op">=</span> <span class="va">predictors</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"max"</span><span class="op">)</span>,</span>
-<span class="r-in">                type <span class="op">=</span> <span class="st">"cloglog"</span>, filename <span class="op">=</span> <span class="st">"prediction"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># In this case three files are created: prediction_mean.tif,</span></span>
-<span class="r-in"><span class="co"># prediction_sd.tif and prediction_max.tif</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">maps</span><span class="op">$</span><span class="va">mean</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">maps</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">maps</span><span class="op">$</span><span class="va">max</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Make logistic prediction for the all study area, given as standard</span></span>
-<span class="r-in"><span class="co"># deviation of the k models, and save it in a file</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, data <span class="op">=</span> <span class="va">predictors</span>, fun <span class="op">=</span> <span class="st">"sd"</span>, type <span class="op">=</span> <span class="st">"logistic"</span>,</span>
-<span class="r-in">        filename <span class="op">=</span> <span class="st">"my_map"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make cloglog prediction for the all study area, get the average, standard</span></span></span>
+<span class="r-in"><span><span class="co"># deviation, and maximum values of the k models, and save the output in three</span></span></span>
+<span class="r-in"><span><span class="co"># files</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># The following commands save the output in the working directory</span></span></span>
+<span class="r-in"><span><span class="va">maps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, data <span class="op">=</span> <span class="va">predictors</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"max"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                type <span class="op">=</span> <span class="st">"cloglog"</span>, filename <span class="op">=</span> <span class="st">"prediction"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># In this case three files are created: prediction_mean.tif,</span></span></span>
+<span class="r-in"><span><span class="co"># prediction_sd.tif and prediction_max.tif</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">maps</span><span class="op">$</span><span class="va">mean</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">maps</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">maps</span><span class="op">$</span><span class="va">max</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make logistic prediction for the all study area, given as standard</span></span></span>
+<span class="r-in"><span><span class="co"># deviation of the k models, and save it in a file</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, data <span class="op">=</span> <span class="va">predictors</span>, fun <span class="op">=</span> <span class="st">"sd"</span>, type <span class="op">=</span> <span class="st">"logistic"</span>,</span></span>
+<span class="r-in"><span>        filename <span class="op">=</span> <span class="st">"my_map"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -255,7 +276,7 @@ values from a lambdas file.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

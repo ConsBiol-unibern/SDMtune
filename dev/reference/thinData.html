@@ -34,7 +34,7 @@ one."><meta property="og:image" content="https://consbiol-unibern.github.io/SDMt
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -101,25 +101,36 @@ more than one location falls within the same raster cell it selects randomly
 one.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">thinData</span><span class="op">(</span><span class="va">coords</span>, <span class="va">env</span>, x <span class="op">=</span> <span class="st">"x"</span>, y <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></code></pre></div></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">thinData</span><span class="op">(</span><span class="va">coords</span>, <span class="va">env</span>, x <span class="op">=</span> <span class="st">"x"</span>, y <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>coords</dt>
 <dd><p>data.frame or matrix with the coordinates, see details.</p></dd>
+
+
 <dt>env</dt>
 <dd><p><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a> containing the environmental variables, or a
 single <a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a> layer.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>character. Name of the column containing the x coordinates, default
 is "x".</p></dd>
+
+
 <dt>y</dt>
 <dd><p>character. Name of the column containing the y coordinates, default
 is "y".</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a matrix or a data frame with the thinned locations.</p>
+    
+
+<p>a matrix or a data frame with the thinned locations.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -140,40 +151,40 @@ specified using the arguments <code>x</code> and <code>y</code>.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># Acquire environmental variables</span></span>
-<span class="r-in"><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dismo"</span><span class="op">)</span>, <span class="st">"ex"</span><span class="op">)</span>,</span>
-<span class="r-in">                    pattern <span class="op">=</span> <span class="st">"grd"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Prepare background locations</span></span>
-<span class="r-in"><span class="va">bg_coords</span> <span class="op">&lt;-</span> <span class="fu">dismo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html" class="external-link">randomPoints</a></span><span class="op">(</span><span class="va">predictors</span>, <span class="fl">9000</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bg_coords</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Acquire environmental variables</span></span></span>
+<span class="r-in"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dismo"</span><span class="op">)</span>, <span class="st">"ex"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    pattern <span class="op">=</span> <span class="st">"grd"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Prepare background locations</span></span></span>
+<span class="r-in"><span><span class="va">bg_coords</span> <span class="op">&lt;-</span> <span class="fu">dismo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html" class="external-link">randomPoints</a></span><span class="op">(</span><span class="va">predictors</span>, <span class="fl">9000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bg_coords</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9000</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Thin the locations</span></span>
-<span class="r-in"><span class="co"># There are probably few coordinates that have NAs for some predictors, the</span></span>
-<span class="r-in"><span class="co"># function will remove these coordinates. Note that the function expects to</span></span>
-<span class="r-in"><span class="co"># the coordinates in two column named "x" and "y"</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">bg_coords</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Thin the locations</span></span></span>
+<span class="r-in"><span><span class="co"># There are probably few coordinates that have NAs for some predictors, the</span></span></span>
+<span class="r-in"><span><span class="co"># function will remove these coordinates. Note that the function expects to</span></span></span>
+<span class="r-in"><span><span class="co"># the coordinates in two column named "x" and "y"</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">bg_coords</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x" "y"</span>
-<span class="r-in"><span class="va">thinned_bg</span> <span class="op">&lt;-</span> <span class="fu">thinData</span><span class="op">(</span><span class="va">bg_coords</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">thinned_bg</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">thinned_bg</span> <span class="op">&lt;-</span> <span class="fu">thinData</span><span class="op">(</span><span class="va">bg_coords</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">thinned_bg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8993</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Here we double the coordinates and run the function again</span></span>
-<span class="r-in"><span class="va">thinned_bg</span> <span class="op">&lt;-</span> <span class="fu">thinData</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">bg_coords</span>, <span class="va">bg_coords</span><span class="op">)</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">thinned_bg</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Here we double the coordinates and run the function again</span></span></span>
+<span class="r-in"><span><span class="va">thinned_bg</span> <span class="op">&lt;-</span> <span class="fu">thinData</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">bg_coords</span>, <span class="va">bg_coords</span><span class="op">)</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">thinned_bg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8993</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># In case of a dataframe containing more than two columns (e.g. a dataframe</span></span>
-<span class="r-in"><span class="co"># with the coordinates plus an additional column with the age of the species)</span></span>
-<span class="r-in"><span class="co"># and custom column names, use the function in this way</span></span>
-<span class="r-in"><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bg_coords</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">age</span>, <span class="va">bg_coords</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">thinned_bg</span> <span class="op">&lt;-</span> <span class="fu">thinData</span><span class="op">(</span><span class="va">data</span>, env <span class="op">=</span> <span class="va">predictors</span>, x <span class="op">=</span> <span class="st">"X"</span>, y <span class="op">=</span> <span class="st">"Y"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># In case of a dataframe containing more than two columns (e.g. a dataframe</span></span></span>
+<span class="r-in"><span><span class="co"># with the coordinates plus an additional column with the age of the species)</span></span></span>
+<span class="r-in"><span><span class="co"># and custom column names, use the function in this way</span></span></span>
+<span class="r-in"><span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bg_coords</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">age</span>, <span class="va">bg_coords</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">thinned_bg</span> <span class="op">&lt;-</span> <span class="fu">thinData</span><span class="op">(</span><span class="va">data</span>, env <span class="op">=</span> <span class="va">predictors</span>, x <span class="op">=</span> <span class="st">"X"</span>, y <span class="op">=</span> <span class="st">"Y"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      age      X      Y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   2 -68.25  -1.75</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   1 -44.75 -11.75</span>
@@ -181,7 +192,7 @@ specified using the arguments <code>x</code> and <code>y</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]   1 -75.25   8.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,]   1 -46.75 -17.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6,]   1 -68.25 -34.25</span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -196,7 +207,7 @@ specified using the arguments <code>x</code> and <code>y</code>.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

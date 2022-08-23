@@ -60,7 +60,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -155,22 +155,22 @@
 </h2>
 <p>As usually we first load the <strong>SDMtune</strong> package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://consbiol-unibern.github.io/SDMtune/">SDMtune</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    _____  ____   __  ___ __</span>
-<span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span>
-<span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span>
-<span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span>
-<span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.1.5.9000</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://consbiol-unibern.github.io/SDMtune/">SDMtune</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;    _____  ____   __  ___ __</span></span>
+<span><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></span>
+<span><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></span>
+<span><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></span>
+<span><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.1.5.9000</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></span></code></pre></div>
 <p>The AUC can be calculated using the function <code><a href="../reference/auc.html">auc()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.8728322</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.8728322</span></span></code></pre></div>
 <p>We can also plot the ROC curve using the function <code><a href="../reference/plotROC.html">plotROC()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="evaluate-model_files/figure-html/plot%20roc-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
@@ -178,16 +178,16 @@
 </h2>
 <p>The TSS is computed with the function <code><a href="../reference/tss.html">tss()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tss.html">tss</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.6419</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tss.html">tss</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.6419</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="aicc">AICc<a class="anchor" aria-label="anchor" href="#aicc"></a>
 </h2>
 <p>For the AICc we use the function <code><a href="../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument the ‘predictors’ raster <code>stack</code> object that we created in the <a href="./prepare-data.html#acquire-environmental-variables">first article</a>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/aicc.html">aicc</a></span><span class="op">(</span><span class="va">default_model</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span>
-<span class="co">#&gt; [1] 6618.725</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aicc.html">aicc</a></span><span class="op">(</span><span class="va">default_model</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 6618.725</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
 </h3>
@@ -240,7 +240,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
