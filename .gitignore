@@ -9,3 +9,5 @@ src/*.so
 src/*.dll
 .idea
 docs
+/doc/
+/Meta/
