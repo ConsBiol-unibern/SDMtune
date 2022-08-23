@@ -143,7 +143,7 @@
 <div class="section level2">
 <h2 id="explore-variable-correlation">Explore variable correlation<a class="anchor" aria-label="anchor" href="#explore-variable-correlation"></a>
 </h2>
-<p>We extract 10000 background locations using the function <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints" class="external-link">randomPoints</a> included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code>SWD()</code> object using the <code><a href="../reference/prepareSWD.html">prepareSWD()</a></code> function:</p>
+<p>We extract 10000 background locations using the function <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints" class="external-link">randomPoints</a> included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code><a href="../reference/SWD-class.html">SWD()</a></code> object using the <code><a href="../reference/prepareSWD.html">prepareSWD()</a></code> function:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span></span>
 <span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu">dismo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html" class="external-link">randomPoints</a></span><span class="op">(</span><span class="va">predictors</span>, <span class="fl">10000</span><span class="op">)</span></span>

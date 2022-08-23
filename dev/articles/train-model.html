@@ -182,7 +182,7 @@
 <li>
 <code>method</code>: “Maxent” in our case;</li>
 <li>
-<code>data</code>: the <code>SWD()</code> object with the presence and background locations that we created in the previous article.</li>
+<code>data</code>: the <code><a href="../reference/SWD-class.html">SWD()</a></code> object with the presence and background locations that we created in the previous article.</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxent"</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span></code></pre></div>
@@ -197,7 +197,7 @@
 <div class="section level2">
 <h2 id="explore-an-sdmmodel-object">Explore an SDMmodel object<a class="anchor" aria-label="anchor" href="#explore-an-sdmmodel-object"></a>
 </h2>
-<p>The output of the function <code><a href="../reference/train.html">train()</a></code> is an object of class <code>SDMmodel()</code>. Let’s print it:</p>
+<p>The output of the function <code><a href="../reference/train.html">train()</a></code> is an object of class <code><a href="../reference/SDMmodel-class.html">SDMmodel()</a></code>. Let’s print it:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_model</span></span>
 <span><span class="co">#&gt; Object of class SDMmodel </span></span>
@@ -238,15 +238,15 @@
 </ul>
 </li>
 </ul>
-<p>An <code>SDMmodel()</code> object has two slots:</p>
+<p>An <code><a href="../reference/SDMmodel-class.html">SDMmodel()</a></code> object has two slots:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/slot.html" class="external-link">slotNames</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "data"  "model"</span></span></code></pre></div>
 <ul>
 <li>
-<strong>data</strong>: an <code>SWD()</code> object with the presence absence/background locations used to train the model;</li>
+<strong>data</strong>: an <code><a href="../reference/SWD-class.html">SWD()</a></code> object with the presence absence/background locations used to train the model;</li>
 <li>
-<strong>model</strong>: a <code>Maxent()</code> object, in our case, with all the model configurations.</li>
+<strong>model</strong>: a <code><a href="../reference/Maxent-class.html">Maxent()</a></code> object, in our case, with all the model configurations.</li>
 </ul>
 <p>The slot <code>model</code> contains the configurations of the model plus other information used to make predictions.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -289,7 +289,7 @@
 <p>In this article you have learned:</p>
 <ul>
 <li>how to train a <strong>Maxent</strong> model using default settings;</li>
-<li>how to explore an <code>SDMmodel()</code> object;</li>
+<li>how to explore an <code><a href="../reference/SDMmodel-class.html">SDMmodel()</a></code> object;</li>
 <li>how to train a model changing the default settings;</li>
 <li>how to train a model using the <strong>Maxnet</strong> method.</li>
 </ul>

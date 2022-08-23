@@ -167,7 +167,7 @@
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Call the gridSearch function</span></span>
 <span><span class="va">exp_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">val</span><span class="op">)</span></span></code></pre></div>
-<p>As you noticed we used the validation dataset as test argument. The output of the function is an object of class <code>SDMtune()</code>. Let’s print it:</p>
+<p>As you noticed we used the validation dataset as test argument. The output of the function is an object of class <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code>. Let’s print it:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_1</span></span>
 <span><span class="co">#&gt; Object of class:  SDMtune </span></span>
@@ -176,14 +176,14 @@
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt; fc: lqph</span></span>
 <span><span class="co">#&gt; reg: 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1</span></span></code></pre></div>
-<p>When you print the output, the text contains the models configuration that have been used during the execution of the function. In our case, only the regularization multiplier <code>reg</code> has multiple values. You can plot the <code>SDMtune()</code> object:</p>
+<p>When you print the output, the text contains the models configuration that have been used during the execution of the function. In our case, only the regularization multiplier <code>reg</code> has multiple values. You can plot the <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, title <span class="op">=</span> <span class="st">"Experiment 1"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tune-hyperparameters_files/figure-html/plot%20exp_1-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>and you can also recreate the interactive chart using:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, title <span class="op">=</span> <span class="st">"Experiment 1"</span>, interactive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>The <code>SDMtune()</code> object stores the results in the slot <code>@results</code>:</p>
+<p>The <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in the slot <code>@results</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_1</span><span class="op">@</span><span class="va">results</span></span>
 <span><span class="co">#&gt;     fc reg train_AUC  test_AUC   diff_AUC</span></span>
@@ -253,7 +253,7 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span><span class="op">)</span>, fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">exp_6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomSearch.html">randomSearch</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">val</span>, pop <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">65466</span><span class="op">)</span></span></code></pre></div>
-<p>The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 10 instead of 150 models. The results includes the 10 trained model. If you are not happy with the solution, you can check the best hyperparameter combinations and this gives you an intuition of which ones are the hyperparameters to “refine” using the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>. The <code>SDMtune()</code> object stores the results in a <code>data.frame</code> than can be accessed with the following command:</p>
+<p>The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 10 instead of 150 models. The results includes the 10 trained model. If you are not happy with the solution, you can check the best hyperparameter combinations and this gives you an intuition of which ones are the hyperparameters to “refine” using the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>. The <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in a <code>data.frame</code> than can be accessed with the following command:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_6</span><span class="op">@</span><span class="va">results</span></span>
 <span><span class="co">#&gt;      fc reg train_AUC  test_AUC   diff_AUC</span></span>
@@ -327,7 +327,7 @@
 <li>the training/validation/testing evaluation strategy;</li>
 <li>how to explore the effect of changing one model hyperparameter at time;</li>
 <li>how to tune the model hyperparameters using three different functions;</li>
-<li>how to merge two <code>SWD()</code> objects;</li>
+<li>how to merge two <code><a href="../reference/SWD-class.html">SWD()</a></code> objects;</li>
 <li>how to evaluate a final model using the held apart testing dataset.</li>
 </ul>
 <div class="section level4">
