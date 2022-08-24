@@ -1,4 +1,5 @@
-# SDMtune 1.1.5.9000
+# SDMtune 1.1.6
+Resolve CRAN notes
 
 # SDMtune 1.1.5
 Bug fixes:
