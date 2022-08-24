@@ -191,11 +191,11 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-in"><span><span class="co"># Run the function using the AUC as metric</span></span></span>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">gridSearch</span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8641106 0.8550288 0.009081875</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8720012 0.8593738 0.012627500</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8603525 0.8514863 0.008866250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8661331 0.8552262 0.010906875</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8639581 0.8538288 0.01012937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8711119 0.8588613 0.01225062</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8601887 0.8521237 0.00806500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8665600 0.8540912 0.01246875</span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">models</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
@@ -267,11 +267,11 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
 <span class="r-in"><span><span class="co"># Order rusults by highest test AUC</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8720012 0.8593738 0.012627500</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8661331 0.8552262 0.010906875</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8641106 0.8550288 0.009081875</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8603525 0.8514863 0.008866250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8711119 0.8588613 0.01225062</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8665600 0.8540912 0.01246875</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8639581 0.8538288 0.01012937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8601887 0.8521237 0.00806500</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run the function using the AICc as metric and without saving the trained</span></span></span>
 <span class="r-in"><span><span class="co"># models, helpful when numerous hyperparameters are tested to avoid memory</span></span></span>
@@ -280,10 +280,10 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-in"><span>                     save_models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg     AICc delta_AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5268.370  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5292.975 24.6041601</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5278.316  9.9454575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5268.712  0.3418705</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5265.278    0.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5277.372   12.09404</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5280.923   15.64588</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5277.977   12.69964</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

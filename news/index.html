@@ -98,8 +98,11 @@
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.5" id="sdmtune-115">SDMtune 1.1.5<small>2021-07-17</small><a class="anchor" aria-label="anchor" href="#sdmtune-115"></a></h2>
-<p>Bug fixes: * Allow fold partitions created with ENMeval &gt;= 2.0 * Fix error generated when plotting response for categorical predictors using RF * Update maxnet to version 0.1.4 to solve issue in cran checks</p>
-</div>
+<p>Bug fixes:</p>
+<ul><li>Allow fold partitions created with ENMeval &gt;= 2.0</li>
+<li>Fix error generated when plotting response for categorical predictors using RF</li>
+<li>Update maxnet to version 0.1.4 to solve issue in cran checks</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.4" id="sdmtune-114">SDMtune 1.1.4<small>2021-03-14</small><a class="anchor" aria-label="anchor" href="#sdmtune-114"></a></h2>
 <p>Bug fixes: Add the argument <code>factors</code> to the function <code><a href="../reference/modelReport.html">modelReport()</a></code> to allow predictions for raster objects including categorical variables</p>
@@ -116,34 +119,59 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.1" id="sdmtune-111">SDMtune 1.1.1<small>2020-07-17</small><a class="anchor" aria-label="anchor" href="#sdmtune-111"></a></h2>
-<p>Main changes: * New function <code><a href="../reference/checkMaxentInstallation.html">checkMaxentInstallation()</a></code> to check if Maxent is correctly configured. * The argument parallel is deprecated and not used anymore. This because it improved computation only for very large datasets and used the superseded package snow. * The function <code>get_tunable_args()</code> has been replaced by <code><a href="../reference/getTunableArgs.html">getTunableArgs()</a></code> to be consistent with the camel case function naming. At the moment is still possible to use both functions but <code>get_tunable_args()</code> will be deprecated in the next release. * Four new vignette are now available with the package.</p>
-<p>Bug fix: <code>plotPA</code> function now works also with new version of <code>ggplot2</code>.</p>
+<p>Main changes:</p>
+<ul><li>New function <code><a href="../reference/checkMaxentInstallation.html">checkMaxentInstallation()</a></code> to check if Maxent is correctly configured.</li>
+<li>The argument parallel is deprecated and not used anymore. This because it improved computation only for very large datasets and used the superseded package snow.</li>
+<li>The function <code>get_tunable_args()</code> has been replaced by <code><a href="../reference/getTunableArgs.html">getTunableArgs()</a></code> to be consistent with the camel case function naming. At the moment is still possible to use both functions but <code>get_tunable_args()</code> will be deprecated in the next release.</li>
+<li>Four new vignette are now available with the package.</li>
+</ul><p>Bug fix: <code>plotPA</code> function now works also with new version of <code>ggplot2</code>.</p>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.0" id="sdmtune-110">SDMtune 1.1.0<small>2020-03-11</small><a class="anchor" aria-label="anchor" href="#sdmtune-110"></a></h2>
-<p>Main changes: * The function <code>thinData</code> accept now a matrix or a dataframe with several columns, useful if the users has information related to the coordinates that doesn’t want to lose with the thinning procedure. * The function <code>plotResponse</code> plots the response for the full range of presences and backgrounds/absences when only_presence is TRUE, only_presence is unused only to compute the provided function to the range of presence locations when marginal = TRUE</p>
-<p>Bug fix: * Interactive plot of SDMtune objects are again displayed in the RStudio Viewer pane</p>
-</div>
+<p>Main changes:</p>
+<ul><li>The function <code>thinData</code> accept now a matrix or a dataframe with several columns, useful if the users has information related to the coordinates that doesn’t want to lose with the thinning procedure.</li>
+<li>The function <code>plotResponse</code> plots the response for the full range of presences and backgrounds/absences when only_presence is TRUE, only_presence is unused only to compute the provided function to the range of presence locations when marginal = TRUE</li>
+</ul><p>Bug fix:</p>
+<ul><li>Interactive plot of SDMtune objects are again displayed in the RStudio Viewer pane</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.1" id="sdmtune-101">SDMtune 1.0.1<small>2019-12-17</small><a class="anchor" aria-label="anchor" href="#sdmtune-101"></a></h2>
-<p>Bug fixes: * Fix CRAN errors * Fix bug introduced with version 1.0.0</p>
-</div>
+<p>Bug fixes:</p>
+<ul><li>Fix CRAN errors</li>
+<li>Fix bug introduced with version 1.0.0</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.0" id="sdmtune-100">SDMtune 1.0.0<small>2019-12-10</small><a class="anchor" aria-label="anchor" href="#sdmtune-100"></a></h2>
-<p>Main changes: * In this release all deprecated functions and functions’ arguments have been removed, including the functions to convert old objects (created with version &lt; 0.2.0.) into the new format. * Add function <code>addSamplesToBg</code> to add presence locations to background location. * <code>extra_args</code> in Maxent models cannot be changed anymore.</p>
-<p>Bug fix: Fix CRAN error for r-oldrel</p>
+<p>Main changes:</p>
+<ul><li>In this release all deprecated functions and functions’ arguments have been removed, including the functions to convert old objects (created with version &lt; 0.2.0.) into the new format.</li>
+<li>Add function <code>addSamplesToBg</code> to add presence locations to background location.</li>
+<li>
+<code>extra_args</code> in Maxent models cannot be changed anymore.</li>
+</ul><p>Bug fix: Fix CRAN error for r-oldrel</p>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.1" id="sdmtune-021">SDMtune 0.2.1<small>2019-12-05</small><a class="anchor" aria-label="anchor" href="#sdmtune-021"></a></h2>
-<p>Main changes: * New function to predict <code>SDMmodelCV</code> objects * Add the possibility to pass multiple methods to the <code>train</code> function * Add possibility to compute the testing AUC or TSS for a held apart testing dataset in the case of a <code>SDMmodelCV</code> object * Add the possibility to merge only the presence locations in the <code>mergeSWD</code> function</p>
-<p>Bug fixes: * <code>plotPA</code> function now works also with large raster objects * Removed font family from plot functions to avoid errors when the font is not available</p>
-</div>
+<p>Main changes:</p>
+<ul><li>New function to predict <code>SDMmodelCV</code> objects</li>
+<li>Add the possibility to pass multiple methods to the <code>train</code> function</li>
+<li>Add possibility to compute the testing AUC or TSS for a held apart testing dataset in the case of a <code>SDMmodelCV</code> object</li>
+<li>Add the possibility to merge only the presence locations in the <code>mergeSWD</code> function</li>
+</ul><p>Bug fixes:</p>
+<ul><li>
+<code>plotPA</code> function now works also with large raster objects</li>
+<li>Removed font family from plot functions to avoid errors when the font is not available</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.0" id="sdmtune-020">SDMtune 0.2.0<small>2019-09-02</small><a class="anchor" aria-label="anchor" href="#sdmtune-020"></a></h2>
 <p>This release is the first step to enable more methods to train models. The main change is that the <code>SDW</code> object now bundles together the presence and the absence/background locations and is not necessary anymore to pass the presence and absence locations as separate arguments to the <code>train</code> function.</p>
-<p>Old objects of class <code>SWD</code>, <code>SDMmodel</code>, <code>SDMmodelCV</code> and <code>SDMtune</code> created with version &lt;= 0.1.1 must be converted into the new format using the dedicated help functions. Please check the article <a href="https://consbiol-unibern.github.io/SDMtune/articles/articles/deprecated-objects.html">Deprecated objects</a> in the package website.</p>
-<p>Main changes: * The <code>SWD</code> object bundles together the presence and absence/background locations * New methods to train models: Artificial Neural Network (ANN), Boosted Regression Trees (BRT) and Random Forest (RF) * Enabled spatial cross validation: the function <code>train</code> accepts now folds partition generated with other packages (i.e. ENMeval and blockCV) * Add title argument in <code>plot</code> function for <code>SDMtune</code> objects * New randomly generated dataset <code>virtualSp</code> with presence, absence and background locations * Number of background locations cannot be tuned anymore using the tuning functions</p>
-<p>Deprecated function: <code>getSubsample</code></p>
+<p>Old objects of class <code>SWD</code>, <code>SDMmodel</code>, <code>SDMmodelCV</code> and <code>SDMtune</code> created with version &lt;= 0.1.1 must be converted into the new format using the dedicated help functions.</p>
+<p>Main changes:</p>
+<ul><li>The <code>SWD</code> object bundles together the presence and absence/background locations</li>
+<li>New methods to train models: Artificial Neural Network (ANN), Boosted Regression Trees (BRT) and Random Forest (RF)</li>
+<li>Enabled spatial cross validation: the function <code>train</code> accepts now folds partition generated with other packages (i.e. ENMeval and blockCV)</li>
+<li>Add title argument in <code>plot</code> function for <code>SDMtune</code> objects</li>
+<li>New randomly generated dataset <code>virtualSp</code> with presence, absence and background locations</li>
+<li>Number of background locations cannot be tuned anymore using the tuning functions</li>
+</ul><p>Deprecated function: <code>getSubsample</code></p>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.1" id="sdmtune-011">SDMtune 0.1.1<small>2019-07-14</small><a class="anchor" aria-label="anchor" href="#sdmtune-011"></a></h2>
