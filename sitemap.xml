@@ -1,201 +1,216 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//index.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/404.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/ANN-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/BRT-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/basic-use.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/Maxent-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/evaluate-model.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/Maxnet-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/evaluation-strategies.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/RF-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/hyper-tuning.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMmodel-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMmodel2MaxEnt.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/make-predictions.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMmodelCV-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/prepare-data.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMtune-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/presence-absence.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/SDMtune-package.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/train-model.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/SWD-class.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/train-tune-presence-absence-models.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/addSamplesToBg.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/tune-hyperparameters.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/aicc.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/var-selection.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/auc.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/variable-importance.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/checkMaxentInstallation.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/articles/variable-selection.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/confMatrix.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/authors.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/corVar.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/index.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/doJk.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/news/index.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/getTunableArgs.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/ANN-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/gridSearch.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/BRT-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/maxentTh.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/Maxent-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/maxentVarImp.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/Maxnet-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/mergeSWD.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/RF-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/modelReport.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/SDMmodel-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/optimizeModel.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/SDMmodel2MaxEnt.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/plot-methods.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/SDMmodelCV-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotCor.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/SDMtune-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotJk.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/SDMtune-package.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotPA.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/SWD-class.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotPred.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/addSamplesToBg.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotROC.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/aicc.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotResponse.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/auc.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/plotVarImp.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/checkMaxentInstallation.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-ANN-method.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/confMatrix.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-BRT-method.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/corVar.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-Maxent-method.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/doJk.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-RF-method.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/getTunableArgs.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-SDMmodel-method.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/gridSearch.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/predict-SDMmodelCV-method.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/prepareSWD.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/maxentTh.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/randomFolds.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/maxentVarImp.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/randomSearch.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/mergeSWD.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/reduceVar.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/modelReport.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/swd2csv.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/optimizeModel.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/thinData.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/plotCor.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/thresholds.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/plotJk.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/train.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/plotPA.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/trainValTest.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/plotPred.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/tss.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/plotROC.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/varImp.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/plotResponse.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/varSel.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/plotVarImp.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//reference/virtualSp.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-ANN-method.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/evaluate-model.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-BRT-method.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/evaluation-strategies.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-Maxent-method.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/make-predictions.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-RF-method.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/prepare-data.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-SDMmodel-method.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/train-model.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-SDMmodelCV-method.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/train-tune-presence-absence-models.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/prepareSWD.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/tune-hyperparameters.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/randomFolds.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/variable-importance.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/randomSearch.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/articles/variable-selection.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/reduceVar.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/basic-use.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/swd2csv.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/hyper-tuning.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/thinData.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/presence-absence.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/thresholds.html</loc>
   </url>
   <url>
-    <loc>https://consbiol-unibern.github.io/SDMtune//articles/var-selection.html</loc>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/train.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/trainValTest.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/tss.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/varImp.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/varSel.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/virtualSp.html</loc>
   </url>
 </urlset>
