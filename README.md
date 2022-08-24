@@ -26,7 +26,7 @@ an interactive real-time chart displayed in the RStudio viewer pane
 during their execution. Visit the [package
 website](https://consbiol-unibern.github.io/SDMtune/) and learn how to
 use **SDMtune** starting from the first article [Prepare data for the
-analysis](https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html).
+analysis](https://consbiol-unibern.github.io/SDMtune/articles/prepare-data.html).
 
 ## Installation
 
@@ -182,8 +182,8 @@ To train a **Maxent** model using the Java implementation you need that:
 
 The file **maxent.jar** can be downloaded
 [here](https://biodiversityinformatics.amnh.org/open_source/maxent/)
-(note that you need **MaxEnt** version &gt;= 3.4.1 (Steven J. Phillips
-et al. 2017)). This file must be copied into the right folder to be
+(note that you need **MaxEnt** version \>= 3.4.1 (Steven J. Phillips et
+al. 2017)). This file must be copied into the right folder to be
 available for the `dismo` package (Hijmans et al. 2017): copy the file
 **maxent.jar** into the folder named **java** that is located inside the
 folder returned by the following command:
@@ -200,7 +200,7 @@ checkMaxentInstallation()
 ```
 
 If everything is correctly configured for `dismo`, the following command
-will return the used MaxEnt version (make sure that the version is &gt;=
+will return the used MaxEnt version (make sure that the version is \>=
 3.4.1):
 
 ``` r
@@ -228,9 +228,9 @@ package version 1.1-4</span>.” https://cran.r-project.org/package=dismo.
 <div id="ref-Phillips2017a" class="csl-entry">
 
 Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E.
-Schapire, and Mary E. Blair. 2017. “<span class="nocase">Opening the
-black box: an open-source release of Maxent</span>.” *Ecography* 40 (7):
-887–93. <https://doi.org/10.1111/ecog.03049>.
+Schapire, and Mary E. Blair. 2017. “Opening the Black Box: An
+Open-Source Release of Maxent.” *Ecography* 40 (7): 887–93.
+https://doi.org/<https://doi.org/10.1111/ecog.03049>.
 
 </div>
 

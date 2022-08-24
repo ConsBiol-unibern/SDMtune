@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 **SDMtune** provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution.
-Visit the [package website](https://consbiol-unibern.github.io/SDMtune/) and learn how to use **SDMtune** starting from the first article [Prepare data for the analysis](https://consbiol-unibern.github.io/SDMtune/articles/articles/prepare_data.html).
+Visit the [package website](https://consbiol-unibern.github.io/SDMtune/) and learn how to use **SDMtune** starting from the first article [Prepare data for the analysis](https://consbiol-unibern.github.io/SDMtune/articles/prepare-data.html).
 
 ## Installation
 
