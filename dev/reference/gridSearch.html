@@ -18,7 +18,7 @@ with all the possible combinations of hyperparameters."><meta property="og:image
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SDMtune</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.6.9000</span>
       </span>
     </div>
 
@@ -191,11 +191,11 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-in"><span><span class="co"># Run the function using the AUC as metric</span></span></span>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">gridSearch</span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8643084 0.8560800 0.008228438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8750459 0.8551025 0.019943438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8605884 0.8545850 0.006003437</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8668591 0.8561475 0.010711563</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC     diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8628497 0.8643500 -0.001500312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8701209 0.8667175  0.003403437</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8586141 0.8624600 -0.003845937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8645016 0.8623500  0.002151563</span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">models</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
@@ -267,11 +267,11 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
 <span class="r-in"><span><span class="co"># Order rusults by highest test AUC</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8668591 0.8561475 0.010711563</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8643084 0.8560800 0.008228438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8750459 0.8551025 0.019943438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8605884 0.8545850 0.006003437</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC     diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8701209 0.8667175  0.003403437</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8628497 0.8643500 -0.001500312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8586141 0.8624600 -0.003845937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8645016 0.8623500  0.002151563</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run the function using the AICc as metric and without saving the trained</span></span></span>
 <span class="r-in"><span><span class="co"># models, helpful when numerous hyperparameters are tested to avoid memory</span></span></span>
@@ -280,10 +280,10 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-in"><span>                     save_models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg     AICc delta_AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5272.386   5.838212</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5274.416   7.868283</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5281.441  14.892519</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5266.548   0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5278.955  10.919526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5274.609   6.574188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5291.751  23.716322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5268.035   0.000000</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
