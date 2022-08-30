@@ -15,7 +15,7 @@
 #' @param remove_diagonal logical, if `TRUE` the values in the diagonal are,
 #' removed, default is `TRUE`.
 #'
-#' @return The name of the correlated variables.
+#' @return A data.frame with the variables and their correlation.
 #' @export
 #'
 #' @author Sergio Vignali
@@ -62,8 +62,6 @@ corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
     cor_matrix[abs(cor_matrix) < cor_th] <- NA
   # Convert matrix to long form
   df <- reshape2::melt(as.matrix(cor_matrix), na.rm = TRUE)
-  # Strings not as factors
-  df[, 1:2] <- lapply(df[, 1:2], as.character)
   if (order)
     df <- df[order(-abs(df$value)), ]
   rownames(df) <- NULL

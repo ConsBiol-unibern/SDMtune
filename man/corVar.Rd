@@ -30,7 +30,7 @@ less highly correlated, default is \code{TRUE}.}
 removed, default is \code{TRUE}.}
 }
 \value{
-The name of the correlated variables.
+A data.frame with the variables and their correlation.
 }
 \description{
 Utility that prints the name of correlated variables and the relative

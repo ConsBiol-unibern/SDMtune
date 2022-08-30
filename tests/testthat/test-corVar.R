@@ -17,7 +17,7 @@ test_that("The function creates the correct output", {
   expect_true(cm[1, 3] != 1)
   cm1 <- corVar(x, remove_diagonal = FALSE)
   expect_equal(cm1[1, 3], 1)
-  # The first 2 columns are not factors
-  expect_false(is.factor(cm[, 1]))
-  expect_false(is.factor(cm[, 2]))
+  # The first 2 columns are factors
+  expect_true(is.factor(cm[, 1]))
+  expect_true(is.factor(cm[, 2]))
 })
