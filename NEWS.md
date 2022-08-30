@@ -1,3 +1,8 @@
+# SDMtune 1.1.6.9000
+Bug fixes:
+
+* Real-time charts are again displayed in Windows
+
 # SDMtune 1.1.6
 Resolve CRAN notes
 
