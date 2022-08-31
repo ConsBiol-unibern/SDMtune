@@ -124,10 +124,14 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   removed <- 0
   first_iter <- TRUE
 
-  pb <- progress::progress_bar$new(
-    format = "Var Selection [:bar] :percent in :elapsedfull", total = total,
-    clear = FALSE, width = 60, show_after = 0)
-  pb$tick(0)
+  cli::cli_progress_bar(
+    name = "Var Selection",
+    type = "iterator",
+    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+    total = total,
+    clear = FALSE
+  )
 
   correlation_removed <- FALSE
 
@@ -227,7 +231,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
         }
 
         removed <- removed + 1
-        pb$tick(1)
+        cli::cli_progress_update()
         break
       }
     }
@@ -243,7 +247,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     }
   }
 
-  pb$tick(total - removed)
+  cli::cli_progress_done()
 
   removed_vars <- setdiff(initial_vars, colnames(model@data@data))
   message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))

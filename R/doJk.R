@@ -86,10 +86,14 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
     tot <- n
   }
 
-  pb <- progress::progress_bar$new(
-    format = "Jk Test [:bar] :percent in :elapsedfull", total = tot,
-    clear = FALSE, width = 60, show_after = 0)
-  pb$tick(0)
+  cli::cli_progress_bar(
+    name = "Jk Test",
+    type = "iterator",
+    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+    total = tot,
+    clear = FALSE
+  )
 
   models_without <- vector("list", length = n)
   models_withonly <- vector("list", length = n)
@@ -128,7 +132,7 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
       res[i, 4] <- .get_metric(metric, jk_model, test = t)
 
         models_without[[i]] <- jk_model
-    pb$tick()
+        cli::cli_progress_update()
 
     if (with_only) {
       data <- old_model@data
@@ -148,7 +152,7 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
         res[i, 5] <- .get_metric(metric, jk_model, test = t)
 
       models_withonly[[i]] <- jk_model
-      pb$tick()
+      cli::cli_progress_update()
     }
   }
 

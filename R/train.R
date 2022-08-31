@@ -213,10 +213,14 @@ train <- function(method, data, folds = NULL, verbose = TRUE, ...) {
       folds <- .convert_folds(folds, data)
       k <- ncol(folds[[1]])
       if (verbose) {
-        pb <- progress::progress_bar$new(
-          format = "Cross Validation [:bar] :percent in :elapsedfull",
-          total = k, clear = FALSE, width = 60, show_after = 0)
-        pb$tick(0)
+        cli::cli_progress_bar(
+          name = "Cross Validation",
+          type = "iterator",
+          format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+          total = k,
+          clear = FALSE
+        )
       }
 
       models <- vector("list", length = k)
@@ -226,7 +230,7 @@ train <- function(method, data, folds = NULL, verbose = TRUE, ...) {
         argus <- c(data = train, ea[names(ea) %in% .args_name(func)])
         models[[j]] <- do.call(func, args = argus)
         if (verbose)
-          pb$tick(1)
+          cli::cli_progress_update()
       }
 
       output[[i]] <- SDMmodelCV(models = models, data = data, folds = folds)

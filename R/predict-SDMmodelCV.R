@@ -117,10 +117,14 @@ setMethod(
       filename <- paste(filename, fun, sep = "_")
     }
 
-    pb <- progress::progress_bar$new(
-      format = "Predict [:bar] :percent in :elapsedfull",
-      total = k + l, clear = FALSE, width = 60, show_after = 0)
-    pb$tick(0)
+    cli::cli_progress_bar(
+      name = "Predict",
+      type = "iterator",
+      format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+      total = k + l,
+      clear = FALSE
+    )
 
     # Create empty output list
     output <- vector("list", length = l)
@@ -131,7 +135,7 @@ setMethod(
       for (i in 1:k) {
         preds[[i]] <- predict(object@models[[i]], data = data, type = type,
                               clamp = clamp, extent = extent)
-        pb$tick(1)
+        cli::cli_progress_update()
       }
       preds <- raster::stack(preds)
 
@@ -139,7 +143,7 @@ setMethod(
         output[[i]] <- raster::calc(preds, fun = get(fun[i]),
                                     filename = filename[i], format = format,
                                     ...)
-        pb$tick(1)
+        cli::cli_progress_update()
       }
     } else {
       if (inherits(data, "SWD"))
@@ -148,11 +152,11 @@ setMethod(
       for (i in 1:k) {
         preds[, i] <- predict(object@models[[i]], data = data, type = type,
                               clamp = clamp, ...)
-        pb$tick(1)
+        cli::cli_progress_update()
       }
       for (i in 1:l) {
         output[[i]] <- apply(preds, 1, get(fun[i]), na.rm = TRUE)
-        pb$tick(1)
+        cli::cli_progress_update()
       }
     }
 

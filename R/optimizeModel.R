@@ -107,10 +107,15 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   remaining <- pop - kept
   tot_models <- .get_total_models(pop, gen, remaining)
   algorithm <- ifelse(gen > 0, "Optimize Model", "Random Search")
-  pb <- progress::progress_bar$new(
-    format = paste(algorithm, "[:bar] :percent in :elapsedfull"),
-    total = (tot_models + 1), clear = FALSE, width = 60, show_after = 0)
-  pb$tick(0)
+
+  cli::cli_progress_bar(
+    name = algorithm,
+    type = "iterator",
+    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+    total = tot_models + 1,
+    clear = FALSE
+  )
 
   if (!is.null(seed))
     set.seed(seed)
@@ -186,7 +191,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                                        lineFooter = line_footer, stop = FALSE))
     }
 
-    pb$tick(1)
+    cli::cli_progress_update()
   }
 
   metrics <- list(train_metric$y, val_metric$y)
@@ -276,7 +281,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                                            lineFooter = line_footer,
                                            stop = FALSE))
         }
-        pb$tick(1)
+        cli::cli_progress_update()
       }
 
       metrics <- list(train_metric$y, val_metric$y)
@@ -325,7 +330,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   }
 
   output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
-  pb$tick(1)
+  cli::cli_progress_update()
 
   return(output)
 }

@@ -87,10 +87,14 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
   if (inherits(model, "SDMmodelCV"))
     test <- TRUE
 
-  pb <- progress::progress_bar$new(
-    format = "Grid search [:bar] :percent in :elapsedfull",
-    total = (nrow(grid) + 1), clear = FALSE, width = 60, show_after = 0)
-  pb$tick(0)
+  cli::cli_progress_bar(
+    name = "Grid Search",
+    type = "iterator",
+    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+    total = (nrow(grid) + 1),
+    clear = FALSE
+  )
 
   models <- vector("list", length = nrow(grid))
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
@@ -145,7 +149,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
                                        gridFooter = footer, stop = stop))
     }
 
-    pb$tick(1)
+    cli::cli_progress_update()
   }
 
   if (save_models) {
@@ -156,7 +160,7 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
       o@results$delta_AICc <- o@results$AICc - min(o@results$AICc)
   }
 
-  pb$tick(1)
+  cli::cli_progress_update()
 
   return(o)
 }
