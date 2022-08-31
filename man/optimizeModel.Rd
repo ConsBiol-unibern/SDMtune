@@ -15,6 +15,7 @@ optimizeModel(
   keep_best = 0.4,
   keep_random = 0.2,
   mutation_chance = 0.4,
+  interactive = TRUE,
   seed = NULL
 )
 }
@@ -47,6 +48,8 @@ during each iteration, expressed as decimal number. Default is 0.2.}
 
 \item{mutation_chance}{numeric. Probability of mutation of the child models,
 expressed as decimal number. Default is 0.4.}
+
+\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is \code{NULL}.}

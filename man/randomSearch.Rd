@@ -11,7 +11,8 @@ randomSearch(
   test = NULL,
   pop = 20,
   env = NULL,
-  seed = NULL
+  seed = NULL,
+  interactive = TRUE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ only with "aicc", default is \code{NULL}.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results, default is \code{NULL}.}
+
+\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 }
 \value{
 \linkS4class{SDMtune} object.

@@ -24,6 +24,7 @@
 #' expressed as decimal number. Default is 0.4.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is `NULL`.
+#' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
 #' @details To know which hyperparameters can be tuned you can use the output
 #' of the function \link{getTunableArgs}. Hyperparameters not included in the
@@ -77,7 +78,8 @@
 #' }
 optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                           env = NULL, keep_best = 0.4, keep_random = 0.2,
-                          mutation_chance = 0.4, seed = NULL) {
+                          mutation_chance = 0.4, interactive = TRUE,
+                          seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -112,39 +114,47 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   models <- vector("list", length = pop)
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
   val_metric <- data.frame(x = NA_real_, y = NA_real_)
-  scatter_footer <- vector("character", length = pop)
-  best_train <- rep(NA_real_, gen + 2)
-  best_val <- rep(NA_real_, gen + 2)
-  best_train[1] <- .get_metric(metric, model, env = env)
-  if (metric != "aicc") {
-    best_val[1] <- .get_metric(metric, model, test = test)
-  } else {
-    best_val <- NULL
+
+  if (interactive) {
+    best_train <- rep(NA_real_, gen + 2)
+    best_val <- rep(NA_real_, gen + 2)
+    best_train[1] <- .get_metric(metric, model, env = env)
+
+    if (metric != "aicc") {
+      best_val[1] <- .get_metric(metric, model, test = test)
+    } else {
+      best_val <- NULL
+    }
+
+    line_title <- "Starting model"
+    line_footer <- .get_footer(model)
+    scatter_footer <- vector("character", length = pop)
+    chart_title <- ifelse(gen > 0, paste(algorithm, "- Generation 0"),
+                          algorithm)
+    folder_prefix <- ifelse(gen > 0,
+                            "SDMtune-optimizeModel",
+                            "SDMtune-randomSearch")
+
+    settings <- list(pop = pop,
+                     gen = gen,
+                     metric = .get_metric_label(metric),
+                     labels = c("start", 0:gen),
+                     update = TRUE)
+
+    data <- list(gen = 0,
+                 best_train = best_train,
+                 best_val = best_val,
+                 title = chart_title,
+                 lineTitle = line_title,
+                 lineFooter = line_footer,
+                 stop = FALSE)
+
+    folder <- tempfile(folder_prefix)
+
+    .create_chart(folder = folder, script = "optimizeModel.js",
+                  settings = settings, data = data)
+    .show_chart(folder, height = 500)
   }
-  line_title <- "Starting model"
-  line_footer <- .get_footer(model)
-  chart_title <- ifelse(gen > 0, paste(algorithm, "- Generation 0"),
-                        algorithm)
-
-  settings <- list(pop = pop,
-                   gen = gen,
-                   metric = .get_metric_label(metric),
-                   labels = c("start", 0:gen),
-                   update = TRUE)
-
-  data <- list(gen = 0,
-               best_train = best_train,
-               best_val = best_val,
-               title = chart_title,
-               lineTitle = line_title,
-               lineFooter = line_footer,
-               stop = FALSE)
-
-  folder <- tempfile("SDMtune")
-
-  .create_chart(folder = folder, script = "optimizeModel.js",
-                settings = settings, data = data)
-  .show_chart(folder, height = 500)
 
   # Create data frame with all possible combinations of hyperparameters
   grid <- .get_hypers_grid(model, hypers)
@@ -157,16 +167,21 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
     models[[i]] <- .create_model_from_settings(model, grid[index[i], ])
 
     train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env))
+
     if (metric != "aicc")
       val_metric[i, ] <- list(i, .get_metric(metric, models[[i]], test))
-    scatter_footer[i] <- .get_footer(models[[i]])
-    .update_data(folder, data = list(train = train_metric, val = val_metric,
-                                     gen = 0, scatterFooter = scatter_footer,
-                                     best_train = best_train,
-                                     best_val = best_val,
-                                     title = chart_title,
-                                     lineTitle = line_title,
-                                     lineFooter = line_footer, stop = FALSE))
+
+    if (interactive) {
+      scatter_footer[i] <- .get_footer(models[[i]])
+      .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                       gen = 0, scatterFooter = scatter_footer,
+                                       best_train = best_train,
+                                       best_val = best_val,
+                                       title = chart_title,
+                                       lineTitle = line_title,
+                                       lineFooter = line_footer, stop = FALSE))
+    }
+
     pb$tick(1)
   }
 
@@ -177,19 +192,24 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
     models <- models[rank_index]
     train_metric <- data.frame(x = seq(1, pop), y = metrics[[1]][rank_index])
     val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
-    scatter_footer <- scatter_footer[rank_index]
-    best_train[2] <- train_metric[1, 2]
-    if (metric != "aicc")
-      best_val[2] <- val_metric[1, 2]
-    line_title <- c(line_title, "Generation 0")
-    line_footer <- c(line_footer, .get_footer(models[[1]]))
-    .update_data(folder, data = list(train = train_metric, val = val_metric,
-                                     gen = 0, scatterFooter = scatter_footer,
-                                     best_train = best_train,
-                                     best_val = best_val,
-                                     title = chart_title,
-                                     lineTitle = line_title,
-                                     lineFooter = line_footer, stop = FALSE))
+
+    if (interactive) {
+      scatter_footer <- scatter_footer[rank_index]
+      best_train[2] <- train_metric[1, 2]
+
+      if (metric != "aicc")
+        best_val[2] <- val_metric[1, 2]
+
+      line_title <- c(line_title, "Generation 0")
+      line_footer <- c(line_footer, .get_footer(models[[1]]))
+      .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                       gen = 0, scatterFooter = scatter_footer,
+                                       best_train = best_train,
+                                       best_val = best_val,
+                                       title = chart_title,
+                                       lineTitle = line_title,
+                                       lineFooter = line_footer, stop = FALSE))
+    }
   } else {
     stop(paste("Optimization algorithm interrupted at generation", 0,
                "because it overfits validation dataset!"))
@@ -201,20 +221,28 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
       index_kept <- c(1:kept_good, sample((kept_good + 1):pop, kept_bad))
       train_metric <- train_metric[index_kept, ]
       train_metric$x <- 1:kept
+
       if (metric != "aicc") {
         val_metric <- val_metric[index_kept, ]
         val_metric$x <- 1:kept
       }
-      chart_title <- paste("Genetic Algorithm - Generation", i)
-      scatter_footer <- scatter_footer[index_kept]
 
-      .update_data(folder, data = list(train = train_metric, val = val_metric,
-                                       gen = i, scatterFooter = scatter_footer,
-                                       best_train = best_train,
-                                       best_val = best_val,
-                                       title = chart_title,
-                                       lineTitle = line_title,
-                                       lineFooter = line_footer, stop = FALSE))
+        if (interactive) {
+        chart_title <- paste("Genetic Algorithm - Generation", i)
+        scatter_footer <- scatter_footer[index_kept]
+
+        .update_data(folder, data = list(train = train_metric,
+                                         val = val_metric,
+                                         gen = i,
+                                         scatterFooter = scatter_footer,
+                                         best_train = best_train,
+                                         best_val = best_val,
+                                         title = chart_title,
+                                         lineTitle = line_title,
+                                         lineFooter = line_footer,
+                                         stop = FALSE))
+        }
+
       parents <- models[index_kept]
       models <- parents
 
@@ -229,20 +257,24 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
         if (metric != "aicc")
           val_metric[kept + j, ] <- list(kept + j, .get_metric(metric, child,
                                                                test))
-        scatter_footer[kept + j] <- .get_footer(child)
 
         models <- c(models, child)
-        .update_data(folder, data = list(train = train_metric,
-                                         val = val_metric, gen = i,
-                                         scatterFooter = scatter_footer,
-                                         best_train = best_train,
-                                         best_val = best_val,
-                                         title = chart_title,
-                                         lineTitle = line_title,
-                                         lineFooter = line_footer,
-                                         stop = FALSE))
+
+        if (interactive) {
+          scatter_footer[kept + j] <- .get_footer(child)
+          .update_data(folder, data = list(train = train_metric,
+                                           val = val_metric, gen = i,
+                                           scatterFooter = scatter_footer,
+                                           best_train = best_train,
+                                           best_val = best_val,
+                                           title = chart_title,
+                                           lineTitle = line_title,
+                                           lineFooter = line_footer,
+                                           stop = FALSE))
+        }
         pb$tick(1)
       }
+
       metrics <- list(train_metric$y, val_metric$y)
       rank_index <- .get_rank_index(metric, metrics)
 
@@ -251,21 +283,26 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
         train_metric <- data.frame(x = seq(1, pop),
                                    y = metrics[[1]][rank_index])
         val_metric <- data.frame(x = seq(1, pop), y = metrics[[2]][rank_index])
-        scatter_footer <- scatter_footer[rank_index]
-        best_train[i + 2] <- train_metric[1, 2]
-        if (metric != "aicc")
-          best_val[i + 2] <- val_metric[1, 2]
-        line_title <- c(line_title, paste("Generation", i))
-        line_footer <- c(line_footer, .get_footer(models[[1]]))
-        .update_data(folder, data = list(train = train_metric,
-                                         val = val_metric, gen = i,
-                                         scatterFooter = scatter_footer,
-                                         best_train = best_train,
-                                         best_val = best_val,
-                                         title = chart_title,
-                                         lineTitle = line_title,
-                                         lineFooter = line_footer,
-                                         stop = FALSE))
+
+        if (interactive) {
+
+          if (metric != "aicc")
+            best_val[i + 2] <- val_metric[1, 2]
+
+          scatter_footer <- scatter_footer[rank_index]
+          best_train[i + 2] <- train_metric[1, 2]
+          line_title <- c(line_title, paste("Generation", i))
+          line_footer <- c(line_footer, .get_footer(models[[1]]))
+          .update_data(folder, data = list(train = train_metric,
+                                           val = val_metric, gen = i,
+                                           scatterFooter = scatter_footer,
+                                           best_train = best_train,
+                                           best_val = best_val,
+                                           title = chart_title,
+                                           lineTitle = line_title,
+                                           lineFooter = line_footer,
+                                           stop = FALSE))
+        }
       } else {
         stop(paste("Optimization algorithm interrupted at generation", i,
                    "because it overfits validation dataset!"))
@@ -273,13 +310,16 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
     }
   }
 
-  .update_data(folder, data = list(train = train_metric, val = val_metric,
-                                   gen = i, scatterFooter = scatter_footer,
-                                   best_train = best_train,
-                                   best_val = best_val,
-                                   title = chart_title,
-                                   lineTitle = line_title,
-                                   lineFooter = line_footer, stop = TRUE))
+  if (interactive) {
+    .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                     gen = i, scatterFooter = scatter_footer,
+                                     best_train = best_train,
+                                     best_val = best_val,
+                                     title = chart_title,
+                                     lineTitle = line_title,
+                                     lineFooter = line_footer, stop = TRUE))
+  }
+
   output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
   pb$tick(1)
 

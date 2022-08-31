@@ -17,6 +17,7 @@
 #' only with "aicc", default is `NULL`.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is `NULL`.
+#' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
 #' @details * To know which hyperparameters can be tuned you can use the output
 #' of the function \link{getTunableArgs}. Hyperparameters not included in the
@@ -62,13 +63,13 @@
 #' output@results[order(-output@results$test_AUC), ]
 #' }
 randomSearch <- function(model, hypers, metric, test = NULL, pop = 20,
-                         env = NULL, seed = NULL) {
+                         env = NULL, seed = NULL, interactive = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
   output <- optimizeModel(model = model, hypers = hypers, test = test,
                           metric = metric, pop = pop, gen = 0, env = env,
-                          seed = seed)
+                          interactive = interactive, seed = seed)
 
   return(output)
 }
