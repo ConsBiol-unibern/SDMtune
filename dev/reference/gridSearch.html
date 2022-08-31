@@ -100,7 +100,15 @@ with all the possible combinations of hyperparameters.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gridSearch</span><span class="op">(</span><span class="va">model</span>, <span class="va">hypers</span>, <span class="va">metric</span>, test <span class="op">=</span> <span class="cn">NULL</span>, env <span class="op">=</span> <span class="cn">NULL</span>, save_models <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gridSearch</span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  <span class="va">hypers</span>,</span>
+<span>  <span class="va">metric</span>,</span>
+<span>  test <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  env <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  save_models <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  interactive <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -136,6 +144,10 @@ output contains only a data frame with the metric values for each
 hyperparameter combination. Default is <code>TRUE</code>, set it to <code>FALSE</code> when there
 are many combinations to avoid R crashing for memory overload.</p></dd>
 
+
+<dt>interactive</dt>
+<dd><p>logical, if <code>FALSE</code> the interactive chart is not created.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -145,11 +157,12 @@ are many combinations to avoid R crashing for memory overload.</p></dd>
     </div>
     <div id="details">
     <h2>Details</h2>
-    
-<ul><li><p>To know which hyperparameters can be tuned you can use the output
+    <p>To know which hyperparameters can be tuned you can use the output
 of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameters not included in the
-<code>hypers</code> argument take the value that they have in the passed model.</p></li>
-</ul></div>
+<code>hypers</code> argument take the value that they have in the passed model.</p>
+<p>An interactive chart showing in real-time the steps performed by the
+algorithm is displayed in the Viewer pane.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><a href="randomSearch.html">randomSearch</a> and <a href="optimizeModel.html">optimizeModel</a>.</p></div>
@@ -191,11 +204,11 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-in"><span><span class="co"># Run the function using the AUC as metric</span></span></span>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">gridSearch</span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC     diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8616878 0.8632950 -0.001607187</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8698366 0.8670700  0.002766562</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8580372 0.8636800 -0.005642812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8631509 0.8654625 -0.002311562</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8630838 0.8596712 0.003412500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8715987 0.8637687 0.007830000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8592350 0.8584262 0.000808750</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8649194 0.8610188 0.003900625</span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">models</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
@@ -267,11 +280,11 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
 <span class="r-in"><span><span class="co"># Order rusults by highest test AUC</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC     diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8698366 0.8670700  0.002766562</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8631509 0.8654625 -0.002311562</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8580372 0.8636800 -0.005642812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8616878 0.8632950 -0.001607187</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8715987 0.8637687 0.007830000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8649194 0.8610188 0.003900625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8630838 0.8596712 0.003412500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8592350 0.8584262 0.000808750</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run the function using the AICc as metric and without saving the trained</span></span></span>
 <span class="r-in"><span><span class="co"># models, helpful when numerous hyperparameters are tested to avoid memory</span></span></span>
@@ -280,10 +293,10 @@ of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameter
 <span class="r-in"><span>                     save_models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg     AICc delta_AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5283.128   12.32964</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5294.885   24.08663</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5282.465   11.66641</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5270.799    0.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5269.639   3.453552</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5285.995  19.809954</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5279.879  13.693821</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5266.185   0.000000</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
