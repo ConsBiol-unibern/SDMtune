@@ -109,7 +109,8 @@ provided hyperparameters values.</p>
 <span>  test <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pop <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  env <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  seed <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  interactive <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -148,6 +149,10 @@ only with "aicc", default is <code>NULL</code>.</p></dd>
 <dd><p>numeric. The value used to set the seed to have consistent
 results, default is <code>NULL</code>.</p></dd>
 
+
+<dt>interactive</dt>
+<dd><p>logical, if <code>FALSE</code> the interactive chart is not created.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -157,11 +162,12 @@ results, default is <code>NULL</code>.</p></dd>
     </div>
     <div id="details">
     <h2>Details</h2>
-    
-<ul><li><p>To know which hyperparameters can be tuned you can use the output
+    <p>To know which hyperparameters can be tuned you can use the output
 of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameters not included in the
-<code>hypers</code> argument take the value that they have in the passed model.</p></li>
-</ul></div>
+<code>hypers</code> argument take the value that they have in the passed model.</p>
+<p>An interactive chart showing in real-time the steps performed by the
+algorithm is displayed in the Viewer pane.</p>
+    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Sergio Vignali</p>

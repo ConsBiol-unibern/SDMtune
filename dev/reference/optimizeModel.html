@@ -111,6 +111,7 @@ hyperparameter configuration according to the chosen metric.</p>
 <span>  keep_best <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  keep_random <span class="op">=</span> <span class="fl">0.2</span>,</span>
 <span>  mutation_chance <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  interactive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -166,6 +167,10 @@ during each iteration, expressed as decimal number. Default is 0.2.</p></dd>
 expressed as decimal number. Default is 0.4.</p></dd>
 
 
+<dt>interactive</dt>
+<dd><p>logical, if <code>FALSE</code> the interactive chart is not created.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>numeric. The value used to set the seed to have consistent
 results, default is <code>NULL</code>.</p></dd>
@@ -181,9 +186,12 @@ results, default is <code>NULL</code>.</p></dd>
     <h2>Details</h2>
     <p>To know which hyperparameters can be tuned you can use the output
 of the function <a href="getTunableArgs.html">getTunableArgs</a>. Hyperparameters not included in the
-<code>hypers</code> argument take the value that they have in the passed model.</p><ul><li><p>Part of the code is inspired by
-<a href="https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164" class="external-link">this post</a>.</p></li>
-</ul></div>
+<code>hypers</code> argument take the value that they have in the passed model.</p>
+<p>An interactive chart showing in real-time the steps performed by the
+algorithm is displayed in the Viewer pane.</p>
+<p>Part of the code is inspired by
+<a href="https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164" class="external-link">this post</a>.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><a href="gridSearch.html">gridSearch</a> and <a href="randomSearch.html">randomSearch</a>.</p></div>
