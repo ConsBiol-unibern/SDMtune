@@ -73,12 +73,6 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
          call. = FALSE)
   }
 
-  if (!requireNamespace("cli", quietly = TRUE)) {
-    stop("You need the packege \"cli\" to run this function,",
-         " please install it.",
-         call. = FALSE)
-  }
-
   if (!requireNamespace("crayon", quietly = TRUE)) {
     stop("You need the packege \"crayon\" to run this function,",
          " please install it.",
