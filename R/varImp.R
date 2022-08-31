@@ -70,19 +70,23 @@ varImp <- function(model, permut = 10) {
     total <- length(vars) * l
   }
 
-  pb <- progress::progress_bar$new(
-    format = "Variable importance [:bar] :percent in :elapsedfull",
-    total = total, clear = FALSE, width = 60, show_after = 0)
-  pb$tick(0)
+  id <- cli::cli_progress_bar(
+    name = "Variable importance",
+    type = "iterator",
+    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+    total = total,
+    clear = FALSE
+  )
 
   if (inherits(model, "SDMmodel")) {
     model_auc <- auc(model)
-    output <- .compute_permutation(model, model_auc, vars, permut, pb)
+    output <- .compute_permutation(model, model_auc, vars, permut, id)
   } else {
     pis <- matrix(nrow = length(vars), ncol = l)
     for (i in 1:l) {
       model_auc <- auc(model@models[[i]])
-      df <- .compute_permutation(model@models[[i]], model_auc, vars, permut, pb)
+      df <- .compute_permutation(model@models[[i]], model_auc, vars, permut, id)
       index <- match(df[, 1], vars)
       pis[, i] <- df[order(index), 2]
     }
@@ -98,7 +102,7 @@ varImp <- function(model, permut = 10) {
   return(output)
 }
 
-.compute_permutation <- function(model, model_auc, vars, permut, pb) {
+.compute_permutation <- function(model, model_auc, vars, permut, id) {
 
   permuted_auc <- matrix(nrow = permut, ncol = length(vars))
   set.seed(25)
@@ -112,7 +116,7 @@ varImp <- function(model, permut = 10) {
       train_copy@data[, vars[j]] <- data
       permuted_auc[i, j] <- auc(model, train_copy)
     }
-    pb$tick(1)
+    cli::cli_progress_update(id = id, .envir = parent.frame(n = 2))
   }
 
   if (permut > 1) {
