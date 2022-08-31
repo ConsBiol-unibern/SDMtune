@@ -28,6 +28,9 @@
 #' importance, default is `FALSE`.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
+#' @details An interactive chart showing in real-time the steps performed by the
+#' algorithm is displayed in the Viewer pane.
+#'
 #' @return The model trained using the selected variables.
 #' @export
 #'

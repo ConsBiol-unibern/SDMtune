@@ -57,6 +57,10 @@ given metric and based on the starting model). In this case the function
 stops removing the variable even if the contribution is lower than the given
 threshold.
 }
+\details{
+An interactive chart showing in real-time the steps performed by the
+algorithm is displayed in the Viewer pane.
+}
 \examples{
 \donttest{
 # Acquire environmental variables

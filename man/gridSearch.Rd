@@ -45,11 +45,12 @@ Given a set of possible hyperparameter values, the function trains models
 with all the possible combinations of hyperparameters.
 }
 \details{
-\itemize{
-\item To know which hyperparameters can be tuned you can use the output
+To know which hyperparameters can be tuned you can use the output
 of the function \link{getTunableArgs}. Hyperparameters not included in the
 \code{hypers} argument take the value that they have in the passed model.
-}
+
+An interactive chart showing in real-time the steps performed by the
+algorithm is displayed in the Viewer pane.
 }
 \examples{
 \donttest{

@@ -17,11 +17,15 @@
 #' output contains only a data frame with the metric values for each
 #' hyperparameter combination. Default is `TRUE`, set it to `FALSE` when there
 #' are many combinations to avoid R crashing for memory overload.
+#' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
-#' @details * To know which hyperparameters can be tuned you can use the output
+#' @details
+#' To know which hyperparameters can be tuned you can use the output
 #' of the function \link{getTunableArgs}. Hyperparameters not included in the
 #' `hypers` argument take the value that they have in the passed model.
-#' @param interactive logical, if `FALSE` the interactive chart is not created.
+#'
+#' An interactive chart showing in real-time the steps performed by the
+#' algorithm is displayed in the Viewer pane.
 #'
 #' @return \linkS4class{SDMtune} object.
 #' @export
