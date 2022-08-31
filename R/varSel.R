@@ -141,7 +141,8 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     # Metric used for chart
     train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
     if (metric != "aicc") {
-      val_metric <- data.frame(x = 0, y = .get_metric(metric, model, test = test))
+      val_metric <- data.frame(x = 0,
+                               y = .get_metric(metric, model, test = test))
     } else {
       val_metric <- data.frame(x = NA_real_, y = NA_real_)
     }
