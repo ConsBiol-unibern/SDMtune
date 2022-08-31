@@ -1,10 +1,30 @@
 skip_on_cran()
 
 data <- SDMtune:::t
+datasets <- trainValTest(data, val = 0.2, test = 0.2, only_presence = TRUE,
+                         seed = 61516)
+train <- datasets[[1]]
+val <- datasets[[2]]
+
+# Train a model
+model <- train("Maxnet", data = train)
+
 mother <- SDMtune:::bm_maxnet
 father <- train("Maxnet", data = data, fc = "l", reg = 2)
 h <- list(fc = c("l", "lq", "lqph"), reg = c(1, 2))
 metrics <- list(c(10, 11, 12), c(8, 10, 13))
+
+test_that("The interactive chart is not created", {
+  o <- optimizeModel(model, h, "auc", test = val, pop = 3, gen = 1,
+                     interactive = FALSE)
+  expect_false(any(grepl("SDMtune-optimizeModel", list.dirs(tempdir()))))
+})
+
+test_that("The output is corrects and crates the interactive chart", {
+  o <- optimizeModel(model, h, "auc", test = val, pop = 3, gen = 1)
+  expect_s4_class(o, "SDMtune")
+  expect_true(any(grepl("SDMtune-optimizeModel", list.dirs(tempdir()))))
+})
 
 test_that("Exception are raised", {
   expect_error(optimizeModel(mother, h, "auc", data, keep_best = 0.6,
@@ -13,12 +33,6 @@ test_that("Exception are raised", {
   expect_error(optimizeModel(mother, h, "auc", data, pop = 3),
                "Optimization algorithm interrupted at generation 0 because it overfits validation dataset!")
 })
-
-# TODO Rewrite this test
-# test_that("The algorithm executes without errors", {
-#   expect_s4_class(optimizeModel(mother, h, "auc", test = data, pop = 3,
-#                                 gen = 1), "SDMtune")
-# })
 
 test_that("Crossover is executed", {
   set.seed(30, kind = "Mersenne-Twister", sample.kind = "Rejection")
