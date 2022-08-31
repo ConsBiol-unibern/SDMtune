@@ -30,7 +30,11 @@
 #' default is `FALSE`.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
-#' @details * To find highly correlated variables the following formula is used:
+#' @details
+#' An interactive chart showing in real-time the steps performed by the
+#' algorithm is displayed in the Viewer pane.
+#'
+#' To find highly correlated variables the following formula is used:
 #' \deqn{| coeff | \le cor_th}
 #'
 #' @return The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained

@@ -63,10 +63,11 @@ The process is repeated until the remaining variables are not highly
 correlated anymore.
 }
 \details{
-\itemize{
-\item To find highly correlated variables the following formula is used:
+An interactive chart showing in real-time the steps performed by the
+algorithm is displayed in the Viewer pane.
+
+To find highly correlated variables the following formula is used:
 \deqn{| coeff | \le cor_th}
-}
 }
 \examples{
 \donttest{
