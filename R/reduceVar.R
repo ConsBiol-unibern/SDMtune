@@ -26,6 +26,7 @@
 #' is trained using the \linkS4class{Maxent} method, the algorithm uses the
 #' percent contribution computed by Maxent software to score the variable
 #' importance, default is `FALSE`.
+#' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
 #' @return The model trained using the selected variables.
 #' @export
@@ -82,7 +83,8 @@
 #' }
 #' }
 reduceVar <- function(model, th, metric, test = NULL, env = NULL,
-                      use_jk = FALSE, permut = 10, use_pc = FALSE) {
+                      use_jk = FALSE, permut = 10, use_pc = FALSE,
+                      interactive = TRUE) {
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
@@ -99,7 +101,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
   first_iter <- TRUE
   removed_vars <- c()
 
-  # metric used for chart
+  # Metrics are used also in if statements outside chart
   train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
   if (metric != "aicc") {
     val_metric <- data.frame(x = 0, y = .get_metric(metric, model, test = test))
@@ -107,13 +109,15 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     val_metric <- data.frame(x = NA_real_, y = NA_real_)
   }
 
-  # Setup chart
-  initial_vars <- colnames(model@data@data)
-  line_title <- "Starting model"
-  line_footer <- ""
-  settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
-                   title = "Reduce Variables", update = TRUE)
-  folder <- tempfile("SDMsel")
+  if (interactive) {
+    # Create chart
+    initial_vars <- colnames(model@data@data)
+    line_title <- "Starting model"
+    line_footer <- ""
+    settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
+                     title = "Reduce Variables", update = TRUE)
+    folder <- tempfile("SDMtune-reduceVar")
+  }
 
   while (variables_reduced == FALSE) {
 
@@ -125,27 +129,26 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
       scores <- suppressMessages(varImp(model, permut = permut))
     }
 
-    # Update chart
-    index <- match(initial_vars, scores[, 1])
-    vals <- scores[, 2][index]
-    vals[is.na(vals)] <- 0
-    data <- list(data = vals, train = train_metric, val = val_metric,
-                 lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
+    if (interactive) {
+      # Update chart
+      index <- match(initial_vars, scores[, 1])
+      vals <- scores[, 2][index]
+      vals[is.na(vals)] <- 0
+      data <- list(data = vals, train = train_metric, val = val_metric,
+                   lineTitle = line_title, lineFooter = line_footer, stop = FALSE)
 
-    if (first_iter) {
-      .create_chart(folder = folder, script = "varSelection.js",
-                    settings = settings, data = data)
-      .show_chart(folder, height = "maximize")
-      first_iter <- FALSE
-    } else {
-      .update_data(folder, data = data)
+      if (first_iter) {
+        .create_chart(folder = folder, script = "varSelection.js",
+                      settings = settings, data = data)
+        .show_chart(folder, height = "maximize")
+        first_iter <- FALSE
+      } else {
+        .update_data(folder, data = data)
+      }
     }
 
     scores <- scores[order(scores[, 2]), ]
     scores <- scores[scores[, 2] <= th, ]
-
-    # index for metric data frames
-    x <- nrow(train_metric) + 1
 
     if (nrow(scores) > 0) {
       if (use_jk) {
@@ -156,25 +159,36 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                  test = test, with_only = FALSE, return_models = TRUE,
                  env = env))
 
+          # index for metric data frames
+          x <- nrow(train_metric) + 1
+
           if (metric  != "aicc") {
             if (jk_test$results[1, 3] >= val_metric[1, 2]) {
               model <- jk_test$models_without[[1]]
+              continue_jk <- TRUE
+              removed_vars <- c(removed_vars, scores[i, 1])
               train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
               val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
-              continue_jk <- TRUE
-              line_title <- c(line_title, paste("Removed", scores[i, 1]))
-              line_footer <- c(line_footer, "")
-              removed_vars <- c(removed_vars, scores[i, 1])
+
+              if (interactive) {
+                line_title <- c(line_title, paste("Removed", scores[i, 1]))
+                line_footer <- c(line_footer, "")
+              }
+
               break
             }
           } else {
             if (jk_test$results[1, 2] <= train_metric[1, 2]) {
               model <- jk_test$models_without[[1]]
-              train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
               continue_jk <- TRUE
-              line_title <- c(line_title, paste("Removed", scores[i, 1]))
-              line_footer <- c(line_footer, "")
               removed_vars <- c(removed_vars, scores[i, 1])
+              train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
+
+              if (interactive) {
+                line_title <- c(line_title, paste("Removed", scores[i, 1]))
+                line_footer <- c(line_footer, "")
+              }
+
               break
             }
           }
@@ -189,12 +203,14 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
             scores <- suppressMessages(varImp(model, permut = permut))
           }
 
+          if (interactive) {
           # Update chart
-          index <- match(initial_vars, scores[, 1])
-          vals <- scores[, 2][index]
-          vals[is.na(vals)] <- 0
-          data <- list(data = vals, train = train_metric, val = val_metric,
-                       stop = FALSE)
+            index <- match(initial_vars, scores[, 1])
+            vals <- scores[, 2][index]
+            vals[is.na(vals)] <- 0
+            data <- list(data = vals, train = train_metric, val = val_metric,
+                         stop = FALSE)
+          }
           variables_reduced <- TRUE
         }
       } else {
@@ -204,27 +220,34 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                                          with_only = FALSE,
                                          return_models = TRUE, env = env))
         model <- jk_test$models_without[[1]]
+        removed_vars <- c(removed_vars, scores[1, 1])
+        x <- nrow(train_metric) + 1
         train_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 2])
         if (metric != "aicc")
           val_metric[x, ] <- list(x = x - 1, y = jk_test$results[1, 3])
-        line_title <- c(line_title, paste("Removed", scores[1, 1]))
-        line_footer <- c(line_footer, "")
-        removed_vars <- c(removed_vars, scores[1, 1])
+
+        if (interactive) {
+          # index for metric data frames
+          line_title <- c(line_title, paste("Removed", scores[1, 1]))
+          line_footer <- c(line_footer, "")
+        }
       }
     } else {
       variables_reduced <- TRUE
     }
   }
 
-  .update_data(folder, data = list(data = vals, train = train_metric,
-                                   val = val_metric, drawLine1 = FALSE,
-                                   lineTitle = line_title,
-                                   lineFooter = line_footer, stop = TRUE))
+  if (interactive) {
+    .update_data(folder, data = list(data = vals, train = train_metric,
+                                     val = val_metric, drawLine1 = FALSE,
+                                     lineTitle = line_title,
+                                     lineFooter = line_footer, stop = TRUE))
+  }
 
   if (length(removed_vars) > 0) {
     message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
   } else {
-    message("No variable is removed!")
+    message("No variable has been removed!")
   }
 
   return(model)

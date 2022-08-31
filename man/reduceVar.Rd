@@ -12,7 +12,8 @@ reduceVar(
   env = NULL,
   use_jk = FALSE,
   permut = 10,
-  use_pc = FALSE
+  use_pc = FALSE,
+  interactive = TRUE
 )
 }
 \arguments{
@@ -41,6 +42,8 @@ default is 10.}
 is trained using the \linkS4class{Maxent} method, the algorithm uses the
 percent contribution computed by Maxent software to score the variable
 importance, default is \code{FALSE}.}
+
+\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 }
 \value{
 The model trained using the selected variables.
