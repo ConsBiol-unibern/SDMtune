@@ -16,7 +16,7 @@ test_that("Exceptions are thrown", {
 
 test_that("The interactive chart is not created", {
   varSel(m, "auc", bg, test = t, cor_th = .9, permut = 1, interactive = FALSE)
-  expect_false(any(grepl("SDMsel", list.dirs(tempdir()))))
+  expect_false(any(grepl("SDMtune-varSel", list.dirs(tempdir()))))
 })
 
 test_that("Correlated Variable are removed and interactive chart is created", {
@@ -27,5 +27,5 @@ test_that("Correlated Variable are removed and interactive chart is created", {
   expect_s4_class(o@model, "Maxnet")
   expect_false("bio16" %in% colnames(o@data@data))
   expect_false("bio6" %in% colnames(o@data@data))
-  expect_true(any(grepl("SDMsel", list.dirs(tempdir()))))
+  expect_true(any(grepl("SDMtune-varSel", list.dirs(tempdir()))))
 })

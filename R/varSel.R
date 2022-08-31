@@ -146,7 +146,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
                      title = "Variable Selection", update = TRUE)
     line_title <- "Starting model"
-    folder <- tempfile("SDMsel")
+    folder <- tempfile("SDMtune-varSel")
   }
 
   while (correlation_removed == FALSE) {
