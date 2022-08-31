@@ -22,28 +22,28 @@ URL: https://consbiol-unibern.github.io/SDMtune/, https://github.com/ConsBiol-un
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
 SystemRequirements: Java (>= 8) and maxent.jar >= 3.4.1 to use Maxent
 Depends: R (>= 3.6.0)
-Imports: dismo (>= 1.3-3),
-         gbm (>= 2.1.5),
-         ggplot2 (>= 3.3.1),
-         jsonlite (>= 1.6),
-         maxnet (>= 0.1.4),
-         methods,
-         nnet (>= 7.3-12),
-         progress (>= 1.2.2),
-         randomForest (>= 4.6-14),
-         raster (>= 2.9-5),
-         Rcpp (>= 1.0.1),
-         rlang (>= 0.4.5),
-         rstudioapi (>= 0.10),
-         stringr (>= 1.4.0),
-         whisker (>= 0.3-2)
+Imports: 
+    cli (>= 3.3.0),
+    dismo (>= 1.3-3),
+    gbm (>= 2.1.5),
+    ggplot2 (>= 3.3.1),
+    jsonlite (>= 1.6),
+    maxnet (>= 0.1.4),
+    methods,
+    nnet (>= 7.3-12),
+    randomForest (>= 4.6-14),
+    raster (>= 2.9-5),
+    Rcpp (>= 1.0.1),
+    rlang (>= 0.4.5),
+    rstudioapi (>= 0.10),
+    stringr (>= 1.4.0),
+    whisker (>= 0.3-2)
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
 RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
 Suggests:
-    cli (>= 1.1.0),
     covr,
     crayon (>= 1.3.4),
     htmltools (>= 0.3.6),
