@@ -22,9 +22,9 @@
 #' during each iteration, expressed as decimal number. Default is 0.2.
 #' @param mutation_chance numeric. Probability of mutation of the child models,
 #' expressed as decimal number. Default is 0.4.
+#' @param interactive logical, if `FALSE` the interactive chart is not created.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results, default is `NULL`.
-#' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
 #' @details To know which hyperparameters can be tuned you can use the output
 #' of the function \link{getTunableArgs}. Hyperparameters not included in the
