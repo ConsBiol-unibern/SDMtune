@@ -29,7 +29,11 @@
 #' @details To know which hyperparameters can be tuned you can use the output
 #' of the function \link{getTunableArgs}. Hyperparameters not included in the
 #' `hypers` argument take the value that they have in the passed model.
-#' * Part of the code is inspired by
+#'
+#' An interactive chart showing in real-time the steps performed by the
+#' algorithm is displayed in the Viewer pane.
+#'
+#' Part of the code is inspired by
 #' \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164}{this post}.
 #'
 #' @return \linkS4class{SDMtune} object.
