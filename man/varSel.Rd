@@ -13,7 +13,8 @@ varSel(
   method = "spearman",
   cor_th = 0.7,
   permut = 10,
-  use_pc = FALSE
+  use_pc = FALSE,
+  interactive = TRUE
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ correlated variables, default is 0.7.}
 trained using the \linkS4class{Maxent} method, the algorithm uses the percent
 contribution computed by Maxent software to score the variable importance,
 default is \code{FALSE}.}
+
+\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 }
 \value{
 The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained

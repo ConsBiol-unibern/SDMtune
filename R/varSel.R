@@ -28,6 +28,7 @@
 #' trained using the \linkS4class{Maxent} method, the algorithm uses the percent
 #' contribution computed by Maxent software to score the variable importance,
 #' default is `FALSE`.
+#' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
 #' @details * To find highly correlated variables the following formula is used:
 #' \deqn{| coeff | \le cor_th}
@@ -98,7 +99,7 @@
 #' }
 varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
                    method = "spearman", cor_th = 0.7, permut = 10,
-                   use_pc = FALSE) {
+                   use_pc = FALSE, interactive = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -114,6 +115,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   cor_vars <- corVar(bg4cor, method = method, cor_th = cor_th)
   cor_vars <- unique(c(cor_vars$Var1, cor_vars$Var2))
 
+  initial_vars <- colnames(model@data@data)
   total <- length(cor_vars)
   removed <- 0
   first_iter <- TRUE
@@ -131,21 +133,21 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   df[categorical] <- list(NULL)
   cor_matrix <- stats::cor(df, method = method)
 
-  # metric used for chart
-  train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
-  if (metric != "aicc") {
-    val_metric <- data.frame(x = 0, y = .get_metric(metric, model, test = test))
-  } else {
-    val_metric <- data.frame(x = NA_real_, y = NA_real_)
+  if (interactive) {
+    # Metric used for chart
+    train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
+    if (metric != "aicc") {
+      val_metric <- data.frame(x = 0, y = .get_metric(metric, model, test = test))
+    } else {
+      val_metric <- data.frame(x = NA_real_, y = NA_real_)
+    }
+
+    # Create chart
+    settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
+                     title = "Variable Selection", update = TRUE)
+    line_title <- "Starting model"
+    folder <- tempfile("SDMsel")
   }
-
-  # Create chart
-  initial_vars <- colnames(model@data@data)
-  settings <- list(labels = initial_vars, metric = .get_metric_label(metric),
-                   title = "Variable Selection", update = TRUE)
-
-  line_title <- "Starting model"
-  folder <- tempfile("SDMsel")
 
   while (correlation_removed == FALSE) {
 
@@ -161,19 +163,21 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     discarded_variable <- NULL
 
     # Update chart
-    index <- match(initial_vars, vars)
-    vals <- scores[, 2][index]
-    vals[is.na(vals)] <- 0
-    data <- list(data = vals, train = train_metric, val = val_metric,
-                 lineTitle = line_title, stop = FALSE)
+    if (interactive) {
+      index <- match(initial_vars, vars)
+      vals <- scores[, 2][index]
+      vals[is.na(vals)] <- 0
+      data <- list(data = vals, train = train_metric, val = val_metric,
+                   lineTitle = line_title, stop = FALSE)
 
-    if (first_iter) {
-      .create_chart(folder = folder, script = "varSelection.js",
-                    settings = settings, data = data)
-      .show_chart(folder, height = "maximize")
-      first_iter <- FALSE
-    } else {
-      .update_data(folder, data = data)
+      if (first_iter) {
+        .create_chart(folder = folder, script = "varSelection.js",
+                      settings = settings, data = data)
+        .show_chart(folder, height = "maximize")
+        first_iter <- FALSE
+      } else {
+        .update_data(folder, data = data)
+      }
     }
 
     for (i in seq_along(vars)) {
@@ -189,34 +193,48 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
                                          variables = hcv, with_only = FALSE,
                                          env = env, return_models = TRUE))
 
-        # index for metric data frames
-        x <- nrow(train_metric)
-
         if (metric != "aicc") {
           index <- which.max(jk_test$results[, 2])
-          train_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 2])
-          val_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 3])
+
+          if (interactive) {
+            # index for metric data frames
+            x <- nrow(train_metric)
+            train_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 2])
+            val_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 3])
+          }
         } else {
           index <- which.min(jk_test$results[, 2])
-          train_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 2])
+
+          if (interactive) {
+            # index for metric data frames
+            x <- nrow(train_metric)
+            train_metric[x + 1, ] <- list(x = x, y = jk_test$results[index, 2])
+          }
         }
 
         model <- jk_test$models_without[[index]]
         discarded_variable <- as.character(jk_test$results$Variable[index])
         cor_matrix[discarded_variable] <- NULL
         cor_matrix <- cor_matrix[!(row.names(cor_matrix) == discarded_variable), ]
-        line_title <- c(line_title, paste("Removed", discarded_variable))
+
+        if (interactive) {
+          line_title <- c(line_title, paste("Removed", discarded_variable))
+        }
+
         removed <- removed + 1
         pb$tick(1)
         break
       }
     }
+
     if (is.null(discarded_variable)) {
       correlation_removed <- TRUE
-      stop <- TRUE
-      data <- list(data = vals, train = train_metric, val = val_metric,
-                   lineTitle = line_title, stop = stop)
-      .update_data(folder, data = data)
+
+      if (interactive) {
+        data <- list(data = vals, train = train_metric, val = val_metric,
+                     lineTitle = line_title, stop = TRUE)
+        .update_data(folder, data = data)
+      }
     }
   }
 
