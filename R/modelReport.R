@@ -73,12 +73,6 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
          call. = FALSE)
   }
 
-  if (!requireNamespace("crayon", quietly = TRUE)) {
-    stop("You need the packege \"crayon\" to run this function,",
-         " please install it.",
-         call. = FALSE)
-  }
-
   if (!requireNamespace("htmltools", quietly = TRUE)) {
     stop("You need the packege \"htmltools\" to run this function,",
          " please install it.",
@@ -86,7 +80,7 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
   }
 
   if (file.exists(file.path(getwd(), folder))) {
-    msg <- message(crayon::red(cli::symbol$fancy_question_mark),
+    msg <- message(cli::col_red(cli::symbol$fancy_question_mark),
                    " The folder '", folder,
                    "' already exists, do you want to overwrite it?")
     continue <- utils::menu(choices = c("Yes", "No"), title = msg)

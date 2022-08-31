@@ -27,14 +27,14 @@ options(crayon.enabled = TRUE)
 **`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2019).
 
 ```{r, echo=FALSE, message=FALSE}
-message(paste0("\n", cli::rule(left = paste("Model Report -", "method:", class(params$model@model)), right = params$model@data@species, line_col = "#4bc0c0", col = "#f58410", width = 80)))
+message(paste0("\n", cli::rule(left = paste("Model Report -", "method:", class(params$model@model)), right = cli::style_italic(params$model@data@species), line_col = "#4bc0c0", col = "#f58410", width = 80)))
 message("\r- Saving files...", appendLF = FALSE)
 saveRDS(params$model, file = paste0(params$folder, "/model.Rds"))
 swd2csv(params$model@data, paste0(params$folder, "/train.csv"))
 if (!is.null(params$test))
   swd2csv(params$test, paste0(params$folder, "/test.csv"))
 plot_folder <- paste0(params$folder, "/plots")
-message("\r", crayon::green(cli::symbol$tick), " Saving files...")
+message("\r", cli::col_green(cli::symbol$tick), " Saving files...")
 ```
 
 # ROC curve
@@ -45,7 +45,7 @@ plot <- plotROC(params$model, test = params$test)
 suppressMessages(ggplot2::ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = plot_folder))
 element <- "<p><a href=\"./plots/ROC_curve.png\"><img src=\"./plots/ROC_curve.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
 htmltools::HTML(element)
-message("\r", crayon::green(cli::symbol$tick), " Plotting ROC curve...")
+message("\r", cli::col_green(cli::symbol$tick), " Plotting ROC curve...")
 ```
 
 # Thresholds
@@ -54,7 +54,7 @@ message("\r", crayon::green(cli::symbol$tick), " Plotting ROC curve...")
 message("- Computing thresholds...", appendLF = FALSE)
 knitr::kable(thresholds(params$model, type = params$type, test = params$test), digits = 20) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-message("\r", crayon::green(cli::symbol$tick), " Computing thresholds...")
+message("\r", cli::col_green(cli::symbol$tick), " Computing thresholds...")
 ```
 
 `r if(!params$response_curves) {"<!--"}`
@@ -83,7 +83,7 @@ if (params$response_curves) {
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 if (params$response_curves) {
-  message("\r", crayon::green(cli::symbol$tick), " Plotting marginal response curves...")
+  message("\r", cli::col_green(cli::symbol$tick), " Plotting marginal response curves...")
   message("- Plotting univariate response curves...", appendLF = FALSE)
   elements <- c("")
   for (var in vars) {
@@ -101,7 +101,7 @@ if (params$response_curves) {
 ```{r, echo=FALSE, message=FALSE}
 # Leave this chunk outside to avoid deleting html...
 if (params$response_curves) {
-  message("\r", crayon::green(cli::symbol$tick), " Plotting univariate response curves...")
+  message("\r", cli::col_green(cli::symbol$tick), " Plotting univariate response curves...")
 }
 ```
 
@@ -122,7 +122,7 @@ htmltools::HTML(element)
 ```
 ```{r, echo=FALSE, message=FALSE}
 if (!is.null(env))
-  message("\r", crayon::green(cli::symbol$tick), " Predicting distribution map...")
+  message("\r", cli::col_green(cli::symbol$tick), " Predicting distribution map...")
 ```
 
 `r if(is.null(params$env)) {"-->"}`
@@ -133,7 +133,7 @@ if (!is.null(env))
 message("- Computing variable importance...", appendLF = FALSE)
 knitr::kable(suppressMessages(varImp(params$model, params$permut))) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE)
-message("\r", crayon::green(cli::symbol$tick), " Computing variable importance...")
+message("\r", cli::col_green(cli::symbol$tick), " Computing variable importance...")
 ```
 
 `r if(!params$jk) {"<!--"}`
@@ -158,7 +158,7 @@ if (params$jk) {
 ```{r, echo=FALSE, message=FALSE}
 # Leave this chunk outside to avoid deleting html...
 if (params$jk) {
-  message("\r", crayon::green(cli::symbol$tick), " Running Jackknife test...")
+  message("\r", cli::col_green(cli::symbol$tick), " Running Jackknife test...")
 }
 ```
 
@@ -207,7 +207,7 @@ cat("* Node size: ", params$model@model@nodesize, "\n")
 ```
 
 ```{r, echo=FALSE, message=FALSE}
-message("\r", crayon::green(cli::symbol$tick)," Writing model settings...")
+message("\r", cli::col_green(cli::symbol$tick)," Writing model settings...")
 ```
 
 
