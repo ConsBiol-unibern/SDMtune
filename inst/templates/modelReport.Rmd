@@ -24,16 +24,16 @@ library(kableExtra)
 options(crayon.enabled = TRUE)
 ```
 
-**`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2019).
+**`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2020).
 
 ```{r, echo=FALSE, message=FALSE}
 message(paste0("\n", cli::rule(left = paste("Model Report -", "method:", class(params$model@model)), right = cli::style_italic(params$model@data@species), line_col = "#4bc0c0", col = "#f58410", width = 80)))
 message("\r- Saving files...", appendLF = FALSE)
-saveRDS(params$model, file = paste0(params$folder, "/model.Rds"))
-swd2csv(params$model@data, paste0(params$folder, "/train.csv"))
+saveRDS(params$model, file = file.path(params$folder, "model.Rds"))
+swd2csv(params$model@data, file.path(params$folder, "train.csv"))
 if (!is.null(params$test))
-  swd2csv(params$test, paste0(params$folder, "/test.csv"))
-plot_folder <- paste0(params$folder, "/plots")
+  swd2csv(params$test, file.path(params$folder, "test.csv"))
+plot_folder <- file.path(params$folder, "plots")
 message("\r", cli::col_green(cli::symbol$tick), " Saving files...")
 ```
 
@@ -43,7 +43,8 @@ message("\r", cli::col_green(cli::symbol$tick), " Saving files...")
 message("- Plotting ROC curve...", appendLF = FALSE)
 plot <- plotROC(params$model, test = params$test)
 suppressMessages(ggplot2::ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = plot_folder))
-element <- "<p><a href=\"./plots/ROC_curve.png\"><img src=\"./plots/ROC_curve.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
+path <- file.path(plot_folder, "ROC_curve.png")
+element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
 htmltools::HTML(element)
 message("\r", cli::col_green(cli::symbol$tick), " Plotting ROC curve...")
 ```
@@ -70,7 +71,7 @@ if (params$response_curves) {
   for (var in vars) {
     plot <- plotResponse(params$model, var, type = params$type, only_presence = params$only_presence, marginal = TRUE, rug = TRUE, color = "#4bc0c0")
     suppressMessages(ggplot2::ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = plot_folder))
-    path <- paste0(plot_folder, "/", var, "_marginal.png")
+    path <- file.path(plot_folder, paste0(var, "_marginal.png"))
     element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
     elements <- c(elements, element)
   }
@@ -116,7 +117,8 @@ if (!is.null(env)) {
   pred <- predict(params$model, data = params$env, type = params$type, filename = paste0(params$folder, "/map"), overwrite = TRUE, clamp = params$clamp, factors = params$factors)
   plot <- plotPred(pred, lt = params$type, hr = TRUE, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
 suppressMessages(ggplot2::ggsave(filename = "map.png", plot = plot, device = "png", path = plot_folder))
-element <- "<p><a href=\"./plots/map.png\"><img src=\"./plots/map.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
+path <- file.path(plot_folder, "map.png")
+element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
 htmltools::HTML(element)
 }
 ```
@@ -148,9 +150,11 @@ if (params$jk) {
   if (!is.null(test)) {
     plot <- plotJk(jk, type = "test", ref = auc(params$model, test))
     suppressMessages(ggplot2::ggsave(filename = "test_jk.png", plot = plot, device = "png", path = plot_folder))
-    element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" width=50%></a><a href=\"./plots/test_jk.png\"><img src=\"./plots/test_jk.png\" width=50%></a></p>"
+    path1 <- file.path(plot_folder, "train_jk.png")
+    path2 <- file.path(plot_folder, "test_jk.png")
+    element <- paste0("<a href=\"", path1, "\"><img src=\"", path1, "\" width=50%></a><a href=\"", path2, "\"><img src=\"", path2, "\" width=50%></a>")
   } else {
-    element <- "<p><a href=\"./plots/train_jk.png\"><img src=\"./plots/train_jk.png\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a></p>"
+    element <- paste0("<a href=\"", path1, "\"><img src=\"", path1, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
   }
   htmltools::HTML(element)
 }
@@ -214,4 +218,4 @@ message("\r", cli::col_green(cli::symbol$tick)," Writing model settings...")
 # References
 
 - Vignali, S, Barras, AG, Arlettaz, R, Braunisch, V. SDMtune: An R package to tune and evaluate species distribution models. Ecol Evol. 2020; 00: 1– 18. https://doi.org/10.1002/ece3.6786
-- Sergio Vignali, Arnaud Barras and Veronika Braunisch (2019). SDMtune: Species Distribution Model Selection. R package version `r packageVersion("SDMtune")`.
+- Sergio Vignali, Arnaud Barras and Veronika Braunisch. SDMtune: Species Distribution Model Selection. R package version `r packageVersion("SDMtune")`.
