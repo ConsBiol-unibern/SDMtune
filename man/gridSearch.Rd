@@ -4,7 +4,15 @@
 \alias{gridSearch}
 \title{Grid Search}
 \usage{
-gridSearch(model, hypers, metric, test = NULL, env = NULL, save_models = TRUE)
+gridSearch(
+  model,
+  hypers,
+  metric,
+  test = NULL,
+  env = NULL,
+  save_models = TRUE,
+  interactive = TRUE
+)
 }
 \arguments{
 \item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
@@ -26,6 +34,8 @@ only with "aicc", default is \code{NULL}.}
 output contains only a data frame with the metric values for each
 hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE} when there
 are many combinations to avoid R crashing for memory overload.}
+
+\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 }
 \value{
 \linkS4class{SDMtune} object.

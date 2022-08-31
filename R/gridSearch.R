@@ -21,6 +21,7 @@
 #' @details * To know which hyperparameters can be tuned you can use the output
 #' of the function \link{getTunableArgs}. Hyperparameters not included in the
 #' `hypers` argument take the value that they have in the passed model.
+#' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
 #' @return \linkS4class{SDMtune} object.
 #' @export
@@ -70,13 +71,13 @@
 #' output@results
 #' }
 gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
-                       save_models = TRUE) {
+                       save_models = TRUE, interactive = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
   # Create a grid with all the possible combination of hyperparameters
   grid <- .get_hypers_grid(model, hypers)
 
-  # Check that areguments are correctly provided
+  # Check that arguments are correctly provided
   .check_args(model, metric, test, env, hypers)
 
   if (inherits(model, "SDMmodelCV"))
@@ -90,24 +91,27 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
   models <- vector("list", length = nrow(grid))
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
   val_metric <- data.frame(x = NA_real_, y = NA_real_)
-  footer <- vector("character", length = nrow(grid))
-  # Show line only if one hyperparameter is tuned
-  show_line <- ifelse(length(hypers) == 1, TRUE, FALSE)
 
-  # Create chart
-  settings <- list(metric = .get_metric_label(metric),
-                   max = nrow(grid),
-                   show_line = show_line,
-                   title = "Grid Search",
-                   update = TRUE)
+  if (interactive) {
+    footer <- vector("character", length = nrow(grid))
+    # Show line only if one hyperparameter is tuned
+    show_line <- ifelse(length(hypers) == 1, TRUE, FALSE)
 
-  data <- list()
+    # Create chart
+    settings <- list(metric = .get_metric_label(metric),
+                     max = nrow(grid),
+                     show_line = show_line,
+                     title = "Grid Search",
+                     update = TRUE)
 
-  folder <- tempfile("SDMtune")
+    data <- list()
 
-  .create_chart(folder = folder, script = "gridSearch.js", settings = settings,
-                data = data)
-  .show_chart(folder)
+    folder <- tempfile("SDMtune-gridSearch")
+
+    .create_chart(folder = folder, script = "gridSearch.js",
+                  settings = settings, data = data)
+    .show_chart(folder)
+  }
 
   # Loop through all the settings in grid
   for (i in seq_len(nrow(grid))) {
@@ -130,10 +134,13 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
       }
     }
 
-    footer[i] <- .get_footer(obj)
-    stop <- ifelse(i == nrow(grid), TRUE, FALSE)
-    .update_data(folder, data = list(train = train_metric, val = val_metric,
-                                     gridFooter = footer, stop = stop))
+    if (interactive) {
+      footer[i] <- .get_footer(obj)
+      stop <- ifelse(i == nrow(grid), TRUE, FALSE)
+      .update_data(folder, data = list(train = train_metric, val = val_metric,
+                                       gridFooter = footer, stop = stop))
+    }
+
     pb$tick(1)
   }
 
