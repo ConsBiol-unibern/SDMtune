@@ -85,19 +85,25 @@ thinData <- function(coords, env, x = "x", y = "y") {
 
   index <- c()
 
-  pb <- progress::progress_bar$new(
-    format = "Thin Data [:bar] :percent in :elapsedfull",
-    total = l, clear = FALSE, width = 60, show_after = 0)
-  pb$tick(0)
+  cli::cli_progress_bar(
+    name = "Thin Data",
+    type = "iterator",
+    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+    total = l,
+    clear = FALSE
+  )
 
   for (i in 1:l) {
     selection <- which(cells == unique_cells[i])
+
     if (length(selection) > 1) {
       index <- c(index, sample(selection, size = 1))
     } else {
       index <- c(index, selection)
     }
-    pb$tick(1)
+
+    cli::cli_progress_update()
   }
   output <- data[index, ]
   rownames(output) <- NULL
