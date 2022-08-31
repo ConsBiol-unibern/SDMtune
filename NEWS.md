@@ -1,8 +1,10 @@
 # SDMtune 1.1.6.9000
+`varSel()`, `reduceVar()`, `gridSearch()`, `randomSearch()`, and `optimizeModel()` gain the argument `interactive` to disable the interactive real-time chart 
+
 Bug fixes:
 
 * Real-time charts are again displayed in Windows
-* `plotCor` plots a correct heatmap when there are more than 9 variables
+* `plotCor()` plots a correct heatmap when there are more than 9 variables
 
 # SDMtune 1.1.6
 Resolve CRAN notes
