@@ -68,7 +68,7 @@ plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
   }
 
   if (type == "test" & metric == "aicc")
-    stop("Test mode is not available with aicc!")
+    cli::cli_abort("Test mode is not available with aicc.")
 
   if (metric != "aicc") {
     if (type == "train") {

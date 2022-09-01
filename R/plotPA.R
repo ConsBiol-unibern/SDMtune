@@ -41,13 +41,17 @@ plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
                    format = "GTiff", ...) {
 
   if (!requireNamespace("rasterVis", quietly = TRUE)) {
-    stop("You need the packege \"rasterVis\" to run this function,",
-         " please install it.",
-         call. = FALSE)
+    cli::cli_abort(
+      "Please install package {.pkg rasterVis} to use this function",
+      call = NULL
+    )
   }
 
   if (!inherits(map, "RasterLayer"))
-    stop("Prediction must be a RasterLayer object!")
+    cli::cli_abort(c(
+      "!" = "{.var map} must be an {.cls RasterLayer} object",
+      "x" = "You have supplied a {.cls {class(map)}} instead."
+    ))
 
   pa <- map >= th
 
@@ -75,10 +79,10 @@ plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
     ggplot2::scale_x_continuous(expand = c(0, 0)) +
     ggplot2::scale_y_continuous(expand = c(0, 0)) +
     ggplot2::theme_minimal() +
-    ggplot2:: theme(plot.title = ggplot2::element_text(hjust = 0.5),
-                    axis.ticks.x = ggplot2::element_blank(),
-                    axis.ticks.y = ggplot2::element_blank(),
-                    text = ggplot2::element_text(colour = "#666666"))
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5),
+                   axis.ticks.x = ggplot2::element_blank(),
+                   axis.ticks.y = ggplot2::element_blank(),
+                   text = ggplot2::element_text(colour = "#666666"))
 
   return(my_plot)
 }

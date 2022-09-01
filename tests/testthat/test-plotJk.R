@@ -30,8 +30,7 @@ test_that("The plot has the correct labels and elements", {
   # AICc
   p <- plotJk(jk_aicc)
   expect_equal(p$labels$y, "AICc")
-  expect_error(plotJk(jk_aicc, type = "test"),
-               "Test mode is not available with aicc!")
+  expect_snapshot(plotJk(jk_aicc, type = "test"), error = TRUE)
 })
 
 test_that("The function works also when the argument is a list", {
