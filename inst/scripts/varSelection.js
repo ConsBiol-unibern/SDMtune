@@ -1,3 +1,4 @@
+// Variable Selection Script
 // Variables rendered by Whisker
 var settings = {{{ settings }}};
 var data = {{{ data }}};
