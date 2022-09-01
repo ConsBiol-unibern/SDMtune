@@ -58,6 +58,7 @@ Suggests:
     rmarkdown (>= 2.7),
     scales (>= 1.0.0),
     testthat (>= 3.1.4),
+    withr (>= 2.5.0),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
