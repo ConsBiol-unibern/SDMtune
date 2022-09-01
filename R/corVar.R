@@ -43,13 +43,17 @@ corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
                    remove_diagonal = TRUE) {
 
   if (!requireNamespace("reshape2", quietly = TRUE)) {
-    stop("You need the packege \"reshape2\" to run this function,",
-         " please install it.",
-         call. = FALSE)
+    cli::cli_abort(
+      "Please install package {.pkg reshape2} to use this function",
+      call = NULL
+    )
   }
 
   if (!inherits(bg, "SWD"))
-    stop("\"bg\" must be an SWD object!")
+    cli::cli_abort(c(
+      "!" = "{.var bg} must be an {.cls SWD} object",
+      "x" = "You have supplied a {.cls {class(bg)}} instead."
+    ))
 
   df <- bg@data
   # Remove categorical environmental variables

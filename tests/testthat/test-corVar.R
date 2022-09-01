@@ -1,7 +1,7 @@
 x <- SDMtune:::t
 
 test_that("The function raises error", {
-  expect_error(corVar(x@data), "\"bg\" must be an SWD object!")
+  expect_snapshot(corVar(x@data), error = TRUE)
 })
 
 test_that("The function creates the correct output", {
