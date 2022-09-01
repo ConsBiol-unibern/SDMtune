@@ -223,23 +223,29 @@
 .check_args <- function(model, metric, test = NULL, env = NULL, hypers = NULL) {
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & inherits(model, "SDMmodel"))
-    stop("You must provide the 'env' argument if you want to use the AICc ",
-         "metric!")
+    cli::cli_abort(
+      "You must provide the {.var env} argument if you want to use the AICc"
+      )
+
   # Throws exception if model is SDMmodel, metric is not aicc and
   # test is not provided
   if (inherits(model, "SDMmodel") & is.null(test) & metric != "aicc") {
-    stop("You need to provide a test dataset!")
+    cli::cli_abort("You need to provide a test dataset")
   }
+
   # Throws exception if metric is aicc and model is SDMmodelCV
   if (inherits(model, "SDMmodelCV") & metric == "aicc")
-    stop("Metric 'aicc' not allowed with SDMmodelCV objects!")
+    cli::cli_abort("{.strong AICc} not allowed with {.cls SDMmodelCV} objects")
+
   # Check hypers
   if (!is.null(hypers)) {
     # Throws exception if provided hypers are not tunable
+
     diff <- setdiff(names(hypers), getTunableArgs(model))
     if (length(diff) > 0)
-      stop(paste(diff, "non included in tunable hyperparameters",
-                 collapse = ", "))
+      cli::cli_abort(
+        ("Argumnt{?s} {diff} non included in tunable hyperparameters")
+      )
   }
 }
 
