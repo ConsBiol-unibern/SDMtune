@@ -42,9 +42,10 @@
 plotROC <- function(model, test = NULL) {
 
   if (!requireNamespace("plotROC", quietly = TRUE)) {
-    stop("You need the packege \"plotROC\" to run this function,",
-         " please install it.",
-         call. = FALSE)
+    cli::cli_abort(
+      "Please install package {.pkg plotROC} to use this function",
+      call = NULL
+    )
   }
 
   if (inherits(model@model, "Maxent")) {

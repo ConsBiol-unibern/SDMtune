@@ -29,13 +29,18 @@
 plotPred <- function(map, lt = "", colorramp = NULL, hr = FALSE) {
 
   if (!requireNamespace("rasterVis", quietly = TRUE)) {
-    stop("You need the packege \"rasterVis\" to run this function,",
-         " please install it.",
-         call. = FALSE)
+    cli::cli_abort(
+      "Please install package {.pkg rasterVis} to use this function",
+      call = NULL
+    )
   }
 
   if (!inherits(map, "RasterLayer"))
-    stop("Prediction must be a RasterLayer object!")
+    cli::cli_abort(c(
+      "!" = "{.var map} must be an {.cls RasterLayer} object",
+      "x" = "You have supplied a {.cls {class(map)}} instead."
+    ))
+
   if (is.null(colorramp))
     colorramp <- c("blue", "cyan", "green", "yellow", "red")
 

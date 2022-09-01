@@ -77,7 +77,7 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
                          color = "red") {
 
   if (!var %in% names(model@data@data))
-    stop(paste(var, "is not used to train the model!"))
+    cli::cli_abort("Variable {.field {var}} is not used to train the model.")
 
   p <- .get_presence(model@data)
   a <- .get_absence(model@data)
@@ -132,7 +132,7 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
                         aes(x = .data$x, y = .data$y, ymin = .data$y_min,
                             ymax = .data$y_max)) +
         ggplot2::geom_line(colour = color) +
-        ggplot2:: geom_ribbon(fill = color, alpha = 0.2)
+        ggplot2::geom_ribbon(fill = color, alpha = 0.2)
 
     } else {
       my_plot <- ggplot(plot_data, aes(x = .data$x, y = .data$y)) +

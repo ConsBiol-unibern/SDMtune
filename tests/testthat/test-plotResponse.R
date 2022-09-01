@@ -5,7 +5,7 @@ m_cv <- SDMtune:::bm_maxnet_cv
 
 test_that("Error are raised", {
   expect_error(plotResponse(m, "biowhat", "cloglog"),
-               "biowhat is not used to train the model!")
+               "Variable biowhat is not used to train the model.")
 })
 
 test_that("Labels and output are correct for SDMmodel objects", {

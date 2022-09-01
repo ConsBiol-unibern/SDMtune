@@ -41,9 +41,10 @@
 plotVarImp <- function(df, color = "grey") {
 
   if (!requireNamespace("scales", quietly = TRUE)) {
-    stop("You need the packege \"scales\" to run this function,",
-         " please install it.",
-         call. = FALSE)
+    cli::cli_abort(
+      "Please install package {.pkg scales} to use this function",
+      call = NULL
+    )
   }
 
   df <- df[order(df[, 2]), ]

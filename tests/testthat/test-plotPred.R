@@ -1,8 +1,7 @@
 map <- raster::raster(matrix(runif(400, 0, 1), 20, 20))
 
 test_that("The function raises an error if argument is not a raster", {
-  expect_error(plotPred(data.frame(a = 1, b = "l")),
-               "Prediction must be a RasterLayer object!")
+  expect_snapshot(plotPred(data.frame(a = 1, b = "l")), error = TRUE)
 })
 
 test_that("The values are correct", {
@@ -11,4 +10,5 @@ test_that("The values are correct", {
   expect_true(max(p$data$value) <= 1)
   # If hr is TRUE it should use the number of pixel in the raster
   p <- plotPred(map, hr = TRUE)
-})
+
+  })
