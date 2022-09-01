@@ -29,7 +29,7 @@
       test[unlist(x$folds[[i]][2]), i] <- TRUE
     }
   } else {
-    stop("Folds object format not allowed!")
+    cli::cli_abort("Folds object format not allowed.")
   }
 
   output <- list(train = train, test = test)

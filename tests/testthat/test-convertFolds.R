@@ -11,7 +11,8 @@ test_that("ENMeval presence only", {
   folds <- .convert_folds(x, data)
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
-  expect_equal(ncol(folds$train), ncol(folds$test), 4)
+  expect_equal(ncol(folds$train), 4)
+  expect_equal(ncol(folds$test), 4)
   expect_equal(nrow(folds$train), nrow(folds$test))
   for (i in 1:3) {
     expect_equal(folds$train[, i][1:np], !folds$test[, i][1:np])
@@ -23,7 +24,8 @@ test_that("ENMeval presence only", {
   folds <- .convert_folds(x, data)
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
-  expect_equal(ncol(folds$train), ncol(folds$test), 4)
+  expect_equal(ncol(folds$train), 4)
+  expect_equal(ncol(folds$test), 4)
   expect_equal(nrow(folds$train), nrow(folds$test))
   for (i in 1:3) {
     expect_equal(folds$train[, i][1:np], !folds$test[, i][1:np])
@@ -41,7 +43,8 @@ test_that("ENMeval presence and background", {
   folds <- .convert_folds(x, data)
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
-  expect_equal(ncol(folds$train), ncol(folds$test), 4)
+  expect_equal(ncol(folds$train), 4)
+  expect_equal(ncol(folds$test), 4)
   expect_equal(nrow(folds$train), nrow(folds$test))
   for (i in 1:3) {
     expect_equal(folds$train[, i], !folds$test[, i])
@@ -52,7 +55,8 @@ test_that("ENMeval presence and background", {
   folds <- .convert_folds(x, data)
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
-  expect_equal(ncol(folds$train), ncol(folds$test), 4)
+  expect_equal(ncol(folds$train), 4)
+  expect_equal(ncol(folds$test), 4)
   expect_equal(nrow(folds$train), nrow(folds$test))
   for (i in 1:3) {
     expect_equal(folds$train[, i], !folds$test[, i])
@@ -74,7 +78,8 @@ test_that("blockCV", {
   folds <- .convert_folds(x, data)
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
-  expect_equal(ncol(folds$train), ncol(folds$test), 4)
+  expect_equal(ncol(folds$train), 2)
+  expect_equal(ncol(folds$test), 2)
   expect_equal(nrow(folds$train), nrow(folds$test))
   for (i in 1:2) {
     expect_equal(folds$train[, i], !folds$test[, i])
@@ -89,5 +94,5 @@ test_that("randomFolds", {
 })
 
 test_that("error is raised", {
-  expect_error(.convert_folds(t, t), "Folds object format not allowed!")
+  expect_snapshot(.convert_folds(t, t), error = TRUE)
 })
