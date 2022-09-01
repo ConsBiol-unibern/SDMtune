@@ -94,8 +94,8 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
   if (use_jk == TRUE)
     .check_args(model, metric = metric, test = test, env = env)
   if (use_pc & .get_model_class(model) != "Maxent")
-    stop(paste("Percent contribution cannot be used with model of method",
-               .get_model_class(model)))
+    cli::cli_abort(paste("Percent contribution cannot be used with model",
+                         "of method {.get_model_class(model)}"))
 
   if (inherits(model, "SDMmodelCV"))
     test <- TRUE
