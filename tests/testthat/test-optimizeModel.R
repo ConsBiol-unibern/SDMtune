@@ -27,11 +27,30 @@ test_that("The output is corrects and crates the interactive chart", {
 })
 
 test_that("Exception are raised", {
-  expect_error(optimizeModel(mother, h, "auc", data, keep_best = 0.6,
-                             keep_random = 0.6, pop = 3),
-               "Sum of 'keep_best' and 'keep_random' cannot be more than 1!")
-  expect_error(optimizeModel(mother, h, "auc", data, pop = 3),
-               "Optimization algorithm interrupted at generation 0 because it overfits validation dataset!")
+  # keep_best + keep_random > 1
+  expect_snapshot(optimizeModel(mother, h, "auc", data, keep_best = 0.6,
+                                keep_random = 0.6, pop = 3),
+                  error = TRUE)
+
+  # Only one hyperparameter
+  expect_snapshot(optimizeModel(mother, list(fc = "l"), "auc", data),
+                  error = TRUE)
+
+  # All hyperparameters with only 1 value
+  expect_snapshot(optimizeModel(mother, list(fc = "l", reg = 1), "auc", data),
+                  error = TRUE)
+
+  # Less models than population size
+  expect_snapshot(optimizeModel(mother, h, "auc", data, pop = 7),
+                  error = TRUE)
+
+  # Number of models equal to population size
+  expect_snapshot(optimizeModel(mother, h, "auc", data, pop = 6),
+                  error = TRUE)
+
+  # Overfit validation dataset at generation 0
+  expect_snapshot(optimizeModel(mother, h, "auc", data, pop = 3),
+                  error = TRUE)
 })
 
 test_that("Crossover is executed", {

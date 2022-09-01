@@ -93,10 +93,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   # Check that arguments are correctly provided
   .check_args(model, metric, test, env, hypers)
   # Check if at least two hyperparameters have more than one value
-  .check_optimize_args(hypers, grid, pop)
-
-  if (keep_best + keep_random > 1)
-    stop("Sum of 'keep_best' and 'keep_random' cannot be more than 1!")
+  .check_optimize_args(hypers, grid, pop, keep_best, keep_random)
 
   if (inherits(model, "SDMmodelCV"))
     test <- TRUE
@@ -220,8 +217,10 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                                        lineFooter = line_footer, stop = FALSE))
     }
   } else {
-    stop(paste("Optimization algorithm interrupted at generation", 0,
-               "because it overfits validation dataset!"))
+    cli::cli_abort(
+      paste("Optimization algorithm interrupted at generation 0",
+            "because it overfits validation dataset.")
+    )
   }
 
   # Optimize using Genetic Algorithm
@@ -313,8 +312,10 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                                            stop = FALSE))
         }
       } else {
-        stop(paste("Optimization algorithm interrupted at generation", i,
-                   "because it overfits validation dataset!"))
+        cli::cli_abort(
+          paste("Optimization algorithm interrupted at generation", i,
+                "because it overfits validation dataset.")
+        )
       }
     }
   }
@@ -360,24 +361,34 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   return(new_model)
 }
 
-.check_optimize_args <- function(hypers, grid, pop) {
+.check_optimize_args <- function(hypers, grid, pop, keep_best, keep_random) {
 
-  if (sum(lengths(hypers) > 2) < 1)
-    stop("One hyperparameter in hypers should have more than two values to ",
-         "allow crossover!")
+  if (keep_best + keep_random > 1)
+    cli::cli_abort(
+      "Sum of {.var keep_best} and {.var keep_random} cannot be more than 1."
+    )
 
   if (length(names(hypers)) < 2) {
-    stop(paste("You must provide at least two hyperparameters to be tuned!",
-               "Use gridSearch to tune only one parameter."))
+    cli::cli_abort(c(
+      "!" = "You must provide at least two hyperparameters to be tuned",
+      "i" = "Use {.fn gridSearch} to tune only one parameter."))
   }
+
+  if (all(lengths(hypers) < 2))
+    cli::cli_abort(
+      paste("One hyperparameter in hypers should have more than two values to ",
+            "allow crossover.")
+    )
 
   # Check if possible random combinations <= pop
   if (nrow(grid) < pop) {
-    stop(paste("Number of possible random models is lewer than population",
-               "size, add more values to the 'hyper' argument!"))
+    cli::cli_abort(c(
+      "!" = "Number of possible random models is lewer than population size",
+      "i" = "Add more values to the {.var hyper} argument."))
   } else if (nrow(grid) == pop) {
-    stop(paste("Number of possible random models is the same than population",
-               "size. Use gridSearch function!"))
+    cli::cli_abort(c(
+      "!" = "Number of possible random models is the same than population size",
+      "i" = "Use {.fn gridSearch} function."))
   }
 }
 
