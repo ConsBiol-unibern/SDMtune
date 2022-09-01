@@ -68,15 +68,17 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
                         factors = NULL) {
 
   if (!requireNamespace("kableExtra", quietly = TRUE)) {
-    stop("You need the packege \"kableExtra\" to run this function,",
-         " please install it.",
-         call. = FALSE)
+    cli::cli_abort(
+      "Please install package {.pkg kableExtra} to use this function",
+      call = NULL
+    )
   }
 
   if (!requireNamespace("htmltools", quietly = TRUE)) {
-    stop("You need the packege \"htmltools\" to run this function,",
-         " please install it.",
-         call. = FALSE)
+    cli::cli_abort(
+      "Please install package {.pkg htmltools} to use this function",
+      call = NULL
+    )
   }
 
   if (file.exists(file.path(getwd(), folder))) {
