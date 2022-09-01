@@ -1,16 +1,40 @@
 citHeader("To cite SDMtune in publications please use:")
 
 citEntry(
-  entry = "article",
-  author = c(person("Sergio", "Vignali"),
-             person("Arnaud G.", "Barras"),
-             person("Raphaël", "Arlettaz"),
-             person("Veronika", "Braunisch")),
+  entry = "Article",
   title = "SDMtune: An R package to tune and evaluate species distribution models",
+  author = personList(as.person("Sergio Vignali"),
+                      as.person("Arnaud G. Barras"),
+                      as.person("Raphaël Arlettaz"),
+                      as.person("Veronika Braunisch")),
   journal = "Ecology and Evolution",
   year = 2020,
-  volume = "00",
-  pages = "1-18",
+  volume = "10",
+  number = "20",
+  pages = "11488–11506",
   doi = "10.1002/ece3.6786",
-  textVersion = "Vignali, S, Barras, AG, Arlettaz, R, Braunisch, V. SDMtune: An R package to tune and evaluate species distribution models. Ecol Evol. 2020; 00: 1– 18. https://doi.org/10.1002/ece3.6786"
+  textVersion = paste("Vignali, S., Barras, A. G., Arlettaz, R., Braunisch, V.",
+                      "(2022). SDMtune: An R package to tune and evaluate",
+                      "species distribution models.",
+                      "Ecology and Evololution, 10(20), 11488–11506.",
+                      "https://doi.org/10.1002/ece3.6786")
+)
+
+citEntry(
+  entry = "Manual",
+  title = "SDMtune: Species Distribution Model Selection",
+  author = personList(as.person("Sergio Vignali"),
+                      as.person("Arnaud G. Barras"),
+                      as.person("Veronika Braunisch")),
+  year = "2022",
+  note = paste("R package version", meta$Version),
+  url = ifelse(grepl("9000", meta$Version),
+               "https://github.com/ConsBiol-unibern/SDMtune",
+               "https://CRAN.R-project.org/package=SDMtune"),
+  textVersion = paste0("Vignali, S., Barras, A. G., Braunisch, V. (2022). ",
+                       "SDMtune: Species Distribution Model Selection. ",
+                       "R package version ", meta$Version, ". ",
+                       ifelse(grepl("9000", meta$Version),
+                              "https://github.com/ConsBiol-unibern/SDMtune",
+                              "https://CRAN.R-project.org/package=SDMtune"))
 )

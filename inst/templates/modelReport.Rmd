@@ -54,7 +54,7 @@ message("\r", cli::col_green(cli::symbol$tick), " Plotting ROC curve...")
 ```{r, echo=FALSE, message=FALSE}
 message("- Computing thresholds...", appendLF = FALSE)
 knitr::kable(thresholds(params$model, type = params$type, test = params$test), digits = 20) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 message("\r", cli::col_green(cli::symbol$tick), " Computing thresholds...")
 ```
 
@@ -134,7 +134,7 @@ if (!is.null(env))
 ```{r, echo=FALSE, message=FALSE}
 message("- Computing variable importance...", appendLF = FALSE)
 knitr::kable(suppressMessages(varImp(params$model, params$permut))) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE)
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE)
 message("\r", cli::col_green(cli::symbol$tick), " Computing variable importance...")
 ```
 
@@ -217,5 +217,5 @@ message("\r", cli::col_green(cli::symbol$tick)," Writing model settings...")
 
 # References
 
-- Vignali, S, Barras, AG, Arlettaz, R, Braunisch, V. SDMtune: An R package to tune and evaluate species distribution models. Ecol Evol. 2020; 00: 1– 18. https://doi.org/10.1002/ece3.6786
-- Sergio Vignali, Arnaud Barras and Veronika Braunisch. SDMtune: Species Distribution Model Selection. R package version `r packageVersion("SDMtune")`.
+- Vignali, S., Barras, A. G., Arlettaz, R., Braunisch, V. (2020). *SDMtune*: An R package to tune and evaluate species distribution models. Ecology and Evolution, **10**(20), 11488–11506. <https://doi.org/10.1002/ece3.6786>
+- Vignali, S., Barras, A. G., Braunisch, V. (2022). *SDMtune*: Species Distribution Model Selection. R package version `r packageVersion("SDMtune")`. `r ifelse(grepl("9000",packageVersion("SDMtune")), "<https://github.com/ConsBiol-unibern/SDMtune>", "<https://CRAN.R-project.org/package=SDMtune>")`
