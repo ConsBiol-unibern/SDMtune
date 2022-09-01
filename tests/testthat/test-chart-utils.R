@@ -1,11 +1,9 @@
-folder <- tempfile("SDMtune")
-settings <- list(update = FALSE)
-data <- list()
-.create_chart(folder = folder, script = "gridSearch.js", settings = settings,
-              data = data)
-.update_data(folder, data = settings)
+test_that(".create_chart created the correct files", {
+  folder <- tempfile("SDMtune-chart-")
+  create_local_chart(folder = folder,
+                     script = "gridSearch.js",
+                     update = FALSE)
 
-test_that(".create_chart function works correctly", {
   # The folder lib is created and contains the correct files
   expect_true(file.exists(file.path(folder, "lib", "chart_script.js")))
   expect_true(file.exists(file.path(folder, "lib", "Chart.min.js")))
@@ -15,22 +13,56 @@ test_that(".create_chart function works correctly", {
   expect_true(file.exists(file.path(folder, "chart_template.html")))
 })
 
-test_that(".render_script function render settings and data", {
-  # Settings is rendered
+test_that(".render_script function renders script, settings and data", {
+  folder <- tempfile("SDMtune-chart-")
+  create_local_chart(folder = folder,
+                     script = "gridSearch.js",
+                     update = FALSE)
+
+  # Grid Search
+  # Correct script
   expect_equal(readLines(file.path(folder, "lib", "chart_script.js"),
-                         encoding = "UTF-8")[2],
+                         encoding = "UTF-8")[1],
+               "// Grid Search Script")
+
+  # Settings are rendered
+  expect_equal(readLines(file.path(folder, "lib", "chart_script.js"),
+                         encoding = "UTF-8")[3],
                "var settings = {\"update\":[false]};")
-  # Data is rendered
+  # Data are rendered
   expect_equal(readLines(file.path(folder, "lib", "chart_script.js"),
-                         encoding = "UTF-8")[3], "var data = [];")
+                         encoding = "UTF-8")[4], "var data = [];")
+
+  # Optimize Model
+  folder <- tempfile("SDMtune-chart-")
+  create_local_chart(folder = folder,
+                     script = "optimizeModel.js",
+                     update = FALSE)
+
+  expect_equal(readLines(file.path(folder, "lib", "chart_script.js"),
+                         encoding = "UTF-8")[1],
+               "// Optimize Model Script")
+
+  # Variable Selection
+  folder <- tempfile("SDMtune-chart-")
+  create_local_chart(folder = folder,
+                     script = "varSelection.js",
+                     update = FALSE)
+
+  expect_equal(readLines(file.path(folder, "lib", "chart_script.js"),
+                         encoding = "UTF-8")[1],
+               "// Variable Selection Script")
 })
 
 test_that(".update_data function works corretly", {
+  folder <- tempfile("SDMtune-chart-")
+  create_local_chart(folder = folder,
+                     script = "varSelection.js",
+                     update = TRUE)
+
   # The data.json file is created
   expect_true(file.exists(file.path(folder, "data.json")))
   # The data.json file contains the data
   expect_equal(readLines(file.path(folder, "data.json"), encoding = "UTF-8"),
                "{\"update\":[false]}")
 })
-
-teardown(unlink(folder, recursive = TRUE))
