@@ -29,8 +29,6 @@ test_that("The function works with custom dataframe", {
 })
 
 test_that("The function raises errors", {
-  colnames(x) <- c("A", "B")
-  expect_error(thinData(x, predictors), "The column 'x' is not present")
-  colnames(x) <- c("x", "B")
-  expect_error(thinData(x, predictors), "The column 'y' is not present")
+  expect_snapshot(thinData(x, predictors, x = "A"), error = TRUE)
+  expect_snapshot(thinData(x, predictors, y = "B"), error = TRUE)
 })

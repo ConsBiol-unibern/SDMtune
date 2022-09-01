@@ -62,12 +62,16 @@ thinData <- function(coords, env, x = "x", y = "y") {
 
   # Check if columns with coordinates are present in coords
   if (!x %in% colnames(coords))
-    stop("The column '", x, "' is not present, please provide the correct name",
-         " for the column containing the x coordinates.")
+    cli::cli_abort(c(
+      "!" = "Column {.val {x}} does not exist",
+      "i" = "Please use the name of the column with the {.val x} coordinates."
+    ))
 
   if (!y %in% colnames(coords))
-    stop("The column '", y, "' is not present, please provide the correct name",
-         " for the column containing the y coordinates.")
+    cli::cli_abort(c(
+      "!" = "Column {.val {y}} does not exist",
+      "i" = "Please use the name of the column with the {.val y} coordinates."
+    ))
 
   # Copy the data
   data <- coords
