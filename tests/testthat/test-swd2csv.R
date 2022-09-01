@@ -3,6 +3,7 @@ file2 <- tempfile(fileext = ".csv")
 x <- SDMtune:::t
 
 test_that("Function saves object in one file correctly", {
+  withr::defer(unlink(file1))
   swd2csv(x, file1)
   f1 <- read.csv(file1)
   expect_true(file.exists(file1))
@@ -10,6 +11,7 @@ test_that("Function saves object in one file correctly", {
 })
 
 test_that("Function saves object in two files correctly", {
+  withr::defer(unlink(c(file1, file2)))
   expect_silent(swd2csv(x, c(file1, file2)))
   # Presence file
   f1 <- read.csv(file1)
@@ -20,5 +22,3 @@ test_that("Function saves object in two files correctly", {
   expect_true(file.exists(file2))
   expect_named(f2, c("Species", names(x@coords), names(x@data)))
 })
-
-teardown(unlink(c(file1, file2)))
