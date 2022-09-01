@@ -50,13 +50,19 @@
 confMatrix <- function(model, test = NULL, th = NULL, type = NULL) {
 
   if (!inherits(model, "SDMmodel"))
-    stop("Function available only for SDMmodel objects.")
+    cli::cli_abort(c(
+      "!" = "Function available only for {.cls SDMmodel} objects.",
+      "x" = "You have supplied a {.cls {class(model)}} instead."))
 
   if (is.null(test)) {
     data <- model@data
   } else {
     if (!inherits(test, "SWD"))
-      stop("\"test\" argument invalid, use an SWD object.")
+      cli::cli_abort(c(
+        "!" = "{.var test} must be an {.cls SWD} object",
+        "x" = "You have supplied a {.cls {class(test)}} instead."
+      ))
+
     data <- test
   }
 
