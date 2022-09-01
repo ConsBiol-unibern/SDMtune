@@ -29,16 +29,18 @@ test_that("Only presence locations are merged if only_presence is TRUE", {
 })
 
 test_that("The function raises errors", {
-  expect_error(mergeSWD(t, t@data), "The function accepts only SWD objects!")
+  expect_snapshot(mergeSWD(t, t@data), error = TRUE)
   x <- t
   x@species <- "Gypaetus barbatus"
-  expect_error(mergeSWD(x, t), "SWD1 and SWS2 have a different species!")
+  expect_snapshot(mergeSWD(x, t), error = TRUE)
 })
 
 test_that("The function warns if datasets have different variables", {
   x <- t
   x@data$biome <- NULL
-  expect_warning(mergeSWD(x, t))
+  expect_message(mergeSWD(x, t),
+                 paste("! The two SWD objects have different columns,",
+                       "only the common columns are used in the merged object"))
   # Check that common columns are merged
-  expect_named(suppressWarnings(mergeSWD(x, t)@data), names(x@data))
+  expect_named(suppressMessages(mergeSWD(x, t)@data), names(x@data))
 })

@@ -52,16 +52,17 @@
 mergeSWD <- function(swd1, swd2, only_presence = FALSE) {
 
   if (!inherits(swd1, "SWD") | !inherits(swd2, "SWD"))
-    stop("The function accepts only SWD objects!")
+    cli::cli_abort("The function accepts only {.cls SWD} objects.")
 
   if (swd1@species != swd2@species)
-    stop("SWD1 and SWS2 have a different species!")
+    cli::cli_abort("{.var swd1} and {.var swd2} have a different species!")
 
   if (length(colnames(swd1@data)) != length(colnames(swd2@data)) ||
       length(intersect(colnames(swd1@data), colnames(swd2@data))) !=
       length(colnames(swd1@data))) {
-    warning(paste("The two SWD objects have different columns,",
-                  "only the common columns are used in the merged object!"))
+    cli::cli_alert_warning(
+      paste("The two SWD objects have different columns,",
+            "only the common columns are used in the merged object"))
     # Get common variables
     vars <- intersect(colnames(swd1@data), colnames(swd2@data))
     # Subset objects
