@@ -1,5 +1,3 @@
-context("Plot SDMtune Object")
-
 res <- data.frame(fc = c("l", "q"), reg = c(1, 1), train_AUC = c(0.907, 0.910),
                   test_AUC = c(0.905, 0.904), diff_AUC = c(0.002, 0.006),
                   stringsAsFactors = FALSE)
@@ -15,7 +13,7 @@ test_that("Non interactive plot is correct", {
   expect_equal(p$labels$title, "")  # title is not present if not passed
   expect_equal(class(p$layers[[1]]$geom)[1], "GeomPoint")
   expect_equal(class(p$layers[[2]]$geom)[1], "GeomLine")
-  expect_equivalent(unique(p$data$type), c("Training", "Validation"))
+  expect_equal(unique(p$data$type), c("Training", "Validation"))
   # TSS
   colnames(o@results) <- c("fc", "reg", "Train_TSS", "Test_TSS", "diff_TSS")
   p <- plot(o, title = "title")
