@@ -5,17 +5,19 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 predictors <- raster::stack(files)
 set.seed(25)
 suppressWarnings(bg <- dismo::randomPoints(predictors, 10000))
-bg <- prepareSWD(species = "Bgs", a = bg, env = predictors,
-                 categorical = "biome")
+bg <- suppressMessages(prepareSWD(species = "Bgs", a = bg, env = predictors,
+                                  categorical = "biome"))
 m <- SDMtune:::bm_maxnet
 
 test_that("Exceptions are thrown", {
-  expect_error(varSel(m, metric = "auc", bg4cor = bg, test = t, use_pc = TRUE),
-               "Percent contribution cannot be used with model of")
+  expect_snapshot(
+    varSel(m, metric = "auc", bg4cor = bg, test = t, use_pc = TRUE),
+    error = TRUE)
 })
 
 test_that("The interactive chart is not created", {
-  varSel(m, "auc", bg, test = t, cor_th = .9, permut = 1, interactive = FALSE)
+  suppressMessages(varSel(m, "auc", bg, test = t, cor_th = .9,
+                          permut = 1, interactive = FALSE))
   expect_false(any(grepl("SDMtune-varSel", list.dirs(tempdir()))))
 })
 
