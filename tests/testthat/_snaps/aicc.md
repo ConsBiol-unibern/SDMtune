@@ -5,5 +5,5 @@
     Condition
       Error in `aicc()`:
       ! AICc available only for <Maxent> and <Maxnet> models.
-      x You have supplied a <RF> instad.
+      x You have supplied a <RF> instead.
 

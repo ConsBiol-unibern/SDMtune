@@ -45,7 +45,7 @@ aicc <- function(model, env) {
   if (!inherits(model@model, c("Maxent", "Maxnet")))
     cli::cli_abort(c(
       "!" = "AICc available only for {.cls Maxent} and {.cls Maxnet} models.",
-      "x" = "You have supplied a {.cls {class(model@model)}} instad."))
+      "x" = "You have supplied a {.cls {class(model@model)}} instead."))
 
   # k is the number of non-zero parameter in the model
   if (inherits(model@model, "Maxent")) {
