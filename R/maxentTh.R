@@ -37,7 +37,9 @@
 maxentTh <- function(model) {
 
   if (!inherits(model@model, "Maxent"))
-    stop("model must be an SDMmodel object trained using the 'Maxent' method!")
+    cli::cli_abort(c(
+      "!" = "Function available only for {.cls Maxent} objects.",
+      "x" = "You have supplied a {.cls {class(model@model)}} instead."))
 
   thresholds <- grep(".threshold", rownames(model@model@results), value = TRUE)
   thresholds <- grep("cumulative.threshold", thresholds, value = TRUE,
