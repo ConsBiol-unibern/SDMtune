@@ -71,6 +71,7 @@ test_that("The function works with raster data and multiple functions", {
   funs <- c("mean", "sd", "min")
   p <- predict(m, predictors, fun = funs, type = "raw",
                filename = file.path(folder, "pred"))
+  withr::defer(unlink(folder))
 
   expect_equal(class(p), "list")
   expect_vector(p, size = 3)
@@ -84,5 +85,3 @@ test_that("The function works with raster data and multiple functions", {
   }
 
 })
-
-teardown(unlink(folder))

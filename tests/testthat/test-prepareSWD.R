@@ -9,8 +9,8 @@ p <- rbind(c(10, 10), p)
 a <- virtualSp$background
 
 test_that("Output is correct", {
-  swd <- expect_message(prepareSWD(species = "Gypaetus barbatus", p = p, a = a,
-                                   env = env, categorical = "biome"), "Info:")
+  swd <- suppressMessages(prepareSWD(species = "Gypaetus barbatus", p = p, a = a,
+                                     env = env, categorical = "biome"))
   expect_s4_class(swd, "SWD")
   expect_equal(swd@species, "Gypaetus barbatus")
   expect_named(swd@data, names(env))
@@ -23,10 +23,12 @@ test_that("Output is correct", {
 })
 
 test_that("The function works with only presences or only absences data", {
-  expect_s4_class(swd <- prepareSWD(species = "Gypaetus barbatus", p = p,
-                                    env = env, categorical = "biome"), "SWD")
+  expect_s4_class(swd <- suppressMessages(
+    prepareSWD(species = "Gypaetus barbatus", p = p,
+               env = env, categorical = "biome")), "SWD")
   expect_true(unique(swd@pa) == 1)
-  expect_s4_class(swd <- prepareSWD(species = "Gypaetus barbatus", a = a,
-                                    env = env, categorical = "biome"), "SWD")
+  expect_s4_class(swd <- suppressMessages(
+    prepareSWD(species = "Gypaetus barbatus", a = a,
+               env = env, categorical = "biome")), "SWD")
   expect_true(unique(swd@pa) == 0)
 })
