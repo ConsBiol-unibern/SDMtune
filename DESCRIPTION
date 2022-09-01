@@ -57,9 +57,10 @@ Suggests:
     rJava (>= 0.9-11),
     rmarkdown (>= 2.7),
     scales (>= 1.0.0),
-    testthat (>= 3.0.4),
+    testthat (>= 3.1.4),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
 Collate: 
     'ANN-class.R'
     'BRT-class.R'
