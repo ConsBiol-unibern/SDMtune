@@ -42,7 +42,10 @@ trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500) {
 
   # Check if fc includes characters different from lqpht
   if (grepl("[^lqpht]", fc))
-    stop(paste(fc, "feature classes not allowed, possible values are 'lqpht'!"))
+    cli::cli_abort(c(
+      "!" = "Possible values for feature classes are {.var lqpht}",
+      "x" = "You have supplied a {.var {fc}} instead."
+    ))
 
   feature_args <- c("noautofeature")
 

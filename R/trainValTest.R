@@ -52,7 +52,10 @@
 trainValTest <- function(x, test, val = 0, only_presence = FALSE, seed = NULL) {
 
   if (!inherits(x, "SWD"))
-    stop("x must be an SWD object!")
+    cli::cli_abort(c(
+      "!" = "{.var x} must be an {.cls SWD} object",
+      "x" = "You have supplied a {.cls {class(x)}} instead."
+    ))
 
   if (!is.null(seed))
     set.seed(seed)
