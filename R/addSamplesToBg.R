@@ -39,7 +39,10 @@
 addSamplesToBg <- function(x, all = FALSE) {
 
   if (!inherits(x, "SWD"))
-    stop("The function accepts only SWD objects.")
+    cli::cli_abort(c(
+      "!" = "{.var x} must be an {.cls SWD} object",
+      "x" = "You have supplied a {.cls {class(x)}} instead."
+    ))
 
   # Append presence locations after background locations
   o <- x
