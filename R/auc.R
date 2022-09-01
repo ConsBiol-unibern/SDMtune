@@ -108,7 +108,11 @@ auc <- function(model, test = NULL) {
     data <- model@data
   } else {
     if (!inherits(test, "SWD"))
-      stop("\"test\" argument invalid, use an SWD object.")
+      cli::cli_abort(c(
+        "!" = "{.var test} must be an {.cls SWD} object",
+        "x" = "You have supplied a {.cls {class(test)}} instead."
+      ))
+
     data <- test
   }
 

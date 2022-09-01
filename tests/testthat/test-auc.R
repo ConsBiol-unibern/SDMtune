@@ -17,10 +17,8 @@ test_that("The function uses the testing dataset", {
 })
 
 test_that("The function raises warnings and errors", {
-  expect_error(auc(m, SDMtune:::t@data),
-               "\"test\" argument invalid, use an SWD object.")
-  expect_error(auc(m_cv, SDMtune:::t@data),
-               "\"test\" argument invalid, use an SWD object.")
+  expect_snapshot(auc(m, SDMtune:::t@data), error = TRUE)
+  expect_snapshot(auc(m_cv, SDMtune:::t@data), error = TRUE)
 })
 
 test_that("The function returns the same result than Maxent software", {
