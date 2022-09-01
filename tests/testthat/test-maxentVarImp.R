@@ -1,5 +1,5 @@
 test_that("Error are raised", {
-  expect_error(maxentVarImp(SDMtune:::bm_maxnet))
+  expect_snapshot(maxentVarImp(SDMtune:::bm_maxnet), error = TRUE)
 })
 
 test_that("The output is correct for SDMmodel objects", {

@@ -43,7 +43,9 @@
 maxentVarImp <- function(model) {
 
   if (.get_model_class(model) != "Maxent")
-    stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
+    cli::cli_abort(c(
+      "!" = "Function available only for {.cls Maxent} objects.",
+      "x" = "You have supplied a {.cls {.get_model_class(model)}} instead."))
 
   if (inherits(model, "SDMmodel")) {
     x <- model@model@results
