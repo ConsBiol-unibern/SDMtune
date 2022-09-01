@@ -1,15 +1,15 @@
 train <- SDMtune:::t
 
 test_that("Error are raised", {
-  expect_error(randomFolds(train@data, k = 2),
-               "\"data\" argument is not of class SWD.")
+  expect_snapshot(randomFolds(train@data, k = 2), error = TRUE)
 })
 
 test_that("The output is correct for only_presence = FALSE", {
   folds <- randomFolds(train, k = 3, seed = 25)
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
-  expect_equal(ncol(folds$train), ncol(folds$test), 3)
+  expect_equal(ncol(folds$train), 3)
+  expect_equal( ncol(folds$test), 3)
   expect_equal(nrow(folds$train), nrow(folds$test))
   for (i in 1:3) {
     expect_equal(folds$train[, i], !folds$test[, i])
@@ -23,7 +23,8 @@ test_that("The output is correct for only presence = TRUE", {
   n <- np + na
   expect_length(folds, 2)
   expect_named(folds, c("train", "test"))
-  expect_equal(ncol(folds$train), ncol(folds$test), 2)
+  expect_equal(ncol(folds$train), 2)
+  expect_equal(ncol(folds$test), 2)
   expect_equal(nrow(folds$train), nrow(folds$test))
   for (i in 1:2) {
     expect_equal(folds$train[, i][1:np], !folds$test[, i][1:np])

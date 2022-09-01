@@ -41,7 +41,10 @@
 randomFolds <- function(data, k, only_presence = FALSE, seed = NULL) {
 
   if (!inherits(data, "SWD"))
-    stop("\"data\" argument is not of class SWD.")
+    cli::cli_abort(c(
+      "!" = "{.var data} must be an {.cls SWD} object",
+      "x" = "You have supplied a {.cls {class(data)}} instead."
+    ))
 
   if (!is.null(seed))
     set.seed(seed)
