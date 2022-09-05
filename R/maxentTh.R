@@ -38,7 +38,7 @@ maxentTh <- function(model) {
 
   if (!inherits(model@model, "Maxent"))
     cli::cli_abort(c(
-      "!" = "Function available only for {.cls Maxent} objects.",
+      "!" = "Function available only for {.cls Maxent} models",
       "x" = "You have supplied a {.cls {class(model@model)}} instead."))
 
   thresholds <- grep(".threshold", rownames(model@model@results), value = TRUE)
