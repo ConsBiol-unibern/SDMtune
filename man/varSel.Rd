@@ -14,7 +14,8 @@ varSel(
   cor_th = 0.7,
   permut = 10,
   use_pc = FALSE,
-  interactive = TRUE
+  interactive = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ contribution computed by Maxent software to score the variable importance,
 default is \code{FALSE}.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+
+\item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }
 \value{
 The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained

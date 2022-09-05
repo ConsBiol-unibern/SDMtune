@@ -16,15 +16,15 @@ test_that("Exceptions are thrown", {
 })
 
 test_that("The interactive chart is not created", {
-  suppressMessages(varSel(m, "auc", bg, test = t, cor_th = .9,
-                          permut = 1, interactive = FALSE))
+  varSel(m, "auc", bg, test = t, cor_th = .9, permut = 1, interactive = FALSE,
+         verbose = FALSE)
   expect_false(any(grepl("SDMtune-varSel", list.dirs(tempdir()))))
 })
 
 test_that("Correlated Variable are removed and interactive chart is created", {
   set.seed(25, kind = "Mersenne-Twister", sample.kind = "Rejection")
   expect_message(o <- varSel(m, "auc", bg, test = t, cor_th = .9, permut = 1),
-                 "Removed variables: bio16, bio6")
+                 "The variables bio16 and bio6 have been removed")
   expect_s4_class(o, "SDMmodel")
   expect_s4_class(o@model, "Maxnet")
   expect_false("bio16" %in% colnames(o@data@data))

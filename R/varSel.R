@@ -29,6 +29,7 @@
 #' contribution computed by Maxent software to score the variable importance,
 #' default is `FALSE`.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
+#' @param verbose logical, if `TRUE` prints informative messages.
 #'
 #' @details
 #' An interactive chart showing in real-time the steps performed by the
@@ -103,7 +104,7 @@
 #' }
 varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
                    method = "spearman", cor_th = 0.7, permut = 10,
-                   use_pc = FALSE, interactive = TRUE) {
+                   use_pc = FALSE, interactive = TRUE, verbose = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -251,7 +252,11 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   cli::cli_progress_done()
 
   removed_vars <- setdiff(initial_vars, colnames(model@data@data))
-  message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
+
+  if (verbose)
+    cli::cli_alert_success(paste(
+      "{?No/The/The} variable{?s} {.field {removed_vars}} {?has/have}",
+      "been removed"))
 
   return(model)
 }
