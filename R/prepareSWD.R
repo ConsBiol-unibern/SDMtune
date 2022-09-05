@@ -45,10 +45,12 @@ prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL,
   pa <- c()
   for (i in 1:2) {
     if (!is.null(dfs[[i]])) {
+      if (verbose)
+        cli::cli_progress_step(
+          "Extracting predictor information for {.field {text[i]}} locations"
+        )
       coords <- as.data.frame(dfs[[i]])
       colnames(coords) <- c("X", "Y")
-      if (verbose)
-        .get_message(text[i])
       data <- as.data.frame(raster::extract(env, coords))
       # Remove any occurrence point with NA for at least one variable
       index <- stats::complete.cases(data)
@@ -64,6 +66,8 @@ prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL,
       df_coords <- rbind(df_coords, coords)
       df_data <- rbind(df_data, data)
       pa <- c(pa, rep(values[i], nrow(coords)))
+      if (verbose)
+        cli::cli_progress_done()
     }
   }
   # Set categorical variables as factors
@@ -79,10 +83,4 @@ prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL,
   swd <- SWD(species = species, coords = df_coords, data = df_data, pa = pa)
 
   return(swd)
-}
-
-.get_message <- function(text) {
-  cli::cli_progress_step(
-    "Extracting predictor information for {.field {text}} locations"
-  )
 }
