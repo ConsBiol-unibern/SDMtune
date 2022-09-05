@@ -4,11 +4,7 @@
 
 ---
 
-    Code
-      .check_args(model_cv, metric = "aicc", hypers = h)
-    Condition
-      Error in `.check_args()`:
-      ! AICc not allowed with <SDMmodelCV> objects
+    AICc not allowed with <SDMmodelCV> objects
 
 ---
 

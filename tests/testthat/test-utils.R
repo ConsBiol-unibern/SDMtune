@@ -182,8 +182,7 @@ test_that("The function .check_args function raises exceptions", {
   # Throws exception if metric is aicc and env is not provided
   expect_snapshot_error(.check_args(model, metric = "aicc", hypers = h))
   # Throws exception if metric is aicc and model is SDMmodelCV
-  expect_snapshot(.check_args(model_cv, metric = "aicc", hypers = h),
-                  error = TRUE)
+  expect_snapshot_error(.check_args(model_cv, metric = "aicc", hypers = h))
   # Throws exception if model is SDMmodel metric is not aicc and test
   # is not provided
   expect_snapshot_error(.check_args(model, metric = "auc", hypers = h))

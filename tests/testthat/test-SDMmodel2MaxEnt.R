@@ -10,5 +10,5 @@ test_that("The function creates the correct output", {
 })
 
 test_that("The function raises errors", {
-  expect_snapshot(SDMmodel2MaxEnt(SDMtune:::bm_maxnet), error = TRUE)
+  expect_snapshot_error(SDMmodel2MaxEnt(SDMtune:::bm_maxnet))
 })
