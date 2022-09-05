@@ -46,7 +46,7 @@ checkMaxentInstallation <- function(verbose = TRUE) {
                              "java", "maxent.jar"))) {
     is_ok <- FALSE
     if (verbose)
-      cli::cli_alert_dangere(
+      cli::cli_alert_danger(
         "The file {.file maxent.jar} is not present in the correct folder."
       )
   } else if (verbose) {
