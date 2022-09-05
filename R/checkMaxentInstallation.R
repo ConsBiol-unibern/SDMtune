@@ -27,18 +27,18 @@ checkMaxentInstallation <- function(verbose = TRUE) {
   if (x != 0) {
     is_ok <- FALSE
     if (verbose)
-      message("Java is not installed.")
+      cli::cli_alert_danger("{.field Java} is not installed.")
   } else if (verbose) {
-    message("Java is installed.")
+    cli::cli_alert_success("{.field Java} is installed.")
   }
 
   # Check if the pkg rJava is installed
   if (!requireNamespace("rJava", quietly = TRUE)) {
     is_ok <- FALSE
     if (verbose)
-      message("The packege \"rJava\" is not installed.")
+      cli::cli_alert_danger("The packege {.pkg rJava} is not installed.")
   } else if (verbose) {
-    message("The packege \"rJava\" is installed.")
+    cli::cli_alert_success("The packege {.pkg rJava} is installed.")
   }
 
   # Check if the file maxent.jar is in the correct folder
@@ -46,9 +46,13 @@ checkMaxentInstallation <- function(verbose = TRUE) {
                              "java", "maxent.jar"))) {
     is_ok <- FALSE
     if (verbose)
-      message("The file \"maxent.jar\" is not present in the correct folder.")
+      cli::cli_alert_dangere(
+        "The file {.file maxent.jar} is not present in the correct folder."
+      )
   } else if (verbose) {
-    message("The file \"maxent.jar\" is present in the correct folder.")
+    cli::cli_alert_success(
+      "The file {.file maxent.jar} is present in the correct folder."
+    )
   }
 
   return(is_ok)
