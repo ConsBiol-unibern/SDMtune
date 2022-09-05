@@ -60,7 +60,7 @@ mergeSWD <- function(swd1, swd2, only_presence = FALSE) {
   if (length(colnames(swd1@data)) != length(colnames(swd2@data)) ||
       length(intersect(colnames(swd1@data), colnames(swd2@data))) !=
       length(colnames(swd1@data))) {
-    cli::cli_alert_warning(
+    cli::cli_warn(
       paste("The two SWD objects have different columns,",
             "only the common columns are used in the merged object"))
     # Get common variables

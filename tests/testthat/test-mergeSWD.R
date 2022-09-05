@@ -38,9 +38,7 @@ test_that("The function raises errors", {
 test_that("The function warns if datasets have different variables", {
   x <- t
   x@data$biome <- NULL
-  expect_message(mergeSWD(x, t),
-                 paste("! The two SWD objects have different columns,",
-                       "only the common columns are used in the merged object"))
+  expect_snapshot_warning(m <- mergeSWD(x, t))
   # Check that common columns are merged
-  expect_named(suppressMessages(mergeSWD(x, t)@data), names(x@data))
+  expect_named(m@data, names(x@data))
 })
