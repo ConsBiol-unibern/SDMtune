@@ -4,7 +4,14 @@
 \alias{prepareSWD}
 \title{Prepare an SWD object}
 \usage{
-prepareSWD(species, env, p = NULL, a = NULL, categorical = NULL)
+prepareSWD(
+  species,
+  env,
+  p = NULL,
+  a = NULL,
+  categorical = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{species}{character. The name of the species.}
@@ -18,6 +25,8 @@ to extract the values at coordinate locations.}
 
 \item{categorical}{vector indicating which of the environmental variable are
 categorical, default is \code{NULL}.}
+
+\item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }
 \value{
 An \linkS4class{SWD} object.

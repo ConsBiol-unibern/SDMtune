@@ -10,6 +10,7 @@
 #' @param a data.frame. The coordinates of the absence/background locations.
 #' @param categorical vector indicating which of the environmental variable are
 #' categorical, default is `NULL`.
+#' @param verbose logical, if `TRUE` prints informative messages.
 #'
 #' @details The \linkS4class{SWD} object is created in a way that the presence
 #' locations are always before than the absence/background locations.
@@ -33,7 +34,8 @@
 #' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 #'                    env = predictors, categorical = "biome")
 #' data
-prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL) {
+prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL,
+                       verbose = TRUE) {
 
   df_coords <- data.frame(X = numeric(), Y = numeric())
   df_data <- p[0, ]
@@ -45,8 +47,8 @@ prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL) {
     if (!is.null(dfs[[i]])) {
       coords <- as.data.frame(dfs[[i]])
       colnames(coords) <- c("X", "Y")
-      message("Extracting predictor information for ", text[i],
-              " locations...")
+      if (verbose)
+        .get_message(text[i])
       data <- as.data.frame(raster::extract(env, coords))
       # Remove any occurrence point with NA for at least one variable
       index <- stats::complete.cases(data)
@@ -54,11 +56,10 @@ prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL) {
       if (discarded > 0) {
         data <- data[index, ]
         coords <- coords[index, ]
-        message("Info: ", discarded, " ", text[i],
-                ifelse(discarded == 1, " location is", " locations are"),
-                " NA for some environmental variables, ",
-                ifelse(discarded == 1, "it is ", "they are "),
-                "discarded!")
+        cli::cli_alert_warning(paste(
+          "{.val {discarded}} location{?s} {?is/are} NA for some",
+          "environmental variables and {?has/have} been discarded"
+        ))
       }
       df_coords <- rbind(df_coords, coords)
       df_data <- rbind(df_data, data)
@@ -78,4 +79,10 @@ prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL) {
   swd <- SWD(species = species, coords = df_coords, data = df_data, pa = pa)
 
   return(swd)
+}
+
+.get_message <- function(text) {
+  cli::cli_progress_step(
+    "Extracting predictor information for {.field {text}} locations"
+  )
 }
