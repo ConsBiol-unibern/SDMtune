@@ -9,8 +9,8 @@ test_that("Exceptions are raised", {
 })
 
 test_that("The interactive chart is not created", {
-  suppressMessages(reduceVar(m, th = 2, metric = "auc", test = val, permut = 1,
-                             interactive = FALSE))
+  reduceVar(m, th = 2, metric = "auc", test = val, permut = 1,
+            interactive = FALSE, verbose = FALSE)
   expect_false(any(grepl("SDMtune-reduceVar", list.dirs(tempdir()))))
 })
 
@@ -19,7 +19,7 @@ test_that("Variables are reduced and interactive chart is created", {
   set.seed(25, kind = "Mersenne-Twister", sample.kind = "Rejection")
   expect_message(o <- reduceVar(m, th = 2, metric = "auc", test = val,
                                 permut = 1),
-                 "Removed variables: bio16, bio6")
+                 "The variables bio16 and bio6 have been removed")
   expect_s4_class(o, "SDMmodel")
   expect_s4_class(o@model, "Maxnet")
   expect_true(min(varImp(o, 1)[, 2]) > 2)
@@ -30,7 +30,7 @@ test_that("Variables are reduced and interactive chart is created", {
   set.seed(25, kind = "Mersenne-Twister", sample.kind = "Rejection")
   expect_message(o <- reduceVar(m, th = 2, metric = "auc", test = val,
                                 permut = 1, use_jk = TRUE, interactive = FALSE),
-                 "No variable has been removed!")
+                 "No variables  have been removed")
   expect_s4_class(o, "SDMmodel")
   expect_s4_class(o@model, "Maxnet")
   expect_true(min(varImp(o, 1)[, 2]) < 2)

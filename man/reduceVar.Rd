@@ -13,7 +13,8 @@ reduceVar(
   use_jk = FALSE,
   permut = 10,
   use_pc = FALSE,
-  interactive = TRUE
+  interactive = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -44,6 +45,8 @@ percent contribution computed by Maxent software to score the variable
 importance, default is \code{FALSE}.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+
+\item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }
 \value{
 The model trained using the selected variables.

@@ -27,6 +27,7 @@
 #' percent contribution computed by Maxent software to score the variable
 #' importance, default is `FALSE`.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
+#' @param verbose logical, if `TRUE` prints informative messages.
 #'
 #' @details An interactive chart showing in real-time the steps performed by the
 #' algorithm is displayed in the Viewer pane.
@@ -87,7 +88,7 @@
 #' }
 reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                       use_jk = FALSE, permut = 10, use_pc = FALSE,
-                      interactive = TRUE) {
+                      interactive = TRUE, verbose = TRUE) {
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
@@ -102,7 +103,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
 
   variables_reduced <- FALSE
   first_iter <- TRUE
-  removed_vars <- c()
+  removed_vars <- character()
 
   # Metrics are used also in if statements outside chart
   train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
@@ -247,11 +248,10 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
                                      lineFooter = line_footer, stop = TRUE))
   }
 
-  if (length(removed_vars) > 0) {
-    message(paste("Removed variables:", paste(removed_vars, collapse = ", ")))
-  } else {
-    message("No variable has been removed!")
-  }
+  if (verbose)
+    cli::cli_alert_success(paste(
+      "{?No/The/The} variable{?s} {.field {removed_vars}} {?has/have}",
+      "been removed"))
 
   return(model)
 }
