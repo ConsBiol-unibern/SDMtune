@@ -18,22 +18,21 @@ params:
   factors: null
 ---
 
-```{r, echo=F}
+```{r setup, echo=F, message=FALSE}
 library(SDMtune)
 library(kableExtra)
 options(crayon.enabled = TRUE)
+plot_folder <- file.path(params$folder, "plots")
 ```
 
 **`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2020).
 
 ```{r, echo=FALSE, message=FALSE}
-message(paste0("\n", cli::rule(left = paste("Model Report -", "method:", class(params$model@model)), right = cli::style_italic(params$model@data@species), line_col = "#4bc0c0", col = "#f58410", width = 80)))
 message("\r- Saving files...", appendLF = FALSE)
 saveRDS(params$model, file = file.path(params$folder, "model.Rds"))
 swd2csv(params$model@data, file.path(params$folder, "train.csv"))
 if (!is.null(params$test))
   swd2csv(params$test, file.path(params$folder, "test.csv"))
-plot_folder <- file.path(params$folder, "plots")
 message("\r", cli::col_green(cli::symbol$tick), " Saving files...")
 ```
 

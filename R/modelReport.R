@@ -100,6 +100,17 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
     args <- c(paste0("--metadata=title:\"", title, "\""))
     output_file <- paste0(species, ".html")
 
+    cli::cli_text(
+      "\f",
+      cli::rule(
+        left = "Model Report - method: {class(model@model)}",
+        right = cli::style_italic(model@data@species),
+        line_col = "#4bc0c0",
+        col = "#f58410",
+        width = 80
+      )
+    )
+
     rmarkdown::render(template,
                       output_file = output_file,
                       output_dir = folder,
