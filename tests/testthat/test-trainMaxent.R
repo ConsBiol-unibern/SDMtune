@@ -4,7 +4,7 @@ skip_on_cran()
 test_that("The correct fc arguments are created", {
   expect_equal(.get_fc_args("lqpht"),
                c("noautofeature", "threshold"))
-  expect_snapshot(.get_fc_args("lb"), error = TRUE)
+  expect_snapshot_error(.get_fc_args("lb"))
 })
 
 # .make_args

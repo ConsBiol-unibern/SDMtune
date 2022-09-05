@@ -1,7 +1,7 @@
 t <- SDMtune:::t
 
 test_that("Exception are raised", {
-  expect_snapshot(trainValTest(t@data, .2), error = TRUE)
+  expect_snapshot_error(trainValTest(t@data, .2))
 })
 
 test_that("The output is correct for train/test split", {

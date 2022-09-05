@@ -10,9 +10,9 @@ bg <- suppressMessages(prepareSWD(species = "Bgs", a = bg, env = predictors,
 m <- SDMtune:::bm_maxnet
 
 test_that("Exceptions are thrown", {
-  expect_snapshot(
+  expect_snapshot_error(
     varSel(m, metric = "auc", bg4cor = bg, test = t, use_pc = TRUE),
-    error = TRUE)
+    )
 })
 
 test_that("The interactive chart is not created", {

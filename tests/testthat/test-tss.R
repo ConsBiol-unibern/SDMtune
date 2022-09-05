@@ -17,6 +17,6 @@ test_that("The function uses the testing dataset", {
 })
 
 test_that("The function raises errors", {
-  expect_snapshot(tss(m, SDMtune:::t@data), error = TRUE)
-  expect_snapshot(tss(m_cv, SDMtune:::t@data), error = TRUE)
+  expect_snapshot_error(tss(m, SDMtune:::t@data))
+  expect_snapshot_error(tss(m_cv, SDMtune:::t@data))
 })

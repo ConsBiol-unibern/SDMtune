@@ -29,6 +29,6 @@ test_that("The function works with custom dataframe", {
 })
 
 test_that("The function raises errors", {
-  expect_snapshot(thinData(x, predictors, x = "A"), error = TRUE)
-  expect_snapshot(thinData(x, predictors, y = "B"), error = TRUE)
+  expect_snapshot_error(thinData(x, predictors, x = "A"))
+  expect_snapshot_error(thinData(x, predictors, y = "B"))
 })

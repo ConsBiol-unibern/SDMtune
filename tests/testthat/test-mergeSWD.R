@@ -29,10 +29,10 @@ test_that("Only presence locations are merged if only_presence is TRUE", {
 })
 
 test_that("The function raises errors", {
-  expect_snapshot(mergeSWD(t, t@data), error = TRUE)
+  expect_snapshot_error(mergeSWD(t, t@data))
   x <- t
   x@species <- "Gypaetus barbatus"
-  expect_snapshot(mergeSWD(x, t), error = TRUE)
+  expect_snapshot_error(mergeSWD(x, t))
 })
 
 test_that("The function warns if datasets have different variables", {

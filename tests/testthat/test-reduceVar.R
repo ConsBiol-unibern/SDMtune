@@ -4,9 +4,8 @@ val <- SDMtune:::t
 m <- SDMtune:::bm_maxnet
 
 test_that("Exceptions are raised", {
-  expect_snapshot(reduceVar(m, th = 2, metric = "auc",
-                            test = val, use_pc = TRUE),
-                  error = TRUE)
+  expect_snapshot_error(reduceVar(m, th = 2, metric = "auc",
+                                  test = val, use_pc = TRUE))
 })
 
 test_that("The interactive chart is not created", {

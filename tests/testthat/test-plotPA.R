@@ -2,7 +2,7 @@ map <- raster::raster(matrix(runif(400, 0, 1), 20, 20))
 file <- tempfile(fileext = ".asc")
 
 test_that("The function raises an error if argument is not a raster", {
-  expect_snapshot(plotPA(data.frame(a = 1, b = "l")), error = TRUE)
+  expect_snapshot_error(plotPA(data.frame(a = 1, b = "l")))
 })
 
 test_that("The values are correct and the file is saved with correct format", {

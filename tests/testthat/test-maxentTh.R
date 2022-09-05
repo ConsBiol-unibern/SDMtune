@@ -1,5 +1,5 @@
 test_that("Raise the exception", {
-  expect_snapshot(maxentTh(SDMtune:::bm_maxnet), error = TRUE)
+  expect_snapshot_error(maxentTh(SDMtune:::bm_maxnet))
 })
 
 test_that("Create the correct output", {

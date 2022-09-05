@@ -1,7 +1,7 @@
 train <- SDMtune:::t
 
 test_that("Error are raised", {
-  expect_snapshot(randomFolds(train@data, k = 2), error = TRUE)
+  expect_snapshot_error(randomFolds(train@data, k = 2))
 })
 
 test_that("The output is correct for only_presence = FALSE", {

@@ -94,5 +94,5 @@ test_that("randomFolds", {
 })
 
 test_that("error is raised", {
-  expect_snapshot(.convert_folds(t, t), error = TRUE)
+  expect_snapshot_error(.convert_folds(t, t))
 })

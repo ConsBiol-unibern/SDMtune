@@ -1,18 +1,10 @@
 # The function raises errors
 
-    Code
-      mergeSWD(t, t@data)
-    Condition
-      Error in `mergeSWD()`:
-      ! The function accepts only <SWD> objects.
+    The function accepts only <SWD> objects.
 
 ---
 
-    Code
-      mergeSWD(x, t)
-    Condition
-      Error in `mergeSWD()`:
-      ! `swd1` and `swd2` have a different species!
+    `swd1` and `swd2` have a different species!
 
 # The function warns if datasets have different variables
 

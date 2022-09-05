@@ -1,7 +1,7 @@
 x <- SDMtune:::t
 
 test_that("The function raises error", {
-  expect_snapshot(corVar(x@data), error = TRUE)
+  expect_snapshot_error(corVar(x@data))
 })
 
 test_that("The function creates the correct output", {

@@ -1,7 +1,7 @@
 map <- raster::raster(matrix(runif(400, 0, 1), 20, 20))
 
 test_that("The function raises an error if argument is not a raster", {
-  expect_snapshot(plotPred(data.frame(a = 1, b = "l")), error = TRUE)
+  expect_snapshot_error(plotPred(data.frame(a = 1, b = "l")))
 })
 
 test_that("The values are correct", {

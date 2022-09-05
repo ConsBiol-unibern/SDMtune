@@ -24,5 +24,5 @@ test_that("Raises an error if called with the wrong model method", {
   data <- SDMtune:::t
   data@data <- data@data[, 1:4]
   m <- trainRF(data = data, mtry = 2, ntree = 200)
-  expect_snapshot(aicc(m, env), error = TRUE)
+  expect_snapshot_error(aicc(m, env))
 })

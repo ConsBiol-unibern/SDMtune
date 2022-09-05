@@ -34,8 +34,6 @@ test_that("The thresholds start with 0 and end with 1 when th is not passed", {
 })
 
 test_that("Exception are raised", {
-  expect_snapshot(confMatrix(SDMtune:::bm_maxent_cv, type = "cloglog"),
-                  error = TRUE)
-  expect_snapshot(confMatrix(m, test = "a", type = "cloglog"),
-                  error = TRUE)
+  expect_snapshot_error(confMatrix(SDMtune:::bm_maxent_cv, type = "cloglog"))
+  expect_snapshot_error(confMatrix(m, test = "a", type = "cloglog"))
 })

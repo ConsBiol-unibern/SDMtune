@@ -19,5 +19,5 @@ test_that("Add samples to background only if not duplicates", {
 })
 
 test_that("Error are raised", {
-  expect_snapshot(addSamplesToBg(x@data), error = TRUE)
+  expect_snapshot_error(addSamplesToBg(x@data))
 })
