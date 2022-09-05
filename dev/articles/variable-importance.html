@@ -297,13 +297,12 @@
 <p>Another method to estimate the variable importance is the leave one out Jackknife test. The test removes one variable at time and records the change in the chosen metric. We use the function <code><a href="../reference/doJk.html">doJk()</a></code>, the AUC as evaluation metric and the <code>maxnet_model</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/doJk.html">doJk</a></span><span class="op">(</span><span class="va">maxnet_model</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■                            </span>  11% | ETA: 18s - 00:00:2.3</span></span>
-<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■                          </span>  17% | ETA: 20s - 00:00:3.9</span></span>
-<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  39% | ETA: 12s - 00:00:7.6</span></span>
-<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA: 10s - 00:00:9.7</span></span>
-<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  72% | ETA:  5s - 00:00:13.3</span></span>
-<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83% | ETA:  3s - 00:00:15.2</span></span>
-<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:17.8</span></span>
+<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■                          </span>  17% | ETA: 16s - 00:00:3.3</span></span>
+<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■                       </span>  28% | ETA: 13s - 00:00:5.1</span></span>
+<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  9s - 00:00:8.6</span></span>
+<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  72% | ETA:  5s - 00:00:12.1</span></span>
+<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83% | ETA:  3s - 00:00:13.9</span></span>
+<span><span class="co">#&gt; Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:16.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="va">jk</span></span>
 <span><span class="co">#&gt;   Variable Train_AUC_without Train_AUC_withonly Test_AUC_without</span></span>
