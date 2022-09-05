@@ -32,3 +32,16 @@ test_that("The function works with only presences or only absences data", {
                env = env, categorical = "biome")), "SWD")
   expect_true(unique(swd@pa) == 0)
 })
+
+test_that("The function warns if some locations are discarded", {
+  # One location
+  a <- rbind(a, c(100, 100))
+  expect_snapshot(
+    prepareSWD(species = "Bgs", a = a, env = env, verbose = FALSE)
+  )
+  # More than one location
+  a <- rbind(a, c(100, 100))
+  expect_snapshot(
+    prepareSWD(species = "Bgs", a = a, env = env, verbose = FALSE)
+  )
+})
