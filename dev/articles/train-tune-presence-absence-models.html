@@ -149,10 +149,10 @@
 <span><span class="va">a_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">absence</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">a_coords</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">[[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[35ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[28ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[15ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[12ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="va">data</span></span>
 <span><span class="co">#&gt; Object of class SWD </span></span>
@@ -221,23 +221,26 @@
 <span>          maxit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■                               </span>   2% | ETA:  5m - 00:00:5.2</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■                             </span>   7% | ETA:  2m - 00:00:7.9</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■                           </span>  13% | ETA:  1m - 00:00:12.8</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■                           </span>  15% | ETA:  2m - 00:00:16.7</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA:  1m - 00:00:19.6</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  30% | ETA:  1m - 00:00:22.7</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  33% | ETA:  1m - 00:00:26.4</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  39% | ETA: 49s - 00:00:31.7</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  51% | ETA: 43s - 00:00:44.3</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■              </span>  57% | ETA: 35s - 00:00:47</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  66% | ETA: 26s - 00:00:50.2</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  74% | ETA: 19s - 00:00:53.1</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  79% | ETA: 15s - 00:00:55.6</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■     </span>  87% | ETA:  9s - 00:01:1.8</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  93% | ETA:  5s - 00:01:8.4</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span>  98% | ETA:  1s - 00:01:10.8</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:01:11</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■                               </span>   2% | ETA:  6m - 00:00:5.5</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■                              </span>   3% | ETA:  3m - 00:00:6.5</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■                             </span>   8% | ETA:  2m - 00:00:8.8</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■                           </span>  13% | ETA:  1m - 00:00:13.5</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■                           </span>  15% | ETA:  2m - 00:00:17.7</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■                          </span>  16% | ETA:  2m - 00:00:19</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■                         </span>  21% | ETA:  1m - 00:00:21.7</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  30% | ETA:  1m - 00:00:23.9</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  33% | ETA:  1m - 00:00:27.7</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  39% | ETA:  1m - 00:00:33.2</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA: 50s - 00:00:45.1</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  54% | ETA: 41s - 00:00:48.1</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  61% | ETA: 34s - 00:00:51.7</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% | ETA: 26s - 00:00:54</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■        </span>  75% | ETA: 19s - 00:00:57.5</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  82% | ETA: 13s - 00:01:0.7</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■     </span>  87% | ETA: 10s - 00:01:5.9</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  93% | ETA:  5s - 00:01:13.1</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  </span>  97% | ETA:  3s - 00:01:14.8</span></span>
+<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:01:15.8</span></span>
 <span><span class="co">#&gt; </span></span></code></pre></div>
 <p>The best model is:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
