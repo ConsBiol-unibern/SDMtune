@@ -39,7 +39,9 @@
 SDMmodel2MaxEnt <- function(model) {
 
   if (!inherits(model@model, "Maxent"))
-    stop("'model' must be a SDMmodel object trained using the 'Maxent' method!")
+    cli::cli_abort(c(
+      "!" = "Function available only for {.cls Maxent} models",
+      "x" = "You have supplied a {.cls {class(model@model)}} instead."))
 
   maxent_model <- new("MaxEnt")
   maxent_model@presence <- .get_presence(model@data)
