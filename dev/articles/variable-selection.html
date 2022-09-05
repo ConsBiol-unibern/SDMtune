@@ -151,7 +151,7 @@
 <span><span class="co">#&gt; 0.9775 times requested number</span></span>
 <span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Bgs"</span>, a <span class="op">=</span> <span class="va">bg</span>, env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[27ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[37ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> <span style="color: #0000BB;">9</span> locations are NA for some environmental variables and have been discarded</span></span></code></pre></div>
 <p>The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).</p>
@@ -187,6 +187,9 @@
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">selected_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varSel.html">varSel</a></span><span class="op">(</span><span class="va">maxnet_model</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span>, bg4cor <span class="op">=</span> <span class="va">bg</span>, method <span class="op">=</span> <span class="st">"spearman"</span>, cor_th <span class="op">=</span> <span class="fl">0.7</span>, permut <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% | ETA: 13s - 00:00:26.4</span></span>
+<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:26.7</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Removed variables: bio16, bio6, bio7, bio8</span></span></code></pre></div>
 <p>As you can see some variables have been removed. The output of the function is the model trained with the selected variables:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
