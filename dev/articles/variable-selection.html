@@ -144,16 +144,15 @@
 <h2 id="explore-variable-correlation">Explore variable correlation<a class="anchor" aria-label="anchor" href="#explore-variable-correlation"></a>
 </h2>
 <p>We extract 10000 background locations using the function <a href="https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints" class="external-link">randomPoints</a> included in the <code>dismo</code> package (we set the seed to have reproducible results). After we create an <code><a href="../reference/SWD-class.html">SWD()</a></code> object using the <code><a href="../reference/prepareSWD.html">prepareSWD()</a></code> function:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span></span>
-<span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu">dismo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/randomPoints.html" class="external-link">randomPoints</a></span><span class="op">(</span><span class="va">predictors</span>, <span class="fl">10000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in dismo::randomPoints(predictors, 10000): generated random points =</span></span>
-<span><span class="co">#&gt; 0.9775 times requested number</span></span>
-<span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Bgs"</span>, a <span class="op">=</span> <span class="va">bg</span>, env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[29ms]</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> <span style="color: #0000BB;">9</span> locations are NA for some environmental variables and have been discarded</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">set.seed</span>(<span class="dv">25</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>bg &lt;-<span class="st"> </span>dismo<span class="op">::</span><span class="kw">randomPoints</span>(predictors, <span class="dv">10000</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; Warning in dismo::randomPoints(predictors, 10000): generated random points =</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; 0.9775 times requested number</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>bg &lt;-<span class="st"> </span><span class="kw">prepareSWD</span>(<span class="dt">species =</span> <span class="st">"Bgs"</span>, <span class="dt">a =</span> bg, <span class="dt">env =</span> predictors, <span class="dt">categorical =</span> <span class="st">"biome"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;  [36mℹ [39m Extracting predictor information for  [32mabsence/background [39m locations</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;  [33m! [39m  [34m [34m9 [34m [39m locations are NA for some environmental variables and have been discarded</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;  [36mℹ [39m Extracting predictor information for  [32mabsence/background [39m locations</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a> [32m✔ [39m Extracting predictor information <span class="cf">for</span>  [32mabsence<span class="op">/</span>background [39m locations  [<span class="dv">38</span>;<span class="dv">5</span>;249m[195ms] [39m</span></code></pre></div>
 <p>The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).</p>
 <p>With the function <code><a href="../reference/plotCor.html">plotCor()</a></code> you can create an heat map showing the degree of autocorrelation:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -187,9 +186,6 @@
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">selected_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varSel.html">varSel</a></span><span class="op">(</span><span class="va">maxnet_model</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span>, bg4cor <span class="op">=</span> <span class="va">bg</span>, method <span class="op">=</span> <span class="st">"spearman"</span>, cor_th <span class="op">=</span> <span class="fl">0.7</span>, permut <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% | ETA: 12s - 00:00:23.6</span></span>
-<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:23.9</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> The variables <span style="color: #00BB00;">bio16</span>, <span style="color: #00BB00;">bio6</span>, <span style="color: #00BB00;">bio7</span>, and <span style="color: #00BB00;">bio8</span> have been removed</span></span></code></pre></div>
 <p>As you can see some variables have been removed. The output of the function is the model trained with the selected variables:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
