@@ -166,10 +166,13 @@ modelReport <- function(model,
                     path = params$plot_folder)
   )
   path <- file.path(params$plot_folder, "ROC_curve.png")
-  element <- paste0("<a href=\"",
-                    path, "\"><img src=\"",
-                    path, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
-  htmltools::HTML(element)
+  element <- stringr::str_glue("
+  <a href='{path}'>
+    <img src='{path}' class='fig-centered'>
+  </a>
+  ")
+
+  return(htmltools::HTML(element))
 }
 
 .compute_report_thresholds <- function(params) {

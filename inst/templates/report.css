@@ -20,6 +20,13 @@ h1 {
   line-height: 1.5;
 }
 
+.fig-centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}
+
 #response figure {
   /*display: table;*/
   width: 25%;

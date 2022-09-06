@@ -35,7 +35,7 @@ options(crayon.enabled = TRUE)
 
 # ROC curve
 
-```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
+```{r plot ROC, echo=FALSE, message=FALSE}
 .plot_report_roc(params)
 ```
 
