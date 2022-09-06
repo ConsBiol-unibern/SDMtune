@@ -208,18 +208,19 @@ modelReport <- function(model,
                                      device = "png",
                                      path = params$plot_folder))
     path <- file.path(params$plot_folder, fname)
-    element <- paste0("<a href=\"",
-                      path, "\"><figure><img src=\"",
-                      path,
-                      "\" title=\"",
-                      var,
-                      "\"><figcaption>",
-                      var,
-                      "</figcaption></figure></a>")
+    element <- stringr::str_glue("
+      <a href='{path}'>
+        <figure title='{var}'>
+          <img src='{path}'>
+          <figcaption>{var}</figcaption>
+        </figure>
+      </a>
+    ")
     elements <- c(elements, element)
   }
 
-  elements <- paste(elements, collapse = "")
+  # Add p element to reset float
+  elements <- paste(c(elements, "<p></p>"), collapse = "")
 
   return(htmltools::HTML(elements))
 }
