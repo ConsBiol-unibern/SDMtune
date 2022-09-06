@@ -9,7 +9,7 @@
 #' locations.
 #' @param folds list. Output of the function \link{randomFolds} or folds object
 #' created with other packages, see details.
-#' @param verbose logical, if `TRUE` shows a progress bar during cross
+#' @param progress logical, if `TRUE` shows a progress bar during cross
 #' validation.
 #' @param ... Arguments passed to the relative method, see details.
 #'
@@ -196,7 +196,7 @@
 #'                 ntree = 300, n.trees = 300, shrinkage = 0.001)
 #' output
 #' }
-train <- function(method, data, folds = NULL, verbose = TRUE, ...) {
+train <- function(method, data, folds = NULL, progress = TRUE, ...) {
 
   l <- length(method)
   output <- vector("list", length = l)
@@ -212,7 +212,7 @@ train <- function(method, data, folds = NULL, verbose = TRUE, ...) {
     } else {
       folds <- .convert_folds(folds, data)
       k <- ncol(folds[[1]])
-      if (verbose) {
+      if (progress) {
         cli::cli_progress_bar(
           name = "Cross Validation",
           type = "iterator",
@@ -229,7 +229,7 @@ train <- function(method, data, folds = NULL, verbose = TRUE, ...) {
         train <- .subset_swd(data, folds$train[, j])
         argus <- c(data = train, ea[names(ea) %in% .args_name(func)])
         models[[j]] <- do.call(func, args = argus)
-        if (verbose)
+        if (progress)
           cli::cli_progress_update()
       }
 

@@ -17,6 +17,7 @@
 #' hyperparameter combination. Set it to `FALSE` when there are many
 #' combinations to avoid R crashing for memory overload.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
+#' @param progress logical, if `TRUE` shows a progress bar.
 #'
 #' @details
 #' To know which hyperparameters can be tuned you can use the output
@@ -74,7 +75,8 @@
 #' output@results
 #' }
 gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
-                       save_models = TRUE, interactive = TRUE) {
+                       save_models = TRUE, interactive = TRUE,
+                       progress = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
   # Create a grid with all the possible combination of hyperparameters
@@ -86,14 +88,15 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
   if (inherits(model, "SDMmodelCV"))
     test <- TRUE
 
-  cli::cli_progress_bar(
-    name = "Grid Search",
-    type = "iterator",
-    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
-              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
-    total = (nrow(grid) + 1),
-    clear = FALSE
-  )
+  if (progress)
+    cli::cli_progress_bar(
+      name = "Grid Search",
+      type = "iterator",
+      format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+                ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+      total = (nrow(grid) + 1),
+      clear = FALSE
+    )
 
   models <- vector("list", length = nrow(grid))
   train_metric <- data.frame(x = NA_real_, y = NA_real_)
@@ -148,7 +151,8 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
                                        gridFooter = footer, stop = stop))
     }
 
-    cli::cli_progress_update()
+    if (progress)
+      cli::cli_progress_update()
   }
 
   if (save_models) {
@@ -159,7 +163,8 @@ gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
       o@results$delta_AICc <- o@results$AICc - min(o@results$AICc)
   }
 
-  cli::cli_progress_update()
+  if (progress)
+    cli::cli_progress_update()
 
   return(o)
 }

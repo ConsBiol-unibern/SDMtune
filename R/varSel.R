@@ -27,6 +27,7 @@
 #' trained using the \linkS4class{Maxent} method, the algorithm uses the percent
 #' contribution computed by Maxent software to score the variable importance.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
+#' @param progress logical, if `TRUE` shows a progress bar.
 #' @param verbose logical, if `TRUE` prints informative messages.
 #'
 #' @details
@@ -102,7 +103,8 @@
 #' }
 varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
                    method = "spearman", cor_th = 0.7, permut = 10,
-                   use_pc = FALSE, interactive = TRUE, verbose = TRUE) {
+                   use_pc = FALSE, interactive = TRUE, progress = TRUE,
+                   verbose = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -124,14 +126,15 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   removed <- 0
   first_iter <- TRUE
 
-  cli::cli_progress_bar(
-    name = "Var Selection",
-    type = "iterator",
-    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
-              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
-    total = total,
-    clear = FALSE
-  )
+  if (progress)
+    cli::cli_progress_bar(
+      name = "Var Selection",
+      type = "iterator",
+      format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+                ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+      total = total,
+      clear = FALSE
+    )
 
   correlation_removed <- FALSE
 
@@ -231,7 +234,10 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
         }
 
         removed <- removed + 1
-        cli::cli_progress_update()
+
+        if (progress)
+          cli::cli_progress_update()
+
         break
       }
     }

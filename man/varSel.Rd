@@ -15,6 +15,7 @@ varSel(
   permut = 10,
   use_pc = FALSE,
   interactive = TRUE,
+  progress = TRUE,
   verbose = TRUE
 )
 }
@@ -45,6 +46,8 @@ trained using the \linkS4class{Maxent} method, the algorithm uses the percent
 contribution computed by Maxent software to score the variable importance.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+
+\item{progress}{logical, if \code{TRUE} shows a progress bar.}
 
 \item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }

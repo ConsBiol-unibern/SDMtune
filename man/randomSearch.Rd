@@ -11,8 +11,9 @@ randomSearch(
   test = NULL,
   pop = 20,
   env = NULL,
-  seed = NULL,
-  interactive = TRUE
+  interactive = TRUE,
+  progress = TRUE,
+  seed = NULL
 )
 }
 \arguments{
@@ -32,10 +33,12 @@ model, not used with aicc and \linkS4class{SDMmodelCV} objects.}
 \item{env}{\link[raster]{stack} containing the environmental variables, used
 only with "aicc".}
 
+\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+
+\item{progress}{logical, if \code{TRUE} shows a progress bar.}
+
 \item{seed}{numeric. The value used to set the seed to have consistent
 results.}
-
-\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 }
 \value{
 \linkS4class{SDMtune} object.

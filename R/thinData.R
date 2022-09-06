@@ -9,6 +9,7 @@
 #' @param y character. Name of the column containing the y coordinates.
 #' @param env \link[raster]{stack} containing the environmental variables, or a
 #' single \link[raster]{raster} layer.
+#' @param progress logical, if `TRUE` shows a progress bar.
 #'
 #' @details
 #' * **coords** and **env** must have the same coordinate reference
@@ -57,7 +58,7 @@
 #' thinned_bg <- thinData(data, env = predictors, x = "X", y = "Y")
 #' head(data)
 #' }
-thinData <- function(coords, env, x = "x", y = "y") {
+thinData <- function(coords, env, x = "x", y = "y", progress = TRUE) {
 
   # Check if columns with coordinates are present in coords
   if (!x %in% colnames(coords))
@@ -88,14 +89,15 @@ thinData <- function(coords, env, x = "x", y = "y") {
 
   index <- c()
 
-  cli::cli_progress_bar(
-    name = "Thin Data",
-    type = "iterator",
-    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
-              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
-    total = l,
-    clear = FALSE
-  )
+  if (progress)
+    cli::cli_progress_bar(
+      name = "Thin Data",
+      type = "iterator",
+      format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+                ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+      total = l,
+      clear = FALSE
+    )
 
   for (i in 1:l) {
     selection <- which(cells == unique_cells[i])
@@ -106,7 +108,8 @@ thinData <- function(coords, env, x = "x", y = "y") {
       index <- c(index, selection)
     }
 
-    cli::cli_progress_update()
+    if (progress)
+      cli::cli_progress_update()
   }
   output <- data[index, ]
   rownames(output) <- NULL

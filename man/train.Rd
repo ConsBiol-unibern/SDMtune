@@ -4,7 +4,7 @@
 \alias{train}
 \title{Train}
 \usage{
-train(method, data, folds = NULL, verbose = TRUE, ...)
+train(method, data, folds = NULL, progress = TRUE, ...)
 }
 \arguments{
 \item{method}{character or character vector. Method used to train the model,
@@ -16,7 +16,7 @@ locations.}
 \item{folds}{list. Output of the function \link{randomFolds} or folds object
 created with other packages, see details.}
 
-\item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
+\item{progress}{logical, if \code{TRUE} shows a progress bar during cross
 validation.}
 
 \item{...}{Arguments passed to the relative method, see details.}

@@ -15,6 +15,7 @@
 #' @param env \link[raster]{stack} containing the environmental variables, used
 #' only with "aicc".
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
+#' @param progress logical, if `TRUE` shows a progress bar.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results.
 #'
@@ -65,13 +66,15 @@
 #' output@results[order(-output@results$test_AUC), ]
 #' }
 randomSearch <- function(model, hypers, metric, test = NULL, pop = 20,
-                         env = NULL, seed = NULL, interactive = TRUE) {
+                         env = NULL, interactive = TRUE, progress = TRUE,
+                         seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
   output <- optimizeModel(model = model, hypers = hypers, test = test,
                           metric = metric, pop = pop, gen = 0, env = env,
-                          interactive = interactive, seed = seed)
+                          interactive = interactive, progress = progress,
+                          seed = seed)
 
   return(output)
 }

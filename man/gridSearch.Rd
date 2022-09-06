@@ -11,7 +11,8 @@ gridSearch(
   test = NULL,
   env = NULL,
   save_models = TRUE,
-  interactive = TRUE
+  interactive = TRUE,
+  progress = TRUE
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ hyperparameter combination. Set it to \code{FALSE} when there are many
 combinations to avoid R crashing for memory overload.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+
+\item{progress}{logical, if \code{TRUE} shows a progress bar.}
 }
 \value{
 \linkS4class{SDMtune} object.

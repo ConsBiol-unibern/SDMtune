@@ -11,7 +11,8 @@ doJk(
   test = NULL,
   with_only = TRUE,
   env = NULL,
-  return_models = FALSE
+  return_models = FALSE,
+  progress = TRUE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ only with "aicc".}
 
 \item{return_models}{logical, if \code{TRUE} returns all the models together with
 the test result.}
+
+\item{progress}{logical, if \code{TRUE} shows a progress bar.}
 }
 \value{
 A data frame with the test results. If \code{return_model = TRUE} it

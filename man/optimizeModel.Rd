@@ -16,6 +16,7 @@ optimizeModel(
   keep_random = 0.2,
   mutation_chance = 0.4,
   interactive = TRUE,
+  progress = TRUE,
   seed = NULL
 )
 }
@@ -48,6 +49,8 @@ during each iteration, expressed as decimal number.}
 expressed as decimal number.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+
+\item{progress}{logical, if \code{TRUE} shows a progress bar.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results.}

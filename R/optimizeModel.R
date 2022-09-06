@@ -21,6 +21,7 @@
 #' @param mutation_chance numeric. Probability of mutation of the child models,
 #' expressed as decimal number.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
+#' @param progress logical, if `TRUE` shows a progress bar.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results.
 #'
@@ -81,7 +82,7 @@
 optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                           env = NULL, keep_best = 0.4, keep_random = 0.2,
                           mutation_chance = 0.4, interactive = TRUE,
-                          seed = NULL) {
+                          progress = TRUE, seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -103,14 +104,15 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   tot_models <- .get_total_models(pop, gen, remaining)
   algorithm <- ifelse(gen > 0, "Optimize Model", "Random Search")
 
-  cli::cli_progress_bar(
-    name = algorithm,
-    type = "iterator",
-    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
-              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
-    total = tot_models + 1,
-    clear = FALSE
-  )
+  if (progress)
+    cli::cli_progress_bar(
+      name = algorithm,
+      type = "iterator",
+      format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+                ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+      total = tot_models + 1,
+      clear = FALSE
+    )
 
   if (!is.null(seed))
     set.seed(seed)
@@ -186,7 +188,8 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                                        lineFooter = line_footer, stop = FALSE))
     }
 
-    cli::cli_progress_update()
+    if (progress)
+      cli::cli_progress_update()
   }
 
   metrics <- list(train_metric$y, val_metric$y)
@@ -278,7 +281,9 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                                            lineFooter = line_footer,
                                            stop = FALSE))
         }
-        cli::cli_progress_update()
+
+        if (progress)
+          cli::cli_progress_update()
       }
 
       metrics <- list(train_metric$y, val_metric$y)
@@ -329,7 +334,9 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   }
 
   output <- .create_sdmtune_output(models, metric, train_metric, val_metric)
-  cli::cli_progress_update()
+
+  if (progress)
+    cli::cli_progress_update()
 
   return(output)
 }

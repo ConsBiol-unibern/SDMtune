@@ -4,7 +4,7 @@
 \alias{thinData}
 \title{Thin Data}
 \usage{
-thinData(coords, env, x = "x", y = "y")
+thinData(coords, env, x = "x", y = "y", progress = TRUE)
 }
 \arguments{
 \item{coords}{data.frame or matrix with the coordinates, see details.}
@@ -15,6 +15,8 @@ single \link[raster]{raster} layer.}
 \item{x}{character. Name of the column containing the x coordinates.}
 
 \item{y}{character. Name of the column containing the y coordinates.}
+
+\item{progress}{logical, if \code{TRUE} shows a progress bar.}
 }
 \value{
 a matrix or a data frame with the thinned locations.

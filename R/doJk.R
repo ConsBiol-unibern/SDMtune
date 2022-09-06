@@ -15,6 +15,7 @@
 #' only with "aicc".
 #' @param return_models logical, if `TRUE` returns all the models together with
 #' the test result.
+#' @param progress logical, if `TRUE` shows a progress bar.
 #'
 #' @return A data frame with the test results. If `return_model = TRUE` it
 #' returns a list containing the test results together with the models.
@@ -69,7 +70,7 @@
 #' jk$models_withonly
 #' }
 doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
-                 env = NULL, return_models = FALSE) {
+                 env = NULL, return_models = FALSE, progress = TRUE) {
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 
@@ -86,14 +87,15 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
     tot <- n
   }
 
-  cli::cli_progress_bar(
-    name = "Jk Test",
-    type = "iterator",
-    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
-              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
-    total = tot,
-    clear = FALSE
-  )
+  if (progress)
+    cli::cli_progress_bar(
+      name = "Jk Test",
+      type = "iterator",
+      format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+                ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+      total = tot,
+      clear = FALSE
+    )
 
   models_without <- vector("list", length = n)
   models_withonly <- vector("list", length = n)
@@ -132,7 +134,9 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
       res[i, 4] <- .get_metric(metric, jk_model, test = t)
 
         models_without[[i]] <- jk_model
-        cli::cli_progress_update()
+
+        if (progress)
+          cli::cli_progress_update()
 
     if (with_only) {
       data <- old_model@data
@@ -152,7 +156,9 @@ doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
         res[i, 5] <- .get_metric(metric, jk_model, test = t)
 
       models_withonly[[i]] <- jk_model
-      cli::cli_progress_update()
+
+      if (progress)
+        cli::cli_progress_update()
     }
   }
 
