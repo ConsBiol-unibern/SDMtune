@@ -7,7 +7,7 @@
 #' the train or testing dataset.
 #' @param ref numeric. The value of the chosen metric for the model trained
 #' using all the variables. If provided it plots a vertical line showing the
-#' reference value. Default is `NULL`.
+#' reference value.
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export

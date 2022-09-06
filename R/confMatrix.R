@@ -4,12 +4,12 @@
 #'
 #' @param model \linkS4class{SDMmodel} object.
 #' @param test \linkS4class{SWD} testing locations, if not provided it uses the
-#' training dataset, default is `NULL`.
+#' training dataset.
 #' @param th numeric vector, if provided it computes the evaluation at the given
-#' thresholds, default is `NULL` and it computes the evaluation for the unique
+#' thresholds. Default is `NULL` and it computes the evaluation for the unique
 #' predicted values at presence and absence/background locations.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
-#' methods, possible values are "cloglog" and "logistic", default is `NULL`.
+#' methods, possible values are "cloglog" and "logistic".
 #'
 #' @details
 #' * For models trained with the **Maxent** method the argument `type` can be:

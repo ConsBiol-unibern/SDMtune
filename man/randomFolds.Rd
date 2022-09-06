@@ -13,10 +13,9 @@ randomFolds(data, k, only_presence = FALSE, seed = NULL)
 
 \item{only_presence}{logical, if \code{TRUE} the random folds are created only for
 the presence locations and all the background locations are included in each
-fold, used manly for presence-only methods, default is \code{FALSE}.}
+fold, used manly for presence-only methods.}
 
-\item{seed}{integer. The value used to set the seed for the fold partition,
-default is \code{NULL}.}
+\item{seed}{integer. The value used to set the seed for the fold partition.}
 }
 \value{
 list with two matrices, the first for the training and the second for

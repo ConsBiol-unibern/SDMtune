@@ -6,7 +6,7 @@
 #' @param test \linkS4class{SWD} object when `model` is an
 #' \linkS4class{SDMmodel} object; logical or \linkS4class{SWD} object when
 #' `model` is an \linkS4class{SDMmodelCV} object. If not provided it computes
-#' the training TSS, see details. Default is `NULL`.
+#' the training TSS, see details.
 #'
 #' @details For \linkS4class{SDMmodelCV} objects, the function computes the
 #' mean of the training TSS values of the k-folds. If `test = TRUE` it computes

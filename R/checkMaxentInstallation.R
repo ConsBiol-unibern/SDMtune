@@ -3,7 +3,7 @@
 #' The function checks if Maxent is correctly installed.
 #'
 #' @param verbose logical, if `TRUE` the function provides useful messages to
-#' understand what is not correctly installed, default is `TRUE`.
+#' understand what is not correctly installed.
 #'
 #' @details In order to have Maxent correctly configured is necessary that:
 #' * Java is installed;

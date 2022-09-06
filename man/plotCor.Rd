@@ -9,11 +9,10 @@ plotCor(bg, method = "spearman", cor_th = NULL)
 \arguments{
 \item{bg}{\linkS4class{SWD} object used to compute the correlation matrix.}
 
-\item{method}{character. The method used to compute the correlation matrix,
-default is "spearman".}
+\item{method}{character. The method used to compute the correlation matrix.}
 
 \item{cor_th}{numeric. If provided it prints only the coefficients that are
-higher or lower than the given threshold, default is \code{NULL}.}
+higher or lower than the given threshold.}
 }
 \value{
 A \link[ggplot2]{ggplot} object.

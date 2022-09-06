@@ -7,21 +7,21 @@
 #' @param object \linkS4class{SDMmodelCV} object.
 #' @param data data.frame, \linkS4class{SWD} or raster \link[raster]{stack} with
 #' the data for the prediction.
-#' @param fun character. function used to combine the output of the k models,
-#' default is `"mean"`. Note that fun is a character argument, you must use
-#' `"mean"` and not `mean`. You can also pass a vector of character containing
-#' multiple function names, see details.
+#' @param fun character. function used to combine the output of the k models.
+#' Note that fun is a character argument, you must use `"mean"` and not `mean`.
+#' You can also pass a vector of character containing multiple function names,
+#' see details.
 #' @param type character. Output type, see details, used only for **Maxent** and
-#' **Maxnet** methods, default is `NULL`.
+#' **Maxnet** methods.
 #' @param clamp logical for clumping during prediction, used only for **Maxent**
-#' and **Maxnet** methods, default is `TRUE`.
+#' and **Maxnet** methods.
 #' @param filename character. Output file name for the prediction map, used only
 #' when `data` is a \link[raster]{stack} object. If provided the output is saved
 #' in a file, see details.
 #' @param format character. The output format, see \link[raster]{writeRaster}
-#' for all the options, default is "GTiff".
+#' for all the options.
 #' @param extent \link[raster]{extent} object, if provided it restricts the
-#' prediction to the given extent, default is `NULL`.
+#' prediction to the given extent.
 #' @param ... Additional arguments to pass to the \link[raster]{writeRaster}
 #' function.
 #'

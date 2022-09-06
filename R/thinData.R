@@ -5,14 +5,13 @@
 #' one.
 #'
 #' @param coords data.frame or matrix with the coordinates, see details.
-#' @param x character. Name of the column containing the x coordinates, default
-#' is "x".
-#' @param y character. Name of the column containing the y coordinates, default
-#' is "y".
+#' @param x character. Name of the column containing the x coordinates.
+#' @param y character. Name of the column containing the y coordinates.
 #' @param env \link[raster]{stack} containing the environmental variables, or a
 #' single \link[raster]{raster} layer.
 #'
-#' @details * **coords** and **env** must have the same coordinate reference
+#' @details
+#' * **coords** and **env** must have the same coordinate reference
 #' system.
 #' * The `coords` argument can contain several columns. This is useful if the
 #' user has information related to the coordinates that doesn't want to loose

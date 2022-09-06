@@ -4,8 +4,7 @@
 #' (Warren and Seifert, 2011).
 #'
 #' @param model \linkS4class{SDMmodel} object.
-#' @param env \link[raster]{stack} containing the environmental
-#' variables.
+#' @param env \link[raster]{stack} containing the environmental variables.
 #'
 #' @details The function is available only for **Maxent** and **Maxnet**
 #' methods.

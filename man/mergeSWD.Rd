@@ -13,7 +13,7 @@ mergeSWD(swd1, swd2, only_presence = FALSE)
 
 \item{only_presence}{logical, if \code{TRUE} only for the presence locations are
 merged and the absence/background locations are taken only from the \code{swd1}
-object, default is \code{FALSE}.}
+object.}
 }
 \value{
 The merged \linkS4class{SWD} object.

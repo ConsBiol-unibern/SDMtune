@@ -12,9 +12,9 @@
 \item{data}{data.frame with the data for the prediction.}
 
 \item{type}{character MaxEnt output type, possible values are "cloglog",
-"logistic" and "raw", default is "cloglog".}
+"logistic" and "raw".}
 
-\item{clamp}{logical for clumping during prediction, default is \code{TRUE}.}
+\item{clamp}{logical for clumping during prediction.}
 }
 \value{
 A vector with the prediction

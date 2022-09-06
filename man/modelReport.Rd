@@ -25,27 +25,26 @@ modelReport(
 \item{folder}{character. The name of the folder in which to save the output.
 The folder is created in the working directory.}
 
-\item{test}{\linkS4class{SWD} object with the test locations, default is
-\code{NULL}.}
+\item{test}{\linkS4class{SWD} object with the test locations.}
 
 \item{type}{character. The output type used for "Maxent" and "Maxnet"
-methods, possible values are "cloglog" and "logistic", default is \code{NULL}.}
+methods, possible values are "cloglog" and "logistic".}
 
 \item{response_curves}{logical, if \code{TRUE} it plots the response curves in the
-html output, default is \code{FALSE}.}
+html output.}
 
 \item{only_presence}{logical, if \code{TRUE} it uses only the range of the
-presence location for the marginal response, default is \code{FALSE}.}
+presence location for the marginal response.}
 
-\item{jk}{logical, if \code{TRUE} it runs the jackknife test, default is \code{FALSE}.}
+\item{jk}{logical, if \code{TRUE} it runs the jackknife test.}
 
 \item{env}{\link[raster]{stack}. If provided it computes and adds a
-prediction map to the output, default is \code{NULL}.}
+prediction map to the output.}
 
 \item{clamp}{logical for clumping during prediction, used for response curves
-and for the prediction map, default is \code{TRUE}.}
+and for the prediction map.}
 
-\item{permut}{integer. Number of permutations, default is 10.}
+\item{permut}{integer. Number of permutations.}
 
 \item{factors}{list with levels for factor variables, see
 \link[raster]{predict}.}

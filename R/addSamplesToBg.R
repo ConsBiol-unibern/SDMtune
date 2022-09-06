@@ -5,8 +5,8 @@
 #'
 #' @param x \linkS4class{SWD} object.
 #' @param all logical, if `TRUE` it adds all the presence locations even if
-#' already included in the background locations, default is `FALSE`. This
-#' is equivalent to the Maxent argument `addallsamplestobackground=true`.
+#' already included in the background locations. This is equivalent to the
+#' Maxent argument `addallsamplestobackground=true`.
 #'
 #' @return An object of class \linkS4class{SWD}.
 #' @export

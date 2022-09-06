@@ -9,7 +9,7 @@ varImp(model, permut = 10)
 \arguments{
 \item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
-\item{permut}{integer. Number of permutations, default is 10.}
+\item{permut}{integer. Number of permutations.}
 }
 \value{
 data.frame with the ordered permutation importance.

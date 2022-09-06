@@ -21,22 +21,20 @@ plotResponse(
 \item{var}{character. Name of the variable to be plotted.}
 
 \item{type}{character. The output type used for "Maxent" and "Maxnet"
-methods, possible values are "cloglog" and "logistic", default is \code{NULL}.}
+methods, possible values are "cloglog" and "logistic".}
 
 \item{only_presence}{logical, if \code{TRUE} it uses only the presence locations
-when applying the function for the marginal response, default is \code{FALSE}.}
+when applying the function for the marginal response.}
 
-\item{marginal}{logical, if \code{TRUE} it plots the marginal response curve,
-default is \code{FALSE}.}
+\item{marginal}{logical, if \code{TRUE} it plots the marginal response curve.}
 
 \item{fun}{function used to compute the level of the other variables for
-marginal curves, default is \code{mean}.}
+marginal curves.}
 
 \item{rug}{logical, if \code{TRUE} it adds the rug plot for the presence and
-absence/background locations, available only for continuous variables,
-default is \code{FALSE}.}
+absence/background locations, available only for continuous variables.}
 
-\item{color}{The color of the curve, default is "red".}
+\item{color}{The colour of the curve, default is "red".}
 }
 \value{
 A \link[ggplot2]{ggplot} object.

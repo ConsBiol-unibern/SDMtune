@@ -9,8 +9,8 @@ setGeneric("predict", function(object, ...)
 #' @param object \linkS4class{Maxent} object.
 #' @param data data.frame with the data for the prediction.
 #' @param type character MaxEnt output type, possible values are "cloglog",
-#' "logistic" and "raw", default is "cloglog".
-#' @param clamp logical for clumping during prediction, default is `TRUE`.
+#' "logistic" and "raw".
+#' @param clamp logical for clumping during prediction.
 #'
 #' @details Used by the \link{predict,SDMmodel-method}, not exported.
 #'

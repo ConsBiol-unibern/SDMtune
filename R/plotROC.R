@@ -3,7 +3,7 @@
 #' Plot the ROC curve of the given model and print the AUC value.
 #'
 #' @param model \linkS4class{SDMmodel} object.
-#' @param test \linkS4class{SWD} object. The testing dataset, default is `NULL`.
+#' @param test \linkS4class{SWD} object. The testing dataset.
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export

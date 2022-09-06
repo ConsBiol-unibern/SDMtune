@@ -5,15 +5,13 @@
 #'
 #' @param bg \linkS4class{SWD} object with the locations used to compute the
 #' correlation between environmental variables.
-#' @param method character. The method used to compute the correlation matrix,
-#' default is `spearman`.
+#' @param method character. The method used to compute the correlation matrix.
 #' @param cor_th numeric. If provided it prints only the variables whose
-#' correlation coefficient is higher or lower than the given threshold, default
-#' is `NULL`.
+#' correlation coefficient is higher or lower than the given threshold.
 #' @param order logical, if `TRUE` the variable are ordered from the most to the
-#' less highly correlated, default is `TRUE`.
+#' less highly correlated.
 #' @param remove_diagonal logical, if `TRUE` the values in the diagonal are,
-#' removed, default is `TRUE`.
+#' removed.
 #'
 #' @return A data.frame with the variables and their correlation.
 #' @export

@@ -5,20 +5,19 @@
 #' @param model \linkS4class{SDMmodel} object.
 #' @param folder character. The name of the folder in which to save the output.
 #' The folder is created in the working directory.
-#' @param test \linkS4class{SWD} object with the test locations, default is
-#' `NULL`.
+#' @param test \linkS4class{SWD} object with the test locations.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
-#' methods, possible values are "cloglog" and "logistic", default is `NULL`.
+#' methods, possible values are "cloglog" and "logistic".
 #' @param response_curves logical, if `TRUE` it plots the response curves in the
-#' html output, default is `FALSE`.
+#' html output.
 #' @param only_presence logical, if `TRUE` it uses only the range of the
-#' presence location for the marginal response, default is `FALSE`.
-#' @param jk logical, if `TRUE` it runs the jackknife test, default is `FALSE`.
+#' presence location for the marginal response.
+#' @param jk logical, if `TRUE` it runs the jackknife test.
 #' @param env \link[raster]{stack}. If provided it computes and adds a
-#' prediction map to the output, default is `NULL`.
+#' prediction map to the output.
 #' @param clamp logical for clumping during prediction, used for response curves
-#' and for the prediction map, default is `TRUE`.
-#' @param permut integer. Number of permutations, default is 10.
+#' and for the prediction map.
+#' @param permut integer. Number of permutations.
 #' @param factors list with levels for factor variables, see
 #' \link[raster]{predict}.
 #' @param verbose logical, if `TRUE` prints informative messages.

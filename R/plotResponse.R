@@ -5,17 +5,15 @@
 #' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param var character. Name of the variable to be plotted.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
-#' methods, possible values are "cloglog" and "logistic", default is `NULL`.
+#' methods, possible values are "cloglog" and "logistic".
 #' @param only_presence logical, if `TRUE` it uses only the presence locations
-#' when applying the function for the marginal response, default is `FALSE`.
-#' @param marginal logical, if `TRUE` it plots the marginal response curve,
-#' default is `FALSE`.
+#' when applying the function for the marginal response.
+#' @param marginal logical, if `TRUE` it plots the marginal response curve.
 #' @param fun function used to compute the level of the other variables for
-#' marginal curves, default is `mean`.
+#' marginal curves.
 #' @param rug logical, if `TRUE` it adds the rug plot for the presence and
-#' absence/background locations, available only for continuous variables,
-#' default is `FALSE`.
-#' @param color The color of the curve, default is "red".
+#' absence/background locations, available only for continuous variables.
+#' @param color The colour of the curve, default is "red".
 #'
 #' @details Note that fun is not a character argument, you must use `mean` and
 #' not `"mean"`.

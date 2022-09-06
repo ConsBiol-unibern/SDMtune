@@ -12,11 +12,9 @@ thinData(coords, env, x = "x", y = "y")
 \item{env}{\link[raster]{stack} containing the environmental variables, or a
 single \link[raster]{raster} layer.}
 
-\item{x}{character. Name of the column containing the x coordinates, default
-is "x".}
+\item{x}{character. Name of the column containing the x coordinates.}
 
-\item{y}{character. Name of the column containing the y coordinates, default
-is "y".}
+\item{y}{character. Name of the column containing the y coordinates.}
 }
 \value{
 a matrix or a data frame with the thinned locations.

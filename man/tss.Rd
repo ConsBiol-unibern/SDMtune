@@ -12,7 +12,7 @@ tss(model, test = NULL)
 \item{test}{\linkS4class{SWD} object when \code{model} is an
 \linkS4class{SDMmodel} object; logical or \linkS4class{SWD} object when
 \code{model} is an \linkS4class{SDMmodelCV} object. If not provided it computes
-the training TSS, see details. Default is \code{NULL}.}
+the training TSS, see details.}
 }
 \value{
 The value of the TSS of the given model.

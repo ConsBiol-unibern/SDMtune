@@ -9,9 +9,9 @@
 #'
 #' @param model \linkS4class{SDMmodel} object.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
-#' methods, possible values are "cloglog" and "logistic", default is `NULL`.
+#' methods, possible values are "cloglog" and "logistic".
 #' @param test \linkS4class{SWD} testing locations, if not provided it returns
-#' the training and test thresholds, default is `NULL`.
+#' the training and test thresholds.
 #'
 #' @details The equal training sensitivity and specificity minimizes the
 #' difference between sensitivity and specificity. The one-tailed binomial test

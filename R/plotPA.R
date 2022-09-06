@@ -7,12 +7,10 @@
 #' presence/absence map.
 #' @param colors vector. Colors to be used, default is `NULL` and uses red and
 #' blue.
-#' @param hr logical, if `TRUE` produces an output with high resolution,
-#' default is `FALSE`.
-#' @param filename character, if provided the raster map is saved in a file,
-#' default is `NULL`.
+#' @param hr logical, if `TRUE` produces an output with high resolution.
+#' @param filename character, if provided the raster map is saved in a file.
 #' @param format character. The output format, see \link[raster]{writeRaster}
-#' for all the options, default is Geotiff.
+#' for all the options.
 #' @param ... Additional arguments, see \link[raster]{writeRaster} for all the
 #' options.
 #'

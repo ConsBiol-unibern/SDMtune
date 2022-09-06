@@ -14,10 +14,10 @@ possible values are "ANN", "BRT", "Maxent", "Maxnet" or "RF", see details.}
 locations.}
 
 \item{folds}{list. Output of the function \link{randomFolds} or folds object
-created with other packages, see details, default is \code{NULL}.}
+created with other packages, see details.}
 
 \item{verbose}{logical, if \code{TRUE} shows a progress bar during cross
-validation, default is \code{TRUE}.}
+validation.}
 
 \item{...}{Arguments passed to the relative method, see details.}
 }

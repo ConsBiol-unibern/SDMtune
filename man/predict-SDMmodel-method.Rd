@@ -23,20 +23,20 @@
 data for the prediction.}
 
 \item{type}{character. Output type, see details, used only for \strong{Maxent} and
-\strong{Maxnet} methods, default is \code{NULL}.}
+\strong{Maxnet} methods.}
 
 \item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
-and \strong{Maxnet} methods, default is \code{TRUE}.}
+and \strong{Maxnet} methods.}
 
 \item{filename}{character. Output file name for the prediction map, used only
 when \code{data} is a \link[raster]{stack} object. If provided the output is saved
 in a file.}
 
 \item{format}{character. The output format, see \link[raster]{writeRaster}
-for all the options, default is "GTiff".}
+for all the options.}
 
-\item{extent}{\link[raster]{extent} object, if provided it restricts
-the prediction to the given extent, default is \code{NULL}.}
+\item{extent}{\link[raster]{extent} object, if provided it restricts the
+prediction to the given extent.}
 
 \item{progress}{character to display a progress bar: "text", "window" or ""
 (default) for no progress bar.}

@@ -9,22 +9,20 @@
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param test \linkS4class{SWD} object. Testing dataset used to evaluate
-#' the model, not used with aicc and \linkS4class{SDMmodelCV} objects, default
-#' is `NULL`.
-#' @param pop numeric. Size of the population, default is 5.
-#' @param gen numeric. Number of generations, default is 20.
+#' the model, not used with aicc and \linkS4class{SDMmodelCV} objects.
+#' @param pop numeric. Size of the population.
+#' @param gen numeric. Number of generations.
 #' @param env \link[raster]{stack} containing the environmental variables, used
-#' only with "aicc", default is `NULL`.
+#' only with "aicc".
 #' @param keep_best numeric. Percentage of the best models in the population to
-#' be retained during each iteration, expressed as decimal number. Default
-#' is 0.4.
+#' be retained during each iteration, expressed as decimal number.
 #' @param keep_random numeric. Probability of retaining the excluded models
-#' during each iteration, expressed as decimal number. Default is 0.2.
+#' during each iteration, expressed as decimal number.
 #' @param mutation_chance numeric. Probability of mutation of the child models,
-#' expressed as decimal number. Default is 0.4.
+#' expressed as decimal number.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
 #' @param seed numeric. The value used to set the seed to have consistent
-#' results, default is `NULL`.
+#' results.
 #'
 #' @details To know which hyperparameters can be tuned you can use the output
 #' of the function \link{getTunableArgs}. Hyperparameters not included in the

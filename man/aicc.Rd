@@ -9,8 +9,7 @@ aicc(model, env)
 \arguments{
 \item{model}{\linkS4class{SDMmodel} object.}
 
-\item{env}{\link[raster]{stack} containing the environmental
-variables.}
+\item{env}{\link[raster]{stack} containing the environmental variables.}
 }
 \value{
 The computed AICc

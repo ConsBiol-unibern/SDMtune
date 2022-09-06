@@ -16,18 +16,16 @@
 #' @param bg4cor \linkS4class{SWD} object. Background locations used to test the
 #' correlation between environmental variables.
 #' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
-#' used with aicc and \linkS4class{SDMmodelCV} objects, default is `NULL`.
+#' used with aicc and \linkS4class{SDMmodelCV} objects.
 #' @param env \link[raster]{stack} containing the environmental variables, used
-#' only with "aicc", default is `NULL`.
-#' @param method character. The method used to compute the correlation matrix,
-#' default "spearman".
+#' only with "aicc".
+#' @param method character. The method used to compute the correlation matrix.
 #' @param cor_th numeric. The correlation threshold used to select highly
-#' correlated variables, default is 0.7.
-#' @param permut integer. Number of permutations, default is 10.
+#' correlated variables.
+#' @param permut integer, Number of permutations.
 #' @param use_pc logical, use percent contribution. If `TRUE` and the model is
 #' trained using the \linkS4class{Maxent} method, the algorithm uses the percent
-#' contribution computed by Maxent software to score the variable importance,
-#' default is `FALSE`.
+#' contribution computed by Maxent software to score the variable importance.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
 #' @param verbose logical, if `TRUE` prints informative messages.
 #'

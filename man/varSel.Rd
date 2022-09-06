@@ -28,23 +28,21 @@ values are: "auc", "tss" and "aicc".}
 correlation between environmental variables.}
 
 \item{test}{\linkS4class{SWD}. Test dataset used to evaluate the model, not
-used with aicc and \linkS4class{SDMmodelCV} objects, default is \code{NULL}.}
+used with aicc and \linkS4class{SDMmodelCV} objects.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
-only with "aicc", default is \code{NULL}.}
+only with "aicc".}
 
-\item{method}{character. The method used to compute the correlation matrix,
-default "spearman".}
+\item{method}{character. The method used to compute the correlation matrix.}
 
 \item{cor_th}{numeric. The correlation threshold used to select highly
-correlated variables, default is 0.7.}
+correlated variables.}
 
-\item{permut}{integer. Number of permutations, default is 10.}
+\item{permut}{integer, Number of permutations.}
 
 \item{use_pc}{logical, use percent contribution. If \code{TRUE} and the model is
 trained using the \linkS4class{Maxent} method, the algorithm uses the percent
-contribution computed by Maxent software to score the variable importance,
-default is \code{FALSE}.}
+contribution computed by Maxent software to score the variable importance.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 

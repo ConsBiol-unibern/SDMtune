@@ -17,10 +17,9 @@
 
 \item{x}{SDMtune object.}
 
-\item{title}{character. The title of the plot, by default is an empty string.}
+\item{title}{character. The title of the plot.}
 
-\item{interactive}{logical, if TRUE plot an interactive chart, default is
-\code{FALSE}.}
+\item{interactive}{logical, if TRUE plot an interactive chart.}
 }
 \value{
 If \code{interactive = FALSE} the function returns a

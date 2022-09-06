@@ -21,19 +21,19 @@ doJk(
 values are: "auc", "tss" and "aicc".}
 
 \item{variables}{vector. Variables used for the test, if not provided it
-takes all the variables used to train the model, default is \code{NULL}.}
+takes all the variables used to train the model.}
 
 \item{test}{\linkS4class{SWD}. If provided it reports the result also for the
 testing dataset. Not used for \strong{aicc} and \linkS4class{SDMmodelCV}.}
 
-\item{with_only}{logical. If \code{TRUE} it runs the test also for each
-variable in isolation, default is \code{TRUE}.}
+\item{with_only}{logical. If \code{TRUE} it runs the test also for each variable
+in isolation.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
-only with "aicc", default is \code{NULL}.}
+only with "aicc".}
 
 \item{return_models}{logical, if \code{TRUE} returns all the models together with
-the test result, default is \code{FALSE}.}
+the test result.}
 }
 \value{
 A data frame with the test results. If \code{return_model = TRUE} it

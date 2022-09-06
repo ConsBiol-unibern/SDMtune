@@ -10,10 +10,10 @@ thresholds(model, type = NULL, test = NULL)
 \item{model}{\linkS4class{SDMmodel} object.}
 
 \item{type}{character. The output type used for "Maxent" and "Maxnet"
-methods, possible values are "cloglog" and "logistic", default is \code{NULL}.}
+methods, possible values are "cloglog" and "logistic".}
 
 \item{test}{\linkS4class{SWD} testing locations, if not provided it returns
-the training and test thresholds, default is \code{NULL}.}
+the training and test thresholds.}
 }
 \value{
 data.frame with the thresholds.

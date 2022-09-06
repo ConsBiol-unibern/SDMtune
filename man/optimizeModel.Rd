@@ -29,30 +29,28 @@ should be tuned, see details.}
 values are: "auc", "tss" and "aicc".}
 
 \item{test}{\linkS4class{SWD} object. Testing dataset used to evaluate
-the model, not used with aicc and \linkS4class{SDMmodelCV} objects, default
-is \code{NULL}.}
+the model, not used with aicc and \linkS4class{SDMmodelCV} objects.}
 
-\item{pop}{numeric. Size of the population, default is 5.}
+\item{pop}{numeric. Size of the population.}
 
-\item{gen}{numeric. Number of generations, default is 20.}
+\item{gen}{numeric. Number of generations.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
-only with "aicc", default is \code{NULL}.}
+only with "aicc".}
 
 \item{keep_best}{numeric. Percentage of the best models in the population to
-be retained during each iteration, expressed as decimal number. Default
-is 0.4.}
+be retained during each iteration, expressed as decimal number.}
 
 \item{keep_random}{numeric. Probability of retaining the excluded models
-during each iteration, expressed as decimal number. Default is 0.2.}
+during each iteration, expressed as decimal number.}
 
 \item{mutation_chance}{numeric. Probability of mutation of the child models,
-expressed as decimal number. Default is 0.4.}
+expressed as decimal number.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
-results, default is \code{NULL}.}
+results.}
 }
 \value{
 \linkS4class{SDMtune} object.

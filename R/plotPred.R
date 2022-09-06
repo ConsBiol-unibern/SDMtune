@@ -3,11 +3,10 @@
 #' Plot Prediction output.
 #'
 #' @param map \link[raster]{raster} object with the prediction.
-#' @param lt character. Legend title, default is an empty string.
-#' @param colorramp vector. A custom color ramp given as a vector of colors
-#' (see example), default is `NULL` and uses a blue/red color ramp.
-#' @param hr logical, if `TRUE` produces an output with high resolution,
-#' default is `FALSE`.
+#' @param lt character. Legend title.
+#' @param colorramp vector. A custom colour ramp given as a vector of colours
+#' (see example), default is `NULL` and uses a blue/red colour ramp.
+#' @param hr logical, if `TRUE` produces an output with high resolution.
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export

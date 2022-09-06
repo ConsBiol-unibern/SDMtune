@@ -8,9 +8,9 @@
 #' @param data \linkS4class{SWD} object with presence and absence/background
 #' locations.
 #' @param folds list. Output of the function \link{randomFolds} or folds object
-#' created with other packages, see details, default is `NULL`.
+#' created with other packages, see details.
 #' @param verbose logical, if `TRUE` shows a progress bar during cross
-#' validation, default is `TRUE`.
+#' validation.
 #' @param ... Arguments passed to the relative method, see details.
 #'
 #' @details

@@ -10,14 +10,13 @@
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param test \linkS4class{SWD} object. Test dataset used to evaluate the
-#' model, not used with aicc and \linkS4class{SDMmodelCV} objects,
-#' default is `NULL`.
-#' @param pop numeric. Size of the population, default is 20.
+#' model, not used with aicc and \linkS4class{SDMmodelCV} objects.
+#' @param pop numeric. Size of the population.
 #' @param env \link[raster]{stack} containing the environmental variables, used
-#' only with "aicc", default is `NULL`.
+#' only with "aicc".
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
 #' @param seed numeric. The value used to set the seed to have consistent
-#' results, default is `NULL`.
+#' results.
 #'
 #' @details To know which hyperparameters can be tuned you can use the output
 #' of the function \link{getTunableArgs}. Hyperparameters not included in the

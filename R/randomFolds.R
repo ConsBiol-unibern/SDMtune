@@ -6,9 +6,8 @@
 #' @param k integer. Number of fold used to create the partition.
 #' @param only_presence logical, if `TRUE` the random folds are created only for
 #' the presence locations and all the background locations are included in each
-#' fold, used manly for presence-only methods, default is `FALSE`.
-#' @param seed integer. The value used to set the seed for the fold partition,
-#' default is `NULL`.
+#' fold, used manly for presence-only methods.
+#' @param seed integer. The value used to set the seed for the fold partition.
 #'
 #' @details When `only_presence = FALSE`, the proportion of presence and absence
 #' is preserved.

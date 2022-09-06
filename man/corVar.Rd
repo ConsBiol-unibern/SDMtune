@@ -16,18 +16,16 @@ corVar(
 \item{bg}{\linkS4class{SWD} object with the locations used to compute the
 correlation between environmental variables.}
 
-\item{method}{character. The method used to compute the correlation matrix,
-default is \code{spearman}.}
+\item{method}{character. The method used to compute the correlation matrix.}
 
 \item{cor_th}{numeric. If provided it prints only the variables whose
-correlation coefficient is higher or lower than the given threshold, default
-is \code{NULL}.}
+correlation coefficient is higher or lower than the given threshold.}
 
 \item{order}{logical, if \code{TRUE} the variable are ordered from the most to the
-less highly correlated, default is \code{TRUE}.}
+less highly correlated.}
 
 \item{remove_diagonal}{logical, if \code{TRUE} the values in the diagonal are,
-removed, default is \code{TRUE}.}
+removed.}
 }
 \value{
 A data.frame with the variables and their correlation.

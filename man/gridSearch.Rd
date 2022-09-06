@@ -24,16 +24,15 @@ should be tuned, see details.}
 values are: "auc", "tss" and "aicc".}
 
 \item{test}{\linkS4class{SWD} object. Testing dataset used to evaluate the
-model, not used with \link{aicc} and \linkS4class{SDMmodelCV} objects,
-default is \code{NULL}.}
+model, not used with \link{aicc} and \linkS4class{SDMmodelCV} objects.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
-only with "aicc", default is \code{NULL}.}
+only with "aicc".}
 
 \item{save_models}{logical, if \code{FALSE} the models are not saved and the
 output contains only a data frame with the metric values for each
-hyperparameter combination. Default is \code{TRUE}, set it to \code{FALSE} when there
-are many combinations to avoid R crashing for memory overload.}
+hyperparameter combination. Set it to \code{FALSE} when there are many
+combinations to avoid R crashing for memory overload.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 }

@@ -22,26 +22,26 @@
 \item{data}{data.frame, \linkS4class{SWD} or raster \link[raster]{stack} with
 the data for the prediction.}
 
-\item{fun}{character. function used to combine the output of the k models,
-default is \code{"mean"}. Note that fun is a character argument, you must use
-\code{"mean"} and not \code{mean}. You can also pass a vector of character containing
-multiple function names, see details.}
+\item{fun}{character. function used to combine the output of the k models.
+Note that fun is a character argument, you must use \code{"mean"} and not \code{mean}.
+You can also pass a vector of character containing multiple function names,
+see details.}
 
 \item{type}{character. Output type, see details, used only for \strong{Maxent} and
-\strong{Maxnet} methods, default is \code{NULL}.}
+\strong{Maxnet} methods.}
 
 \item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
-and \strong{Maxnet} methods, default is \code{TRUE}.}
+and \strong{Maxnet} methods.}
 
 \item{filename}{character. Output file name for the prediction map, used only
 when \code{data} is a \link[raster]{stack} object. If provided the output is saved
 in a file, see details.}
 
 \item{format}{character. The output format, see \link[raster]{writeRaster}
-for all the options, default is "GTiff".}
+for all the options.}
 
 \item{extent}{\link[raster]{extent} object, if provided it restricts the
-prediction to the given extent, default is \code{NULL}.}
+prediction to the given extent.}
 
 \item{...}{Additional arguments to pass to the \link[raster]{writeRaster}
 function.}

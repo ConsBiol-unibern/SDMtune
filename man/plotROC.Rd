@@ -9,7 +9,7 @@ plotROC(model, test = NULL)
 \arguments{
 \item{model}{\linkS4class{SDMmodel} object.}
 
-\item{test}{\linkS4class{SWD} object. The testing dataset, default is \code{NULL}.}
+\item{test}{\linkS4class{SWD} object. The testing dataset.}
 }
 \value{
 A \link[ggplot2]{ggplot} object.

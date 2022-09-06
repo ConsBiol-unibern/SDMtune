@@ -6,7 +6,7 @@
 #' @param swd2 \linkS4class{SWD} object.
 #' @param only_presence logical, if `TRUE` only for the presence locations are
 #' merged and the absence/background locations are taken only from the `swd1`
-#' object, default is `FALSE`.
+#' object.
 #'
 #' @details
 #' * In case the two \linkS4class{SWD} objects have different columns, only the

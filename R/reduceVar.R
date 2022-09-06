@@ -13,19 +13,16 @@
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc", used only if use_jk is `TRUE`.
 #' @param test \linkS4class{SWD} object containing the test dataset used to
-#' evaluate the model, not used with aicc, and if `use_jk = FALSE`, default is
-#' `NULL`.
+#' evaluate the model, not used with aicc, and if `use_jk = FALSE`.
 #' @param env \link[raster]{stack} containing the environmental variables, used
-#' only with "aicc", default is `NULL`.
+#' only with "aicc".
 #' @param use_jk Flag to use the Jackknife AUC test during the variable
-#' selection, if `FALSE` the function uses the percent variable contribution,
-#' default is `FALSE`.
-#' @param permut integer. Number of permutations, used if `use_pc = FALSE`,
-#' default is 10.
+#' selection, if `FALSE` the function uses the percent variable contribution.
+#' @param permut integer. Number of permutations, used if `use_pc = FALSE`.
 #' @param use_pc logical, use percent contribution. If `TRUE` and the model
 #' is trained using the \linkS4class{Maxent} method, the algorithm uses the
 #' percent contribution computed by Maxent software to score the variable
-#' importance, default is `FALSE`.
+#' importance.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
 #' @param verbose logical, if `TRUE` prints informative messages.
 #'

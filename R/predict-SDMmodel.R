@@ -11,16 +11,16 @@ setGeneric("predict", function(object, ...)
 #' @param data data.frame, \linkS4class{SWD} or \link[raster]{stack} with the
 #' data for the prediction.
 #' @param type character. Output type, see details, used only for **Maxent** and
-#' **Maxnet** methods, default is `NULL`.
+#' **Maxnet** methods.
 #' @param clamp logical for clumping during prediction, used only for **Maxent**
-#' and **Maxnet** methods, default is `TRUE`.
+#' and **Maxnet** methods.
 #' @param filename character. Output file name for the prediction map, used only
 #' when `data` is a \link[raster]{stack} object. If provided the output is saved
 #' in a file.
 #' @param format character. The output format, see \link[raster]{writeRaster}
-#' for all the options, default is "GTiff".
-#' @param extent \link[raster]{extent} object, if provided it restricts
-#' the prediction to the given extent, default is `NULL`.
+#' for all the options.
+#' @param extent \link[raster]{extent} object, if provided it restricts the
+#' prediction to the given extent.
 #' @param progress character to display a progress bar: "text", "window" or ""
 #' (default) for no progress bar.
 #' @param ... Additional arguments to pass to the \link[raster]{writeRaster}

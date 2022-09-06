@@ -4,7 +4,7 @@
 #'
 #' @param df data.frame. A data.frame containing the the name of the variables
 #' as first column and the value of the variable importance as second column.
-#' @param color character. The color of the bar plot, default is grey.
+#' @param color character. The colour of the bar plot.
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export

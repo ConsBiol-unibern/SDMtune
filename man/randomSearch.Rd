@@ -25,16 +25,15 @@ should be tuned, see details.}
 values are: "auc", "tss" and "aicc".}
 
 \item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
-model, not used with aicc and \linkS4class{SDMmodelCV} objects,
-default is \code{NULL}.}
+model, not used with aicc and \linkS4class{SDMmodelCV} objects.}
 
-\item{pop}{numeric. Size of the population, default is 20.}
+\item{pop}{numeric. Size of the population.}
 
 \item{env}{\link[raster]{stack} containing the environmental variables, used
-only with "aicc", default is \code{NULL}.}
+only with "aicc".}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
-results, default is \code{NULL}.}
+results.}
 
 \item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
 }

@@ -9,7 +9,7 @@
 #' @param p data.frame. The coordinates of the presence locations.
 #' @param a data.frame. The coordinates of the absence/background locations.
 #' @param categorical vector indicating which of the environmental variable are
-#' categorical, default is `NULL`.
+#' categorical.
 #' @param verbose logical, if `TRUE` prints informative messages.
 #'
 #' @details The \linkS4class{SWD} object is created in a way that the presence

@@ -9,14 +9,13 @@
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param test \linkS4class{SWD} object. Testing dataset used to evaluate the
-#' model, not used with \link{aicc} and \linkS4class{SDMmodelCV} objects,
-#' default is `NULL`.
+#' model, not used with \link{aicc} and \linkS4class{SDMmodelCV} objects.
 #' @param env \link[raster]{stack} containing the environmental variables, used
-#' only with "aicc", default is `NULL`.
+#' only with "aicc".
 #' @param save_models logical, if `FALSE` the models are not saved and the
 #' output contains only a data frame with the metric values for each
-#' hyperparameter combination. Default is `TRUE`, set it to `FALSE` when there
-#' are many combinations to avoid R crashing for memory overload.
+#' hyperparameter combination. Set it to `FALSE` when there are many
+#' combinations to avoid R crashing for memory overload.
 #' @param interactive logical, if `FALSE` the interactive chart is not created.
 #'
 #' @details

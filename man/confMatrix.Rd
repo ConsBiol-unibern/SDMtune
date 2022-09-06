@@ -10,14 +10,14 @@ confMatrix(model, test = NULL, th = NULL, type = NULL)
 \item{model}{\linkS4class{SDMmodel} object.}
 
 \item{test}{\linkS4class{SWD} testing locations, if not provided it uses the
-training dataset, default is \code{NULL}.}
+training dataset.}
 
 \item{th}{numeric vector, if provided it computes the evaluation at the given
-thresholds, default is \code{NULL} and it computes the evaluation for the unique
+thresholds. Default is \code{NULL} and it computes the evaluation for the unique
 predicted values at presence and absence/background locations.}
 
 \item{type}{character. The output type used for "Maxent" and "Maxnet"
-methods, possible values are "cloglog" and "logistic", default is \code{NULL}.}
+methods, possible values are "cloglog" and "logistic".}
 }
 \value{
 The Confusion Matrix for all the used thresholds.

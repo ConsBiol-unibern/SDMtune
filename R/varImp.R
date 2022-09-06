@@ -9,7 +9,7 @@
 #' AUC is computed.
 #'
 #' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
-#' @param permut integer. Number of permutations, default is 10.
+#' @param permut integer. Number of permutations.
 #'
 #' @details Note that it could return values slightly different from MaxEnt Java
 #' software due to a different random permutation.

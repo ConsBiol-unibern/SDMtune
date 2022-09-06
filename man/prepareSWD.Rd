@@ -24,7 +24,7 @@ to extract the values at coordinate locations.}
 \item{a}{data.frame. The coordinates of the absence/background locations.}
 
 \item{categorical}{vector indicating which of the environmental variable are
-categorical, default is \code{NULL}.}
+categorical.}
 
 \item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }

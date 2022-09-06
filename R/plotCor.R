@@ -6,10 +6,9 @@
 #' threshold.
 #'
 #' @param bg \linkS4class{SWD} object used to compute the correlation matrix.
-#' @param method character. The method used to compute the correlation matrix,
-#' default is "spearman".
+#' @param method character. The method used to compute the correlation matrix.
 #' @param cor_th numeric. If provided it prints only the coefficients that are
-#' higher or lower than the given threshold, default is `NULL`.
+#' higher or lower than the given threshold.
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export

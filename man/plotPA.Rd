@@ -23,14 +23,12 @@ presence/absence map.}
 \item{colors}{vector. Colors to be used, default is \code{NULL} and uses red and
 blue.}
 
-\item{hr}{logical, if \code{TRUE} produces an output with high resolution,
-default is \code{FALSE}.}
+\item{hr}{logical, if \code{TRUE} produces an output with high resolution.}
 
-\item{filename}{character, if provided the raster map is saved in a file,
-default is \code{NULL}.}
+\item{filename}{character, if provided the raster map is saved in a file.}
 
 \item{format}{character. The output format, see \link[raster]{writeRaster}
-for all the options, default is Geotiff.}
+for all the options.}
 
 \item{...}{Additional arguments, see \link[raster]{writeRaster} for all the
 options.}
