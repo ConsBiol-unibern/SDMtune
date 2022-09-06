@@ -27,6 +27,11 @@ h1 {
   width: 70%;
 }
 
+.two-figs {
+  float: left;
+  width: 50%;
+}
+
 #response figure {
   /*display: table;*/
   width: 25%;

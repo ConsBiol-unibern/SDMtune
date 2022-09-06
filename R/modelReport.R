@@ -116,7 +116,8 @@ modelReport <- function(model,
           line_col = "#4bc0c0",
           col = "#f58410",
           width = 80
-        )
+        ),
+        "\f"
       )
 
     rmarkdown::render(template,
@@ -288,21 +289,20 @@ modelReport <- function(model,
                                      path = params$plot_folder))
     path1 <- file.path(params$plot_folder, "train_jk.png")
     path2 <- file.path(params$plot_folder, "test_jk.png")
-    element <- paste0("<a href=\"",
-                      path1,
-                      "\"><img src=\"",
-                      path1,
-                      "\" width=50%></a><a href=\"",
-                      path2,
-                      "\"><img src=\"",
-                      path2,
-                      "\" width=50%></a>")
+    element <- stringr::str_glue("
+      <a href='{path1}'>
+        <img src='{path1}' class='two-figs'>
+      </a>
+      <a href='{path2}'>
+        <img src='{path2}' class='two-figs'>
+      </a>
+    ")
   } else {
-    element <- paste0("<a href=\"",
-                      path1,
-                      "\"><img src=\"",
-                      path1,
-                      "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
+    element <- stringr::str_glue("
+      <a href='{path1}'>
+        <img src='{path1}' class='fig-centered'>
+      </a>
+    ")
   }
 
   return(htmltools::HTML(element))
