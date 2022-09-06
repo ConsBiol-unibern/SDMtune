@@ -10,7 +10,7 @@
 #' @param metric character. The metric used to evaluate the models, possible
 #' values are: "auc", "tss" and "aicc".
 #' @param test \linkS4class{SWD} object. Test dataset used to evaluate the
-#' model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+#' model, not used with aicc and \linkS4class{SDMmodelCV} objects,
 #' default is `NULL`.
 #' @param pop numeric. Size of the population, default is 20.
 #' @param env \link[raster]{stack} containing the environmental variables, used

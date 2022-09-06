@@ -8,11 +8,11 @@
 #' `model` is an \linkS4class{SDMmodelCV} object. If not provided it computes
 #' the training TSS, see details. Default is `NULL`.
 #'
-#' @details For \code{\linkS4class{SDMmodelCV}} objects, the function computes
-#' the mean of the training TSS values of the k-folds. If \code{test = TRUE} it
-#' computes the mean of the testing TSS values for the k-folds. If test is an
-#' \code{\linkS4class{SWD}} object, it computes the mean TSS values for the
-#' provided testing dataset.
+#' @details For \linkS4class{SDMmodelCV} objects, the function computes the
+#' mean of the training TSS values of the k-folds. If `test = TRUE` it computes
+#' the mean of the testing TSS values for the k-folds. If test is an
+#' \linkS4class{SWD} object, it computes the mean TSS values for the provided
+#' testing dataset.
 #'
 #' @return The value of the TSS of the given model.
 #' @export

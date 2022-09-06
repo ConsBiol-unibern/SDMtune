@@ -47,7 +47,7 @@ if (!isGeneric("plot"))
 #' @param x SDMtune object.
 #' @param title character. The title of the plot, by default is an empty string.
 #' @param interactive logical, if TRUE plot an interactive chart, default is
-#' \code{FALSE}.
+#' `FALSE`.
 #'
 #' @rdname SDMtune-class
 #' @importFrom rlang .data

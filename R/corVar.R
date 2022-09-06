@@ -9,7 +9,7 @@
 #' default is `spearman`.
 #' @param cor_th numeric. If provided it prints only the variables whose
 #' correlation coefficient is higher or lower than the given threshold, default
-#' is \code{NULL}.
+#' is `NULL`.
 #' @param order logical, if `TRUE` the variable are ordered from the most to the
 #' less highly correlated, default is `TRUE`.
 #' @param remove_diagonal logical, if `TRUE` the values in the diagonal are,

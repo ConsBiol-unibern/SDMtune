@@ -25,7 +25,7 @@ should be tuned, see details.}
 values are: "auc", "tss" and "aicc".}
 
 \item{test}{\linkS4class{SWD} object. Test dataset used to evaluate the
-model, not used with aicc and \code{\linkS4class{SDMmodelCV}} objects,
+model, not used with aicc and \linkS4class{SDMmodelCV} objects,
 default is \code{NULL}.}
 
 \item{pop}{numeric. Size of the population, default is 20.}

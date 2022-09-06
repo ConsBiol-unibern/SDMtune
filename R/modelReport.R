@@ -8,8 +8,7 @@
 #' @param test \linkS4class{SWD} object with the test locations, default is
 #' `NULL`.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
-#' methods, possible values are "cloglog" and "logistic", default is
-#' \code{NULL}.
+#' methods, possible values are "cloglog" and "logistic", default is `NULL`.
 #' @param response_curves logical, if `TRUE` it plots the response curves in the
 #' html output, default is `FALSE`.
 #' @param only_presence logical, if `TRUE` it uses only the range of the

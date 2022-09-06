@@ -21,11 +21,11 @@ The value of the TSS of the given model.
 Compute the max TSS of a given model.
 }
 \details{
-For \code{\linkS4class{SDMmodelCV}} objects, the function computes
-the mean of the training TSS values of the k-folds. If \code{test = TRUE} it
-computes the mean of the testing TSS values for the k-folds. If test is an
-\code{\linkS4class{SWD}} object, it computes the mean TSS values for the
-provided testing dataset.
+For \linkS4class{SDMmodelCV} objects, the function computes the
+mean of the training TSS values of the k-folds. If \code{test = TRUE} it computes
+the mean of the testing TSS values for the k-folds. If test is an
+\linkS4class{SWD} object, it computes the mean TSS values for the provided
+testing dataset.
 }
 \examples{
 # Acquire environmental variables

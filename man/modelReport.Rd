@@ -29,8 +29,7 @@ The folder is created in the working directory.}
 \code{NULL}.}
 
 \item{type}{character. The output type used for "Maxent" and "Maxnet"
-methods, possible values are "cloglog" and "logistic", default is
-\code{NULL}.}
+methods, possible values are "cloglog" and "logistic", default is \code{NULL}.}
 
 \item{response_curves}{logical, if \code{TRUE} it plots the response curves in the
 html output, default is \code{FALSE}.}
