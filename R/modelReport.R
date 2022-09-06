@@ -167,9 +167,9 @@ modelReport <- function(model,
   )
   path <- file.path(params$plot_folder, "ROC_curve.png")
   element <- stringr::str_glue("
-  <a href='{path}'>
-    <img src='{path}' class='fig-centered'>
-  </a>
+    <a href='{path}'>
+      <img src='{path}' class='fig-centered'>
+    </a>
   ")
 
   return(htmltools::HTML(element))
@@ -247,11 +247,11 @@ modelReport <- function(model,
                                    device = "png",
                                    path = params$plot_folder))
   path <- file.path(params$plot_folder, "map.png")
-  element <- paste0("<a href=\"",
-                    path,
-                    "\"><img src=\"",
-                    path,
-                    "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
+  element <- stringr::str_glue("
+    <a href='{path}'>
+      <img src='{path}' class='fig-centered'>
+    </a>
+  ")
 
   return(htmltools::HTML(element))
 }
