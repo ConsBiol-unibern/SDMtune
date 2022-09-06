@@ -17,6 +17,7 @@ params:
   clamp: true
   permut: 10
   factors: null
+  verbose: true
 ---
 
 ```{r setup, echo=F, message=FALSE}

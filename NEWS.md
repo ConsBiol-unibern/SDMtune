@@ -1,5 +1,5 @@
 # SDMtune 1.1.6.9000
-* `prepareSWD`, `reduceVariable()`, and `varSel()` gain the argument `verbose` to disable informative messages
+* `modelReport()`, `prepareSWD`, `reduceVariable()`, and `varSel()` gain the argument `verbose` to disable informative messages
 * `gridSearch()`, `optimizeModel()`, `randomSearch()`, `reduceVar()`, and `varSel()` gain the argument `interactive` to disable the interactive real-time chart 
 
 Bug fixes:

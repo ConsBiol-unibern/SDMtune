@@ -20,8 +20,9 @@
 #' @param clamp logical for clumping during prediction, used for response curves
 #' and for the prediction map, default is `TRUE`.
 #' @param permut integer. Number of permutations, default is 10.
-#' @param factors list with levels for factor variables,
-#' see \link[raster]{predict}
+#' @param factors list with levels for factor variables, see
+#' \link[raster]{predict}.
+#' @param verbose logical, if `TRUE` prints informative messages.
 #'
 #' @details The function produces a report similar to the one created by MaxEnt
 #' software.
@@ -72,7 +73,8 @@ modelReport <- function(model,
                         env = NULL,
                         clamp = TRUE,
                         permut = 10,
-                        factors = NULL) {
+                        factors = NULL,
+                        verbose = TRUE) {
 
   if (!requireNamespace("kableExtra", quietly = TRUE)) {
     cli::cli_abort(
@@ -107,16 +109,17 @@ modelReport <- function(model,
     args <- c(paste0("--metadata=title:\"", title, "\""))
     output_file <- paste0(species, ".html")
 
-    cli::cli_text(
-      "\f",
-      cli::rule(
-        left = "Model Report - method: {class(model@model)}",
-        right = cli::style_italic(model@data@species),
-        line_col = "#4bc0c0",
-        col = "#f58410",
-        width = 80
+    if (verbose)
+      cli::cli_text(
+        "\f",
+        cli::rule(
+          left = "Model Report - method: {class(model@model)}",
+          right = cli::style_italic(model@data@species),
+          line_col = "#4bc0c0",
+          col = "#f58410",
+          width = 80
+        )
       )
-    )
 
     rmarkdown::render(template,
                       output_file = output_file,
@@ -132,7 +135,8 @@ modelReport <- function(model,
                                     only_presence = only_presence,
                                     clamp = clamp,
                                     permut = permut,
-                                    factors = factors),
+                                    factors = factors,
+                                    verbose = verbose),
                       output_options = list(pandoc_args = args),
                       quiet = TRUE
                       )
@@ -142,7 +146,10 @@ modelReport <- function(model,
 }
 
 .save_report_files <- function(params) {
-  cli::cli_progress_step("Save files")
+
+  if (params$verbose)
+    cli::cli_progress_step("Save files")
+
   saveRDS(params$model, file = file.path(params$folder, "model.Rds"))
   swd2csv(params$model@data, file.path(params$folder, "train.csv"))
   if (!is.null(params$test))
@@ -150,7 +157,10 @@ modelReport <- function(model,
 }
 
 .plot_report_roc <- function(params) {
-  cli::cli_progress_step("Plot ROC curve")
+
+  if (params$verbose)
+    cli::cli_progress_step("Plot ROC curve")
+
   plot <- plotROC(params$model, test = params$test)
   suppressMessages(
     ggplot2::ggsave(filename = "ROC_curve.png",
@@ -166,7 +176,10 @@ modelReport <- function(model,
 }
 
 .compute_report_thresholds <- function(params) {
-  cli::cli_progress_step("Compute thresholds")
+
+  if (params$verbose)
+    cli::cli_progress_step("Compute thresholds")
+
   knitr::kable(thresholds(params$model, type = params$type, test = params$test),
                digits = 20) %>%
     kableExtra::kable_styling(
@@ -175,7 +188,10 @@ modelReport <- function(model,
 }
 
 .plot_report_response_curves <- function(params, type) {
-  cli::cli_progress_step("Plot {type} response curves")
+
+  if (params$verbose)
+    cli::cli_progress_step("Plot {type} response curves")
+
   vars <- sort(colnames(params$model@data@data))
   elements <- c()
 
@@ -209,7 +225,10 @@ modelReport <- function(model,
 }
 
 .make_report_prediction <- function(params) {
-  cli::cli_progress_step("Predict distribution map")
+
+  if (params$verbose)
+    cli::cli_progress_step("Predict distribution map")
+
   pred <- predict(params$model,
                   data = params$env,
                   type = params$type,
@@ -237,7 +256,10 @@ modelReport <- function(model,
 }
 
 .compute_report_variable_importance <- function(params) {
-  cli::cli_progress_step("Compute variable importance")
+
+  if (params$verbose)
+    cli::cli_progress_step("Compute variable importance")
+
   knitr::kable(suppressMessages(varImp(params$model, params$permut))) %>%
     kableExtra::kable_styling(
       bootstrap_options = c("striped", "hover", "condensed", "responsive"),
@@ -246,7 +268,10 @@ modelReport <- function(model,
 }
 
 .compute_report_jk <- function(params, test) {
-  cli::cli_progress_step("Run Jackknife test")
+
+  if (params$verbose)
+    cli::cli_progress_step("Run Jackknife test")
+
   jk <- suppressMessages(doJk(params$model, metric = "auc", test = params$test))
   plot <- plotJk(jk, type = "train", ref = auc(params$model))
   suppressMessages(ggplot2::ggsave(filename = "train_jk.png",
@@ -283,7 +308,9 @@ modelReport <- function(model,
 }
 
 .write_report_model_settings <- function(params) {
-  cli::cli_progress_step("Write model settings")
+
+  if (params$verbose)
+    cli::cli_progress_step("Write model settings")
 
   # Train dataset
   text <- paste(

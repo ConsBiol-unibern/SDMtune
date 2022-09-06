@@ -15,7 +15,8 @@ modelReport(
   env = NULL,
   clamp = TRUE,
   permut = 10,
-  factors = NULL
+  factors = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -47,8 +48,10 @@ and for the prediction map, default is \code{TRUE}.}
 
 \item{permut}{integer. Number of permutations, default is 10.}
 
-\item{factors}{list with levels for factor variables,
-see \link[raster]{predict}}
+\item{factors}{list with levels for factor variables, see
+\link[raster]{predict}.}
+
+\item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }
 \description{
 Make a report that shows the main results.
