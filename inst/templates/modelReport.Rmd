@@ -8,6 +8,7 @@ params:
   model: model
   type: type
   folder: folder
+  plot_folder: plot_folder
   test: test
   response_curves: false
   only_presence: false
@@ -22,7 +23,6 @@ params:
 library(SDMtune)
 library(kableExtra)
 options(crayon.enabled = TRUE)
-plot_folder <- file.path(params$folder, "plots")
 ```
 
 **`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2020).
@@ -34,7 +34,7 @@ plot_folder <- file.path(params$folder, "plots")
 # ROC curve
 
 ```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
-.plot_report_roc(params, plot_folder)
+.plot_report_roc(params)
 ```
 
 # Thresholds
@@ -49,13 +49,13 @@ plot_folder <- file.path(params$folder, "plots")
 ### Marginal curves:
 
 ```{r marginal response, message=FALSE, echo=FALSE, warning=FALSE, eval=params$response_curves}
-.plot_report_response_curves(params, type = "marginal", plot_folder = plot_folder)
+.plot_report_response_curves(params, type = "marginal")
 ```
 
 ### Univariate curves:
 
 ```{r univariate response, message=FALSE, echo=FALSE, warning=FALSE, eval=params$response_curves}
-.plot_report_response_curves(params, type = "univariate", plot_folder = plot_folder)
+.plot_report_response_curves(params, type = "univariate")
 ```
 
 `r if(!params$response_curves) {"-->"}`
@@ -64,7 +64,7 @@ plot_folder <- file.path(params$folder, "plots")
 # Distribution map
 
 ```{r prediction, echo=FALSE, message=FALSE, eval=!is.null(env)}
-.make_report_prediction(params, plot_folder)
+.make_report_prediction(params)
 ```
 
 `r if(is.null(params$env)) {"-->"}`
@@ -79,7 +79,7 @@ plot_folder <- file.path(params$folder, "plots")
 # Jackknife test
 
 ```{r, echo=FALSE, message=FALSE, eval=params$jk}
-.compute_report_jk(params, test, plot_folder)
+.compute_report_jk(params, test)
 ```
 
 `r if(!params$jk) {"-->"}`

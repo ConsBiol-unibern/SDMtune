@@ -62,9 +62,16 @@
 #'             env = predictors, permut = 2)
 #' }
 #' }
-modelReport <- function(model, folder, test = NULL, type = NULL,
-                        response_curves = FALSE, only_presence = FALSE,
-                        jk = FALSE, env = NULL, clamp = TRUE, permut = 10,
+modelReport <- function(model,
+                        folder,
+                        test = NULL,
+                        type = NULL,
+                        response_curves = FALSE,
+                        only_presence = FALSE,
+                        jk = FALSE,
+                        env = NULL,
+                        clamp = TRUE,
+                        permut = 10,
                         factors = NULL) {
 
   if (!requireNamespace("kableExtra", quietly = TRUE)) {
@@ -93,8 +100,8 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
     template <- system.file("templates", "modelReport.Rmd", package = "SDMtune")
 
     folder <- file.path(getwd(), folder)
-    dir.create(file.path(folder, "plots"), recursive = TRUE,
-               showWarnings = FALSE)
+    plot_folder <- file.path(folder, "plots")
+    dir.create(plot_folder, recursive = TRUE, showWarnings = FALSE)
     species <- gsub(" ", "_", tolower(model@data@species))
     title <- paste(class(model@model), "model for", model@data@species)
     args <- c(paste0("--metadata=title:\"", title, "\""))
@@ -114,15 +121,22 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
     rmarkdown::render(template,
                       output_file = output_file,
                       output_dir = folder,
-                      params = list(model = model, type = type, test = test,
-                                    folder = folder, env = env, jk = jk,
+                      params = list(model = model,
+                                    type = type,
+                                    test = test,
+                                    folder = folder,
+                                    plot_folder = plot_folder,
+                                    env = env,
+                                    jk = jk,
                                     response_curves = response_curves,
                                     only_presence = only_presence,
-                                    clamp = clamp, permut = permut,
+                                    clamp = clamp,
+                                    permut = permut,
                                     factors = factors),
                       output_options = list(pandoc_args = args),
                       quiet = TRUE
                       )
+
     utils::browseURL(file.path(folder, output_file))
   }
 }
@@ -135,16 +149,16 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
     swd2csv(params$test, file.path(params$folder, "test.csv"))
 }
 
-.plot_report_roc <- function(params, plot_folder) {
+.plot_report_roc <- function(params) {
   cli::cli_progress_step("Plot ROC curve")
   plot <- plotROC(params$model, test = params$test)
   suppressMessages(
     ggplot2::ggsave(filename = "ROC_curve.png",
                     plot = plot,
                     device = "png",
-                    path = plot_folder)
+                    path = params$plot_folder)
   )
-  path <- file.path(plot_folder, "ROC_curve.png")
+  path <- file.path(params$plot_folder, "ROC_curve.png")
   element <- paste0("<a href=\"",
                     path, "\"><img src=\"",
                     path, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
@@ -160,7 +174,7 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
     )
 }
 
-.plot_report_response_curves <- function(params, type, plot_folder) {
+.plot_report_response_curves <- function(params, type) {
   cli::cli_progress_step("Plot {type} response curves")
   vars <- sort(colnames(params$model@data@data))
   elements <- c()
@@ -176,8 +190,8 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
     suppressMessages(ggplot2::ggsave(filename = fname,
                                      plot = plot,
                                      device = "png",
-                                     path = plot_folder))
-    path <- file.path(plot_folder, fname)
+                                     path = params$plot_folder))
+    path <- file.path(params$plot_folder, fname)
     element <- paste0("<a href=\"",
                       path, "\"><figure><img src=\"",
                       path,
@@ -194,7 +208,7 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
   return(htmltools::HTML(elements))
 }
 
-.make_report_prediction <- function(params, plot_folder) {
+.make_report_prediction <- function(params) {
   cli::cli_progress_step("Predict distribution map")
   pred <- predict(params$model,
                   data = params$env,
@@ -211,8 +225,8 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
   suppressMessages(ggplot2::ggsave(filename = "map.png",
                                    plot = plot,
                                    device = "png",
-                                   path = plot_folder))
-  path <- file.path(plot_folder, "map.png")
+                                   path = params$plot_folder))
+  path <- file.path(params$plot_folder, "map.png")
   element <- paste0("<a href=\"",
                     path,
                     "\"><img src=\"",
@@ -231,23 +245,23 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
     )
 }
 
-.compute_report_jk <- function(params, test, plot_folder) {
+.compute_report_jk <- function(params, test) {
   cli::cli_progress_step("Run Jackknife test")
   jk <- suppressMessages(doJk(params$model, metric = "auc", test = params$test))
   plot <- plotJk(jk, type = "train", ref = auc(params$model))
   suppressMessages(ggplot2::ggsave(filename = "train_jk.png",
                                    plot = plot,
                                    device = "png",
-                                   path = plot_folder))
+                                   path = params$plot_folder))
 
   if (!is.null(test)) {
     plot <- plotJk(jk, type = "test", ref = auc(params$model, test))
     suppressMessages(ggplot2::ggsave(filename = "test_jk.png",
                                      plot = plot,
                                      device = "png",
-                                     path = plot_folder))
-    path1 <- file.path(plot_folder, "train_jk.png")
-    path2 <- file.path(plot_folder, "test_jk.png")
+                                     path = params$plot_folder))
+    path1 <- file.path(params$plot_folder, "train_jk.png")
+    path2 <- file.path(params$plot_folder, "test_jk.png")
     element <- paste0("<a href=\"",
                       path1,
                       "\"><img src=\"",
