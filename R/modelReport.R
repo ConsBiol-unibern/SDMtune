@@ -105,8 +105,6 @@ modelReport <- function(model,
     plot_folder <- file.path(folder, "plots")
     dir.create(plot_folder, recursive = TRUE, showWarnings = FALSE)
     species <- gsub(" ", "_", tolower(model@data@species))
-    title <- paste(class(model@model), "model for", model@data@species)
-    args <- c(paste0("--metadata=title:\"", title, "\""))
     output_file <- paste0(species, ".html")
 
     if (verbose)
@@ -137,7 +135,6 @@ modelReport <- function(model,
                                     permut = permut,
                                     factors = factors,
                                     verbose = verbose),
-                      output_options = list(pandoc_args = args),
                       quiet = TRUE
                       )
 
