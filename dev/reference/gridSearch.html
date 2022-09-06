@@ -129,20 +129,19 @@ values are: "auc", "tss" and "aicc".</p></dd>
 
 <dt>test</dt>
 <dd><p><a href="SWD-class.html">SWD</a> object. Testing dataset used to evaluate the
-model, not used with <a href="aicc.html">aicc</a> and <a href="SDMmodelCV-class.html">SDMmodelCV</a> objects,
-default is <code>NULL</code>.</p></dd>
+model, not used with <a href="aicc.html">aicc</a> and <a href="SDMmodelCV-class.html">SDMmodelCV</a> objects.</p></dd>
 
 
 <dt>env</dt>
 <dd><p><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a> containing the environmental variables, used
-only with "aicc", default is <code>NULL</code>.</p></dd>
+only with "aicc".</p></dd>
 
 
 <dt>save_models</dt>
 <dd><p>logical, if <code>FALSE</code> the models are not saved and the
 output contains only a data frame with the metric values for each
-hyperparameter combination. Default is <code>TRUE</code>, set it to <code>FALSE</code> when there
-are many combinations to avoid R crashing for memory overload.</p></dd>
+hyperparameter combination. Set it to <code>FALSE</code> when there are many
+combinations to avoid R crashing for memory overload.</p></dd>
 
 
 <dt>interactive</dt>
@@ -188,10 +187,10 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
 <span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[42ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[45ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[94ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[106ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -207,15 +206,16 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run the function using the AUC as metric</span></span></span>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">gridSearch</span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  5s - 00:00:3.5</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:06</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  5s - 00:00:3.3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  1s - 00:00:5.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:5.6</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8643587 0.8486887 0.01567000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8725369 0.8464238 0.02611312</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8598894 0.8493262 0.01056313</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8680450 0.8509887 0.01705625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8615744 0.8598237 0.001750625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8702488 0.8644837 0.005765000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8582125 0.8529988 0.005213750</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8645081 0.8558138 0.008694375</span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">models</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
@@ -287,27 +287,27 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
 <span class="r-in"><span><span class="co"># Order rusults by highest test AUC</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8680450 0.8509887 0.01705625</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8598894 0.8493262 0.01056313</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8643587 0.8486887 0.01567000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8725369 0.8464238 0.02611312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8702488 0.8644837 0.005765000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8615744 0.8598237 0.001750625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8645081 0.8558138 0.008694375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8582125 0.8529988 0.005213750</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run the function using the AICc as metric and without saving the trained</span></span></span>
 <span class="r-in"><span><span class="co"># models, helpful when numerous hyperparameters are tested to avoid memory</span></span></span>
 <span class="r-in"><span><span class="co"># problems</span></span></span>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">gridSearch</span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"aicc"</span>, env <span class="op">=</span> <span class="va">predictors</span>,</span></span>
 <span class="r-in"><span>                     save_models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  5s - 00:00:3.5</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  2s - 00:00:6.4</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:6.4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  5s - 00:00:3.4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  2s - 00:00:6.5</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:6.5</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg     AICc delta_AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5267.091   9.435296</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5257.656   0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5275.321  17.665130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5265.083   7.427105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5272.238    7.48176</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5287.067   22.31103</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5282.247   17.49148</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5264.756    0.00000</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

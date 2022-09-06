@@ -134,37 +134,35 @@ values are: "auc", "tss" and "aicc".</p></dd>
 
 <dt>test</dt>
 <dd><p><a href="SWD-class.html">SWD</a> object. Testing dataset used to evaluate
-the model, not used with aicc and <a href="SDMmodelCV-class.html">SDMmodelCV</a> objects, default
-is <code>NULL</code>.</p></dd>
+the model, not used with aicc and <a href="SDMmodelCV-class.html">SDMmodelCV</a> objects.</p></dd>
 
 
 <dt>pop</dt>
-<dd><p>numeric. Size of the population, default is 5.</p></dd>
+<dd><p>numeric. Size of the population.</p></dd>
 
 
 <dt>gen</dt>
-<dd><p>numeric. Number of generations, default is 20.</p></dd>
+<dd><p>numeric. Number of generations.</p></dd>
 
 
 <dt>env</dt>
 <dd><p><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a> containing the environmental variables, used
-only with "aicc", default is <code>NULL</code>.</p></dd>
+only with "aicc".</p></dd>
 
 
 <dt>keep_best</dt>
 <dd><p>numeric. Percentage of the best models in the population to
-be retained during each iteration, expressed as decimal number. Default
-is 0.4.</p></dd>
+be retained during each iteration, expressed as decimal number.</p></dd>
 
 
 <dt>keep_random</dt>
 <dd><p>numeric. Probability of retaining the excluded models
-during each iteration, expressed as decimal number. Default is 0.2.</p></dd>
+during each iteration, expressed as decimal number.</p></dd>
 
 
 <dt>mutation_chance</dt>
 <dd><p>numeric. Probability of mutation of the child models,
-expressed as decimal number. Default is 0.4.</p></dd>
+expressed as decimal number.</p></dd>
 
 
 <dt>interactive</dt>
@@ -173,7 +171,7 @@ expressed as decimal number. Default is 0.4.</p></dd>
 
 <dt>seed</dt>
 <dd><p>numeric. The value used to set the seed to have consistent
-results, default is <code>NULL</code>.</p></dd>
+results.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -217,10 +215,10 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
 <span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[43ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[47ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[95ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[105ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
