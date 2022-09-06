@@ -116,8 +116,7 @@ modelReport <- function(model,
           line_col = "#4bc0c0",
           col = "#f58410",
           width = 80
-        ),
-        "\f"
+        )
       )
 
     rmarkdown::render(template,
@@ -146,6 +145,7 @@ modelReport <- function(model,
 .save_report_files <- function(params) {
 
   if (params$verbose)
+    cli::cli_text("\n")
     cli::cli_progress_step("Save files")
 
   saveRDS(params$model, file = file.path(params$folder, "model.Rds"))
@@ -315,6 +315,7 @@ modelReport <- function(model,
 
   # Train dataset
   text <- stringr::str_glue("
+
     * Model type: {class(params$model@model)}
     * Train locations: {nrow(params$model@data@data)}
         * presence: {sum(params$model@data@pa == 1)}
@@ -344,13 +345,18 @@ modelReport <- function(model,
 
   if (inherits(params$model@model, c("Maxent", "Maxnet"))) {
     # Maxent and Maxnet
-    #TODO: check if predictions
     text <- stringr::str_glue("
       {text}
       * Output type: {params$type}
       * Feature Class combination: {params$model@model@fc}
       * Regularization multiplier: {params$model@model@reg}
-      * Do clamping: {params$clamp}
+    ")
+
+    if (!is.null(params$env))
+      # Show clamping only if predictions are calculated
+      text <- stringr::str_glue("
+      {text}
+      * Do clamping for predictions: {params$clamp}
     ")
 
     if (inherits(params$model@model, "Maxent")) {
