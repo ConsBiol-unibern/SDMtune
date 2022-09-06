@@ -27,34 +27,20 @@ plot_folder <- file.path(params$folder, "plots")
 
 **`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2020).
 
-```{r, echo=FALSE, message=FALSE}
-message("\r- Saving files...", appendLF = FALSE)
-saveRDS(params$model, file = file.path(params$folder, "model.Rds"))
-swd2csv(params$model@data, file.path(params$folder, "train.csv"))
-if (!is.null(params$test))
-  swd2csv(params$test, file.path(params$folder, "test.csv"))
-message("\r", cli::col_green(cli::symbol$tick), " Saving files...")
+```{r save files, echo=FALSE, message=FALSE}
+.save_report_files(params)
 ```
 
 # ROC curve
 
 ```{r plot ROC, echo=FALSE, fig.align="center", message=FALSE}
-message("- Plotting ROC curve...", appendLF = FALSE)
-plot <- plotROC(params$model, test = params$test)
-suppressMessages(ggplot2::ggsave(filename = "ROC_curve.png", plot = plot, device = "png", path = plot_folder))
-path <- file.path(plot_folder, "ROC_curve.png")
-element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
-htmltools::HTML(element)
-message("\r", cli::col_green(cli::symbol$tick), " Plotting ROC curve...")
+.plot_report_roc(params, plot_folder)
 ```
 
 # Thresholds
 
-```{r, echo=FALSE, message=FALSE}
-message("- Computing thresholds...", appendLF = FALSE)
-knitr::kable(thresholds(params$model, type = params$type, test = params$test), digits = 20) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-message("\r", cli::col_green(cli::symbol$tick), " Computing thresholds...")
+```{r thresholds, echo=FALSE, message=FALSE}
+.compute_report_thresholds(params)
 ```
 
 `r if(!params$response_curves) {"<!--"}`
@@ -62,157 +48,49 @@ message("\r", cli::col_green(cli::symbol$tick), " Computing thresholds...")
 
 ### Marginal curves:
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-if (params$response_curves) {
-  message("- Plotting marginal response curves...", appendLF = FALSE)
-  vars <- sort(colnames(params$model@data@data))
-  elements <- c()
-  for (var in vars) {
-    plot <- plotResponse(params$model, var, type = params$type, only_presence = params$only_presence, marginal = TRUE, rug = TRUE, color = "#4bc0c0")
-    suppressMessages(ggplot2::ggsave(filename = paste0(var, "_marginal.png"), plot = plot, device = "png", path = plot_folder))
-    path <- file.path(plot_folder, paste0(var, "_marginal.png"))
-    element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
-    elements <- c(elements, element)
-  }
-  elements <- paste(elements, collapse = "")
-  htmltools::HTML(elements)
-}
+```{r marginal response, message=FALSE, echo=FALSE, warning=FALSE, eval=params$response_curves}
+.plot_report_response_curves(params, type = "marginal", plot_folder = plot_folder)
 ```
 
 ### Univariate curves:
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-if (params$response_curves) {
-  message("\r", cli::col_green(cli::symbol$tick), " Plotting marginal response curves...")
-  message("- Plotting univariate response curves...", appendLF = FALSE)
-  elements <- c("")
-  for (var in vars) {
-    plot <- suppressMessages(plotResponse(params$model, var, type = params$type, only_presence = params$only_presence, marginal = FALSE, rug = TRUE, color = "#4bc0c0"))
-    suppressMessages(ggplot2::ggsave(filename = paste0(var, ".png"), plot = plot, device = "png", path = plot_folder))
-    path <- paste0(plot_folder, "/", var, ".png")
-    element <- paste0("<a href=\"", path, "\"><figure><img src=\"", path, "\" title=\"", var, "\"><figcaption>", var, "</figcaption></figure></a>")
-    elements <- c(elements, element)
-  }
-  elements <- c(elements, "<p></p>")
-  elements <- paste(elements, collapse = "")
-  htmltools::HTML(elements)
-}
-```
-```{r, echo=FALSE, message=FALSE}
-# Leave this chunk outside to avoid deleting html...
-if (params$response_curves) {
-  message("\r", cli::col_green(cli::symbol$tick), " Plotting univariate response curves...")
-}
+```{r univariate response, message=FALSE, echo=FALSE, warning=FALSE, eval=params$response_curves}
+.plot_report_response_curves(params, type = "univariate", plot_folder = plot_folder)
 ```
 
 `r if(!params$response_curves) {"-->"}`
 
 `r if(is.null(params$env)) {"<!--"}`
-# Map
+# Distribution map
 
-```{r, echo=FALSE, message=FALSE}
-if (!is.null(env)) {
-  message("- Predicting distribution map...", appendLF = FALSE)
-  pred <- predict(params$model, data = params$env, type = params$type, filename = paste0(params$folder, "/map"), overwrite = TRUE, clamp = params$clamp, factors = params$factors)
-  plot <- plotPred(pred, lt = params$type, hr = TRUE, colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
-suppressMessages(ggplot2::ggsave(filename = "map.png", plot = plot, device = "png", path = plot_folder))
-path <- file.path(plot_folder, "map.png")
-element <- paste0("<a href=\"", path, "\"><img src=\"", path, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
-htmltools::HTML(element)
-}
-```
-```{r, echo=FALSE, message=FALSE}
-if (!is.null(env))
-  message("\r", cli::col_green(cli::symbol$tick), " Predicting distribution map...")
+```{r prediction, echo=FALSE, message=FALSE, eval=!is.null(env)}
+.make_report_prediction(params, plot_folder)
 ```
 
 `r if(is.null(params$env)) {"-->"}`
 
 # Variable importance
 
-```{r, echo=FALSE, message=FALSE}
-message("- Computing variable importance...", appendLF = FALSE)
-knitr::kable(suppressMessages(varImp(params$model, params$permut))) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE)
-message("\r", cli::col_green(cli::symbol$tick), " Computing variable importance...")
+```{r variable importance, echo=FALSE, message=FALSE}
+.compute_report_variable_importance(params)
 ```
 
 `r if(!params$jk) {"<!--"}`
 # Jackknife test
 
-```{r, echo=FALSE, message=FALSE}
-if (params$jk) {
-  message("- Running Jackknife test...", appendLF = FALSE)
-  jk <- suppressMessages(doJk(params$model, metric = "auc", test = params$test))
-  plot <- plotJk(jk, type = "train", ref = auc(params$model))
-  suppressMessages(ggplot2::ggsave(filename = "train_jk.png", plot = plot, device = "png", path = plot_folder))
-  if (!is.null(test)) {
-    plot <- plotJk(jk, type = "test", ref = auc(params$model, test))
-    suppressMessages(ggplot2::ggsave(filename = "test_jk.png", plot = plot, device = "png", path = plot_folder))
-    path1 <- file.path(plot_folder, "train_jk.png")
-    path2 <- file.path(plot_folder, "test_jk.png")
-    element <- paste0("<a href=\"", path1, "\"><img src=\"", path1, "\" width=50%></a><a href=\"", path2, "\"><img src=\"", path2, "\" width=50%></a>")
-  } else {
-    element <- paste0("<a href=\"", path1, "\"><img src=\"", path1, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
-  }
-  htmltools::HTML(element)
-}
-```
-```{r, echo=FALSE, message=FALSE}
-# Leave this chunk outside to avoid deleting html...
-if (params$jk) {
-  message("\r", cli::col_green(cli::symbol$tick), " Running Jackknife test...")
-}
+```{r, echo=FALSE, message=FALSE, eval=params$jk}
+.compute_report_jk(params, test, plot_folder)
 ```
 
 `r if(!params$jk) {"-->"}`
 
 # Model settings
-```{r, echo=FALSE, message=FALSE}
-message("- Writing model settings...", appendLF = FALSE)
-```
 
 Shown below the settings used to train the model:
 
-* Model type: `r class(params$model@model)`
-* Train locations: `r nrow(params$model@data@data)`
-    * presence: `r sum(params$model@data@pa == 1)`
-    * absence/background locations: `r sum(params$model@data@pa == 0)`
-`r if(!is.null(params$test)){paste("\n* Test locations:", nrow(params$test@data), "\n    * presence:", sum(params$test@pa == 1), "\n    * absence/background:", sum(params$test@pa == 0))}`
-* Continuous variables: `r names(Filter(is.numeric, params$model@data@data))`
-* Categorical variables: `r names(Filter(is.factor, params$model@data@data))`
-```{r MEs, eval=class(params$model@model) %in% c("Maxent", "Maxnet"), results="asis", message=FALSE, echo=FALSE}
-cat("* Output type: ", params$type, "\n")
-cat("* Feature Class combination: ", params$model@model@fc, "\n")
-cat("* Regularization multiplier: ", params$model@model@reg, "\n")
-cat("* Do clamping: ", params$clamp, "\n")
+```{r model settings, echo=FALSE, message=FALSE, results='asis'}
+.write_report_model_settings(params)
 ```
-```{r Maxent, eval=class(params$model@model) == "Maxent", results="asis", message=FALSE, echo=FALSE}
-cat("* Extra arguments: ", paste(params$model@model@extra_args, collapse = ", "), "\n")
-```
-```{r ANN, eval=class(params$model@model) == "ANN", results="asis", message=FALSE, echo=FALSE}
-cat("* Size: ", params$model@model@size, "\n")
-cat("* Decay: ", params$model@model@decay, "\n")
-cat("* Rang: ", params$model@model@rang, "\n")
-cat("* Maxit: ", params$model@model@maxit, "\n")
-```
-```{r BRT, eval=class(params$model@model) == "BRT", results="asis", message=FALSE, echo=FALSE}
-cat("* Distribution: ", params$model@model@distribution, "\n")
-cat("* Number of trees: ", params$model@model@n.trees, "\n")
-cat("* Interaction depth: ", params$model@model@interaction.depth, "\n")
-cat("* Shrinkage: ", params$model@model@shrinkage, "\n")
-cat("* Bag fraction: ", params$model@model@bag.fraction, "\n")
-```
-```{r RF, eval=class(params$model@model) == "RF", results="asis", message=FALSE, echo=FALSE}
-cat("* Mtry: ", params$model@model@mtry, "\n")
-cat("* Number of trees: ", params$model@model@ntree, "\n")
-cat("* Node size: ", params$model@model@nodesize, "\n")
-```
-
-```{r, echo=FALSE, message=FALSE}
-message("\r", cli::col_green(cli::symbol$tick)," Writing model settings...")
-```
-
 
 # References
 

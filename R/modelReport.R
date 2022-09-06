@@ -126,3 +126,226 @@ modelReport <- function(model, folder, test = NULL, type = NULL,
     utils::browseURL(file.path(folder, output_file))
   }
 }
+
+.save_report_files <- function(params) {
+  cli::cli_progress_step("Save files")
+  saveRDS(params$model, file = file.path(params$folder, "model.Rds"))
+  swd2csv(params$model@data, file.path(params$folder, "train.csv"))
+  if (!is.null(params$test))
+    swd2csv(params$test, file.path(params$folder, "test.csv"))
+}
+
+.plot_report_roc <- function(params, plot_folder) {
+  cli::cli_progress_step("Plot ROC curve")
+  plot <- plotROC(params$model, test = params$test)
+  suppressMessages(
+    ggplot2::ggsave(filename = "ROC_curve.png",
+                    plot = plot,
+                    device = "png",
+                    path = plot_folder)
+  )
+  path <- file.path(plot_folder, "ROC_curve.png")
+  element <- paste0("<a href=\"",
+                    path, "\"><img src=\"",
+                    path, "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
+  htmltools::HTML(element)
+}
+
+.compute_report_thresholds <- function(params) {
+  cli::cli_progress_step("Compute thresholds")
+  knitr::kable(thresholds(params$model, type = params$type, test = params$test),
+               digits = 20) %>%
+    kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive")
+    )
+}
+
+.plot_report_response_curves <- function(params, type, plot_folder) {
+  cli::cli_progress_step("Plot {type} response curves")
+  vars <- sort(colnames(params$model@data@data))
+  elements <- c()
+
+  for (var in vars) {
+    plot <- plotResponse(params$model, var,
+                         type = params$type,
+                         only_presence = params$only_presence,
+                         marginal = ifelse(type == "marginal", TRUE, FALSE),
+                         rug = TRUE,
+                         color = "#4bc0c0")
+    fname <- paste0(var, "_", type, ".png")
+    suppressMessages(ggplot2::ggsave(filename = fname,
+                                     plot = plot,
+                                     device = "png",
+                                     path = plot_folder))
+    path <- file.path(plot_folder, fname)
+    element <- paste0("<a href=\"",
+                      path, "\"><figure><img src=\"",
+                      path,
+                      "\" title=\"",
+                      var,
+                      "\"><figcaption>",
+                      var,
+                      "</figcaption></figure></a>")
+    elements <- c(elements, element)
+  }
+
+  elements <- paste(elements, collapse = "")
+
+  return(htmltools::HTML(elements))
+}
+
+.make_report_prediction <- function(params, plot_folder) {
+  cli::cli_progress_step("Predict distribution map")
+  pred <- predict(params$model,
+                  data = params$env,
+                  type = params$type,
+                  filename = file.path(params$folder, "map"),
+                  overwrite = TRUE,
+                  clamp = params$clamp,
+                  factors = params$factors)
+  plot <- plotPred(pred,
+                   lt = params$type,
+                   hr = TRUE,
+                   colorramp = c("#2c7bb6", "#abd9e9",
+                                 "#ffffbf", "#fdae61", "#d7191c"))
+  suppressMessages(ggplot2::ggsave(filename = "map.png",
+                                   plot = plot,
+                                   device = "png",
+                                   path = plot_folder))
+  path <- file.path(plot_folder, "map.png")
+  element <- paste0("<a href=\"",
+                    path,
+                    "\"><img src=\"",
+                    path,
+                    "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
+
+  return(htmltools::HTML(element))
+}
+
+.compute_report_variable_importance <- function(params) {
+  cli::cli_progress_step("Compute variable importance")
+  knitr::kable(suppressMessages(varImp(params$model, params$permut))) %>%
+    kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+      full_width = FALSE
+    )
+}
+
+.compute_report_jk <- function(params, test, plot_folder) {
+  cli::cli_progress_step("Run Jackknife test")
+  jk <- suppressMessages(doJk(params$model, metric = "auc", test = params$test))
+  plot <- plotJk(jk, type = "train", ref = auc(params$model))
+  suppressMessages(ggplot2::ggsave(filename = "train_jk.png",
+                                   plot = plot,
+                                   device = "png",
+                                   path = plot_folder))
+
+  if (!is.null(test)) {
+    plot <- plotJk(jk, type = "test", ref = auc(params$model, test))
+    suppressMessages(ggplot2::ggsave(filename = "test_jk.png",
+                                     plot = plot,
+                                     device = "png",
+                                     path = plot_folder))
+    path1 <- file.path(plot_folder, "train_jk.png")
+    path2 <- file.path(plot_folder, "test_jk.png")
+    element <- paste0("<a href=\"",
+                      path1,
+                      "\"><img src=\"",
+                      path1,
+                      "\" width=50%></a><a href=\"",
+                      path2,
+                      "\"><img src=\"",
+                      path2,
+                      "\" width=50%></a>")
+  } else {
+    element <- paste0("<a href=\"",
+                      path1,
+                      "\"><img src=\"",
+                      path1,
+                      "\" style=\"width: 70%; display: block; margin-left: auto; margin-right: auto;\"></a>")
+  }
+
+  return(htmltools::HTML(element))
+}
+
+.write_report_model_settings <- function(params) {
+  cli::cli_progress_step("Write model settings")
+
+  # Train dataset
+  text <- paste(
+    "* Model type:", class(params$model@model), "\n",
+    "* Train locations:", nrow(params$model@data@data), "\n",
+    "    * presence:", sum(params$model@data@pa == 1), "\n",
+    "    * absence/background:", sum(params$model@data@pa == 0), "\n"
+  )
+
+  # Test dataset
+  if (!is.null(params$test)) {
+    text <- paste(
+      text,
+      "* Test locations:", nrow(params$test@data), "\n",
+      "    * presence:", sum(params$test@pa == 1), "\n",
+      "    * absence/background:", sum(params$test@pa == 0), "\n"
+    )
+  }
+
+  # Variables
+  text <- paste(
+    text,
+    "* Continuous variables:",
+    paste(names(Filter(is.numeric, params$model@data@data)), collapse = ", "),
+    "\n",
+    "* Categorical variables:",
+    paste(names(Filter(is.factor, params$model@data@data)), collape = ", "),
+    "\n"
+  )
+
+  if (inherits(params$model@model, c("Maxent", "Maxnet"))) {
+    # Maxent and Maxnet
+    text <- paste(
+      text,
+      "* Output type:", params$type, "\n",
+      "* Feature Class combination:", params$model@model@fc, "\n",
+      "* Regularization multiplier:", params$model@model@reg, "\n",
+      "* Do clamping:", params$clamp, "\n" #TODO: check if predictions
+    )
+
+    if (inherits(params$model@model, "Maxent"))
+      # Only Maxent
+      text <- paste(
+        text,
+        "* Extra arguments:",
+        paste(params$model@model@extra_args, collapse = ", "),
+        "\n"
+      )
+  } else if (inherits(params$model@model, "ANN")) {
+    #  ANN
+    text <- paste(
+      text,
+      "* Size:", params$model@model@size, "\n",
+      "* Decay:", params$model@model@decay, "\n",
+      "* Rang:", params$model@model@rang, "\n",
+      "* Maxit:", params$model@model@maxit, "\n"
+    )
+  } else if (inherits(params$model@model, "BRT")) {
+    # BRT
+    text <- paste(
+      text,
+      "* Distribution:", params$model@model@distribution, "\n",
+      "* Number of trees:", params$model@model@n.trees, "\n",
+      "* Interaction depth:", params$model@model@interaction.depth, "\n",
+      "* Shrinkage:", params$model@model@shrinkage, "\n",
+      "* Bag fraction:", params$model@model@bag.fraction, "\n"
+    )
+  } else {
+    # RF
+    text <- paste(
+      text,
+      "* Mtry:", params$model@model@mtry, "\n",
+      "* Number of trees:", params$model@model@ntree, "\n",
+      "* Node size:", params$model@model@nodesize, "\n"
+    )
+  }
+
+  return(cat(text))
+}
