@@ -314,79 +314,80 @@ modelReport <- function(model,
     cli::cli_progress_step("Write model settings")
 
   # Train dataset
-  text <- paste(
-    "* Model type:", class(params$model@model), "\n",
-    "* Train locations:", nrow(params$model@data@data), "\n",
-    "    * presence:", sum(params$model@data@pa == 1), "\n",
-    "    * absence/background:", sum(params$model@data@pa == 0), "\n"
-  )
+  text <- stringr::str_glue("
+    * Model type: {class(params$model@model)}
+    * Train locations: {nrow(params$model@data@data)}
+        * presence: {sum(params$model@data@pa == 1)}
+        * absence/background: {sum(params$model@data@pa == 0)}
+  ")
 
   # Test dataset
   if (!is.null(params$test)) {
-    text <- paste(
-      text,
-      "* Test locations:", nrow(params$test@data), "\n",
-      "    * presence:", sum(params$test@pa == 1), "\n",
-      "    * absence/background:", sum(params$test@pa == 0), "\n"
-    )
+    text <- stringr::str_glue("
+      {text}
+      * Test locations: {nrow(params$test@data)}
+          * presence: {sum(params$test@pa == 1)}
+          * absence/background: {sum(params$test@pa == 0)}
+    ")
   }
 
   # Variables
-  text <- paste(
-    text,
-    "* Continuous variables:",
-    paste(names(Filter(is.numeric, params$model@data@data)), collapse = ", "),
-    "\n",
-    "* Categorical variables:",
-    paste(names(Filter(is.factor, params$model@data@data)), collape = ", "),
-    "\n"
-  )
+  cont_vars <- paste(names(Filter(is.numeric, params$model@data@data)),
+                     collapse = ", ")
+  cat_vars <- paste(names(Filter(is.factor, params$model@data@data)),
+                    collapse = ", ")
+  text <- stringr::str_glue("
+    {text}
+    * Continuous variables: {cont_vars}
+    * Categorical variables: {cat_vars}
+  ")
 
   if (inherits(params$model@model, c("Maxent", "Maxnet"))) {
     # Maxent and Maxnet
-    text <- paste(
-      text,
-      "* Output type:", params$type, "\n",
-      "* Feature Class combination:", params$model@model@fc, "\n",
-      "* Regularization multiplier:", params$model@model@reg, "\n",
-      "* Do clamping:", params$clamp, "\n" #TODO: check if predictions
-    )
+    #TODO: check if predictions
+    text <- stringr::str_glue("
+      {text}
+      * Output type: {params$type}
+      * Feature Class combination: {params$model@model@fc}
+      * Regularization multiplier: {params$model@model@reg}
+      * Do clamping: {params$clamp}
+    ")
 
-    if (inherits(params$model@model, "Maxent"))
+    if (inherits(params$model@model, "Maxent")) {
       # Only Maxent
-      text <- paste(
-        text,
-        "* Extra arguments:",
-        paste(params$model@model@extra_args, collapse = ", "),
-        "\n"
-      )
+      extra_args <- paste(params$model@model@extra_args, collapse = ", ")
+      text <- stringr::str_glue("
+        {text},
+        * Extra arguments: {extra_args}
+      ")
+    }
   } else if (inherits(params$model@model, "ANN")) {
     #  ANN
-    text <- paste(
-      text,
-      "* Size:", params$model@model@size, "\n",
-      "* Decay:", params$model@model@decay, "\n",
-      "* Rang:", params$model@model@rang, "\n",
-      "* Maxit:", params$model@model@maxit, "\n"
-    )
+    text <- stringr::str_glue("
+      {text}
+      * Size: {params$model@model@size}
+      * Decay: {params$model@model@decay}
+      * Rang: {params$model@model@rang}
+      * Maxit: {params$model@model@maxit}
+    ")
   } else if (inherits(params$model@model, "BRT")) {
     # BRT
-    text <- paste(
+    text <- stringr::str_glue("
       text,
-      "* Distribution:", params$model@model@distribution, "\n",
-      "* Number of trees:", params$model@model@n.trees, "\n",
-      "* Interaction depth:", params$model@model@interaction.depth, "\n",
-      "* Shrinkage:", params$model@model@shrinkage, "\n",
-      "* Bag fraction:", params$model@model@bag.fraction, "\n"
-    )
+      * Distribution: {params$model@model@distribution}
+      * Number of trees: {params$model@model@n.trees}
+      * Interaction depth: {params$model@model@interaction.depth}
+      * Shrinkage: {params$model@model@shrinkage}
+      * Bag fraction: {params$model@model@bag.fraction}
+    ")
   } else {
     # RF
-    text <- paste(
+    text <- stringr::str_glue("
       text,
-      "* Mtry:", params$model@model@mtry, "\n",
-      "* Number of trees:", params$model@model@ntree, "\n",
-      "* Node size:", params$model@model@nodesize, "\n"
-    )
+      * Mtry: {params$model@model@mtry}
+      * Number of trees: {params$model@model@ntree}
+      * Node size: {params$model@model@nodesize}
+    ")
   }
 
   return(cat(text))
