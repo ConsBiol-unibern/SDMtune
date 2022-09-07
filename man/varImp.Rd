@@ -4,12 +4,14 @@
 \alias{varImp}
 \title{Variable Importance}
 \usage{
-varImp(model, permut = 10)
+varImp(model, permut = 10, progress = TRUE)
 }
 \arguments{
 \item{model}{\linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.}
 
 \item{permut}{integer. Number of permutations.}
+
+\item{progress}{logical, if \code{TRUE} shows a progress bar.}
 }
 \value{
 data.frame with the ordered permutation importance.

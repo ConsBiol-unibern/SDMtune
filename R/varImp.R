@@ -10,6 +10,7 @@
 #'
 #' @param model \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object.
 #' @param permut integer. Number of permutations.
+#' @param progress logical, if `TRUE` shows a progress bar.
 #'
 #' @details Note that it could return values slightly different from MaxEnt Java
 #' software due to a different random permutation.
@@ -59,7 +60,7 @@
 #' vi <- varImp(model, permut = 5)
 #' vi
 #' }
-varImp <- function(model, permut = 10) {
+varImp <- function(model, permut = 10, progress = TRUE) {
 
   vars <- colnames(model@data@data)
 
@@ -70,23 +71,25 @@ varImp <- function(model, permut = 10) {
     total <- length(vars) * l
   }
 
-  id <- cli::cli_progress_bar(
-    name = "Variable importance",
-    type = "iterator",
-    format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
-              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
-    total = total,
-    clear = FALSE
-  )
+  if (progress)
+    id <- cli::cli_progress_bar(
+      name = "Variable importance",
+      type = "iterator",
+      format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+                ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+      total = total,
+      clear = FALSE
+    )
 
   if (inherits(model, "SDMmodel")) {
     model_auc <- auc(model)
-    output <- .compute_permutation(model, model_auc, vars, permut, id)
+    output <- .compute_permutation(model, model_auc, vars, permut, id, progress)
   } else {
     pis <- matrix(nrow = length(vars), ncol = l)
     for (i in 1:l) {
       model_auc <- auc(model@models[[i]])
-      df <- .compute_permutation(model@models[[i]], model_auc, vars, permut, id)
+      df <- .compute_permutation(model@models[[i]], model_auc, vars, permut, id,
+                                 progress)
       index <- match(df[, 1], vars)
       pis[, i] <- df[order(index), 2]
     }
@@ -102,7 +105,7 @@ varImp <- function(model, permut = 10) {
   return(output)
 }
 
-.compute_permutation <- function(model, model_auc, vars, permut, id) {
+.compute_permutation <- function(model, model_auc, vars, permut, id, progress) {
 
   permuted_auc <- matrix(nrow = permut, ncol = length(vars))
   set.seed(25)
@@ -116,7 +119,9 @@ varImp <- function(model, permut = 10) {
       train_copy@data[, vars[j]] <- data
       permuted_auc[i, j] <- auc(model, train_copy)
     }
-    cli::cli_progress_update(id = id, .envir = parent.frame(n = 2))
+
+    if (progress)
+      cli::cli_progress_update(id = id, .envir = parent.frame(n = 2))
   }
 
   if (permut > 1) {
