@@ -1,9 +1,19 @@
 name: Bug Report
 description: File a bug report
 title: "[Bug]: "
-labels: ["bug"]
+labels: "bug"
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: "Steps to reproduce the bug"
+      value: |
+        library(SDMtune)
+      render: r
+    validations:
+      required: true
