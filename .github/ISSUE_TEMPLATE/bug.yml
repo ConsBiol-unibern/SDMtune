@@ -2,18 +2,45 @@ name: Bug Report
 description: File a bug report
 title: "[Bug]: "
 labels: "bug"
+assignees:
+  - sgvignali
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
   - type: textarea
-    id: repro
+    id: description
     attributes:
-      label: Reproduction steps
-      description: "Steps to reproduce the bug"
+      label: "Describe the bug"
+      description: "Describe the problem in detail, including the errors if any"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to reproduce the bug"
       value: |
         library(SDMtune)
       render: r
     validations:
       required: true
+  - type: textarea
+    id: session
+    attributes:
+      label: "Session information"
+      description: "Please paste the output of `sessionInfo()`"
+      render: r
+    validations:
+      required: true
+   - type: textarea
+    id: screenshot
+    attributes:
+      label: "Additional information"
+      description: "If applicable, a screenshot to help explain your problem"
+  - type: checkboxes
+    id: final-step
+    attributes:
+      label: I have done my best to provide the steps to reproduce the bug
+      options:
+          required: true
