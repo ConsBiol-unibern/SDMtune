@@ -306,6 +306,19 @@ modelReport <- function(model,
   return(htmltools::HTML(element))
 }
 
+#' Write Settings
+#'
+#' Write the settings of a model for the report.
+#'
+#' @param params list. Parameters passed to the template for the report.
+#'
+#' @details The functions prints the settings which are captured in the report
+#' template.
+#'
+#' @return invisible `NULL`
+#'
+#' @noRd
+#' @author Sergio Vignali
 .write_report_model_settings <- function(params) {
 
   if (params$verbose)
