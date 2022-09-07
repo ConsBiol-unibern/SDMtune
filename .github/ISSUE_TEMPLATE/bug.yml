@@ -42,5 +42,5 @@ body:
     id: final-step
     attributes:
       options:
-        - label: I have done my best to provide the steps to reproduce the bug
+        - label: "I have done my best to provide the steps to reproduce the bug"
           required: true
