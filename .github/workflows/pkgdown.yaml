@@ -24,7 +24,6 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          rm '/usr/local/bin/gfortran'
           brew install gdal proj
           R CMD javareconf
 
