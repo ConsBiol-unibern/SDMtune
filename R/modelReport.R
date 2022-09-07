@@ -89,9 +89,9 @@ modelReport <- function(model,
   }
 
   if (file.exists(file.path(getwd(), folder))) {
-    msg <- message(cli::col_red(cli::symbol$fancy_question_mark),
-                   " The folder '", folder,
-                   "' already exists, do you want to overwrite it?")
+    msg <- cli::cli_text(cli::col_red(cli::symbol$fancy_question_mark),
+                         " The folder {.file {folder}} already exists,",
+                         " do you want to overwrite it?")
     continue <- utils::menu(choices = c("Yes", "No"), title = msg)
   } else {
     continue <- 1
