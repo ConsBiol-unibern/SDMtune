@@ -23,6 +23,7 @@ title: "`r class(params$model@model)` model for *`r params$model@data@species`*"
 
 ```{r setup, echo=F, message=FALSE}
 options(crayon.enabled = TRUE)
+library(kableExtra)
 ```
 
 **`r class(params$model@model)`** output produced using **SDMtune** version `r packageVersion("SDMtune")` (Vignali S. *et al.*, 2020).
