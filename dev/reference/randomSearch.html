@@ -109,8 +109,9 @@ provided hyperparameters values.</p>
 <span>  test <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pop <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  env <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  interactive <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  interactive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -144,13 +145,17 @@ model, not used with aicc and <a href="SDMmodelCV-class.html">SDMmodelCV</a> obj
 only with "aicc".</p></dd>
 
 
+<dt>interactive</dt>
+<dd><p>logical, if <code>FALSE</code> the interactive chart is not created.</p></dd>
+
+
+<dt>progress</dt>
+<dd><p>logical, if <code>TRUE</code> shows a progress bar.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>numeric. The value used to set the seed to have consistent
 results.</p></dd>
-
-
-<dt>interactive</dt>
-<dd><p>logical, if <code>FALSE</code> the interactive chart is not created.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -188,10 +193,10 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
 <span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[45ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[44ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[95ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[96ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -209,11 +214,12 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">randomSearch</span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span>,</span></span>
 <span class="r-in"><span>                       pop <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 15s - 00:00:3.4</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  36% | ETA: 10s - 00:00:5.9</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  45% | ETA: 10s - 00:00:8.6</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  64% | ETA:  7s - 00:00:11.6</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  82% | ETA:  3s - 00:00:15.1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:17.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA: 15s - 00:00:5.7</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  45% | ETA: 11s - 00:00:9.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  55% | ETA: 10s - 00:00:11.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% | ETA:  5s - 00:00:14.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  91% | ETA:  2s - 00:00:18.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:18.4</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      fc reg train_AUC  test_AUC   diff_AUC</span>
