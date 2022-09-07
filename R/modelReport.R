@@ -142,12 +142,14 @@ modelReport <- function(model,
 
 .save_report_files <- function(params) {
 
-  if (params$verbose)
+  if (params$verbose) {
     cli::cli_text("\n")
     cli::cli_progress_step("Save files")
+  }
 
   saveRDS(params$model, file = file.path(params$folder, "model.Rds"))
   swd2csv(params$model@data, file.path(params$folder, "train.csv"))
+
   if (!is.null(params$test))
     swd2csv(params$test, file.path(params$folder, "test.csv"))
 }
