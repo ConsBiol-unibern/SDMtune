@@ -178,10 +178,10 @@ returns a list containing the test results together with the models.</p>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
 <span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[65ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[87ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[117ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[129ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -196,11 +196,11 @@ returns a list containing the test results together with the models.</p>
 <span class="r-in"><span><span class="co"># "bio12", using the metric AUC</span></span></span>
 <span class="r-in"><span><span class="fu">doJk</span><span class="op">(</span><span class="va">model</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bio1"</span>, <span class="st">"bio12"</span><span class="op">)</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Variable Train_AUC_without Train_AUC_withonly Test_AUC_without</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio1         0.8551581          0.8409609        0.8513262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    bio12         0.8572844          0.7425041        0.8523137</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio1         0.8586166          0.8436228        0.8468250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    bio12         0.8612666          0.7399619        0.8452875</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Test_AUC_withonly</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         0.8363962</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         0.7332475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         0.8260462</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         0.7434163</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Execute the Jackknife test only for the environmental variables "bio1" and</span></span></span>
 <span class="r-in"><span><span class="co"># "bio12", using the metric TSS but without running the test for one single</span></span></span>
@@ -208,8 +208,8 @@ returns a list containing the test results together with the models.</p>
 <span class="r-in"><span><span class="fu">doJk</span><span class="op">(</span><span class="va">model</span>, metric <span class="op">=</span> <span class="st">"tss"</span>, variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bio1"</span>, <span class="st">"bio12"</span><span class="op">)</span>, test <span class="op">=</span> <span class="va">test</span>,</span></span>
 <span class="r-in"><span>     with_only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Variable Train_TSS_without Test_TSS_without</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio1          0.616925           0.6296</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    bio12          0.621075           0.6476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio1          0.626600           0.6228</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    bio12          0.628475           0.6047</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Execute the Jackknife test only for the environmental variables "bio1" and</span></span></span>
 <span class="r-in"><span><span class="co"># "bio12", using the metric AICc but without running the test for one single</span></span></span>
@@ -217,37 +217,37 @@ returns a list containing the test results together with the models.</p>
 <span class="r-in"><span><span class="fu">doJk</span><span class="op">(</span><span class="va">model</span>, metric <span class="op">=</span> <span class="st">"aicc"</span>, variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bio1"</span>, <span class="st">"bio12"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>     with_only <span class="op">=</span> <span class="cn">FALSE</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Variable AICc_without</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio1     5289.135</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    bio12     5278.017</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio1     5272.322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    bio12     5267.259</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Execute the Jackknife test for all the environmental variables using the</span></span></span>
 <span class="r-in"><span><span class="co"># metric AUC and returning all the trained models</span></span></span>
 <span class="r-in"><span><span class="va">jk</span> <span class="op">&lt;-</span> <span class="fu">doJk</span><span class="op">(</span><span class="va">model</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span>, return_models <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  39% | ETA:  3s - 00:00:2.1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83% | ETA:  1s - 00:00:4.1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:4.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  39% | ETA:  3s - 00:00:2.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83% | ETA:  1s - 00:00:4.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:5.1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">jk</span><span class="op">$</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Variable Train_AUC_without Train_AUC_withonly Test_AUC_without</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio1         0.8551581          0.8409609        0.8513262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    bio12         0.8572844          0.7425041        0.8523137</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    bio16         0.8573612          0.7538466        0.8525137</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    bio17         0.8579150          0.5988838        0.8535888</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     bio5         0.8573025          0.7180188        0.8527012</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     bio6         0.8580106          0.8201238        0.8537113</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7     bio7         0.8573762          0.7334566        0.8534987</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     bio8         0.8507281          0.8254659        0.8434987</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    biome         0.8546875          0.7886219        0.8562513</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio1         0.8586166          0.8436228        0.8468250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    bio12         0.8612666          0.7399619        0.8452875</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    bio16         0.8609841          0.7497819        0.8453275</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    bio17         0.8617416          0.6051163        0.8457075</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     bio5         0.8611016          0.7292338        0.8453575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     bio6         0.8614222          0.8202600        0.8454475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     bio7         0.8614053          0.7304516        0.8458400</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     bio8         0.8531459          0.8314288        0.8407250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    biome         0.8596803          0.7824244        0.8421500</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Test_AUC_withonly</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         0.8363962</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         0.7332475</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         0.7381887</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         0.6207350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         0.7532787</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         0.8145887</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7         0.7078237</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8         0.8408762</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9         0.7810187</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         0.8260462</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         0.7434163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         0.7544475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         0.5958050</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         0.7089887</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         0.8198313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7         0.7186613</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8         0.8158450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9         0.8084263</span>
 <span class="r-in"><span><span class="va">jk</span><span class="op">$</span><span class="va">models_without</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
