@@ -37,7 +37,7 @@ body:
     id: screenshot
     attributes:
       label: "Additional information"
-      description: "If applicable, a screenshot to help explain your problem"
+      description: "Any other information to help explain your problem"
   - type: checkboxes
     id: final-step
     attributes:
