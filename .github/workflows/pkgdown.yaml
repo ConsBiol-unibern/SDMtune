@@ -24,6 +24,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
+          sudo apt-get update
           sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev
           sudo R CMD javareconf
 
