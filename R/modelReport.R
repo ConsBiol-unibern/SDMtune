@@ -262,7 +262,7 @@ modelReport <- function(model,
   if (params$verbose)
     cli::cli_progress_step("Compute variable importance")
 
-  knitr::kable(suppressMessages(varImp(params$model, params$permut))) |>
+  knitr::kable(varImp(params$model, params$permut, progress = FALSE)) |>
     kableExtra::kable_styling(
       bootstrap_options = c("striped", "hover", "condensed", "responsive"),
       full_width = FALSE
@@ -274,7 +274,7 @@ modelReport <- function(model,
   if (params$verbose)
     cli::cli_progress_step("Run Jackknife test")
 
-  jk <- suppressMessages(doJk(params$model, metric = "auc", test = params$test))
+  jk <- doJk(params$model, metric = "auc", test = params$test, progress = FALSE)
   plot <- plotJk(jk, type = "train", ref = auc(params$model))
   suppressMessages(ggplot2::ggsave(filename = "train_jk.png",
                                    plot = plot,
