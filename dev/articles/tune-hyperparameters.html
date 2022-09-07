@@ -167,16 +167,15 @@
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Call the gridSearch function</span></span>
 <span><span class="va">exp_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">val</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■                            </span>  10% | ETA: 40s - 00:00:4.5</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA: 32s - 00:00:08</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  30% | ETA: 27s - 00:00:11.4</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA: 21s - 00:00:14.3</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA: 18s - 00:00:17.5</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA: 14s - 00:00:20.6</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  70% | ETA: 10s - 00:00:23.5</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  7s - 00:00:26.8</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  90% | ETA:  3s - 00:00:29.4</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:29.4</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■                            </span>  10% | ETA: 42s - 00:00:4.6</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA: 34s - 00:00:8.4</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  30% | ETA: 28s - 00:00:11.9</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA: 22s - 00:00:14.9</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA: 19s - 00:00:18.6</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA: 14s - 00:00:21.6</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  7s - 00:00:27.5</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  90% | ETA:  3s - 00:00:30.4</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:30.4</span></span>
 <span><span class="co">#&gt; </span></span></code></pre></div>
 <p>As you noticed we used the validation dataset as test argument. The output of the function is an object of class <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code>. Let’s print it:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -264,10 +263,10 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span><span class="op">)</span>, fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">exp_6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomSearch.html">randomSearch</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">val</span>, pop <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">65466</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■                            </span>   9% | ETA: 27s - 00:00:2.7</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 24s - 00:00:5.4</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  45% | ETA:  8s - 00:00:07</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  64% | ETA:  7s - 00:00:12.4</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■                            </span>   9% | ETA: 25s - 00:00:2.5</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 24s - 00:00:5.2</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  55% | ETA:  8s - 00:00:9.4</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  64% | ETA:  7s - 00:00:12.3</span></span>
 <span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% | ETA:  6s - 00:00:15.2</span></span>
 <span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  91% | ETA:  2s - 00:00:17.9</span></span>
 <span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:18.2</span></span>
