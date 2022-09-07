@@ -13,7 +13,7 @@ body:
     id: description
     attributes:
       label: "Describe the bug"
-      description: "Describe the problem in detail, including the errors if any"
+      description: "Describe the problem in detail, including errors if any"
     validations:
       required: true
   - type: textarea
@@ -41,6 +41,6 @@ body:
   - type: checkboxes
     id: final-step
     attributes:
-      label: I have done my best to provide the steps to reproduce the bug
       options:
+        - label: I have done my best to provide the steps to reproduce the bug
           required: true
