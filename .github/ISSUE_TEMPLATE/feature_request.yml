@@ -17,3 +17,10 @@ body:
       label: "Describe the new feature"
     validations:
       required: true
+  - type: checkboxes
+    id: final-step
+    attributes:
+      label: "Does the feature request already exist?"
+      options:
+        - label: "I have check if the same feature request already exists"
+          required: true
