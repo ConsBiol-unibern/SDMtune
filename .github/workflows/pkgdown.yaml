@@ -24,7 +24,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          brew install gdal proj
+          brew install gdal
           R CMD javareconf
 
       - uses: r-lib/actions/setup-pandoc@v2
