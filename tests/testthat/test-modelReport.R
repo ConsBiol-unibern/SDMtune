@@ -1,6 +1,4 @@
 skip_on_cran()
-skip_on_ci()
-skip_on_covr()
 
 test_that("All files are created", {
   folder <- "trash"
