@@ -1,0 +1,19 @@
+name: 🚀 Feature Request
+description: Request a new feature
+title: "[Feature request]: "
+labels: "new feature"
+assignees:
+  - sgvignali
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a feature request!
+        Please check if the feature request already exists. If this is the case, instead of creating a duplicate request, please give it a thumbs-up reaction.
+        If the feature has not yet been filed, then please describe the feature you'd like to see become a part of SDMtune.
+  - type: textarea
+    id: description
+    attributes:
+      label: "Describe the new feature"
+    validations:
+      required: true
