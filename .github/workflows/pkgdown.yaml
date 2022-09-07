@@ -24,8 +24,9 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          run: brew install gdal proj
-          sudo R CMD javareconf
+          rm '/usr/local/bin/gfortran'
+          brew install gdal proj
+          R CMD javareconf
 
       - uses: r-lib/actions/setup-pandoc@v2
 
