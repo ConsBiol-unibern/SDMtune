@@ -392,7 +392,7 @@ modelReport <- function(model,
   } else if (inherits(params$model@model, "BRT")) {
     # BRT
     text <- stringr::str_glue("
-      text,
+      {text},
       * Distribution: {params$model@model@distribution}
       * Number of trees: {params$model@model@n.trees}
       * Interaction depth: {params$model@model@interaction.depth}
@@ -402,7 +402,7 @@ modelReport <- function(model,
   } else {
     # RF
     text <- stringr::str_glue("
-      text,
+      {text},
       * Mtry: {params$model@model@mtry}
       * Number of trees: {params$model@model@ntree}
       * Node size: {params$model@model@nodesize}
