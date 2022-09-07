@@ -122,7 +122,7 @@
 
       
 
-      </header><script src="hyper-tuning_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>SDMtune - hyperparameter tuning</h1>
@@ -139,7 +139,7 @@
 <div class="section level2">
 <h2 id="training-validation-and-testing-split">Training, validation and testing split<a class="anchor" aria-label="anchor" href="#training-validation-and-testing-split"></a>
 </h2>
-<p>When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn’t represent anymore an independent set to evaluate the model <span class="citation">(Müller and Guido 2016, @Chollet2018)</span>. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function <code>trainValTest</code> allows to split the data in three folds containing the provided percentage of data. For illustration purpose let’s split the presence locations in training (60%), validation (20%) and testing (20%) datasets. The following steps are described in the <strong>basic-use</strong> vignette, refer to it if the following code is not clear:</p>
+<p>When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn’t represent anymore an independent set to evaluate the model <span class="citation">Chollet and Allaire (2018)</span>. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function <code>trainValTest</code> allows to split the data in three folds containing the provided percentage of data. For illustration purpose let’s split the presence locations in training (60%), validation (20%) and testing (20%) datasets. The following steps are described in the <strong>basic-use</strong> vignette, refer to it if the following code is not clear:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://consbiol-unibern.github.io/SDMtune/">SDMtune</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot" class="external-link">zeallot</a></span><span class="op">)</span></span>
@@ -275,12 +275,12 @@
 <code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxent"</span>, data <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">data</span>,</span>
 <span>                     fc <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>, reg <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">final_model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>
-<div id="refs" class="references">
-<div id="ref-Chollet2018">
-<p>Chollet, François, and J. J. Allaire. 2018. <em>Deep learning with R</em>. 1st ed. Manning Publications Co.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Chollet2018" class="csl-entry">
+Chollet, François, and J. J. Allaire. 2018. <em><span class="nocase">Deep learning with R</span></em>. 1st ed. Manning Publications Co.
 </div>
-<div id="ref-Muller2016">
-<p>Müller, Andreas C., and Sarah Guido. 2016. <em>Introduction to machine learning with Python : a guide for data scientists</em>.</p>
+<div id="ref-Muller2016" class="csl-entry">
+Müller, Andreas C., and Sarah Guido. 2016. <em><span class="nocase">Introduction to machine learning with Python : a guide for data scientists</span></em>.
 </div>
 </div>
 </div>
