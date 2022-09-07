@@ -19,7 +19,7 @@ create_local_model_report <- function(folder, env = parent.frame()) {
   env_vars <- raster::stack(files)
 
   modelReport(m, type = "cloglog", folder = folder, test = SDMtune:::t,
-              permut = 1, env = env_vars)
+              permut = 1, env = env_vars, verbose = FALSE)
 
   withr::defer(unlink(file.path(getwd(), folder), recursive = TRUE),
                envir = env)
