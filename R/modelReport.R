@@ -182,7 +182,7 @@ modelReport <- function(model,
     cli::cli_progress_step("Compute thresholds")
 
   knitr::kable(thresholds(params$model, type = params$type, test = params$test),
-               digits = 20) %>%
+               digits = 20) |>
     kableExtra::kable_styling(
       bootstrap_options = c("striped", "hover", "condensed", "responsive")
     )
@@ -262,7 +262,7 @@ modelReport <- function(model,
   if (params$verbose)
     cli::cli_progress_step("Compute variable importance")
 
-  knitr::kable(suppressMessages(varImp(params$model, params$permut))) %>%
+  knitr::kable(suppressMessages(varImp(params$model, params$permut))) |>
     kableExtra::kable_styling(
       bootstrap_options = c("striped", "hover", "condensed", "responsive"),
       full_width = FALSE
