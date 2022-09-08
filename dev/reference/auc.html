@@ -162,7 +162,7 @@ Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[59ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[112ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[109ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -175,11 +175,11 @@ Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute the training AUC</span></span></span>
 <span class="r-in"><span><span class="fu">auc</span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8360122</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8407775</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute the testing AUC</span></span></span>
 <span class="r-in"><span><span class="fu">auc</span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8537025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8296212</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Same example but using cross validation instead of training and testing</span></span></span>
@@ -190,15 +190,15 @@ Statistical significance and interpretation. Q.J.R. Meteorol. Soc., 128:
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute the training AUC</span></span></span>
 <span class="r-in"><span><span class="fu">auc</span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8418082</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8411709</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute the testing AUC</span></span></span>
 <span class="r-in"><span><span class="fu">auc</span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8333717</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8355828</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute the AUC for the held apart testing dataset</span></span></span>
 <span class="r-in"><span><span class="fu">auc</span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8565944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8402363</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
