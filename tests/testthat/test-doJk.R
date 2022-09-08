@@ -94,3 +94,8 @@ test_that("The function returns the correct output", {
   expect_named(jk, c("Variable", "AICc_without"))
   expect_length(jk[, 1], 2)
 })
+
+test_that("The function runs without test dataset", {
+  expect_error(doJk(m, metric = "auc", variables = "bio1",
+                    with_only = FALSE, progress = FALSE), NA)
+})

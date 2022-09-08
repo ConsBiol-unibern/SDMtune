@@ -269,7 +269,10 @@
   # Throws exception if model is SDMmodel, metric is not aicc and
   # test is not provided
   if (inherits(model, "SDMmodel") & is.null(test) & metric != "aicc") {
-    cli::cli_abort("You need to provide a test dataset")
+
+    # Only if the call is not from doJk()
+    if (sys.call(-1)[[1]] != "doJk")
+      cli::cli_abort("You need to provide a test dataset")
   }
 
   # Throws exception if metric is aicc and model is SDMmodelCV
