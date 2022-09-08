@@ -9,4 +9,4 @@
 ## R CMD check results
 0 errors | 0 warnings | 1 note
 
-This solves the NOTES in CRAN checks. However, there is a new NOTE for invalid URLs for R devel and release. For what I understood this happens for DOI URLs and should be fixed later in September. I have been asked to submit it anyway.
+There is a new NOTE: "Possibly mis-spelled words in DESCRIPTION: SDMs". This is not a mis-spelled word, it is just the acrimonious for "Species Distribution Models" and it is included in the WORDLIST file.
