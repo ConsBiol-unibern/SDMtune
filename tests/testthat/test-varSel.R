@@ -7,6 +7,7 @@ set.seed(25)
 suppressWarnings(bg <- dismo::randomPoints(predictors, 10000))
 bg <- suppressMessages(prepareSWD(species = "Bgs", a = bg, env = predictors,
                                   categorical = "biome"))
+t <- SDMtune:::t
 m <- SDMtune:::bm_maxnet
 
 test_that("Exceptions are thrown", {
