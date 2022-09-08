@@ -167,15 +167,16 @@
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Call the gridSearch function</span></span>
 <span><span class="va">exp_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gridSearch.html">gridSearch</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">val</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■                            </span>  10% | ETA: 47s - 00:00:5.2</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA: 35s - 00:00:8.8</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  30% | ETA: 29s - 00:00:12.4</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA: 24s - 00:00:15.8</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA: 19s - 00:00:19.2</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA: 15s - 00:00:22.4</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  70% | ETA: 11s - 00:00:25.5</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  7s - 00:00:29.1</span></span>
-<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:31.8</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■                            </span>  10% | ETA: 42s - 00:00:4.6</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA: 32s - 00:00:7.9</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  30% | ETA: 27s - 00:00:11.4</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA: 21s - 00:00:14.2</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA: 18s - 00:00:17.6</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA: 14s - 00:00:20.6</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  70% | ETA: 10s - 00:00:23.5</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  7s - 00:00:26.7</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  90% | ETA:  3s - 00:00:29.1</span></span>
+<span><span class="co">#&gt; Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:29.1</span></span>
 <span><span class="co">#&gt; </span></span></code></pre></div>
 <p>As you noticed we used the validation dataset as test argument. The output of the function is an object of class <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code>. Let’s print it:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -263,13 +264,13 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span><span class="op">)</span>, fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">exp_6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomSearch.html">randomSearch</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">val</span>, pop <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">65466</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■                            </span>   9% | ETA: 27s - 00:00:2.7</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 26s - 00:00:5.7</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  55% | ETA:  8s - 00:00:10</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  64% | ETA:  7s - 00:00:12.9</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% | ETA:  6s - 00:00:15.9</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  91% | ETA:  2s - 00:00:18.8</span></span>
-<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:19.2</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■                            </span>   9% | ETA: 29s - 00:00:2.9</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 25s - 00:00:5.5</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  36% | ETA: 12s - 00:00:6.7</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  55% | ETA:  8s - 00:00:9.6</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% | ETA:  6s - 00:00:15.5</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  82% | ETA:  4s - 00:00:15.8</span></span>
+<span><span class="co">#&gt; Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:18.5</span></span>
 <span><span class="co">#&gt; </span></span></code></pre></div>
 <p>The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 10 instead of 150 models. The results includes the 10 trained model. If you are not happy with the solution, you can check the best hyperparameter combinations and this gives you an intuition of which ones are the hyperparameters to “refine” using the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>. The <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in a <code>data.frame</code> than can be accessed with the following command:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
