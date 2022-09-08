@@ -171,14 +171,14 @@ specified using the arguments <code>x</code> and <code>y</code>.</p></li>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">bg_coords</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x" "y"</span>
 <span class="r-in"><span><span class="va">thinned_bg</span> <span class="op">&lt;-</span> <span class="fu">thinData</span><span class="op">(</span><span class="va">bg_coords</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Thin Data  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■        </span>  77% | ETA:  1s - 00:00:02</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Thin Data  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:2.4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">thinned_bg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8993</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Here we double the coordinates and run the function again</span></span></span>
 <span class="r-in"><span><span class="va">thinned_bg</span> <span class="op">&lt;-</span> <span class="fu">thinData</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">bg_coords</span>, <span class="va">bg_coords</span><span class="op">)</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Thin Data  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  90% | ETA:  0s - 00:00:02</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Thin Data  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:2.2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">thinned_bg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8993</span>
 <span class="r-in"><span></span></span>
