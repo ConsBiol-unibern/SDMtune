@@ -160,12 +160,10 @@ modelReport <- function(model,
     cli::cli_progress_step("Plot ROC curve")
 
   plot <- plotROC(params$model, test = params$test)
-  suppressMessages(
-    ggplot2::ggsave(filename = "ROC_curve.png",
-                    plot = plot,
-                    device = "png",
-                    path = params$plot_folder)
-  )
+  suppressMessages(ggplot2::ggsave(filename = "ROC_curve.png",
+                                   plot = plot,
+                                   device = "png",
+                                   path = params$plot_folder))
   path <- file.path(params$plot_folder, "ROC_curve.png")
   element <- stringr::str_glue("
     <a href='{path}'>
