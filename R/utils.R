@@ -258,7 +258,8 @@
                         metric,
                         test = NULL,
                         env = NULL,
-                        hypers = NULL) {
+                        hypers = NULL,
+                        is_do_jk = FALSE) {
 
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & inherits(model, "SDMmodel"))
@@ -271,7 +272,7 @@
   if (inherits(model, "SDMmodel") & is.null(test) & metric != "aicc") {
 
     # Only if the call is not from doJk()
-    if (sys.call(-1)[[1]] != "doJk")
+    if (!is_do_jk)
       cli::cli_abort("You need to provide a test dataset")
   }
 
