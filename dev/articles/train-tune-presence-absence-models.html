@@ -149,7 +149,7 @@
 <span><span class="va">a_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">absence</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">a_coords</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">[[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[79ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[76ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[52ms]</span></span></span>
@@ -216,34 +216,41 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getTunableArgs.html">getTunableArgs</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "size"  "decay" "rang"  "maxit"</span></span></code></pre></div>
 <p>We use the function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> to tune the hyperparameters:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, decay <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>          maxit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■                             </span>   7% | ETA:  2m - 00:00:7.9</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■                           </span>  13% | ETA:  1m - 00:00:12.8</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■                          </span>  16% | ETA:  2m - 00:00:17.7</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■                         </span>  21% | ETA:  1m - 00:00:20.3</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  30% | ETA:  1m - 00:00:22.6</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  33% | ETA:  1m - 00:00:26.3</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  38% | ETA: 49s - 00:00:29.6</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  41% | ETA: 47s - 00:00:32.8</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  46% | ETA: 42s - 00:00:35.3</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  49% | ETA: 40s - 00:00:38.8</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  54% | ETA: 35s - 00:00:41.5</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  59% | ETA: 32s - 00:00:46.2</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  62% | ETA: 30s - 00:00:50.3</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  69% | ETA: 24s - 00:00:54.1</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  72% | ETA: 22s - 00:00:56.6</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  79% | ETA: 17s - 00:01:03</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■     </span>  85% | ETA: 12s - 00:01:7.1</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■     </span>  87% | ETA: 11s - 00:01:9.6</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  92% | ETA:  7s - 00:01:16</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  </span>  95% | ETA:  4s - 00:01:18.6</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span>  98% | ETA:  1s - 00:01:24.7</span></span>
-<span><span class="co">#&gt; Optimize Model  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:01:25.1</span></span>
-<span><span class="co">#&gt; </span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">decay =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>),</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">maxit =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">300</span>, <span class="dv">500</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>om <span class="ot">&lt;-</span> <span class="fu">optimizeModel</span>(model, <span class="at">hypers =</span> h, <span class="at">metric =</span> <span class="st">"auc"</span>, <span class="at">seed =</span> <span class="dv">25</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■                                [39m   2% | ETA:  5m - 00:00:4.9</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■                              [39m   7% | ETA:  2m - 00:00:7.4</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■                            [39m  13% | ETA:  1m - 00:00:12</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■                            [39m  15% | ETA:  1m - 00:00:15.4</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■                           [39m  18% | ETA:  1m - 00:00:17.1</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■                         [39m  23% | ETA:  1m - 00:00:20</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■                      [39m  33% | ETA:  1m - 00:00:24.9</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■                      [39m  34% | ETA: 50s - 00:00:26.1</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■                    [39m  41% | ETA: 45s - 00:00:31</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■                   [39m  44% | ETA: 41s - 00:00:32.4</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■                 [39m  49% | ETA: 38s - 00:00:36.6</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■                [39m  52% | ETA: 35s - 00:00:38.4</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■              [39m  59% | ETA: 30s - 00:00:43.9</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:02</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:2.7</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■              [39m  59% | ETA: 30s - 00:00:43.9</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■             [39m  <span class="dv">62</span>% <span class="sc">|</span> ETA<span class="sc">:</span> 29s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">00</span><span class="sc">:</span><span class="fl">47.8</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■           [39m  69% | ETA: 23s - 00:00:51.4</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  74% | ETA: 19s - 00:00:54.6</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■         [39m  77% | ETA: 17s - 00:00:57.6</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■        [39m  80% | ETA: 15s - 00:01:0.3</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■      [39m  85% | ETA: 11s - 00:01:3.8</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■      [39m  87% | ETA: 10s - 00:01:6.2</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■     [39m  90% | ETA:  8s - 00:01:9.8</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    [39m  92% | ETA:  6s - 00:01:12.6</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:2.5</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.4</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    [39m  92% | ETA:  6s - 00:01:12.6</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m <span class="dv">100</span>% <span class="sc">|</span> ETA<span class="sc">:</span>  0s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="fl">21.4</span></span></code></pre></div>
 <p>The best model is:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">best_model</span> <span class="op">&lt;-</span> <span class="va">om</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
