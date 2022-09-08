@@ -127,7 +127,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     if (use_pc) {
       scores <- maxentVarImp(model)
     } else {
-      scores <- suppressMessages(varImp(model, permut = permut))
+      scores <- varImp(model, permut = permut, progress = FALSE)
     }
 
     if (interactive) {
@@ -154,11 +154,14 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
     if (nrow(scores) > 0) {
       if (use_jk) {
         for (i in seq_len(nrow(scores))) {
-          jk_test <- suppressMessages(
-            doJk(model,
-                 variables = as.character(scores[i, 1]), metric = metric,
-                 test = test, with_only = FALSE, return_models = TRUE,
-                 env = env))
+          jk_test <- doJk(model,
+                          variables = as.character(scores[i, 1]),
+                          metric = metric,
+                          test = test,
+                          with_only = FALSE,
+                          return_models = TRUE,
+                          env = env,
+                          progress = FALSE)
 
           # index for metric data frames
           x <- nrow(train_metric) + 1
@@ -201,7 +204,7 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
           if (use_pc) {
             scores <- maxentVarImp(model)
           } else {
-            scores <- suppressMessages(varImp(model, permut = permut))
+            scores <- varImp(model, permut = permut, progress = FALSE)
           }
 
           if (interactive) {
@@ -215,11 +218,14 @@ reduceVar <- function(model, th, metric, test = NULL, env = NULL,
           variables_reduced <- TRUE
         }
       } else {
-        jk_test <- suppressMessages(doJk(model,
-                                         variables = as.character(scores[1, 1]),
-                                         metric = metric, test = test,
-                                         with_only = FALSE,
-                                         return_models = TRUE, env = env))
+        jk_test <- doJk(model,
+                        variables = as.character(scores[1, 1]),
+                        metric = metric,
+                        test = test,
+                        with_only = FALSE,
+                        return_models = TRUE,
+                        env = env,
+                        progress = FALSE)
         model <- jk_test$models_without[[1]]
         removed_vars <- c(removed_vars, scores[1, 1])
         x <- nrow(train_metric) + 1

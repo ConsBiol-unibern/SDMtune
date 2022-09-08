@@ -168,7 +168,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
     if (use_pc) {
       scores <- maxentVarImp(model)
     } else {
-      scores <- suppressMessages(varImp(model, permut = permut))
+      scores <- varImp(model, permut = permut, progress = FALSE)
     }
 
     vars <- scores$Variable
@@ -201,9 +201,14 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
       hcv <- row.names(coeff)[abs(coeff) >= cor_th]
 
       if (length(hcv) > 1) {
-        jk_test <- suppressMessages(doJk(model, metric = metric, test = test,
-                                         variables = hcv, with_only = FALSE,
-                                         env = env, return_models = TRUE))
+        jk_test <- doJk(model,
+                        metric = metric,
+                        test = test,
+                        variables = hcv,
+                        with_only = FALSE,
+                        env = env,
+                        return_models = TRUE,
+                        progress = FALSE)
 
         if (metric != "aicc") {
           index <- which.max(jk_test$results[, 2])
