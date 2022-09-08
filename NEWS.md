@@ -7,6 +7,7 @@ Bug fixes:
 
 * Real-time charts are again displayed in Windows
 * `plotCor()` plots a correct heatmap when there are more than 9 variables
+* `doJk()` runs also without testing dataset
 
 # SDMtune 1.1.6
 Resolve CRAN notes
