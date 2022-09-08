@@ -210,12 +210,12 @@
   return(args)
 }
 
-.create_model_from_settings <- function(model, settings, verbose = FALSE) {
+.create_model_from_settings <- function(model, settings, progress = FALSE) {
 
   args <- .get_train_args(model)
   args[names(settings)] <- settings
-  args$verbose <- verbose
-  output <- suppressMessages(do.call("train", args))
+  args$progress <- progress
+  output <- do.call("train", args)
 
   return(output)
 }

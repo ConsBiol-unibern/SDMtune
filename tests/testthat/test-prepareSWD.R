@@ -9,8 +9,8 @@ p <- rbind(c(10, 10), p)
 a <- virtualSp$background
 
 test_that("Output is correct", {
-  swd <- suppressMessages(prepareSWD(species = "Gypaetus barbatus", p = p, a = a,
-                                     env = env, categorical = "biome"))
+  swd <- prepareSWD(species = "Gypaetus barbatus", p = p, a = a,
+                    env = env, categorical = "biome", verbose = FALSE)
   expect_s4_class(swd, "SWD")
   expect_equal(swd@species, "Gypaetus barbatus")
   expect_named(swd@data, names(env))

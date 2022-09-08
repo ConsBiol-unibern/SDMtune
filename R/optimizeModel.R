@@ -361,7 +361,7 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
                                      sample(options, size = 1), options)
   }
 
-  new_model <- suppressMessages(do.call("train", model_args))
+  new_model <- do.call("train", model_args)
 
   return(new_model)
 }
