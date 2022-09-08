@@ -1,6 +1,4 @@
 skip_on_cran()
-skip_on_ci()
-skip_on_covr()
 
 model <- SDMtune:::bm_maxent
 maxent_model <- SDMmodel2MaxEnt(model)
