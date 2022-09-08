@@ -5,8 +5,8 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 predictors <- raster::stack(files)
 set.seed(25)
 suppressWarnings(bg <- dismo::randomPoints(predictors, 10000))
-bg <- prepareSWD(species = "Bgs", a = bg, env = predictors,
-                 categorical = "biome", verbose = FALSE)
+bg <- suppressMessages(prepareSWD(species = "Bgs", a = bg, env = predictors,
+                                  categorical = "biome"))
 m <- SDMtune:::bm_maxnet
 
 test_that("Exceptions are thrown", {
