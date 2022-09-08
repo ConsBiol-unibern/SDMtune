@@ -101,9 +101,17 @@
 #' }
 #' }
 #' }
-varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
-                   method = "spearman", cor_th = 0.7, permut = 10,
-                   use_pc = FALSE, interactive = TRUE, progress = TRUE,
+varSel <- function(model,
+                   metric,
+                   bg4cor,
+                   test = NULL,
+                   env = NULL,
+                   method = "spearman",
+                   cor_th = 0.7,
+                   permut = 10,
+                   use_pc = FALSE,
+                   interactive = TRUE,
+                   progress = TRUE,
                    verbose = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
@@ -147,6 +155,7 @@ varSel <- function(model, metric, bg4cor, test = NULL, env = NULL,
   if (interactive) {
     # Metric used for chart
     train_metric <- data.frame(x = 0, y = .get_metric(metric, model, env = env))
+
     if (metric != "aicc") {
       val_metric <- data.frame(x = 0,
                                y = .get_metric(metric, model, test = test))

@@ -34,7 +34,11 @@
 #' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
 #'                    env = predictors, categorical = "biome")
 #' data
-prepareSWD <- function(species, env, p = NULL, a = NULL, categorical = NULL,
+prepareSWD <- function(species,
+                       env,
+                       p = NULL,
+                       a = NULL,
+                       categorical = NULL,
                        verbose = TRUE) {
 
   df_coords <- data.frame(X = numeric(), Y = numeric())

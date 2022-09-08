@@ -70,7 +70,8 @@
 #' # Compute the AUC for the held apart testing dataset
 #' auc(model, test = test)
 #' }
-auc <- function(model, test = NULL) {
+auc <- function(model,
+                test = NULL) {
 
   if (inherits(model, "SDMmodel")) {
     auc <- .compute_auc(model, test)
@@ -96,7 +97,8 @@ auc <- function(model, test = NULL) {
   return(auc)
 }
 
-.compute_auc <- function(model, test) {
+.compute_auc <- function(model,
+                         test) {
 
   if (inherits(model@model, "Maxent")) {
     type <- "raw"

@@ -38,7 +38,8 @@
 #'
 #' # Plot variable importance with custom color
 #' plotVarImp(vi, color = "red")
-plotVarImp <- function(df, color = "grey") {
+plotVarImp <- function(df,
+                       color = "grey") {
 
   if (!requireNamespace("scales", quietly = TRUE)) {
     cli::cli_abort(

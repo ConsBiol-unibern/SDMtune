@@ -49,7 +49,9 @@
 #' #' # Plot Jackknife test result for testing
 #' plotJk(jk, type = "test", ref = auc(model, test = test))
 #' }
-plotJk <- function(jk, type = c("train", "test"), ref = NULL) {
+plotJk <- function(jk,
+                   type = c("train", "test"),
+                   ref = NULL) {
 
   if (!is.data.frame(jk))
     jk <- jk$results

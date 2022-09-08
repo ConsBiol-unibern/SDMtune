@@ -103,10 +103,17 @@
 #' }
 #' }
 setMethod(
-  "predict", signature = "SDMmodelCV",
-  definition = function(object, data, fun = "mean", type = NULL,
-                        clamp = TRUE, filename = "", format = "GTiff",
-                        extent = NULL, ...) {
+  f = "predict",
+  signature = "SDMmodelCV",
+  definition = function(object,
+                        data,
+                        fun = "mean",
+                        type = NULL,
+                        clamp = TRUE,
+                        filename = "",
+                        format = "GTiff",
+                        extent = NULL,
+                        ...) {
 
     k <- length(object@models)
     l <- length(fun)
@@ -166,4 +173,5 @@ setMethod(
       names(output) <- fun
       return(output)
     }
-  })
+  }
+)

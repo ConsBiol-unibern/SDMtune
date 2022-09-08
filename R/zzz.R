@@ -8,6 +8,8 @@ text <- paste0("
   "\n\nTo cite this package in publications type: citation(\"SDMtune\").")
 
 
-.onAttach <- function(libname, pkgname) {
+.onAttach <- function(libname,
+                      pkgname) {
+
   packageStartupMessage(text)
 }

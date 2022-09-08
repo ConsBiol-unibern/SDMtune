@@ -18,9 +18,16 @@ setGeneric("predict", function(object, ...)
 #' @return A vector with the predicted probabilities of class 1.
 #'
 #' @author Sergio Vignali
-setMethod("predict",
-          signature = "RF",
-          definition = function(object, data, type, clamp) {
-            output <- predict(object@model, data, type = "prob")[, 2]
-            return(output)
-          })
+setMethod(
+  f = "predict",
+  signature = "RF",
+  definition = function(object,
+                        data,
+                        type,
+                        clamp) {
+
+    output <- predict(object@model, data, type = "prob")[, 2]
+
+    return(output)
+  }
+)

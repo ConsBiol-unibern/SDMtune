@@ -39,7 +39,8 @@
 #'
 #' # Compute the AICc
 #' aicc(model, predictors)
-aicc <- function(model, env) {
+aicc <- function(model,
+                 env) {
 
   if (!inherits(model@model, c("Maxent", "Maxnet")))
     cli::cli_abort(c(

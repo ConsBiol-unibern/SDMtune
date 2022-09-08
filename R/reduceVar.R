@@ -83,9 +83,16 @@
 #' }
 #' }
 #' }
-reduceVar <- function(model, th, metric, test = NULL, env = NULL,
-                      use_jk = FALSE, permut = 10, use_pc = FALSE,
-                      interactive = TRUE, verbose = TRUE) {
+reduceVar <- function(model,
+                      th,
+                      metric,
+                      test = NULL,
+                      env = NULL,
+                      use_jk = FALSE,
+                      permut = 10,
+                      use_pc = FALSE,
+                      interactive = TRUE,
+                      verbose = TRUE) {
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 

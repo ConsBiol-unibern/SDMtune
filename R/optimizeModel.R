@@ -79,10 +79,19 @@
 #' output@models[[1]]  # Best model
 #' }
 #' }
-optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
-                          env = NULL, keep_best = 0.4, keep_random = 0.2,
-                          mutation_chance = 0.4, interactive = TRUE,
-                          progress = TRUE, seed = NULL) {
+optimizeModel <- function(model,
+                          hypers,
+                          metric,
+                          test = NULL,
+                          pop = 20,
+                          gen = 5,
+                          env = NULL,
+                          keep_best = 0.4,
+                          keep_random = 0.2,
+                          mutation_chance = 0.4,
+                          interactive = TRUE,
+                          progress = TRUE,
+                          seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))
 
@@ -341,7 +350,10 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   return(output)
 }
 
-.breed <- function(mother, father, hypers, mutation_chance) {
+.breed <- function(mother,
+                   father,
+                   hypers,
+                   mutation_chance) {
 
   mother_args <- .get_train_args(mother)
   model_args <- mother_args
@@ -366,7 +378,11 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   return(new_model)
 }
 
-.check_optimize_args <- function(hypers, grid, pop, keep_best, keep_random) {
+.check_optimize_args <- function(hypers,
+                                 grid,
+                                 pop,
+                                 keep_best,
+                                 keep_random) {
 
   if (keep_best + keep_random > 1)
     cli::cli_abort(
@@ -397,7 +413,8 @@ optimizeModel <- function(model, hypers, metric, test = NULL, pop = 20, gen = 5,
   }
 }
 
-.get_rank_index <- function(metric, metrics) {
+.get_rank_index <- function(metric,
+                            metrics) {
   if (metric == "aicc") {
     # The best model is the one with the lowest AICc
     index <- order(metrics[[1]])

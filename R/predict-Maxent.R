@@ -27,12 +27,13 @@ setGeneric("predict", function(object, ...)
 #'
 #' @references Wilson P.D., (2009). Guidelines for computing MaxEnt model output
 #' values from a lambdas file.
-setMethod("predict",
-          signature = "Maxent",
-          definition = function(object,
-                                data,
-                                type = c("cloglog", "logistic", "raw"),
-                                clamp = TRUE) {
+setMethod(
+  f = "predict",
+  signature = "Maxent",
+  definition = function(object,
+                        data,
+                        type = c("cloglog", "logistic", "raw"),
+                        clamp = TRUE) {
 
     type <- match.arg(type)
 
@@ -61,8 +62,9 @@ setMethod("predict",
     if (type == "raw") {
       return(raw)
     } else if (type == "logistic") {
-       return(raw * exp(object@entropy) / (1 + raw * exp(object@entropy)))
+      return(raw * exp(object@entropy) / (1 + raw * exp(object@entropy)))
     } else {
       return(1 - exp(-raw * exp(object@entropy)))
     }
-})
+  }
+)

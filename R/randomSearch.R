@@ -65,8 +65,14 @@
 #' # Order results by highest test AUC
 #' output@results[order(-output@results$test_AUC), ]
 #' }
-randomSearch <- function(model, hypers, metric, test = NULL, pop = 20,
-                         env = NULL, interactive = TRUE, progress = TRUE,
+randomSearch <- function(model,
+                         hypers,
+                         metric,
+                         test = NULL,
+                         pop = 20,
+                         env = NULL,
+                         interactive = TRUE,
+                         progress = TRUE,
                          seed = NULL) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))

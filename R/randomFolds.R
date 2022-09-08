@@ -37,7 +37,10 @@
 #'
 #' # Create 4 random folds splitting only the presence locations
 #' folds <- randomFolds(data, k = 4, only_presence = TRUE)
-randomFolds <- function(data, k, only_presence = FALSE, seed = NULL) {
+randomFolds <- function(data,
+                        k,
+                        only_presence = FALSE,
+                        seed = NULL) {
 
   if (!inherits(data, "SWD"))
     cli::cli_abort(c(

@@ -25,7 +25,10 @@
 #' plotPred(map, lt = "Habitat suitability",
 #'          colorramp = c("#2c7bb6", "#ffffbf", "#d7191c"))
 #' }
-plotPred <- function(map, lt = "", colorramp = NULL, hr = FALSE) {
+plotPred <- function(map,
+                     lt = "",
+                     colorramp = NULL,
+                     hr = FALSE) {
 
   if (!requireNamespace("rasterVis", quietly = TRUE)) {
     cli::cli_abort(

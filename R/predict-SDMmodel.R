@@ -89,41 +89,49 @@ setGeneric("predict", function(object, ...)
 #' # The function saves the file in your working directory
 #' predict(model, data = predictors, type = "logistic", filename = "my_map")
 #' }
-setMethod("predict",
-          signature = "SDMmodel",
-          definition = function(object, data, type = NULL, clamp = TRUE,
-                                filename = "", format = "GTiff", extent = NULL,
-                                progress = "", ...) {
+setMethod(
+  f = "predict",
+  signature = "SDMmodel",
+  definition = function(object,
+                        data,
+                        type = NULL,
+                        clamp = TRUE,
+                        filename = "",
+                        format = "GTiff",
+                        extent = NULL,
+                        progress = "",
+                        ...) {
 
-            if (!inherits(object@model, "Maxnet")) {
-              model <- object@model
-            } else {
-              model <- object@model@model
-            }
+    if (!inherits(object@model, "Maxnet")) {
+      model <- object@model
+    } else {
+      model <- object@model@model
+    }
 
-            vars <- colnames(object@data@data)
+    vars <- colnames(object@data@data)
 
-            if (inherits(data, "Raster")) {
-              data <- raster::subset(data, vars)
-              pred <- raster::predict(data,
-                                      model = model,
-                                      type = type,
-                                      clamp = clamp,
-                                      fun = predict,
-                                      progress = progress,
-                                      filename = filename,
-                                      format = format,
-                                      ext = extent,
-                                      ...)
-            } else if (inherits(data, "SWD")) {
-              data <- data@data[vars]
-              pred <- predict(model, data, type = type, clamp = clamp)
-              pred <- as.vector(pred)
-            } else if (inherits(data, "data.frame")) {
-              data <- data[vars]
-              pred <- predict(model, data, type = type, clamp = clamp)
-              pred <- as.vector(pred)
-            }
+    if (inherits(data, "Raster")) {
+      data <- raster::subset(data, vars)
+      pred <- raster::predict(data,
+                              model = model,
+                              type = type,
+                              clamp = clamp,
+                              fun = predict,
+                              progress = progress,
+                              filename = filename,
+                              format = format,
+                              ext = extent,
+                              ...)
+    } else if (inherits(data, "SWD")) {
+      data <- data@data[vars]
+      pred <- predict(model, data, type = type, clamp = clamp)
+      pred <- as.vector(pred)
+    } else if (inherits(data, "data.frame")) {
+      data <- data[vars]
+      pred <- predict(model, data, type = type, clamp = clamp)
+      pred <- as.vector(pred)
+    }
 
-            return(pred)
-          })
+    return(pred)
+  }
+)

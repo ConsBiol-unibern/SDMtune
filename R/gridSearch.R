@@ -74,8 +74,13 @@
 #'                      save_models = FALSE)
 #' output@results
 #' }
-gridSearch <- function(model, hypers, metric, test = NULL, env = NULL,
-                       save_models = TRUE, interactive = TRUE,
+gridSearch <- function(model,
+                       hypers,
+                       metric,
+                       test = NULL,
+                       env = NULL,
+                       save_models = TRUE,
+                       interactive = TRUE,
                        progress = TRUE) {
 
   metric <- match.arg(metric, choices = c("auc", "tss", "aicc"))

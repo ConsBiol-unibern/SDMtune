@@ -49,7 +49,9 @@
 #'
 #' # Merge the training and the testing datasets together
 #' merged <- mergeSWD(train, test)
-mergeSWD <- function(swd1, swd2, only_presence = FALSE) {
+mergeSWD <- function(swd1,
+                     swd2,
+                     only_presence = FALSE) {
 
   if (!inherits(swd1, "SWD") | !inherits(swd2, "SWD"))
     cli::cli_abort("The function accepts only {.cls SWD} objects.")

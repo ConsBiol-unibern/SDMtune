@@ -1,4 +1,8 @@
-trainANN <- function(data, size, decay = 0, rang = 0.7, maxit = 100) {
+trainANN <- function(data,
+                     size,
+                     decay = 0,
+                     rang = 0.7,
+                     maxit = 100) {
 
   result <- SDMmodel(data = data)
 

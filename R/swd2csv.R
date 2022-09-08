@@ -42,7 +42,8 @@
 #' swd2csv(data, c("presence.csv", "absence.csv"))
 #' }
 #' }
-swd2csv <- function(swd, file_name) {
+swd2csv <- function(swd,
+                    file_name) {
 
   if (length(file_name) == 2) {
     df <- cbind(swd@species, swd@coords, swd@data)

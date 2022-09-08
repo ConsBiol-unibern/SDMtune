@@ -18,9 +18,13 @@ setGeneric("predict", function(object, ...)
 #' @return A vector with the predicted values.
 #'
 #' @author Sergio Vignali
-setMethod("predict",
-          signature = "ANN",
-          definition = function(object, data, type, clamp) {
-            output <- predict(object@model, newdata = data, type = "raw")
-            return(output)
-          })
+setMethod(
+  f = "predict",
+  signature = "ANN",
+  definition = function(object, data, type, clamp) {
+
+    output <- predict(object@model, newdata = data, type = "raw")
+
+    return(output)
+  }
+)

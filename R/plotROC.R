@@ -39,7 +39,8 @@
 #' plotROC(model, test = test)
 #'
 #' @author Sergio Vignali
-plotROC <- function(model, test = NULL) {
+plotROC <- function(model,
+                    test = NULL) {
 
   if (!requireNamespace("plotROC", quietly = TRUE)) {
     cli::cli_abort(

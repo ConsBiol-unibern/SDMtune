@@ -50,7 +50,9 @@
 #'
 #' # Get the logistic thresholds passing the test dataset
 #' thresholds(model, type = "logistic", test = test)
-thresholds <- function(model, type = NULL, test = NULL) {
+thresholds <- function(model,
+                       type = NULL,
+                       test = NULL) {
 
   n_pres <- sum(model@data@pa == 1)
 

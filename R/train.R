@@ -196,7 +196,11 @@
 #'                 ntree = 300, n.trees = 300, shrinkage = 0.001)
 #' output
 #' }
-train <- function(method, data, folds = NULL, progress = TRUE, ...) {
+train <- function(method,
+                  data,
+                  folds = NULL,
+                  progress = TRUE,
+                  ...) {
 
   l <- length(method)
   output <- vector("list", length = l)

@@ -60,7 +60,9 @@
 #' vi <- varImp(model, permut = 5)
 #' vi
 #' }
-varImp <- function(model, permut = 10, progress = TRUE) {
+varImp <- function(model,
+                   permut = 10,
+                   progress = TRUE) {
 
   vars <- colnames(model@data@data)
 
@@ -86,6 +88,7 @@ varImp <- function(model, permut = 10, progress = TRUE) {
     output <- .compute_permutation(model, model_auc, vars, permut, id, progress)
   } else {
     pis <- matrix(nrow = length(vars), ncol = l)
+
     for (i in 1:l) {
       model_auc <- auc(model@models[[i]])
       df <- .compute_permutation(model@models[[i]], model_auc, vars, permut, id,
@@ -93,6 +96,7 @@ varImp <- function(model, permut = 10, progress = TRUE) {
       index <- match(df[, 1], vars)
       pis[, i] <- df[order(index), 2]
     }
+
     output <- data.frame(Variable = vars,
                          Permutation_importance = rowMeans(pis),
                          sd = round(apply(pis, 1, sd), 3),
@@ -105,7 +109,12 @@ varImp <- function(model, permut = 10, progress = TRUE) {
   return(output)
 }
 
-.compute_permutation <- function(model, model_auc, vars, permut, id, progress) {
+.compute_permutation <- function(model,
+                                 model_auc,
+                                 vars,
+                                 permut,
+                                 id,
+                                 progress) {
 
   permuted_auc <- matrix(nrow = permut, ncol = length(vars))
   set.seed(25)

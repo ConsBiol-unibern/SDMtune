@@ -70,8 +70,13 @@
 #' # (biome) giving a custom color
 #' plotResponse(model, var = "biome", type = "logistic", color = "green")
 #' }
-plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
-                         marginal = FALSE, fun = mean, rug = FALSE,
+plotResponse <- function(model,
+                         var,
+                         type = NULL,
+                         only_presence = FALSE,
+                         marginal = FALSE,
+                         fun = mean,
+                         rug = FALSE,
                          color = "red") {
 
   if (!var %in% names(model@data@data))
@@ -158,8 +163,16 @@ plotResponse <- function(model, var, type = NULL, only_presence = FALSE,
 }
 
 
-.get_plot_data <- function(model, var, df, cont_vars, cat_vars, n_rows, fun,
-                           marginal, type, categ) {
+.get_plot_data <- function(model,
+                           var,
+                           df,
+                           cont_vars,
+                           cat_vars,
+                           n_rows,
+                           fun,
+                           marginal,
+                           type,
+                           categ) {
 
   data <- data.frame(matrix(NA, nrow = 1, ncol = ncol(df)))
   colnames(data) <- colnames(df)

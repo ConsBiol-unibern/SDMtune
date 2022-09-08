@@ -1,4 +1,5 @@
-.convert_folds <- function(x, data) {
+.convert_folds <- function(x,
+                           data) {
   n <- length(data@pa)
 
   if ("train" %in% names(x) & "test" %in% names(x)) {

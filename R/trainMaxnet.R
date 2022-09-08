@@ -1,4 +1,6 @@
-trainMaxnet <- function(data, reg = 1, fc = "lqph") {
+trainMaxnet <- function(data,
+                        reg = 1,
+                        fc = "lqph") {
 
   result <- SDMmodel(data = data)
 

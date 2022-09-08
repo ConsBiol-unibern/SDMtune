@@ -37,7 +37,10 @@
 #' # Get the environmental variables that have a correlation greater or equal to
 #' # the given threshold
 #' corVar(bg, method = "pearson", cor_th = 0.8)
-corVar <- function(bg, method = "spearman", cor_th = NULL, order = TRUE,
+corVar <- function(bg,
+                   method = "spearman",
+                   cor_th = NULL,
+                   order = TRUE,
                    remove_diagonal = TRUE) {
 
   if (!requireNamespace("reshape2", quietly = TRUE)) {

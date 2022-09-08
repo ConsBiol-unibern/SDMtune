@@ -49,7 +49,11 @@
 #' train <- datasets[[1]]
 #' val <- datasets[[2]]
 #' test <- datasets[[3]]
-trainValTest <- function(x, test, val = 0, only_presence = FALSE, seed = NULL) {
+trainValTest <- function(x,
+                         test,
+                         val = 0,
+                         only_presence = FALSE,
+                         seed = NULL) {
 
   if (!inherits(x, "SWD"))
     cli::cli_abort(c(

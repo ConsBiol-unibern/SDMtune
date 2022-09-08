@@ -58,7 +58,11 @@
 #' thinned_bg <- thinData(data, env = predictors, x = "X", y = "Y")
 #' head(data)
 #' }
-thinData <- function(coords, env, x = "x", y = "y", progress = TRUE) {
+thinData <- function(coords,
+                     env,
+                     x = "x",
+                     y = "y",
+                     progress = TRUE) {
 
   # Check if columns with coordinates are present in coords
   if (!x %in% colnames(coords))

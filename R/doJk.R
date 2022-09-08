@@ -69,8 +69,14 @@
 #' jk$models_without
 #' jk$models_withonly
 #' }
-doJk <- function(model, metric, variables = NULL, test = NULL, with_only = TRUE,
-                 env = NULL, return_models = FALSE, progress = TRUE) {
+doJk <- function(model,
+                 metric,
+                 variables = NULL,
+                 test = NULL,
+                 with_only = TRUE,
+                 env = NULL,
+                 return_models = FALSE,
+                 progress = TRUE) {
 
   metric <- match.arg(metric, c("auc", "tss", "aicc"))
 

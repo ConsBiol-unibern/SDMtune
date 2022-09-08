@@ -36,7 +36,8 @@
 #' # have values already included in the background
 #' new_data <- addSamplesToBg(data, all = TRUE)
 #' new_data
-addSamplesToBg <- function(x, all = FALSE) {
+addSamplesToBg <- function(x,
+                           all = FALSE) {
 
   if (!inherits(x, "SWD"))
     cli::cli_abort(c(

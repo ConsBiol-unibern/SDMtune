@@ -1,15 +1,18 @@
 # Get presence locations from an SWD object
 .get_presence <- function(swd) {
+
   return(swd@data[swd@pa == 1, , drop = FALSE])
 }
 
 # Get absence locations from an SWD object
 .get_absence <- function(swd) {
+
   return(swd@data[swd@pa == 0, , drop = FALSE])
 }
 
 # Subset an SWD object using the fold partition
-.subset_swd <- function(swd, fold) {
+.subset_swd <- function(swd,
+                        fold) {
 
   data <- swd@data[fold, , drop = FALSE]
   coords <- swd@coords[fold, , drop = FALSE]
@@ -23,27 +26,34 @@
 }
 
 .get_model_class <- function(model) {
+
   if (inherits(model, "SDMmodelCV")) {
     model <- model@models[[1]]
   }
+
   return(class(model@model))
 }
 
 .get_model_reg <- function(model) {
+
   if (inherits(model, "SDMmodelCV")) {
     model <- model@models[[1]]
   }
+
   return(model@model@reg)
 }
 
 .get_model_fc <- function(model) {
+
   if (inherits(model, "SDMmodelCV")) {
     model <- model@models[[1]]
   }
+
   return(model@model@fc)
 }
 
 .get_footer <- function(model) {
+
   footer <- c()
   tuned_args <- .get_train_args(model)[getTunableArgs(model)]
 
@@ -54,12 +64,20 @@
   return(paste(footer, collapse = "\n"))
 }
 
-.get_total_models <- function(pop, gen, remaining) {
+.get_total_models <- function(pop,
+                              gen,
+                              remaining) {
+
   tot <- pop + (gen * remaining)
+
   return(tot)
 }
 
-.get_metric <- function(metric, model, test = NULL, env = NULL) {
+.get_metric <- function(metric,
+                        model,
+                        test = NULL,
+                        env = NULL) {
+
   if (metric == "auc") {
     return(auc(model, test))
   } else if (metric == "tss") {
@@ -70,6 +88,7 @@
 }
 
 .get_metric_label <- function(metric) {
+
   if (metric == "auc") {
     return("AUC")
   } else if (metric == "tss") {
@@ -80,6 +99,7 @@
 }
 
 .get_sdmtune_colnames <- function(metric) {
+
   if (metric == "auc") {
     return(c("train_AUC", "test_AUC", "diff_AUC"))
   } else if (metric == "tss") {
@@ -89,7 +109,10 @@
   }
 }
 
-.create_sdmtune_result <- function(model, metric, train_metric, val_metric) {
+.create_sdmtune_result <- function(model,
+                                   metric,
+                                   train_metric,
+                                   val_metric) {
 
   tunable_hypers <- getTunableArgs(model)
   l <- length(tunable_hypers)
@@ -119,7 +142,10 @@
   return(res)
 }
 
-.create_sdmtune_output <- function(models, metric, train_metric, val_metric) {
+.create_sdmtune_output <- function(models,
+                                   metric,
+                                   train_metric,
+                                   val_metric) {
 
   tunable_hypers <- getTunableArgs(models[[1]])
   l <- length(tunable_hypers)
@@ -131,11 +157,13 @@
   distrs <- vector("character", length = length(models))
 
   for (i in seq_along(models)) {
+
     if (inherits(models[[i]], "SDMmodel")) {
       m <- models[[i]]
     } else {
       m <- models[[i]]@models[[1]]
     }
+
     for (j in 1:l) {
       if (tunable_hypers[j] == "distribution") {
         distrs[i] <- slot(m@model, tunable_hypers[j])
@@ -145,7 +173,9 @@
         res[i, tunable_hypers[j]] <- slot(m@model, tunable_hypers[j])
       }
     }
+
     res[i, l + 1] <- train_metric[i, 2]
+
     if (metric != "aicc")
       res[i, l + 2] <- val_metric[i, 2]
   }
@@ -161,6 +191,7 @@
   if ("distribution" %in% tunable_hypers) {
     res$distribution <- distrs
   }
+
   if ("fc" %in% tunable_hypers) {
     res$fc <- fcs
   }
@@ -207,10 +238,13 @@
     args$shrinkage <- model@shrinkage
     args$bag.fraction <- model@bag.fraction
   }
+
   return(args)
 }
 
-.create_model_from_settings <- function(model, settings, progress = FALSE) {
+.create_model_from_settings <- function(model,
+                                        settings,
+                                        progress = FALSE) {
 
   args <- .get_train_args(model)
   args[names(settings)] <- settings
@@ -220,7 +254,12 @@
   return(output)
 }
 
-.check_args <- function(model, metric, test = NULL, env = NULL, hypers = NULL) {
+.check_args <- function(model,
+                        metric,
+                        test = NULL,
+                        env = NULL,
+                        hypers = NULL) {
+
   # Throws exception if metric is aicc and env is not provided
   if (metric == "aicc" & is.null(env) & inherits(model, "SDMmodel"))
     cli::cli_abort(
@@ -242,6 +281,7 @@
     # Throws exception if provided hypers are not tunable
 
     diff <- setdiff(names(hypers), getTunableArgs(model))
+
     if (length(diff) > 0)
       cli::cli_abort(
         ("Argumnt{?s} {diff} non included in tunable hyperparameters")
@@ -249,11 +289,14 @@
   }
 }
 
-.get_hypers_grid <- function(model, hypers) {
+.get_hypers_grid <- function(model,
+                             hypers) {
+
   # Create data frame with all possible combinations of hyperparameters
   tunable_args <- .get_train_args(model)[getTunableArgs(model)]
   tunable_args[names(hypers)] <- hypers
   grid <- expand.grid(tunable_args, stringsAsFactors = FALSE)
+
   return(grid)
 }
 
@@ -266,5 +309,6 @@
     "trainMaxnet" = c("data", "reg", "fc"),
     "trainRF" = c("data", "mtry", "ntree", "nodesize")
   )
+
   return(output)
 }

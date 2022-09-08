@@ -47,7 +47,10 @@
 #'
 #' # Get the confusion matrix for a specific threshold
 #' confMatrix(model, type = "logistic", th = 0.6)
-confMatrix <- function(model, test = NULL, th = NULL, type = NULL) {
+confMatrix <- function(model,
+                       test = NULL,
+                       th = NULL,
+                       type = NULL) {
 
   if (!inherits(model, "SDMmodel"))
     cli::cli_abort(c(

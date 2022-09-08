@@ -37,7 +37,9 @@
 #' # Plot heat map showing only values higher than given threshold
 #' plotCor(bg, method = "spearman", cor_th = 0.8)
 #' }
-plotCor <- function(bg, method = "spearman", cor_th = NULL) {
+plotCor <- function(bg,
+                    method = "spearman",
+                    cor_th = NULL) {
 
   cor_matrix <- corVar(bg, method = method, order = FALSE,
                        remove_diagonal = FALSE)

@@ -1,4 +1,7 @@
-trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500) {
+trainMaxent <- function(data,
+                        reg = 1,
+                        fc = "lqph",
+                        iter = 500) {
 
   extra_args <- c("removeduplicates=false", "addsamplestobackground=false")
   result <- SDMmodel(data = data)
@@ -27,7 +30,10 @@ trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500) {
   return(result)
 }
 
-.make_args <- function(reg, fc, iter, extra_args) {
+.make_args <- function(reg,
+                       fc,
+                       iter,
+                       extra_args) {
 
   args <- c(paste0("betamultiplier=", reg), paste0("maximumiterations=", iter),
             .get_fc_args(fc))
@@ -64,6 +70,7 @@ trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500) {
 }
 
 .get_lambdas <- function(lambda) {
+
   l <- as.data.frame(stringr::str_split(lambda, ", ", simplify = TRUE),
                      stringsAsFactors = FALSE)
   l[, 2:4] <- sapply(l[, 2:4], as.numeric)
@@ -104,18 +111,28 @@ trainMaxent <- function(data, reg = 1, fc = "lqph", iter = 500) {
   return(output)
 }
 
-.hinge <- function(variable, var_min, var_max) {
+.hinge <- function(variable,
+                   var_min,
+                   var_max) {
+
   ifelse(variable <= var_min, 0, (variable - var_min) / (var_max - var_min))
 }
 
-.rev_hinge <- function(variable, var_min, var_max) {
+.rev_hinge <- function(variable,
+                       var_min,
+                       var_max) {
+
   ifelse(variable <= var_max, (var_max -  variable) / (var_max - var_min), 0)
 }
 
-.threshold <- function(variable, th) {
+.threshold <- function(variable,
+                       th) {
+
   ifelse(variable < th, 0, 1)
 }
 
-.categorical <- function(variable, category) {
+.categorical <- function(variable,
+                         category) {
+
   ifelse(variable == category, 1, 0)
 }

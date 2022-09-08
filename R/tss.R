@@ -70,7 +70,8 @@
 #' # Compute the TSS for the held apart testing dataset
 #' tss(model, test = test)
 #' }
-tss <- function(model, test = NULL) {
+tss <- function(model,
+                test = NULL) {
 
   if (inherits(model, "SDMmodel")) {
     tss <- .compute_tss(model, test)
@@ -95,7 +96,8 @@ tss <- function(model, test = NULL) {
   return(tss)
 }
 
-.compute_tss <- function(model, test) {
+.compute_tss <- function(model,
+                         test) {
 
   if (inherits(model@model, "Maxent")) {
     type <- "raw"

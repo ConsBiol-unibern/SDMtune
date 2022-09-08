@@ -35,8 +35,13 @@
 #' plotPA(map, th = 0.7, filename = "my_map", format = "ascii")
 #' }
 #' }
-plotPA <- function(map, th, colors = NULL, hr = FALSE, filename = NULL,
-                   format = "GTiff", ...) {
+plotPA <- function(map,
+                   th,
+                   colors = NULL,
+                   hr = FALSE,
+                   filename = NULL,
+                   format = "GTiff",
+                   ...) {
 
   if (!requireNamespace("rasterVis", quietly = TRUE)) {
     cli::cli_abort(
