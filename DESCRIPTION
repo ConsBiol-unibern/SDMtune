@@ -62,6 +62,7 @@ Suggests:
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+Config/testthat/start-first: varSel
 Collate: 
     'ANN-class.R'
     'BRT-class.R'
