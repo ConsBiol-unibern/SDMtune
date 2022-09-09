@@ -118,12 +118,9 @@ varSel <- function(model,
 
   .check_args(model, metric = metric, test = test, env = env)
 
-  if (use_pc & .get_model_class(model) != "Maxent") {
-    model_class <- .get_model_class(model)
-    cli::cli_abort(
-      paste("Percent contribution cannot be used with",
-            "a {.cls {model_class}} model."))
-  }
+  if (use_pc & .get_model_class(model) != "Maxent")
+    cli::cli_abort(paste("Percent contribution cannot be used with",
+                         "a {.cls { .get_model_class(model) }} model."))
 
   if (inherits(model, "SDMmodelCV"))
     test <- TRUE
