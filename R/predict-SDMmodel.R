@@ -102,11 +102,7 @@ setMethod(
                         progress = "",
                         ...) {
 
-    if (!inherits(object@model, "Maxnet")) {
-      model <- object@model
-    } else {
-      model <- object@model@model
-    }
+    model <- object@model
 
     vars <- colnames(object@data@data)
 
