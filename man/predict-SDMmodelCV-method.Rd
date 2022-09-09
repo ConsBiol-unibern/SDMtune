@@ -13,6 +13,7 @@
   filename = "",
   format = "GTiff",
   extent = NULL,
+  progress = TRUE,
   ...
 )
 }
@@ -42,6 +43,9 @@ for all the options.}
 
 \item{extent}{\link[raster]{extent} object, if provided it restricts the
 prediction to the given extent.}
+
+\item{progress}{logical, if \code{TRUE} shows a progress bar during prediction for
+models trained with cross validation.}
 
 \item{...}{Additional arguments to pass to the \link[raster]{writeRaster}
 function.}
