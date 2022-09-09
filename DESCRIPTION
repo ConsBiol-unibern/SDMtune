@@ -62,7 +62,6 @@ Suggests:
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-Config/testthat/start-first: varSel
 Collate: 
     'ANN-class.R'
     'BRT-class.R'
@@ -102,6 +101,7 @@ Collate:
     'predict-ANN.R'
     'predict-BRT.R'
     'predict-Maxent.R'
+    'predict-Maxnet.R'
     'predict-RF.R'
     'predict-SDMmodel.R'
     'predict-SDMmodelCV.R'
