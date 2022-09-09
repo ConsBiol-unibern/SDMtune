@@ -22,6 +22,8 @@
 #' for all the options.
 #' @param extent \link[raster]{extent} object, if provided it restricts the
 #' prediction to the given extent.
+#' @param progress logical, if `TRUE` shows a progress bar during prediction for
+#' models trained with cross validation.
 #' @param ... Additional arguments to pass to the \link[raster]{writeRaster}
 #' function.
 #'
@@ -113,6 +115,7 @@ setMethod(
                         filename = "",
                         format = "GTiff",
                         extent = NULL,
+                        progress = TRUE,
                         ...) {
 
     k <- length(object@models)
@@ -124,14 +127,15 @@ setMethod(
       filename <- paste(filename, fun, sep = "_")
     }
 
-    cli::cli_progress_bar(
-      name = "Predict",
-      type = "iterator",
-      format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
-              ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
-      total = k + l,
-      clear = FALSE
-    )
+    if (progress)
+      cli::cli_progress_bar(
+        name = "Predict",
+        type = "iterator",
+        format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
+                ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
+        total = k + l,
+        clear = FALSE
+      )
 
     # Create empty output list
     output <- vector("list", length = l)
@@ -142,7 +146,9 @@ setMethod(
       for (i in 1:k) {
         preds[[i]] <- predict(object@models[[i]], data = data, type = type,
                               clamp = clamp, extent = extent)
-        cli::cli_progress_update()
+
+        if (progress)
+          cli::cli_progress_update()
       }
       preds <- raster::stack(preds)
 
@@ -150,7 +156,9 @@ setMethod(
         output[[i]] <- raster::calc(preds, fun = get(fun[i]),
                                     filename = filename[i], format = format,
                                     ...)
-        cli::cli_progress_update()
+
+        if (progress)
+          cli::cli_progress_update()
       }
     } else {
       if (inherits(data, "SWD"))
@@ -159,11 +167,15 @@ setMethod(
       for (i in 1:k) {
         preds[, i] <- predict(object@models[[i]], data = data, type = type,
                               clamp = clamp, ...)
-        cli::cli_progress_update()
+
+        if (progress)
+          cli::cli_progress_update()
       }
       for (i in 1:l) {
         output[[i]] <- apply(preds, 1, get(fun[i]), na.rm = TRUE)
-        cli::cli_progress_update()
+
+        if (progress)
+          cli::cli_progress_update()
       }
     }
 
