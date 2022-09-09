@@ -72,6 +72,7 @@ reference:
   - '`predict,ANN-method`'
   - '`predict,BRT-method`'
   - '`predict,Maxent-method`'
+  - '`predict,Maxnet-method`'
   - '`predict,RF-method`'
   - '`predict,SDMmodel-method`'
   - '`predict,SDMmodelCV-method`'
