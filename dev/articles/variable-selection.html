@@ -152,7 +152,7 @@
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [36mℹ [39m Extracting predictor information for  [32mabsence/background [39m locations</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [33m! [39m  [34m [34m9 [34m [39m locations are NA for some environmental variables and have been discarded</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [36mℹ [39m Extracting predictor information for  [32mabsence/background [39m locations</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Extracting predictor information <span class="cf">for</span>  [32mabsence<span class="sc">/</span>background [39m locations  [<span class="dv">38</span>;<span class="dv">5</span>;249m[230ms] [39m</span></code></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Extracting predictor information <span class="cf">for</span>  [32mabsence<span class="sc">/</span>background [39m locations  [<span class="dv">38</span>;<span class="dv">5</span>;249m[212ms] [39m</span></code></pre></div>
 <p>The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).</p>
 <p>With the function <code><a href="../reference/plotCor.html">plotCor()</a></code> you can create an heat map showing the degree of autocorrelation:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -186,11 +186,11 @@
 <p>The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a <strong>Spearman</strong> correlation coefficient <span class="math inline">\(|r_s|\leq0.7\)</span> and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">selected_variables_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varSel.html">varSel</a></span><span class="op">(</span><span class="va">maxnet_model</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span>, bg4cor <span class="op">=</span> <span class="va">bg</span>, method <span class="op">=</span> <span class="st">"spearman"</span>, cor_th <span class="op">=</span> <span class="fl">0.7</span>, permut <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■                          </span>  17% | ETA:  1m - 00:00:12.6</span></span>
-<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  33% | ETA: 43s - 00:00:21.3</span></span>
-<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA: 27s - 00:00:26.9</span></span>
-<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% | ETA: 15s - 00:00:30</span></span>
-<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:30.5</span></span>
+<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■                          </span>  17% | ETA:  1m - 00:00:11.8</span></span>
+<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  33% | ETA: 40s - 00:00:19.8</span></span>
+<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA: 25s - 00:00:25.2</span></span>
+<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% | ETA: 14s - 00:00:28.2</span></span>
+<span><span class="co">#&gt; Var Selection  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:28.8</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> The variables <span style="color: #00BB00;">bio16</span>, <span style="color: #00BB00;">bio6</span>, <span style="color: #00BB00;">bio7</span>, and <span style="color: #00BB00;">bio8</span> have been removed</span></span></code></pre></div>
 <p>As you can see some variables have been removed. The output of the function is the model trained with the selected variables:</p>
