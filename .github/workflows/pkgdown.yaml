@@ -12,7 +12,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
@@ -24,8 +24,8 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          brew install gdal
-          R CMD javareconf
+          sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev
+          sudo R CMD javareconf
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -35,7 +35,10 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::.
+          extra-packages: |
+            any::pkgdown
+            any::XML
+            local::.
           needs: website
 
       - name: Build site
