@@ -1,8 +1,9 @@
 url: https://consbiol-unibern.github.io/SDMtune/
 
 template:
+  bootstrap: 5
+  bootswatch: flatly
   params:
-    bootswatch: flatly
     docsearch:
       api_key: f5b56329d14fa0bab34fea62e13b450d
       index_name: sgvignali-sdmtune
