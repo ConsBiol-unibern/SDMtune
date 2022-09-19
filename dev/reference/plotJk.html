@@ -145,10 +145,10 @@ reference value.</p></dd>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
 <span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[50ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[53ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[115ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[86ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -162,8 +162,9 @@ reference value.</p></dd>
 <span class="r-in"><span><span class="co"># Execute the Jackknife test for all the environmental variables using the</span></span></span>
 <span class="r-in"><span><span class="co"># metric AUC</span></span></span>
 <span class="r-in"><span><span class="va">jk</span> <span class="op">&lt;-</span> <span class="fu"><a href="doJk.html">doJk</a></span><span class="op">(</span><span class="va">model</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% | ETA:  1s - 00:00:2.7</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:4.1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  61% | ETA:  1s - 00:00:2.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  89% | ETA:  0s - 00:00:3.1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Jk Test  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:3.4</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot Jackknife test result for training</span></span></span>
