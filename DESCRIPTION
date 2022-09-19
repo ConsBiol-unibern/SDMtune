@@ -32,11 +32,11 @@ Imports:
     methods,
     nnet (>= 7.3-12),
     randomForest (>= 4.6-14),
+    raster (>= 2.9-5),
     Rcpp (>= 1.0.1),
     rlang (>= 0.4.5),
     rstudioapi (>= 0.10),
     stringr (>= 1.4.0),
-    terra (>= 1.6-17),
     whisker (>= 0.3-2)
 Encoding: UTF-8
 LazyData: true
@@ -51,7 +51,6 @@ Suggests:
     maps (>= 3.3.0),
     pkgdown (>= 1.5.0),
     plotROC (>= 2.2.1),
-    raster (>= 2.9-5),
     rasterVis (>= 0.50),
     reshape2 (>= 1.4.3),
     rgdal (>= 1.4-4),
