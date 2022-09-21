@@ -17,6 +17,8 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
                       fig.align = "center")
 ```
 
+<img src="../man/figures/logo.png" width="70" style = "float: right; border: none;">
+
 The other vignettes are based on presence only methods. Here you will learn how to train a presence absence model. The following examples are based on the Artificial Neural Networks method [@Venables2002], but you can adapt the code for any of the other supported methods. We use the first 8 environmental variables and the `virtualSp` dataset selecting the absence instead of the background locations.
 ```{r load data}
 library(SDMtune)

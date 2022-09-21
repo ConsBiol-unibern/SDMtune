@@ -17,6 +17,8 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
                       fig.align = "center")
 ```
 
+<img src="../man/figures/logo.png" width="70" style = "float: right; border: none;">
+
 # Load data and train model
 
 The following steps are described in the **basic-use** vignette, refer to it if the following code is not clear:
