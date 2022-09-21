@@ -130,7 +130,9 @@
 </ul>
 <p>Next we get the prediction for our training locations using the <strong>cloglog</strong> output type:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>, data <span class="op">=</span> <span class="va">data</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>,</span>
+<span>                data <span class="op">=</span> <span class="va">data</span>,</span>
+<span>                type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span></code></pre></div>
 <p>The output in this case is a vector containing all the predicted values for the training locations:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span>
@@ -138,7 +140,9 @@
 <p>We can get the prediction only for the presence location with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">@</span><span class="va">data</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">1</span>, <span class="op">]</span></span>
-<span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>, data <span class="op">=</span> <span class="va">p</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span>
+<span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>,</span>
+<span>                data <span class="op">=</span> <span class="va">p</span>,</span>
+<span>                type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.9571988 0.9222179 0.6833005 0.2801192 0.6050091 0.7394861</span></span></code></pre></div>
 <p>For models trained with the <strong>Maxent</strong> method, the function performs the prediction in R without calling the MaxEnt Java software. This results in a faster computation for large datasets and might result in a slightly different output compared to the Java software.</p>
@@ -148,7 +152,9 @@
 </h2>
 <p>We can use the same function to create a distribution map starting from the <code>predictors</code> raster `stack’ object that we created in the <a href="./prepare-data.html#acquire-environmental-variables">first article</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>, data <span class="op">=</span> <span class="va">predictors</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>,</span>
+<span>               data <span class="op">=</span> <span class="va">predictors</span>,</span>
+<span>               type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span></code></pre></div>
 <p>In this case the output is a <code>raster</code> object:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">map</span></span>
@@ -162,7 +168,11 @@
 <span><span class="co">#&gt; values     : 2.401041e-07, 0.9665651  (min, max)</span></span></code></pre></div>
 <p>The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function. In the next example we save the map in a file called “<strong>my_file</strong>” in the <strong>GeoTIFF</strong> format:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>, data <span class="op">=</span> <span class="va">predictors</span>, type <span class="op">=</span> <span class="st">"cloglog"</span>, file <span class="op">=</span> <span class="st">"my_map"</span>, format <span class="op">=</span> <span class="st">"GTiff"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>,</span>
+<span>               data <span class="op">=</span> <span class="va">predictors</span>,</span>
+<span>               type <span class="op">=</span> <span class="st">"cloglog"</span>,</span>
+<span>               file <span class="op">=</span> <span class="st">"my_map"</span>,</span>
+<span>               format <span class="op">=</span> <span class="st">"GTiff"</span><span class="op">)</span></span></code></pre></div>
 <p>The <a href="../../reference/predict-SDMmodel-method.html">predict()</a> function has other arguments useful when predicting large datasets:</p>
 <ul>
 <li>
@@ -180,7 +190,9 @@
 <p><img src="make-predictions_files/figure-html/plot%20map%20default-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The function <code><a href="../reference/plotPred.html">plotPred()</a></code> plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">map</span>, lt <span class="op">=</span> <span class="st">"Habitat\nsuitability"</span>, colorramp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#2c7bb6"</span>, <span class="st">"#abd9e9"</span>, <span class="st">"#ffffbf"</span>, <span class="st">"#fdae61"</span>, <span class="st">"#d7191c"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">map</span>,</span>
+<span>         lt <span class="op">=</span> <span class="st">"Habitat\nsuitability"</span>,</span>
+<span>         colorramp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#2c7bb6"</span>, <span class="st">"#abd9e9"</span>, <span class="st">"#ffffbf"</span>, <span class="st">"#fdae61"</span>, <span class="st">"#d7191c"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="make-predictions_files/figure-html/plot%20map%20custom-1.png" width="700" style="display: block; margin: auto;"></p>
 <div class="section level3">
 <h3 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
@@ -190,7 +202,10 @@
 <code class="sourceCode R"><span><span class="co"># First create the extent that surrounds Cile</span></span>
 <span><span class="va">e</span> <span class="op">=</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html" class="external-link">extent</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77</span>, <span class="op">-</span><span class="fl">60</span>, <span class="op">-</span><span class="fl">56</span>, <span class="op">-</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Now use the extent to make the prediction</span></span>
-<span><span class="va">map_e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>, data <span class="op">=</span> <span class="va">predictors</span>, type <span class="op">=</span> <span class="st">"cloglog"</span>, extent <span class="op">=</span> <span class="va">e</span><span class="op">)</span></span>
+<span><span class="va">map_e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">default_model</span>, </span>
+<span>                 data <span class="op">=</span> <span class="va">predictors</span>, </span>
+<span>                 type <span class="op">=</span> <span class="st">"cloglog"</span>, </span>
+<span>                 extent <span class="op">=</span> <span class="va">e</span><span class="op">)</span></span>
 <span><span class="co"># And finally plot the prediction</span></span>
 <span><span class="fu"><a href="../reference/plotPred.html">plotPred</a></span><span class="op">(</span><span class="va">map_e</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -200,9 +215,11 @@
 </h2>
 <p>To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function <code><a href="../reference/thresholds.html">thresholds()</a></code> returns some commonly used threshold values starting from an <code><a href="../reference/SDMmodel-class.html">SDMmodel()</a></code> object. In the next example we print the threshold values for the <code>default_model</code> object using the type <code>"cloglog"</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/thresholds.html">thresholds</a></span><span class="op">(</span><span class="va">default_model</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/thresholds.html">thresholds</a></span><span class="op">(</span><span class="va">default_model</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span></code></pre></div>
-<table class="table table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<code class="sourceCode R"><span><span class="va">ths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/thresholds.html">thresholds</a></span><span class="op">(</span><span class="va">default_model</span>, </span>
+<span>                  type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ths</span></span></code></pre></div>
+<table class="table table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
 Threshold
@@ -264,11 +281,15 @@ Maximum training sensitivity plus specificity
 </table>
 <p>For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function <code><a href="../reference/plotPA.html">plotPA()</a></code> passing the threshold value as argument:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPA.html">plotPA</a></span><span class="op">(</span><span class="va">map</span>, th <span class="op">=</span> <span class="va">ths</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPA.html">plotPA</a></span><span class="op">(</span><span class="va">map</span>, </span>
+<span>       th <span class="op">=</span> <span class="va">ths</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="make-predictions_files/figure-html/plot%20pa-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>We can also save the map in a file with the following code:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPA.html">plotPA</a></span><span class="op">(</span><span class="va">map</span>, th <span class="op">=</span> <span class="va">ths</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">]</span>, filename <span class="op">=</span> <span class="st">"my_pa_map"</span>, format <span class="op">=</span> <span class="st">"GTiff"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPA.html">plotPA</a></span><span class="op">(</span><span class="va">map</span>, </span>
+<span>       th <span class="op">=</span> <span class="va">ths</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">]</span>, </span>
+<span>       filename <span class="op">=</span> <span class="st">"my_pa_map"</span>, </span>
+<span>       format <span class="op">=</span> <span class="st">"GTiff"</span><span class="op">)</span></span></code></pre></div>
 <p>Both functions <code><a href="../reference/plotPred.html">plotPred()</a></code> and <code><a href="../reference/plotPA.html">plotPA()</a></code> have the argument <code>hr</code>to plot the the map with high resolution, useful when the map is used in a scientific publication. For all the arguments of the functions that we have used in this article please refer to the <a href="../..//reference/index.html">documentation</a>.</p>
 <div class="section level3">
 <h3 id="try-yourself-1">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself-1"></a>

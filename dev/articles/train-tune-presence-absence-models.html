@@ -91,7 +91,7 @@
 
 
 
-
+<script src="train-tune-presence-absence-models_files/kePrint-0.0.1/kePrint.js"></script><link href="train-tune-presence-absence-models_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Train presence absence models</h1>
@@ -115,15 +115,14 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span></span>
 <span><span class="va">a_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">absence</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">a_coords</span>, env <span class="op">=</span> <span class="va">predictors</span><span class="op">[[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[79ms]</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[41ms]</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="va">data</span></span>
-<span><span class="co">#&gt; Object of class SWD </span></span>
+<span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, </span>
+<span>                   p <span class="op">=</span> <span class="va">p_coords</span>, </span>
+<span>                   a <span class="op">=</span> <span class="va">a_coords</span>, </span>
+<span>                   env <span class="op">=</span> <span class="va">predictors</span><span class="op">[[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Object of class SWD </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species: Virtual species </span></span>
 <span><span class="co">#&gt; Presence locations: 400 </span></span>
@@ -132,23 +131,30 @@
 <span><span class="co">#&gt; Variables:</span></span>
 <span><span class="co">#&gt; ---------</span></span>
 <span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span></span>
-<span><span class="co">#&gt; Categorical: NA</span></span></code></pre></div>
+<span><span class="co">#&gt; Categorical: NA</span></span></code></pre>
 <p>There are 400 presence and 300 absence locations.</p>
 <p>For the model evaluation we will create a training and testing datasets, holding apart 20% of the data:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot" class="external-link">zeallot</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, test <span class="op">=</span> <span class="fl">0.2</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
-<p>At this point we have 560 training and 140 testing locations. We create a 4-folds partition to run cross validation:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">train</span>, k <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot" class="external-link">zeallot</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, </span>
+<span>                                 test <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>                                 seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
+<p>At this point we have 560 training and 140 testing locations. We create a 4-folds partition to run cross validation:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">train</span>, </span>
+<span>                     k <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>                     seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="train-the-model">Train the model<a class="anchor" aria-label="anchor" href="#train-the-model"></a>
 </h2>
 <p>We first train the model with default settings and 10 neurons:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, data <span class="op">=</span> <span class="va">train</span>, size <span class="op">=</span> <span class="fl">10</span>, folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, </span>
+<span>               data <span class="op">=</span> <span class="va">train</span>, </span>
+<span>               size <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>               folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span>
 <span><span class="va">model</span></span>
 <span><span class="co">#&gt; Object of class SDMmodelCV </span></span>
 <span><span class="co">#&gt; Method: ANN </span></span>
@@ -170,7 +176,7 @@
 <span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span></span>
 <span><span class="co">#&gt; Categorical: NA</span></span></code></pre></div>
 <p>Let’s check the training and testing AUC:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.8180469</span></span>
 <span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -180,105 +186,87 @@
 <h2 id="tune-model-hyperparameters">Tune model hyperparameters<a class="anchor" aria-label="anchor" href="#tune-model-hyperparameters"></a>
 </h2>
 <p>To check which hyperparameters can be tuned we use the function <code><a href="../reference/getTunableArgs.html">getTunableArgs()</a></code> function:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getTunableArgs.html">getTunableArgs</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "size"  "decay" "rang"  "maxit"</span></span></code></pre></div>
 <p>We use the function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> to tune the hyperparameters:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">decay =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>),</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">maxit =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">300</span>, <span class="dv">500</span>))</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>om <span class="ot">&lt;-</span> <span class="fu">optimizeModel</span>(model, <span class="at">hypers =</span> h, <span class="at">metric =</span> <span class="st">"auc"</span>, <span class="at">seed =</span> <span class="dv">25</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■                                [39m   2% | ETA:  6m - 00:00:6.1</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■                               [39m   5% | ETA:  3m - 00:00:8.1</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■                             [39m  11% | ETA:  2m - 00:00:11.7</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■                            [39m  13% | ETA:  2m - 00:00:15.4</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■                            [39m  15% | ETA:  2m - 00:00:19.9</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■                          [39m  20% | ETA:  2m - 00:00:23.2</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■                         [39m  25% | ETA:  1m - 00:00:25.9</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■                      [39m  33% | ETA:  1m - 00:00:31.4</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:2.4</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.3</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■                      [39m  33% | ETA:  1m - 00:00:31.4</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■                    [39m  <span class="dv">39</span>% <span class="sc">|</span> ETA<span class="sc">:</span>  1m <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">00</span><span class="sc">:</span><span class="fl">37.7</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■                  [39m  46% | ETA: 48s - 00:00:40.9</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:3.7</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:4.9</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■                  [39m  46% | ETA: 48s - 00:00:40.9</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■                 [39m  <span class="dv">49</span>% <span class="sc">|</span> ETA<span class="sc">:</span> 49s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">00</span><span class="sc">:</span><span class="fl">47.8</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■                 [39m  50% | ETA:  3s - 00:00:2.9</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:5.9</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■                 [39m  49% | ETA: 49s - 00:00:47.8</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■                [39m  <span class="dv">54</span>% <span class="sc">|</span> ETA<span class="sc">:</span> 48s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">00</span><span class="sc">:</span><span class="fl">56.1</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■                 [39m  50% | ETA:  2s - 00:00:2.3</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:4.6</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■                [39m  54% | ETA: 48s - 00:00:56.1</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■              [39m  <span class="dv">59</span>% <span class="sc">|</span> ETA<span class="sc">:</span> 44s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="fl">2.8</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:2.7</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.7</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■              [39m  59% | ETA: 44s - 00:01:2.8</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■            [39m  <span class="dv">66</span>% <span class="sc">|</span> ETA<span class="sc">:</span> 37s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="fl">9.7</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:2.6</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.5</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■            [39m  66% | ETA: 37s - 00:01:9.7</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>Cross Validation   [32m■■■■■■■■■■■■■■■■                 [39m  <span class="dv">50</span>% <span class="sc">|</span> ETA<span class="sc">:</span>  2s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">00</span><span class="sc">:</span><span class="dv">02</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:04</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■            [39m  66% | ETA: 37s - 00:01:9.7</span></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  <span class="dv">75</span>% <span class="sc">|</span> ETA<span class="sc">:</span>  1s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">00</span><span class="sc">:</span><span class="fl">2.4</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.2</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■            [39m  66% | ETA: 37s - 00:01:9.7</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■         [39m  <span class="dv">75</span>% <span class="sc">|</span> ETA<span class="sc">:</span> 27s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="fl">23.1</span></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■                 [39m  50% | ETA:  4s - 00:00:3.6</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:7.1</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■         [39m  75% | ETA: 27s - 00:01:23.1</span></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■      [39m  <span class="dv">85</span>% <span class="sc">|</span> ETA<span class="sc">:</span> 17s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="fl">36.5</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:2.6</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.4</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■      [39m  85% | ETA: 17s - 00:01:36.5</span></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■     [39m  <span class="dv">89</span>% <span class="sc">|</span> ETA<span class="sc">:</span> 13s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="fl">41.3</span></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:2.7</span></span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.5</span></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■     [39m  89% | ETA: 13s - 00:01:41.3</span></span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  <span class="dv">75</span>% <span class="sc">|</span> ETA<span class="sc">:</span>  1s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">00</span><span class="sc">:</span><span class="fl">2.9</span></span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.9</span></span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■     [39m  89% | ETA: 13s - 00:01:41.3</span></span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   [39m  <span class="dv">95</span>% <span class="sc">|</span> ETA<span class="sc">:</span>  6s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="fl">51.4</span></span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  75% | ETA:  1s - 00:00:2.8</span></span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.7</span></span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   [39m  95% | ETA:  6s - 00:01:51.4</span></span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■          [39m  <span class="dv">75</span>% <span class="sc">|</span> ETA<span class="sc">:</span>  1s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">00</span><span class="sc">:</span><span class="fl">2.4</span></span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cross Validation   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m 100% | ETA:  0s - 00:00:3.2</span></span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   [39m  95% | ETA:  6s - 00:01:51.4</span></span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>Optimize Model   [32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  [39m <span class="dv">100</span>% <span class="sc">|</span> ETA<span class="sc">:</span>  0s <span class="sc">-</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="fl">58.7</span></span></code></pre></div>
-<p>The best model is:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, </span>
+<span>          decay <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
+<span>          maxit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, </span>
+<span>                    hypers <span class="op">=</span> <span class="va">h</span>, </span>
+<span>                    metric <span class="op">=</span> <span class="st">"auc"</span>, </span>
+<span>                    seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
+<p>The best model is:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">best_model</span> <span class="op">&lt;-</span> <span class="va">om</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
-<span><span class="co">#&gt;   size decay rang maxit train_AUC  test_AUC   diff_AUC</span></span>
-<span><span class="co">#&gt; 1   12   0.5  0.7   300 0.9787095 0.9558854 0.02282407</span></span></code></pre></div>
-<p>The validation AUC increased from 0.7931771 of the default models to 0.9558854 of the optimized one.</p>
+<span><span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span></code></pre></div>
+<table class="table table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:right;">
+size
+</th>
+<th style="text-align:right;">
+decay
+</th>
+<th style="text-align:right;">
+rang
+</th>
+<th style="text-align:right;">
+maxit
+</th>
+<th style="text-align:right;">
+train_AUC
+</th>
+<th style="text-align:right;">
+test_AUC
+</th>
+<th style="text-align:right;">
+diff_AUC
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:right;">
+0.9853791
+</td>
+<td style="text-align:right;">
+0.9545833
+</td>
+<td style="text-align:right;">
+0.0307957
+</td>
+</tr></tbody>
+</table>
+<p>The validation AUC increased from 0.7931771 of the default models to 0.9545833 of the optimized one.</p>
 </div>
 <div class="section level2">
 <h2 id="evaluate-the-final-model">Evaluate the final model<a class="anchor" aria-label="anchor" href="#evaluate-the-final-model"></a>
 </h2>
 <p>We now train a model with the same configuration as found by the function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span></span>
-<span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, data <span class="op">=</span> <span class="va">train</span>, size <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>, decay <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span>, maxit <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">final_model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, </span>
+<span>                     data <span class="op">=</span> <span class="va">train</span>, </span>
+<span>                     size <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>, </span>
+<span>                     decay <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span>, </span>
+<span>                     maxit <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">final_model</span>, </span>
+<span>        test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>
 <p><img src="train-tune-presence-absence-models_files/figure-html/evaluate%20final%20model-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">

@@ -91,7 +91,7 @@
 
 
 
-
+<script src="evaluation-strategies_files/kePrint-0.0.1/kePrint.js"></script><link href="evaluation-strategies_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Evaluation strategies</h1>
@@ -125,8 +125,13 @@
 <p>It’s always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the <code><a href="../reference/trainValTest.html">trainValTest()</a></code> function for this purpose. Let’s say we want to use 80% of the species locations to train our model and 20% as testing dataset to evaluate it:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot" class="external-link">zeallot</a></span><span class="op">)</span>  <span class="co"># For unpacking assignment</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, test <span class="op">=</span> <span class="fl">0.2</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
-<span><span class="va">maxnet_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, </span>
+<span>                                 test <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>                                 only_presence <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>                                 seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">maxnet_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, </span>
+<span>                      data <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>only_presence</code> argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Training auc: "</span>, <span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">maxnet_model</span><span class="op">)</span><span class="op">)</span></span>
@@ -135,51 +140,177 @@
 <span><span class="co">#&gt; Testing auc:  0.8505888</span></span></code></pre></div>
 <p>We can plot the ROC curve for both, training and testing datasets, with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">maxnet_model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">maxnet_model</span>, </span>
+<span>        test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>
 <p><img src="evaluation-strategies_files/figure-html/plot%20AUC%20train/test-1.png" width="700"></p>
 <p>This approach is valid when we have a large dataset. In our case, with only 320 observations, the evaluation depends strongly on how we split our presence locations. Let’s run a small experiment in which we perform different train/test splits and we compute the AUC:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fl">10</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="co"># Create an empty data.frame</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">output</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seed"</span>, <span class="st">"trainAUC"</span>, <span class="st">"testAUC"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span></span>
 <span><span class="va">seeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">10</span><span class="op">)</span> <span class="co"># Create 10 different random seeds</span></span>
 <span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">seeds</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="co"># Loop through the seeds</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, test <span class="op">=</span> <span class="fl">0.2</span>, seed <span class="op">=</span> <span class="va">seeds</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Make the train/test split</span></span>
-<span>  <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">train</span><span class="op">)</span> <span class="co"># train the model</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">seeds</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="co"># Loop through the seeds</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, </span>
+<span>                                   test <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>                                   seed <span class="op">=</span> <span class="va">seeds</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, </span>
+<span>                                   only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Make the train/test split</span></span>
+<span>  </span>
+<span>  <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, </span>
+<span>             data <span class="op">=</span> <span class="va">train</span><span class="op">)</span> <span class="co"># train the model</span></span>
+<span>  </span>
 <span>  <span class="co"># Populate the output data.frame</span></span>
 <span>  <span class="va">output</span><span class="op">[</span><span class="va">i</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">seeds</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span>  <span class="va">output</span><span class="op">[</span><span class="va">i</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
 <span>  <span class="va">output</span><span class="op">[</span><span class="va">i</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">m</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>The testing AUC varies from 0.8340675 to 0.8671762. When we have to deal with a small dataset a better approach is the cross validation.</p>
+<p>The testing AUC varies from 0.834 to 0.867.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Print the output</span></span>
-<span><span class="va">output</span></span>
-<span><span class="co">#&gt;    seed  trainAUC   testAUC</span></span>
-<span><span class="co">#&gt; 1   647 0.8698272 0.8552425</span></span>
-<span><span class="co">#&gt; 2   477 0.8782434 0.8340675</span></span>
-<span><span class="co">#&gt; 3   536 0.8680666 0.8656850</span></span>
-<span><span class="co">#&gt; 4   444 0.8735606 0.8566337</span></span>
-<span><span class="co">#&gt; 5   985 0.8712828 0.8565025</span></span>
-<span><span class="co">#&gt; 6    49 0.8719091 0.8519175</span></span>
-<span><span class="co">#&gt; 7    72 0.8719313 0.8661387</span></span>
-<span><span class="co">#&gt; 8   617 0.8743353 0.8529850</span></span>
-<span><span class="co">#&gt; 9   282 0.8695072 0.8671275</span></span>
-<span><span class="co">#&gt; 10   59 0.8709719 0.8671762</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">output</span><span class="op">[</span>, <span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.8340675 0.8671762</span></span></code></pre></div>
+<span><span class="va">output</span></span></code></pre></div>
+<table class="table table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:right;">
+seed
+</th>
+<th style="text-align:right;">
+trainAUC
+</th>
+<th style="text-align:right;">
+testAUC
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+647
+</td>
+<td style="text-align:right;">
+0.8698272
+</td>
+<td style="text-align:right;">
+0.8552425
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+477
+</td>
+<td style="text-align:right;">
+0.8782434
+</td>
+<td style="text-align:right;">
+0.8340675
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+536
+</td>
+<td style="text-align:right;">
+0.8680666
+</td>
+<td style="text-align:right;">
+0.8656850
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+444
+</td>
+<td style="text-align:right;">
+0.8735606
+</td>
+<td style="text-align:right;">
+0.8566337
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+985
+</td>
+<td style="text-align:right;">
+0.8712828
+</td>
+<td style="text-align:right;">
+0.8565025
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+0.8719091
+</td>
+<td style="text-align:right;">
+0.8519175
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+0.8719313
+</td>
+<td style="text-align:right;">
+0.8661387
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+617
+</td>
+<td style="text-align:right;">
+0.8743353
+</td>
+<td style="text-align:right;">
+0.8529850
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+282
+</td>
+<td style="text-align:right;">
+0.8695072
+</td>
+<td style="text-align:right;">
+0.8671275
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+0.8709719
+</td>
+<td style="text-align:right;">
+0.8671762
+</td>
+</tr>
+</tbody>
+</table>
+<p>When we have to deal with a small dataset a better approach is the cross validation.</p>
 </div>
 <div class="section level2">
 <h2 id="cross-validation">Cross validation<a class="anchor" aria-label="anchor" href="#cross-validation"></a>
 </h2>
 <p>To perform a cross validation in <strong>SDMtune</strong> we have to pass the <code>fold</code> argument to the <code><a href="../reference/train.html">train()</a></code> function. First we have to create the folds. There are several way to create them, here we explain how to make a random partition of 4 folds using the function <code><a href="../reference/randomFolds.html">randomFolds()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">data</span>, k <span class="op">=</span> <span class="fl">4</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span>, seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">data</span>, </span>
+<span>                     k <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>                     only_presence <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>                     seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
 <p>The output of the function is a list containing two matrices, the first for the training and the second for the testing locations. Each column of one matrix represents a fold with <code>TRUE</code> for the locations included in and <code>FALSE</code> excluded from the partition.</p>
 <p>Let’s perform a 4 fold cross validation using the <strong>Maxnet</strong> method (note that we use the full dataset):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cv_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">data</span>, folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">cv_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, </span>
+<span>                  data <span class="op">=</span> <span class="va">data</span>, </span>
+<span>                  folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span>
 <span><span class="va">cv_model</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Object of class SDMmodelCV </span></span>
 <span><span class="co">#&gt; Method: Maxnet </span></span>
@@ -226,20 +357,48 @@
 <p>Block partition using the package <code>ENMeval</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ENMeval</span><span class="op">)</span></span>
-<span><span class="va">block_folds</span> <span class="op">&lt;-</span> <span class="fu">get.block</span><span class="op">(</span>occ <span class="op">=</span> <span class="va">data</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">1</span>, <span class="op">]</span>, bg.coords <span class="op">=</span> <span class="va">data</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">0</span>, <span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">data</span>, fc <span class="op">=</span> <span class="st">"l"</span>, reg <span class="op">=</span> <span class="fl">0.8</span>, folds <span class="op">=</span> <span class="va">block_folds</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">block_folds</span> <span class="op">&lt;-</span> <span class="fu">get.block</span><span class="op">(</span>occ <span class="op">=</span> <span class="va">data</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">1</span>, <span class="op">]</span>, </span>
+<span>                         bg.coords <span class="op">=</span> <span class="va">data</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">0</span>, <span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, </span>
+<span>               data <span class="op">=</span> <span class="va">data</span>, </span>
+<span>               fc <span class="op">=</span> <span class="st">"l"</span>, </span>
+<span>               reg <span class="op">=</span> <span class="fl">0.8</span>, </span>
+<span>               folds <span class="op">=</span> <span class="va">block_folds</span><span class="op">)</span></span></code></pre></div>
 <p>Checkerboard1 partition using the package <code>ENMeval</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cb_folds</span> <span class="op">&lt;-</span> <span class="fu">get.checkerboard1</span><span class="op">(</span>occ <span class="op">=</span> <span class="va">data</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">1</span>, <span class="op">]</span>, env <span class="op">=</span> <span class="va">predictors</span>, bg.coords <span class="op">=</span> <span class="va">data</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">0</span>, <span class="op">]</span>, aggregation.factor <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">data</span>, fc <span class="op">=</span> <span class="st">"l"</span>, reg <span class="op">=</span> <span class="fl">0.8</span>, folds <span class="op">=</span> <span class="va">cb_folds</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cb_folds</span> <span class="op">&lt;-</span> <span class="fu">get.checkerboard1</span><span class="op">(</span>occ <span class="op">=</span> <span class="va">data</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">1</span>, <span class="op">]</span>, </span>
+<span>                              env <span class="op">=</span> <span class="va">predictors</span>, </span>
+<span>                              bg.coords <span class="op">=</span> <span class="va">data</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span> <span class="op">==</span> <span class="fl">0</span>, <span class="op">]</span>, </span>
+<span>                              aggregation.factor <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, </span>
+<span>               data <span class="op">=</span> <span class="va">data</span>, </span>
+<span>               fc <span class="op">=</span> <span class="st">"l"</span>, </span>
+<span>               reg <span class="op">=</span> <span class="fl">0.8</span>, </span>
+<span>               folds <span class="op">=</span> <span class="va">cb_folds</span><span class="op">)</span></span></code></pre></div>
 <p>Environmental block using the package <code>blockCV</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rvalavi/blockCV" class="external-link">blockCV</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Create spatial points data frame</span></span>
-<span><span class="va">sp_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span><span class="va">data</span><span class="op">@</span><span class="va">coords</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span><span class="op">)</span>, proj4string <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/crs.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">predictors</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">e_folds</span> <span class="op">&lt;-</span> <span class="fu">envBlock</span><span class="op">(</span>rasterLayer <span class="op">=</span> <span class="va">predictors</span>, speciesData <span class="op">=</span> <span class="va">sp_df</span>, species <span class="op">=</span> <span class="st">"data@pa"</span>, k <span class="op">=</span> <span class="fl">4</span>, standardization <span class="op">=</span> <span class="st">"standard"</span>, rasterBlock <span class="op">=</span> <span class="cn">FALSE</span>, numLimit <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">data</span>, fc <span class="op">=</span> <span class="st">"l"</span>, reg <span class="op">=</span> <span class="fl">0.8</span>, folds <span class="op">=</span> <span class="va">e_folds</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">sp_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span><span class="va">data</span><span class="op">@</span><span class="va">coords</span>, </span>
+<span>                                data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">data</span><span class="op">@</span><span class="va">pa</span><span class="op">)</span>, </span>
+<span>                                proj4string <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/crs.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">predictors</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">e_folds</span> <span class="op">&lt;-</span> <span class="fu">envBlock</span><span class="op">(</span>rasterLayer <span class="op">=</span> <span class="va">predictors</span>, </span>
+<span>                    speciesData <span class="op">=</span> <span class="va">sp_df</span>, </span>
+<span>                    species <span class="op">=</span> <span class="st">"data@pa"</span>, </span>
+<span>                    k <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>                    standardization <span class="op">=</span> <span class="st">"standard"</span>, </span>
+<span>                    rasterBlock <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>                    numLimit <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, </span>
+<span>               data <span class="op">=</span> <span class="va">data</span>, </span>
+<span>               fc <span class="op">=</span> <span class="st">"l"</span>, </span>
+<span>               reg <span class="op">=</span> <span class="fl">0.8</span>, </span>
+<span>               folds <span class="op">=</span> <span class="va">e_folds</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
