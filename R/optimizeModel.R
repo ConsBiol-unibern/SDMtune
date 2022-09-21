@@ -179,7 +179,8 @@ optimizeModel <- function(model,
   # Random search, create random population
   for (i in 1:pop) {
 
-    models[[i]] <- .create_model_from_settings(model, grid[index[i], ])
+    models[[i]] <- .create_model_from_settings(model,
+                                               grid[index[i], ])
 
     train_metric[i, ] <- list(i, .get_metric(metric, models[[i]], env = env))
 
@@ -358,11 +359,13 @@ optimizeModel <- function(model,
   mother_args <- .get_train_args(mother)
   model_args <- mother_args
   father_args <- .get_train_args(father)
+
   # Crossover
   for (arg in names(hypers)) {
     model_args[[arg]] <- sample(c(mother_args[[arg]], father_args[[arg]]),
                                 size = 1)[[1]]
   }
+
   # Mutation
   if (mutation_chance > stats::runif(1)) {
     # Only hypers with more than two values can be use for mutation
@@ -372,6 +375,9 @@ optimizeModel <- function(model,
     model_args[[mutation]] <- ifelse(length(options) > 1,
                                      sample(options, size = 1), options)
   }
+
+  if (inherits(mother, "SDMmodelCV"))
+    model_args$progress <- FALSE
 
   new_model <- do.call("train", model_args)
 
@@ -424,13 +430,13 @@ optimizeModel <- function(model,
     diff_metric <- metrics[[1]] - metrics[[2]]
     if (!any(diff_metric > 0))
       return(FALSE)
-    # Ordered index of dereasing validation metric
+    # Ordered index of decreasing validation metric
     o <- order(-metrics[[2]])
     # Good models are those not overfitting the validation dataset
     good_models <- o[o %in% which(diff_metric > 0)]
     # Bad models have diff_metric >= 0
     bad_models <- o[!o %in% good_models]
-    # Ordered index of decreasomg diff_metric
+    # Ordered index of decreasing diff_metric
     odm <- order(-diff_metric)
     # Ordered index of bad_models from the one less overfitting
     bad_models <- odm[odm %in% bad_models]

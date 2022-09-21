@@ -207,6 +207,7 @@
 
   if (inherits(model, "SDMmodelCV")) {
     args$folds <- model@folds
+    args$progress <- FALSE
     model <- model@models[[1]]@model
   } else {
     args$folds <- NULL
@@ -243,12 +244,10 @@
 }
 
 .create_model_from_settings <- function(model,
-                                        settings,
-                                        progress = FALSE) {
+                                        settings) {
 
   args <- .get_train_args(model)
   args[names(settings)] <- settings
-  args$progress <- progress
   output <- do.call("train", args)
 
   return(output)
