@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check-pak/badge.svg)](https://github.com/ConsBiol-unibern/SDMtune/actions)
+status](https://github.com/ConsBiol-unibern/SDMtune/workflows/R-CMD-check/badge.svg)](https://github.com/ConsBiol-unibern/SDMtune/actions)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version-last-release/SDMtune)](https://cran.r-project.org/package=SDMtune)
 [![CRAN RStudio mirror
