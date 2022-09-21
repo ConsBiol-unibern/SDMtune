@@ -24,20 +24,29 @@ library(zeallot)
 
 # Prepare data
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
+                    pattern = "grd",
+                    full.names = TRUE)
+
 predictors <- raster::stack(files)
 p_coords <- virtualSp$presence
 a_coords <- virtualSp$absence
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = a_coords,
                    env = predictors[[1:8]])
 
 # Split data in training and testing datasets
-c(train, test) %<-% trainValTest(data, test = 0.2, seed = 25)
+c(train, test) %<-% trainValTest(data,
+                                 test = 0.2,
+                                 seed = 25)
+
 cat("# Training  : ", nrow(train@data))
 cat("\n# Testing   : ", nrow(test@data))
 
 # Create folds
-folds <- randomFolds(train, k = 4, seed = 25)
+folds <- randomFolds(train,
+                     k = 4,
+                     seed = 25)
 ```
 
 # Train the model
@@ -45,7 +54,11 @@ folds <- randomFolds(train, k = 4, seed = 25)
 We first train the model with default settings and using 10 neurons:
 ```{r}
 set.seed(25)
-model <- train("ANN", data = train, size = 10, folds = folds)
+model <- train("ANN",
+               data = train,
+               size = 10,
+               folds = folds)
+
 model
 ```
 
@@ -65,10 +78,14 @@ getTunableArgs(model)
 We use the function `optimizeModel` to tune the hyperparameters:
 
 ```{r optimize model}
-h <- list(size = 10:50, decay = c(0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5),
+h <- list(size = 10:50,
+          decay = c(0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5),
           maxit = c(50, 100, 300, 500))
 
-om <- optimizeModel(model, hypers = h, metric = "auc", seed = 25)
+om <- optimizeModel(model,
+                    hypers = h,
+                    metric = "auc",
+                    seed = 25)
 ```
 
 The best model is:
@@ -82,9 +99,14 @@ om@results[1, ]
 We now train a model with the same configuration as found by the function`optimizeModel`, without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:
 ```{r evaluate final model, fig.align="center"}
 set.seed(25)
-final_model <- train("ANN", data = train, size = om@results[1, 1],
-                     decay = om@results[1, 2], maxit = om@results[1, 4])
-plotROC(final_model, test = test)
+final_model <- train("ANN",
+                     data = train,
+                     size = om@results[1, 1],
+                     decay = om@results[1, 2],
+                     maxit = om@results[1, 4])
+
+plotROC(final_model,
+        test = test)
 ```
 
 # References
