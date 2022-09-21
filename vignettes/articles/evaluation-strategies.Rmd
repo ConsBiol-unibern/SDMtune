@@ -14,7 +14,9 @@ options(knitr.table.format = "html")
 ```{r load data, echo=FALSE, message=FALSE}
 library(kableExtra)
 data <- SDMtune:::t
-files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = T)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
+                    pattern = "grd", 
+                    full.names = T)
 predictors <- raster::stack(files)
 ```
 
@@ -33,8 +35,13 @@ library(SDMtune)
 It's always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest()` function for this purpose. Let's say we want to use 80\% of the species locations to train our model and 20\% as testing dataset to evaluate it:
 ```{r train test}
 library(zeallot)  # For unpacking assignment
-c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
-maxnet_model <- train("Maxnet", data = train)
+c(train, test) %<-% trainValTest(data, 
+                                 test = 0.2, 
+                                 only_presence = TRUE, 
+                                 seed = 25)
+
+maxnet_model <- train("Maxnet", 
+                      data = train)
 ```
 
 The `only_presence` argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:
@@ -45,19 +52,27 @@ cat("Testing auc: ", auc(maxnet_model, test = test))
 
 We can plot the ROC curve for both, training and testing datasets, with:
 ```{r plot AUC train/test}
-plotROC(maxnet_model, test = test)
+plotROC(maxnet_model, 
+        test = test)
 ```
 
 This approach is valid when we have a large dataset. In our case, with only `r nrow(train@data[train@pa == 1, ])` observations, the evaluation depends strongly on how we split our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the AUC:
 ```{r experiment}
 output <- data.frame(matrix(NA, nrow = 10, ncol = 3)) # Create an empty data.frame
 colnames(output) <- c("seed", "trainAUC", "testAUC")
+
 set.seed(25)
 seeds <- sample.int(1000, 10) # Create 10 different random seeds
 
-for (i in 1:length(seeds)) { # Loop through the seeds
-  c(train, test) %<-% trainValTest(data, test = 0.2, seed = seeds[i], only_presence = TRUE) # Make the train/test split
-  m <- train("Maxnet", data = train) # train the model
+for (i in seq_along(seeds)) { # Loop through the seeds
+  c(train, test) %<-% trainValTest(data, 
+                                   test = 0.2, 
+                                   seed = seeds[i], 
+                                   only_presence = TRUE) # Make the train/test split
+  
+  m <- train("Maxnet", 
+             data = train) # train the model
+  
   # Populate the output data.frame
   output[i, 1] <- seeds[i]
   output[i, 2] <- auc(m)
@@ -65,25 +80,38 @@ for (i in 1:length(seeds)) { # Loop through the seeds
 }
 ```
 
-The testing AUC varies from `r min(output[, 3])` to `r max(output[, 3])`. When we have to deal with a small dataset a better approach is the cross validation.
-```{r table}
+The testing AUC varies from `r round(min(output[, 3]), 3)` to `r round(max(output[, 3]), 3)`.
+```{r table, eval=FALSE}
 # Print the output
 output
-range(output[, 3])
 ```
+```{r table output, echo=FALSE}
+# Print the output
+kableExtra::kable(output) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
+```
+
+When we have to deal with a small dataset a better approach is the cross validation.
 
 ## Cross validation
 
 To perform a cross validation in **SDMtune** we have to pass the `fold` argument to the `train()` function. First we have to create the folds. There are several way to create them, here we explain how to make a random partition of 4 folds using the function `randomFolds()`:
 ```{r random folds}
-folds <- randomFolds(data, k = 4, only_presence = TRUE, seed = 25)
+folds <- randomFolds(data, 
+                     k = 4, 
+                     only_presence = TRUE, 
+                     seed = 25)
 ```
 
 The output of the function is a list containing two matrices, the first for the training and the second for the testing locations. Each column of one matrix represents a fold with `TRUE` for the locations included in and `FALSE` excluded from the partition.
 
 Let's perform a 4 fold cross validation using the **Maxnet** method (note that we use the full dataset):
 ```{r cv, eval=FALSE}
-cv_model <- train("Maxnet", data = data, folds = folds)
+cv_model <- train("Maxnet", 
+                  data = data, 
+                  folds = folds)
 cv_model
 ```
 ```{r cv bis, echo=FALSE}
@@ -115,14 +143,28 @@ The function will convert internally the created folds into the correct format f
 Block partition using the package `ENMeval`:
 ```{r enmeval block, eval=FALSE}
 library(ENMeval)
-block_folds <- get.block(occ = data@coords[data@pa == 1, ], bg.coords = data@coords[data@pa == 0, ])
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = block_folds)
+block_folds <- get.block(occ = data@coords[data@pa == 1, ], 
+                         bg.coords = data@coords[data@pa == 0, ])
+
+model <- train(method = "Maxnet", 
+               data = data, 
+               fc = "l", 
+               reg = 0.8, 
+               folds = block_folds)
 ```
 
 Checkerboard1 partition using the package `ENMeval`:
 ```{r enmeval checherboard1, eval=FALSE}
-cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ], env = predictors, bg.coords = data@coords[data@pa == 0, ], aggregation.factor = 4)
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = cb_folds)
+cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ], 
+                              env = predictors, 
+                              bg.coords = data@coords[data@pa == 0, ], 
+                              aggregation.factor = 4)
+
+model <- train(method = "Maxnet", 
+               data = data, 
+               fc = "l", 
+               reg = 0.8, 
+               folds = cb_folds)
 ```
 
 
@@ -130,10 +172,24 @@ Environmental block using the package `blockCV`:
 ```{r blockCV, eval=FALSE}
 library(blockCV)
 library(raster)
+
 # Create spatial points data frame
-sp_df <- SpatialPointsDataFrame(data@coords, data = as.data.frame(data@pa), proj4string = crs(predictors))
-e_folds <- envBlock(rasterLayer = predictors, speciesData = sp_df, species = "data@pa", k = 4, standardization = "standard", rasterBlock = FALSE, numLimit = 100)
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8, folds = e_folds)
+sp_df <- SpatialPointsDataFrame(data@coords, 
+                                data = as.data.frame(data@pa), 
+                                proj4string = crs(predictors))
+e_folds <- envBlock(rasterLayer = predictors, 
+                    speciesData = sp_df, 
+                    species = "data@pa", 
+                    k = 4, 
+                    standardization = "standard", 
+                    rasterBlock = FALSE, 
+                    numLimit = 100)
+
+model <- train(method = "Maxnet", 
+               data = data, 
+               fc = "l", 
+               reg = 0.8, 
+               folds = e_folds)
 ```
 
 ## Conclusion

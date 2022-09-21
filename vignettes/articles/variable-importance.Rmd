@@ -13,7 +13,9 @@ options(knitr.table.format = "html")
 ```{r load data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
 data <- SDMtune:::t
-files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
+                    pattern = "grd", 
+                    full.names = TRUE)
 predictors <- raster::stack(files)
 ```
 
@@ -30,14 +32,27 @@ library(SDMtune)
 ```
 
 For a **Maxent** model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:
-```{r maxent results}
+```{r maxent results, eval=FALSE}
 default_model@model@results
+```
+```{r maxent results output, echo=FALSE}
+kableExtra::kable(default_model@model@results) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center") |> 
+  kableExtra::scroll_box(height = "400px")
 ```
 
 The function `maxentVarImp()` extracts the variable importance values from the previous output and formats them in a more human readable way:
-```{r maxent var importance}
+```{r maxent var importance, eval=FALSE}
 vi <- maxentVarImp(default_model)
 vi
+```
+```{r maxent var importance output, echo=FALSE}
+vi <- maxentVarImp(default_model)
+kableExtra::kable(vi) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
 ```
 
 As you can see the function returns a `data.frame` with the variable name, the percent contribution and the permutation importance.
@@ -64,14 +79,28 @@ plotVarImp(vi[, c(1,3)])
 For this example we use a **Maxnet** model and a training/testing validation strategy like in the [previous article](./evaluation-strategies.html#train-and-testing-datasets):
 ```{r train test}
 library(zeallot)  # For unpacking assignment
-c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
-maxnet_model <- train("Maxnet", data = train)
+c(train, test) %<-% trainValTest(data, 
+                                 test = 0.2, 
+                                 only_presence = TRUE, 
+                                 seed = 25)
+
+maxnet_model <- train("Maxnet", 
+                      data = train)
 ```
 
 Now we can calculate the variable importance with the function `varImp()` using 5 permutations:
-```{r}
-vi_maxnet <- varImp(maxnet_model, permut = 5)
+```{r vi, eval=FALSE}
+vi_maxnet <- varImp(maxnet_model, 
+                    permut = 5)
 vi_maxnet
+```
+```{r vi output, echo=FALSE}
+vi_maxnet <- varImp(maxnet_model, 
+                    permut = 5)
+kableExtra::kable(vi_maxnet) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
 ```
 
 And plot it with:
@@ -84,9 +113,12 @@ plotVarImp(vi_maxnet)
 Use the `varImp()` function to compute the permutation importance for the `default_model` using 10 permutations and compare the results with the Maxent output. To see the solution highlight the following cell:
 ```{r permut exercise, eval=FALSE, class.source='exercise'}
 # Compute the permutation importance
-vi_maxent <- varImp(default_model, permut = 10)
+vi_maxent <- varImp(default_model, 
+                    permut = 10)
+
 # Print it
 vi_maxent
+
 # Compare with Maxent output
 maxentVarImp(default_model)
 ```
@@ -95,19 +127,35 @@ The difference is probably due to a different shuffling of the presence and back
 ## Jackknife test for variable importance
 
 Another method to estimate the variable importance is the leave one out Jackknife test. The test removes one variable at time and records the change in the chosen metric. We use the function `doJk()`, the AUC as evaluation metric and the `maxnet_model`:
-```{r jk}
-jk <- doJk(maxnet_model, metric = "auc", test = test)
+```{r jk, eval=FALSE}
+jk <- doJk(maxnet_model, 
+           metric = "auc", 
+           test = test)
 jk
+```
+```{r jk ouput, echo=FALSE}
+jk <- doJk(maxnet_model, 
+           metric = "auc", 
+           test = test,
+           progress = FALSE)
+kableExtra::kable(jk) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
 ```
 
 We can also plot the output using the function `plotJk()`. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC: 
 ```{r plot jk train, fig.align="center"}
-plotJk(jk, type = "train", ref = auc(maxnet_model))
+plotJk(jk, 
+       type = "train", 
+       ref = auc(maxnet_model))
 ```
 
 and the Jackknife test for the testing AUC:
 ```{r plot jk test, fig.align="center"}
-plotJk(jk, type = "test", ref = auc(maxnet_model, test = test))
+plotJk(jk, 
+       type = "test", 
+       ref = auc(maxnet_model, test = test))
 ```
 
 ### Try yourself
@@ -118,19 +166,35 @@ Repeat the Jackknife part using the TSS and the AICc as evaluation metric and us
 
 With the function `plotResponse()` is possible to plot the marginal and the univariate response curve. Let's plot the **cloglog** univariate response curve of **bio1**:
 ```{r plot bio1, fig.align="center"}
-plotResponse(maxnet_model, var = "bio1", type = "cloglog", only_presence = TRUE, marginal = FALSE, rug = TRUE)
+plotResponse(maxnet_model, 
+             var = "bio1", 
+             type = "cloglog", 
+             only_presence = TRUE, 
+             marginal = FALSE, 
+             rug = TRUE)
 ```
 
 On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the **logistic** marginal response curve of **biome** that is a categorical variable, keeping the other variables at the mean value:
 ```{r plot biome, fig.align="center"}
-plotResponse(maxnet_model, var = "biome", type = "logistic", only_presence = TRUE, marginal = TRUE, fun = mean, color = "blue")
+plotResponse(maxnet_model, 
+             var = "biome", 
+             type = "logistic", 
+             only_presence = TRUE, 
+             marginal = TRUE, 
+             fun = mean, 
+             color = "blue")
 ```
 
 ### Try yourself
 
 Plot in green the univariate cloglog response curve of **bio17** removing the rug and using the `default_model`, to see the solution highlight the following cell:
 ```{r plot exercise, eval=FALSE, eval=FALSE, class.source='exercise'}
-plotResponse(default_model, var = "bio17", type = "cloglog", only_presence = TRUE, marginal = FALSE, color = "green")
+plotResponse(default_model, 
+             var = "bio17", 
+             type = "cloglog", 
+             only_presence = TRUE, 
+             marginal = FALSE, 
+             color = "green")
 ```
 
 In the case of an `SDMmodelCV()` the response curve shows the averaged value of the prediction together with one Standard Deviation error interval. We use the cross validation model trained in the [previous article](./evaluation-strategies.html#cross-validation)
@@ -139,7 +203,13 @@ cv_model <- SDMtune:::bm_maxnet_cv
 ```
 
 ```{r plot cv response, fig.align="center"}
-plotResponse(cv_model, var = "bio1", type = "cloglog", only_presence = TRUE, marginal = TRUE, fun = mean, rug = TRUE)
+plotResponse(cv_model, 
+             var = "bio1", 
+             type = "cloglog", 
+             only_presence = TRUE, 
+             marginal = TRUE, 
+             fun = mean, 
+             rug = TRUE)
 ```
 
 ## Model report
@@ -155,7 +225,14 @@ All what you have learned till now con be saved and summarized calling the funct
 
 The function is totally inspired by the default output of the MaxEnt Java software [@Phillips2006] and extends it to other methods. You can decide what to include in the report using dedicated function arguments, like `response_curves`, `jk` and `env` but the function cannot be used with `SDMmodelCV()` objects. Run the following code to create a report of the **Maxnet** model we trained before:
 ```{r report, eval=FALSE}
-modelReport(maxnet_model, type = "cloglog", folder = "virtual-sp", test = test, response_curves = TRUE, only_presence = TRUE, jk = TRUE, env = predictors)
+modelReport(maxnet_model, 
+            type = "cloglog", 
+            folder = "virtual-sp", 
+            test = test, 
+            response_curves = TRUE, 
+            only_presence = TRUE, 
+            jk = TRUE, 
+            env = predictors)
 ```
 
 The output is displayed in the browser and all the files are saved in the **virtual-sp** folder.

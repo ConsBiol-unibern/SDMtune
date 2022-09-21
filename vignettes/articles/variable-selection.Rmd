@@ -14,9 +14,15 @@ options(knitr.table.format = "html")
 library(zeallot)
 library(SDMtune)
 data <- SDMtune:::t
-c(train, test) %<-% trainValTest(data, test = 0.2, only_presence = TRUE, seed = 25)
+c(train, test) %<-% trainValTest(data, 
+                                 test = 0.2, 
+                                 only_presence = TRUE, 
+                                 seed = 25)
+
 maxnet_model <- train("Maxnet", data = train)
-files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
+                    pattern = "grd", 
+                    full.names = TRUE)
 predictors <- raster::stack(files)
 ```
 
@@ -27,21 +33,47 @@ In the previous articles you have learned the core functions of **SDMtune** for 
 ## Explore variable correlation
 
 We extract 10000 background locations using the function  [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) included in the `dismo` package (we set the seed to have reproducible results). After we create an `SWD()` object using the `prepareSWD()` function:
-```{r backgrounds}
+```{r backgrounds, eval=FALSE}
 set.seed(25)
 bg <- dismo::randomPoints(predictors, 10000)
-bg <- prepareSWD(species = "Bgs", a = bg, env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Bgs", 
+                 a = bg, 
+                 env = predictors, 
+                 categorical = "biome")
+```
+```{r backgrounds output, echo=FALSE}
+set.seed(25)
+bg <- dismo::randomPoints(predictors, 10000)
+bg <- prepareSWD(species = "Bgs", 
+                 a = bg, 
+                 env = predictors, 
+                 categorical = "biome",
+                 verbose = FALSE)
 ```
 The environmental variables we downloaded have a coarse resolution and the function can extract a bit less than 10000 random locations (see the warning message).
 
 With the function `plotCor()` you can create an heat map showing the degree of autocorrelation:
 ```{r heat map, fig.align="center"}
-plotCor(bg, method = "spearman", cor_th = 0.7)
+plotCor(bg, 
+        method = "spearman", 
+        cor_th = 0.7)
 ```
 
 You can select a different correlation method or set a different correlation threshold. Another useful function is `corVar()` that instead of creating a heat map prints the pairs of correlated variables according to the given method and correlation threshold:
-```{r cor var}
-corVar(bg, method = "spearman", cor_th = 0.7)
+```{r cor var, eval=FALSE}
+corVar(bg, 
+       method = "spearman", 
+       cor_th = 0.7)
+```
+```{r cor var output, echo=FALSE}
+cv <- corVar(bg, 
+             method = "spearman", 
+             cor_th = 0.7)
+
+kableExtra::kable(cv) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
 ```
 
 As you can see there are few variables that have a correlation coefficient greater than 0.7 in absolute value.
@@ -56,8 +88,24 @@ As you can see there are few variables that have a correlation coefficient great
 4. remove the variable that decreases the less the model performance when removed, according to the given metric on the training dataset.
 
 The process is repeated until the remaining variables have a correlation coefficient lower than the provided correlation threshold. In the next example we remove the variables that have a **Spearman** correlation coefficient $|r_s|\leq0.7$ and checking the AUC on the training dataset (we use only one permutation to save time but you are free to increase this value). If you use RStudio, the function creates an interactive real-time chart in the viewer pane. Run the following code and hover over the chart during the execution of the function to get extra information:
-```{r varSel}
-selected_variables_model <- varSel(maxnet_model, metric = "auc", test = test, bg4cor = bg, method = "spearman", cor_th = 0.7, permut = 1)
+```{r varSel, eval=FALSE}
+selected_variables_model <- varSel(maxnet_model, 
+                                   metric = "auc", 
+                                   test = test, 
+                                   bg4cor = bg, 
+                                   method = "spearman", 
+                                   cor_th = 0.7, 
+                                   permut = 1)
+```
+```{r varSel output, echo=FALSE}
+selected_variables_model <- varSel(maxnet_model, 
+                                   metric = "auc", 
+                                   test = test, 
+                                   bg4cor = bg, 
+                                   method = "spearman", 
+                                   cor_th = 0.7, 
+                                   permut = 1,
+                                   progress = FALSE)
 ```
 
 As you can see some variables have been removed. The output of the function is the model trained with the selected variables:
@@ -70,27 +118,55 @@ selected_variables_model
 Remove highly correlated variables using the `default_model`, ranking the variables with the percent contribution and using the AICc as evaluation metric. Check the help of the function `varSel()` and highlight the next cell to see the solution:
 ```{r exercise 1, eval=FALSE, eval=FALSE, class.source='exercise'}
 # You need to pass the env argument for the AICc and the use_pc argument to use the percent contribution
-selected_variables_model <- varSel(default_model, metric = "aicc", bg4cor = bg, method = "spearman", cor_th = 0.7, env = predictors, use_pc = TRUE)
+selected_variables_model <- varSel(default_model, 
+                                   metric = "aicc", 
+                                   bg4cor = bg, 
+                                   method = "spearman", 
+                                   cor_th = 0.7, 
+                                   env = predictors, 
+                                   use_pc = TRUE)
 ```
 
 ## Remove variables with low importance
 
 There are cases in which a model has some environmental variables ranked with very low contribution and you may want to remove some of them to reduce the model complexity. **SDMtune** offers two different strategies implemented in the function `reduceVar()`. We will use the `maxnet_model` trained with all the variables. Let's first check the permutation importance (we use only one permutation to save time):
-```{r permutation}
-varImp(maxnet_model, permut = 1)
+```{r permutation, eval=FALSE}
+varImp(maxnet_model, 
+       permut = 1)
+```
+```{r permutation output, echo=FALSE}
+vi <- varImp(maxnet_model, 
+             permut = 1)
+kableExtra::kable(vi) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
 ```
 
 We will use the function `reduceVar()` only for demonstration purpose. In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance greater than 6\%:
 ```{r reduce var 1}
 cat("Testing AUC before: ", auc(maxnet_model, test = test))
-reduced_variables_model <- reduceVar(maxnet_model, th = 6, metric = "auc", test = test, permut = 1)
+
+reduced_variables_model <- reduceVar(maxnet_model, 
+                                     th = 6, 
+                                     metric = "auc", 
+                                     test = test, 
+                                     permut = 1)
+
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 
 In the second example we want to remove the environmental variables that have a permutation importance lower than 15\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
 ```{r reduce var 2}
 cat("Testing AUC before: ", auc(maxnet_model, test = test))
-reduced_variables_model <- reduceVar(maxnet_model, th = 15, metric = "auc", test = test, permut = 1, use_jk = TRUE)
+
+reduced_variables_model <- reduceVar(maxnet_model, 
+                                     th = 15, 
+                                     metric = "auc", 
+                                     test = test, 
+                                     permut = 1, 
+                                     use_jk = TRUE)
+
 cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 ```
 
@@ -101,7 +177,11 @@ As you can see in this case several variables have been removed and the AUC in t
 Reduce the number of variables using the model trained with the [cross validation](./evaluation-strategies.html#cross-validation) and using as metric the TSS. Highlight the following cell for the solution:
 ```{r exercise 2, eval=FALSE, eval=FALSE, class.source='exercise'}
 # You need to pass TRUE to the test argument
-selected_variables_model <- reduceVar(cv_model, th = 6, metric = "tss", test = TRUE, permut = 1)
+selected_variables_model <- reduceVar(cv_model, 
+                                      th = 6, 
+                                      metric = "tss", 
+                                      test = TRUE, 
+                                      permut = 1)
 ```
 
 ## Conclusion

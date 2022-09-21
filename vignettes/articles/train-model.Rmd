@@ -30,15 +30,6 @@ In the [previous article](./prepare-data.html) you have learned how to prepare t
 
 The code necessary to train a model is the same for all the implementations. We will show how to train a **Maxent** model, you can adapt the code for the other methods or check this [article](./train-tune-presence-absence-models.html).
 
-## Check that MaxEnt is correctly configured
-
-Before training a model we check that MaxEnt is correctly configured for the `dismo` package:
-```{r check maxent, eval=FALSE}
-dismo::maxent()
-```
-
-In case you get an error, check the [Home](../../index.html) page to see how to configure MaxEnt.
-
 ## Train a model with default settings
 
 First we load the **SDMtune** package:
@@ -57,7 +48,8 @@ We use the function `train()` to train a **Maxent** model. We need to provide tw
 default_model <- SDMtune:::bm_maxent
 ```
 ```{r train, eval=FALSE}
-default_model <- train(method = "Maxent", data = data)
+default_model <- train(method = "Maxent",
+                       data = data)
 ```
 
 The function trains the model using default settings that are:
@@ -112,14 +104,22 @@ For the moment the most important are: **fc**, **reg** and **iter** that contain
 The function `train()` accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the same model using:
 
 ```{r retrain, eval = FALSE}
-default_model <- train(method = "Maxent", data = data, fc = "lqph", reg = 1, iter = 500)
+default_model <- train(method = "Maxent", 
+                       data = data, 
+                       fc = "lqph", 
+                       reg = 1, 
+                       iter = 500)
 ```
 
 ### Try yourself
 Try to change the default settings  and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:
 
-```{r exercise1, eval = FALSE, class.source='exercise'}
-model <- train(method = "Maxent", data = data, fc = "lh", reg = 0.5, iter = 700)
+```{r exercise1, eval = FALSE, class.source="exercise"}
+model <- train(method = "Maxent", 
+               data = data, 
+               fc = "lh", 
+               reg = 0.5, 
+               iter = 700)
 ```
 
 By default Maxent models are trained using the arguments *"removeduplicates=false"* and *"addsamplestobackground=false"*. The user should have the full control of the data used to train the model, so is expected that duplicated locations are already removed and that the presence locations are already included in the background locations, when desired. You can use the function `thinData()` to remove duplicated locations and the function `addSamplesToBg()` to add the presence locations to the background locations.
@@ -132,8 +132,9 @@ Train a model using the **Maxnet** method is as simple as changing the name of t
 
 Try to train a model using the **Maxnet** method. To see the solution highlight the following cell:
 
-```{r train maxnet, eval = FALSE, class.source='exercise'}
-maxnet_model <- train("Maxnet", data = data)
+```{r train maxnet, eval = FALSE, class.source="exercise"}
+maxnet_model <- train("Maxnet", 
+                      data = data)
 ```
 
 ## Conclusion

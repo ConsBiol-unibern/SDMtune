@@ -132,7 +132,7 @@ data <- prepareSWD(species = "Virtual species",
                    env = predictors,
                    categorical = "biome")
 ```
-```{r prepare SWD 2, echo=FALSE}
+```{r prepare SWD output, echo=FALSE}
 data <- prepareSWD(species = "Virtual species",
                    p = p_coords,
                    a = bg_coords,
@@ -161,14 +161,26 @@ When we print an `SWD()` object we get a bunch of information:
 
 The object contains four slots: `@species`, `@coords` `@data` and `@pa`. `@pa` contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:
 
-```{r show data}
+```{r show data, eval=FALSE}
 head(data@data)
+```
+```{r show data output, echo=FALSE}
+kableExtra::kable(head(data@data)) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
 ```
 
 We can visualize the coordinates with:
 
-```{r show coords data}
+```{r show coords data, eval=FALSE}
 head(data@coords)
+```
+```{r show coords data output, echo=FALSE}
+kableExtra::kable(head(data@coords)) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
 ```
 
 or the name of the species with:

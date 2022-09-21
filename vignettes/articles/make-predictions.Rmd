@@ -11,10 +11,11 @@ options(knitr.table.format = "html")
 ```
 
 ```{r load data, echo=FALSE, message=FALSE}
-library(kableExtra)
 default_model <- SDMtune:::bm_maxent
 data <- SDMtune:::t
-files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), pattern = "grd", full.names = TRUE)
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd",
+                    full.names = TRUE)
 predictors <- raster::stack(files)
 ```
 
@@ -39,7 +40,9 @@ New locations are predicted with the function [predict()](../../reference/predic
 Next we get the prediction for our training locations using the **cloglog** output type:
 
 ```{r predict train}
-pred <- predict(default_model, data = data, type = "cloglog")
+pred <- predict(default_model,
+                data = data,
+                type = "cloglog")
 ```
 
 The output in this case is a vector containing all the predicted values for the training locations:
@@ -51,7 +54,9 @@ head(pred)
 We can get the prediction only for the presence location with:
 ```{r predict presence}
 p <- data@data[data@pa == 1, ]
-pred <- predict(default_model, data = p, type = "cloglog")
+pred <- predict(default_model,
+                data = p,
+                type = "cloglog")
 tail(pred)
 ```
 
@@ -62,7 +67,9 @@ For models trained with the **Maxent**  method, the function performs the predic
 We can use the same function to create a distribution map starting from the `predictors` raster `stack' object that we created in the [first article](./prepare-data.html#acquire-environmental-variables).
 
 ```{r predict raster}
-map <- predict(default_model, data = predictors, type = "cloglog")
+map <- predict(default_model,
+               data = predictors,
+               type = "cloglog")
 ```
 
 In this case the output is a `raster` object:
@@ -74,7 +81,11 @@ map
 The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the [predict()](../../reference/predict-SDMmodel-method.html) function. In the next example we save the map in a file called "**my_file**" in the **GeoTIFF** format:
 
 ```{r save map, eval=FALSE}
-map <- predict(default_model, data = predictors, type = "cloglog", file = "my_map", format = "GTiff")
+map <- predict(default_model,
+               data = predictors,
+               type = "cloglog",
+               file = "my_map",
+               format = "GTiff")
 ```
 
 The [predict()](../../reference/predict-SDMmodel-method.html) function has other arguments useful when predicting large datasets:
@@ -93,7 +104,9 @@ plotPred(map)
 The function `plotPred()` plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
 
 ```{r plot map custom, fig.align="center"}
-plotPred(map, lt = "Habitat\nsuitability", colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
+plotPred(map,
+         lt = "Habitat\nsuitability",
+         colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
 ```
 
 ### Try yourself
@@ -104,7 +117,10 @@ Restrict the prediction to Chile and plot the prediction. To see the solution hi
 # First create the extent that surrounds Cile
 e = raster::extent(c(-77, -60, -56, -15))
 # Now use the extent to make the prediction
-map_e <- predict(default_model, data = predictors, type = "cloglog", extent = e)
+map_e <- predict(default_model, 
+                 data = predictors, 
+                 type = "cloglog", 
+                 extent = e)
 # And finally plot the prediction
 plotPred(map_e)
 ```
@@ -115,25 +131,34 @@ plotPred(map_e)
 To plot a presence/absence map we need a threshold value that splits the prediction in presence and absence values. The function `thresholds()` returns some commonly used threshold values starting from an `SDMmodel()` object. In the next example we print the threshold values for the `default_model` object using the type `"cloglog"`:
 
 ```{r thresholds, eval=FALSE}
-ths <- thresholds(default_model, type = "cloglog")
-thresholds(default_model, type = "cloglog")
+ths <- thresholds(default_model, 
+                  type = "cloglog")
+
+ths
 ```
-```{r thresholds code, echo=FALSE}
-ths <- thresholds(default_model, type = "cloglog")
-kable(ths) %>%
-  kable_styling(bootstrap_options = c("striped", "hover"))
+```{r thresholds output, echo=FALSE}
+ths <- thresholds(default_model, 
+                  type = "cloglog")
+kableExtra::kable(ths) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
+                            position = "center",
+                            full_width = FALSE)
 ```
 
 For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function `plotPA()` passing the threshold value as argument:
 
 ```{r plot pa, fig.align="center"}
-plotPA(map, th = ths[3, 2])
+plotPA(map, 
+       th = ths[3, 2])
 ```
 
 We can also save the map in a file with the following code:
 
 ```{r plot and save pa, eval=FALSE}
-plotPA(map, th = ths[3, 2], filename = "my_pa_map", format = "GTiff")
+plotPA(map, 
+       th = ths[3, 2], 
+       filename = "my_pa_map", 
+       format = "GTiff")
 ```
 
 Both functions `plotPred()` and `plotPA()` have the argument `hr`to plot the the map with high resolution, useful when the map is used in a scientific publication. For all the arguments of the functions that we have used in this article please refer to the [documentation](../..//reference/index.html).
