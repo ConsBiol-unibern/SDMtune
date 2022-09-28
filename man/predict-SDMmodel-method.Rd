@@ -30,7 +30,7 @@ and \strong{Maxnet} methods.}
 
 \item{filename}{character. Output file name for the prediction map, used only
 when \code{data} is a \link[terra]{rast} object. If provided the output is saved
-in a file.}
+in a file, see details..}
 
 \item{format}{character. The output format, for all the options see
 \href{https://gdal.org/drivers/raster/index.html}{Raster drivers}.}
@@ -55,6 +55,7 @@ model.
 \itemize{
 \item filename, format, extent, and ... are arguments used only when the
 prediction is done for a \link[terra]{rast} object.
+filename must include the extension.
 \item For models trained with the \strong{Maxent} method the argument \code{type} can be:
 "raw", "logistic" and "cloglog". The function performs the prediction in
 \strong{R} without calling the \strong{MaxEnt} Java software. This results in a faster

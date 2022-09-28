@@ -8,6 +8,10 @@
     ! `extent` must be a <SpatExtent> object
     x You have supplied a <character> instead.
 
+---
+
+    x Filename must include the extension
+
 # The function warns
 
     ! <raster> objects will not be accepted in future releases

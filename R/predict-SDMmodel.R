@@ -16,7 +16,7 @@ setGeneric("predict", function(object, ...)
 #' and **Maxnet** methods.
 #' @param filename character. Output file name for the prediction map, used only
 #' when `data` is a \link[terra]{rast} object. If provided the output is saved
-#' in a file.
+#' in a file, see details..
 #' @param format character. The output format, for all the options see
 #' \href{https://gdal.org/drivers/raster/index.html}{Raster drivers}.
 #' @param extent \link[terra]{ext} object, if provided it restricts the
@@ -28,6 +28,7 @@ setGeneric("predict", function(object, ...)
 #' @details
 #' * filename, format, extent, and ... are arguments used only when the
 #' prediction is done for a \link[terra]{rast} object.
+#' filename must include the extension.
 #' * For models trained with the **Maxent** method the argument `type` can be:
 #' "raw", "logistic" and "cloglog". The function performs the prediction in
 #' **R** without calling the **MaxEnt** Java software. This results in a faster
@@ -154,6 +155,15 @@ setMethod(
             "x" = "You have supplied a {.cls {class(extent)}} instead."
           ))
         }
+      }
+
+      if (filename != "") {
+        file_ext <- tools::file_ext(filename)
+
+        if (file_ext == "")
+          cli::cli_abort(c(
+            "x" = "Filename must include the extension"
+          ))
       }
 
       pred <- terra::predict(data,
