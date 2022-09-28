@@ -29,7 +29,7 @@
 #' @details
 #' * filename, format, extent, and ... arguments are used only when the
 #' prediction is done for a \link[terra]{rast} object.
-#' * filename should include the extension.
+#' * filename must include the extension.
 #' * When a character vector is passed to the `fun` argument, than all the
 #' given functions are applied and a named list is returned, see examples.
 #' * When `filename` is provided and the `fun` argument contains more than one

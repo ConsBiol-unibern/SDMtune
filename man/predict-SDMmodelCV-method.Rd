@@ -62,7 +62,7 @@ of the k models.
 \itemize{
 \item filename, format, extent, and ... arguments are used only when the
 prediction is done for a \link[terra]{rast} object.
-\item filename should include the extension.
+\item filename must include the extension.
 \item When a character vector is passed to the \code{fun} argument, than all the
 given functions are applied and a named list is returned, see examples.
 \item When \code{filename} is provided and the \code{fun} argument contains more than one
