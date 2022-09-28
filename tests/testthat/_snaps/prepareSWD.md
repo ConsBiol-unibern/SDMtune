@@ -1,36 +1,13 @@
 # The function warns if some locations are discarded
 
-    Code
-      prepareSWD(species = "Bgs", a = a, env = env, verbose = FALSE)
-    Message
-      ! 1 location is NA for some environmental variables and has been discarded
-    Output
-      Object of class SWD 
-      
-      Species: Bgs 
-      Presence locations: 0 
-      Absence locations: 5000 
-      
-      Variables:
-      ---------
-      Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 biome 
-      Categorical: NA 
+    ! 1 location is NA for some environmental variables and has been discarded
 
 ---
 
-    Code
-      prepareSWD(species = "Bgs", a = a, env = env, verbose = FALSE)
-    Message
-      ! 2 locations are NA for some environmental variables and have been discarded
-    Output
-      Object of class SWD 
-      
-      Species: Bgs 
-      Presence locations: 0 
-      Absence locations: 5000 
-      
-      Variables:
-      ---------
-      Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 biome 
-      Categorical: NA 
+    ! 2 locations are NA for some environmental variables and have been discarded
+
+# The function warns if a raster object is used
+
+    ! <raster> objects will not be accepted in future releases
+    i SDMtune now uses terra to handle spatial data. See function `terra::rast()` to migrate.
 
