@@ -315,3 +315,12 @@
 
   return(output)
 }
+
+# TODO: Remove with version 2.0.0
+.warn_raster <- function(x, y) {
+  cli::cli_warn(
+    c("!" = "{.cls {x}} objects will not be accepted in future releases",
+      "i" = paste("{.pkg SDMtune} now uses {.pkg terra} to handle spatial",
+                  "data. See function {.fun terra::{y}} to migrate."))
+  )
+}

@@ -18,3 +18,8 @@
 
     Argumnts beta and lambda non included in tunable hyperparameters
 
+# Warns if raster package is used
+
+    ! <raster> objects will not be accepted in future releases
+    i SDMtune now uses terra to handle spatial data. See function `terra::rast()` to migrate.
+

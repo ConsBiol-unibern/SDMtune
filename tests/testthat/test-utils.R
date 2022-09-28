@@ -200,3 +200,8 @@ test_that("The function .args_name", {
   expect_vector(.args_name("trainMaxnet"), ptype = character(), size = 3)
   expect_vector(.args_name("trainRF"), ptype = character(), size = 4)
 })
+
+# TODO: Remove with version 2.0.0
+test_that("Warns if raster package is used", {
+  expect_snapshot_warning(.warn_raster("raster", "rast"))
+})
