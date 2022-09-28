@@ -5,7 +5,7 @@
 #' of the k models.
 #'
 #' @param object \linkS4class{SDMmodelCV} object.
-#' @param data data.frame, \linkS4class{SWD} or raster \link[raster]{stack} with
+#' @param data data.frame, \linkS4class{SWD} or raster \link[terra]{rast} with
 #' the data for the prediction.
 #' @param fun character. function used to combine the output of the k models.
 #' Note that fun is a character argument, you must use `"mean"` and not `mean`.
@@ -16,20 +16,20 @@
 #' @param clamp logical for clumping during prediction, used only for **Maxent**
 #' and **Maxnet** methods.
 #' @param filename character. Output file name for the prediction map, used only
-#' when `data` is a \link[raster]{stack} object. If provided the output is saved
+#' when `data` is a \link[terra]{rast} object. If provided the output is saved
 #' in a file, see details.
-#' @param format character. The output format, see \link[raster]{writeRaster}
-#' for all the options.
-#' @param extent \link[raster]{extent} object, if provided it restricts the
+#' @param format character. The output format, for all the options see
+#' \href{https://gdal.org/drivers/raster/index.html}{Raster drivers}.
+#' @param extent \link[terra]{ext} object, if provided it restricts the
 #' prediction to the given extent.
-#' @param progress logical, if `TRUE` shows a progress bar during prediction for
-#' models trained with cross validation.
-#' @param ... Additional arguments to pass to the \link[raster]{writeRaster}
+#' @param progress logical, if `TRUE` shows a progress bar during prediction.
+#' @param ... Additional arguments to pass to the \link[terra]{writeRaster}
 #' function.
 #'
 #' @details
 #' * filename, format, extent, and ... arguments are used only when the
-#' prediction is done for a \link[raster]{stack} object.
+#' prediction is done for a \link[terra]{rast} object.
+#' * filename should include the extension.
 #' * When a character vector is passed to the `fun` argument, than all the
 #' given functions are applied and a named list is returned, see examples.
 #' * When `filename` is provided and the `fun` argument contains more than one
@@ -51,9 +51,8 @@
 #'
 #' @include SDMmodelCV-class.R
 #'
-#' @return A vector with the prediction or a \link[raster]{raster} object if
-#' data is a raster \link[raster]{stack} or a list in the case of multiple
-#' functions.
+#' @return A vector with the prediction or a \link[terra]{rast} object if data
+#' is a \link[terra]{rast} or a list in the case of multiple functions.
 #' @exportMethod predict
 #'
 #' @author Sergio Vignali
@@ -65,42 +64,62 @@
 #' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Create 4 random folds splitting only the presence data
-#' folds <- randomFolds(data, k = 4, only_presence = TRUE)
-#' model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
+#' folds <- randomFolds(data,
+#'                      k = 4,
+#'                      only_presence = TRUE)
+#'
+#' model <- train(method = "Maxnet",
+#'                data = data,
+#'                fc = "l",
+#'                folds = folds)
 #'
 #' # Make cloglog prediction for the all study area and get the result as
 #' # average of the k models
-#' predict(model, data = predictors, fun = "mean", type = "cloglog")
+#' predict(model,
+#'         data = predictors,
+#'         fun = "mean",
+#'         type = "cloglog")
 #'
 #' # Make cloglog prediction for the all study area, get the average, standard
 #' # deviation, and maximum values of the k models, and save the output in three
 #' # files
 #' \dontrun{
 #' # The following commands save the output in the working directory
-#' maps <- predict(model, data = predictors, fun = c("mean", "sd", "max"),
-#'                 type = "cloglog", filename = "prediction")
-#' # In this case three files are created: prediction_mean.tif,
-#' # prediction_sd.tif and prediction_max.tif
+#' maps <- predict(model,
+#'                 data = predictors,
+#'                 fun = c("mean", "sd", "max"),
+#'                 type = "cloglog",
+#'                 filename = "prediction")
 #'
+#' # In this case three files are created: prediction_mean.tif,
+#' # prediction_sd.tif and prediction_max.tif#'
 #' plotPred(maps$mean)
 #' plotPred(maps$sd)
 #' plotPred(maps$max)
 #'
 #' # Make logistic prediction for the all study area, given as standard
 #' # deviation of the k models, and save it in a file
-#' predict(model, data = predictors, fun = "sd", type = "logistic",
+#' predict(model,
+#'         data = predictors,
+#'         fun = "sd",
+#'         type = "logistic",
 #'         filename = "my_map")
 #' }
 #' }
@@ -124,7 +143,15 @@ setMethod(
     if (filename == "") {
       filename <- rep("", l)
     } else {
-      filename <- paste(filename, fun, sep = "_")
+      file_ext <- tools::file_ext(filename)
+
+      if (file_ext == "")
+        cli::cli_abort(c(
+          "x" = "Filename must include the extension"
+        ))
+
+      file_name <- tools::file_path_sans_ext(filename)
+      filename <- paste0(file_name, "_", fun, ".", file_ext)
     }
 
     if (progress)
@@ -140,43 +167,86 @@ setMethod(
     # Create empty output list
     output <- vector("list", length = l)
 
+    # TODO: Remove with version 2.0.0
     if (inherits(data, "Raster")) {
+      .warn_raster("raster", "rast")
+      data <- terra::rast(data)
+    }
+
+    if (inherits(data, "SpatRaster")) {
       preds <- vector("list", length = k)
 
+      if (!is.null(extent)) {
+
+        # TODO: Remove with version 2.0.0
+        if (inherits(extent, "Extent")) {
+          .warn_raster("Extent", "ext")
+          extent <- as.vector(extent) |>
+            terra::ext()
+        }
+
+        if (inherits(extent, "SpatExtent")) {
+          data <- terra::crop(data, extent)
+        } else {
+          cli::cli_abort(c(
+            "!" = "{.var extent} must be a {.cls SpatExtent} object",
+            "x" = "You have supplied a {.cls {class(extent)}} instead."
+          ))
+        }
+      }
+
       for (i in 1:k) {
-        preds[[i]] <- predict(object@models[[i]], data = data, type = type,
-                              clamp = clamp, extent = extent)
+        preds[[i]] <- predict(object@models[[i]],
+                              data = data,
+                              type = type,
+                              clamp = clamp)
 
         if (progress)
           cli::cli_progress_update()
       }
-      preds <- raster::stack(preds)
+
+      preds <- terra::rast(preds)
 
       for (i in 1:l) {
-        output[[i]] <- raster::calc(preds, fun = get(fun[i]),
-                                    filename = filename[i], format = format,
-                                    ...)
+        output[[i]] <- terra::app(preds,
+                                  fun = get(fun[i]),
+                                  filename = filename[i],
+                                  wopt = list(filetype = format),
+                                  ...)
 
         if (progress)
           cli::cli_progress_update()
       }
-    } else {
+    } else if (inherits(data, c("SWD", "data.frame"))) {
+
       if (inherits(data, "SWD"))
         data <- data@data
+
       preds <- matrix(nrow = nrow(data), ncol = k)
+
       for (i in 1:k) {
-        preds[, i] <- predict(object@models[[i]], data = data, type = type,
-                              clamp = clamp, ...)
+        preds[, i] <- predict(object@models[[i]],
+                              data = data,
+                              type = type,
+                              clamp = clamp,
+                              ...)
 
         if (progress)
           cli::cli_progress_update()
       }
+
       for (i in 1:l) {
         output[[i]] <- apply(preds, 1, get(fun[i]), na.rm = TRUE)
 
         if (progress)
           cli::cli_progress_update()
       }
+    } else {
+      cli::cli_abort(c(
+        "!" = paste("{.var data} must be an object of class",
+                    "{.cls data.frame}, {.cls SWD} or {.cls SpatRaster}"),
+        "x" = "You have supplied a {.cls {class(data)}} instead."
+      ))
     }
 
     if (l == 1) {
