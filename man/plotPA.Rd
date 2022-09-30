@@ -9,29 +9,34 @@ plotPA(
   th,
   colors = NULL,
   hr = FALSE,
-  filename = NULL,
-  format = "GTiff",
+  filename = "",
+  overwrite = FALSE,
+  wopt = list(),
+  format = "",
   ...
 )
 }
 \arguments{
-\item{map}{\link[raster]{raster} object with the prediction.}
+\item{map}{\link[terra]{rast} object with the prediction.}
 
 \item{th}{numeric. The threshold used to convert the output in a
 presence/absence map.}
 
-\item{colors}{vector. Colors to be used, default is \code{NULL} and uses red and
-blue.}
+\item{colors}{vector. Colors to be used, default is \code{NULL} and it uses red
+and blue.}
 
-\item{hr}{logical, if \code{TRUE} produces an output with high resolution.}
+\item{hr}{logical. If \code{TRUE} it produces an output with high resolution.}
 
-\item{filename}{character, if provided the raster map is saved in a file.}
+\item{filename}{character. If provided the raster map is saved in a file. It
+must include the extension.}
 
-\item{format}{character. The output format, see \link[raster]{writeRaster}
-for all the options.}
+\item{overwrite}{logical. If \code{TRUE} an existing file is overwritten.}
 
-\item{...}{Additional arguments, see \link[raster]{writeRaster} for all the
-options.}
+\item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
+
+\item{format}{character. Deprecated..}
+
+\item{...}{Unused arguments.}
 }
 \value{
 A \link[ggplot2]{ggplot} object.
@@ -41,14 +46,24 @@ Plot a presence absence map using the given threshold.
 }
 \examples{
 \donttest{
-map <- raster::raster(matrix(runif(400, 0, 1), 20, 20))
-plotPA(map, th = 0.8)
+map <- terra::rast(matrix(runif(400, 0, 1),
+                          norw = 20,
+                          ncol = 20))
+plotPA(map,
+       th = 0.8)
+
 # Custom colors
-plotPA(map, th = 0.5, colors = c("#d8b365", "#018571"))
+plotPA(map,
+       th = 0.5,
+       colors = c("#d8b365", "#018571"))
+
 # Save the file
 \dontrun{
-# The following command will save the map in the working directory
-plotPA(map, th = 0.7, filename = "my_map", format = "ascii")
+# The following command will save the map in the working directory. Note that
+# the filename must include the extension
+plotPA(map,
+       th = 0.7,
+       filename = "my_map.tif")
 }
 }
 }
