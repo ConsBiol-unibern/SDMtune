@@ -4,17 +4,18 @@
 \alias{thinData}
 \title{Thin Data}
 \usage{
-thinData(coords, env, x = "x", y = "y", progress = TRUE)
+thinData(coords, env, x = "x", y = "y", verbose = TRUE, progress = TRUE)
 }
 \arguments{
 \item{coords}{data.frame or matrix with the coordinates, see details.}
 
-\item{env}{\link[raster]{stack} containing the environmental variables, or a
-single \link[raster]{raster} layer.}
+\item{env}{\link[terra]{rast} containing the environmental variables.}
 
 \item{x}{character. Name of the column containing the x coordinates.}
 
 \item{y}{character. Name of the column containing the y coordinates.}
+
+\item{verbose}{logical, if \code{TRUE} prints an informative message.}
 
 \item{progress}{logical, if \code{TRUE} shows a progress bar.}
 }
@@ -42,32 +43,57 @@ specified using the arguments \code{x} and \code{y}.
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
 
-# Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 9000)
+predictors <- terra::rast(files)
+
+# Prepare background locations, by sampling  also on areas with NA values
+bg_coords <- terra::spatSample(predictors,
+                               size = 9000,
+                               method = "random",
+                               xy = TRUE,
+                               values = FALSE)
 nrow(bg_coords)
 
 # Thin the locations
-# There are probably few coordinates that have NAs for some predictors, the
-# function will remove these coordinates. Note that the function expects to
-# the coordinates in two column named "x" and "y"
+# The function will remove the coordinates that have NA values for some
+# predictors. Note that the function expects to have the coordinates in two
+# columns named "x" and "y"
+
 colnames(bg_coords)
-thinned_bg <- thinData(bg_coords, env = predictors)
+thinned_bg <- thinData(bg_coords,
+                       env = predictors)
 nrow(thinned_bg)
 
-# Here we double the coordinates and run the function again
-thinned_bg <- thinData(rbind(bg_coords, bg_coords), env = predictors)
+# Here we sample only on areas without NA values and then we double the
+# coordinates
+bg_coords <- terra::spatSample(predictors,
+                               size = 9000,
+                               method = "random",
+                               na.rm = TRUE,
+                               xy = TRUE,
+                               values = FALSE)
+
+thinned_bg <- thinData(rbind(bg_coords, bg_coords),
+                       env = predictors)
+
 nrow(thinned_bg)
 
 # In case of a dataframe containing more than two columns (e.g. a dataframe
 # with the coordinates plus an additional column with the age of the species)
 # and custom column names, use the function in this way
-age <- sample(c(1, 2), size = nrow(bg_coords), replace = TRUE)
+age <- sample(c(1, 2),
+              size = nrow(bg_coords),
+              replace = TRUE)
+
 data <- cbind(age, bg_coords)
 colnames(data) <- c("age", "X", "Y")
-thinned_bg <- thinData(data, env = predictors, x = "X", y = "Y")
+
+thinned_bg <- thinData(data,
+                       env = predictors,
+                       x = "X",
+                       y = "Y")
 head(data)
 }
 }

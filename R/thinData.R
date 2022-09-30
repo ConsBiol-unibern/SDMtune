@@ -7,8 +7,8 @@
 #' @param coords data.frame or matrix with the coordinates, see details.
 #' @param x character. Name of the column containing the x coordinates.
 #' @param y character. Name of the column containing the y coordinates.
-#' @param env \link[raster]{stack} containing the environmental variables, or a
-#' single \link[raster]{raster} layer.
+#' @param env \link[terra]{rast} containing the environmental variables.
+#' @param verbose logical, if `TRUE` prints an informative message.
 #' @param progress logical, if `TRUE` shows a progress bar.
 #'
 #' @details
@@ -30,38 +30,64 @@
 #' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
 #'
-#' # Prepare background locations
-#' bg_coords <- dismo::randomPoints(predictors, 9000)
+#' predictors <- terra::rast(files)
+#'
+#' # Prepare background locations, by sampling  also on areas with NA values
+#' bg_coords <- terra::spatSample(predictors,
+#'                                size = 9000,
+#'                                method = "random",
+#'                                xy = TRUE,
+#'                                values = FALSE)
 #' nrow(bg_coords)
 #'
 #' # Thin the locations
-#' # There are probably few coordinates that have NAs for some predictors, the
-#' # function will remove these coordinates. Note that the function expects to
-#' # the coordinates in two column named "x" and "y"
+#' # The function will remove the coordinates that have NA values for some
+#' # predictors. Note that the function expects to have the coordinates in two
+#' # columns named "x" and "y"
+#'
 #' colnames(bg_coords)
-#' thinned_bg <- thinData(bg_coords, env = predictors)
+#' thinned_bg <- thinData(bg_coords,
+#'                        env = predictors)
 #' nrow(thinned_bg)
 #'
-#' # Here we double the coordinates and run the function again
-#' thinned_bg <- thinData(rbind(bg_coords, bg_coords), env = predictors)
+#' # Here we sample only on areas without NA values and then we double the
+#' # coordinates
+#' bg_coords <- terra::spatSample(predictors,
+#'                                size = 9000,
+#'                                method = "random",
+#'                                na.rm = TRUE,
+#'                                xy = TRUE,
+#'                                values = FALSE)
+#'
+#' thinned_bg <- thinData(rbind(bg_coords, bg_coords),
+#'                        env = predictors)
+#'
 #' nrow(thinned_bg)
 #'
 #' # In case of a dataframe containing more than two columns (e.g. a dataframe
 #' # with the coordinates plus an additional column with the age of the species)
 #' # and custom column names, use the function in this way
-#' age <- sample(c(1, 2), size = nrow(bg_coords), replace = TRUE)
+#' age <- sample(c(1, 2),
+#'               size = nrow(bg_coords),
+#'               replace = TRUE)
+#'
 #' data <- cbind(age, bg_coords)
 #' colnames(data) <- c("age", "X", "Y")
-#' thinned_bg <- thinData(data, env = predictors, x = "X", y = "Y")
+#'
+#' thinned_bg <- thinData(data,
+#'                        env = predictors,
+#'                        x = "X",
+#'                        y = "Y")
 #' head(data)
 #' }
 thinData <- function(coords,
                      env,
                      x = "x",
                      y = "y",
+                     verbose = TRUE,
                      progress = TRUE) {
 
   # Check if columns with coordinates are present in coords
@@ -77,16 +103,22 @@ thinData <- function(coords,
       "i" = "Please use the name of the column with the {.val y} coordinates."
     ))
 
+  # TODO: Remove with version 2.0.0
+  if (inherits(env, "Raster")) {
+    .warn_raster("raster", "rast")
+    env <- terra::rast(env)
+  }
+
   # Copy the data
   data <- coords
   coords <- data[, c(x, y)]
 
   # Remove coords where env are NA
-  index <- stats::complete.cases(raster::extract(env, coords))
-  coords <- coords[index, ]
-  data <- data[index, ]
+  idx <- stats::complete.cases(terra::extract(env, coords))
+  coords <- coords[idx, ]
+  data <- data[idx, ]
   # Get the relative cell numbers of the coordinates
-  cells <- raster::cellFromXY(env, coords)
+  cells <- terra::cellFromXY(env, coords)
 
   unique_cells <- unique(cells)
   l <- length(unique_cells)
@@ -115,8 +147,18 @@ thinData <- function(coords,
     if (progress)
       cli::cli_progress_update()
   }
+
   output <- data[index, ]
   rownames(output) <- NULL
 
-  return(output)
+  if (verbose) {
+    n_na <- nrow(data) - length(idx)
+    n_dups <- nrow(data) - length(index)
+    cli::cli_alert_success(
+      paste("Removed {.val {cli::no(n_na)}} NA{?s}",
+            "and {.val {cli::no(n_dups)}} duplicated location{?s}")
+    )
+  }
+
+  output
 }
