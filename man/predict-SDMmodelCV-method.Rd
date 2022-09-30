@@ -23,7 +23,7 @@
 \item{data}{data.frame, \linkS4class{SWD} or raster \link[terra]{rast} with
 the data for the prediction.}
 
-\item{fun}{character. function used to combine the output of the k models.
+\item{fun}{character. Function used to combine the output of the k models.
 Note that fun is a character argument, you must use \code{"mean"} and not \code{mean}.
 You can also pass a vector of character containing multiple function names,
 see details.}
@@ -42,7 +42,7 @@ must include the extension.}
 \item{extent}{\link[terra]{ext} object, if provided it restricts the
 prediction to the given extent.}
 
-\item{progress}{logical, if \code{TRUE} shows a progress bar during prediction.}
+\item{progress}{logical. If \code{TRUE} shows a progress bar during prediction.}
 
 \item{...}{Additional arguments to pass to the \link[terra]{predict}
 function.}

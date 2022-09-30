@@ -7,7 +7,7 @@
 #' @param object \linkS4class{SDMmodelCV} object.
 #' @param data data.frame, \linkS4class{SWD} or raster \link[terra]{rast} with
 #' the data for the prediction.
-#' @param fun character. function used to combine the output of the k models.
+#' @param fun character. Function used to combine the output of the k models.
 #' Note that fun is a character argument, you must use `"mean"` and not `mean`.
 #' You can also pass a vector of character containing multiple function names,
 #' see details.
@@ -22,7 +22,7 @@
 #' @param format character. Deprecated.
 #' @param extent \link[terra]{ext} object, if provided it restricts the
 #' prediction to the given extent.
-#' @param progress logical, if `TRUE` shows a progress bar during prediction.
+#' @param progress logical. If `TRUE` shows a progress bar during prediction.
 #' @param ... Additional arguments to pass to the \link[terra]{predict}
 #' function.
 #'
