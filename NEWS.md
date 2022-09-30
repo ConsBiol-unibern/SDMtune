@@ -1,7 +1,8 @@
 # SDMtune 1.1.6.9000
-* `modelReport()`, `prepareSWD`, `reduceVariable()`, and `varSel()` gain the argument `verbose` to disable informative messages
+* `modelReport()`, `prepareSWD`, `reduceVariable()`, `thinData()`, and `varSel()` gain the argument `verbose` to disable informative messages
 * `gridSearch()`, `optimizeModel()`, `randomSearch()`, `reduceVar()`, and `varSel()` gain the argument `interactive` to disable the interactive real-time chart
 * `doJk()`, `gridSearch()`, `optimizeModel()`, `predict()`, `randomSearch()`, `thinData()`, `train()`, `varImp()`, and `varSel()` gain the argument `progress` to disable the progress bar
+* The function `thinData()` prints a message with the number of removed locations
 
 Bug fixes:
 
