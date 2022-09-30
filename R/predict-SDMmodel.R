@@ -92,14 +92,15 @@ setGeneric("predict", function(object, ...)
 #'         data = test,
 #'         type = "cloglog")
 #'
-#' # Make logistic prediction for the all study area
+#' # Make logistic prediction for the whole study area
 #' predict(model,
 #'         data = predictors,
 #'         type = "logistic")
 #'
 #' \dontrun{
-#' # Make logistic prediction for the all study area and save it in a file
-#' # The function saves the file in your working directory
+#' # Make logistic prediction for the whole study area and save it in a file.
+#' # Note that the filename must include the extension. The function saves the
+#' # file in your working directory
 #' predict(model,
 #'         data = predictors,
 #'         type = "logistic",

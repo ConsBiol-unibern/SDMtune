@@ -113,37 +113,38 @@ model <- train(method = "Maxnet",
                fc = "l",
                folds = folds)
 
-# Make cloglog prediction for the all study area and get the result as
+# Make cloglog prediction for the whole study area and get the result as
 # average of the k models
 predict(model,
         data = predictors,
         fun = "mean",
         type = "cloglog")
 
-# Make cloglog prediction for the all study area, get the average, standard
+# Make cloglog prediction for the whole study area, get the average, standard
 # deviation, and maximum values of the k models, and save the output in three
 # files
 \dontrun{
-# The following commands save the output in the working directory
+# The following commands save the output in the working directory. Note that
+# the filename must include the extension
 maps <- predict(model,
                 data = predictors,
                 fun = c("mean", "sd", "max"),
                 type = "cloglog",
-                filename = "prediction")
+                filename = "prediction.tif")
 
 # In this case three files are created: prediction_mean.tif,
-# prediction_sd.tif and prediction_max.tif#'
+# prediction_sd.tif and prediction_max.tif
 plotPred(maps$mean)
 plotPred(maps$sd)
 plotPred(maps$max)
 
-# Make logistic prediction for the all study area, given as standard
+# Make logistic prediction for the whole study area, given as standard
 # deviation of the k models, and save it in a file
 predict(model,
         data = predictors,
         fun = "sd",
         type = "logistic",
-        filename = "my_map")
+        filename = "my_map.tif")
 }
 }
 }
