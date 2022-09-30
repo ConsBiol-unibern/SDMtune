@@ -8,7 +8,7 @@ setGeneric("predict", function(object, ...)
 #'
 #' @param object \linkS4class{Maxent} object.
 #' @param data data.frame with the data for the prediction.
-#' @param type character MaxEnt output type, possible values are "cloglog",
+#' @param type character. MaxEnt output type, possible values are "cloglog",
 #' "logistic" and "raw".
 #' @param clamp logical for clumping during prediction.
 #'
@@ -49,6 +49,7 @@ setMethod(
     f <- object@formula
     # Make the design matrix
     dm <- stats::model.matrix(f, data)
+
     # Scale features and clamp if clamp is TRUE
     cols <- !grepl("categorical.*|hinge.*|threshold.*", colnames(dm))
     dm[, cols] <- scaleClamp(dm[, cols, drop = FALSE], object@coeff$min[cols],

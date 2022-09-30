@@ -29,9 +29,9 @@ setMethod(
                         type,
                         clamp) {
 
-    output <- predict(object@model, newdata = data,
-                      n.trees = object@n.trees, type = "response")
-
-    return(output)
+    predict(object@model,
+            newdata = data,
+            n.trees = object@n.trees,
+            type = "response")
   }
 )
