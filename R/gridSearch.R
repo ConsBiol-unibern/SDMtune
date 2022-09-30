@@ -202,5 +202,5 @@ gridSearch <- function(model,
   if (progress)
     cli::cli_progress_update()
 
-  return(o)
+  o
 }
