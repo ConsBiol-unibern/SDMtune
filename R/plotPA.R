@@ -12,7 +12,7 @@
 #' must include the extension.
 #' @param overwrite logical. If `TRUE` an existing file is overwritten.
 #' @param wopt list. Writing options passed to \link[terra]{writeRaster}.
-#' @param format character. Deprecated..
+#' @param format character. Deprecated.
 #' @param ... Unused arguments.
 #'
 #' @return A \link[ggplot2]{ggplot} object.
