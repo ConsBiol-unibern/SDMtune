@@ -30,12 +30,12 @@ model, not used with aicc and \linkS4class{SDMmodelCV} objects.}
 
 \item{pop}{numeric. Size of the population.}
 
-\item{env}{\link[raster]{stack} containing the environmental variables, used
+\item{env}{\link[terra]{rast} containing the environmental variables, used
 only with "aicc".}
 
-\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+\item{interactive}{logical. If \code{FALSE} the interactive chart is not created.}
 
-\item{progress}{logical, if \code{TRUE} shows a progress bar.}
+\item{progress}{logical. If \code{TRUE} shows a progress bar.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results.}
@@ -60,33 +60,48 @@ algorithm is displayed in the Viewer pane.
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+datasets <- trainValTest(data,
+                         test = 0.2,
+                         only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", data = train, fc = "l")
+model <- train(method = "Maxnet",
+               data = train,
+               fc = "l")
 
 # Define the hyperparameters to test
-h <- list(reg = seq(0.2, 3, 0.2), fc = c("lqp", "lqph", "lh"))
+h <- list(reg = seq(0.2, 3, 0.2),
+          fc = c("lqp", "lqph", "lh"))
 
 # Run the function using as metric the AUC
-output <- randomSearch(model, hypers = h, metric = "auc", test = test,
-                       pop = 10, seed = 25)
+output <- randomSearch(model,
+                       hypers = h,
+                       metric = "auc",
+                       test = test,
+                       pop = 10,
+                       seed = 25)
 output@results
 output@models
+
 # Order results by highest test AUC
 output@results[order(-output@results$test_AUC), ]
 }

@@ -26,8 +26,8 @@ setMethod(
                         type,
                         clamp) {
 
-    output <- predict(object@model, data, type = "prob")[, 2]
-
-    return(output)
+    predict(object@model,
+            data,
+            type = "prob")[, 2]
   }
 )
