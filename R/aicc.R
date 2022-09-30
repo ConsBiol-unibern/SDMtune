@@ -4,7 +4,7 @@
 #' (Warren and Seifert, 2011).
 #'
 #' @param model \linkS4class{SDMmodel} object.
-#' @param env \link[raster]{stack} containing the environmental variables.
+#' @param env \link[terra]{rast} containing the environmental variables.
 #'
 #' @details The function is available only for **Maxent** and **Maxnet**
 #' methods.
@@ -23,22 +23,30 @@
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                    full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", data = data, fc = "l")
+#' model <- train(method = "Maxnet",
+#'                data = data,
+#'                fc = "l")
 #'
 #' # Compute the AICc
-#' aicc(model, predictors)
+#' aicc(model,
+#'      env = predictors)
 aicc <- function(model,
                  env) {
 
@@ -46,6 +54,12 @@ aicc <- function(model,
     cli::cli_abort(c(
       "!" = "AICc available only for {.cls Maxent} and {.cls Maxnet} models.",
       "x" = "You have supplied a {.cls {class(model@model)}} instead."))
+
+  # TODO: Remove with version 2.0.0
+  if (inherits(env, "Raster")) {
+    .warn_raster("raster", "rast")
+    env <- terra::rast(env)
+  }
 
   # k is the number of non-zero parameter in the model
   if (inherits(model@model, "Maxent")) {
@@ -60,10 +74,17 @@ aicc <- function(model,
     aicc <- NA
   } else {
     raw <- predict(model, env, type = type)
-    raw_sum <- raster::cellStats(raw, sum)
-    values <- raster::extract(raw, model@data@coords[model@data@pa == 1, ])
+    raw_sum <- terra::global(raw,
+                             fun = "sum",
+                             na.rm = TRUE) |>
+      as.numeric()
+    values <- terra::extract(raw,
+                             model@data@coords[model@data@pa == 1, ],
+                             ID = FALSE)
+
     # log-likelihood of standardized presence probabilities
     loglike <- sum(log(values / raw_sum))
+
     # n is the number of presence observations
     n <- sum(model@data@pa == 1)
     aic <- 2 * k - 2 * loglike
