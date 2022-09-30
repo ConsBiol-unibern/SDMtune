@@ -31,7 +31,7 @@ correlation between environmental variables.}
 \item{test}{\linkS4class{SWD}. Test dataset used to evaluate the model, not
 used with aicc and \linkS4class{SDMmodelCV} objects.}
 
-\item{env}{\link[raster]{stack} containing the environmental variables, used
+\item{env}{\link[terra]{rast} containing the environmental variables, used
 only with "aicc".}
 
 \item{method}{character. The method used to compute the correlation matrix.}
@@ -39,17 +39,17 @@ only with "aicc".}
 \item{cor_th}{numeric. The correlation threshold used to select highly
 correlated variables.}
 
-\item{permut}{integer, Number of permutations.}
+\item{permut}{integer. Number of permutations.}
 
 \item{use_pc}{logical, use percent contribution. If \code{TRUE} and the model is
 trained using the \linkS4class{Maxent} method, the algorithm uses the percent
 contribution computed by Maxent software to score the variable importance.}
 
-\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+\item{interactive}{logical. If \code{FALSE} the interactive chart is not created.}
 
-\item{progress}{logical, if \code{TRUE} shows a progress bar.}
+\item{progress}{logical. If \code{TRUE} shows a progress bar.}
 
-\item{verbose}{logical, if \code{TRUE} prints informative messages.}
+\item{verbose}{logical. If \code{TRUE} prints informative messages.}
 }
 \value{
 The \linkS4class{SDMmodel} or \linkS4class{SDMmodelCV} object trained
@@ -77,36 +77,57 @@ To find highly correlated variables the following formula is used:
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+datasets <- trainValTest(data,
+                         test = 0.2,
+                         only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", data = train, fc = "l")
+model <- train(method = "Maxnet",
+               data = train,
+               fc = "l")
 
 # Prepare background locations to test autocorrelation, this usually gives a
 # warning message given that less than 10000 points can be randomly sampled
-bg_coords <- dismo::randomPoints(predictors, 10000)
-bg <- prepareSWD(species = "Virtual species", a = bg_coords,
-                 env = predictors, categorical = "biome")
+bg_coords <- terra::spatSample(predictors,
+                               size = 9000,
+                               method = "random",
+                               na.rm = TRUE,
+                               xy = TRUE,
+                               values = FALSE)
+
+bg <- prepareSWD(species = "Virtual species",
+                 a = bg_coords,
+                 env = predictors,
+                 categorical = "biome")
 
 \dontrun{
 # Remove variables with correlation higher than 0.7 accounting for the AUC,
 # in the following example the variable importance is computed as permutation
 # importance
-vs <- varSel(model, metric = "auc", bg4cor = bg, test = test, cor_th = 0.7,
+vs <- varSel(model,
+             metric = "auc",
+             bg4cor = bg,
+             test = test,
+             cor_th = 0.7,
              permut = 1)
 vs
 
@@ -114,21 +135,28 @@ vs
 # in the following example the variable importance is the MaxEnt percent
 # contribution
 # Train a model
-# The next line checks if Maxent is correctly configured but you don't need
-# to run it in your script
-if (dismo::maxent(silent = TRUE)) {
-model <- train(method = "Maxent", data = train, fc = "l")
-vs <- varSel(model, metric = "tss", bg4cor = bg, test = test, cor_th = 0.7,
+model <- train(method = "Maxent",
+               data = train,
+               fc = "l")
+
+vs <- varSel(model,
+             metric = "tss",
+             bg4cor = bg,
+             test = test,
+             cor_th = 0.7,
              use_pc = TRUE)
 vs
 
 # Remove variables with correlation higher than 0.7 accounting for the aicc,
 # in the following example the variable importance is the MaxEnt percent
 # contribution
-vs <- varSel(model, metric = "aicc", bg4cor = bg, cor_th = 0.7,
-             use_pc = TRUE, env = predictors)
+vs <- varSel(model,
+             metric = "aicc",
+             bg4cor = bg,
+             cor_th = 0.7,
+             use_pc = TRUE,
+             env = predictors)
 vs
-}
 }
 }
 }
