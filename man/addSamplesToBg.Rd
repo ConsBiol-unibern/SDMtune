@@ -9,7 +9,7 @@ addSamplesToBg(x, all = FALSE)
 \arguments{
 \item{x}{\linkS4class{SWD} object.}
 
-\item{all}{logical, if \code{TRUE} it adds all the presence locations even if
+\item{all}{logical. If \code{TRUE} it adds all the presence locations even if
 already included in the background locations. This is equivalent to the
 Maxent argument \code{addallsamplestobackground=true}.}
 }
@@ -23,25 +23,32 @@ to the Maxent argument \code{addsamplestobackground=true}.
 \examples{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
+data
 
-# Add presence locations with values not included in the background to the
+# Add presence locations with values not included in the backgrounds to the
 # background locations
 new_data <- addSamplesToBg(data)
 new_data
 
 # Add all the presence locations to the background locations, even if they
-# have values already included in the background
-new_data <- addSamplesToBg(data, all = TRUE)
+# have values already included in the backgrounds
+new_data <- addSamplesToBg(data,
+                           all = TRUE)
 new_data
 }
 \author{
