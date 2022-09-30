@@ -94,6 +94,9 @@ test_that("The function raises errors", {
                                  y = "B",
                                  verbose = FALSE,
                                  progress = FALSE))
+
+  expect_snapshot_error(thinData(x,
+                                 env = "spam"))
 })
 
 # TODO: Remove with version 2.0.0

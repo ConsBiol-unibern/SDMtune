@@ -109,6 +109,12 @@ thinData <- function(coords,
     env <- terra::rast(env)
   }
 
+  if (!inherits(env, "SpatRaster"))
+    cli::cli_abort(c(
+      "!" = "{.var env} must be a {.cls SpatRaster} object",
+      "x" = "You have supplied a {.cls {class(env)}} instead."
+    ))
+
   # Copy the data
   data <- coords
   coords <- data[, c(x, y)]

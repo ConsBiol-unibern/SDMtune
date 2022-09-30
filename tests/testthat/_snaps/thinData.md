@@ -29,6 +29,11 @@
     ! Column "B" does not exist
     i Please use the name of the column with the "y" coordinates.
 
+---
+
+    ! `env` must be a <SpatRaster> object
+    x You have supplied a <character> instead.
+
 # The function warns if a raster object is used
 
     ! <raster> objects will not be accepted in future releases
