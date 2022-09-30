@@ -27,17 +27,17 @@ values are: "auc", "tss" and "aicc".}
 \item{test}{\linkS4class{SWD} object. Testing dataset used to evaluate the
 model, not used with \link{aicc} and \linkS4class{SDMmodelCV} objects.}
 
-\item{env}{\link[raster]{stack} containing the environmental variables, used
+\item{env}{\link[terra]{rast} containing the environmental variables, used
 only with "aicc".}
 
-\item{save_models}{logical, if \code{FALSE} the models are not saved and the
+\item{save_models}{logical. If \code{FALSE} the models are not saved and the
 output contains only a data frame with the metric values for each
 hyperparameter combination. Set it to \code{FALSE} when there are many
 combinations to avoid R crashing for memory overload.}
 
-\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+\item{interactive}{logical. If \code{FALSE} the interactive chart is not created.}
 
-\item{progress}{logical, if \code{TRUE} shows a progress bar.}
+\item{progress}{logical. If \code{TRUE} shows a progress bar.}
 }
 \value{
 \linkS4class{SDMtune} object.
@@ -58,39 +58,56 @@ algorithm is displayed in the Viewer pane.
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+datasets <- trainValTest(data,
+                         test = 0.2,
+                         only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", data = train, fc = "l")
+model <- train(method = "Maxnet",
+               data = train,
+               fc = "l")
 
 # Define the hyperparameters to test
-h <- list(reg = 1:2, fc = c("lqp", "lqph"))
+h <- list(reg = 1:2,
+          fc = c("lqp", "lqph"))
 
 # Run the function using the AUC as metric
-output <- gridSearch(model, hypers = h, metric = "auc", test = test)
+output <- gridSearch(model,
+                     hypers = h,
+                     metric = "auc",
+                     test = test)
 output@results
 output@models
+
 # Order rusults by highest test AUC
 head(output@results[order(-output@results$test_AUC), ])
 
 # Run the function using the AICc as metric and without saving the trained
 # models, helpful when numerous hyperparameters are tested to avoid memory
 # problems
-output <- gridSearch(model, hypers = h, metric = "aicc", env = predictors,
+output <- gridSearch(model,
+                     hypers = h,
+                     metric = "aicc",
+                     env = predictors,
                      save_models = FALSE)
 output@results
 }
