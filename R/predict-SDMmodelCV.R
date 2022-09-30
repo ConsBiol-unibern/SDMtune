@@ -157,7 +157,7 @@ setMethod(
 
     if (progress)
       cli::cli_progress_bar(
-        name = "Predict",
+        name = stringr::str_glue("Predict - {class(object@models[[1]]@model)}"),
         type = "iterator",
         format = "{cli::pb_name} {cli::pb_bar} {cli::pb_percent} | \\
                 ETA: {cli::pb_eta} - {cli::pb_elapsed_clock}",
