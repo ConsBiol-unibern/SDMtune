@@ -8,7 +8,7 @@
 #' @param test numeric. The percentage of data withhold for testing.
 #' @param val numeric. The percentage of data withhold for validation, default
 #' is `0`.
-#' @param only_presence logical, if `TRUE` the split is done only for the
+#' @param only_presence logical. If `TRUE` the split is done only for the
 #' presence locations and all the background locations are included in each
 #' partition, used manly for presence-only methods, default is `FALSE`.
 #' @param seed numeric. The value used to set the seed in order to have
@@ -26,26 +26,35 @@
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
 #' # and splitting only the presence locations
-#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+#' datasets <- trainValTest(data,
+#'                          test = 0.2,
+#'                          only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Split presence locations in training (60%), validation (20%) and testing
 #' # (20%) datasets and splitting the presence and the absence locations
-#' datasets <- trainValTest(data, val = 0.2, test = 0.2)
+#' datasets <- trainValTest(data,
+#'                          val = 0.2,
+#'                          test = 0.2)
 #' train <- datasets[[1]]
 #' val <- datasets[[2]]
 #' test <- datasets[[3]]

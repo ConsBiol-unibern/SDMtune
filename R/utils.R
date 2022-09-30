@@ -1,13 +1,13 @@
 # Get presence locations from an SWD object
 .get_presence <- function(swd) {
 
-  return(swd@data[swd@pa == 1, , drop = FALSE])
+  swd@data[swd@pa == 1, , drop = FALSE]
 }
 
 # Get absence locations from an SWD object
 .get_absence <- function(swd) {
 
-  return(swd@data[swd@pa == 0, , drop = FALSE])
+  swd@data[swd@pa == 0, , drop = FALSE]
 }
 
 # Subset an SWD object using the fold partition
@@ -20,9 +20,10 @@
   rownames(coords) <- NULL
   pa <- swd@pa[fold]
 
-  output <- SWD(species = swd@species, data = data, coords = coords, pa = pa)
-
-  return(output)
+  SWD(species = swd@species,
+      data = data,
+      coords = coords,
+      pa = pa)
 }
 
 .get_model_class <- function(model) {
@@ -31,7 +32,7 @@
     model <- model@models[[1]]
   }
 
-  return(class(model@model))
+  class(model@model)
 }
 
 .get_model_reg <- function(model) {
@@ -40,7 +41,7 @@
     model <- model@models[[1]]
   }
 
-  return(model@model@reg)
+  model@model@reg
 }
 
 .get_model_fc <- function(model) {
@@ -49,7 +50,7 @@
     model <- model@models[[1]]
   }
 
-  return(model@model@fc)
+  model@model@fc
 }
 
 .get_footer <- function(model) {
@@ -61,16 +62,14 @@
     footer <- c(footer, paste0(names(tuned_args)[i], ": ", tuned_args[[i]]))
   }
 
-  return(paste(footer, collapse = "\n"))
+  paste(footer, collapse = "\n")
 }
 
 .get_total_models <- function(pop,
                               gen,
                               remaining) {
 
-  tot <- pop + (gen * remaining)
-
-  return(tot)
+  pop + (gen * remaining)
 }
 
 .get_metric <- function(metric,
@@ -139,7 +138,7 @@
 
   names(res) <- labels
 
-  return(res)
+  res
 }
 
 .create_sdmtune_output <- function(models,
@@ -196,9 +195,8 @@
     res$fc <- fcs
   }
 
-  output <- SDMtune(results = res, models = models)
-
-  return(output)
+  SDMtune(results = res,
+          models = models)
 }
 
 .get_train_args <- function(model) {
@@ -240,7 +238,7 @@
     args$bag.fraction <- model@bag.fraction
   }
 
-  return(args)
+  args
 }
 
 .create_model_from_settings <- function(model,
@@ -248,9 +246,8 @@
 
   args <- .get_train_args(model)
   args[names(settings)] <- settings
-  output <- do.call("train", args)
 
-  return(output)
+  do.call("train", args)
 }
 
 .check_args <- function(model,
@@ -298,13 +295,14 @@
   # Create data frame with all possible combinations of hyperparameters
   tunable_args <- .get_train_args(model)[getTunableArgs(model)]
   tunable_args[names(hypers)] <- hypers
-  grid <- expand.grid(tunable_args, stringsAsFactors = FALSE)
 
-  return(grid)
+  expand.grid(tunable_args,
+              stringsAsFactors = FALSE)
 }
 
 .args_name <- function(x) {
-  output <- switch(x,
+
+  switch(x,
     "trainANN" = c("data", "size", "decay", "rang", "maxit"),
     "trainBRT" = c("data", "distribution", "n.trees", "interaction.depth",
                    "shrinkage", "bag.fraction"),
@@ -312,8 +310,6 @@
     "trainMaxnet" = c("data", "reg", "fc"),
     "trainRF" = c("data", "mtry", "ntree", "nodesize")
   )
-
-  return(output)
 }
 
 # TODO: Remove with version 2.0.0

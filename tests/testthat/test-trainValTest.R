@@ -5,11 +5,17 @@ test_that("Exception are raised", {
 })
 
 test_that("The output is correct for train/test split", {
-  x <- trainValTest(t, test = 0.3, only_presence = FALSE, seed = 25)
+  x <- trainValTest(t,
+                    test = 0.3,
+                    only_presence = FALSE,
+                    seed = 25)
+
   np <- length(which(t@pa == 1))
   na <- length(which(t@pa == 0))
+
   expect_type(x, "list")
   expect_length(x, 2)
+
   # Training SWD
   expect_s4_class(x[[1]], "SWD")
   expect_equal(nrow(x[[1]]@data[x[[1]]@pa == 1, ]), round(np * 0.7, 0))
@@ -18,6 +24,7 @@ test_that("The output is correct for train/test split", {
   expect_equal(nrow(x[[1]]@coords[x[[1]]@pa == 0, ]), round(na * 0.7, 0))
   expect_equal(nrow(x[[1]]@data), length(x[[1]]@pa))
   expect_equal(nrow(x[[1]]@coords), length(x[[1]]@pa))
+
   # Testing SWD
   expect_s4_class(x[[2]], "SWD")
   expect_equal(nrow(x[[2]]@data[x[[2]]@pa == 1, ]), round(np * 0.3, 0))
@@ -34,9 +41,13 @@ test_that("The output is correct for train/test split", {
 
 test_that("The output is correct for train/test split for only presence", {
   # Train/test split, only presence
-  x <- trainValTest(t, test = 0.3, only_presence = TRUE)
+  x <- trainValTest(t,
+                    test = 0.3,
+                    only_presence = TRUE)
+
   np <- length(which(t@pa == 1))
   na <- length(which(t@pa == 0))
+
   expect_type(x, "list")
   expect_length(x, 2)
   expect_s4_class(x[[1]], "SWD")
@@ -63,9 +74,14 @@ test_that("The output is correct for train/test split for only presence", {
 })
 
 test_that("The output is correct for train/val/test split", {
-  x <- trainValTest(t, val = 0.2, test = 0.2, only_presence = FALSE)
+  x <- trainValTest(t,
+                    val = 0.2,
+                    test = 0.2,
+                    only_presence = FALSE)
+
   np <- length(which(t@pa == 1))
   na <- length(which(t@pa == 0))
+
   expect_type(x, "list")
   expect_length(x, 3)
   expect_s4_class(x[[1]], "SWD")
@@ -97,9 +113,14 @@ test_that("The output is correct for train/val/test split", {
 })
 
 test_that("The output is correct for train/val/test split for only presence", {
-  x <- trainValTest(t, val = 0.2, test = 0.2, only_presence = TRUE)
+  x <- trainValTest(t,
+                    val = 0.2,
+                    test = 0.2,
+                    only_presence = TRUE)
+
   np <- length(which(t@pa == 1))
   na <- length(which(t@pa == 0))
+
   expect_type(x, "list")
   expect_length(x, 3)
   expect_s4_class(x[[1]], "SWD")
