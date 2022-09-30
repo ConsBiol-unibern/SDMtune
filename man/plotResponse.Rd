@@ -23,15 +23,15 @@ plotResponse(
 \item{type}{character. The output type used for "Maxent" and "Maxnet"
 methods, possible values are "cloglog" and "logistic".}
 
-\item{only_presence}{logical, if \code{TRUE} it uses only the presence locations
+\item{only_presence}{logical. If \code{TRUE} it uses only the presence locations
 when applying the function for the marginal response.}
 
-\item{marginal}{logical, if \code{TRUE} it plots the marginal response curve.}
+\item{marginal}{logical. If \code{TRUE} it plots the marginal response curve.}
 
 \item{fun}{function used to compute the level of the other variables for
 marginal curves.}
 
-\item{rug}{logical, if \code{TRUE} it adds the rug plot for the presence and
+\item{rug}{logical. If \code{TRUE} it adds the rug plot for the presence and
 absence/background locations, available only for continuous variables.}
 
 \item{color}{The colour of the curve, default is "red".}
@@ -50,46 +50,75 @@ not \code{"mean"}.
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Train a model
-model <- train(method = "Maxnet", data = data, fc = "lq")
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "lq")
 
 # Plot cloglog response curve for a continuous environmental variable (bio1)
-plotResponse(model, var = "bio1", type = "cloglog")
+plotResponse(model,
+             var = "bio1",
+             type = "cloglog")
 
 # Plot marginal cloglog response curve for a continuous environmental
 # variable (bio1)
-plotResponse(model, var = "bio1", type = "cloglog", marginal = TRUE)
+plotResponse(model,
+             var = "bio1",
+             type = "cloglog",
+             marginal = TRUE)
 
 # Plot logistic response curve for a continuous environmental variable
 # (bio12) adding the rugs and giving a custom color
-plotResponse(model, var = "bio12", type = "logistic", rug = TRUE,
+plotResponse(model,
+             var = "bio12",
+             type = "logistic",
+             rug = TRUE,
              color = "blue")
 
 # Plot response curve for a categorical environmental variable (biome) giving
 # a custom color
-plotResponse(model, var = "biome", type = "logistic", color = "green")
+plotResponse(model,
+             var = "biome",
+             type = "logistic",
+             color = "green")
 
 # Train a model with cross validation
-folds <- randomFolds(data, k = 4, only_presence = TRUE)
-model <- train(method = "Maxnet", data = data, fc = "lq", folds = folds)
+folds <- randomFolds(data,
+                     k = 4,
+                     only_presence = TRUE)
+
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "lq",
+               folds = folds)
 
 # Plot cloglog response curve for a continuous environmental variable (bio17)
-plotResponse(model, var = "bio1", type = "cloglog")
+plotResponse(model,
+             var = "bio1",
+             type = "cloglog")
 
 # Plot logistic response curve for a categorical environmental variable
 # (biome) giving a custom color
-plotResponse(model, var = "biome", type = "logistic", color = "green")
+plotResponse(model,
+             var = "biome",
+             type = "logistic",
+             color = "green")
 }
 }
 \author{

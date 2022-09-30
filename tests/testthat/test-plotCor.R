@@ -7,7 +7,9 @@ test_that("The plot has the correct labels", {
 })
 
 test_that("The plot as the correct text when using cor_th argument", {
-  expect_true(sum(abs(p$layers[[2]]$data$value) >= .8) == nrow(p$layers[[2]]$data))
+  expect_true(
+    sum(abs(p$layers[[2]]$data$value) >= .8) == nrow(p$layers[[2]]$data)
+  )
 })
 
 test_that("The plot has the correct text when the argument cor_th is NULL", {

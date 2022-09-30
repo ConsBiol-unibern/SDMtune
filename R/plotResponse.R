@@ -6,12 +6,12 @@
 #' @param var character. Name of the variable to be plotted.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
 #' methods, possible values are "cloglog" and "logistic".
-#' @param only_presence logical, if `TRUE` it uses only the presence locations
+#' @param only_presence logical. If `TRUE` it uses only the presence locations
 #' when applying the function for the marginal response.
-#' @param marginal logical, if `TRUE` it plots the marginal response curve.
+#' @param marginal logical. If `TRUE` it plots the marginal response curve.
 #' @param fun function used to compute the level of the other variables for
 #' marginal curves.
-#' @param rug logical, if `TRUE` it adds the rug plot for the presence and
+#' @param rug logical. If `TRUE` it adds the rug plot for the presence and
 #' absence/background locations, available only for continuous variables.
 #' @param color The colour of the curve, default is "red".
 #'
@@ -29,46 +29,75 @@
 #' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", data = data, fc = "lq")
+#' model <- train(method = "Maxnet",
+#'                data = data,
+#'                fc = "lq")
 #'
 #' # Plot cloglog response curve for a continuous environmental variable (bio1)
-#' plotResponse(model, var = "bio1", type = "cloglog")
+#' plotResponse(model,
+#'              var = "bio1",
+#'              type = "cloglog")
 #'
 #' # Plot marginal cloglog response curve for a continuous environmental
 #' # variable (bio1)
-#' plotResponse(model, var = "bio1", type = "cloglog", marginal = TRUE)
+#' plotResponse(model,
+#'              var = "bio1",
+#'              type = "cloglog",
+#'              marginal = TRUE)
 #'
 #' # Plot logistic response curve for a continuous environmental variable
 #' # (bio12) adding the rugs and giving a custom color
-#' plotResponse(model, var = "bio12", type = "logistic", rug = TRUE,
+#' plotResponse(model,
+#'              var = "bio12",
+#'              type = "logistic",
+#'              rug = TRUE,
 #'              color = "blue")
 #'
 #' # Plot response curve for a categorical environmental variable (biome) giving
 #' # a custom color
-#' plotResponse(model, var = "biome", type = "logistic", color = "green")
+#' plotResponse(model,
+#'              var = "biome",
+#'              type = "logistic",
+#'              color = "green")
 #'
 #' # Train a model with cross validation
-#' folds <- randomFolds(data, k = 4, only_presence = TRUE)
-#' model <- train(method = "Maxnet", data = data, fc = "lq", folds = folds)
+#' folds <- randomFolds(data,
+#'                      k = 4,
+#'                      only_presence = TRUE)
+#'
+#' model <- train(method = "Maxnet",
+#'                data = data,
+#'                fc = "lq",
+#'                folds = folds)
 #'
 #' # Plot cloglog response curve for a continuous environmental variable (bio17)
-#' plotResponse(model, var = "bio1", type = "cloglog")
+#' plotResponse(model,
+#'              var = "bio1",
+#'              type = "cloglog")
 #'
 #' # Plot logistic response curve for a categorical environmental variable
 #' # (biome) giving a custom color
-#' plotResponse(model, var = "biome", type = "logistic", color = "green")
+#' plotResponse(model,
+#'              var = "biome",
+#'              type = "logistic",
+#'              color = "green")
 #' }
 plotResponse <- function(model,
                          var,
@@ -159,7 +188,7 @@ plotResponse <- function(model,
                         sides = "b", color = "#4C4C4C")
   }
 
-  return(my_plot)
+  my_plot
 }
 
 
@@ -196,7 +225,7 @@ plotResponse <- function(model,
   }
 
   pred <- predict(model, data, type = type)
-  plot_data <- data.frame(x = data[, var], y = pred)
 
-  return(plot_data)
+  data.frame(x = data[, var],
+             y = pred)
 }
