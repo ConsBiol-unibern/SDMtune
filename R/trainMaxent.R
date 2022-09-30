@@ -7,27 +7,41 @@ trainMaxent <- function(data,
   result <- SDMmodel(data = data)
   folder <- tempfile()
 
-  args <- .make_args(reg = reg, fc = fc, iter = iter, extra_args = extra_args)
+  args <- .make_args(reg = reg,
+                     fc = fc,
+                     iter = iter,
+                     extra_args = extra_args)
 
   x <- data@data
   p <- data@pa
-  dismo_model <- dismo::maxent(x, p, args = args, path = folder, silent = TRUE)
+  dismo_model <- dismo::maxent(x,
+                               p,
+                               args = args,
+                               path = folder,
+                               silent = TRUE)
 
   l <- .get_lambdas(dismo_model@lambdas)
   f <- stats::formula(paste("~", paste(l$lambdas$feature, collapse = " + "),
                             "- 1"))
 
-  model_object <- Maxent(results = dismo_model@results, reg = reg, fc = fc,
-                         iter = iter, extra_args = extra_args,
-                         lambdas = dismo_model@lambdas, coeff = l$lambdas,
-                         formula = f, lpn = l$lpn, dn = l$dn,
-                         entropy = l$entropy, min_max = l$min_max)
+  model_object <- Maxent(results = dismo_model@results,
+                         reg = reg,
+                         fc = fc,
+                         iter = iter,
+                         extra_args = extra_args,
+                         lambdas = dismo_model@lambdas,
+                         coeff = l$lambdas,
+                         formula = f,
+                         lpn = l$lpn,
+                         dn = l$dn,
+                         entropy = l$entropy,
+                         min_max = l$min_max)
 
   result@model <- model_object
 
   unlink(folder, recursive = TRUE)
 
-  return(result)
+  result
 }
 
 .make_args <- function(reg,
@@ -38,9 +52,7 @@ trainMaxent <- function(data,
   args <- c(paste0("betamultiplier=", reg), paste0("maximumiterations=", iter),
             .get_fc_args(fc))
 
-  args <- c(args, extra_args)
-
-  return(args)
+  c(args, extra_args)
 }
 
 
@@ -66,7 +78,7 @@ trainMaxent <- function(data,
     feature_args <- c(feature_args, get("fc_map")[[letter]])
   }
 
-  return(feature_args)
+  feature_args
 }
 
 .get_lambdas <- function(lambda) {
@@ -106,9 +118,11 @@ trainMaxent <- function(data,
   rownames(l) <- NULL
   rownames(min_max) <- NULL
 
-  output <- list(lambdas = l, lpn = lpn, dn = dn, entropy = entropy,
-                 min_max = min_max)
-  return(output)
+  list(lambdas = l,
+       lpn = lpn,
+       dn = dn,
+       entropy = entropy,
+       min_max = min_max)
 }
 
 .hinge <- function(variable,

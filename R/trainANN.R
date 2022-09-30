@@ -8,13 +8,20 @@ trainANN <- function(data,
 
   x <- data@data
   p <- data@pa
-  utils::capture.output(model <- nnet::nnet(x = x, y = p, size = size,
-                                            decay = decay, rang = rang,
+  utils::capture.output(model <- nnet::nnet(x = x,
+                                            y = p,
+                                            size = size,
+                                            decay = decay,
+                                            rang = rang,
                                             maxit = maxit))
 
-  model_object <- ANN(size = size, decay = decay, rang = rang, maxit = maxit,
+  model_object <- ANN(size = size,
+                      decay = decay,
+                      rang = rang,
+                      maxit = maxit,
                       model = model)
+
   result@model <- model_object
 
-  return(result)
+  result
 }
