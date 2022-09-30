@@ -12,7 +12,7 @@ confMatrix(model, test = NULL, th = NULL, type = NULL)
 \item{test}{\linkS4class{SWD} testing locations, if not provided it uses the
 training dataset.}
 
-\item{th}{numeric vector, if provided it computes the evaluation at the given
+\item{th}{numeric vector. If provided it computes the evaluation at the given
 thresholds. Default is \code{NULL} and it computes the evaluation for the unique
 predicted values at presence and absence/background locations.}
 
@@ -37,27 +37,37 @@ for more details.
 \examples{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Train a model
-model <- train(method = "Maxnet", data = data, fc = "l")
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "l")
 
 # Get the confusion matrix for thresholds ranging from 0 to 1
-cm <- confMatrix(model, type = "cloglog")
+cm <- confMatrix(model,
+                 type = "cloglog")
 head(cm)
 tail(cm)
 
 # Get the confusion matrix for a specific threshold
-confMatrix(model, type = "logistic", th = 0.6)
+confMatrix(model,
+           type = "logistic",
+           th = 0.6)
 }
 \author{
 Sergio Vignali
