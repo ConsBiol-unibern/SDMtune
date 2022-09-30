@@ -3,7 +3,9 @@ vi <- data.frame(Variable = c("bio1", "bio5", "bio7"),
 
 test_that("Output is correct", {
   p <- plotVarImp(vi)
+
   expect_equal(p$labels$y, "Percent contribution")
+
   # The function orders the values
   expect_equal(p$data$Variable,
                factor(c("bio5", "bio7", "bio1"),

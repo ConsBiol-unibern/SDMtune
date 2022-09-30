@@ -13,30 +13,40 @@
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+#' datasets <- trainValTest(data,
+#'                          test = 0.2,
+#'                          only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", data = train, fc = "l")
+#' model <- train(method = "Maxnet",
+#'                data = train,
+#'                fc = "l")
 #'
 #' # Plot the training ROC curve
 #' plotROC(model)
 #'
 #' # Plot the training and testing  ROC curves
-#' plotROC(model, test = test)
+#' plotROC(model,
+#'         test = test)
 #'
 #' @author Sergio Vignali
 plotROC <- function(model,
@@ -85,5 +95,5 @@ plotROC <- function(model,
       ggplot2::guides(colour = ggplot2::guide_legend(reverse = TRUE))
   }
 
-  return(my_plot)
+  my_plot
 }
