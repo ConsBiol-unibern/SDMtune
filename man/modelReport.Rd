@@ -38,8 +38,8 @@ presence location for the marginal response.}
 
 \item{jk}{logical, if \code{TRUE} it runs the jackknife test.}
 
-\item{env}{\link[raster]{stack}. If provided it computes and adds a
-prediction map to the output.}
+\item{env}{\link[terra]{rast}. If provided it computes and adds a prediction
+map to the output.}
 
 \item{clamp}{logical for clumping during prediction, used for response curves
 and for the prediction map.}
@@ -47,7 +47,7 @@ and for the prediction map.}
 \item{permut}{integer. Number of permutations.}
 
 \item{factors}{list with levels for factor variables, see
-\link[raster]{predict}.}
+\link[terra]{predict}.}
 
 \item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }
@@ -64,30 +64,45 @@ software.
 # to set the argument ask like following: example("modelReport", ask = FALSE)
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+datasets <- trainValTest(data,
+                         test = 0.2,
+                         only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", data = train, fc = "lq")
+model <- train(method = "Maxnet",
+               data = train,
+               fc = "lq")
 
 # Create the report
 \dontrun{
-modelReport(model, type = "cloglog", folder = "my_folder", test = test,
-            response_curves = TRUE, only_presence = TRUE, jk = TRUE,
-            env = predictors, permut = 2)
+modelReport(model,
+            type = "cloglog",
+            folder = "my_folder",
+            test = test,
+            response_curves = TRUE,
+            only_presence = TRUE,
+            jk = TRUE,
+            env = predictors,
+            permut = 2)
 }
 }
 }

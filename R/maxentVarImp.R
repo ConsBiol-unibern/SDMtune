@@ -82,7 +82,9 @@ maxentVarImp <- function(model) {
   pc <- x[grepl("contribution", rownames(x)), ]
   pi <- x[grepl("permutation.importance", rownames(x)), ]
   variables <- gsub(".contribution", "", names(pc))
-  df <- data.frame(x = variables, y = pc, z = pi, row.names = NULL,
-                   stringsAsFactors = FALSE)
-  return(df)
+
+  data.frame(x = variables,
+             y = pc,
+             z = pi,
+             row.names = NULL)
 }

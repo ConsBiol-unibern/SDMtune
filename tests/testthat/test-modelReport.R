@@ -1,9 +1,12 @@
 skip_on_cran()
 
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 folder <- "trash"
+
 test_that("All files are created", {
 
   modelReport(SDMtune:::bm_maxnet,
@@ -60,17 +63,21 @@ test_that("Settings are correct", {
 
   # Maxent with training and testing datasets and prediction
   expect_snapshot_output(.write_report_model_settings(params))
+
   # Maxnet without testing datasets and prediction
   params$model <- SDMtune:::bm_maxnet
   params$test <- NULL
   params$env <- NULL
   expect_snapshot_output(.write_report_model_settings(params))
+
   # ANN
   params$model <- m_ann
   expect_snapshot_output(.write_report_model_settings(params))
+
   # BRT
   params$model <- m_brt
   expect_snapshot_output(.write_report_model_settings(params))
+
   # RF
   params$model <- m_rf
   expect_snapshot_output(.write_report_model_settings(params))

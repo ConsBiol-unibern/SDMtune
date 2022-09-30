@@ -13,13 +13,13 @@
 #' @param only_presence logical, if `TRUE` it uses only the range of the
 #' presence location for the marginal response.
 #' @param jk logical, if `TRUE` it runs the jackknife test.
-#' @param env \link[raster]{stack}. If provided it computes and adds a
-#' prediction map to the output.
+#' @param env \link[terra]{rast}. If provided it computes and adds a prediction
+#' map to the output.
 #' @param clamp logical for clumping during prediction, used for response curves
 #' and for the prediction map.
 #' @param permut integer. Number of permutations.
 #' @param factors list with levels for factor variables, see
-#' \link[raster]{predict}.
+#' \link[terra]{predict}.
 #' @param verbose logical, if `TRUE` prints informative messages.
 #'
 #' @details The function produces a report similar to the one created by MaxEnt
@@ -35,30 +35,45 @@
 #' # to set the argument ask like following: example("modelReport", ask = FALSE)
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+#' datasets <- trainValTest(data,
+#'                          test = 0.2,
+#'                          only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", data = train, fc = "lq")
+#' model <- train(method = "Maxnet",
+#'                data = train,
+#'                fc = "lq")
 #'
 #' # Create the report
 #' \dontrun{
-#' modelReport(model, type = "cloglog", folder = "my_folder", test = test,
-#'             response_curves = TRUE, only_presence = TRUE, jk = TRUE,
-#'             env = predictors, permut = 2)
+#' modelReport(model,
+#'             type = "cloglog",
+#'             folder = "my_folder",
+#'             test = test,
+#'             response_curves = TRUE,
+#'             only_presence = TRUE,
+#'             jk = TRUE,
+#'             env = predictors,
+#'             permut = 2)
 #' }
 #' }
 modelReport <- function(model,
@@ -96,6 +111,7 @@ modelReport <- function(model,
   } else {
     continue <- 1
   }
+
   if (continue == 1) {
     template <- system.file("templates", "modelReport.Rmd", package = "SDMtune")
 
@@ -171,7 +187,7 @@ modelReport <- function(model,
     </a>
   ")
 
-  return(htmltools::HTML(element))
+  htmltools::HTML(element)
 }
 
 .compute_report_thresholds <- function(params) {
@@ -221,7 +237,7 @@ modelReport <- function(model,
   # Add p element to reset float
   elements <- paste(c(elements, "<p></p>"), collapse = "")
 
-  return(htmltools::HTML(elements))
+  htmltools::HTML(elements)
 }
 
 .make_report_prediction <- function(params) {
@@ -232,27 +248,31 @@ modelReport <- function(model,
   pred <- predict(params$model,
                   data = params$env,
                   type = params$type,
-                  filename = file.path(params$folder, "map"),
+                  filename = file.path(params$folder, "map.tif"),
                   overwrite = TRUE,
                   clamp = params$clamp,
                   factors = params$factors)
+
   plot <- plotPred(pred,
                    lt = params$type,
                    hr = TRUE,
                    colorramp = c("#2c7bb6", "#abd9e9",
                                  "#ffffbf", "#fdae61", "#d7191c"))
+
   suppressMessages(ggplot2::ggsave(filename = "map.png",
                                    plot = plot,
                                    device = "png",
                                    path = params$plot_folder))
+
   path <- file.path(params$plot_folder, "map.png")
+
   element <- stringr::str_glue("
     <a href='{path}'>
       <img src='{path}' class='fig-centered'>
     </a>
   ")
 
-  return(htmltools::HTML(element))
+  htmltools::HTML(element)
 }
 
 .compute_report_variable_importance <- function(params) {
@@ -285,8 +305,10 @@ modelReport <- function(model,
                                      plot = plot,
                                      device = "png",
                                      path = params$plot_folder))
+
     path1 <- file.path(params$plot_folder, "train_jk.png")
     path2 <- file.path(params$plot_folder, "test_jk.png")
+
     element <- stringr::str_glue("
       <a href='{path1}'>
         <img src='{path1}' class='two-figs'>
@@ -303,7 +325,7 @@ modelReport <- function(model,
     ")
   }
 
-  return(htmltools::HTML(element))
+  htmltools::HTML(element)
 }
 
 #' Write Settings
@@ -407,5 +429,5 @@ modelReport <- function(model,
     ")
   }
 
-  return(cat(text))
+  cat(text)
 }
