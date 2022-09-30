@@ -118,8 +118,6 @@
 #'                    categorical = "biome")
 #'
 #' ## Train a Maxent model
-#' # The next line checks if Maxent is correctly configured but you don't need
-#' # to run it in your script
 #' model <- train(method = "Maxent",
 #'                data = data,
 #'                fc = "l",
@@ -261,6 +259,7 @@ train <- function(method,
     } else {
       folds <- .convert_folds(folds, data)
       k <- ncol(folds[[1]])
+
       if (progress) {
         cli::cli_progress_bar(
           name = "Cross Validation",
@@ -278,6 +277,7 @@ train <- function(method,
         train <- .subset_swd(data, folds$train[, j])
         argus <- c(data = train, ea[names(ea) %in% .args_name(func)])
         models[[j]] <- do.call(func, args = argus)
+
         if (progress)
           cli::cli_progress_update()
       }

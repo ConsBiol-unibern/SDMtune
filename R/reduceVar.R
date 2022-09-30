@@ -92,8 +92,6 @@
 #'                     env = predictors)
 #'
 #' # Train a Maxent model
-#' # The next line checks if Maxent is correctly configured but you don't need
-#' # to run it in your script
 #' model <- train(method = "Maxent",
 #'                data = train,
 #'                fc = "lq")
