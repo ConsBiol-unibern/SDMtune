@@ -15,24 +15,30 @@
 #' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Train a Maxent model
 #' # The next line checks if Maxent is correctly configured but you don't need
 #' # to run it in your script
-#' if (dismo::maxent(silent = TRUE)) {
-#' model <- train(method = "Maxent", data = data, fc = "l")
+#' model <- train(method = "Maxent",
+#'                data = data,
+#'                fc = "l")
+#'
 #' maxentTh(model)
-#' }
 #' }
 maxentTh <- function(model) {
 
@@ -47,5 +53,6 @@ maxentTh <- function(model) {
   labels <- gsub(".threshold", "", thresholds)
   df <- data.frame(threshold = model@model@results[thresholds, ])
   rownames(df) <- labels
-  return(df)
+
+  df
 }

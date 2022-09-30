@@ -5,6 +5,7 @@ test_that("Error are raised", {
 test_that("The output is correct for SDMmodel objects", {
   model <- SDMtune:::bm_maxent
   df <- maxentVarImp(model)
+
   expect_s3_class(df, "data.frame")
   expect_named(df,
                c("Variable", "Percent_contribution", "Permutation_importance"))
@@ -16,6 +17,7 @@ test_that("The output is correct for SDMmodelCV objects", {
   pcs <- pis <- vector("numeric", length = 4)
   df <- maxentVarImp(model)
   vars <- colnames(model@data@data)
+
   for (v in vars) {
     for (i in 1:4) {
       x <- maxentVarImp(model@models[[i]])
@@ -25,6 +27,7 @@ test_that("The output is correct for SDMmodelCV objects", {
     expect_equal(df[v, 2], mean(pcs))
     expect_equal(df[v, 3], mean(pis))
   }
+
   expect_s3_class(df, "data.frame")
   expect_named(df,
                c("Variable", "Percent_contribution", "Permutation_importance"))
