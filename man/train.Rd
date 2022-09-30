@@ -16,7 +16,7 @@ locations.}
 \item{folds}{list. Output of the function \link{randomFolds} or folds object
 created with other packages, see details.}
 
-\item{progress}{logical, if \code{TRUE} shows a progress bar during cross
+\item{progress}{logical. If \code{TRUE} shows a progress bar during cross
 validation.}
 
 \item{...}{Arguments passed to the relative method, see details.}
@@ -94,37 +94,53 @@ see examples.
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 ## Train a Maxent model
 # The next line checks if Maxent is correctly configured but you don't need
 # to run it in your script
-if (dismo::maxent(silent = TRUE)) {
-model <- train(method = "Maxent", data = data, fc = "l", reg = 1.5,
+model <- train(method = "Maxent",
+               data = data,
+               fc = "l",
+               reg = 1.5,
                iter = 700)
 
 # Add samples to background. This should be done preparing the data before
 # training the model without using
 data <- addSamplesToBg(data)
-model <- train("Maxent", data = data)
-}
+model <- train("Maxent",
+               data = data)
 
 ## Train a Maxnet model
-model <- train(method = "Maxnet", data = data, fc = "lq", reg = 1.5)
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "lq",
+               reg = 1.5)
 
 ## Cross Validation
 # Create 4 random folds splitting only the presence data
-folds <- randomFolds(data, k = 4, only_presence = TRUE)
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+folds <- randomFolds(data,
+                     k = 4,
+                     only_presence = TRUE)
+
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "l",
+               reg = 0.8,
                folds = folds)
 
 \dontrun{
@@ -133,7 +149,11 @@ model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 require(ENMeval)
 block_folds <- get.block(occ = data@coords[data@pa == 1, ],
                          bg.coords = data@coords[data@pa == 0, ])
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "l",
+               reg = 0.8,
                folds = block_folds)
 
 ## Checkerboard1 partition using the ENMeval package
@@ -141,7 +161,11 @@ cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ],
                               env = predictors,
                               bg.coords = data@coords[data@pa == 0, ],
                               aggregation.factor = 4)
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "l",
+               reg = 0.8,
                folds = cb_folds)
 
 ## Environmental block using the blockCV package
@@ -149,15 +173,21 @@ model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 require(blockCV)
 # Create spatial points data frame
 library(raster)
-sp_df <- SpatialPointsDataFrame(data@coords, data = as.data.frame(data@pa),
+sp_df <- SpatialPointsDataFrame(data@coords,
+                                data = as.data.frame(data@pa),
                                 proj4string = crs(predictors))
+
 e_folds <- envBlock(rasterLayer = predictors,
                     speciesData = sp_df,
                     species = "data@pa",
                     k = 4,
                     standardization = "standard",
                     rasterBlock = FALSE)
-model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
+
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "l",
+               reg = 0.8,
                folds = e_folds)
 }
 
@@ -166,27 +196,42 @@ model <- train(method = "Maxnet", data = data, fc = "l", reg = 0.8,
 p_coords <- virtualSp$presence
 a_coords <- virtualSp$absence
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = a_coords,
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = a_coords,
                    env = predictors[[1:5]])
 
 ## Train an Artificial Neural Network model
-model <- train("ANN", data = data, size = 10)
+model <- train("ANN",
+               data = data,
+               size = 10)
 
 ## Train a Random Forest model
-model <- train("RF", data = data, ntree = 300)
+model <- train("RF",
+               data = data,
+               ntree = 300)
 
 ## Train a Boosted Regression Tree model
-model <- train("BRT", data = data, n.trees = 300, shrinkage = 0.001)
+model <- train("BRT",
+               data = data,
+               n.trees = 300,
+               shrinkage = 0.001)
 
 ## Multiple methods trained together with default arguments
-output <- train(method = c("ANN", "BRT", "RF"), data = data, size = 10)
+output <- train(method = c("ANN", "BRT", "RF"),
+                data = data,
+                size = 10)
 output$ANN
 output$BRT
 output$RF
 
 ## Multiple methods trained together passing extra arguments
-output <- train(method = c("ANN", "BRT", "RF"), data = data, size = 10,
-                ntree = 300, n.trees = 300, shrinkage = 0.001)
+output <- train(method = c("ANN", "BRT", "RF"),
+                data = data,
+                size = 10,
+                ntree = 300,
+                n.trees = 300,
+                shrinkage = 0.001)
 output
 }
 }
