@@ -11,7 +11,7 @@
   type = NULL,
   clamp = TRUE,
   filename = "",
-  format = "GTiff",
+  format = "",
   extent = NULL,
   progress = TRUE,
   ...
@@ -34,20 +34,22 @@ see details.}
 \item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
 and \strong{Maxnet} methods.}
 
-\item{filename}{character. Output file name for the prediction map, used only
-when \code{data} is a \link[terra]{rast} object. If provided the output is saved
-in a file, see details.}
+\item{filename}{character. If provided the raster map is saved in a file. It
+must include the extension.}
 
-\item{format}{character. The output format, for all the options see
-\href{https://gdal.org/drivers/raster/index.html}{Raster drivers}.}
+\item{format}{character. Deprecated.}
 
 \item{extent}{\link[terra]{ext} object, if provided it restricts the
 prediction to the given extent.}
 
 \item{progress}{logical, if \code{TRUE} shows a progress bar during prediction.}
 
-\item{...}{Additional arguments to pass to the \link[terra]{writeRaster}
+\item{...}{Additional arguments to pass to the \link[terra]{predict}
 function.}
+
+\item{overwrite}{logical. If \code{TRUE} an existing file is overwritten.}
+
+\item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
 }
 \value{
 A vector with the prediction or a \link[terra]{rast} object if data
@@ -60,9 +62,8 @@ of the k models.
 }
 \details{
 \itemize{
-\item filename, format, extent, and ... arguments are used only when the
-prediction is done for a \link[terra]{rast} object.
-\item filename must include the extension.
+\item filename, and extent are arguments used only when the prediction is run for
+a \link[terra]{rast} object.
 \item When a character vector is passed to the \code{fun} argument, than all the
 given functions are applied and a named list is returned, see examples.
 \item When \code{filename} is provided and the \code{fun} argument contains more than one

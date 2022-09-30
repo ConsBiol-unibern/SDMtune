@@ -15,21 +15,20 @@
 #' **Maxnet** methods.
 #' @param clamp logical for clumping during prediction, used only for **Maxent**
 #' and **Maxnet** methods.
-#' @param filename character. Output file name for the prediction map, used only
-#' when `data` is a \link[terra]{rast} object. If provided the output is saved
-#' in a file, see details.
-#' @param format character. The output format, for all the options see
-#' \href{https://gdal.org/drivers/raster/index.html}{Raster drivers}.
+#' @param filename character. If provided the raster map is saved in a file. It
+#' must include the extension.
+#' @param overwrite logical. If `TRUE` an existing file is overwritten.
+#' @param wopt list. Writing options passed to \link[terra]{writeRaster}.
+#' @param format character. Deprecated.
 #' @param extent \link[terra]{ext} object, if provided it restricts the
 #' prediction to the given extent.
 #' @param progress logical, if `TRUE` shows a progress bar during prediction.
-#' @param ... Additional arguments to pass to the \link[terra]{writeRaster}
+#' @param ... Additional arguments to pass to the \link[terra]{predict}
 #' function.
 #'
 #' @details
-#' * filename, format, extent, and ... arguments are used only when the
-#' prediction is done for a \link[terra]{rast} object.
-#' * filename must include the extension.
+#' * filename, and extent are arguments used only when the prediction is run for
+#' a \link[terra]{rast} object.
 #' * When a character vector is passed to the `fun` argument, than all the
 #' given functions are applied and a named list is returned, see examples.
 #' * When `filename` is provided and the `fun` argument contains more than one
@@ -133,7 +132,7 @@ setMethod(
                         type = NULL,
                         clamp = TRUE,
                         filename = "",
-                        format = "GTiff",
+                        format = "",
                         extent = NULL,
                         progress = TRUE,
                         ...) {
@@ -154,6 +153,14 @@ setMethod(
       file_name <- tools::file_path_sans_ext(filename)
       filename <- paste0(file_name, "_", fun, ".", file_ext)
     }
+
+    # TODO: Remove with version 2.0.0
+    if (format != "")
+      cli::cli_warn(c(
+        "!" = paste("The argument {.val format} is deprectated and will be",
+                    "ignored. Use {.val wopt} instead and see {.val Details}",
+                    "in {.fun terra::writeRaster}")
+      ))
 
     if (progress)
       cli::cli_progress_bar(

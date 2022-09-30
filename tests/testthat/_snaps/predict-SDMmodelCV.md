@@ -22,3 +22,7 @@
     ! <Extent> objects will not be accepted in future releases
     i SDMtune now uses terra to handle spatial data. See function `terra::ext()` to migrate.
 
+---
+
+    ! The argument "format" is deprectated and will be ignored. Use "wopt" instead and see "Details" in `terra::writeRaster()`
+

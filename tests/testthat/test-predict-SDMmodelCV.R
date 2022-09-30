@@ -159,4 +159,8 @@ test_that("The function warns", {
                                   data = predictors,
                                   type = "raw",
                                   extent = e_raster))
+
+  expect_snapshot_warning(predict(m,
+                                  data = predictors,
+                                  format = "span"))
 })
