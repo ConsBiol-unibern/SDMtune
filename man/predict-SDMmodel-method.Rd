@@ -10,7 +10,9 @@
   type = NULL,
   clamp = TRUE,
   filename = "",
-  format = "GTiff",
+  overwrite = FALSE,
+  wopt = list(),
+  format = "",
   extent = NULL,
   progress = "",
   ...
@@ -28,19 +30,21 @@ for the prediction.}
 \item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
 and \strong{Maxnet} methods.}
 
-\item{filename}{character. Output file name for the prediction map, used only
-when \code{data} is a \link[terra]{rast} object. If provided the output is saved
-in a file, see details..}
+\item{filename}{character. If provided the raster map is saved in a file. It
+must include the extension.}
 
-\item{format}{character. The output format, for all the options see
-\href{https://gdal.org/drivers/raster/index.html}{Raster drivers}.}
+\item{overwrite}{logical. If \code{TRUE} an existing file is overwritten.}
+
+\item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
+
+\item{format}{character. Deprecated.}
 
 \item{extent}{\link[terra]{ext} object, if provided it restricts the
 prediction to the given extent.}
 
 \item{progress}{character, deprecated.}
 
-\item{...}{Additional arguments to pass to the \link[terra]{writeRaster}
+\item{...}{Additional arguments to pass to the \link[terra]{predict}
 function.}
 }
 \value{
@@ -53,9 +57,8 @@ model.
 }
 \details{
 \itemize{
-\item filename, format, extent, and ... are arguments used only when the
-prediction is done for a \link[terra]{rast} object.
-filename must include the extension.
+\item filename, and extent are arguments used only when the prediction is run for
+a \link[terra]{rast} object.
 \item For models trained with the \strong{Maxent} method the argument \code{type} can be:
 "raw", "logistic" and "cloglog". The function performs the prediction in
 \strong{R} without calling the \strong{MaxEnt} Java software. This results in a faster
@@ -120,7 +123,7 @@ predict(model,
 predict(model,
         data = predictors,
         type = "logistic",
-        filename = "my_map")
+        filename = "my_map.tif")
 }
 }
 \references{

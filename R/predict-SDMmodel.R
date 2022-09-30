@@ -14,21 +14,20 @@ setGeneric("predict", function(object, ...)
 #' **Maxnet** methods.
 #' @param clamp logical for clumping during prediction, used only for **Maxent**
 #' and **Maxnet** methods.
-#' @param filename character. Output file name for the prediction map, used only
-#' when `data` is a \link[terra]{rast} object. If provided the output is saved
-#' in a file, see details..
-#' @param format character. The output format, for all the options see
-#' \href{https://gdal.org/drivers/raster/index.html}{Raster drivers}.
+#' @param filename character. If provided the raster map is saved in a file. It
+#' must include the extension.
+#' @param overwrite logical. If `TRUE` an existing file is overwritten.
+#' @param wopt list. Writing options passed to \link[terra]{writeRaster}.
+#' @param format character. Deprecated.
 #' @param extent \link[terra]{ext} object, if provided it restricts the
 #' prediction to the given extent.
 #' @param progress character, deprecated.
-#' @param ... Additional arguments to pass to the \link[terra]{writeRaster}
+#' @param ... Additional arguments to pass to the \link[terra]{predict}
 #' function.
 #'
 #' @details
-#' * filename, format, extent, and ... are arguments used only when the
-#' prediction is done for a \link[terra]{rast} object.
-#' filename must include the extension.
+#' * filename, and extent are arguments used only when the prediction is run for
+#' a \link[terra]{rast} object.
 #' * For models trained with the **Maxent** method the argument `type` can be:
 #' "raw", "logistic" and "cloglog". The function performs the prediction in
 #' **R** without calling the **MaxEnt** Java software. This results in a faster
@@ -104,7 +103,7 @@ setGeneric("predict", function(object, ...)
 #' predict(model,
 #'         data = predictors,
 #'         type = "logistic",
-#'         filename = "my_map")
+#'         filename = "my_map.tif")
 #' }
 setMethod(
   f = "predict",
@@ -114,7 +113,9 @@ setMethod(
                         type = NULL,
                         clamp = TRUE,
                         filename = "",
-                        format = "GTiff",
+                        overwrite = FALSE,
+                        wopt = list(),
+                        format = "",
                         extent = NULL,
                         progress = "",
                         ...) {
@@ -135,6 +136,14 @@ setMethod(
       .warn_raster("raster", "rast")
       data <- terra::rast(data)
     }
+
+    # TODO: Remove with version 2.0.0
+    if (format != "")
+      cli::cli_warn(c(
+        "!" = paste("The argument {.val format} is deprectated and will be",
+                    "ignored. Use {.val wopt} instead and see {.val Details}",
+                    "in {.fun terra::writeRaster}")
+      ))
 
     if (inherits(data, "SpatRaster")) {
       data <- terra::subset(data, vars)
@@ -176,7 +185,8 @@ setMethod(
                              # Additional arguments for terra predict function
                              filename = filename,
                              na.rm = TRUE,
-                             wopt = list(filetype = format),
+                             overwrite = overwrite,
+                             wopt = wopt,
                              ...)
     } else if (inherits(data, "SWD")) {
       data <- data@data[vars]
