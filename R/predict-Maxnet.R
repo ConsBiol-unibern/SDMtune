@@ -27,6 +27,9 @@ setMethod(
                         type = c("link", "exponential", "cloglog", "logistic"),
                         clamp = TRUE) {
 
-    predict(object@model, newdata = data, type = type, clamp = clamp)
+    predict(object@model,
+            newdata = data,
+            type = type,
+            clamp = clamp)
   }
 )
