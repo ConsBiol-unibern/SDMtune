@@ -50,14 +50,23 @@ test_that("The function works with only presences or only absences data", {
 test_that("The function warns if some locations are discarded", {
   # One location
   a <- rbind(a, c(100, 100))
-  expect_snapshot_warning(
-    prepareSWD(species = "Bgs", a = a, env = env, verbose = FALSE)
-  )
+  expect_snapshot_warning(prepareSWD(species = "Bgs",
+                                     a = a,
+                                     env = env,
+                                     verbose = FALSE))
+
   # More than one location
   a <- rbind(a, c(100, 100))
-  expect_snapshot_warning(
-    prepareSWD(species = "Bgs", a = a, env = env, verbose = FALSE)
-  )
+  expect_snapshot_warning(prepareSWD(species = "Bgs",
+                                     a = a,
+                                     env = env,
+                                     verbose = FALSE))
+})
+
+test_that("The function raises errors", {
+  expect_snapshot_error(prepareSWD(species = "Bgs",
+                                   a = a,
+                                   env = "spam"))
 })
 
 # TODO: Remove with version 2.0.0

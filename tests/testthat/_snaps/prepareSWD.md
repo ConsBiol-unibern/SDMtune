@@ -6,6 +6,11 @@
 
     ! 2 locations are NA for some environmental variables and have been discarded
 
+# The function raises errors
+
+    ! `env` must be a <SpatRaster> object
+    x You have supplied a <character> instead.
+
 # The function warns if a raster object is used
 
     ! <raster> objects will not be accepted in future releases

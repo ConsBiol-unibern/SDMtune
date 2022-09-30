@@ -52,6 +52,12 @@ prepareSWD <- function(species,
     env <- terra::rast(env)
   }
 
+  if (!inherits(env, "SpatRaster"))
+    cli::cli_abort(c(
+      "!" = "{.var env} must be a {.cls SpatRaster} object",
+      "x" = "You have supplied a {.cls {class(env)}} instead."
+    ))
+
   df_coords <- data.frame(X = numeric(), Y = numeric())
   df_data <- p[0, ]
   dfs <- list(p, a)
