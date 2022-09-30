@@ -112,7 +112,7 @@ auc <- function(model,
     auc <- mean(aucs)
   }
 
-  return(auc)
+  auc
 }
 
 .compute_auc <- function(model,

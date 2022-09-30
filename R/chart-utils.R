@@ -69,7 +69,8 @@
                   "/chart_template.html")
     utils::browseURL(url)
   }
-  return(invisible(url))
+
+  invisible(url)
 }
 
 .create_plot <- function(x,
@@ -111,6 +112,7 @@
                          function(x) paste0(names(x), ": ", x,
                                             collapse = "\n"))
     train_metric <- data.frame(x = x_labs, y = res[, hyper_cols + 1])
+
     if (metric != "AICc") {
       val_metric <- data.frame(x = x_labs, y = res[, hyper_cols + 2])
     } else {
@@ -150,6 +152,6 @@
     if (show_line)
       p <- p + ggplot2::geom_line(linetype = "dashed", size = .3)
 
-    return(p)
+    p
   }
 }

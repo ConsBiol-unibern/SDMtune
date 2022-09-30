@@ -77,5 +77,5 @@ addSamplesToBg <- function(x,
     }
   }
 
-  return(o)
+  o
 }

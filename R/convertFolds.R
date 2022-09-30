@@ -33,7 +33,7 @@
     cli::cli_abort("Folds object format not allowed.")
   }
 
-  output <- list(train = train, test = test)
+  list(train = train,
+       test = test)
 
-  return(output)
 }
