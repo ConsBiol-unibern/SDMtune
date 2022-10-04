@@ -61,6 +61,12 @@ aicc <- function(model,
     env <- terra::rast(env)
   }
 
+  if (!inherits(env, "SpatRaster"))
+    cli::cli_abort(c(
+      "!" = "{.var env} must be a {.cls SpatRaster} object",
+      "x" = "You have supplied a {.cls {class(env)}} instead."
+    ))
+
   # k is the number of non-zero parameter in the model
   if (inherits(model@model, "Maxent")) {
     k <- nrow(model@model@coeff)

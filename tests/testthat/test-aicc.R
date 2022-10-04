@@ -31,6 +31,11 @@ test_that("Raises an error if called with the wrong model method", {
   expect_snapshot_error(aicc(m, env))
 })
 
+test_that("The function raises errors", {
+  expect_snapshot_error(aicc(m,
+                             env = "spam"))
+})
+
 # TODO: Remove with version 2.0.0
 test_that("The function warns if a raster object is used", {
   env <- raster::stack(files)
