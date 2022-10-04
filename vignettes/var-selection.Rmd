@@ -209,7 +209,13 @@ The output is displayed in the browser and all the files are saved in the **virt
 To explore correlation among the variables we extract 10000 background locations using the  function`randomPoints` included in the `dismo` package (we set the seed to have reproducible results). After we create an `SWD` object using the `prepareSWD` function:
 ```{r backgrounds}
 set.seed(25)
-bg <- dismo::randomPoints(predictors, 10000)
+bg <- terra::spatSample(predictors,
+                        size = 10000,
+                        method = "random",
+                        na.rm = TRUE,
+                        xy = TRUE,
+                        values = FALSE)
+
 bg <- prepareSWD(species = "Bgs",
                  a = bg,
                  env = predictors,
