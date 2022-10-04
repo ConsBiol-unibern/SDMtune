@@ -171,9 +171,12 @@ model <- train(method = "Maxnet",
 require(blockCV)
 # Create spatial points data frame
 library(raster)
-sp_df <- SpatialPointsDataFrame(data@coords,
-                                data = as.data.frame(data@pa),
-                                proj4string = crs(predictors))
+sp_df <- sp::SpatialPointsDataFrame(
+  coords = data@coords,
+  data = as.data.frame(data@pa),
+  proj4string = sp::CRS(
+  terra::crs(predictors))
+)
 
 e_folds <- envBlock(rasterLayer = predictors,
                     speciesData = sp_df,
