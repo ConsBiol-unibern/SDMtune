@@ -16,7 +16,7 @@ data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
-predictors <- raster::stack(files)
+predictors <- terra::rast(files)
 ```
 
 ## Intro
@@ -34,7 +34,7 @@ library(SDMtune)
 New locations are predicted with the function [predict()](../../reference/predict-SDMmodel-method.html). The function takes three main arguments:
 
 * a trained model given as `SDMmodel()` object;
-* a new dataset, used to make prediction (can be a `data.frame`, an `SWD()` object or a raster `stack` object);
+* a new dataset, used to make prediction (can be a `data.frame`, an `SWD()` object or a raster object);
 * the output type, that for **Maxent** models can be: **raw**, **logistic** or **cloglog**.
 
 Next we get the prediction for our training locations using the **cloglog** output type:
@@ -64,7 +64,7 @@ For models trained with the **Maxent**  method, the function performs the predic
 
 ## Create a distribution map
 
-We can use the same function to create a distribution map starting from the `predictors` raster `stack' object that we created in the [first article](./prepare-data.html#acquire-environmental-variables).
+We can use the same function to create a distribution map starting from the `predictors` raster object that we created in the [first article](./prepare-data.html#acquire-environmental-variables).
 
 ```{r predict raster}
 map <- predict(default_model,
@@ -72,7 +72,7 @@ map <- predict(default_model,
                type = "cloglog")
 ```
 
-In this case the output is a `raster` object:
+In this case the output is a raster object:
 
 ```{r print raster output}
 map
@@ -114,8 +114,8 @@ plotPred(map,
 Restrict the prediction to Chile and plot the prediction. To see the solution highlight the following cell:
 
 ```{r exercise, eval = FALSE, class.source='exercise'}
-# First create the extent that surrounds Cile
-e = raster::extent(c(-77, -60, -56, -15))
+# First create the extent that surrounds Chile
+e = terra::ext(c(-77, -60, -56, -15))
 # Now use the extent to make the prediction
 map_e <- predict(default_model, 
                  data = predictors, 
