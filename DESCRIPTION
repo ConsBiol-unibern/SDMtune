@@ -20,7 +20,7 @@ Description: User-friendly framework that enables the training and the
 License: GPL-3
 URL: https://consbiol-unibern.github.io/SDMtune/, https://github.com/ConsBiol-unibern/SDMtune
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
-SystemRequirements: Java (>= 8) and maxent.jar >= 3.4.1 to use Maxent
+SystemRequirements: Java (>= 8)
 Depends: R (>= 4.1.0)
 Imports: 
     cli (>= 3.4.1),
