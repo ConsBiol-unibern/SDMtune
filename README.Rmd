@@ -134,15 +134,22 @@ ggplot(bench, aes(x = expr, y = time/1000000, fill = expr)) +
 
 To train a **Maxent** model using the Java implementation you need that:
 
-* the **Java JDK** software is installed;
-* the package **rJava** is installed;
-* the file **maxent.jar** is copied in the correct folder.
+* the **Java JDK** software is installed
+* the package **rJava** is installed
 
-The file **maxent.jar** can be downloaded [here](https://biodiversityinformatics.amnh.org/open_source/maxent/) (note that you need **MaxEnt** version >= 3.4.1 [@Phillips2017a]). This file must be copied into the right folder to be available for the `dismo` package [@Hijmans2017]: copy the file **maxent.jar** into the folder named **java** that is located inside the folder returned by the following command:
+You can check the version of MaxEnt used by `dismo` with the following command:
+
+```{r maxent version, eval=FALSE}
+dismo::maxent()
+```
+
+The MaxEnt `jar` file used by `dismo` is located in the folder returned by the following command:
 
 ```{r dismo folder, eval=FALSE}
 system.file(package="dismo")
 ```
+
+In case you want to upgrade to a newer version of MaxEnt (if available), download the file **maxent.jar** [here](https://biodiversityinformatics.amnh.org/open_source/maxent/) and replace the file already present in the previous folder.
 
 The function `checkMaxentInstallation` checks that Java JDK and rJava are installed, and that the file maxent.jar is in the correct folder.
 
@@ -150,11 +157,7 @@ The function `checkMaxentInstallation` checks that Java JDK and rJava are instal
 checkMaxentInstallation()
 ```
 
-If everything is correctly configured for `dismo`, the following command will return the used MaxEnt version (make sure that the version is >= 3.4.1):
-
-```{r check maxent, eval=F}
-dismo::maxent()
-```
+If everything is correctly configured for `dismo`, the command `dismo::maxent()` will return the new MaxEnt version.
 
 ## Code of conduct
 
