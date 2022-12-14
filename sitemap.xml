@@ -7,6 +7,9 @@
     <loc>https://consbiol-unibern.github.io/SDMtune/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune/CONTRIBUTING.html</loc>
+  </url>
+  <url>
     <loc>https://consbiol-unibern.github.io/SDMtune/articles/basic-use.html</loc>
   </url>
   <url>
@@ -164,6 +167,9 @@
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-Maxent-method.html</loc>
+  </url>
+  <url>
+    <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-Maxnet-method.html</loc>
   </url>
   <url>
     <loc>https://consbiol-unibern.github.io/SDMtune/reference/predict-RF-method.html</loc>
