@@ -17,6 +17,10 @@ authors:
   Conservation Biology - University of Bern:
     href: http://www.cb.iee.unibe.ch/index_eng.html
 
+home:
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+
 navbar:
   type: default
   left:
