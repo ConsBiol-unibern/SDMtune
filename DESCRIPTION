@@ -49,7 +49,7 @@ Suggests:
     kableExtra (>= 1.1.0),
     knitr (>= 1.23),
     maps (>= 3.3.0),
-    pkgdown (>= 1.5.0),
+    pkgdown (>= 2.0.7),
     plotROC (>= 2.2.1),
     raster (>= 2.9-5),
     rasterVis (>= 0.50),
