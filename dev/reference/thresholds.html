@@ -4,7 +4,7 @@ sensitivity and specificity and maximum training sensitivity plus
 specificity together with fractional predicted area and the omission rate. If
 a test dataset is provided it returns also the equal test sensitivity and
 specificity and maximum test sensitivity plus specificity thresholds and the
-p-values of the one-tailed binomial exact test."><title>Thresholds — thresholds • SDMtune</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Thresholds — thresholds"><meta property="og:description" content="Compute three threshold values: minimum training presence, equal training
+p-values of the one-tailed binomial exact test."><title>Thresholds — thresholds • SDMtune</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Thresholds — thresholds"><meta property="og:description" content="Compute three threshold values: minimum training presence, equal training
 sensitivity and specificity and maximum training sensitivity plus
 specificity together with fractional predicted area and the omission rate. If
 a test dataset is provided it returns also the equal test sensitivity and
@@ -127,56 +127,68 @@ with the same fractional predicted area.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Acquire environmental variables</span></span></span>
 <span class="r-in"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dismo"</span><span class="op">)</span>, <span class="st">"ex"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    pattern <span class="op">=</span> <span class="st">"grd"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                    pattern <span class="op">=</span> <span class="st">"grd"</span>,</span></span>
+<span class="r-in"><span>                    full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Prepare presence and background locations</span></span></span>
 <span class="r-in"><span><span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span></span></span>
 <span class="r-in"><span><span class="va">bg_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">background</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create SWD object</span></span></span>
-<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
-<span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>,</span></span>
+<span class="r-in"><span>                   p <span class="op">=</span> <span class="va">p_coords</span>,</span></span>
+<span class="r-in"><span>                   a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
+<span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>,</span></span>
+<span class="r-in"><span>                   categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[38ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[29ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[81ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[55ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
-<span class="r-in"><span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, test <span class="op">=</span> <span class="fl">0.2</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>,</span></span>
+<span class="r-in"><span>                         test <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>                         only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">train</span> <span class="op">&lt;-</span> <span class="va">datasets</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="va">datasets</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Train a model</span></span></span>
-<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">train</span>, fc <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>,</span></span>
+<span class="r-in"><span>               data <span class="op">=</span> <span class="va">train</span>,</span></span>
+<span class="r-in"><span>               fc <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get the cloglog thresholds</span></span></span>
-<span class="r-in"><span><span class="fu">thresholds</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">thresholds</span><span class="op">(</span><span class="va">model</span>,</span></span>
+<span class="r-in"><span>           type <span class="op">=</span> <span class="st">"cloglog"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                       Threshold Cloglog value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                     Minimum training presence     0.0781584</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Equal training sensitivity and specificity     0.4904676</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Maximum training sensitivity plus specificity     0.3119593</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                     Minimum training presence     0.1049815</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Equal training sensitivity and specificity     0.4869773</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Maximum training sensitivity plus specificity     0.2539199</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Fractional predicted area Training omission rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    0.5822               0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                    0.2354               0.234375</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    0.3394               0.071875</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    0.4966               0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                    0.2344               0.234375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    0.3620               0.043750</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get the logistic thresholds passing the test dataset</span></span></span>
-<span class="r-in"><span><span class="fu">thresholds</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="st">"logistic"</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">thresholds</span><span class="op">(</span><span class="va">model</span>,</span></span>
+<span class="r-in"><span>           type <span class="op">=</span> <span class="st">"logistic"</span>,</span></span>
+<span class="r-in"><span>           test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                       Threshold Logistic value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                     Minimum training presence     0.07525729</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Equal training sensitivity and specificity     0.40272186</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Maximum training sensitivity plus specificity     0.27214885</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        Equal test sensitivity and specificity     0.36894667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     Maximum test sensitivity plus specificity     0.26706036</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                     Minimum training presence      0.0998378</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Equal training sensitivity and specificity      0.4002765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Maximum training sensitivity plus specificity      0.2265583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        Equal test sensitivity and specificity      0.3786336</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     Maximum test sensitivity plus specificity      0.2412580</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Fractional predicted area Training omission rate Test omission rate P-values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    0.5822               0.000000        0.000000000        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                    0.2354               0.234375        0.005118110        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    0.3394               0.071875        0.001181102        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                    0.2638               0.178125        0.004133858        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                    0.3422               0.071875        0.000984252        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    0.4966               0.000000       0.0001968504        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                    0.2344               0.234375       0.0045275591        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    0.3620               0.043750       0.0009842520        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                    0.2502               0.209375       0.0039370079        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                    0.3520               0.056250       0.0009842520        0</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -188,7 +200,7 @@ with the same fractional predicted area.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer></div>

@@ -1,5 +1,5 @@
-pandoc: 2.14.2
-pkgdown: 2.0.6
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   evaluate-model: evaluate-model.html
@@ -15,7 +15,7 @@ articles:
   hyper-tuning: hyper-tuning.html
   presence-absence: presence-absence.html
   var-selection: var-selection.html
-last_built: 2022-09-21T14:06Z
+last_built: 2022-12-14T14:39Z
 urls:
   reference: https://consbiol-unibern.github.io/SDMtune/reference
   article: https://consbiol-unibern.github.io/SDMtune/articles

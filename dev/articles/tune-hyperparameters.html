@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Tune model hyperparameters">
 <meta property="og:description" content="SDMtune">
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png">
@@ -106,12 +106,28 @@
 <div class="section level3">
 <h3 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
 </h3>
-<p>In the previous articles you have learned the core functions of <strong>SDMtune</strong> and how to perform <a href="./variable-selection.html">data-driven variable selection</a>. In this article you will learn how to tune the model hyperparameters.</p>
+<p>In the previous articles you have learned the core functions of
+<strong>SDMtune</strong> and how to perform <a href="./variable-selection.html">data-driven variable selection</a>. In
+this article you will learn how to tune the model hyperparameters.</p>
 </div>
 <div class="section level3">
 <h3 id="training-validation-and-testing-split">Training, validation and testing split<a class="anchor" aria-label="anchor" href="#training-validation-and-testing-split"></a>
 </h3>
-<p>When you tune the model hyperparameters you iteratively adjust the hyperparameters while monitoring the changes in the evaluation metric computed using the testing dataset. In this process, the information contained in the testing dataset leaks in the model and therefore, at the end of the process, the testing dataset doesn’t represent anymore an independent set to evaluate the model <span class="citation">Chollet and Allaire (2018)</span>. A better strategy, than splitting the observation locations in training and testing, would be to split them into training, validation and testing datasets. The training dataset is then used to train the model, the validation datasets to drive the hyperparameter tuning and the testing dataset to evaluate the tuned model. The function <code><a href="../reference/trainValTest.html">trainValTest()</a></code> allows to split the data in three folds containing the provided percentage of data. For illustration purpose let’s split the presence locations in training (60%), validation (20%) and testing (20%) datasets:</p>
+<p>When you tune the model hyperparameters you iteratively adjust the
+hyperparameters while monitoring the changes in the evaluation metric
+computed using the testing dataset. In this process, the information
+contained in the testing dataset leaks in the model and therefore, at
+the end of the process, the testing dataset doesn’t represent anymore an
+independent set to evaluate the model <span class="citation">Chollet and
+Allaire (2018)</span>. A better strategy, than splitting the observation
+locations in training and testing, would be to split them into training,
+validation and testing datasets. The training dataset is then used to
+train the model, the validation datasets to drive the hyperparameter
+tuning and the testing dataset to evaluate the tuned model. The function
+<code><a href="../reference/trainValTest.html">trainValTest()</a></code> allows to split the data in three folds
+containing the provided percentage of data. For illustration purpose
+let’s split the presence locations in training (60%), validation (20%)
+and testing (20%) datasets:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot" class="external-link">zeallot</a></span><span class="op">)</span>  <span class="co"># For unpacking assignment</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">val</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, </span>
@@ -126,16 +142,30 @@
 <span><span class="co">#&gt; # Validation:  5080</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"# Testing   : "</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">test</span><span class="op">@</span><span class="va">data</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Testing   :  5080</span></span></code></pre></div>
-<p>We now train a <strong>Maxnet</strong> model with default settings and using the training dataset:</p>
+<p>We now train a <strong>Maxnet</strong> model with default settings
+and using the training dataset:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, </span>
 <span>               data <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span></code></pre></div>
-<p>Another approach would be to split the data in two folds: training and testing, use the cross validation strategy with the training dataset to tune the model hyperparameters, and evaluate the tuned model with the unseen held apart testing dataset. For execution time reason we demonstrate the first approach but you are free to try out the second one.</p>
+<p>Another approach would be to split the data in two folds: training
+and testing, use the cross validation strategy with the training dataset
+to tune the model hyperparameters, and evaluate the tuned model with the
+unseen held apart testing dataset. For execution time reason we
+demonstrate the first approach but you are free to try out the second
+one.</p>
 </div>
 <div class="section level3">
 <h3 id="check-the-effect-of-varying-one-hyperparameter">Check the effect of varying one hyperparameter<a class="anchor" aria-label="anchor" href="#check-the-effect-of-varying-one-hyperparameter"></a>
 </h3>
-<p>To see the effect of varying one hyperparameter on the model performance we can use the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>. The function iterates through a set of predefined hyperparameter values, train the model and displays in real-time the evaluation metric in the RStudio viewer pane (hover over the points to get a tooltip with extra information). Let’s see how the AUC changes varying the regularization multiplier. First we have to define the values for the hyperparameter that we want to test. For that we create a named list that we will use as an argument for the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>:</p>
+<p>To see the effect of varying one hyperparameter on the model
+performance we can use the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>. The
+function iterates through a set of predefined hyperparameter values,
+train the model and displays in real-time the evaluation metric in the
+RStudio viewer pane (hover over the points to get a tooltip with extra
+information). Let’s see how the AUC changes varying the regularization
+multiplier. First we have to define the values for the hyperparameter
+that we want to test. For that we create a named list that we will use
+as an argument for the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define the values for bg</span></span>
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
@@ -145,7 +175,9 @@
 <span>                    hypers <span class="op">=</span> <span class="va">h</span>, </span>
 <span>                    metric <span class="op">=</span> <span class="st">"auc"</span>, </span>
 <span>                    test <span class="op">=</span> <span class="va">val</span><span class="op">)</span></span></code></pre></div>
-<p>As you noticed we used the validation dataset as test argument. The output of the function is an object of class <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code>. Let’s print it:</p>
+<p>As you noticed we used the validation dataset as test argument. The
+output of the function is an object of class <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code>.
+Let’s print it:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_1</span></span>
 <span><span class="co">#&gt; Object of class:  SDMtune </span></span>
@@ -154,7 +186,10 @@
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt; fc: lqph</span></span>
 <span><span class="co">#&gt; reg: 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1</span></span></code></pre></div>
-<p>When you print the output, the text contains the models configuration that have been used during the execution of the function. In our case, only the regularization multiplier <code>reg</code> has multiple values. You can plot the <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object:</p>
+<p>When you print the output, the text contains the models configuration
+that have been used during the execution of the function. In our case,
+only the regularization multiplier <code>reg</code> has multiple values.
+You can plot the <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, </span>
 <span>     title <span class="op">=</span> <span class="st">"Experiment 1"</span><span class="op">)</span></span></code></pre></div>
@@ -164,7 +199,8 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, </span>
 <span>     title <span class="op">=</span> <span class="st">"Experiment 1"</span>, </span>
 <span>     interactive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>The <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in the slot <code>@results</code>:</p>
+<p>The <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in the slot
+<code>@results</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_1</span><span class="op">@</span><span class="va">results</span></span></code></pre></div>
 <table class="table table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -550,7 +586,8 @@ lqph
 <div class="section level4">
 <h4 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
 </h4>
-<p>Try to see how TSS changes varying the regularization multiplier from 1 to 4 (highlight to see the solution):</p>
+<p>Try to see how TSS changes varying the regularization multiplier from
+1 to 4 (highlight to see the solution):</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define the values for reg</span></span>
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
@@ -560,7 +597,9 @@ lqph
 <span>                    hypers <span class="op">=</span> <span class="va">h</span>, </span>
 <span>                    metric <span class="op">=</span> <span class="st">"tss"</span>, </span>
 <span>                    test <span class="op">=</span> <span class="va">val</span><span class="op">)</span></span></code></pre></div>
-<p>and how AUC changes varying the feature combinations using the following values: l, lq, lh, lqp, lqph and lqpht (highlight to see the solution):</p>
+<p>and how AUC changes varying the feature combinations using the
+following values: l, lq, lh, lqp, lqph and lqpht (highlight to see the
+solution):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define the values for fc</span></span>
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span><span class="op">)</span><span class="op">)</span></span>
@@ -570,7 +609,9 @@ lqph
 <span>                    hypers <span class="op">=</span> <span class="va">h</span>, </span>
 <span>                    metric <span class="op">=</span> <span class="st">"auc"</span>, </span>
 <span>                    test <span class="op">=</span> <span class="va">val</span><span class="op">)</span></span></code></pre></div>
-<p>Train a <strong>Maxent</strong> model and see how the AUC changes varying the number of iterations from 300 to 1100 with increments of 200 (highlight to see the solution):</p>
+<p>Train a <strong>Maxent</strong> model and see how the AUC changes
+varying the number of iterations from 300 to 1100 with increments of 200
+(highlight to see the solution):</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">maxent_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxent"</span>, </span>
 <span>                      data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span>
@@ -583,7 +624,8 @@ lqph
 <span>                    hypers <span class="op">=</span> <span class="va">h</span>, </span>
 <span>                    metric <span class="op">=</span> <span class="st">"auc"</span>, </span>
 <span>                    test <span class="op">=</span> <span class="va">val</span><span class="op">)</span></span></code></pre></div>
-<p>To see which hyperparameters can be tuned in a given model use the function <code><a href="../reference/getTunableArgs.html">getTunableArgs()</a></code>. For example:</p>
+<p>To see which hyperparameters can be tuned in a given model use the
+function <code><a href="../reference/getTunableArgs.html">getTunableArgs()</a></code>. For example:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getTunableArgs.html">getTunableArgs</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "fc"  "reg"</span></span></code></pre></div>
@@ -592,7 +634,9 @@ lqph
 <div class="section level3">
 <h3 id="tune-hyperparameters">Tune hyperparameters<a class="anchor" aria-label="anchor" href="#tune-hyperparameters"></a>
 </h3>
-<p>To tune the model hyperparameters you should run all the possible combinations of hyperparameters. Here is an example using combinations of regularization multiplier and feature classes:</p>
+<p>To tune the model hyperparameters you should run all the possible
+combinations of hyperparameters. Here is an example using combinations
+of regularization multiplier and feature classes:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">2</span>, <span class="fl">0.2</span><span class="op">)</span>, </span>
 <span>          fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span>, <span class="st">"lqpht"</span><span class="op">)</span><span class="op">)</span></span>
@@ -601,12 +645,20 @@ lqph
 <span>                    hypers <span class="op">=</span> <span class="va">h</span>, </span>
 <span>                    metric <span class="op">=</span> <span class="st">"auc"</span>, </span>
 <span>                    test <span class="op">=</span> <span class="va">val</span><span class="op">)</span></span></code></pre></div>
-<p>This code takes already quite long as it has to train 60 models. Imagine if you want to check more values for the regularization multiplier and maybe add the number of iterations (in the case of a <strong>Maxent</strong> model). The number of models to be trained increases exponentially and consequently the execution time. In the next two paragraphs we will present two possible alternative to the <code><a href="../reference/gridSearch.html">gridSearch()</a></code> function.</p>
+<p>This code takes already quite long as it has to train 60 models.
+Imagine if you want to check more values for the regularization
+multiplier and maybe add the number of iterations (in the case of a
+<strong>Maxent</strong> model). The number of models to be trained
+increases exponentially and consequently the execution time. In the next
+two paragraphs we will present two possible alternative to the
+<code><a href="../reference/gridSearch.html">gridSearch()</a></code> function.</p>
 </div>
 <div class="section level3">
 <h3 id="random-search">Random search<a class="anchor" aria-label="anchor" href="#random-search"></a>
 </h3>
-<p>The function <code><a href="../reference/randomSearch.html">randomSearch()</a></code> trains models taking a random sample of the predefined configurations. In the next example we select 10 random configurations:</p>
+<p>The function <code><a href="../reference/randomSearch.html">randomSearch()</a></code> trains models taking a
+random sample of the predefined configurations. In the next example we
+select 10 random configurations:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span><span class="op">)</span>, </span>
 <span>          fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span><span class="op">)</span><span class="op">)</span></span>
@@ -617,7 +669,17 @@ lqph
 <span>                      test <span class="op">=</span> <span class="va">val</span>, </span>
 <span>                      pop <span class="op">=</span> <span class="fl">10</span>, </span>
 <span>                      seed <span class="op">=</span> <span class="fl">65466</span><span class="op">)</span></span></code></pre></div>
-<p>The real-time chart plots two different graphs, one with the chosen metric for each trained model and one with the evaluation metric for the starting and the best found model. As you can see, the function is able to find a better combination of the model hyperparameters compared to the starting model; and this training only 10 instead of 150 models. The results includes the 10 trained model. If you are not happy with the solution, you can check the best hyperparameter combinations and this gives you an intuition of which ones are the hyperparameters to “refine” using the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>. The <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in a <code>data.frame</code> than can be accessed with the following command:</p>
+<p>The real-time chart plots two different graphs, one with the chosen
+metric for each trained model and one with the evaluation metric for the
+starting and the best found model. As you can see, the function is able
+to find a better combination of the model hyperparameters compared to
+the starting model; and this training only 10 instead of 150 models. The
+results includes the 10 trained model. If you are not happy with the
+solution, you can check the best hyperparameter combinations and this
+gives you an intuition of which ones are the hyperparameters to “refine”
+using the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>. The <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code>
+object stores the results in a <code>data.frame</code> than can be
+accessed with the following command:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_6</span><span class="op">@</span><span class="va">results</span></span></code></pre></div>
 <table class="table table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -815,7 +877,11 @@ l
 <div class="section level3">
 <h3 id="optimize-model">Optimize Model<a class="anchor" aria-label="anchor" href="#optimize-model"></a>
 </h3>
-<p>The previous function doesn’t learn anything from the trained models, it just selects n random combinations of hyperparameters. The function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> uses a <em>genetic algorithm</em> to find an optimum or near optimum solution. Check the function documentation to understand how it works, here we provide the code to execute it:</p>
+<p>The previous function doesn’t learn anything from the trained models,
+it just selects n random combinations of hyperparameters. The function
+<code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> uses a <em>genetic algorithm</em> to find
+an optimum or near optimum solution. Check the function documentation to
+understand how it works, here we provide the code to execute it:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_7</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, </span>
 <span>                       hypers <span class="op">=</span> <span class="va">h</span>, </span>
@@ -828,7 +894,17 @@ l
 <div class="section level3">
 <h3 id="evaluate-final-model">Evaluate final model<a class="anchor" aria-label="anchor" href="#evaluate-final-model"></a>
 </h3>
-<p>Let’s say we want to use the best tuned model found by the <code><a href="../reference/randomSearch.html">randomSearch()</a></code> function. Before evaluating the model using the testing dataset, we can merge the training and the validation datasets together to increase the number of locations and train a new model with the merged observations and the tuned configuration. At this point we may have removed variables using the <code><a href="../reference/varSel.html">varSel()</a></code> or <code><a href="../reference/reduceVar.html">reduceVar()</a></code> function. If this is the case, we cannot merge directly the initial datasets which contain all the environmental variables. We can extract the train dataset with the selected variables from the output of the experiment and merge it with the validation dataset using the function <code><a href="../reference/mergeSWD.html">mergeSWD()</a></code>:</p>
+<p>Let’s say we want to use the best tuned model found by the
+<code><a href="../reference/randomSearch.html">randomSearch()</a></code> function. Before evaluating the model using
+the testing dataset, we can merge the training and the validation
+datasets together to increase the number of locations and train a new
+model with the merged observations and the tuned configuration. At this
+point we may have removed variables using the <code><a href="../reference/varSel.html">varSel()</a></code> or
+<code><a href="../reference/reduceVar.html">reduceVar()</a></code> function. If this is the case, we cannot merge
+directly the initial datasets which contain all the environmental
+variables. We can extract the train dataset with the selected variables
+from the output of the experiment and merge it with the validation
+dataset using the function <code><a href="../reference/mergeSWD.html">mergeSWD()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Index of the best model in the experiment</span></span>
 <span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">exp_6</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span></span>
@@ -840,7 +916,10 @@ l
 <span><span class="va">merged_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mergeSWD.html">mergeSWD</a></span><span class="op">(</span><span class="va">new_train</span>,</span>
 <span>                        <span class="va">val</span>,</span>
 <span>                        only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
-<p>The <code>val</code> dataset contains all the initial environmental variables but the <code><a href="../reference/mergeSWD.html">mergeSWD()</a></code> function will merge only those that are present in both datasets (in case you have performed variable selection).</p>
+<p>The <code>val</code> dataset contains all the initial environmental
+variables but the <code><a href="../reference/mergeSWD.html">mergeSWD()</a></code> function will merge only those
+that are present in both datasets (in case you have performed variable
+selection).</p>
 <p>Then we get the model configuration from the experiment 6:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exp_6</span><span class="op">@</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
@@ -967,13 +1046,16 @@ lh
 </tr>
 </tbody>
 </table>
-<p>The best model is at row 1 and was trained using <strong>lp</strong> feature class combination and <strong>2.2</strong> as regularization multiplier:</p>
+<p>The best model is at row 1 and was trained using <strong>lp</strong>
+feature class combination and <strong>2.2</strong> as regularization
+multiplier:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, </span>
 <span>                     data <span class="op">=</span> <span class="va">merged_data</span>, </span>
 <span>                     fc <span class="op">=</span> <span class="va">exp_6</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="va">index</span>, <span class="fl">1</span><span class="op">]</span>, </span>
 <span>                     reg <span class="op">=</span> <span class="va">exp_6</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="va">index</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p>Now we can evaluate the final model using the held apart testing dataset:</p>
+<p>Now we can evaluate the final model using the held apart testing
+dataset:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">final_model</span>, </span>
 <span>    test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span>
@@ -982,7 +1064,10 @@ lh
 <div class="section level2">
 <h2 id="hyperparameters-tuning-with-cross-validation">Hyperparameters tuning with cross validation<a class="anchor" aria-label="anchor" href="#hyperparameters-tuning-with-cross-validation"></a>
 </h2>
-<p>Another approach would be to split the data in two folds: training and testing, use the cross validation strategy with the training dataset to tune the model hyperparameters, and evaluate the tuned model with the unseen held apart testing dataset.</p>
+<p>Another approach would be to split the data in two folds: training
+and testing, use the cross validation strategy with the training dataset
+to tune the model hyperparameters, and evaluate the tuned model with the
+unseen held apart testing dataset.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create the folds from the training dataset</span></span>
 <span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">train</span>, </span>
@@ -994,7 +1079,10 @@ lh
 <span><span class="va">cv_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxent"</span>, </span>
 <span>                  data <span class="op">=</span> <span class="va">train</span>, </span>
 <span>                  folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span></code></pre></div>
-<p>All the previous examples can be applied to the cross validation, here an example with <code>randomSearch</code> (note that in this case the testing dataset is not provided as is taken from the folds stored in the <code>SDMmodelCV</code>):</p>
+<p>All the previous examples can be applied to the cross validation,
+here an example with <code>randomSearch</code> (note that in this case
+the testing dataset is not provided as is taken from the folds stored in
+the <code>SDMmodelCV</code>):</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">5</span>, <span class="fl">0.2</span><span class="op">)</span>, </span>
 <span>          fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"lq"</span>, <span class="st">"lh"</span>, <span class="st">"lp"</span>, <span class="st">"lqp"</span>, <span class="st">"lqph"</span><span class="op">)</span><span class="op">)</span></span>
@@ -1004,7 +1092,10 @@ lh
 <span>                      metric <span class="op">=</span> <span class="st">"auc"</span>, </span>
 <span>                      pop <span class="op">=</span> <span class="fl">10</span>, </span>
 <span>                      seed <span class="op">=</span> <span class="fl">65466</span><span class="op">)</span></span></code></pre></div>
-<p>The function <code>randomSearch</code> orders the models according to the best value of the metric for the testing dataset. In this case we can train a model using the best hyperparameters configuration and without cross validation with:</p>
+<p>The function <code>randomSearch</code> orders the models according to
+the best value of the metric for the testing dataset. In this case we
+can train a model using the best hyperparameters configuration and
+without cross validation with:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxent"</span>, </span>
 <span>                     data <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">data</span>, </span>
@@ -1019,20 +1110,25 @@ lh
 <p>In this article you have learned:</p>
 <ul>
 <li>the training/validation/testing evaluation strategy;</li>
-<li>how to explore the effect of changing one model hyperparameter at time;</li>
-<li>how to tune the model hyperparameters using three different functions;</li>
+<li>how to explore the effect of changing one model hyperparameter at
+time;</li>
+<li>how to tune the model hyperparameters using three different
+functions;</li>
 <li>how to merge two <code><a href="../reference/SWD-class.html">SWD()</a></code> objects;</li>
-<li>how to evaluate a final model using the held apart testing dataset.</li>
+<li>how to evaluate a final model using the held apart testing
+dataset.</li>
 </ul>
 <div class="section level4">
 <h4 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h4>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Chollet2018" class="csl-entry">
-Chollet, François, and J. J. Allaire. 2018. <em><span class="nocase">Deep learning with R</span></em>. 1st ed. Manning Publications Co.
+Chollet, François, and J. J. Allaire. 2018. <em><span class="nocase">Deep learning with R</span></em>. 1st ed. Manning
+Publications Co.
 </div>
 <div id="ref-Muller2016" class="csl-entry">
-Müller, Andreas C., and Sarah Guido. 2016. <em><span class="nocase">Introduction to machine learning with Python : a guide for data scientists</span></em>.
+Müller, Andreas C., and Sarah Guido. 2016. <em><span class="nocase">Introduction to machine learning with Python : a guide
+for data scientists</span></em>.
 </div>
 </div>
 </div>
@@ -1051,7 +1147,7 @@ Müller, Andreas C., and Sarah Guido. 2016. <em><span class="nocase">Introducti
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>

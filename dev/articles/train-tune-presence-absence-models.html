@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Train presence absence models">
 <meta property="og:description" content="SDMtune">
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png">
@@ -106,12 +106,18 @@
 <div class="section level2">
 <h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
 </h2>
-<p>All the previous articles are based on presence only methods, in this article you will learn how to train a presence absence model. The following examples are based on the Artificial Neural Networks method <span class="citation">(Venables and Ripley 2002)</span>, but you can adapt the code for any of the other supported methods.</p>
+<p>All the previous articles are based on presence only methods, in this
+article you will learn how to train a presence absence model. The
+following examples are based on the Artificial Neural Networks method
+<span class="citation">(Venables and Ripley 2002)</span>, but you can
+adapt the code for any of the other supported methods.</p>
 </div>
 <div class="section level2">
 <h2 id="prepare-the-data-for-the-analysis">Prepare the data for the analysis<a class="anchor" aria-label="anchor" href="#prepare-the-data-for-the-analysis"></a>
 </h2>
-<p>We use the first 8 environmental variables and the same <code><a href="../reference/virtualSp.html">virtualSp()</a></code> dataset selecting the absence instead of the background locations.</p>
+<p>We use the first 8 environmental variables and the same
+<code><a href="../reference/virtualSp.html">virtualSp()</a></code> dataset selecting the absence instead of the
+background locations.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span></span>
 <span><span class="va">a_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">absence</span></span>
@@ -133,13 +139,15 @@
 <span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span></span>
 <span><span class="co">#&gt; Categorical: NA</span></span></code></pre>
 <p>There are 400 presence and 300 absence locations.</p>
-<p>For the model evaluation we will create a training and testing datasets, holding apart 20% of the data:</p>
+<p>For the model evaluation we will create a training and testing
+datasets, holding apart 20% of the data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot" class="external-link">zeallot</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, </span>
 <span>                                 test <span class="op">=</span> <span class="fl">0.2</span>, </span>
 <span>                                 seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
-<p>At this point we have 560 training and 140 testing locations. We create a 4-folds partition to run cross validation:</p>
+<p>At this point we have 560 training and 140 testing locations. We
+create a 4-folds partition to run cross validation:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">train</span>, </span>
 <span>                     k <span class="op">=</span> <span class="fl">4</span>, </span>
@@ -185,11 +193,13 @@
 <div class="section level2">
 <h2 id="tune-model-hyperparameters">Tune model hyperparameters<a class="anchor" aria-label="anchor" href="#tune-model-hyperparameters"></a>
 </h2>
-<p>To check which hyperparameters can be tuned we use the function <code><a href="../reference/getTunableArgs.html">getTunableArgs()</a></code> function:</p>
+<p>To check which hyperparameters can be tuned we use the function
+<code><a href="../reference/getTunableArgs.html">getTunableArgs()</a></code> function:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getTunableArgs.html">getTunableArgs</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "size"  "decay" "rang"  "maxit"</span></span></code></pre></div>
-<p>We use the function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> to tune the hyperparameters:</p>
+<p>We use the function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> to tune the
+hyperparameters:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, </span>
 <span>          decay <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
@@ -251,12 +261,16 @@ diff_AUC
 </td>
 </tr></tbody>
 </table>
-<p>The validation AUC increased from 0.7931771 of the default models to 0.9545833 of the optimized one.</p>
+<p>The validation AUC increased from 0.7931771 of the default models to
+0.9545833 of the optimized one.</p>
 </div>
 <div class="section level2">
 <h2 id="evaluate-the-final-model">Evaluate the final model<a class="anchor" aria-label="anchor" href="#evaluate-the-final-model"></a>
 </h2>
-<p>We now train a model with the same configuration as found by the function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:</p>
+<p>We now train a model with the same configuration as found by the
+function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> without cross validation, using
+all the train data, and we evaluate it using the held apart testing
+dataset:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span></span>
 <span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, </span>
@@ -266,19 +280,28 @@ diff_AUC
 <span>                     maxit <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">final_model</span>, </span>
-<span>        test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>
+<span>        test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: The following aesthetics were dropped during statistical transformation: <span style="color: #00BB00;">m, d</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in</span></span>
+<span><span class="co">#&gt;   the data.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical</span></span>
+<span><span class="co">#&gt;   variable into a factor?</span></span></code></pre></div>
 <p><img src="train-tune-presence-absence-models_files/figure-html/evaluate%20final%20model-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>In this tutorial you have learned a general way to train, evaluate and tune model using Artificial Neural Network, but you can apply the same workflow to other methods.</p>
+<p>In this tutorial you have learned a general way to train, evaluate
+and tune model using Artificial Neural Network, but you can apply the
+same workflow to other methods.</p>
 <div class="section level3 unnumbered">
 <h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Venables2002" class="csl-entry">
-Venables, W N, and B. D. Ripley. 2002. <em><span class="nocase">Modern Applied Statistics with S.</span></em> Fourth Edi. New York, NY: Springer.
+Venables, W N, and B. D. Ripley. 2002. <em><span class="nocase">Modern
+Applied Statistics with S.</span></em> Fourth Edi. New York, NY:
+Springer.
 </div>
 </div>
 </div>
@@ -296,7 +319,7 @@ Venables, W N, and B. D. Ripley. 2002. <em><span class="nocase">Modern Applied S
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>

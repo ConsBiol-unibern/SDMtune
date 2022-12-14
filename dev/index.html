@@ -22,7 +22,7 @@
 <link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Species Distribution Model Selection">
 <meta property="og:description" content="User-friendly framework that enables the training and the
     evaluation of species distribution models (SDMs). The package implements
@@ -105,6 +105,7 @@
 </h1>
 </div>
 <!-- badges: start -->
+
 <p><strong>SDMtune</strong> provides a user-friendly framework that enables the training and the evaluation of species distribution models (SDMs). The package implements functions for data driven variable selection and model tuning and includes numerous utilities to display the results. All the functions used to select variables or to tune model hyperparameters have an interactive real-time chart displayed in the RStudio viewer pane during their execution. Visit the <a href="https://consbiol-unibern.github.io/SDMtune/">package website</a> and learn how to use <strong>SDMtune</strong> starting from the first article <a href="https://consbiol-unibern.github.io/SDMtune/articles/prepare-data.html">Prepare data for the analysis</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -164,7 +165,9 @@
 <span><span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/optimizeModel.html">optimizeModel</a></span><span class="op">(</span><span class="va">model</span>, hypers <span class="op">=</span> <span class="va">h</span>, metric <span class="op">=</span> <span class="st">"auc"</span>, test <span class="op">=</span> <span class="va">test</span>, seed <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">)</span>  <span class="co"># Best combinations</span></span></code></pre></div>
 <p>During the execution of “tuning” and “variable selection” functions, real-time charts displaying training and validation metrics are displayed in the RStudio viewer pane (below is a screencast of the previous executed <code>optimizeModel</code> function).</p>
-<div style="text-align: center"><p><img src="reference/figures/realtime-chart.gif" alt=""></p></div>
+<div style="text-align: center">
+<p><img src="reference/figures/realtime-chart.gif" alt=""></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="speed-test">Speed test<a class="anchor" aria-label="anchor" href="#speed-test"></a>
@@ -173,7 +176,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Train a Maxent model</span></span>
 <span><span class="va">sdmtune_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxent"</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span></code></pre></div>
-<p>We compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> (Hijmans et al. 2017) that calls the MaxEnt Java software (Steven J. Phillips, Anderson, and Schapire 2006). We first convert the object <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
+<p>We compare the execution time of the <code>predict</code> function between <strong>SDMtune</strong> that uses its own algorithm and <strong>dismo</strong> (Hijmans et al. 2017) that calls the MaxEnt Java software (Phillips, Anderson, and Schapire 2006). We first convert the object <code>sdmtune_model</code> in a object that is accepted by <strong>dismo</strong>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">maxent_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SDMmodel2MaxEnt.html">SDMmodel2MaxEnt</a></span><span class="op">(</span><span class="va">sdmtune_model</span><span class="op">)</span></span></code></pre></div>
 <p>Next is a function used below to test if the results are equal, with a tolerance of <code>1e-7</code>:</p>
@@ -195,26 +198,29 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="st">"Package"</span>, y <span class="op">=</span> <span class="st">"time (milliseconds)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div style="text-align: center"><p><img src="reference/figures/bench.png" alt=""></p></div>
+<div style="text-align: center">
+<p><img src="reference/figures/bench.png" alt=""></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="set-working-environment">Set working environment<a class="anchor" aria-label="anchor" href="#set-working-environment"></a>
 </h2>
 <p>To train a <strong>Maxent</strong> model using the Java implementation you need that:</p>
 <ul>
-<li>the <strong>Java JDK</strong> software is installed;</li>
-<li>the package <strong>rJava</strong> is installed;</li>
-<li>the file <strong>maxent.jar</strong> is copied in the correct folder.</li>
+<li>the <strong>Java JDK</strong> software is installed</li>
+<li>the package <strong>rJava</strong> is installed</li>
 </ul>
-<p>The file <strong>maxent.jar</strong> can be downloaded <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" class="external-link">here</a> (note that you need <strong>MaxEnt</strong> version &gt;= 3.4.1 (Steven J. Phillips et al. 2017)). This file must be copied into the right folder to be available for the <code>dismo</code> package (Hijmans et al. 2017): copy the file <strong>maxent.jar</strong> into the folder named <strong>java</strong> that is located inside the folder returned by the following command:</p>
+<p>You can check the version of MaxEnt used by <code>dismo</code> with the following command:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"dismo"</span><span class="op">)</span></span></code></pre></div>
-<p>The function <code>checkMaxentInstallation</code> checks that Java JDK and rJava are installed, and that the file maxent.jar is in the correct folder.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/checkMaxentInstallation.html">checkMaxentInstallation</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>If everything is correctly configured for <code>dismo</code>, the following command will return the used MaxEnt version (make sure that the version is &gt;= 3.4.1):</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dismo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dismo/man/maxent.html" class="external-link">maxent</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The MaxEnt <code>jar</code> file used by <code>dismo</code> is located in the folder returned by the following command:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"dismo"</span><span class="op">)</span></span></code></pre></div>
+<p>In case you want to upgrade to a newer version of MaxEnt (if available), download the file <strong>maxent.jar</strong> <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" class="external-link">here</a> and replace the file already present in the previous folder.</p>
+<p>The function <code>checkMaxentInstallation</code> checks that Java JDK and rJava are installed, and that the file maxent.jar is in the correct folder.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/checkMaxentInstallation.html">checkMaxentInstallation</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>If everything is correctly configured for <code>dismo</code>, the command <code><a href="https://rdrr.io/pkg/dismo/man/maxent.html" class="external-link">dismo::maxent()</a></code> will return the new MaxEnt version.</p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
@@ -224,9 +230,12 @@
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Hijmans2017" class="csl-entry">Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “<span class="nocase">dismo: Species Distribution Modeling. R package version 1.1-4</span>.” <a href="https://cran.r-project.org/package=dismo" class="external-link uri">https://cran.r-project.org/package=dismo</a>.</div>
-<div id="ref-Phillips2017a" class="csl-entry">Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E. Schapire, and Mary E. Blair. 2017. “Opening the Black Box: An Open-Source Release of Maxent.” <em>Ecography</em> 40 (7): 887–93. <a href="https://doi.org/" class="external-link uri">https://doi.org/</a><a href="https://doi.org/10.1111/ecog.03049" class="external-link uri">https://doi.org/10.1111/ecog.03049</a>.</div>
-<div id="ref-Phillips2006" class="csl-entry">Phillips, Steven J, Robert P Anderson, and Robert E Schapire. 2006. “<span class="nocase">Maximum entropy modeling of species geographic distributions</span>.” <em>Ecological Modelling</em> 190: 231–59. <a href="https://doi.org/10.1016/j.ecolmodel.2005.03.026" class="external-link uri">https://doi.org/10.1016/j.ecolmodel.2005.03.026</a>.</div>
+<div id="ref-Hijmans2017" class="csl-entry">
+Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. “<span class="nocase">dismo: Species Distribution Modeling. R package version 1.1-4</span>.” <a href="https://cran.r-project.org/package=dismo" class="external-link uri">https://cran.r-project.org/package=dismo</a>.
+</div>
+<div id="ref-Phillips2006" class="csl-entry">
+Phillips, Steven J, Robert P Anderson, and Robert E Schapire. 2006. “<span class="nocase">Maximum entropy modeling of species geographic distributions</span>.” <em>Ecological Modelling</em> 190: 231–59. <a href="https://doi.org/10.1016/j.ecolmodel.2005.03.026" class="external-link uri">https://doi.org/10.1016/j.ecolmodel.2005.03.026</a>.
+</div>
 </div>
 </div>
 </div>
@@ -297,7 +306,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>

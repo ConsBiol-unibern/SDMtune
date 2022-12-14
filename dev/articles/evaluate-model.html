@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Evaluate a model">
 <meta property="og:description" content="SDMtune">
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png">
@@ -106,17 +106,25 @@
 <div class="section level2">
 <h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
 </h2>
-<p>In the previous articles you have learned how to <a href="./prepare-data.html">prepare the data</a> for the analysis, how to <a href="./train-model.html">train a model</a> and how to <a href="./make-predictions.html">make predictions</a> using <strong>SDMtune</strong>. In this article you will learn how to evaluate your model using three different metrics.</p>
+<p>In the previous articles you have learned how to <a href="./prepare-data.html">prepare the data</a> for the analysis, how to
+<a href="./train-model.html">train a model</a> and how to <a href="./make-predictions.html">make predictions</a> using
+<strong>SDMtune</strong>. In this article you will learn how to evaluate
+your model using three different metrics.</p>
 <p><code>SDMtune</code> implements three evaluation metrics:</p>
 <ul>
-<li>AUC: Area Under the ROC curve <span class="citation">(Fielding and Bell 1997)</span>
+<li>AUC: Area Under the ROC curve <span class="citation">(Fielding and
+Bell 1997)</span>
 </li>
-<li>TSS: True Skill Statistic <span class="citation">(Allouche, Tsoar, and Kadmon 2006)</span>
+<li>TSS: True Skill Statistic <span class="citation">(Allouche, Tsoar,
+and Kadmon 2006)</span>
 </li>
-<li>AICc: Akaike Information Criterion corrected for small sample size <span class="citation">(Warren and Seifert 2011)</span>
+<li>AICc: Akaike Information Criterion corrected for small sample size
+<span class="citation">(Warren and Seifert 2011)</span>
 </li>
 </ul>
-<p>We will compute the value of the metrics on the training dataset, using the <code>default model</code> that we trained in a previous article.</p>
+<p>We will compute the value of the metrics on the training dataset,
+using the <code>default model</code> that we trained in a previous
+article.</p>
 </div>
 <div class="section level2">
 <h2 id="auc">AUC<a class="anchor" aria-label="anchor" href="#auc"></a>
@@ -136,9 +144,15 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.8728322</span></span></code></pre></div>
-<p>We can also plot the ROC curve using the function <code><a href="../reference/plotROC.html">plotROC()</a></code>:</p>
+<p>We can also plot the ROC curve using the function
+<code><a href="../reference/plotROC.html">plotROC()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: The following aesthetics were dropped during statistical transformation: <span style="color: #00BB00;">m, d</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in</span></span>
+<span><span class="co">#&gt;   the data.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical</span></span>
+<span><span class="co">#&gt;   variable into a factor?</span></span></code></pre></div>
 <p><img src="evaluate-model_files/figure-html/plot%20roc-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
@@ -152,7 +166,10 @@
 <div class="section level2">
 <h2 id="aicc">AICc<a class="anchor" aria-label="anchor" href="#aicc"></a>
 </h2>
-<p>For the AICc we use the function <code><a href="../reference/aicc.html">aicc()</a></code>. In this case we need to pass to the <code>env</code> argument the ‘predictors’ raster <code>stack</code> object that we created in the <a href="./prepare-data.html#acquire-environmental-variables">first article</a>:</p>
+<p>For the AICc we use the function <code><a href="../reference/aicc.html">aicc()</a></code>. In this case we
+need to pass to the <code>env</code> argument the ‘predictors’ raster
+object that we created in the <a href="./prepare-data.html#acquire-environmental-variables">first
+article</a>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/aicc.html">aicc</a></span><span class="op">(</span><span class="va">default_model</span>, </span>
 <span>     env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span>
@@ -160,7 +177,8 @@
 <div class="section level3">
 <h3 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
 </h3>
-<p>Try to compute the three metrics using a model trained using the <strong>Maxnet</strong> method.</p>
+<p>Try to compute the three metrics using a model trained using the
+<strong>Maxnet</strong> method.</p>
 </div>
 </div>
 <div class="section level2">
@@ -173,19 +191,30 @@
 <li>how to calculate the TSS;</li>
 <li>how to calculate the AICc.</li>
 </ul>
-<p>In the <a href="./evaluation-strategies.html">next article</a> you will learn two different strategies that can be used to correctly evaluate the model performance.</p>
+<p>In the <a href="./evaluation-strategies.html">next article</a> you
+will learn two different strategies that can be used to correctly
+evaluate the model performance.</p>
 <div class="section level3 unnumbered">
 <h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-ALLOUCHE2006" class="csl-entry">
-Allouche, Omri, Asaf Tsoar, and Ronen Kadmon. 2006. <span>“Assessing the Accuracy of Species Distribution Models: Prevalence, Kappa and the True Skill Statistic (TSS).”</span> <em>Journal of Applied Ecology</em> 43 (6): 1223–32. https://doi.org/<a href="https://doi.org/10.1111/j.1365-2664.2006.01214.x" class="external-link">https://doi.org/10.1111/j.1365-2664.2006.01214.x</a>.
+Allouche, Omri, Asaf Tsoar, and Ronen Kadmon. 2006. <span>“Assessing the
+Accuracy of Species Distribution Models: Prevalence, Kappa and the True
+Skill Statistic (TSS).”</span> <em>Journal of Applied Ecology</em> 43
+(6): 1223–32. https://doi.org/<a href="https://doi.org/10.1111/j.1365-2664.2006.01214.x" class="external-link">https://doi.org/10.1111/j.1365-2664.2006.01214.x</a>.
 </div>
 <div id="ref-Fielding1997" class="csl-entry">
-Fielding, Alan H., and John F. Bell. 1997. <span>“<span class="nocase">A review of methods for the assessment of prediction errors in conservation presence/absence models</span>.”</span> <em>Environmental Conservation</em> 24 (1): 38–49.
+Fielding, Alan H., and John F. Bell. 1997. <span>“<span class="nocase">A
+review of methods for the assessment of prediction errors in
+conservation presence/absence models</span>.”</span> <em>Environmental
+Conservation</em> 24 (1): 38–49.
 </div>
 <div id="ref-Warren2011a" class="csl-entry">
-Warren, Dan L., and Stephanie N. Seifert. 2011. <span>“Ecological Niche Modeling in Maxent: The Importance of Model Complexity and the Performance of Model Selection Criteria.”</span> <em>Ecological Applications</em> 21 (2): 335–42. https://doi.org/<a href="https://doi.org/10.1890/10-1171.1" class="external-link">https://doi.org/10.1890/10-1171.1</a>.
+Warren, Dan L., and Stephanie N. Seifert. 2011. <span>“Ecological Niche
+Modeling in Maxent: The Importance of Model Complexity and the
+Performance of Model Selection Criteria.”</span> <em>Ecological
+Applications</em> 21 (2): 335–42. https://doi.org/<a href="https://doi.org/10.1890/10-1171.1" class="external-link">https://doi.org/10.1890/10-1171.1</a>.
 </div>
 </div>
 </div>
@@ -203,7 +232,7 @@ Warren, Dan L., and Stephanie N. Seifert. 2011. <span>“Ecological Niche Modeli
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>

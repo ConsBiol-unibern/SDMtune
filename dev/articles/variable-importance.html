@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Variable Importance">
 <meta property="og:description" content="SDMtune">
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png">
@@ -106,7 +106,11 @@
 <div class="section level2">
 <h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
 </h2>
-<p>In the previous articles you have learned how to <a href="./prepare-data.html">prepare the data</a> for the analysis, how to <a href="./train-model.html">train a model</a>, how to <a href="./make-predictions.html">make predictions</a>, how to <a href="./evaluate-model.html">evaluate a model</a> and two different <a href="./evaluation-strategies.html">evaluation strategies</a> using <strong>SDMtune</strong>. In this article you will learn how to display and plot the variable importance and how to plot the response curves.</p>
+<p>In the previous articles you have learned how to <a href="./prepare-data.html">prepare the data</a> for the analysis, how to
+<a href="./train-model.html">train a model</a>, how to <a href="./make-predictions.html">make predictions</a>, how to <a href="./evaluate-model.html">evaluate a model</a> and two different <a href="./evaluation-strategies.html">evaluation strategies</a> using
+<strong>SDMtune</strong>. In this article you will learn how to display
+and plot the variable importance and how to plot the response
+curves.</p>
 </div>
 <div class="section level2">
 <h2 id="variable-importance-for-maxent-models">Variable importance for Maxent models<a class="anchor" aria-label="anchor" href="#variable-importance-for-maxent-models"></a>
@@ -122,7 +126,10 @@
 <span><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.1.6.9000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></span></code></pre></div>
-<p>For a <strong>Maxent</strong> model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:</p>
+<p>For a <strong>Maxent</strong> model we can get the variable
+importance values from the output of the MaxEnt Java software. These
+values are stored in the model object and can be displayed using the
+following command:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_model</span><span class="op">@</span><span class="va">model</span><span class="op">@</span><span class="va">results</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
@@ -625,7 +632,9 @@ Equate.entropy.of.thresholded.and.original.distributions.training.omission
 </tr>
 </tbody></table>
 </div>
-<p>The function <code><a href="../reference/maxentVarImp.html">maxentVarImp()</a></code> extracts the variable importance values from the previous output and formats them in a more human readable way:</p>
+<p>The function <code><a href="../reference/maxentVarImp.html">maxentVarImp()</a></code> extracts the variable
+importance values from the previous output and formats them in a more
+human readable way:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxentVarImp.html">maxentVarImp</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span>
 <span><span class="va">vi</span></span></code></pre></div>
@@ -743,27 +752,38 @@ bio7
 </tr>
 </tbody>
 </table>
-<p>As you can see the function returns a <code>data.frame</code> with the variable name, the percent contribution and the permutation importance.</p>
-<p>You can plot the variable importance as a bar chart using the function <code><a href="../reference/plotVarImp.html">plotVarImp()</a></code>. For example you can plot the percent contribution using:</p>
+<p>As you can see the function returns a <code>data.frame</code> with
+the variable name, the percent contribution and the permutation
+importance.</p>
+<p>You can plot the variable importance as a bar chart using the
+function <code><a href="../reference/plotVarImp.html">plotVarImp()</a></code>. For example you can plot the percent
+contribution using:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotVarImp.html">plotVarImp</a></span><span class="op">(</span><span class="va">vi</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="variable-importance_files/figure-html/maxent%20percent%20contribution%20plot-1.png" width="700" style="display: block; margin: auto;"></p>
 <div class="section level3">
 <h3 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
 </h3>
-<p>Plot the permutation importance as a bar chart. To see the solution highlight the following cell:</p>
+<p>Plot the permutation importance as a bar chart. To see the solution
+highlight the following cell:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The function accepts a data.frame with 2 columns: one with the variable name</span></span>
 <span><span class="co"># and one with the values, so it is enough to select the first and the third</span></span>
 <span><span class="co"># columns from the vi data.frame</span></span>
 <span><span class="fu"><a href="../reference/plotVarImp.html">plotVarImp</a></span><span class="op">(</span><span class="va">vi</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><strong>SDMtune</strong> has its own function to compute the permutation importance that iterates through several permutations and return an averaged value together with the standard deviation. We will use this function to compute the permutation importance of a <strong>Maxnet</strong> model.</p>
+<p><strong>SDMtune</strong> has its own function to compute the
+permutation importance that iterates through several permutations and
+return an averaged value together with the standard deviation. We will
+use this function to compute the permutation importance of a
+<strong>Maxnet</strong> model.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="permutation-importance">Permutation importance<a class="anchor" aria-label="anchor" href="#permutation-importance"></a>
 </h2>
-<p>For this example we use a <strong>Maxnet</strong> model and a training/testing validation strategy like in the <a href="./evaluation-strategies.html#train-and-testing-datasets">previous article</a>:</p>
+<p>For this example we use a <strong>Maxnet</strong> model and a
+training/testing validation strategy like in the <a href="./evaluation-strategies.html#train-and-testing-datasets">previous
+article</a>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot" class="external-link">zeallot</a></span><span class="op">)</span>  <span class="co"># For unpacking assignment</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">train</span>, <span class="va">test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/zeallot/man/operator.html" class="external-link">%&lt;-%</a></span> <span class="fu"><a href="../reference/trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, </span>
@@ -773,7 +793,8 @@ bio7
 <span></span>
 <span><span class="va">maxnet_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, </span>
 <span>                      data <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span></code></pre></div>
-<p>Now we can calculate the variable importance with the function <code><a href="../reference/varImp.html">varImp()</a></code> using 5 permutations:</p>
+<p>Now we can calculate the variable importance with the function
+<code><a href="../reference/varImp.html">varImp()</a></code> using 5 permutations:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vi_maxnet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varImp.html">varImp</a></span><span class="op">(</span><span class="va">maxnet_model</span>, </span>
 <span>                    permut <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
@@ -899,7 +920,10 @@ bio6
 <div class="section level3">
 <h3 id="try-yourself-1">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself-1"></a>
 </h3>
-<p>Use the <code><a href="../reference/varImp.html">varImp()</a></code> function to compute the permutation importance for the <code>default_model</code> using 10 permutations and compare the results with the Maxent output. To see the solution highlight the following cell:</p>
+<p>Use the <code><a href="../reference/varImp.html">varImp()</a></code> function to compute the permutation
+importance for the <code>default_model</code> using 10 permutations and
+compare the results with the Maxent output. To see the solution
+highlight the following cell:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute the permutation importance</span></span>
 <span><span class="va">vi_maxent</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varImp.html">varImp</a></span><span class="op">(</span><span class="va">default_model</span>, </span>
@@ -910,13 +934,20 @@ bio6
 <span></span>
 <span><span class="co"># Compare with Maxent output</span></span>
 <span><span class="fu"><a href="../reference/maxentVarImp.html">maxentVarImp</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">)</span></span></code></pre></div>
-<p>The difference is probably due to a different shuffling of the presence and background locations during the permutation process and because in this example we performed 10 permutations and averaged the values.</p>
+<p>The difference is probably due to a different shuffling of the
+presence and background locations during the permutation process and
+because in this example we performed 10 permutations and averaged the
+values.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="jackknife-test-for-variable-importance">Jackknife test for variable importance<a class="anchor" aria-label="anchor" href="#jackknife-test-for-variable-importance"></a>
 </h2>
-<p>Another method to estimate the variable importance is the leave one out Jackknife test. The test removes one variable at time and records the change in the chosen metric. We use the function <code><a href="../reference/doJk.html">doJk()</a></code>, the AUC as evaluation metric and the <code>maxnet_model</code>:</p>
+<p>Another method to estimate the variable importance is the leave one
+out Jackknife test. The test removes one variable at time and records
+the change in the chosen metric. We use the function
+<code><a href="../reference/doJk.html">doJk()</a></code>, the AUC as evaluation metric and the
+<code>maxnet_model</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/doJk.html">doJk</a></span><span class="op">(</span><span class="va">maxnet_model</span>, </span>
 <span>           metric <span class="op">=</span> <span class="st">"auc"</span>, </span>
@@ -1096,7 +1127,10 @@ biome
 </tr>
 </tbody>
 </table>
-<p>We can also plot the output using the function <code><a href="../reference/plotJk.html">plotJk()</a></code>. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC:</p>
+<p>We can also plot the output using the function <code><a href="../reference/plotJk.html">plotJk()</a></code>.
+In the following example we plot the previous result and we add a line
+representing the AUC of the full model trained using all the variables.
+First we plot the Jackknife test for the training AUC:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotJk.html">plotJk</a></span><span class="op">(</span><span class="va">jk</span>, </span>
 <span>       type <span class="op">=</span> <span class="st">"train"</span>, </span>
@@ -1111,13 +1145,17 @@ biome
 <div class="section level3">
 <h3 id="try-yourself-2">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself-2"></a>
 </h3>
-<p>Repeat the Jackknife part using the TSS and the AICc as evaluation metric and using the <code>dafult_model</code></p>
+<p>Repeat the Jackknife part using the TSS and the AICc as evaluation
+metric and using the <code>dafult_model</code></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="response-curves">Response curves<a class="anchor" aria-label="anchor" href="#response-curves"></a>
 </h2>
-<p>With the function <code><a href="../reference/plotResponse.html">plotResponse()</a></code> is possible to plot the marginal and the univariate response curve. Let’s plot the <strong>cloglog</strong> univariate response curve of <strong>bio1</strong>:</p>
+<p>With the function <code><a href="../reference/plotResponse.html">plotResponse()</a></code> is possible to plot the
+marginal and the univariate response curve. Let’s plot the
+<strong>cloglog</strong> univariate response curve of
+<strong>bio1</strong>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span><span class="op">(</span><span class="va">maxnet_model</span>, </span>
 <span>             var <span class="op">=</span> <span class="st">"bio1"</span>, </span>
@@ -1126,7 +1164,11 @@ biome
 <span>             marginal <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>             rug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="variable-importance_files/figure-html/plot%20bio1-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the <strong>logistic</strong> marginal response curve of <strong>biome</strong> that is a categorical variable, keeping the other variables at the mean value:</p>
+<p>On top is displayed the rug of the presence locations and on bottom
+the rug of the background locations. As another example we can plot the
+<strong>logistic</strong> marginal response curve of
+<strong>biome</strong> that is a categorical variable, keeping the other
+variables at the mean value:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span><span class="op">(</span><span class="va">maxnet_model</span>, </span>
 <span>             var <span class="op">=</span> <span class="st">"biome"</span>, </span>
@@ -1139,7 +1181,10 @@ biome
 <div class="section level3">
 <h3 id="try-yourself-3">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself-3"></a>
 </h3>
-<p>Plot in green the univariate cloglog response curve of <strong>bio17</strong> removing the rug and using the <code>default_model</code>, to see the solution highlight the following cell:</p>
+<p>Plot in green the univariate cloglog response curve of
+<strong>bio17</strong> removing the rug and using the
+<code>default_model</code>, to see the solution highlight the following
+cell:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span><span class="op">(</span><span class="va">default_model</span>, </span>
 <span>             var <span class="op">=</span> <span class="st">"bio17"</span>, </span>
@@ -1147,7 +1192,11 @@ biome
 <span>             only_presence <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>             marginal <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>             color <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span></span></code></pre></div>
-<p>In the case of an <code><a href="../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> the response curve shows the averaged value of the prediction together with one Standard Deviation error interval. We use the cross validation model trained in the <a href="./evaluation-strategies.html#cross-validation">previous article</a></p>
+<p>In the case of an <code><a href="../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> the response curve shows
+the averaged value of the prediction together with one Standard
+Deviation error interval. We use the cross validation model trained in
+the <a href="./evaluation-strategies.html#cross-validation">previous
+article</a></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResponse.html">plotResponse</a></span><span class="op">(</span><span class="va">cv_model</span>, </span>
 <span>             var <span class="op">=</span> <span class="st">"bio1"</span>, </span>
@@ -1162,16 +1211,26 @@ biome
 <div class="section level2">
 <h2 id="model-report">Model report<a class="anchor" aria-label="anchor" href="#model-report"></a>
 </h2>
-<p>All what you have learned till now con be saved and summarized calling the function <code><a href="../reference/modelReport.html">modelReport()</a></code>. The function will:</p>
+<p>All what you have learned till now con be saved and summarized
+calling the function <code><a href="../reference/modelReport.html">modelReport()</a></code>. The function will:</p>
 <ul>
-<li>save the training, background and testing locations in separated csv files;</li>
+<li>save the training, background and testing locations in separated csv
+files;</li>
 <li>train and evaluate the model;</li>
-<li>create a report in a html format with the ROC curve, threshold values, response curves, predicted map and Jackknife test;</li>
+<li>create a report in a html format with the ROC curve, threshold
+values, response curves, predicted map and Jackknife test;</li>
 <li>save the predicted distribution map;</li>
 <li>save all the curves in the plot folder;</li>
-<li>save the model with <code>.Rds</code> extension that can be loaded in R using the <code>readRDS</code> function.</li>
+<li>save the model with <code>.Rds</code> extension that can be loaded
+in R using the <code>readRDS</code> function.</li>
 </ul>
-<p>The function is totally inspired by the default output of the MaxEnt Java software <span class="citation">[@Phillips2006]</span> and extends it to other methods. You can decide what to include in the report using dedicated function arguments, like <code>response_curves</code>, <code>jk</code> and <code>env</code> but the function cannot be used with <code><a href="../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> objects. Run the following code to create a report of the <strong>Maxnet</strong> model we trained before:</p>
+<p>The function is totally inspired by the default output of the MaxEnt
+Java software <span class="citation">[@Phillips2006]</span> and extends
+it to other methods. You can decide what to include in the report using
+dedicated function arguments, like <code>response_curves</code>,
+<code>jk</code> and <code>env</code> but the function cannot be used
+with <code><a href="../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> objects. Run the following code to create
+a report of the <strong>Maxnet</strong> model we trained before:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/modelReport.html">modelReport</a></span><span class="op">(</span><span class="va">maxnet_model</span>, </span>
 <span>            type <span class="op">=</span> <span class="st">"cloglog"</span>, </span>
@@ -1181,20 +1240,23 @@ biome
 <span>            only_presence <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>            jk <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>            env <span class="op">=</span> <span class="va">predictors</span><span class="op">)</span></span></code></pre></div>
-<p>The output is displayed in the browser and all the files are saved in the <strong>virtual-sp</strong> folder.</p>
+<p>The output is displayed in the browser and all the files are saved in
+the <strong>virtual-sp</strong> folder.</p>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
 <p>In this article you have learned:</p>
 <ul>
-<li>how to get and plot the variable importance for <strong>Maxent</strong> models;</li>
+<li>how to get and plot the variable importance for
+<strong>Maxent</strong> models;</li>
 <li>how to compute and plot the permutation importance;</li>
 <li>how to perform the leave one out Jackknife test;</li>
 <li>how to plot the marginal and the univariate response curve;</li>
 <li>how to create a model report.</li>
 </ul>
-<p>In the <a href="./variable-selection.html">next article</a> you will learn how to perform data-driven variable selection.</p>
+<p>In the <a href="./variable-selection.html">next article</a> you will
+learn how to perform data-driven variable selection.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
@@ -1209,7 +1271,7 @@ biome
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>

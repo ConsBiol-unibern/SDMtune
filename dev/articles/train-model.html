@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Train a model">
 <meta property="og:description" content="SDMtune">
 <meta property="og:image" content="https://consbiol-unibern.github.io/SDMtune/logo.png">
@@ -106,11 +106,17 @@
 <div class="section level2">
 <h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
 </h2>
-<p>In the <a href="./prepare-data.html">previous article</a> you have learned how to prepare the data for the analysis using the <a href="../../reference/virtualSp.html">virtualSp</a> dataset and the <a href="https://www.worldclim.org/" class="external-link">WorldClim</a> environmental variables. Now it’s time to train your first model, let’s do it!</p>
+<p>In the <a href="./prepare-data.html">previous article</a> you have
+learned how to prepare the data for the analysis using the <a href="../../reference/virtualSp.html">virtualSp</a> dataset and the <a href="https://www.worldclim.org/" class="external-link">WorldClim</a> environmental variables.
+Now it’s time to train your first model, let’s do it!</p>
 <p><code>SDMtune</code> supports four methods for model training:</p>
 <ul>
-<li>Artificial Neural Networks <strong>ANN</strong>, using the <code>nnet</code> package <span class="citation">(Venables and Ripley 2002)</span>;</li>
-<li>Boosted Regression Trees <strong>BRT</strong>, using the <code>gbm</code> package <span class="citation">(Greenwell et al. 2019)</span>;</li>
+<li>Artificial Neural Networks <strong>ANN</strong>, using the
+<code>nnet</code> package <span class="citation">(Venables and Ripley
+2002)</span>;</li>
+<li>Boosted Regression Trees <strong>BRT</strong>, using the
+<code>gbm</code> package <span class="citation">(Greenwell et al.
+2019)</span>;</li>
 <li>Maximum Entropy with two implementations:
 <ul>
 <li>
@@ -119,9 +125,13 @@
 <strong>Maxnet</strong> using the <code>maxnet</code> package <span class="citation">(Phillips 2017)</span>;</li>
 </ul>
 </li>
-<li>Random Forest <strong>RF</strong>, using the <code>randomForest</code> package <span class="citation">(Liaw and Wiener 2002)</span>.</li>
+<li>Random Forest <strong>RF</strong>, using the
+<code>randomForest</code> package <span class="citation">(Liaw and
+Wiener 2002)</span>.</li>
 </ul>
-<p>The code necessary to train a model is the same for all the implementations. We will show how to train a <strong>Maxent</strong> model, you can adapt the code for the other methods or check this <a href="./train-tune-presence-absence-models.html">article</a>.</p>
+<p>The code necessary to train a model is the same for all the
+implementations. We will show how to train a <strong>Maxent</strong>
+model, you can adapt the code for the other methods or check this <a href="./train-tune-presence-absence-models.html">article</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="train-a-model-with-default-settings">Train a model with default settings<a class="anchor" aria-label="anchor" href="#train-a-model-with-default-settings"></a>
@@ -137,28 +147,33 @@
 <span><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.1.6.9000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></span></code></pre></div>
-<p>We use the function <code><a href="../reference/train.html">train()</a></code> to train a <strong>Maxent</strong> model. We need to provide two arguments:</p>
+<p>We use the function <code><a href="../reference/train.html">train()</a></code> to train a
+<strong>Maxent</strong> model. We need to provide two arguments:</p>
 <ul>
 <li>
 <code>method</code>: “Maxent” in our case;</li>
 <li>
-<code>data</code>: the <code><a href="../reference/SWD-class.html">SWD()</a></code> object with the presence and background locations that we created in the previous article.</li>
+<code>data</code>: the <code><a href="../reference/SWD-class.html">SWD()</a></code> object with the presence
+and background locations that we created in the previous article.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxent"</span>,</span>
 <span>                       data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span></code></pre></div>
 <p>The function trains the model using default settings that are:</p>
 <ul>
-<li>linear, quadratic, product and hinge feature class combinations;</li>
+<li>linear, quadratic, product and hinge feature class
+combinations;</li>
 <li>regularization multiplier equal to 1;</li>
 <li>500 algorithm iterations.</li>
 </ul>
-<p>We will see later how to change the default settings, for the moment let’s have a look at the <code>default_model</code> object.</p>
+<p>We will see later how to change the default settings, for the moment
+let’s have a look at the <code>default_model</code> object.</p>
 </div>
 <div class="section level2">
 <h2 id="explore-an-sdmmodel-object">Explore an SDMmodel object<a class="anchor" aria-label="anchor" href="#explore-an-sdmmodel-object"></a>
 </h2>
-<p>The output of the function <code><a href="../reference/train.html">train()</a></code> is an object of class <code><a href="../reference/SDMmodel-class.html">SDMmodel()</a></code>. Let’s print it:</p>
+<p>The output of the function <code><a href="../reference/train.html">train()</a></code> is an object of class
+<code><a href="../reference/SDMmodel-class.html">SDMmodel()</a></code>. Let’s print it:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_model</span></span>
 <span><span class="co">#&gt; Object of class SDMmodel </span></span>
@@ -178,7 +193,8 @@
 <span><span class="co">#&gt; ---------</span></span>
 <span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span></span>
 <span><span class="co">#&gt; Categorical: biome</span></span></code></pre></div>
-<p>When we print an <code>SDMmodel</code> object we get the following information:</p>
+<p>When we print an <code>SDMmodel</code> object we get the following
+information:</p>
 <ul>
 <li>the name of the class;</li>
 <li>the method used to train the model;</li>
@@ -205,22 +221,30 @@
 <span><span class="co">#&gt; [1] "data"  "model"</span></span></code></pre></div>
 <ul>
 <li>
-<strong>data</strong>: an <code><a href="../reference/SWD-class.html">SWD()</a></code> object with the presence absence/background locations used to train the model;</li>
+<strong>data</strong>: an <code><a href="../reference/SWD-class.html">SWD()</a></code> object with the
+presence absence/background locations used to train the model;</li>
 <li>
-<strong>model</strong>: a <code><a href="../reference/Maxent-class.html">Maxent()</a></code> object, in our case, with all the model configurations.</li>
+<strong>model</strong>: a <code><a href="../reference/Maxent-class.html">Maxent()</a></code> object, in our case,
+with all the model configurations.</li>
 </ul>
-<p>The slot <code>model</code> contains the configurations of the model plus other information used to make predictions.</p>
+<p>The slot <code>model</code> contains the configurations of the model
+plus other information used to make predictions.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/slot.html" class="external-link">slotNames</a></span><span class="op">(</span><span class="va">default_model</span><span class="op">@</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "results"    "reg"        "fc"         "iter"       "extra_args"</span></span>
 <span><span class="co">#&gt;  [6] "lambdas"    "coeff"      "formula"    "lpn"        "dn"        </span></span>
 <span><span class="co">#&gt; [11] "entropy"    "min_max"</span></span></code></pre></div>
-<p>For the moment the most important are: <strong>fc</strong>, <strong>reg</strong> and <strong>iter</strong> that contain the values of the model configuration. We will explore the others later in another article.</p>
+<p>For the moment the most important are: <strong>fc</strong>,
+<strong>reg</strong> and <strong>iter</strong> that contain the values
+of the model configuration. We will explore the others later in another
+article.</p>
 </div>
 <div class="section level2">
 <h2 id="train-a-model-changing-the-default-settings">Train a model changing the default settings<a class="anchor" aria-label="anchor" href="#train-a-model-changing-the-default-settings"></a>
 </h2>
-<p>The function <code><a href="../reference/train.html">train()</a></code> accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the same model using:</p>
+<p>The function <code><a href="../reference/train.html">train()</a></code> accepts optional arguments that can
+be used to change the default model settings. In our previous example we
+could have trained the same model using:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxent"</span>, </span>
 <span>                       data <span class="op">=</span> <span class="va">data</span>, </span>
@@ -230,24 +254,38 @@
 <div class="section level3">
 <h3 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
 </h3>
-<p>Try to change the default settings and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:</p>
+<p>Try to change the default settings and train a model using linear and
+hinge as feature class combination, 0.5 as regularization multiplier and
+700 iterations. To see the solution highlight the next cell:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxent"</span>, </span>
 <span>               data <span class="op">=</span> <span class="va">data</span>, </span>
 <span>               fc <span class="op">=</span> <span class="st">"lh"</span>, </span>
 <span>               reg <span class="op">=</span> <span class="fl">0.5</span>, </span>
 <span>               iter <span class="op">=</span> <span class="fl">700</span><span class="op">)</span></span></code></pre></div>
-<p>By default Maxent models are trained using the arguments <em>“removeduplicates=false”</em> and <em>“addsamplestobackground=false”</em>. The user should have the full control of the data used to train the model, so is expected that duplicated locations are already removed and that the presence locations are already included in the background locations, when desired. You can use the function <code><a href="../reference/thinData.html">thinData()</a></code> to remove duplicated locations and the function <code><a href="../reference/addSamplesToBg.html">addSamplesToBg()</a></code> to add the presence locations to the background locations.</p>
+<p>By default Maxent models are trained using the arguments
+<em>“removeduplicates=false”</em> and
+<em>“addsamplestobackground=false”</em>. The user should have the full
+control of the data used to train the model, so is expected that
+duplicated locations are already removed and that the presence locations
+are already included in the background locations, when desired. You can
+use the function <code><a href="../reference/thinData.html">thinData()</a></code> to remove duplicated locations
+and the function <code><a href="../reference/addSamplesToBg.html">addSamplesToBg()</a></code> to add the presence
+locations to the background locations.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="train-a-maxnet-model">Train a Maxnet model<a class="anchor" aria-label="anchor" href="#train-a-maxnet-model"></a>
 </h2>
-<p>Train a model using the <strong>Maxnet</strong> method is as simple as changing the name of the method in the <code><a href="../reference/train.html">train()</a></code> function, the only difference here is that we cannot set the number of iteration.</p>
+<p>Train a model using the <strong>Maxnet</strong> method is as simple
+as changing the name of the method in the <code><a href="../reference/train.html">train()</a></code> function,
+the only difference here is that we cannot set the number of
+iteration.</p>
 <div class="section level3">
 <h3 id="try-yourself-1">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself-1"></a>
 </h3>
-<p>Try to train a model using the <strong>Maxnet</strong> method. To see the solution highlight the following cell:</p>
+<p>Try to train a model using the <strong>Maxnet</strong> method. To see
+the solution highlight the following cell:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">maxnet_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxnet"</span>, </span>
 <span>                      data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span></code></pre></div>
@@ -258,30 +296,44 @@
 </h2>
 <p>In this article you have learned:</p>
 <ul>
-<li>how to train a <strong>Maxent</strong> model using default settings;</li>
+<li>how to train a <strong>Maxent</strong> model using default
+settings;</li>
 <li>how to explore an <code><a href="../reference/SDMmodel-class.html">SDMmodel()</a></code> object;</li>
 <li>how to train a model changing the default settings;</li>
 <li>how to train a model using the <strong>Maxnet</strong> method.</li>
 </ul>
-<p>In the <a href="./make-predictions.html">next article</a> you will learn how to use the model that you have just trained to get the predicted value for new localities.</p>
+<p>In the <a href="./make-predictions.html">next article</a> you will
+learn how to use the model that you have just trained to get the
+predicted value for new localities.</p>
 <div class="section level3 unnumbered">
 <h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Greenwell2019" class="csl-entry">
-Greenwell, Brandon, Bradley Boehmke, Jay Cunningham, and GBM Developers. 2019. <span>“<span class="nocase">gbm: Generalized Boosted Regression Models. R package version 2.1.5</span>.”</span> https://CRAN.R-project.org/package=gbm.
+Greenwell, Brandon, Bradley Boehmke, Jay Cunningham, and GBM Developers.
+2019. <span>“<span class="nocase">gbm: Generalized Boosted Regression
+Models. R package version 2.1.5</span>.”</span>
+https://CRAN.R-project.org/package=gbm.
 </div>
 <div id="ref-Hijmans2017" class="csl-entry">
-Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith. 2017. <span>“<span class="nocase">dismo: Species Distribution Modeling. R package version 1.1-4</span>.”</span> https://cran.r-project.org/package=dismo.
+Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith.
+2017. <span>“<span class="nocase">dismo: Species Distribution Modeling.
+R package version 1.1-4</span>.”</span>
+https://cran.r-project.org/package=dismo.
 </div>
 <div id="ref-Liaw2002" class="csl-entry">
-Liaw, Andy, and Matthew Wiener. 2002. <span>“<span class="nocase">Classification and Regression by randomForest</span>.”</span> <em>R News</em> 2 (3): 18–22.
+Liaw, Andy, and Matthew Wiener. 2002. <span>“<span class="nocase">Classification and Regression by
+randomForest</span>.”</span> <em>R News</em> 2 (3): 18–22.
 </div>
 <div id="ref-Phillips2017b" class="csl-entry">
-Phillips, Steven. 2017. <em><span class="nocase">maxnet: Fitting ’Maxent’ Species Distribution Models with ’glmnet’. R package version 0.1.2</span></em>. https://cran.r-project.org/package=maxnet.
+Phillips, Steven. 2017. <em><span class="nocase">maxnet: Fitting
+’Maxent’ Species Distribution Models with ’glmnet’. R package version
+0.1.2</span></em>. https://cran.r-project.org/package=maxnet.
 </div>
 <div id="ref-Venables2002" class="csl-entry">
-Venables, W N, and B. D. Ripley. 2002. <em><span class="nocase">Modern Applied Statistics with S.</span></em> Fourth Edi. New York, NY: Springer.
+Venables, W N, and B. D. Ripley. 2002. <em><span class="nocase">Modern
+Applied Statistics with S.</span></em> Fourth Edi. New York, NY:
+Springer.
 </div>
 </div>
 </div>
@@ -299,7 +351,7 @@ Venables, W N, and B. D. Ripley. 2002. <em><span class="nocase">Modern Applied S
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>

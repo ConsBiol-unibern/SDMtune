@@ -5,7 +5,7 @@ result is normalized to percentages. Same implementation of MaxEnt java
 software but with the additional possibility of running several permutations
 to obtain a better estimate of the permutation importance. In case of more
 than one permutation (default is 10) the average of the decrease in training
-AUC is computed."><title>Variable Importance — varImp • SDMtune</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Variable Importance — varImp"><meta property="og:description" content="The function randomly permutes one variable at time (using training and
+AUC is computed."><title>Variable Importance — varImp • SDMtune</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Variable Importance — varImp"><meta property="og:description" content="The function randomly permutes one variable at time (using training and
 absence/background datasets) and computes the decrease in training AUC. The
 result is normalized to percentages. Same implementation of MaxEnt java
 software but with the additional possibility of running several permutations
@@ -103,7 +103,7 @@ AUC is computed.</p>
 
 
 <dt>progress</dt>
-<dd><p>logical, if <code>TRUE</code> shows a progress bar.</p></dd>
+<dd><p>logical. If <code>TRUE</code> shows a progress bar.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -129,53 +129,71 @@ standard deviation of the permutation importances of the single models.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Acquire environmental variables</span></span></span>
 <span class="r-in"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dismo"</span><span class="op">)</span>, <span class="st">"ex"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    pattern <span class="op">=</span> <span class="st">"grd"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html" class="external-link">stack</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                    pattern <span class="op">=</span> <span class="st">"grd"</span>,</span></span>
+<span class="r-in"><span>                    full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">predictors</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Prepare presence and background locations</span></span></span>
 <span class="r-in"><span><span class="va">p_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">presence</span></span></span>
 <span class="r-in"><span><span class="va">bg_coords</span> <span class="op">&lt;-</span> <span class="va">virtualSp</span><span class="op">$</span><span class="va">background</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create SWD object</span></span></span>
-<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>, p <span class="op">=</span> <span class="va">p_coords</span>, a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
-<span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>, categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSWD.html">prepareSWD</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Virtual species"</span>,</span></span>
+<span class="r-in"><span>                   p <span class="op">=</span> <span class="va">p_coords</span>,</span></span>
+<span class="r-in"><span>                   a <span class="op">=</span> <span class="va">bg_coords</span>,</span></span>
+<span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>,</span></span>
+<span class="r-in"><span>                   categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[37ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[30ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[79ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
-<span class="r-in"><span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>, test <span class="op">=</span> <span class="fl">0.2</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="trainValTest.html">trainValTest</a></span><span class="op">(</span><span class="va">data</span>,</span></span>
+<span class="r-in"><span>                         test <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>                         only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">train</span> <span class="op">&lt;-</span> <span class="va">datasets</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="va">datasets</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Train a model</span></span></span>
-<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">train</span>, fc <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>,</span></span>
+<span class="r-in"><span>               data <span class="op">=</span> <span class="va">train</span>,</span></span>
+<span class="r-in"><span>               fc <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute variable importance</span></span></span>
-<span class="r-in"><span><span class="va">vi</span> <span class="op">&lt;-</span> <span class="fu">varImp</span><span class="op">(</span><span class="va">model</span>, permut <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">vi</span> <span class="op">&lt;-</span> <span class="fu">varImp</span><span class="op">(</span><span class="va">model</span>,</span></span>
+<span class="r-in"><span>             permut <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">vi</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Variable Permutation_importance    sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio6                   68.4 0.013</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     bio8                   22.5 0.004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    biome                    5.5 0.003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    bio12                    3.4 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    bio16                    0.2 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     bio1                    0.0 0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    bio17                    0.0 0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     bio5                    0.0 0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     bio6                   54.2 0.008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     bio8                   27.4 0.005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    biome                   12.6 0.005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    bio12                    5.3 0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    bio16                    0.5 0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     bio5                    0.1 0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     bio1                    0.0 0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    bio17                    0.0 0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9     bio7                    0.0 0.000</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Same example but using cross validation instead of training and testing</span></span></span>
 <span class="r-in"><span><span class="co"># datasets</span></span></span>
 <span class="r-in"><span><span class="co"># Create 4 random folds splitting only the presence locations</span></span></span>
-<span class="r-in"><span><span class="va">folds</span> <span class="op">=</span> <span class="fu"><a href="randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">data</span>, k <span class="op">=</span> <span class="fl">4</span>, only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>, data <span class="op">=</span> <span class="va">data</span>, fc <span class="op">=</span> <span class="st">"l"</span>, folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">folds</span> <span class="op">=</span> <span class="fu"><a href="randomFolds.html">randomFolds</a></span><span class="op">(</span><span class="va">data</span>,</span></span>
+<span class="r-in"><span>                    k <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>                    only_presence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>,</span></span>
+<span class="r-in"><span>               data <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span>               fc <span class="op">=</span> <span class="st">"l"</span>,</span></span>
+<span class="r-in"><span>               folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute variable importance</span></span></span>
-<span class="r-in"><span><span class="va">vi</span> <span class="op">&lt;-</span> <span class="fu">varImp</span><span class="op">(</span><span class="va">model</span>, permut <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable importance  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  89% | ETA:  0s - 00:00:02</span>
+<span class="r-in"><span><span class="va">vi</span> <span class="op">&lt;-</span> <span class="fu">varImp</span><span class="op">(</span><span class="va">model</span>,</span></span>
+<span class="r-in"><span>             permut <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable importance  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  69% | ETA:  1s - 00:00:02</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Variable importance  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:2…</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">vi</span></span></span>
@@ -201,7 +219,7 @@ standard deviation of the permutation importances of the single models.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer></div>
