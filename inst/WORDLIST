@@ -6,7 +6,6 @@ Bellard
 Boehmke
 Boria
 Courchamp
-Dudík
 ENMeval
 Ecography
 Ecoregions
@@ -31,7 +30,6 @@ Maxent
 Maxnet
 Meteorol
 Meynard
-Miroslav
 Modelling
 Monfort
 Muscarella
@@ -115,6 +113,7 @@ randomFolds
 randomForest
 randomPoints
 randomSearch
+rast
 removeduplicates
 screencast
 sp
@@ -123,3 +122,4 @@ tooltip
 tss
 virtualSp
 virtualspecies
+writeRaster
