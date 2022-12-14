@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Sergio Vignali \email{sergio.vignali@iee.unibe.ch} (\href{https://orcid.org/0000-0002-3390-5442}{ORCID})
+\strong{Maintainer}: Sergio Vignali \email{sergio.vignali@unibe.ch} (\href{https://orcid.org/0000-0002-3390-5442}{ORCID})
 
 Authors:
 \itemize{
