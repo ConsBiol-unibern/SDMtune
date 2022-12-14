@@ -3,7 +3,7 @@ Type: Package
 Title: Species Distribution Model Selection
 Version: 1.1.6.9000
 Authors@R: c(
-	  person("Sergio", "Vignali",  email = "sergio.vignali@iee.unibe.ch",
+	  person("Sergio", "Vignali",  email = "sergio.vignali@unibe.ch",
 	         role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3390-5442")),
 	  person("Arnaud", "Barras", role = "aut",
 	         comment = c(ORCID = "0000-0003-0850-6965")),
@@ -58,7 +58,7 @@ Suggests:
     rJava (>= 0.9-11),
     rmarkdown (>= 2.16),
     scales (>= 1.0.0),
-    testthat (>= 3.1.4),
+    testthat (>= 3.1.6),
     withr (>= 2.5.0),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
