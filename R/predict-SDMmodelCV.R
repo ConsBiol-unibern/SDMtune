@@ -133,6 +133,8 @@ setMethod(
                         clamp = TRUE,
                         filename = "",
                         format = "",
+                        overwrite = FALSE,
+                        wopt = list(),
                         extent = NULL,
                         progress = TRUE,
                         ...) {

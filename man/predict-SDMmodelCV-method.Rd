@@ -12,6 +12,8 @@
   clamp = TRUE,
   filename = "",
   format = "",
+  overwrite = FALSE,
+  wopt = list(),
   extent = NULL,
   progress = TRUE,
   ...
@@ -39,6 +41,10 @@ must include the extension.}
 
 \item{format}{character. Deprecated.}
 
+\item{overwrite}{logical. If \code{TRUE} an existing file is overwritten.}
+
+\item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
+
 \item{extent}{\link[terra]{ext} object, if provided it restricts the
 prediction to the given extent.}
 
@@ -46,10 +52,6 @@ prediction to the given extent.}
 
 \item{...}{Additional arguments to pass to the \link[terra]{predict}
 function.}
-
-\item{overwrite}{logical. If \code{TRUE} an existing file is overwritten.}
-
-\item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
 }
 \value{
 A vector with the prediction or a \link[terra]{rast} object if data
