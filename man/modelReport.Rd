@@ -46,8 +46,8 @@ and for the prediction map.}
 
 \item{permut}{integer. Number of permutations.}
 
-\item{factors}{list with levels for factor variables, see
-\link[terra]{predict}.}
+\item{factors}{deprecated, package \pkg{terra} handles factors in a different
+way than \pkg{raster}, see \pkg{terra} documentation.}
 
 \item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }

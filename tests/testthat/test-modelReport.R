@@ -9,6 +9,8 @@ folder <- "trash"
 
 test_that("All files are created", {
 
+  withr::defer(unlink(file.path(getwd(), folder), recursive = TRUE))
+
   modelReport(SDMtune:::bm_maxnet,
               type = "cloglog",
               folder = folder,
@@ -18,8 +20,6 @@ test_that("All files are created", {
               jk = TRUE,
               response_curves = TRUE,
               verbose = FALSE)
-
-  withr::defer(unlink(file.path(getwd(), folder), recursive = TRUE))
 
   expect_true(file.exists(file.path(folder, "train.csv")))
   expect_true(file.exists(file.path(folder, "test.csv")))
@@ -81,4 +81,14 @@ test_that("Settings are correct", {
   # RF
   params$model <- m_rf
   expect_snapshot_output(.write_report_model_settings(params))
+})
+
+# TODO: Remove with version 2.0.0
+test_that("The function raises errors", {
+  expect_snapshot_error(
+    modelReport(SDMtune:::bm_maxnet,
+                type = "cloglog",
+                folder = folder,
+                factors = "biome")
+  )
 })

@@ -18,8 +18,8 @@
 #' @param clamp logical for clumping during prediction, used for response curves
 #' and for the prediction map.
 #' @param permut integer. Number of permutations.
-#' @param factors list with levels for factor variables, see
-#' \link[terra]{predict}.
+#' @param factors deprecated, package \pkg{terra} handles factors in a different
+#' way than \pkg{raster}, see \pkg{terra} documentation.
 #' @param verbose logical, if `TRUE` prints informative messages.
 #'
 #' @details The function produces a report similar to the one created by MaxEnt
@@ -102,6 +102,13 @@ modelReport <- function(model,
       call = NULL
     )
   }
+
+  # TODO: remove with version 2.0.0
+  if (!is.null(factors))
+    cli::cli_abort(c(
+      "!" = "Argument {.var factors} is deprecated",
+      "x" = "Please check {.pkg terra} documentation to see how to use factors."
+    ))
 
   if (file.exists(file.path(getwd(), folder))) {
     msg <- cli::cli_text(cli::col_red(cli::symbol$fancy_question_mark),
@@ -250,8 +257,7 @@ modelReport <- function(model,
                   type = params$type,
                   filename = file.path(params$folder, "map.tif"),
                   overwrite = TRUE,
-                  clamp = params$clamp,
-                  factors = params$factors)
+                  clamp = params$clamp)
 
   plot <- plotPred(pred,
                    lt = params$type,
