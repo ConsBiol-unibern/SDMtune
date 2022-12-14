@@ -11,11 +11,11 @@
 #' testing dataset. Not used for **aicc** and \linkS4class{SDMmodelCV}.
 #' @param with_only logical. If `TRUE` it runs the test also for each variable
 #' in isolation.
-#' @param env \link[raster]{stack} containing the environmental variables, used
+#' @param env \link[terra]{rast} containing the environmental variables, used
 #' only with "aicc".
-#' @param return_models logical, if `TRUE` returns all the models together with
+#' @param return_models logical. If `TRUE` returns all the models together with
 #' the test result.
-#' @param progress logical, if `TRUE` shows a progress bar.
+#' @param progress logical If `TRUE` shows a progress bar.
 #'
 #' @return A data frame with the test results. If `return_model = TRUE` it
 #' returns a list containing the test results together with the models.
@@ -26,88 +26,71 @@
 #' @examples
 #' \donttest{
 #' # Acquire environmental variables
-#' files <- list.files(
-#'   path = file.path(system.file(package = "dismo"), "ex"),
-#'   pattern = "grd",
-#'   full.names = TRUE
-#' )
-#' predictors <- raster::stack(files)
+#' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(
-#'   species = "Virtual species",
-#'   p = p_coords,
-#'   a = bg_coords,
-#'   env = predictors,
-#'   categorical = "biome"
-#' )
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(
-#'   data,
-#'   test = 0.2,
-#'   only_presence = TRUE
-#' )
+#' datasets <- trainValTest(data,
+#'                          test = 0.2,
+#'                          only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(
-#'   method = "Maxnet",
-#'   data = train,
-#'   fc = "lq"
-#' )
+#' model <- train(method = "Maxnet",
+#'                data = train,
+#'                fc = "lq")
 #'
 #' # Execute the Jackknife test only for the environmental variables "bio1" and
 #' # "bio12", using the metric AUC
-#' doJk(
-#'   model,
-#'   metric = "auc",
-#'   variables = c("bio1", "bio12"),
-#'   test = test
-#' )
+#' doJk(model,
+#'      metric = "auc",
+#'     variables = c("bio1", "bio12"),
+#'     test = test)
 #'
 #' # The same without testing dataset
-#' doJk(
-#'   model,
-#'   metric = "auc",
-#'   variables = c("bio1", "bio12")
-#' )
+#' doJk(model,
+#'      metric = "auc",
+#'      variables = c("bio1", "bio12"))
 #'
 #' # Execute the Jackknife test only for the environmental variables "bio1" and
 #' # "bio12", using the metric TSS but without running the test for one single
 #' # variable
-#' doJk(
-#'   model,
-#'   metric = "tss",
-#'   variables = c("bio1", "bio12"),
-#'   test = test,
-#'   with_only = FALSE
-#' )
+#' doJk(model,
+#'      metric = "tss",
+#'      variables = c("bio1", "bio12"),
+#'      test = test,
+#'      with_only = FALSE)
 #'
 #' # Execute the Jackknife test only for the environmental variables "bio1" and
 #' # "bio12", using the metric AICc but without running the test for one single
 #' # variable
-#' doJk(
-#'   model,
-#'   metric = "aicc",
-#'   variables = c("bio1", "bio12"),
-#'   with_only = FALSE,
-#'   env = predictors
-#' )
+#' doJk(model,
+#'      metric = "aicc",
+#'      variables = c("bio1", "bio12"),
+#'      with_only = FALSE,
+#'      env = predictors)
 #'
 #' # Execute the Jackknife test for all the environmental variables using the
 #' # metric AUC and returning all the trained models
-#' jk <- doJk(
-#'   model,
-#'   metric = "auc",
-#'   test = test,
-#'   return_models = TRUE
-#' )
+#' jk <- doJk(model,
+#'            metric = "auc",
+#'            test = test,
+#'            return_models = TRUE)
 #'
 #' jk$results
 #' jk$models_without
@@ -137,6 +120,20 @@ doJk <- function(model,
     tot <- n
   }
 
+  if (!is.null(env)) {
+    # TODO: Remove with version 2.0.0
+    if (inherits(env, "Raster")) {
+      .warn_raster("raster", "rast")
+      env <- terra::rast(env)
+    }
+
+    if (!inherits(env, "SpatRaster"))
+      cli::cli_abort(c(
+        "!" = "{.var env} must be a {.cls SpatRaster} object",
+        "x" = "You have supplied a {.cls {class(env)}} instead."
+      ))
+  }
+
   if (progress)
     cli::cli_progress_bar(
       name = "Jk Test",
@@ -151,6 +148,7 @@ doJk <- function(model,
   models_withonly <- vector("list", length = n)
 
   res <- matrix(nrow = n, ncol = 5)
+
   if (metric == "auc") {
     labels <- c("Variable", "Train_AUC_without", "Train_AUC_withonly",
                 "Test_AUC_without", "Test_AUC_withonly")

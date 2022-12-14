@@ -178,18 +178,26 @@ test_that("The function .start_server creates the url", {
 })
 
 test_that("The function .check_args function raises exceptions", {
-  h <- list("fc" = c("l", "lq", "lqp"), "reg" = seq(.2, 2., .2), "a" = 10000)
+  h <- list("fc" = c("l", "lq", "lqp"),
+            "reg" = seq(.2, 2., .2),
+            "a" = 10000)
+
   # Throws exception if metric is aicc and env is not provided
   expect_snapshot_error(.check_args(model, metric = "aicc", hypers = h))
+
   # Throws exception if metric is aicc and model is SDMmodelCV
   expect_snapshot_error(.check_args(model_cv, metric = "aicc", hypers = h))
+
   # Throws exception if model is SDMmodel metric is not aicc and test
   # is not provided
   expect_snapshot_error(.check_args(model, metric = "auc", hypers = h))
+
   # Throws exception if provided hypers are not tunable
-  h <- list("fc" = c("l", "lq", "lqp"), "lambda" = c(500, 600))
+  h <- list("fc" = c("l", "lq", "lqp"),
+            "lambda" = c(500, 600))
   expect_snapshot_error(.check_args(model, "auc", data, hypers = h))
-  h <- list("beta" = c(1, 2, 3), "lambda" = c(500, 600))
+  h <- list("beta" = c(1, 2, 3),
+            "lambda" = c(500, 600))
   expect_snapshot_error(.check_args(model, "auc", data, hypers = h))
 })
 
@@ -199,4 +207,9 @@ test_that("The function .args_name", {
   expect_vector(.args_name("trainMaxent"), ptype = character(), size = 4)
   expect_vector(.args_name("trainMaxnet"), ptype = character(), size = 3)
   expect_vector(.args_name("trainRF"), ptype = character(), size = 4)
+})
+
+# TODO: Remove with version 2.0.0
+test_that("Warns if raster package is used", {
+  expect_snapshot_warning(.warn_raster("raster", "rast"))
 })

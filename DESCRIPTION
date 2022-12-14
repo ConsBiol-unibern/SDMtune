@@ -20,11 +20,11 @@ Description: User-friendly framework that enables the training and the
 License: GPL-3
 URL: https://consbiol-unibern.github.io/SDMtune/, https://github.com/ConsBiol-unibern/SDMtune
 BugReports: https://github.com/ConsBiol-unibern/SDMtune/issues
-SystemRequirements: Java (>= 8) and maxent.jar >= 3.4.1 to use Maxent
+SystemRequirements: Java (>= 8)
 Depends: R (>= 4.1.0)
 Imports: 
-    cli (>= 3.4.0),
-    dismo (>= 1.3-3),
+    cli (>= 3.4.1),
+    dismo (>= 1.3-9),
     gbm (>= 2.1.5),
     ggplot2 (>= 3.3.1),
     jsonlite (>= 1.6),
@@ -32,11 +32,11 @@ Imports:
     methods,
     nnet (>= 7.3-12),
     randomForest (>= 4.6-14),
-    raster (>= 2.9-5),
     Rcpp (>= 1.0.1),
     rlang (>= 0.4.5),
     rstudioapi (>= 0.10),
     stringr (>= 1.4.0),
+    terra (>= 1.6-47),
     whisker (>= 0.3-2)
 Encoding: UTF-8
 LazyData: true
@@ -51,11 +51,12 @@ Suggests:
     maps (>= 3.3.0),
     pkgdown (>= 1.5.0),
     plotROC (>= 2.2.1),
+    raster (>= 2.9-5),
     rasterVis (>= 0.50),
     reshape2 (>= 1.4.3),
     rgdal (>= 1.4-4),
     rJava (>= 0.9-11),
-    rmarkdown (>= 2.7),
+    rmarkdown (>= 2.16),
     scales (>= 1.0.0),
     testthat (>= 3.1.4),
     withr (>= 2.5.0),

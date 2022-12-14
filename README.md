@@ -44,13 +44,13 @@ devtools::install_github("ConsBiol-unibern/SDMtune")
 
 **SDMtune** implements three functions for hyperparameters tuning:
 
--   `gridSearch`: runs all the possible combinations of predefined
-    hyperparameters’ values;
--   `randomSearch`: randomly selects a fraction of the possible
-    combinations of predefined hyperparameters’ values;
--   `optimizeModel`: uses a *genetic algorithm* that aims to optimize
-    the given evaluation metric by combining the predefined
-    hyperparameters’ values.
+- `gridSearch`: runs all the possible combinations of predefined
+  hyperparameters’ values;
+- `randomSearch`: randomly selects a fraction of the possible
+  combinations of predefined hyperparameters’ values;
+- `optimizeModel`: uses a *genetic algorithm* that aims to optimize the
+  given evaluation metric by combining the predefined hyperparameters’
+  values.
 
 When the amount of hyperparameters’ combinations is high, the
 computation time necessary to train all the defined models could be very
@@ -127,9 +127,9 @@ sdmtune_model <- train(method = "Maxent", data = data)
 
 We compare the execution time of the `predict` function between
 **SDMtune** that uses its own algorithm and **dismo** (Hijmans et al.
-2017) that calls the MaxEnt Java software (Steven J. Phillips, Anderson,
-and Schapire 2006). We first convert the object `sdmtune_model` in a
-object that is accepted by **dismo**:
+2017) that calls the MaxEnt Java software (Phillips, Anderson, and
+Schapire 2006). We first convert the object `sdmtune_model` in a object
+that is accepted by **dismo**:
 
 ``` r
 maxent_model <- SDMmodel2MaxEnt(sdmtune_model)
@@ -174,21 +174,27 @@ ggplot(bench, aes(x = expr, y = time/1000000, fill = expr)) +
 
 To train a **Maxent** model using the Java implementation you need that:
 
--   the **Java JDK** software is installed;
--   the package **rJava** is installed;
--   the file **maxent.jar** is copied in the correct folder.
+- the **Java JDK** software is installed
+- the package **rJava** is installed
 
-The file **maxent.jar** can be downloaded
-[here](https://biodiversityinformatics.amnh.org/open_source/maxent/)
-(note that you need **MaxEnt** version \>= 3.4.1 (Steven J. Phillips et
-al. 2017)). This file must be copied into the right folder to be
-available for the `dismo` package (Hijmans et al. 2017): copy the file
-**maxent.jar** into the folder named **java** that is located inside the
-folder returned by the following command:
+You can check the version of MaxEnt used by `dismo` with the following
+command:
+
+``` r
+dismo::maxent()
+```
+
+The MaxEnt `jar` file used by `dismo` is located in the folder returned
+by the following command:
 
 ``` r
 system.file(package="dismo")
 ```
+
+In case you want to upgrade to a newer version of MaxEnt (if available),
+download the file **maxent.jar**
+[here](https://biodiversityinformatics.amnh.org/open_source/maxent/) and
+replace the file already present in the previous folder.
 
 The function `checkMaxentInstallation` checks that Java JDK and rJava
 are installed, and that the file maxent.jar is in the correct folder.
@@ -197,13 +203,8 @@ are installed, and that the file maxent.jar is in the correct folder.
 checkMaxentInstallation()
 ```
 
-If everything is correctly configured for `dismo`, the following command
-will return the used MaxEnt version (make sure that the version is \>=
-3.4.1):
-
-``` r
-dismo::maxent()
-```
+If everything is correctly configured for `dismo`, the command
+`dismo::maxent()` will return the new MaxEnt version.
 
 ## Code of conduct
 
@@ -220,15 +221,6 @@ By contributing to this project, you agree to abide by its terms.
 Hijmans, Robert J., Steven Phillips, John Leathwick, and Jane Elith.
 2017. “<span class="nocase">dismo: Species Distribution Modeling. R
 package version 1.1-4</span>.” https://cran.r-project.org/package=dismo.
-
-</div>
-
-<div id="ref-Phillips2017a" class="csl-entry">
-
-Phillips, Steven J., Robert P. Anderson, Miroslav Dudík, Robert E.
-Schapire, and Mary E. Blair. 2017. “Opening the Black Box: An
-Open-Source Release of Maxent.” *Ecography* 40 (7): 887–93.
-https://doi.org/<https://doi.org/10.1111/ecog.03049>.
 
 </div>
 

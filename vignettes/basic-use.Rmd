@@ -40,9 +40,9 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     full.names = TRUE)
 ```
 
-We convert these files in a `raster stack` object that will be used later in the analysis:
-```{r create raster stack}
-predictors <- raster::stack(files)
+We convert these files in a `raster` object that will be used later in the analysis:
+```{r create raster object}
+predictors <- terra::rast(files)
 ```
 
 There are nine environmental variables, eight continuous and one categorical:
@@ -291,7 +291,7 @@ By default Maxent models are trained using the arguments *"removeduplicates=fals
 New locations are predicted with the function `predict`. The function takes three main arguments:
 
 * a trained model given as `SDMmodel` object;
-* a new dataset, used to make prediction (can be a `data.frame`, an `SWD` object or a raster `stack` object);
+* a new dataset, used to make prediction (can be a `data.frame`, an `SWD` object or a raster object);
 * the output type, that for **Maxent** models can be: **raw**, **logistic** or **cloglog**.
 
 Next we get the prediction for our training locations using the **cloglog** output type:
@@ -321,7 +321,7 @@ For models trained with the **Maxent**  method, the function performs the predic
 
 ## Create a distribution map
 
-We can use the same function to create a distribution map starting from the `predictors` raster `stack' object:
+We can use the same function to create a distribution map starting from the `predictors` raster object:
 
 ```{r predict raster}
 map <- predict(model, 
@@ -329,7 +329,7 @@ map <- predict(model,
                type = "cloglog")
 ```
 
-In this case the output is a `raster` object:
+In this case the output is a raster object:
 
 ```{r print raster output}
 map
@@ -353,8 +353,8 @@ The function `predict` has other arguments useful when predicting large datasets
 In the next example we restrict the prediction to Chile and plot the prediction:
 
 ```{r exercise}
-# First create the extent that surrounds Cile
-e = raster::extent(c(-77, -60, -56, -15))
+# First create the extent that surrounds Chile
+e = terra::ext(c(-77, -60, -56, -15))
 # Now use the extent to make the prediction
 map_e <- predict(model, 
                  data = predictors, 
@@ -437,7 +437,7 @@ tss(model)
 
 ## AICc
 
-For the AICc we use the function `aicc`. In this case we need to pass to the `env` argument the `predictors` raster `stack` object:
+For the AICc we use the function `aicc`. In this case we need to pass to the `env` argument the `predictors` raster object:
 ```{r aicc}
 aicc(model, 
      env = predictors)
@@ -574,11 +574,12 @@ model <- train(method = "Maxent",
 Environmental block using the package `blockCV`:
 ```{r blockCV}
 library(blockCV)
-library(raster)
 # Create spatial points data frame
-sp_df <- SpatialPointsDataFrame(data@coords,
-                                data = as.data.frame(data@pa),
-                                proj4string = crs(predictors))
+sp_df <- sp::SpatialPointsDataFrame(
+  coords = data@coords, 
+  data = as.data.frame(data@pa), 
+  proj4string = sp::CRS(terra::crs(predictors))
+)
 
 e_folds <- envBlock(rasterLayer = predictors, 
                     speciesData = sp_df,

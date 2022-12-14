@@ -1,11 +1,3 @@
-# The function warns if some locations are discarded
-
-    ! 1 location is NA for some environmental variables and has been discarded
-
----
-
-    ! 2 locations are NA for some environmental variables and have been discarded
-
 # The function raises errors
 
     ! `env` must be a <SpatRaster> object

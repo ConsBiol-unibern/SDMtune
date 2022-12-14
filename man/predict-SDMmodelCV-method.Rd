@@ -11,7 +11,9 @@
   type = NULL,
   clamp = TRUE,
   filename = "",
-  format = "GTiff",
+  format = "",
+  overwrite = FALSE,
+  wopt = list(),
   extent = NULL,
   progress = TRUE,
   ...
@@ -20,10 +22,10 @@
 \arguments{
 \item{object}{\linkS4class{SDMmodelCV} object.}
 
-\item{data}{data.frame, \linkS4class{SWD} or raster \link[raster]{stack} with
+\item{data}{data.frame, \linkS4class{SWD} or raster \link[terra]{rast} with
 the data for the prediction.}
 
-\item{fun}{character. function used to combine the output of the k models.
+\item{fun}{character. Function used to combine the output of the k models.
 Note that fun is a character argument, you must use \code{"mean"} and not \code{mean}.
 You can also pass a vector of character containing multiple function names,
 see details.}
@@ -34,26 +36,26 @@ see details.}
 \item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
 and \strong{Maxnet} methods.}
 
-\item{filename}{character. Output file name for the prediction map, used only
-when \code{data} is a \link[raster]{stack} object. If provided the output is saved
-in a file, see details.}
+\item{filename}{character. If provided the raster map is saved in a file. It
+must include the extension.}
 
-\item{format}{character. The output format, see \link[raster]{writeRaster}
-for all the options.}
+\item{format}{character. Deprecated.}
 
-\item{extent}{\link[raster]{extent} object, if provided it restricts the
+\item{overwrite}{logical. If \code{TRUE} an existing file is overwritten.}
+
+\item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
+
+\item{extent}{\link[terra]{ext} object, if provided it restricts the
 prediction to the given extent.}
 
-\item{progress}{logical, if \code{TRUE} shows a progress bar during prediction for
-models trained with cross validation.}
+\item{progress}{logical. If \code{TRUE} shows a progress bar during prediction.}
 
-\item{...}{Additional arguments to pass to the \link[raster]{writeRaster}
+\item{...}{Additional arguments to pass to the \link[terra]{predict}
 function.}
 }
 \value{
-A vector with the prediction or a \link[raster]{raster} object if
-data is a raster \link[raster]{stack} or a list in the case of multiple
-functions.
+A vector with the prediction or a \link[terra]{rast} object if data
+is a \link[terra]{rast} or a list in the case of multiple functions.
 }
 \description{
 Predict the output for a new dataset given a trained \linkS4class{SDMmodelCV}
@@ -62,8 +64,8 @@ of the k models.
 }
 \details{
 \itemize{
-\item filename, format, extent, and ... arguments are used only when the
-prediction is done for a \link[raster]{stack} object.
+\item filename, and extent are arguments used only when the prediction is run for
+a \link[terra]{rast} object.
 \item When a character vector is passed to the \code{fun} argument, than all the
 given functions are applied and a named list is returned, see examples.
 \item When \code{filename} is provided and the \code{fun} argument contains more than one
@@ -88,43 +90,64 @@ trees defined to train the model and the "response" output type.
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Create 4 random folds splitting only the presence data
-folds <- randomFolds(data, k = 4, only_presence = TRUE)
-model <- train(method = "Maxnet", data = data, fc = "l", folds = folds)
+folds <- randomFolds(data,
+                     k = 4,
+                     only_presence = TRUE)
 
-# Make cloglog prediction for the all study area and get the result as
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "l",
+               folds = folds)
+
+# Make cloglog prediction for the whole study area and get the result as
 # average of the k models
-predict(model, data = predictors, fun = "mean", type = "cloglog")
+predict(model,
+        data = predictors,
+        fun = "mean",
+        type = "cloglog")
 
-# Make cloglog prediction for the all study area, get the average, standard
+# Make cloglog prediction for the whole study area, get the average, standard
 # deviation, and maximum values of the k models, and save the output in three
 # files
 \dontrun{
-# The following commands save the output in the working directory
-maps <- predict(model, data = predictors, fun = c("mean", "sd", "max"),
-                type = "cloglog", filename = "prediction")
+# The following commands save the output in the working directory. Note that
+# the filename must include the extension
+maps <- predict(model,
+                data = predictors,
+                fun = c("mean", "sd", "max"),
+                type = "cloglog",
+                filename = "prediction.tif")
+
 # In this case three files are created: prediction_mean.tif,
 # prediction_sd.tif and prediction_max.tif
-
 plotPred(maps$mean)
 plotPred(maps$sd)
 plotPred(maps$max)
 
-# Make logistic prediction for the all study area, given as standard
+# Make logistic prediction for the whole study area, given as standard
 # deviation of the k models, and save it in a file
-predict(model, data = predictors, fun = "sd", type = "logistic",
-        filename = "my_map")
+predict(model,
+        data = predictors,
+        fun = "sd",
+        type = "logistic",
+        filename = "my_map.tif")
 }
 }
 }

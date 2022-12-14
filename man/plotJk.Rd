@@ -26,34 +26,49 @@ Plot the Jackknife Test for variable importance.
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+datasets <- trainValTest(data,
+                         test = 0.2,
+                         only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", data = train, fc = "lq")
+model <- train(method = "Maxnet",
+               data = train,
+               fc = "lq")
 
 # Execute the Jackknife test for all the environmental variables using the
 # metric AUC
-jk <- doJk(model, metric = "auc", test = test)
+jk <- doJk(model,
+           metric = "auc",
+           test = test)
 
 # Plot Jackknife test result for training
-plotJk(jk, type = "train", ref = auc(model))
+plotJk(jk,
+       type = "train",
+       ref = auc(model))
 
 #' # Plot Jackknife test result for testing
-plotJk(jk, type = "test", ref = auc(model, test = test))
+plotJk(jk,
+       type = "test",
+       ref = auc(model, test = test))
 }
 }
 \author{

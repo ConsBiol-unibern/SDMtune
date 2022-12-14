@@ -14,7 +14,7 @@ plotPred(map, lt = "", colorramp = NULL, hr = FALSE)
 \item{colorramp}{vector. A custom colour ramp given as a vector of colours
 (see example), default is \code{NULL} and uses a blue/red colour ramp.}
 
-\item{hr}{logical, if \code{TRUE} produces an output with high resolution.}
+\item{hr}{logical. If \code{TRUE} produces an output with high resolution.}
 }
 \value{
 A \link[ggplot2]{ggplot} object.
@@ -24,10 +24,16 @@ Plot Prediction output.
 }
 \examples{
 \donttest{
-map <- raster::raster(matrix(runif(400, 0, 1), 20, 20))
-plotPred(map, lt = "Habitat suitability \ncloglog")
+map <- terra::rast(matrix(runif(400, 0, 1),
+                          nrow = 20,
+                          ncol= 20))
+
+plotPred(map,
+         lt = "Habitat suitability \ncloglog")
+
 # Custom colors
-plotPred(map, lt = "Habitat suitability",
+plotPred(map,
+         lt = "Habitat suitability",
          colorramp = c("#2c7bb6", "#ffffbf", "#d7191c"))
 }
 }

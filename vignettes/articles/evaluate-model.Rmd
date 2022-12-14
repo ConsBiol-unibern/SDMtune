@@ -16,7 +16,7 @@ default_model <- SDMtune:::bm_maxent
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
                     pattern = "grd", 
                     full.names = TRUE)
-predictors <- raster::stack(files)
+predictors <- terra::rast(files)
 ```
 
 ## Intro
@@ -58,7 +58,7 @@ tss(default_model)
 
 ## AICc
 
-For the AICc we use the function `aicc()`. In this case we need to pass to the `env` argument the 'predictors' raster `stack` object that we created in the [first article](./prepare-data.html#acquire-environmental-variables):
+For the AICc we use the function `aicc()`. In this case we need to pass to the `env` argument the 'predictors' raster object that we created in the [first article](./prepare-data.html#acquire-environmental-variables):
 ```{r aicc}
 aicc(default_model, 
      env = predictors)

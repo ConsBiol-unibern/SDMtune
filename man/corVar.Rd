@@ -21,10 +21,10 @@ correlation between environmental variables.}
 \item{cor_th}{numeric. If provided it prints only the variables whose
 correlation coefficient is higher or lower than the given threshold.}
 
-\item{order}{logical, if \code{TRUE} the variable are ordered from the most to the
+\item{order}{logical. If \code{TRUE} the variable are ordered from the most to the
 less highly correlated.}
 
-\item{remove_diagonal}{logical, if \code{TRUE} the values in the diagonal are,
+\item{remove_diagonal}{logical. If \code{TRUE} the values in the diagonal are
 removed.}
 }
 \value{
@@ -37,22 +37,34 @@ correlation coefficient value.
 \examples{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare background locations
-bg_coords <- dismo::randomPoints(predictors, 10000)
+bg_coords <- terra::spatSample(predictors,
+                               size = 10000,
+                               method = "random",
+                               na.rm = TRUE,
+                               xy = TRUE,
+                               values = FALSE)
 
 # Create SWD object
-bg <- prepareSWD(species = "Virtual species", a = bg_coords,
-                 env = predictors, categorical = "biome")
+bg <- prepareSWD(species = "Virtual species",
+                 a = bg_coords,
+                 env = predictors,
+                 categorical = "biome")
 
 # Get the correlation among all the environmental variables
-corVar(bg, method = "spearman")
+corVar(bg,
+       method = "spearman")
 
 # Get the environmental variables that have a correlation greater or equal to
 # the given threshold
-corVar(bg, method = "pearson", cor_th = 0.8)
+corVar(bg,
+       method = "pearson",
+       cor_th = 0.8)
 }
 \author{
 Sergio Vignali

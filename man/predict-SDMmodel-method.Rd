@@ -10,7 +10,9 @@
   type = NULL,
   clamp = TRUE,
   filename = "",
-  format = "GTiff",
+  overwrite = FALSE,
+  wopt = list(),
+  format = "",
   extent = NULL,
   progress = "",
   ...
@@ -19,8 +21,8 @@
 \arguments{
 \item{object}{\linkS4class{SDMmodel} object.}
 
-\item{data}{data.frame, \linkS4class{SWD} or \link[raster]{stack} with the
-data for the prediction.}
+\item{data}{data.frame, \linkS4class{SWD} or \link[terra]{rast} with the data
+for the prediction.}
 
 \item{type}{character. Output type, see details, used only for \strong{Maxent} and
 \strong{Maxnet} methods.}
@@ -28,25 +30,26 @@ data for the prediction.}
 \item{clamp}{logical for clumping during prediction, used only for \strong{Maxent}
 and \strong{Maxnet} methods.}
 
-\item{filename}{character. Output file name for the prediction map, used only
-when \code{data} is a \link[raster]{stack} object. If provided the output is saved
-in a file.}
+\item{filename}{character. If provided the raster map is saved in a file. It
+must include the extension.}
 
-\item{format}{character. The output format, see \link[raster]{writeRaster}
-for all the options.}
+\item{overwrite}{logical. If \code{TRUE} an existing file is overwritten.}
 
-\item{extent}{\link[raster]{extent} object, if provided it restricts the
+\item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
+
+\item{format}{character. Deprecated.}
+
+\item{extent}{\link[terra]{ext} object, if provided it restricts the
 prediction to the given extent.}
 
-\item{progress}{character to display a progress bar: "text", "window" or ""
-(default) for no progress bar.}
+\item{progress}{character, deprecated.}
 
-\item{...}{Additional arguments to pass to the \link[raster]{writeRaster}
+\item{...}{Additional arguments to pass to the \link[terra]{predict}
 function.}
 }
 \value{
-A vector with the prediction or a \link[raster]{raster} object if
-data is a raster \link[raster]{stack}.
+A vector with the prediction or a \link[terra]{rast} object if
+data is a raster \link[terra]{rast}.
 }
 \description{
 Predict the output for a new dataset given a trained \linkS4class{SDMmodel}
@@ -54,8 +57,8 @@ model.
 }
 \details{
 \itemize{
-\item filename, format, extent, progress, and ... are arguments used only when
-the prediction is done for a \link[raster]{stack} object.
+\item filename, and extent are arguments used only when the prediction is run for
+a \link[terra]{rast} object.
 \item For models trained with the \strong{Maxent} method the argument \code{type} can be:
 "raw", "logistic" and "cloglog". The function performs the prediction in
 \strong{R} without calling the \strong{MaxEnt} Java software. This results in a faster
@@ -75,35 +78,52 @@ trees defined to train the model and the "response" output type.
 \examples{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+datasets <- trainValTest(data,
+                         test = 0.2,
+                         only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a model
-model <- train(method = "Maxnet", data = train, fc = "l")
+model <- train(method = "Maxnet",
+               data = train,
+               fc = "l")
 
 # Make cloglog prediction for the test dataset
-predict(model, data = test, type = "cloglog")
+predict(model,
+        data = test,
+        type = "cloglog")
 
-# Make logistic prediction for the all study area
-predict(model, data = predictors, type = "logistic")
+# Make logistic prediction for the whole study area
+predict(model,
+        data = predictors,
+        type = "logistic")
 
 \dontrun{
-# Make logistic prediction for the all study area and save it in a file
-# The function saves the file in your working directory
-predict(model, data = predictors, type = "logistic", filename = "my_map")
+# Make logistic prediction for the whole study area and save it in a file.
+# Note that the filename must include the extension. The function saves the
+# file in your working directory
+predict(model,
+        data = predictors,
+        type = "logistic",
+        filename = "my_map.tif")
 }
 }
 \references{

@@ -3,7 +3,9 @@ skip_on_cran()
 test_that("The function trainANN produces the correct ouput", {
   data <- SDMtune:::t
   data@data <- data@data[, 1:4]
-  m <- trainANN(data = data, size = 10)
+  m <- trainANN(data = data,
+                size = 10)
+
   expect_s4_class(m, "SDMmodel")
   expect_s4_class(m@model, "ANN")
   expect_s4_class(m@data, "SWD")

@@ -3,8 +3,11 @@ skip_on_cran()
 model <- SDMtune:::bm_maxent
 maxent_model <- SDMmodel2MaxEnt(model)
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-env <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+env <- terra::rast(files)
+env_raster <- raster::stack(files)
 data <- data_cont <- data_cat <- SDMtune:::t
 # Remove categoriacal variable
 data_cont@data <- data@data[, 1:7]
@@ -30,8 +33,16 @@ test_that("The function predicts raw correctly", {
 })
 
 test_that("The function predicts raster correctly", {
-  expect_equal(predict(model, env, type = "cloglog"),
-               predict(maxent_model, env, args = "outputformat=cloglog"),
+  # TODO: change when dismo will use terra
+  expect_equal(predict(model, env, type = "cloglog") |>
+                 terra::as.data.frame(na.rm = TRUE) |>
+                 unlist() |>
+                 unname(),
+               predict(maxent_model, env_raster,
+                       args = "outputformat=cloglog") |>
+                 raster::as.data.frame(na.rm = TRUE) |>
+                 unlist() |>
+                 unname(),
                tolerance = 1e-7)
 })
 

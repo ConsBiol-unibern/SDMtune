@@ -9,7 +9,7 @@ aicc(model, env)
 \arguments{
 \item{model}{\linkS4class{SDMmodel} object.}
 
-\item{env}{\link[raster]{stack} containing the environmental variables.}
+\item{env}{\link[terra]{rast} containing the environmental variables.}
 }
 \value{
 The computed AICc
@@ -25,22 +25,30 @@ methods.
 \examples{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                   full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Train a model
-model <- train(method = "Maxnet", data = data, fc = "l")
+model <- train(method = "Maxnet",
+               data = data,
+               fc = "l")
 
 # Compute the AICc
-aicc(model, predictors)
+aicc(model,
+     env = predictors)
 }
 \references{
 Warren D.L., Seifert S.N., (2011). Ecological niche modeling in

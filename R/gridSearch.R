@@ -10,14 +10,14 @@
 #' values are: "auc", "tss" and "aicc".
 #' @param test \linkS4class{SWD} object. Testing dataset used to evaluate the
 #' model, not used with \link{aicc} and \linkS4class{SDMmodelCV} objects.
-#' @param env \link[raster]{stack} containing the environmental variables, used
+#' @param env \link[terra]{rast} containing the environmental variables, used
 #' only with "aicc".
-#' @param save_models logical, if `FALSE` the models are not saved and the
+#' @param save_models logical. If `FALSE` the models are not saved and the
 #' output contains only a data frame with the metric values for each
 #' hyperparameter combination. Set it to `FALSE` when there are many
 #' combinations to avoid R crashing for memory overload.
-#' @param interactive logical, if `FALSE` the interactive chart is not created.
-#' @param progress logical, if `TRUE` shows a progress bar.
+#' @param interactive logical. If `FALSE` the interactive chart is not created.
+#' @param progress logical. If `TRUE` shows a progress bar.
 #'
 #' @details
 #' To know which hyperparameters can be tuned you can use the output
@@ -38,39 +38,56 @@
 #' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+#' datasets <- trainValTest(data,
+#'                          test = 0.2,
+#'                          only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", data = train, fc = "l")
+#' model <- train(method = "Maxnet",
+#'                data = train,
+#'                fc = "l")
 #'
 #' # Define the hyperparameters to test
-#' h <- list(reg = 1:2, fc = c("lqp", "lqph"))
+#' h <- list(reg = 1:2,
+#'           fc = c("lqp", "lqph"))
 #'
 #' # Run the function using the AUC as metric
-#' output <- gridSearch(model, hypers = h, metric = "auc", test = test)
+#' output <- gridSearch(model,
+#'                      hypers = h,
+#'                      metric = "auc",
+#'                      test = test)
 #' output@results
 #' output@models
+#'
 #' # Order rusults by highest test AUC
 #' head(output@results[order(-output@results$test_AUC), ])
 #'
 #' # Run the function using the AICc as metric and without saving the trained
 #' # models, helpful when numerous hyperparameters are tested to avoid memory
 #' # problems
-#' output <- gridSearch(model, hypers = h, metric = "aicc", env = predictors,
+#' output <- gridSearch(model,
+#'                      hypers = h,
+#'                      metric = "aicc",
+#'                      env = predictors,
 #'                      save_models = FALSE)
 #' output@results
 #' }
@@ -89,6 +106,20 @@ gridSearch <- function(model,
 
   # Check that arguments are correctly provided
   .check_args(model, metric, test, env, hypers)
+
+  if (!is.null(env)) {
+    # TODO: Remove with version 2.0.0
+    if (inherits(env, "Raster")) {
+      .warn_raster("raster", "rast")
+      env <- terra::rast(env)
+    }
+
+    if (!inherits(env, "SpatRaster"))
+      cli::cli_abort(c(
+        "!" = "{.var env} must be a {.cls SpatRaster} object",
+        "x" = "You have supplied a {.cls {class(env)}} instead."
+      ))
+  }
 
   if (inherits(model, "SDMmodelCV"))
     test <- TRUE
@@ -171,5 +202,5 @@ gridSearch <- function(model,
   if (progress)
     cli::cli_progress_update()
 
-  return(o)
+  o
 }

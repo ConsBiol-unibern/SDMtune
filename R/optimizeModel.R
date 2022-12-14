@@ -12,7 +12,7 @@
 #' the model, not used with aicc and \linkS4class{SDMmodelCV} objects.
 #' @param pop numeric. Size of the population.
 #' @param gen numeric. Number of generations.
-#' @param env \link[raster]{stack} containing the environmental variables, used
+#' @param env \link[terra]{rast} containing the environmental variables, used
 #' only with "aicc".
 #' @param keep_best numeric. Percentage of the best models in the population to
 #' be retained during each iteration, expressed as decimal number.
@@ -20,8 +20,8 @@
 #' during each iteration, expressed as decimal number.
 #' @param mutation_chance numeric. Probability of mutation of the child models,
 #' expressed as decimal number.
-#' @param interactive logical, if `FALSE` the interactive chart is not created.
-#' @param progress logical, if `TRUE` shows a progress bar.
+#' @param interactive logical. If `FALSE` the interactive chart is not created.
+#' @param progress logical. If `TRUE` shows a progress bar.
 #' @param seed numeric. The value used to set the seed to have consistent
 #' results.
 #'
@@ -46,25 +46,34 @@
 #' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(data, val = 0.2, test = 0.2, only_presence = TRUE,
+#' datasets <- trainValTest(data,
+#'                          val = 0.2,
+#'                          test = 0.2,
+#'                          only_presence = TRUE,
 #'                          seed = 61516)
 #' train <- datasets[[1]]
 #' val <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train("Maxnet", data = train)
+#' model <- train("Maxnet",
+#'                data = train)
 #'
 #' # Define the hyperparameters to test
 #' h <- list(reg = seq(0.2, 5, 0.2),
@@ -72,8 +81,13 @@
 #'
 #' # Run the function using as metric the AUC
 #' \dontrun{
-#' output <- optimizeModel(model, hypers = h, metric = "auc", test = val,
-#'                         pop = 15, gen = 2, seed = 798)
+#' output <- optimizeModel(model,
+#'                         hypers = h,
+#'                         metric = "auc",
+#'                         test = val,
+#'                         pop = 15,
+#'                         gen = 2,
+#'                         seed = 798)
 #' output@results
 #' output@models
 #' output@models[[1]]  # Best model
@@ -102,6 +116,20 @@ optimizeModel <- function(model,
   .check_args(model, metric, test, env, hypers)
   # Check if at least two hyperparameters have more than one value
   .check_optimize_args(hypers, grid, pop, keep_best, keep_random)
+
+  if (!is.null(env)) {
+    # TODO: Remove with version 2.0.0
+    if (inherits(env, "Raster")) {
+      .warn_raster("raster", "rast")
+      env <- terra::rast(env)
+    }
+
+    if (!inherits(env, "SpatRaster"))
+      cli::cli_abort(c(
+        "!" = "{.var env} must be a {.cls SpatRaster} object",
+        "x" = "You have supplied a {.cls {class(env)}} instead."
+      ))
+  }
 
   if (inherits(model, "SDMmodelCV"))
     test <- TRUE
@@ -348,7 +376,7 @@ optimizeModel <- function(model,
   if (progress)
     cli::cli_progress_update()
 
-  return(output)
+  output
 }
 
 .breed <- function(mother,
@@ -379,9 +407,7 @@ optimizeModel <- function(model,
   if (inherits(mother, "SDMmodelCV"))
     model_args$progress <- FALSE
 
-  new_model <- do.call("train", model_args)
-
-  return(new_model)
+  do.call("train", model_args)
 }
 
 .check_optimize_args <- function(hypers,
@@ -443,5 +469,6 @@ optimizeModel <- function(model,
     # Combine indexes
     index <- c(good_models, bad_models)
   }
-  return(index)
+
+  index
 }

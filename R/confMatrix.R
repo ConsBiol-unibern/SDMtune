@@ -5,7 +5,7 @@
 #' @param model \linkS4class{SDMmodel} object.
 #' @param test \linkS4class{SWD} testing locations, if not provided it uses the
 #' training dataset.
-#' @param th numeric vector, if provided it computes the evaluation at the given
+#' @param th numeric vector. If provided it computes the evaluation at the given
 #' thresholds. Default is `NULL` and it computes the evaluation for the unique
 #' predicted values at presence and absence/background locations.
 #' @param type character. The output type used for "Maxent" and "Maxnet"
@@ -26,27 +26,37 @@
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", data = data, fc = "l")
+#' model <- train(method = "Maxnet",
+#'                data = data,
+#'                fc = "l")
 #'
 #' # Get the confusion matrix for thresholds ranging from 0 to 1
-#' cm <- confMatrix(model, type = "cloglog")
+#' cm <- confMatrix(model,
+#'                  type = "cloglog")
 #' head(cm)
 #' tail(cm)
 #'
 #' # Get the confusion matrix for a specific threshold
-#' confMatrix(model, type = "logistic", th = 0.6)
+#' confMatrix(model,
+#'            type = "logistic",
+#'            th = 0.6)
 confMatrix <- function(model,
                        test = NULL,
                        th = NULL,
@@ -71,7 +81,9 @@ confMatrix <- function(model,
 
   n_p <- sum(data@pa == 1)
   n_a <- sum(data@pa == 0)
-  pred <- predict(model, data, type = type)
+  pred <- predict(model,
+                  data,
+                  type = type)
   p_pred <- pred[1:n_p]
   a_pred <- pred[(n_p + 1):(n_p + n_a)]
 
@@ -89,7 +101,11 @@ confMatrix <- function(model,
 
   fn <- n_p - tp
   tn <- n_a - fp
-  conf_matrix <- data.frame(th = th, tp = tp, fp = fp, fn = fn, tn = tn)
 
-  return(conf_matrix)
+  data.frame(th = th,
+             tp = tp,
+             fp = fp,
+             fn = fn,
+             tn = tn)
+
 }

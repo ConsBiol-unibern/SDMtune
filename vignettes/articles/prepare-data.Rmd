@@ -35,9 +35,9 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     full.names = TRUE)
 ```
 
-We convert the files in a [raster stack](https://www.rdocumentation.org/packages/raster/versions/2.8-19/topics/stack) object that will be used later in the analysis:
-```{r create raster stack}
-predictors <- raster::stack(files)
+We convert the files in a [raster](https://www.rdocumentation.org/packages/terra/versions/1.6-17/topics/rast) object that will be used later in the analysis:
+```{r create raster object}
+predictors <- terra::rast(files)
 ```
 
 There are nine environmental variables, eight continuous and one categorical:
@@ -206,7 +206,7 @@ swd2csv(data, file_name = c("presence.csv", "background.csv"))
 
 In this article you have learned:
 
-* how to create a raster `stack` object;
+* how to create a raster object;
 * how to plot a raster object using the `gplot` function included in the `rasterVis` package;
 * how to plot locations using the `ggplot` and the `maps` packages;
 * how to create an `SWD()` objects;

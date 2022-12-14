@@ -1,7 +1,10 @@
 skip_on_cran()
 
 test_that("The function trainMaxent produces the correct ouput", {
-  m <- trainMaxnet(data = SDMtune:::t, reg = 1.2, fc = "l")
+  m <- trainMaxnet(data = SDMtune:::t,
+                   reg = 1.2,
+                   fc = "l")
+
   expect_s4_class(m, "SDMmodel")
   expect_s4_class(m@model, "Maxnet")
   expect_s4_class(m@data, "SWD")

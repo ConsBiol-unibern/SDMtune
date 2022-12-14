@@ -25,3 +25,13 @@
 
     Optimization algorithm interrupted at generation 0 because it overfits validation dataset.
 
+# The function raises errors
+
+    ! `env` must be a <SpatRaster> object
+    x You have supplied a <character> instead.
+
+# The function warns if a raster object is used
+
+    ! <raster> objects will not be accepted in future releases
+    i SDMtune now uses terra to handle spatial data. See function `terra::rast()` to migrate.
+

@@ -71,3 +71,8 @@
       * Number of trees: 200
       * Node size: 1
 
+# The function raises errors
+
+    ! Argument `factors` is deprecated
+    x Please check terra documentation to see how to use factors.
+

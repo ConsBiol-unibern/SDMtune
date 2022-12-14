@@ -23,7 +23,7 @@ maxnet_model <- train("Maxnet", data = train)
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
                     pattern = "grd", 
                     full.names = TRUE)
-predictors <- raster::stack(files)
+predictors <- terra::rast(files)
 ```
 
 ## Intro
@@ -35,7 +35,13 @@ In the previous articles you have learned the core functions of **SDMtune** for 
 We extract 10000 background locations using the function  [randomPoints](https://www.rdocumentation.org/packages/dismo/versions/1.1-4/topics/randomPoints) included in the `dismo` package (we set the seed to have reproducible results). After we create an `SWD()` object using the `prepareSWD()` function:
 ```{r backgrounds, eval=FALSE}
 set.seed(25)
-bg <- dismo::randomPoints(predictors, 10000)
+bg <- terra::spatSample(predictors,
+                        size = 10000,
+                        method = "random",
+                        na.rm = TRUE,
+                        xy = TRUE,
+                        values = FALSE)
+
 bg <- prepareSWD(species = "Bgs", 
                  a = bg, 
                  env = predictors, 
@@ -43,7 +49,13 @@ bg <- prepareSWD(species = "Bgs",
 ```
 ```{r backgrounds output, echo=FALSE}
 set.seed(25)
-bg <- dismo::randomPoints(predictors, 10000)
+bg <- terra::spatSample(predictors,
+                        size = 10000,
+                        method = "random",
+                        na.rm = TRUE,
+                        xy = TRUE,
+                        values = FALSE)
+
 bg <- prepareSWD(species = "Bgs", 
                  a = bg, 
                  env = predictors, 

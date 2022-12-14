@@ -36,7 +36,7 @@ the model, not used with aicc and \linkS4class{SDMmodelCV} objects.}
 
 \item{gen}{numeric. Number of generations.}
 
-\item{env}{\link[raster]{stack} containing the environmental variables, used
+\item{env}{\link[terra]{rast} containing the environmental variables, used
 only with "aicc".}
 
 \item{keep_best}{numeric. Percentage of the best models in the population to
@@ -48,9 +48,9 @@ during each iteration, expressed as decimal number.}
 \item{mutation_chance}{numeric. Probability of mutation of the child models,
 expressed as decimal number.}
 
-\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+\item{interactive}{logical. If \code{FALSE} the interactive chart is not created.}
 
-\item{progress}{logical, if \code{TRUE} shows a progress bar.}
+\item{progress}{logical. If \code{TRUE} shows a progress bar.}
 
 \item{seed}{numeric. The value used to set the seed to have consistent
 results.}
@@ -77,25 +77,34 @@ Part of the code is inspired by
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, val = 0.2, test = 0.2, only_presence = TRUE,
+datasets <- trainValTest(data,
+                         val = 0.2,
+                         test = 0.2,
+                         only_presence = TRUE,
                          seed = 61516)
 train <- datasets[[1]]
 val <- datasets[[2]]
 
 # Train a model
-model <- train("Maxnet", data = train)
+model <- train("Maxnet",
+               data = train)
 
 # Define the hyperparameters to test
 h <- list(reg = seq(0.2, 5, 0.2),
@@ -103,8 +112,13 @@ h <- list(reg = seq(0.2, 5, 0.2),
 
 # Run the function using as metric the AUC
 \dontrun{
-output <- optimizeModel(model, hypers = h, metric = "auc", test = val,
-                        pop = 15, gen = 2, seed = 798)
+output <- optimizeModel(model,
+                        hypers = h,
+                        metric = "auc",
+                        test = val,
+                        pop = 15,
+                        gen = 2,
+                        seed = 798)
 output@results
 output@models
 output@models[[1]]  # Best model

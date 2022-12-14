@@ -4,7 +4,7 @@
 #'
 #' @param swd1 \linkS4class{SWD} object.
 #' @param swd2 \linkS4class{SWD} object.
-#' @param only_presence logical, if `TRUE` only for the presence locations are
+#' @param only_presence logical If `TRUE` only for the presence locations are
 #' merged and the absence/background locations are taken only from the `swd1`
 #' object.
 #'
@@ -22,28 +22,38 @@
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Split only presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+#' datasets <- trainValTest(data,
+#'                          test = 0.2,
+#'                          only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Merge the training and the testing datasets together
-#' merged <- mergeSWD(train, test, only_presence = TRUE)
+#' merged <- mergeSWD(train,
+#'                    test,
+#'                    only_presence = TRUE)
 #'
 #' # Split presence and absence locations in training (80%) and testing (20%)
 #' datasets
-#' datasets <- trainValTest(data, test = 0.2)
+#' datasets <- trainValTest(data,
+#'                          test = 0.2)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
@@ -106,5 +116,5 @@ mergeSWD <- function(swd1,
                 swd1@pa[swd1@pa == 0], swd2@pa[swd2@pa == 0])
   }
 
-  return(swd)
+  swd
 }

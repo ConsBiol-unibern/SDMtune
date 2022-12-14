@@ -1,10 +1,15 @@
 skip_on_cran()
 
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 folder <- "trash"
+
 test_that("All files are created", {
+
+  withr::defer(unlink(file.path(getwd(), folder), recursive = TRUE))
 
   modelReport(SDMtune:::bm_maxnet,
               type = "cloglog",
@@ -15,8 +20,6 @@ test_that("All files are created", {
               jk = TRUE,
               response_curves = TRUE,
               verbose = FALSE)
-
-  withr::defer(unlink(file.path(getwd(), folder), recursive = TRUE))
 
   expect_true(file.exists(file.path(folder, "train.csv")))
   expect_true(file.exists(file.path(folder, "test.csv")))
@@ -60,18 +63,32 @@ test_that("Settings are correct", {
 
   # Maxent with training and testing datasets and prediction
   expect_snapshot_output(.write_report_model_settings(params))
+
   # Maxnet without testing datasets and prediction
   params$model <- SDMtune:::bm_maxnet
   params$test <- NULL
   params$env <- NULL
   expect_snapshot_output(.write_report_model_settings(params))
+
   # ANN
   params$model <- m_ann
   expect_snapshot_output(.write_report_model_settings(params))
+
   # BRT
   params$model <- m_brt
   expect_snapshot_output(.write_report_model_settings(params))
+
   # RF
   params$model <- m_rf
   expect_snapshot_output(.write_report_model_settings(params))
+})
+
+# TODO: Remove with version 2.0.0
+test_that("The function raises errors", {
+  expect_snapshot_error(
+    modelReport(SDMtune:::bm_maxnet,
+                type = "cloglog",
+                folder = folder,
+                factors = "biome")
+  )
 })

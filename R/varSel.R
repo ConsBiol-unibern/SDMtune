@@ -17,18 +17,18 @@
 #' correlation between environmental variables.
 #' @param test \linkS4class{SWD}. Test dataset used to evaluate the model, not
 #' used with aicc and \linkS4class{SDMmodelCV} objects.
-#' @param env \link[raster]{stack} containing the environmental variables, used
+#' @param env \link[terra]{rast} containing the environmental variables, used
 #' only with "aicc".
 #' @param method character. The method used to compute the correlation matrix.
 #' @param cor_th numeric. The correlation threshold used to select highly
 #' correlated variables.
-#' @param permut integer, Number of permutations.
+#' @param permut integer. Number of permutations.
 #' @param use_pc logical, use percent contribution. If `TRUE` and the model is
 #' trained using the \linkS4class{Maxent} method, the algorithm uses the percent
 #' contribution computed by Maxent software to score the variable importance.
-#' @param interactive logical, if `FALSE` the interactive chart is not created.
-#' @param progress logical, if `TRUE` shows a progress bar.
-#' @param verbose logical, if `TRUE` prints informative messages.
+#' @param interactive logical. If `FALSE` the interactive chart is not created.
+#' @param progress logical. If `TRUE` shows a progress bar.
+#' @param verbose logical. If `TRUE` prints informative messages.
 #'
 #' @details
 #' An interactive chart showing in real-time the steps performed by the
@@ -47,36 +47,57 @@
 #' \donttest{
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-#'                     pattern = "grd", full.names = TRUE)
-#' predictors <- raster::stack(files)
+#'                     pattern = "grd",
+#'                     full.names = TRUE)
+#'
+#' predictors <- terra::rast(files)
 #'
 #' # Prepare presence and background locations
 #' p_coords <- virtualSp$presence
 #' bg_coords <- virtualSp$background
 #'
 #' # Create SWD object
-#' data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-#'                    env = predictors, categorical = "biome")
+#' data <- prepareSWD(species = "Virtual species",
+#'                    p = p_coords,
+#'                    a = bg_coords,
+#'                    env = predictors,
+#'                    categorical = "biome")
 #'
 #' # Split presence locations in training (80%) and testing (20%) datasets
-#' datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+#' datasets <- trainValTest(data,
+#'                          test = 0.2,
+#'                          only_presence = TRUE)
 #' train <- datasets[[1]]
 #' test <- datasets[[2]]
 #'
 #' # Train a model
-#' model <- train(method = "Maxnet", data = train, fc = "l")
+#' model <- train(method = "Maxnet",
+#'                data = train,
+#'                fc = "l")
 #'
 #' # Prepare background locations to test autocorrelation, this usually gives a
 #' # warning message given that less than 10000 points can be randomly sampled
-#' bg_coords <- dismo::randomPoints(predictors, 10000)
-#' bg <- prepareSWD(species = "Virtual species", a = bg_coords,
-#'                  env = predictors, categorical = "biome")
+#' bg_coords <- terra::spatSample(predictors,
+#'                                size = 9000,
+#'                                method = "random",
+#'                                na.rm = TRUE,
+#'                                xy = TRUE,
+#'                                values = FALSE)
+#'
+#' bg <- prepareSWD(species = "Virtual species",
+#'                  a = bg_coords,
+#'                  env = predictors,
+#'                  categorical = "biome")
 #'
 #' \dontrun{
 #' # Remove variables with correlation higher than 0.7 accounting for the AUC,
 #' # in the following example the variable importance is computed as permutation
 #' # importance
-#' vs <- varSel(model, metric = "auc", bg4cor = bg, test = test, cor_th = 0.7,
+#' vs <- varSel(model,
+#'              metric = "auc",
+#'              bg4cor = bg,
+#'              test = test,
+#'              cor_th = 0.7,
 #'              permut = 1)
 #' vs
 #'
@@ -84,21 +105,28 @@
 #' # in the following example the variable importance is the MaxEnt percent
 #' # contribution
 #' # Train a model
-#' # The next line checks if Maxent is correctly configured but you don't need
-#' # to run it in your script
-#' if (dismo::maxent(silent = TRUE)) {
-#' model <- train(method = "Maxent", data = train, fc = "l")
-#' vs <- varSel(model, metric = "tss", bg4cor = bg, test = test, cor_th = 0.7,
+#' model <- train(method = "Maxent",
+#'                data = train,
+#'                fc = "l")
+#'
+#' vs <- varSel(model,
+#'              metric = "tss",
+#'              bg4cor = bg,
+#'              test = test,
+#'              cor_th = 0.7,
 #'              use_pc = TRUE)
 #' vs
 #'
 #' # Remove variables with correlation higher than 0.7 accounting for the aicc,
 #' # in the following example the variable importance is the MaxEnt percent
 #' # contribution
-#' vs <- varSel(model, metric = "aicc", bg4cor = bg, cor_th = 0.7,
-#'              use_pc = TRUE, env = predictors)
+#' vs <- varSel(model,
+#'              metric = "aicc",
+#'              bg4cor = bg,
+#'              cor_th = 0.7,
+#'              use_pc = TRUE,
+#'              env = predictors)
 #' vs
-#' }
 #' }
 #' }
 varSel <- function(model,
@@ -121,6 +149,20 @@ varSel <- function(model,
   if (use_pc & .get_model_class(model) != "Maxent")
     cli::cli_abort(paste("Percent contribution cannot be used with",
                          "a {.cls { .get_model_class(model) }} model."))
+
+  if (!is.null(env)) {
+    # TODO: Remove with version 2.0.0
+    if (inherits(env, "Raster")) {
+      .warn_raster("raster", "rast")
+      env <- terra::rast(env)
+    }
+
+    if (!inherits(env, "SpatRaster"))
+      cli::cli_abort(c(
+        "!" = "{.var env} must be a {.cls SpatRaster} object",
+        "x" = "You have supplied a {.cls {class(env)}} instead."
+      ))
+  }
 
   if (inherits(model, "SDMmodelCV"))
     test <- TRUE
@@ -266,7 +308,8 @@ varSel <- function(model,
     }
   }
 
-  cli::cli_progress_done()
+  if (progress)
+    cli::cli_progress_done()
 
   removed_vars <- setdiff(initial_vars, colnames(model@data@data))
 
@@ -275,5 +318,5 @@ varSel <- function(model,
       "{?No/The/The} variable{?s} {.field {removed_vars}} {?has/have}",
       "been removed"))
 
-  return(model)
+  model
 }

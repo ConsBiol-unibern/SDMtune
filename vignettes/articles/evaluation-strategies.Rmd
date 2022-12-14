@@ -17,7 +17,7 @@ data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
                     pattern = "grd", 
                     full.names = T)
-predictors <- raster::stack(files)
+predictors <- terra::rast(files)
 ```
 
 ## Intro
@@ -171,12 +171,14 @@ model <- train(method = "Maxnet",
 Environmental block using the package `blockCV`:
 ```{r blockCV, eval=FALSE}
 library(blockCV)
-library(raster)
 
 # Create spatial points data frame
-sp_df <- SpatialPointsDataFrame(data@coords, 
-                                data = as.data.frame(data@pa), 
-                                proj4string = crs(predictors))
+sp_df <- sp::SpatialPointsDataFrame(
+  coords = data@coords, 
+  data = as.data.frame(data@pa), 
+  proj4string = sp::CRS(terra::crs(predictors))
+)
+
 e_folds <- envBlock(rasterLayer = predictors, 
                     speciesData = sp_df, 
                     species = "data@pa", 

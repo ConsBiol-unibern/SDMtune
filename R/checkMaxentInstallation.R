@@ -55,5 +55,5 @@ checkMaxentInstallation <- function(verbose = TRUE) {
     )
   }
 
-  return(is_ok)
+  is_ok
 }

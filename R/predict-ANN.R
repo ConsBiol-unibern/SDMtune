@@ -21,10 +21,13 @@ setGeneric("predict", function(object, ...)
 setMethod(
   f = "predict",
   signature = "ANN",
-  definition = function(object, data, type, clamp) {
+  definition = function(object,
+                        data,
+                        type,
+                        clamp) {
 
-    output <- predict(object@model, newdata = data, type = "raw")
-
-    return(output)
+    predict(object@model,
+            newdata = data,
+            type = "raw")
   }
 )

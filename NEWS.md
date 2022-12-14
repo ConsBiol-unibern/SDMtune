@@ -1,7 +1,11 @@
 # SDMtune 1.1.6.9000
-* `modelReport()`, `prepareSWD`, `reduceVariable()`, and `varSel()` gain the argument `verbose` to disable informative messages
+* `SDMtune` migrated to package `terra` to handle spatial data. Objects created with the package `raster` will not be supported in future releases
+* `SDMtune` has a new progress bar and messages/warnings/errors have a new look
+* `modelReport()`, `prepareSWD`, `reduceVariable()`, `thinData()`, and `varSel()` gain the argument `verbose` to disable informative messages
 * `gridSearch()`, `optimizeModel()`, `randomSearch()`, `reduceVar()`, and `varSel()` gain the argument `interactive` to disable the interactive real-time chart
 * `doJk()`, `gridSearch()`, `optimizeModel()`, `predict()`, `randomSearch()`, `thinData()`, `train()`, `varImp()`, and `varSel()` gain the argument `progress` to disable the progress bar
+* The function `thinData()` prints a message with the number of removed locations
+* The argument `factors` in `modelReport()` is deprecated. See `terra` documentation to see how to use factors during predictions
 
 Bug fixes:
 
@@ -15,7 +19,7 @@ Resolve CRAN notes
 # SDMtune 1.1.5
 Bug fixes:
 
-* Allow fold partitions created with ENMeval >= 2.0
+* Allow fold partitions created with `ENMeval` >= 2.0
 * Fix error generated when plotting response for categorical predictors using RF
 * Update maxnet to version 0.1.4 to solve issue in cran checks
 

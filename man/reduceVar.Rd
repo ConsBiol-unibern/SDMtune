@@ -28,7 +28,7 @@ values are: "auc", "tss" and "aicc", used only if use_jk is \code{TRUE}.}
 \item{test}{\linkS4class{SWD} object containing the test dataset used to
 evaluate the model, not used with aicc, and if \code{use_jk = FALSE}.}
 
-\item{env}{\link[raster]{stack} containing the environmental variables, used
+\item{env}{\link[terra]{rast} containing the environmental variables, used
 only with "aicc".}
 
 \item{use_jk}{Flag to use the Jackknife AUC test during the variable
@@ -36,14 +36,13 @@ selection, if \code{FALSE} the function uses the percent variable contribution.}
 
 \item{permut}{integer. Number of permutations, used if \code{use_pc = FALSE}.}
 
-\item{use_pc}{logical, use percent contribution. If \code{TRUE} and the model
-is trained using the \linkS4class{Maxent} method, the algorithm uses the
-percent contribution computed by Maxent software to score the variable
-importance.}
+\item{use_pc}{logical. If \code{TRUE} and the model is trained using the
+\linkS4class{Maxent} method, the algorithm uses the percent contribution
+computed by Maxent software to score the variable importance.}
 
-\item{interactive}{logical, if \code{FALSE} the interactive chart is not created.}
+\item{interactive}{logical. If \code{FALSE} the interactive chart is not created.}
 
-\item{verbose}{logical, if \code{TRUE} prints informative messages.}
+\item{verbose}{logical. If \code{TRUE} prints informative messages.}
 }
 \value{
 The model trained using the selected variables.
@@ -65,49 +64,71 @@ algorithm is displayed in the Viewer pane.
 \donttest{
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+                    pattern = "grd",
+                    full.names = TRUE)
+
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
 
 # Create SWD object
-data <- prepareSWD(species = "Virtual species", p = p_coords, a = bg_coords,
-                   env = predictors, categorical = "biome")
+data <- prepareSWD(species = "Virtual species",
+                   p = p_coords,
+                   a = bg_coords,
+                   env = predictors,
+                   categorical = "biome")
 
 # Split presence locations in training (80\%) and testing (20\%) datasets
-datasets <- trainValTest(data, test = 0.2, only_presence = TRUE)
+datasets <- trainValTest(data,
+                         test = 0.2,
+                         only_presence = TRUE)
 train <- datasets[[1]]
 test <- datasets[[2]]
 
 # Train a Maxnet model
-model <- train(method = "Maxnet", data = train, fc = "lq")
+model <- train(method = "Maxnet",
+               data = train,
+               fc = "lq")
 
 # Remove all variables with permuation importance lower than 2\%
-output <- reduceVar(model, th = 2, metric = "auc", test = test, permut = 1)
+output <- reduceVar(model,
+                    th = 2,
+                    metric = "auc",
+                    test = test,
+                    permut = 1)
 
-# Remove variables with permuation importance lower than 2\% only if testing
+# Remove variables with permuation importance lower than 3\% only if testing
 # TSS doesn't decrease
 \dontrun{
-output <- reduceVar(model, th = 2, metric = "tss", test = test, permut = 1,
+output <- reduceVar(model,
+                    th = 3,
+                    metric = "tss",
+                    test = test,
+                    permut = 1,
                     use_jk = TRUE)
 
 # Remove variables with permuation importance lower than 2\% only if AICc
 # doesn't increase
-output <- reduceVar(model, th = 2, metric = "aicc", permut = 1,
-                    use_jk = TRUE, env = predictors)
+output <- reduceVar(model,
+                    th = 2,
+                    metric = "aicc",
+                    permut = 1,
+                    use_jk = TRUE,
+                    env = predictors)
 
 # Train a Maxent model
-# The next line checks if Maxent is correctly configured but you don't need
-# to run it in your script
-if (dismo::maxent(silent = TRUE)) {
-model <- train(method = "Maxent", data = train, fc = "lq")
+model <- train(method = "Maxent",
+               data = train,
+               fc = "lq")
 
 # Remove all variables with percent contribution lower than 2\%
-output <- reduceVar(model, th = 2, metric = "auc", test = test,
+output <- reduceVar(model,
+                    th = 2,
+                    metric = "auc",
+                    test = test,
                     use_pc = TRUE)
-}
 }
 }
 }
