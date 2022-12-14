@@ -47,7 +47,7 @@ Plot a presence absence map using the given threshold.
 \examples{
 \donttest{
 map <- terra::rast(matrix(runif(400, 0, 1),
-                          norw = 20,
+                          nrow = 20,
                           ncol = 20))
 plotPA(map,
        th = 0.8)
