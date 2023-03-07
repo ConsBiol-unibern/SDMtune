@@ -29,6 +29,15 @@
       train[unlist(x$folds[[i]][1]), i] <- TRUE
       test[unlist(x$folds[[i]][2]), i] <- TRUE
     }
+  } else if (class(x) %in% c("cv_cluster", "cv_buffer",
+                             "cv_nndm", "cv_spatial")) {
+    # New blockCV fold partition
+    k <- x$k
+    train <- test <- matrix(FALSE, nrow = n, ncol = k)
+    for (i in 1:k) {
+      train[unlist(x$folds_list[[i]][1]), i] <- TRUE
+      test[unlist(x$folds_list[[i]][2]), i] <- TRUE
+    }
   } else {
     cli::cli_abort("Folds object format not allowed.")
   }

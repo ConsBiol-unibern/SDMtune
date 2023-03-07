@@ -176,27 +176,25 @@
 #' ## Environmental block using the blockCV package
 #' # Run only if you have the package blockCV
 #' require(blockCV)
-#' # Create spatial points data frame
-#' library(raster)
-#' sp_df <- sp::SpatialPointsDataFrame(
-#'   coords = data@coords,
-#'   data = as.data.frame(data@pa),
-#'   proj4string = sp::CRS(
-#'   terra::crs(predictors))
-#' )
+#' # Create sf object
+#' sf_df <- sf::st_as_sf(cbind(data@coords, pa = data@pa),
+#'                       coords = c("X", "Y"),
+#'                       crs = terra::crs(predictors,
+#'                                        proj = TRUE))
 #'
-#' e_folds <- envBlock(rasterLayer = predictors,
-#'                     speciesData = sp_df,
-#'                     species = "data@pa",
-#'                     k = 4,
-#'                     standardization = "standard",
-#'                     rasterBlock = FALSE)
+#' # Spatial blocks
+#' spatial_folds <- cv_spatial(x = sf_df,
+#'                             column = "pa",
+#'                             rows_cols = c(8, 10),
+#'                             k = 5,
+#'                             hexagon = FALSE,
+#'                             selection = "systematic")
 #'
 #' model <- train(method = "Maxnet",
 #'                data = data,
 #'                fc = "l",
 #'                reg = 0.8,
-#'                folds = e_folds)
+#'                folds = spatial_folds)
 #' }
 #'
 #' ## Train presence absence models

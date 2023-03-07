@@ -81,8 +81,27 @@ test_that("blockCV", {
     f[[i]][1] <- list(s)
     f[[i]][2] <- list(setdiff(1:30, s))
   }
+
+  # blockCV 2.x
   x <- list(folds = f, k = 2)
   class(x) <- "EnvironmentalBlock"
+  folds <- .convert_folds(x, data)
+
+  expect_length(folds, 2)
+  expect_named(folds, c("train", "test"))
+  expect_equal(ncol(folds$train), 2)
+  expect_equal(ncol(folds$test), 2)
+  expect_equal(nrow(folds$train), nrow(folds$test))
+
+  for (i in 1:2) {
+    expect_equal(folds$train[, i], !folds$test[, i])
+    expect_equal(sort(unlist(f[[i]][1])), which(folds$train[, i]))
+    expect_equal(sort(unlist(f[[i]][2])), which(folds$test[, i]))
+  }
+
+  # blockCV 3.x
+  x <- list(folds_list = f, k = 2)
+  class(x) <- "cv_spatial"
   folds <- .convert_folds(x, data)
 
   expect_length(folds, 2)
