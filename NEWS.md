@@ -1,3 +1,5 @@
+# SDMtune 1.2.0.9000
+
 # SDMtune 1.2.0
 * `SDMtune` migrated to package `terra` to handle spatial data. Objects created with the package `raster` will not be supported in future releases
 * `SDMtune` has a new progress bar and messages/warnings/errors have a new look
