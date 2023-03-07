@@ -170,7 +170,7 @@ plotResponse <- function(model,
       my_plot <- ggplot(plot_data, aes(x = .data$x, y = .data$y)) +
         ggplot2::geom_bar(stat = "identity", fill = color) +
         ggplot2::geom_errorbar(aes(ymin = .data$y_min, ymax = .data$y_max),
-                               width = 0.2, size = 0.3)
+                               width = 0.2, linewidth = 0.3)
     }
   }
 

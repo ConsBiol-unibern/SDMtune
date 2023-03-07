@@ -150,7 +150,7 @@
 
     # Add line if is the result of a tune function
     if (show_line)
-      p <- p + ggplot2::geom_line(linetype = "dashed", size = .3)
+      p <- p + ggplot2::geom_line(linetype = "dashed", linewidth = .3)
 
     p
   }
