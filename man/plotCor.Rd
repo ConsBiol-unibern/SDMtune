@@ -4,7 +4,7 @@
 \alias{plotCor}
 \title{Plot Correlation}
 \usage{
-plotCor(bg, method = "spearman", cor_th = NULL)
+plotCor(bg, method = "spearman", cor_th = NULL, text_size = 3)
 }
 \arguments{
 \item{bg}{\linkS4class{SWD} object used to compute the correlation matrix.}
@@ -13,6 +13,8 @@ plotCor(bg, method = "spearman", cor_th = NULL)
 
 \item{cor_th}{numeric. If provided it prints only the coefficients that are
 higher or lower than the given threshold.}
+
+\item{text_size}{numeric, used to change the size of the text.}
 }
 \value{
 A \link[ggplot2]{ggplot} object.
@@ -50,10 +52,12 @@ bg <- prepareSWD(species = "Virtual species",
 plotCor(bg,
         method = "spearman")
 
-# Plot heat map showing only values higher than given threshold
+# Plot heat map showing only values higher than given threshold and change
+# text size
 plotCor(bg,
         method = "spearman",
-        cor_th = 0.8)
+        cor_th = 0.8,
+        text_size = 4)
 }
 }
 \author{

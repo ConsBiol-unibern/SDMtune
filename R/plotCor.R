@@ -9,6 +9,7 @@
 #' @param method character. The method used to compute the correlation matrix.
 #' @param cor_th numeric. If provided it prints only the coefficients that are
 #' higher or lower than the given threshold.
+#' @param text_size numeric, used to change the size of the text.
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export
@@ -44,14 +45,17 @@
 #' plotCor(bg,
 #'         method = "spearman")
 #'
-#' # Plot heat map showing only values higher than given threshold
+#' # Plot heat map showing only values higher than given threshold and change
+#' # text size
 #' plotCor(bg,
 #'         method = "spearman",
-#'         cor_th = 0.8)
+#'         cor_th = 0.8,
+#'         text_size = 4)
 #' }
 plotCor <- function(bg,
                     method = "spearman",
-                    cor_th = NULL) {
+                    cor_th = NULL,
+                    text_size = 3) {
 
   cor_matrix <- corVar(bg, method = method, order = FALSE,
                        remove_diagonal = FALSE)
@@ -77,7 +81,7 @@ plotCor <- function(bg,
       ggplot2::geom_text(data = cor_matrix,
                          aes(x = .data$Var2, y = .data$Var1,
                              label = round(.data$value, 2)),
-                         color = "black", size = 3)
+                         color = "black", size = text_size)
   } else {
     highly_correlated <- corVar(bg, method = method, cor_th = cor_th,
                                 order = FALSE, remove_diagonal = FALSE)
@@ -85,7 +89,7 @@ plotCor <- function(bg,
       ggplot2::geom_text(data = highly_correlated,
                          aes(x = .data$Var2, y = .data$Var1,
                              label = round(.data$value, 2)),
-                         color = "black", size = 3)
+                         color = "black", size = text_size)
   }
 
   heat_map
