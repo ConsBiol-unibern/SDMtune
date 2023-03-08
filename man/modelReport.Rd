@@ -52,7 +52,7 @@ Make a report that shows the main results.
 }
 \details{
 The function produces a report similar to the one created by MaxEnt
-software. See \pkg{terra} documentation to see how to pass foctors.
+software. See \pkg{terra} documentation to see how to pass factors.
 }
 \examples{
 \donttest{
