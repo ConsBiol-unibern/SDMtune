@@ -18,10 +18,8 @@ setGeneric("predict", function(object, ...)
 #' must include the extension.
 #' @param overwrite logical. If `TRUE` an existing file is overwritten.
 #' @param wopt list. Writing options passed to \link[terra]{writeRaster}.
-#' @param format character. Deprecated.
 #' @param extent \link[terra]{ext} object, if provided it restricts the
 #' prediction to the given extent.
-#' @param progress character, deprecated.
 #' @param ... Additional arguments to pass to the \link[terra]{predict}
 #' function.
 #'
@@ -115,9 +113,7 @@ setMethod(
                         filename = "",
                         overwrite = FALSE,
                         wopt = list(),
-                        format = "",
                         extent = NULL,
-                        progress = "",
                         ...) {
 
     model <- object@model
@@ -125,25 +121,10 @@ setMethod(
     vars <- colnames(object@data@data)
 
     # TODO: Remove with version 2.0.0
-    if (!identical(progress, ""))
-      cli::cli_warn(
-        c("!" = "Argument {.field progress} is deprecated",
-          "i" = "It will be removed in future releases")
-      )
-
-    # TODO: Remove with version 2.0.0
     if (inherits(data, "Raster")) {
-      .warn_raster("raster", "rast")
+      .error_raster("rast")
       data <- terra::rast(data)
     }
-
-    # TODO: Remove with version 2.0.0
-    if (format != "")
-      cli::cli_warn(c(
-        "!" = paste("The argument {.val format} is deprectated and will be",
-                    "ignored. Use {.val wopt} instead and see {.val Details}",
-                    "in {.fun terra::writeRaster}")
-      ))
 
     if (inherits(data, "SpatRaster")) {
       data <- terra::subset(data, vars)
@@ -152,9 +133,7 @@ setMethod(
 
         # TODO: Remove with version 2.0.0
         if (inherits(extent, "Extent")) {
-          .warn_raster("Extent", "ext")
-          extent <- as.vector(extent) |>
-            terra::ext()
+          .error_raster("ext")
         }
 
         if (inherits(extent, "SpatExtent")) {

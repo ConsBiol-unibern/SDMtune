@@ -79,18 +79,18 @@ test_that("The function raises errors", {
 })
 
 # TODO: Remove with version 2.0.0
-test_that("The function warns", {
-  expect_snapshot_warning(predict(m,
-                                  data = predictors_raster,
-                                  type = "raw"))
+test_that("The function raises errors", {
+  expect_snapshot_error(predict(m,
+                                data = predictors_raster,
+                                type = "raw"))
 
-  expect_snapshot_warning(predict(m,
-                                  data = predictors,
-                                  type = "raw",
-                                  extent = e_raster))
+  expect_snapshot_error(predict(m,
+                                data = predictors,
+                                type = "raw",
+                                extent = e_raster))
 
-  expect_snapshot_warning(predict(m,
-                                  data = predictors,
-                                  type = "raw",
-                                  format = "spam"))
+  expect_snapshot_error(predict(m,
+                                data = predictors,
+                                type = "raw",
+                                extent = "spam"))
 })

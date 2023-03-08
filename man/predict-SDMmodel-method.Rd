@@ -12,9 +12,7 @@
   filename = "",
   overwrite = FALSE,
   wopt = list(),
-  format = "",
   extent = NULL,
-  progress = "",
   ...
 )
 }
@@ -37,12 +35,8 @@ must include the extension.}
 
 \item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
 
-\item{format}{character. Deprecated.}
-
 \item{extent}{\link[terra]{ext} object, if provided it restricts the
 prediction to the given extent.}
-
-\item{progress}{character, deprecated.}
 
 \item{...}{Additional arguments to pass to the \link[terra]{predict}
 function.}
