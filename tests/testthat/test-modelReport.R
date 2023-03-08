@@ -82,13 +82,3 @@ test_that("Settings are correct", {
   params$model <- m_rf
   expect_snapshot_output(.write_report_model_settings(params))
 })
-
-# TODO: Remove with version 2.0.0
-test_that("The function raises errors", {
-  expect_snapshot_error(
-    modelReport(SDMtune:::bm_maxnet,
-                type = "cloglog",
-                folder = folder,
-                factors = "biome")
-  )
-})

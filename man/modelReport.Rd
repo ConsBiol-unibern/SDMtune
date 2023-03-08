@@ -15,7 +15,6 @@ modelReport(
   env = NULL,
   clamp = TRUE,
   permut = 10,
-  factors = NULL,
   verbose = TRUE
 )
 }
@@ -46,9 +45,6 @@ and for the prediction map.}
 
 \item{permut}{integer. Number of permutations.}
 
-\item{factors}{deprecated, package \pkg{terra} handles factors in a different
-way than \pkg{raster}, see \pkg{terra} documentation.}
-
 \item{verbose}{logical, if \code{TRUE} prints informative messages.}
 }
 \description{
@@ -56,7 +52,7 @@ Make a report that shows the main results.
 }
 \details{
 The function produces a report similar to the one created by MaxEnt
-software.
+software. See \pkg{terra} documentation to see how to pass foctors.
 }
 \examples{
 \donttest{

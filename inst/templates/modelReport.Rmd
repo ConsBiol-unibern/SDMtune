@@ -16,7 +16,6 @@ params:
   env: null
   clamp: true
   permut: 10
-  factors: null
   verbose: true
 title: "`r class(params$model@model)` model for *`r params$model@data@species`*"
 ---

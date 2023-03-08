@@ -12,7 +12,6 @@
 #' must include the extension.
 #' @param overwrite logical. If `TRUE` an existing file is overwritten.
 #' @param wopt list. Writing options passed to \link[terra]{writeRaster}.
-#' @param format character. Deprecated.
 #' @param ... Unused arguments.
 #'
 #' @return A \link[ggplot2]{ggplot} object.
@@ -72,14 +71,6 @@ plotPA <- function(map,
     cli::cli_abort(c(
       "!" = "{.var map} must be a {.cls SpatRaster} object",
       "x" = "You have supplied a {.cls {class(map)}} instead."
-    ))
-
-  # TODO: Remove with version 2.0.0
-  if (format != "")
-    cli::cli_warn(c(
-      "!" = paste("The argument {.val format} is deprectated and will be",
-                  "ignored. Use {.val wopt} instead and see {.val Details} in",
-                  "{.fun terra::writeRaster}")
     ))
 
   pa <- map >= th

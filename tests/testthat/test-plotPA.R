@@ -33,10 +33,6 @@ test_that("The function raises errors", {
 })
 
 test_that("The function warns and raises errors", {
-  expect_snapshot_warning(plotPA(map,
-                                 th = .8,
-                                 format = "GTiff"))
-
   # TODO: Remove with version 2.0.0
   x <- integer(1)
   class(x) <- "Raster"

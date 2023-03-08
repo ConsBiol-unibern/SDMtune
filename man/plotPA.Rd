@@ -34,8 +34,6 @@ must include the extension.}
 
 \item{wopt}{list. Writing options passed to \link[terra]{writeRaster}.}
 
-\item{format}{character. Deprecated.}
-
 \item{...}{Unused arguments.}
 }
 \value{

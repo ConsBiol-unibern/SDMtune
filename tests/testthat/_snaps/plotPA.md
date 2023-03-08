@@ -9,10 +9,6 @@
 
 # The function warns and raises errors
 
-    ! The argument "format" is deprectated and will be ignored. Use "wopt" instead and see "Details" in `terra::writeRaster()`
-
----
-
     ! `map` must be a <SpatRaster> object
     x You have supplied a <Raster> instead.
 
