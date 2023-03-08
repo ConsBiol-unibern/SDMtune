@@ -1,6 +1,7 @@
 # SDMtune 1.2.0.9000
 * `plotCor()`gains the argument `text_size` to tweak the size of the text in the plot
 * Cross validation folds can be created with `blockCV` version 3.x (#24)
+* Support for the `raster` package has been deprecated (#23)
 
 # SDMtune 1.2.0
 * `SDMtune` migrated to package `terra` to handle spatial data. Objects created with the package `raster` will not be supported in future releases

@@ -210,6 +210,6 @@ test_that("The function .args_name", {
 })
 
 # TODO: Remove with version 2.0.0
-test_that("Warns if raster package is used", {
-  expect_snapshot_warning(.warn_raster("raster", "rast"))
+test_that("Raises and error if raster package is used", {
+  expect_snapshot_error(.error_raster("rast"))
 })
