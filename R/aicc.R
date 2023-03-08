@@ -57,8 +57,7 @@ aicc <- function(model,
 
   # TODO: Remove with version 2.0.0
   if (inherits(env, "Raster")) {
-    .warn_raster("raster", "rast")
-    env <- terra::rast(env)
+    .error_raster("rast")
   }
 
   if (!inherits(env, "SpatRaster"))

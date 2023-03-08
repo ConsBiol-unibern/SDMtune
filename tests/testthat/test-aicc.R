@@ -37,9 +37,7 @@ test_that("The function raises errors", {
 })
 
 # TODO: Remove with version 2.0.0
-test_that("The function warns if a raster object is used", {
-  env <- raster::stack(files)
-  expect_snapshot_warning(
-    aicc(m, env)
-  )
+test_that("The function raises an error if a raster object is used", {
+  class(env) <- "Raster"
+  expect_snapshot_error(aicc(m, env))
 })
