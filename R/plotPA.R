@@ -65,8 +65,7 @@ plotPA <- function(map,
 
   # TODO: Remove with version 2.0.0
   if (inherits(map, "RasterLayer")) {
-    .warn_raster("raster", "rast")
-    map <- terra::rast(map)
+    .error_raster("rast")
   }
 
   if (!inherits(map, "SpatRaster"))
