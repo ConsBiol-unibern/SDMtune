@@ -18,8 +18,10 @@ folder <- tempfile("SDMtune")
 dir.create(folder)
 
 # TODO: Remove with version 2.0.0
-predictors_raster <- raster::stack(files)
-e_raster = raster::extent(c(-77, -60, -56, -15))
+predictors_raster <- predictors
+class(predictors_raster) <- "Raster"
+e_raster = e
+class(e_raster) <- "Extent"
 
 test_that("The method works with data frames", {
   p <- predict(m,
