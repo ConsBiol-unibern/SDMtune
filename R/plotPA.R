@@ -52,7 +52,6 @@ plotPA <- function(map,
                    filename = "",
                    overwrite = FALSE,
                    wopt = list(),
-                   format = "",
                    ...) {
 
   if (!requireNamespace("rasterVis", quietly = TRUE)) {

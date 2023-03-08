@@ -12,7 +12,6 @@ plotPA(
   filename = "",
   overwrite = FALSE,
   wopt = list(),
-  format = "",
   ...
 )
 }
