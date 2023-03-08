@@ -313,7 +313,7 @@
 }
 
 # TODO: Remove with version 2.0.0
-.error_raster <- function(x) {
+.raster_error <- function(x) {
   cli::cli_abort(
     c("!" = "Objects from the {.pkg raster} package are no longer supported!",
       "i" = paste("{.pkg SDMtune} now uses {.pkg terra} to handle spatial",

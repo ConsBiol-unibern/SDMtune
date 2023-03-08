@@ -122,7 +122,7 @@ setMethod(
 
     # TODO: Remove with version 2.0.0
     if (inherits(data, "Raster")) {
-      .error_raster("rast")
+      .raster_error("rast")
       data <- terra::rast(data)
     }
 
@@ -133,7 +133,7 @@ setMethod(
 
         # TODO: Remove with version 2.0.0
         if (inherits(extent, "Extent")) {
-          .error_raster("ext")
+          .raster_error("ext")
         }
 
         if (inherits(extent, "SpatExtent")) {

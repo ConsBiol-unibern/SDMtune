@@ -120,7 +120,7 @@ optimizeModel <- function(model,
   if (!is.null(env)) {
     # TODO: Remove with version 2.0.0
     if (inherits(env, "Raster")) {
-      .error_raster("rast")
+      .raster_error("rast")
     }
 
     if (!inherits(env, "SpatRaster"))
