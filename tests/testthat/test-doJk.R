@@ -10,7 +10,6 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
 predictors <- terra::rast(files)
 
-
 test_that("The function returns the correct output", {
   # Metric AUC
   # with_only and return models
@@ -178,14 +177,15 @@ test_that("The function raises errors", {
 })
 
 # TODO: Remove with version 2.0.0
-test_that("The function warns if a raster object is used", {
-  env <- raster::stack(files)
-  expect_snapshot_warning(doJk(m,
-                               metric = "aicc",
-                               variables = v,
-                               env = env,
-                               test = NULL,
-                               with_only = FALSE,
-                               return_models = FALSE,
-                               progress = FALSE))
+test_that("The function raises an error if a raster object is used", {
+  env <- terra::rast(files)
+  class(env) <- "Raster"
+  expect_snapshot_error(doJk(m,
+                             metric = "aicc",
+                             variables = v,
+                             env = env,
+                             test = NULL,
+                             with_only = FALSE,
+                             return_models = FALSE,
+                             progress = FALSE))
 })
