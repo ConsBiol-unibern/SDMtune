@@ -49,7 +49,7 @@ objects.}
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+predictors <- terra::rast(files)
 
 # Prepare presence and background locations
 p_coords <- virtualSp$presence
