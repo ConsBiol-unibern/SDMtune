@@ -1,9 +1,6 @@
 skip_on_cran()
 
 data <- SDMtune:::t
-files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
-                    pattern = "grd",
-                    full.names = TRUE)
 
 datasets <- trainValTest(data,
                          val = 0.2,
@@ -144,13 +141,13 @@ test_that("The function raises errors", {
 
 # TODO: Remove with version 2.0.0
 test_that("The function raises an error if a raster object is used", {
-  env <- raster::stack(files)
-  class(env) <- "Raster"
+  x <- integer(1)
+  class(x) <- "Raster"
   expect_snapshot_error(optimizeModel(model,
                                       hypers = h,
                                       metric = "aicc",
                                       test = val,
-                                      env = env,
+                                      env = x,
                                       pop = 3,
                                       gen = 1,
                                       interactive = FALSE,

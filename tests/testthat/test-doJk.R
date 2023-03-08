@@ -178,12 +178,11 @@ test_that("The function raises errors", {
 
 # TODO: Remove with version 2.0.0
 test_that("The function raises an error if a raster object is used", {
-  env <- terra::rast(files)
-  class(env) <- "Raster"
+  class(predictors) <- "Raster"
   expect_snapshot_error(doJk(m,
                              metric = "aicc",
                              variables = v,
-                             env = env,
+                             env = predictors,
                              test = NULL,
                              with_only = FALSE,
                              return_models = FALSE,
