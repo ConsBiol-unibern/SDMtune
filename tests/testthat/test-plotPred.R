@@ -21,8 +21,7 @@ test_that("The values are correct", {
   })
 
 # TODO: Remove with version 2.0.0
-test_that("The function warns", {
-  expect_snapshot_warning(plotPred(raster::raster(matrix(runif(400, 0, 1),
-                                                         nrow = 20,
-                                                         ncol = 20))))
+test_that("The function raises an error", {
+  class(map) <- "RasterLayer"
+  expect_snapshot_error(plotPred(map))
 })

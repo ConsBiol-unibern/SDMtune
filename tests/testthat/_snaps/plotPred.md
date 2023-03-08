@@ -3,8 +3,8 @@
     ! `map` must be an <SpatRaster> object
     x You have supplied a <data.frame> instead.
 
-# The function warns
+# The function raises an error
 
-    ! <raster> objects will not be accepted in future releases
+    ! Objects from the raster package are no longer supported!
     i SDMtune now uses terra to handle spatial data. See function `terra::rast()` to migrate.
 
