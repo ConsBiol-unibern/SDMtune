@@ -1,7 +1,7 @@
 # Load predictors from dismo pkg
 files <- list.files(path = paste0(system.file(package = "dismo"), "/ex"),
                     pattern = "grd", full.names = TRUE)
-predictors <- raster::stack(files)
+predictors <- terra::rast(files)
 
 # Presence and background locations
 p <- virtualSp$presence
