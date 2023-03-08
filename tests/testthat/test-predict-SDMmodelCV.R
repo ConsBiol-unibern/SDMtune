@@ -17,8 +17,10 @@ folder <- tempfile("SDMtune")
 dir.create(folder)
 
 # TODO: Remove with version 2.0.0
-predictors_raster <- raster::stack(files)
-e_raster = raster::extent(c(-77, -60, -56, -15))
+predictors_raster <- predictors
+class(predictors_raster) <- "Raster"
+e_raster = e
+class(e_raster) <- "Extent"
 
 test_that("The method works with data frames", {
   p <- predict(m,
@@ -150,17 +152,17 @@ test_that("The function raises errors", {
 })
 
 # TODO: Remove with version 2.0.0
-test_that("The function warns", {
-  expect_snapshot_warning(predict(m,
-                                  data = predictors_raster,
-                                  type = "raw"))
+test_that("The function raises errors", {
+  expect_snapshot_error(predict(m,
+                                data = predictors_raster,
+                                type = "raw"))
 
-  expect_snapshot_warning(predict(m,
-                                  data = predictors,
-                                  type = "raw",
-                                  extent = e_raster))
+  expect_snapshot_error(predict(m,
+                                data = predictors,
+                                type = "raw",
+                                extent = e_raster))
 
-  expect_snapshot_warning(predict(m,
-                                  data = predictors,
-                                  format = "span"))
+  expect_snapshot_error(predict(m,
+                                data = predictors,
+                                extent = "span"))
 })

@@ -19,7 +19,6 @@
 #' must include the extension.
 #' @param overwrite logical. If `TRUE` an existing file is overwritten.
 #' @param wopt list. Writing options passed to \link[terra]{writeRaster}.
-#' @param format character. Deprecated.
 #' @param extent \link[terra]{ext} object, if provided it restricts the
 #' prediction to the given extent.
 #' @param progress logical. If `TRUE` shows a progress bar during prediction.
@@ -132,7 +131,6 @@ setMethod(
                         type = NULL,
                         clamp = TRUE,
                         filename = "",
-                        format = "",
                         overwrite = FALSE,
                         wopt = list(),
                         extent = NULL,
@@ -156,14 +154,6 @@ setMethod(
       filename <- paste0(file_name, "_", fun, ".", file_ext)
     }
 
-    # TODO: Remove with version 2.0.0
-    if (format != "")
-      cli::cli_warn(c(
-        "!" = paste("The argument {.val format} is deprectated and will be",
-                    "ignored. Use {.val wopt} instead and see {.val Details}",
-                    "in {.fun terra::writeRaster}")
-      ))
-
     if (progress)
       cli::cli_progress_bar(
         name = stringr::str_glue("Predict - {class(object@models[[1]]@model)}"),
@@ -179,8 +169,7 @@ setMethod(
 
     # TODO: Remove with version 2.0.0
     if (inherits(data, "Raster")) {
-      .warn_raster("raster", "rast")
-      data <- terra::rast(data)
+      .error_raster("rast")
     }
 
     if (inherits(data, "SpatRaster")) {
@@ -190,9 +179,7 @@ setMethod(
 
         # TODO: Remove with version 2.0.0
         if (inherits(extent, "Extent")) {
-          .warn_raster("Extent", "ext")
-          extent <- as.vector(extent) |>
-            terra::ext()
+          .error_raster("ext")
         }
 
         if (inherits(extent, "SpatExtent")) {
@@ -221,7 +208,7 @@ setMethod(
         output[[i]] <- terra::app(preds,
                                   fun = get(fun[i]),
                                   filename = filename[i],
-                                  wopt = list(filetype = format),
+                                  wopt = wopt,
                                   ...)
 
         if (progress)

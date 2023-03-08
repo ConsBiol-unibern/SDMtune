@@ -11,7 +11,6 @@
   type = NULL,
   clamp = TRUE,
   filename = "",
-  format = "",
   overwrite = FALSE,
   wopt = list(),
   extent = NULL,
@@ -38,8 +37,6 @@ and \strong{Maxnet} methods.}
 
 \item{filename}{character. If provided the raster map is saved in a file. It
 must include the extension.}
-
-\item{format}{character. Deprecated.}
 
 \item{overwrite}{logical. If \code{TRUE} an existing file is overwritten.}
 
