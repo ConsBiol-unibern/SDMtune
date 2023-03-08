@@ -100,9 +100,10 @@ test_that("The function raises errors", {
 })
 
 # TODO: Remove with version 2.0.0
-test_that("The function warns if a raster object is used", {
-  expect_snapshot_warning(thinData(x,
-                                   env = raster::stack(files),
-                                   verbose = FALSE,
-                                   progress = FALSE))
+test_that("The function raises an error if a raster object is used", {
+  class(predictors) <- "Raster"
+  expect_snapshot_error(thinData(x,
+                                 env = predictors,
+                                 verbose = FALSE,
+                                 progress = FALSE))
 })
