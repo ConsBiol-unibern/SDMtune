@@ -66,12 +66,12 @@ test_that("Exceptions are thrown", {
 })
 
 # TODO: Remove with version 2.0.0
-test_that("The function warns if a raster object is used", {
-  env <- raster::stack(files)
-  expect_snapshot_warning(varSel(m,
-                                 metric = "aicc",
-                                 bg4cor = bg,
-                                 test = t,
-                                 env = env,
-                                 verbose = FALSE))
+test_that("The function raises an error if a raster object is used", {
+  class(predictors) <- "Raster"
+  expect_snapshot_error(varSel(m,
+                               metric = "aicc",
+                               bg4cor = bg,
+                               test = t,
+                               env = predictors,
+                               verbose = FALSE))
 })
