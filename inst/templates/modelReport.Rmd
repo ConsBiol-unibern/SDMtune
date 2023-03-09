@@ -94,4 +94,4 @@ Shown below the settings used to train the model:
 # References
 
 - Vignali, S., Barras, A. G., Arlettaz, R., Braunisch, V. (2020). *SDMtune*: An R package to tune and evaluate species distribution models. Ecology and Evolution, **10**(20), 11488–11506. <https://doi.org/10.1002/ece3.6786>
-- Vignali, S., Barras, A. G., Braunisch, V. (2022). *SDMtune*: Species Distribution Model Selection. R package version `r packageVersion("SDMtune")`. `r ifelse(grepl("9000",packageVersion("SDMtune")), "<https://github.com/ConsBiol-unibern/SDMtune>", "<https://CRAN.R-project.org/package=SDMtune>")`
+- Vignali, S., Barras, A. G., Braunisch, V. (`r format(packageDate("SDMtune"), format = "%Y")`). *SDMtune*: Species Distribution Model Selection. R package version `r packageVersion("SDMtune")`. `r ifelse(grepl("9000",packageVersion("SDMtune")), "<https://github.com/ConsBiol-unibern/SDMtune>", "<https://CRAN.R-project.org/package=SDMtune>")`
