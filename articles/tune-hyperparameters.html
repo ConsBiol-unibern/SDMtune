@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SDMtune</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -190,12 +190,12 @@ that have been used during the execution of the function. In our case,
 only the regularization multiplier <code>reg</code> has multiple values.
 You can plot the <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, </span>
 <span>     title <span class="op">=</span> <span class="st">"Experiment 1"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tune-hyperparameters_files/figure-html/plot%20exp_1-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>and you can also recreate the interactive chart using:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, </span>
 <span>     title <span class="op">=</span> <span class="st">"Experiment 1"</span>, </span>
 <span>     interactive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="../reference/SDMtune-class.html">SDMtune()</a></code> object stores the results in the slot
