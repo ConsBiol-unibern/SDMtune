@@ -1,12 +1,13 @@
 ## Test environments
-* local ubuntu 18.04, R 4.1.2
-* win-builder (devel, release and oldrelease)
+* local ubuntu 22.04, R 4.2.2
 * Github actions:
   * linux: R devel, release, and oldrel
   * windows: R release
   * mac: R release
+* win-builder (devel, release and oldrelease)
 
-## R CMD check results
-0 errors | 0 warnings | 1 note
+Win builder generates 1 NOTE:
 
-There is a new NOTE: "Possibly mis-spelled words in DESCRIPTION: SDMs". This is not a mis-spelled word, it is just the acrimonious for "Species Distribution Models" and it is included in the WORDLIST file.
+* R oldrelease and devel: "Possibly mis-spelled words in DESCRIPTION: SDMs". This is not a mis-spelled word, it is just the acrimonious for "Species Distribution Models" and it is included in the WORDLIST file.
+
+* R release: "Found the following (possibly) invalid URLs" but they are all valid DOI urls
