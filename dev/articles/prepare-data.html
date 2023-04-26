@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SDMtune</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -197,7 +197,7 @@ function from the <code>rasterVis</code> package:</p>
 <span><span class="co">#&gt;   / ___/ / __ \ /  |/  // /_ __  __ ____   ___</span></span>
 <span><span class="co">#&gt;   \__ \ / / / // /|_/ // __// / / // __ \ / _ \</span></span>
 <span><span class="co">#&gt;  ___/ // /_/ // /  / // /_ / /_/ // / / //  __/</span></span>
-<span><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.2.0.9000</span></span>
+<span><span class="co">#&gt; /____//_____//_/  /_/ \__/ \__,_//_/ /_/ \___/  version 1.2.1.9000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; To cite this package in publications type: citation("SDMtune").</span></span></code></pre></div>
 <p>For demonstrating how to use <code>SDMtune</code> we use the random
@@ -221,7 +221,10 @@ for background locations.</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">125</span>, <span class="op">-</span><span class="fl">32</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">56</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
 <p><img src="prepare-data_files/figure-html/plot%20presence-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>To plot the background locations run the following code:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -272,7 +275,7 @@ variables for each location and excludes those locations that have
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variables:</span></span>
 <span><span class="co">#&gt; ---------</span></span>
-<span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span></span>
+<span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span></span>
 <span><span class="co">#&gt; Categorical: biome</span></span></code></pre></div>
 <p>When we print an <code><a href="../reference/SWD-class.html">SWD()</a></code> object we get a bunch of
 information:</p>
