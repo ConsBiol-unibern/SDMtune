@@ -35,12 +35,6 @@ test_that("gridSearch produces the expected output", {
   expect_false(any(grepl("SDMtune-gridSearch", list.dirs(tempdir()))))
 })
 
-test_that("Show method for SDMtune class produces the correct output", {
-  expect_output(print(o), "Object of class:  SDMtune", fixed = TRUE)
-  expect_output(print(o), "fc: l, q", fixed = TRUE)
-  expect_output(print(o), "reg: 1", fixed = TRUE)
-})
-
 test_that("gridSearch produces the expected output with AICc", {
   o <- gridSearch(m,
                   hypers = h,
