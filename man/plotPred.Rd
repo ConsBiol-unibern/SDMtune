@@ -7,7 +7,7 @@
 plotPred(map, lt = "", colorramp = NULL, hr = FALSE)
 }
 \arguments{
-\item{map}{\link[raster]{raster} object with the prediction.}
+\item{map}{\link[terra]{rast} object with the prediction.}
 
 \item{lt}{character. Legend title.}
 

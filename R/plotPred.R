@@ -2,7 +2,7 @@
 #'
 #' Plot Prediction output.
 #'
-#' @param map \link[raster]{raster} object with the prediction.
+#' @param map \link[terra]{rast} object with the prediction.
 #' @param lt character. Legend title.
 #' @param colorramp vector. A custom colour ramp given as a vector of colours
 #' (see example), default is `NULL` and uses a blue/red colour ramp.

@@ -1,4 +1,5 @@
 # SDMtune 1.2.1.9000
+* Fix CRAN note for undeclared package in Rd file
 
 # SDMtune 1.2.1
 * `plotCor()`gains the argument `text_size` to tweak the size of the text in the plot
