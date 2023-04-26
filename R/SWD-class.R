@@ -61,6 +61,6 @@ setMethod(
 
     cat("Variables:\n")
     cat("---------\n")
-    cat("Continuous:", cont_vars, "\n")
-    cat("Categorical:", cat_vars, "\n")
+    cat("Continuous:", cont_vars, fill = 80)
+    cat("Categorical:", cat_vars, fill = 80)
   })

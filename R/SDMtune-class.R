@@ -29,9 +29,10 @@ setMethod("show",
     cat("--------------------\n")
 
     for (i in seq_along(tunable_hypers)) {
-      h <- paste(sort(unique(object@results[, tunable_hypers[i]])),
-                 collapse = ", ")
-      cat(tunable_hypers[i], ": ", h, "\n", sep = "")
+      h <- sort(unique(object@results[, tunable_hypers[i]]))
+      cat(tunable_hypers[i], ":", h,
+          sep = c("", " ", rep(", ", length(h))),
+          fill = 80)
     }
   }
 )
