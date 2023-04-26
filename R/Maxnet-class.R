@@ -25,7 +25,18 @@ Maxnet <- setClass("Maxnet",
 setMethod("show",
           signature = "Maxnet",
           definition = function(object) {
-            cat("Class:", class(object), "\n")
-            cat("Reg  :", object@reg, "\n")
-            cat("FCs  :", object@fc, "\n")
+            cli::cli_h2("Object of class: {.cls {class(object)}}")
+
+            cli::cli_par()
+            cli::cli_text("Method: {.emph Maxnet}")
+            cli::cli_end()
+
+            cli::cli_par()
+            cli::cli_h3("Hyperparameters")
+            cli::cli_end()
+
+            cli::cli_par()
+            cli::cli_li("{.field reg}: {object@reg}")
+            cli::cli_li("{.field fc}: {object@fc}")
+            cli::cli_end()
           })
