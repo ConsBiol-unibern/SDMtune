@@ -56,7 +56,7 @@ Suggests:
     rJava (>= 0.9-11),
     rmarkdown (>= 2.16),
     scales (>= 1.0.0),
-    testthat (>= 3.1.6),
+    testthat (>= 3.1.7),
     withr (>= 2.5.0),
     zeallot (>= 0.1.0)
 VignetteBuilder: knitr
