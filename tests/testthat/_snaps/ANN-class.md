@@ -6,7 +6,7 @@
       
       -- Object of class: <ANN> --
       
-      Method: Artificial Neural Network
+      Method: Artificial Neural Networks
       
       -- Hyperparameters 
       

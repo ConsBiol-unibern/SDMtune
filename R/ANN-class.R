@@ -33,7 +33,7 @@ setMethod("show",
             cli::cli_h2("Object of class: {.cls {class(object)}}")
 
             cli::cli_par()
-            cli::cli_text("Method: {.emph Artificial Neural Network}")
+            cli::cli_text("Method: {.emph Artificial Neural Networks}")
             cli::cli_end()
 
             cli::cli_par()
