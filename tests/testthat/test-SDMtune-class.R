@@ -37,3 +37,7 @@ test_that("Interactive plot is created and can be saved", {
   expect_true(file.exists(p))
   unlink(p, recursive = TRUE)
 })
+
+test_that("The show methods is correct", {
+  expect_snapshot(o)
+})

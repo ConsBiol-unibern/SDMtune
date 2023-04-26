@@ -72,6 +72,7 @@ h <- list(reg = 1:5, fc = c("lqp", "lqph"))
 
 # Run the gridSearch function using as metric the AUC
 output <- gridSearch(model, hypers = h, metric = "auc", test = test)
+output
 
 # Plot the output
 plot(output, title = "My experiment")
