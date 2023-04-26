@@ -1,7 +1,7 @@
 # Show method for ANN class produces the correct output
 
     Code
-      m
+      m@model
     Message
       
       -- Object of class: <ANN> --
