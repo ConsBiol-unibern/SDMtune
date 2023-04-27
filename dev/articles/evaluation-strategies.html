@@ -341,23 +341,25 @@ partition.</p>
 <span>                  data <span class="op">=</span> <span class="va">data</span>, </span>
 <span>                  folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span>
 <span><span class="va">cv_model</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; Object of class SDMmodelCV </span></span>
-<span><span class="co">#&gt; Method: Maxnet </span></span>
+<pre><code><span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodelCV&gt;</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species: Virtual species </span></span>
-<span><span class="co">#&gt; Replicates: 4 </span></span>
-<span><span class="co">#&gt; Presence locations: 400 </span></span>
-<span><span class="co">#&gt; Absence locations: 5000 </span></span>
+<span><span class="co">#&gt; Method: <span style="font-style: italic;">Maxnet</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model configurations:</span></span>
-<span><span class="co">#&gt; --------------------</span></span>
-<span><span class="co">#&gt; fc: lqph</span></span>
-<span><span class="co">#&gt; reg: 1</span></span>
+<span><span class="co">#&gt; ── Hyperparameters</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Variables:</span></span>
-<span><span class="co">#&gt; ---------</span></span>
-<span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span></span>
-<span><span class="co">#&gt; Categorical: biome</span></span></code></pre>
+<span><span class="co">#&gt; ── Info</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Replicates</span>: <span style="color: #0000BB;">4</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">400</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Variables</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">"bio8"</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span></span></code></pre>
 <p>The output in this case is an <code><a href="../reference/SDMmodelCV-class.html">SDMmodelCV()</a></code> object. It
 contains the four trained models in the <code>models</code> slot and the
 fold partitions in the <code>folds</code> slot. We can compute the AUC

@@ -128,16 +128,18 @@ background locations.</p>
 <span>                   env <span class="op">=</span> <span class="va">predictors</span><span class="op">[[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; Object of class SWD </span></span>
+<pre><code><span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SWD&gt;</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species: Virtual species </span></span>
-<span><span class="co">#&gt; Presence locations: 400 </span></span>
-<span><span class="co">#&gt; Absence locations: 300 </span></span>
+<span><span class="co">#&gt; ── Info</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">400</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">300</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Variables:</span></span>
-<span><span class="co">#&gt; ---------</span></span>
-<span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span></span>
-<span><span class="co">#&gt; Categorical: NA</span></span></code></pre>
+<span><span class="co">#&gt; ── Variables</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">"bio8"</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">NA</span></span></span></code></pre>
 <p>There are 400 presence and 300 absence locations.</p>
 <p>For the model evaluation we will create a training and testing
 datasets, holding apart 20% of the data:</p>
@@ -164,25 +166,27 @@ create a 4-folds partition to run cross validation:</p>
 <span>               size <span class="op">=</span> <span class="fl">10</span>, </span>
 <span>               folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span>
 <span><span class="va">model</span></span>
-<span><span class="co">#&gt; Object of class SDMmodelCV </span></span>
-<span><span class="co">#&gt; Method: ANN </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species: Virtual species </span></span>
-<span><span class="co">#&gt; Replicates: 4 </span></span>
-<span><span class="co">#&gt; Presence locations: 320 </span></span>
-<span><span class="co">#&gt; Absence locations: 240 </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodelCV&gt;</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model configurations:</span></span>
-<span><span class="co">#&gt; --------------------</span></span>
-<span><span class="co">#&gt; size: 10</span></span>
-<span><span class="co">#&gt; decay: 0</span></span>
-<span><span class="co">#&gt; rang: 0.7</span></span>
-<span><span class="co">#&gt; maxit: 100</span></span>
+<span><span class="co">#&gt; Method: <span style="font-style: italic;">Artificial Neural Networks</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Variables:</span></span>
-<span><span class="co">#&gt; ---------</span></span>
-<span><span class="co">#&gt; Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span></span>
-<span><span class="co">#&gt; Categorical: NA</span></span></code></pre></div>
+<span><span class="co">#&gt; ── Hyperparameters</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">size</span>: <span style="color: #0000BB;">10</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">decay</span>: <span style="color: #0000BB;">0</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">rang</span>: <span style="color: #0000BB;">0.7</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">maxit</span>: <span style="color: #0000BB;">100</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Info</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Replicates</span>: <span style="color: #0000BB;">4</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">240</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Variables</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">"bio8"</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">NA</span></span></span></code></pre></div>
 <p>Let’s check the training and testing AUC:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>

@@ -173,10 +173,10 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>,</span></span>
 <span class="r-in"><span>                   categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[25ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[26ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[50ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[61ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -202,11 +202,12 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                       test <span class="op">=</span> <span class="va">test</span>,</span></span>
 <span class="r-in"><span>                       pop <span class="op">=</span> <span class="fl">10</span>,</span></span>
 <span class="r-in"><span>                       seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 14s - 00:00:03</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  45% | ETA:  9s - 00:00:7.4</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  55% | ETA:  8s - 00:00:9.3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% | ETA:  4s - 00:00:11.7</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:14.7</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 14s - 00:00:3.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  36% | ETA: 10s - 00:00:5.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  45% | ETA: 10s - 00:00:8.5</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% | ETA:  5s - 00:00:12.9</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  91% | ETA:  2s - 00:00:16.1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:16.3</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      fc reg train_AUC  test_AUC   diff_AUC</span>
@@ -222,184 +223,204 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10   lh 2.4 0.8626194 0.8358887 0.02673063</span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">models</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqp"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">0.2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqp"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">0.6</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 1.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqp"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">1.2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 1.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqp"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">1.8</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqph</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">0.6</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqph</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 1.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">1.8</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lh</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 1.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lh"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">1.6</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqph</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqph</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 2.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">2.8</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lh</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 2.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lh"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">2.4</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Order results by highest test AUC</span></span></span>
