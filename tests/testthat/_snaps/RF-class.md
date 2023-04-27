@@ -9,9 +9,7 @@
       Method: Random Forest
       
       -- Hyperparameters 
-      
       * mtry: 2
       * ntree: 200
       * nodesize: 1
-      
 

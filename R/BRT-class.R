@@ -33,21 +33,19 @@ BRT <- setClass("BRT",
 setMethod("show",
           signature = "BRT",
           definition = function(object) {
+            int <- object@interaction.depth
+
             cli::cli_h2("Object of class: {.cls {class(object)}}")
 
             cli::cli_par()
             cli::cli_text("Method: {.emph Boosted Regression Trees}")
             cli::cli_end()
 
-            cli::cli_par()
             cli::cli_h3("Hyperparameters")
-            cli::cli_end()
 
-            cli::cli_par()
-            cli::cli_li("{.field distribution}: {object@distribution}")
-            cli::cli_li("{.field n.trees}: {object@n.trees}")
-            cli::cli_li("{.field interaction.depth}: {object@interaction.depth}")
-            cli::cli_li("{.field shrinkage}: {object@shrinkage}")
-            cli::cli_li("{.field bag.fraction}: {object@bag.fraction}")
-            cli::cli_end()
+            cli::cli_li("{.field distribution}: {.val {object@distribution}}")
+            cli::cli_li("{.field n.trees}: {.val {object@n.trees}}")
+            cli::cli_li("{.field interaction.depth}: {.val {int}}")
+            cli::cli_li("{.field shrinkage}: {.val {object@shrinkage}}")
+            cli::cli_li("{.field bag.fraction}: {.val {object@bag.fraction}}")
           })

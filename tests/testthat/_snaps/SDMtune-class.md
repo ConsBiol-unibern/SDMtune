@@ -9,8 +9,6 @@
       Method: Maxnet
       
       -- Tested hyperparameters 
-      
-      * fc: l and q
+      * fc: "l" and "q"
       * reg: 1
-      
 

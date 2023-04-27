@@ -26,19 +26,15 @@ setMethod("show",
     cli::cli_h2("Object of class: {.cls {class(object)}}")
 
     cli::cli_par()
-    cli::cli_text("Method: {.emph {class(object@models[[1]]@model)}}")
+    cli::cli_text("Method: {.emph { .get_method(object@models[[1]])}}")
     cli::cli_end()
 
-    cli::cli_par()
     cli::cli_h3("Tested hyperparameters")
-    cli::cli_end()
 
-    cli::cli_par()
     for (i in seq_along(tunable_hypers)) {
       h <- sort(unique(object@results[, tunable_hypers[i]]))
-      cli::cli_li("{.field {tunable_hypers[i]}}: {h}")
+      cli::cli_li("{.field {tunable_hypers[i]}}: {.val {h}}")
     }
-    cli::cli_end()
   }
 )
 

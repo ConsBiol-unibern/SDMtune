@@ -9,9 +9,7 @@
       Method: Maxent
       
       -- Hyperparameters 
-      
       * reg: 1
-      * fc: lqph
+      * fc: "lqph"
       * iter: 500
-      
 

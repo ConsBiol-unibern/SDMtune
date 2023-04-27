@@ -9,8 +9,6 @@
       Method: Maxnet
       
       -- Hyperparameters 
-      
       * reg: 1
-      * fc: lqph
-      
+      * fc: "lqph"
 

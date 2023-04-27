@@ -9,11 +9,9 @@
       Method: Boosted Regression Trees
       
       -- Hyperparameters 
-      
-      * distribution: bernoulli
+      * distribution: "bernoulli"
       * n.trees: 200
       * interaction.depth: 1
       * shrinkage: 0.2
       * bag.fraction: 0.6
-      
 

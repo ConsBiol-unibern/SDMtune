@@ -49,13 +49,9 @@ setMethod("show",
             cli::cli_text("Method: {.emph Maxent}")
             cli::cli_end()
 
-            cli::cli_par()
             cli::cli_h3("Hyperparameters")
-            cli::cli_end()
 
-            cli::cli_par()
-            cli::cli_li("{.field reg}: {object@reg}")
-            cli::cli_li("{.field fc}: {object@fc}")
-            cli::cli_li("{.field iter}: {object@iter}")
-            cli::cli_end()
+            cli::cli_li("{.field reg}: {.val {object@reg}}")
+            cli::cli_li("{.field fc}: {.val {object@fc}}")
+            cli::cli_li("{.field iter}: {.val {object@iter}}")
           })

@@ -34,13 +34,9 @@ setMethod("show",
             cli::cli_text("Method: {.emph Random Forest}")
             cli::cli_end()
 
-            cli::cli_par()
             cli::cli_h3("Hyperparameters")
-            cli::cli_end()
 
-            cli::cli_par()
-            cli::cli_li("{.field mtry}: {object@mtry}")
-            cli::cli_li("{.field ntree}: {object@ntree}")
-            cli::cli_li("{.field nodesize}: {object@nodesize}")
-            cli::cli_end()
+            cli::cli_li("{.field mtry}: {.val {object@mtry}}")
+            cli::cli_li("{.field ntree}: {.val {object@ntree}}")
+            cli::cli_li("{.field nodesize}: {.val {object@nodesize}}")
           })

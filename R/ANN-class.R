@@ -36,14 +36,10 @@ setMethod("show",
             cli::cli_text("Method: {.emph Artificial Neural Networks}")
             cli::cli_end()
 
-            cli::cli_par()
             cli::cli_h3("Hyperparameters")
-            cli::cli_end()
 
-            cli::cli_par()
-            cli::cli_li("{.field size}: {object@size}")
-            cli::cli_li("{.field decay}: {object@decay}")
-            cli::cli_li("{.field rang}: {object@rang}")
-            cli::cli_li("{.field maxit}: {object@maxit}")
-            cli::cli_end()
+            cli::cli_li("{.field size}: {.val {object@size}}")
+            cli::cli_li("{.field decay}: {.val {object@decay}}")
+            cli::cli_li("{.field rang}: {.val {object@rang}}")
+            cli::cli_li("{.field maxit}: {.val {object@maxit}}")
           })

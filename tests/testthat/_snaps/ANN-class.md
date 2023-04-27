@@ -9,10 +9,8 @@
       Method: Artificial Neural Networks
       
       -- Hyperparameters 
-      
       * size: 10
       * decay: 0
       * rang: 0.7
       * maxit: 100
-      
 
