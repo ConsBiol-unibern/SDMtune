@@ -29,34 +29,40 @@ setMethod(
 
     tunable_hypers <- getTunableArgs(object)
     cont_vars <- names(Filter(is.numeric, object@data@data))
+
     if (length(cont_vars) == 0)
       cont_vars <- NA
+
     cat_vars <- names(Filter(is.factor, object@data@data))
+
     if (length(cat_vars) == 0)
       cat_vars <- NA
 
-    cat("Object of class", class(object), "\n")
-    cat("Method:", class(object@model), "\n\n")
+    n_p <- sum(object@data@pa == 1)
+    n_a <- sum(object@data@pa == 0)
 
-    cat("Species:", object@data@species, "\n")
-    cat("Presence locations:", nrow(.get_presence(object@data)), "\n")
-    cat("Absence locations:", nrow(.get_absence(object@data)), "\n\n")
+    cli::cli_h2("Object of class: {.cls {class(object)}}")
 
-    cat("Model configurations:\n")
-    cat("--------------------\n")
+    cli::cli_par()
+    cli::cli_text("Method: {.emph { .get_method(object)}}")
+    cli::cli_end()
+
+    cli::cli_h3("Hyperparameters")
 
     for (i in seq_along(tunable_hypers)) {
-      if (tunable_hypers[i] == "a") {
-        next
-      } else {
-        h <- slot(object@model, tunable_hypers[i])
-        cat(tunable_hypers[i], ": ", h, "\n", sep = "")
-      }
+      h <- slot(object@model, tunable_hypers[i])
+      cli::cli_li("{.field {tunable_hypers[i]}}: {.val {h}}")
     }
 
-    cat("\nVariables:\n")
-    cat("---------\n")
-    cat("Continuous:", cont_vars, fill = 80)
-    cat("Categorical:", cat_vars, fill = 80)
+    cli::cli_h3("Info")
+
+    cli::cli_li("{.field Species}: {.emph {object@data@species}}")
+    cli::cli_li("{.field Presence locations}: {.val {n_p}}")
+    cli::cli_li("{.field Absence locations}: {.val {n_a}}")
+
+    cli::cli_h3("Variables")
+
+    cli::cli_li("{.field Continuous}: {.val {cont_vars}}")
+    cli::cli_li("{.field Categorical}: {.val {cat_vars}}")
   }
 )
