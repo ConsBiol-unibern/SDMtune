@@ -209,6 +209,29 @@ test_that("The function .args_name", {
   expect_vector(.args_name("trainRF"), ptype = character(), size = 4)
 })
 
+test_that("The function .get_method gives the right output", {
+  # Maxent
+  expect_snapshot(.get_method(SDMtune:::bm_maxent))
+  # Maxnet
+  expect_snapshot(.get_method(SDMtune:::bm_maxnet))
+  # ANN
+  data <- SDMtune:::t
+  data@data <- data@data[, 1:4]
+  m <- train("ANN",
+             data = data,
+             size = 10)
+  expect_snapshot(.get_method(m))
+  # BRT
+  m <- trainBRT(data = data)
+  expect_snapshot(.get_method(m))
+  # RF
+  m <- train("RF", data = data)
+  expect_snapshot(.get_method(m))
+
+  # Cross validation
+  expect_snapshot(.get_method(SDMtune:::bm_maxnet_cv))
+})
+
 # TODO: Remove with version 2.0.0
 test_that("Raises and error if raster package is used", {
   expect_snapshot_error(.raster_error("rast"))

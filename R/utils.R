@@ -312,6 +312,26 @@
   )
 }
 
+# Get method from a model object
+.get_method <- function(x) {
+
+  if (inherits(x, "SDMmodel")) {
+    model <- x@model
+  } else {
+    model <- x@models[[1]]@model
+  }
+
+  y <- class(model) |>
+    as.character()
+
+  switch(y,
+         ANN = "Artificial Neural Networks",
+         BRT = "Boosted Regression Trees",
+         Maxent = "Maxent",
+         Maxnet = "Maxnet",
+         RF = "Random Forest")
+}
+
 # TODO: Remove with version 2.0.0
 .raster_error <- function(x) {
   cli::cli_abort(
