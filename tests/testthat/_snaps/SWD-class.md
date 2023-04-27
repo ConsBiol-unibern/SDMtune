@@ -7,15 +7,14 @@
       -- Object of class: <SWD> --
       
       -- Info 
-      Species: Virtual species
-      Presence locations: 400
-      Absence locations: 5000
+      * Species: Virtual species
+      * Presence locations: 400
+      * Absence locations: 5000
       
       -- Variables 
-      Continuous: "bio1", "bio12", "bio16", "bio17", "bio5", "bio6", "bio7", and
+      * Continuous: "bio1", "bio12", "bio16", "bio17", "bio5", "bio6", "bio7", and
       "bio8"
-      Categorical: "biome"
-      
+      * Categorical: "biome"
 
 ---
 
@@ -26,14 +25,13 @@
       -- Object of class: <SWD> --
       
       -- Info 
-      Species: Virtual species
-      Presence locations: 400
-      Absence locations: 5000
+      * Species: Virtual species
+      * Presence locations: 400
+      * Absence locations: 5000
       
       -- Variables 
-      Continuous: "bio1", "bio12", and "bio16"
-      Categorical: NA
-      
+      * Continuous: "bio1", "bio12", and "bio16"
+      * Categorical: NA
 
 ---
 
@@ -44,12 +42,11 @@
       -- Object of class: <SWD> --
       
       -- Info 
-      Species: Virtual species
-      Presence locations: 400
-      Absence locations: 5000
+      * Species: Virtual species
+      * Presence locations: 400
+      * Absence locations: 5000
       
       -- Variables 
-      Continuous: NA
-      Categorical: "biome"
-      
+      * Continuous: NA
+      * Categorical: "biome"
 

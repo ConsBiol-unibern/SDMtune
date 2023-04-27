@@ -60,14 +60,12 @@ setMethod(
 
     cli::cli_h3("Info")
 
-    cli::cli_text("{.field Species}: {.emph {object@species}}")
-    cli::cli_text("{.field Presence locations}: {.val {sum(object@pa == 1)}}")
-    cli::cli_text("{.field Absence locations}: {.val {sum(object@pa == 0)}}")
+    cli::cli_li("{.field Species}: {.emph {object@species}}")
+    cli::cli_li("{.field Presence locations}: {.val {sum(object@pa == 1)}}")
+    cli::cli_li("{.field Absence locations}: {.val {sum(object@pa == 0)}}")
 
     cli::cli_h3("Variables")
 
-    cli::cli_par()
-    cli::cli_text("{.field Continuous}: {.val {cont_vars}}")
-    cli::cli_text("{.field Categorical}: {.val {cat_vars}}")
-    cli::cli_end()
+    cli::cli_li("{.field Continuous}: {.val {cont_vars}}")
+    cli::cli_li("{.field Categorical}: {.val {cat_vars}}")
   })
