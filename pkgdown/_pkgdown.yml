@@ -115,6 +115,7 @@ reference:
   desc: Some utility functions
   contents:
   - '`checkMaxentInstallation`'
+  - '`combineCV`'
   - '`mergeSWD`'
   - '`SDMmodel2MaxEnt`'
   - '`swd2csv`'
