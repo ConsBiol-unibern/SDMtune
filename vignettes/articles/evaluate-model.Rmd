@@ -34,7 +34,7 @@ We will compute the value of the metrics on the training dataset, using the `def
 
 As usually we first load the **SDMtune** package:
 
-```{r load-SDMtune, warning=FALSE}
+```{r load-SDMtune}
 library(SDMtune)
 ```
 
