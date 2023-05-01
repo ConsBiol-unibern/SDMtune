@@ -59,8 +59,8 @@ model <- train("Maxnet",
 
 To see the effect of varying one hyperparameter on the model performance we can use the function `gridSearch`. The function iterates through a set of predefined hyperparameter values, train the model and displays in real-time the evaluation metric in the RStudio viewer pane (hover over the points to get a tooltip with extra information). Let's see how the AUC changes varying the regularization multiplier. First we have to define the values for the hyperparameter that we want to test. For that we create a named list that we will use as an argument for the function `gridSearch`:
 
-```{r tune-bg}
-# Define the values for bg
+```{r tune-reg}
+# Define the values for the regularization multiplier
 h <- list(reg = seq(0.2, 1, 0.1))
 
 # Call the gridSearch function
