@@ -1096,13 +1096,11 @@ the <code>SDMmodelCV</code>):</p>
 <span>                      seed <span class="op">=</span> <span class="fl">65466</span><span class="op">)</span></span></code></pre></div>
 <p>The function <code>randomSearch</code> orders the models according to
 the best value of the metric for the testing dataset. In this case we
-can train a model using the best hyperparameters configuration and
-without cross validation with:</p>
+can train a model using the best configuration of the hyperparameters
+and without cross validation (i.e. using all presence and background
+locations) with:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxent"</span>, </span>
-<span>                     data <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">data</span>, </span>
-<span>                     fc <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>, </span>
-<span>                     reg <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineCV.html">combineCV</a></span><span class="op">(</span><span class="va">exp_8</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">final_model</span>, </span>
 <span>    test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>

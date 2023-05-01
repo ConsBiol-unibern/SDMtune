@@ -272,16 +272,12 @@ diff_AUC
 <h2 id="evaluate-the-final-model">Evaluate the final model<a class="anchor" aria-label="anchor" href="#evaluate-the-final-model"></a>
 </h2>
 <p>We now train a model with the same configuration as found by the
-function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> without cross validation, using
-all the train data, and we evaluate it using the held apart testing
-dataset:</p>
+function <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> without cross validation
+(i.e. using all presence and background locations) and we evaluate it
+using the held apart testing dataset:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span></span>
-<span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"ANN"</span>, </span>
-<span>                     data <span class="op">=</span> <span class="va">train</span>, </span>
-<span>                     size <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>, </span>
-<span>                     decay <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span>, </span>
-<span>                     maxit <span class="op">=</span> <span class="va">om</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineCV.html">combineCV</a></span><span class="op">(</span><span class="va">om</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">final_model</span>, </span>
 <span>        test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span>
