@@ -5,7 +5,7 @@
 #'
 #' @details This is an utility function to retrain a model with all data after,
 #' for example, the hyperparameters tuning (\link{gridSearch},
-#' \link {randomSearch} or \link{optimizeModel}) to avoid manual setting of the
+#' \link{randomSearch} or \link{optimizeModel}) to avoid manual setting of the
 #' hyperparameters in the \link{train} function.
 #'
 #' @param model \linkS4class{SDMmodelCV} object.
