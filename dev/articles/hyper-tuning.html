@@ -169,7 +169,7 @@ multiplier. First we have to define the values for the hyperparameter
 that we want to test. For that we create a named list that we will use
 as an argument for the function <code>gridSearch</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Define the values for bg</span></span>
+<code class="sourceCode R"><span><span class="co"># Define the values for the regularization multiplier</span></span>
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Call the gridSearch function</span></span>
