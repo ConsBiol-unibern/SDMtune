@@ -20,6 +20,7 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
 <img src="../man/figures/logo.png" width="70" style = "float: right; border: none;">
 
 The other vignettes are based on presence only methods. Here you will learn how to train a presence absence model. The following examples are based on the Artificial Neural Networks method [@Venables2002], but you can adapt the code for any of the other supported methods. We use the first 8 environmental variables and the `virtualSp` dataset selecting the absence instead of the background locations.
+
 ```{r load data}
 library(SDMtune)
 library(zeallot)
@@ -54,6 +55,7 @@ folds <- randomFolds(train,
 # Train the model
 
 We first train the model with default settings and using 10 neurons:
+
 ```{r}
 set.seed(25)
 model <- train("ANN",
@@ -65,6 +67,7 @@ model
 ```
 
 Let's check the training and testing AUC:
+
 ```{r auc}
 auc(model)
 auc(model, test = TRUE)
@@ -73,6 +76,7 @@ auc(model, test = TRUE)
 # Tune model hyperparameters
 
 To check which hyperparameters can be tuned we use the function `getTunableArgs` function:
+
 ```{r get tunable args}
 getTunableArgs(model)
 ```
@@ -91,6 +95,7 @@ om <- optimizeModel(model,
 ```
 
 The best model is:
+
 ```{r best model}
 best_model <- om@models[[1]]
 om@results[1, ]
@@ -99,6 +104,7 @@ om@results[1, ]
 # Evaluate the final model
 
 We now train a model with the same configuration as found by the function`optimizeModel`, without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:
+
 ```{r evaluate final model, fig.align="center"}
 set.seed(25)
 final_model <- train("ANN",

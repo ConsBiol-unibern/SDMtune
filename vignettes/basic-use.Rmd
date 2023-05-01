@@ -24,6 +24,7 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
 In this section you will learn how to prepare the data to train models using `SDMtune`. We will use the `virtualSp` dataset included in the package and environmental predictors from the  [WorldClim](https://www.worldclim.org/) dataset.
 
 First let's load some packages that we will use to visualize the data:
+
 ```{r load pkgs}
 library(ggplot2)    # To plot locations
 library(maps)       # To access useful maps
@@ -41,11 +42,13 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 ```
 
 We convert these files in a `raster` object that will be used later in the analysis:
+
 ```{r create raster object}
 predictors <- terra::rast(files)
 ```
 
 There are nine environmental variables, eight continuous and one categorical:
+
 ```{r names predicrtors}
 names(predictors)
 ```
@@ -91,6 +94,7 @@ library(SDMtune)
 ```
 
 For demonstrating how to use `SDMtune` we use the random generated `virtualSp` dataset included in the package.
+
 ```{r help dataset}
 help(virtualSp)
 p_coords <- virtualSp$presence
@@ -98,6 +102,7 @@ bg_coords <- virtualSp$background
 ```
 
 Plot the study area together with the presence locations:
+
 ```{r plot presence}
 ggplot(map_data("world"), aes(long, lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
@@ -179,12 +184,14 @@ data@species
 We can save the `SWD` object in a **.csv** file using the function `swd2csv` (the function saves the file in the working directory). There are two possibilities:
 
 * save the object in a single file with the column **pa** indicating if the location is a presence (1) or an absence/background (0) site
+
 ```{r save SWD single, eval=FALSE}
 swd2csv(data, 
         file_name = "data.csv")
 ```
 
 * save the object in two separate files: one for the presence and the other for the absence/background locations
+
 ```{r save SWDdouble, eval=FALSE}
 swd2csv(data, 
         file_name = c("presence.csv", "background.csv"))
@@ -226,6 +233,7 @@ We will see later how to change the default settings, for the moment let's have 
 ## Explore an SDMmodel object
 
 The output of the function `train` is an object of class `SDMmodel`. Let's print the `model` object we've just created:
+
 ```{r print model}
 model
 ```
@@ -309,6 +317,7 @@ head(pred)
 ```
 
 We can get the prediction only for the presence location with:
+
 ```{r predict presence}
 p <- data@data[data@pa == 1, ]
 pred <- predict(model, 
@@ -419,11 +428,13 @@ We will compute the value of the metrics on the training dataset.
 ## AUC
 
 The AUC can be calculated using the function `auc`:
+
 ```{r auc}
 auc(model)
 ```
 
 We can also plot the ROC curve using the function `plotROC`:
+
 ```{r plot roc}
 plotROC(model)
 ```
@@ -431,6 +442,7 @@ plotROC(model)
 ## TSS
 
 The TSS is computed with the function `tss`:
+
 ```{r tss}
 tss(model)
 ```
@@ -438,6 +450,7 @@ tss(model)
 ## AICc
 
 For the AICc we use the function `aicc`. In this case we need to pass to the `env` argument the `predictors` raster object:
+
 ```{r aicc}
 aicc(model, 
      env = predictors)
@@ -446,6 +459,7 @@ aicc(model,
 ## Training and testing
 
 It's always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest` function for this purpose. Let's say we want to use 80\% of the species locations to train our model and 20\% as testing dataset to evaluate it:
+
 ```{r train test}
 library(zeallot)  # For unpacking assignment
 c(train, test) %<-% trainValTest(data, 
@@ -462,17 +476,20 @@ model <- train("Maxent",
 ```
 
 The `only_presence` argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:
+
 ```{r evaluate test}
 auc(model)
 auc(model, test = test)
 ```
 
 We can plot the ROC curve for both, training and testing datasets, with:
+
 ```{r plot AUC train/test}
 plotROC(model, test = test)
 ```
 
 This approach is valid when we have a large dataset. In our case, with only few observations, the evaluation depends strongly on how we split our presence locations. Let's run a small experiment in which we perform different train/test splits and we compute the AUC:
+
 ```{r experiment}
 # Create an empty data.frame
 output <- data.frame(matrix(NA, nrow = 10, ncol = 3))
@@ -510,6 +527,7 @@ The testing AUC varies for the different train/test partitions. When we have to 
 ## Cross validation
 
 To perform a cross validation in **SDMtune** we have to pass the `fold` argument to the `train` function. First we have to create the folds. There are several way to create them, here we explain how to make a random partition of 4 folds using the function `randomFolds`:
+
 ```{r random folds}
 folds <- randomFolds(data, 
                      k = 4, 
@@ -520,6 +538,7 @@ folds <- randomFolds(data,
 The output of the function is a list containing two matrices, the first for the training and the second for the testing locations. Each column of one matrix represents a fold with `TRUE` for the locations included in and `FALSE` excluded from the partition.
 
 Let's perform a 4 fold cross validation using the **Maxent** method (note that we use the full dataset):
+
 ```{r cv, eval=FALSE}
 cv_model <- train("Maxent", 
                   data = data, 
@@ -528,6 +547,7 @@ cv_model
 ```
 
 The output in this case is an `SDMmodelCV` object. It contains the four trained models in the `models` slot and the fold partitions in the `folds` slot. We can compute the AUC of a `SDMmodelCV` object using:
+
 ```{r}
 auc(cv_model)
 auc(cv_model, test = TRUE)
@@ -545,6 +565,7 @@ The `train()` function accepts folds created with two other packages:
 The function will convert internally the created folds into the correct format for `SDMtune`. These packages have specific function to create folds partitions that are spatially or environmentally independent.
 
 Block partition using the `ENMeval` package:
+
 ```{r enmeval block}
 library(ENMeval)
 block_folds <- get.block(occ = data@coords[data@pa == 1, ],
@@ -558,6 +579,7 @@ model <- train(method = "Maxent",
 ```
 
 Checkerboard1 partition using the `ENMeval` package:
+
 ```{r enmeval checherboard1}
 cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ],
                               env = predictors,
@@ -572,6 +594,7 @@ model <- train(method = "Maxent",
 ```
 
 Environmental block using the package `blockCV`:
+
 ```{r blockCV}
 library(blockCV)
 # Create sf object

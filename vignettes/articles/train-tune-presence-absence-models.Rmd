@@ -26,6 +26,7 @@ All the previous articles are based on presence only methods, in this article yo
 ## Prepare the data for the analysis
 
 We use the first 8 environmental variables and the same `virtualSp()` dataset selecting the absence instead of the background locations.
+
 ```{r prepare data, eval=FALSE}
 p_coords <- virtualSp$presence
 a_coords <- virtualSp$absence
@@ -53,6 +54,7 @@ data
 There are `r sum(data@pa == 1)` presence and `r sum(data@pa == 0)` absence locations.
 
 For the model evaluation we will create a training and testing datasets, holding apart 20% of the data:
+
 ```{r train test}
 library(zeallot)
 c(train, test) %<-% trainValTest(data, 
@@ -61,6 +63,7 @@ c(train, test) %<-% trainValTest(data,
 ```
 
 At this point we have `r nrow(train@data)` training and `r nrow(test@data)` testing locations. We create a 4-folds partition to run cross validation:
+
 ```{r folds}
 folds <- randomFolds(train, 
                      k = 4, 
@@ -70,6 +73,7 @@ folds <- randomFolds(train,
 ## Train the model
 
 We first train the model with default settings and 10 neurons:
+
 ```{r}
 set.seed(25)
 model <- train("ANN", 
@@ -80,6 +84,7 @@ model
 ```
 
 Let's check the training and testing AUC:
+
 ```{r auc}
 auc(model)
 auc(model, test = TRUE)
@@ -88,6 +93,7 @@ auc(model, test = TRUE)
 ## Tune model hyperparameters
 
 To check which hyperparameters can be tuned we use the function `getTunableArgs()` function:
+
 ```{r get tunable args}
 getTunableArgs(model)
 ```
@@ -118,6 +124,7 @@ om <- optimizeModel(model,
 ```
 
 The best model is:
+
 ```{r best model, eval=FALSE}
 best_model <- om@models[[1]]
 om@results[1, ]
@@ -135,6 +142,7 @@ The validation AUC increased from `r auc(model, test = TRUE)` of the default mod
 ## Evaluate the final model
 
 We now train a model with the same configuration as found by the function `optimizeModel()` without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:
+
 ```{r evaluate final model, fig.align="center"}
 set.seed(25)
 final_model <- train("ANN", 

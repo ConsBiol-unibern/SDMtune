@@ -32,6 +32,7 @@ library(SDMtune)
 ```
 
 For a **Maxent** model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:
+
 ```{r maxent results, eval=FALSE}
 default_model@model@results
 ```
@@ -43,6 +44,7 @@ kableExtra::kable(default_model@model@results) |>
 ```
 
 The function `maxentVarImp()` extracts the variable importance values from the previous output and formats them in a more human readable way:
+
 ```{r maxent var importance, eval=FALSE}
 vi <- maxentVarImp(default_model)
 vi
@@ -58,6 +60,7 @@ kableExtra::kable(vi) |>
 As you can see the function returns a `data.frame` with the variable name, the percent contribution and the permutation importance.
 
 You can plot the variable importance as a bar chart using the function `plotVarImp()`. For example you can plot the percent contribution using:
+
 ```{r maxent percent contribution plot, fig.align="center"}
 plotVarImp(vi[, 1:2])
 ```
@@ -65,6 +68,7 @@ plotVarImp(vi[, 1:2])
 ### Try yourself
 
 Plot the permutation importance as a bar chart. To see the solution highlight the following cell:
+
 ```{r maxent permutation importance plot, eval=FALSE, class.source='exercise'}
 # The function accepts a data.frame with 2 columns: one with the variable name
 # and one with the values, so it is enough to select the first and the third
@@ -77,6 +81,7 @@ plotVarImp(vi[, c(1,3)])
 ## Permutation importance
 
 For this example we use a **Maxnet** model and a training/testing validation strategy like in the [previous article](./evaluation-strategies.html#train-and-testing-datasets):
+
 ```{r train test}
 library(zeallot)  # For unpacking assignment
 c(train, test) %<-% trainValTest(data, 
@@ -89,6 +94,7 @@ maxnet_model <- train("Maxnet",
 ```
 
 Now we can calculate the variable importance with the function `varImp()` using 5 permutations:
+
 ```{r vi, eval=FALSE}
 vi_maxnet <- varImp(maxnet_model, 
                     permut = 5)
@@ -104,6 +110,7 @@ kableExtra::kable(vi_maxnet) |>
 ```
 
 And plot it with:
+
 ```{r plot var imp, fig.align="center"}
 plotVarImp(vi_maxnet)
 ```
@@ -111,6 +118,7 @@ plotVarImp(vi_maxnet)
 ### Try yourself
 
 Use the `varImp()` function to compute the permutation importance for the `default_model` using 10 permutations and compare the results with the Maxent output. To see the solution highlight the following cell:
+
 ```{r permut exercise, eval=FALSE, class.source='exercise'}
 # Compute the permutation importance
 vi_maxent <- varImp(default_model, 
@@ -122,11 +130,13 @@ vi_maxent
 # Compare with Maxent output
 maxentVarImp(default_model)
 ```
+
 The difference is probably due to a different shuffling of the presence and background locations during the permutation process and because in this example we performed 10 permutations and averaged the values.
 
 ## Jackknife test for variable importance
 
 Another method to estimate the variable importance is the leave one out Jackknife test. The test removes one variable at time and records the change in the chosen metric. We use the function `doJk()`, the AUC as evaluation metric and the `maxnet_model`:
+
 ```{r jk, eval=FALSE}
 jk <- doJk(maxnet_model, 
            metric = "auc", 
@@ -145,6 +155,7 @@ kableExtra::kable(jk) |>
 ```
 
 We can also plot the output using the function `plotJk()`. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC: 
+
 ```{r plot jk train, fig.align="center"}
 plotJk(jk, 
        type = "train", 
@@ -152,6 +163,7 @@ plotJk(jk,
 ```
 
 and the Jackknife test for the testing AUC:
+
 ```{r plot jk test, fig.align="center"}
 plotJk(jk, 
        type = "test", 
@@ -165,6 +177,7 @@ Repeat the Jackknife part using the TSS and the AICc as evaluation metric and us
 ## Response curves
 
 With the function `plotResponse()` is possible to plot the marginal and the univariate response curve. Let's plot the **cloglog** univariate response curve of **bio1**:
+
 ```{r plot bio1, fig.align="center"}
 plotResponse(maxnet_model, 
              var = "bio1", 
@@ -175,6 +188,7 @@ plotResponse(maxnet_model,
 ```
 
 On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the **logistic** marginal response curve of **biome** that is a categorical variable, keeping the other variables at the mean value:
+
 ```{r plot biome, fig.align="center"}
 plotResponse(maxnet_model, 
              var = "biome", 
@@ -188,6 +202,7 @@ plotResponse(maxnet_model,
 ### Try yourself
 
 Plot in green the univariate cloglog response curve of **bio17** removing the rug and using the `default_model`, to see the solution highlight the following cell:
+
 ```{r plot exercise, eval=FALSE, eval=FALSE, class.source='exercise'}
 plotResponse(default_model, 
              var = "bio17", 
@@ -197,7 +212,8 @@ plotResponse(default_model,
              color = "green")
 ```
 
-In the case of an `SDMmodelCV()` the response curve shows the averaged value of the prediction together with one Standard Deviation error interval. We use the cross validation model trained in the [previous article](./evaluation-strategies.html#cross-validation)
+In the case of an `SDMmodelCV()` the response curve shows the averaged value of the prediction together with one Standard Deviation error interval. We use the cross validation model trained in the [previous article](./evaluation-strategies.html#cross-validation):
+
 ```{r load model, echo=FALSE}
 cv_model <- SDMtune:::bm_maxnet_cv
 ```
@@ -224,6 +240,7 @@ All what you have learned till now con be saved and summarized calling the funct
 * save the model with `.Rds` extension that can be loaded in R using the `readRDS` function.
 
 The function is totally inspired by the default output of the MaxEnt Java software [@Phillips2006] and extends it to other methods. You can decide what to include in the report using dedicated function arguments, like `response_curves`, `jk` and `env` but the function cannot be used with `SDMmodelCV()` objects. Run the following code to create a report of the **Maxnet** model we trained before:
+
 ```{r report, eval=FALSE}
 modelReport(maxnet_model, 
             type = "cloglog", 

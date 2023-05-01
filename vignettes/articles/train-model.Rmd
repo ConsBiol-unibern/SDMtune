@@ -63,6 +63,7 @@ We will see later how to change the default settings, for the moment let's have 
 ## Explore an SDMmodel object
 
 The output of the function `train()` is an object of class `SDMmodel()`. Let's print it:
+
 ```{r print model}
 default_model
 ```
@@ -112,6 +113,7 @@ default_model <- train(method = "Maxent",
 ```
 
 ### Try yourself
+
 Try to change the default settings  and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:
 
 ```{r exercise1, eval = FALSE, class.source="exercise"}

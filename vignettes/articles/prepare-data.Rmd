@@ -36,11 +36,13 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 ```
 
 We convert the files in a [raster](https://www.rdocumentation.org/packages/terra/versions/1.6-17/topics/rast) object that will be used later in the analysis:
+
 ```{r create raster object}
 predictors <- terra::rast(files)
 ```
 
 There are nine environmental variables, eight continuous and one categorical:
+
 ```{r names predicrtors}
 names(predictors)
 ```
@@ -86,6 +88,7 @@ library(SDMtune)
 ```
 
 For demonstrating how to use `SDMtune` we use the random generated virtual species [virtualSp](../../reference/virtualSp.html) dataset included in the package. The dataset contains `r nrow(virtualSp$presence)` coordinates for presence and `r nrow(virtualSp$background)` for background locations.
+
 ```{r load data}
 help(virtualSp)
 p_coords <- virtualSp$presence
@@ -93,6 +96,7 @@ bg_coords <- virtualSp$background
 ```
 
 Plot the study area together with the presence locations:
+
 ```{r plot presence, fig.align="center"}
 ggplot(data = map_data("world"), mapping = aes(x = long, y = lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
@@ -184,6 +188,7 @@ kableExtra::kable(head(data@coords)) |>
 ```
 
 or the name of the species with:
+
 ```{r show species}
 data@species
 ```
@@ -193,11 +198,13 @@ data@species
 We can save the `SWD()` object in a **.csv** file using the function `swd2csv()` (the function saves the file in the working directory). There are two possibilities:
 
 * save the object in a single file with the column **pa** indicating if the location is a presence (1) or an absence/background (0) site
+
 ```{r save SWD single, eval=F}
 swd2csv(data, file_name = "data.csv")
 ```
 
 * save the object in two separate files: one for the presence and the other for the absence/background locations
+
 ```{r save SWDdouble, eval=F}
 swd2csv(data, file_name = c("presence.csv", "background.csv"))
 ```

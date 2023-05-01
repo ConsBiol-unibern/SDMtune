@@ -40,11 +40,13 @@ library(SDMtune)
 ```
 
 The AUC can be calculated using the function `auc()`:
+
 ```{r auc}
 auc(default_model)
 ```
 
 We can also plot the ROC curve using the function `plotROC()`:
+
 ```{r plot roc, fig.align="center"}
 plotROC(default_model)
 ```
@@ -52,6 +54,7 @@ plotROC(default_model)
 ## TSS
 
 The TSS is computed with the function `tss()`:
+
 ```{r tss}
 tss(default_model)
 ```
@@ -59,6 +62,7 @@ tss(default_model)
 ## AICc
 
 For the AICc we use the function `aicc()`. In this case we need to pass to the `env` argument the 'predictors' raster object that we created in the [first article](./prepare-data.html#acquire-environmental-variables):
+
 ```{r aicc}
 aicc(default_model, 
      env = predictors)
