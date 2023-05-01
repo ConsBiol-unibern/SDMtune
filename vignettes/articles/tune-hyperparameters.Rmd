@@ -320,13 +320,10 @@ exp_8 <- randomSearch(cv_model,
                       seed = 65466)
 ```
 
-The function `randomSearch` orders the models according to the best value of the metric for the testing dataset. In this case we can train a model using the best hyperparameters configuration and without cross validation with:
+The function `randomSearch` orders the models according to the best value of the metric for the testing dataset. In this case we can train a model using the best configuration of the hyperparameters and without cross validation (i.e. using all presence and background locations) with:
 
 ```{r final evaluation cv, eval=FALSE}
-final_model <- train("Maxent", 
-                     data = exp_8@models[[1]]@data, 
-                     fc = exp_8@results[1, 1], 
-                     reg = exp_8@results[1, 2])
+final_model <- combineCV(exp_8@models[[1]])
 
 auc(final_model, 
     test = test)

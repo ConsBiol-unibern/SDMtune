@@ -141,15 +141,11 @@ The validation AUC increased from `r auc(model, test = TRUE)` of the default mod
 
 ## Evaluate the final model
 
-We now train a model with the same configuration as found by the function `optimizeModel()` without cross validation, using all the train data, and we evaluate it using the held apart testing dataset:
+We now train a model with the same configuration as found by the function `optimizeModel()` without cross validation (i.e. using all presence and background locations) and we evaluate it using the held apart testing dataset:
 
 ```{r evaluate final model, fig.align="center"}
 set.seed(25)
-final_model <- train("ANN", 
-                     data = train, 
-                     size = om@results[1, 1], 
-                     decay = om@results[1, 2], 
-                     maxit = om@results[1, 4])
+final_model <- combineCV(om@models[[1]])
 
 plotROC(final_model, 
         test = test)
