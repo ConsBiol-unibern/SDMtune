@@ -82,7 +82,7 @@ gplot(predictors$bio1) +
 
 Let's load the **SDMtune** package:
 
-```{r load-SDMtune, warning=FALSE}
+```{r load-SDMtune}
 library(SDMtune)
 ```
 

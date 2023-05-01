@@ -33,7 +33,7 @@ The code necessary to train a model is the same for all the implementations. We 
 
 First we load the **SDMtune** package:
 
-```{r load-SDMtune, warning=FALSE}
+```{r load-SDMtune}
 library(SDMtune)
 ```
 

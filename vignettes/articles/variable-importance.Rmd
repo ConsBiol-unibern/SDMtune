@@ -26,7 +26,7 @@ In the previous articles you have learned how to [prepare the data](./prepare-da
 
 First we load the **SDMtune** package:
 
-```{r load-SDMtune, warning=FALSE}
+```{r load-SDMtune}
 library(SDMtune)
 ```
 
