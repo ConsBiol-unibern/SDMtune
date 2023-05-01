@@ -1,4 +1,5 @@
 # SDMtune 1.2.1.9000
+* Add function to combine cross validation models
 * Improve show method for package outputs
 * Fix CRAN note for undeclared package in Rd file
 
