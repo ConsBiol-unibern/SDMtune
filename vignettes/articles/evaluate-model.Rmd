@@ -4,10 +4,9 @@ bibliography: ../SDMtune.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>",
+                      fig.align = "center")
 options(knitr.table.format = "html")
 ```
 
@@ -47,7 +46,7 @@ auc(default_model)
 
 We can also plot the ROC curve using the function `plotROC()`:
 
-```{r plot-roc, fig.align='center'}
+```{r plot-roc}
 plotROC(default_model)
 ```
 

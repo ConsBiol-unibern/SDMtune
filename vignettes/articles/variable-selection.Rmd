@@ -3,10 +3,9 @@ title: "Data-driven variable selection"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>",
+                      fig.align = "center")
 options(knitr.table.format = "html")
 ```
 
@@ -68,7 +67,7 @@ The environmental variables we downloaded have a coarse resolution and the funct
 
 With the function `plotCor()` you can create an heat map showing the degree of autocorrelation:
 
-```{r heat-map, fig.align='center'}
+```{r heat-map}
 plotCor(bg, 
         method = "spearman", 
         cor_th = 0.7)

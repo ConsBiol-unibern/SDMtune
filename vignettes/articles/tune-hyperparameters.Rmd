@@ -4,10 +4,9 @@ bibliography: ../SDMtune.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>",
+                      fig.align = "center")
 options(knitr.table.format = "html")
 ```
 
@@ -85,7 +84,7 @@ exp_1
 
 When you print the output, the text contains the models configuration that have been used during the execution of the function. In our case, only the regularization multiplier `reg` has multiple values. You can plot the `SDMtune()` object:
 
-```{r plot-exp-1, fig.align='center'}
+```{r plot-exp-1}
 plot(exp_1, 
      title = "Experiment 1")
 ``` 

@@ -4,10 +4,9 @@ bibliography: ../SDMtune.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>",
+                      fig.align = "center")
 options(knitr.table.format = "html")
 ```
 
@@ -29,7 +28,7 @@ library(rasterVis)  # To plot raster objects
 
 For the analysis we use the climate data of [WorldClim](https://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestrial ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
 
-```{r get-predictors, fig.align='center'}
+```{r get-predictors}
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -61,7 +60,7 @@ names(predictors)
 
 We can plot **bio1** using the [gplot](https://www.rdocumentation.org/packages/rasterVis/versions/0.43/topics/gplot-methods) function from the `rasterVis` package:
 
-```{r plot-bio1, fig.align='center'}
+```{r plot-bio1}
 gplot(predictors$bio1) +
     geom_tile(mapping = aes(fill = value)) +
     coord_equal() +
@@ -97,7 +96,7 @@ bg_coords <- virtualSp$background
 
 Plot the study area together with the presence locations:
 
-```{r plot-presence, fig.align='center'}
+```{r plot-presence}
 ggplot(data = map_data("world"), mapping = aes(x = long, y = lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
     geom_jitter(data = p_coords, aes(x = x, y = y), color = "red",
@@ -112,7 +111,7 @@ ggplot(data = map_data("world"), mapping = aes(x = long, y = lat)) +
 
 To plot the background locations run the following code:
 
-```{r plot-bg_model-locations, fig.align='center'}
+```{r plot-bg_model-locations}
 ggplot(data = map_data("world"), mapping = aes(x = long, y = lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
     geom_jitter(data = as.data.frame(bg_coords), aes(x = x, y = y),

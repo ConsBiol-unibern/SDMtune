@@ -3,10 +3,9 @@ title: "Variable Importance"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>",
+                      fig.align = "center")
 options(knitr.table.format = "html")
 ```
 
@@ -61,7 +60,7 @@ As you can see the function returns a `data.frame` with the variable name, the p
 
 You can plot the variable importance as a bar chart using the function `plotVarImp()`. For example you can plot the percent contribution using:
 
-```{r maxent-percent-contribution-plot, fig.align='center'}
+```{r maxent-percent-contribution-plot}
 plotVarImp(vi[, 1:2])
 ```
 
@@ -111,7 +110,7 @@ kableExtra::kable(vi_maxnet) |>
 
 And plot it with:
 
-```{r plot-var-imp, fig.align='center'}
+```{r plot-var-imp}
 plotVarImp(vi_maxnet)
 ```
 
@@ -156,7 +155,7 @@ kableExtra::kable(jk) |>
 
 We can also plot the output using the function `plotJk()`. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC: 
 
-```{r plot-jk-train, fig.align='center'}
+```{r plot-jk-train}
 plotJk(jk, 
        type = "train", 
        ref = auc(maxnet_model))
@@ -164,7 +163,7 @@ plotJk(jk,
 
 and the Jackknife test for the testing AUC:
 
-```{r plot-jk-test, fig.align='center'}
+```{r plot-jk-test}
 plotJk(jk, 
        type = "test", 
        ref = auc(maxnet_model, test = test))
@@ -178,7 +177,7 @@ Repeat the Jackknife part using the TSS and the AICc as evaluation metric and us
 
 With the function `plotResponse()` is possible to plot the marginal and the univariate response curve. Let's plot the **cloglog** univariate response curve of **bio1**:
 
-```{r plot-bio1, fig.align='center'}
+```{r plot-bio1}
 plotResponse(maxnet_model, 
              var = "bio1", 
              type = "cloglog", 
@@ -189,7 +188,7 @@ plotResponse(maxnet_model,
 
 On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the **logistic** marginal response curve of **biome** that is a categorical variable, keeping the other variables at the mean value:
 
-```{r plot-biome, fig.align='center'}
+```{r plot-biome}
 plotResponse(maxnet_model, 
              var = "biome", 
              type = "logistic", 
@@ -218,7 +217,7 @@ In the case of an `SDMmodelCV()` the response curve shows the averaged value of 
 cv_model <- SDMtune:::bm_maxnet_cv
 ```
 
-```{r plot-cv-response, fig.align='center'}
+```{r plot-cv-response}
 plotResponse(cv_model, 
              var = "bio1", 
              type = "cloglog", 

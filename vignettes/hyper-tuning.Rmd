@@ -13,7 +13,9 @@ vignette: >
 ---
 
 ```{r knitr-options, include=FALSE}
-knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
+knitr::opts_chunk$set(comment = "#>",
+                      collapse = TRUE,
+                      eval = FALSE,
                       fig.align = "center")
 ```
 

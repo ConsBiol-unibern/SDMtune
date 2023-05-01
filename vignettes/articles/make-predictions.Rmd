@@ -3,10 +3,9 @@ title: "Make predictions"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>",
+                      fig.align = "center")
 options(knitr.table.format = "html")
 ```
 
@@ -98,13 +97,13 @@ The [predict()](../../reference/predict-SDMmodel-method.html) function has other
 
 To plot the distribution map we can use the function `plotPred()`:
 
-```{r plot-map-default, fig.align='center'}
+```{r plot-map-default}
 plotPred(map)
 ```
 
 The function `plotPred()` plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
 
-```{r plot-map-custom, fig.align='center'}
+```{r plot-map-custom}
 plotPred(map,
          lt = "Habitat\nsuitability",
          colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
@@ -147,7 +146,7 @@ kableExtra::kable(ths) |>
 
 For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function `plotPA()` passing the threshold value as argument:
 
-```{r plot-pa, fig.align='center'}
+```{r plot-pa}
 plotPA(map, 
        th = ths[3, 2])
 ```

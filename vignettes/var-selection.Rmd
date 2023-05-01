@@ -13,7 +13,9 @@ vignette: >
 ---
 
 ```{r knitr-options, include=FALSE}
-knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
+knitr::opts_chunk$set(comment = "#>",
+                      collapse = TRUE,
+                      eval = FALSE,
                       fig.align = "center")
 ```
 
@@ -151,7 +153,7 @@ plotJk(jk,
 
 and the Jackknife test for the testing AUC:
 
-```{r plot-jk-test, fig.align='center'}
+```{r plot-jk-test}
 plotJk(jk,
        type = "test",
        ref = auc(maxnet_model, test = test))
@@ -161,7 +163,7 @@ plotJk(jk,
 
 With the function `plotResponse` is possible to plot the marginal and the univariate response curve. Let's plot the **cloglog** univariate response curve of **bio1**:
 
-```{r plot-bio1, fig.align='center'}
+```{r plot-bio1}
 plotResponse(maxnet_model,
              var = "bio1",
              type = "cloglog",
@@ -172,7 +174,7 @@ plotResponse(maxnet_model,
 
 On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the **logistic** marginal response curve of **biome** that is a categorical variable, keeping the other variables at the mean value:
 
-```{r plot-biome, fig.align='center'}
+```{r plot-biome}
 plotResponse(maxnet_model,
              var = "biome",
              type = "logistic",
