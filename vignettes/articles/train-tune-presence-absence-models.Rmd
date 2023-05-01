@@ -3,7 +3,7 @@ title: "Train presence absence models"
 bibliography: ../SDMtune.bib
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE, message=FALSE}
+```{r load-data, echo=FALSE, message=FALSE}
 library(SDMtune)
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
                     pattern = "grd", 
@@ -27,7 +27,7 @@ All the previous articles are based on presence only methods, in this article yo
 
 We use the first 8 environmental variables and the same `virtualSp()` dataset selecting the absence instead of the background locations.
 
-```{r prepare data, eval=FALSE}
+```{r prepare-data, eval=FALSE}
 p_coords <- virtualSp$presence
 a_coords <- virtualSp$absence
 
@@ -38,7 +38,7 @@ data <- prepareSWD(species = "Virtual species",
 
 data
 ```
-```{r prepare data output, echo=FALSE}
+```{r prepare-data-output, echo=FALSE}
 p_coords <- virtualSp$presence
 a_coords <- virtualSp$absence
 
@@ -55,7 +55,7 @@ There are `r sum(data@pa == 1)` presence and `r sum(data@pa == 0)` absence locat
 
 For the model evaluation we will create a training and testing datasets, holding apart 20% of the data:
 
-```{r train test}
+```{r train-test}
 library(zeallot)
 c(train, test) %<-% trainValTest(data, 
                                  test = 0.2, 
@@ -74,7 +74,7 @@ folds <- randomFolds(train,
 
 We first train the model with default settings and 10 neurons:
 
-```{r}
+```{r ann}
 set.seed(25)
 model <- train("ANN", 
                data = train, 
@@ -94,13 +94,13 @@ auc(model, test = TRUE)
 
 To check which hyperparameters can be tuned we use the function `getTunableArgs()` function:
 
-```{r get tunable args}
+```{r get-tunable-args}
 getTunableArgs(model)
 ```
 
 We use the function `optimizeModel()` to tune the hyperparameters:
 
-```{r optimize model, eval=FALSE}
+```{r optimize-model, eval=FALSE}
 h <- list(size = 10:50, 
           decay = c(0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5),
           maxit = c(50, 100, 300, 500))
@@ -125,11 +125,11 @@ om <- optimizeModel(model,
 
 The best model is:
 
-```{r best model, eval=FALSE}
+```{r best-model, eval=FALSE}
 best_model <- om@models[[1]]
 om@results[1, ]
 ```
-```{r best model output, echo=FALSE}
+```{r best-model-output, echo=FALSE}
 best_model <- om@models[[1]]
 kableExtra::kable(om@results[1, ]) |> 
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
@@ -143,7 +143,7 @@ The validation AUC increased from `r auc(model, test = TRUE)` of the default mod
 
 We now train a model with the same configuration as found by the function `optimizeModel()` without cross validation (i.e. using all presence and background locations) and we evaluate it using the held apart testing dataset:
 
-```{r evaluate final model, fig.align="center"}
+```{r evaluate-final-model, fig.align='center'}
 set.seed(25)
 final_model <- combineCV(om@models[[1]])
 

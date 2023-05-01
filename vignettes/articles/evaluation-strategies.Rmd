@@ -3,7 +3,7 @@ title: "Evaluation strategies"
 bibliography: ../SDMtune.bib
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE, message=FALSE}
+```{r load-data, echo=FALSE, message=FALSE}
 library(kableExtra)
 data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
@@ -28,13 +28,13 @@ In the previous articles you have learned how to [prepare the data](./prepare-da
 
 First we load the **SDMtune** package:
 
-```{r load SDMtune, warning=FALSE}
+```{r load-SDMtune, warning=FALSE}
 library(SDMtune)
 ```
 
 It's always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest()` function for this purpose. Let's say we want to use 80\% of the species locations to train our model and 20\% as testing dataset to evaluate it:
 
-```{r train test}
+```{r train-test}
 library(zeallot)  # For unpacking assignment
 c(train, test) %<-% trainValTest(data, 
                                  test = 0.2, 
@@ -47,14 +47,14 @@ maxnet_model <- train("Maxnet",
 
 The `only_presence` argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:
 
-```{r evaluate test}
+```{r evaluate-test}
 cat("Training auc: ", auc(maxnet_model))
 cat("Testing auc: ", auc(maxnet_model, test = test))
 ```
 
 We can plot the ROC curve for both, training and testing datasets, with:
 
-```{r plot AUC train/test}
+```{r plot-AUC-train-test}
 plotROC(maxnet_model, 
         test = test)
 ```
@@ -104,7 +104,7 @@ When we have to deal with a small dataset a better approach is the cross validat
 
 To perform a cross validation in **SDMtune** we have to pass the `fold` argument to the `train()` function. First we have to create the folds. There are several way to create them, here we explain how to make a random partition of 4 folds using the function `randomFolds()`:
 
-```{r random folds}
+```{r random-folds}
 folds <- randomFolds(data, 
                      k = 4, 
                      only_presence = TRUE, 
@@ -121,14 +121,14 @@ cv_model <- train("Maxnet",
                   folds = folds)
 cv_model
 ```
-```{r cv bis, echo=FALSE}
+```{r cv-bis, echo=FALSE}
 cv_model <- SDMtune:::bm_maxnet_cv
 cv_model
 ```
 
 The output in this case is an `SDMmodelCV()` object. It contains the four trained models in the `models` slot and the fold partitions in the `folds` slot. We can compute the AUC of a `SDMmodelCV()` object using:
 
-```{r}
+```{r cv-auc}
 cat("Training AUC: ", auc(cv_model))
 cat("Testing AUC: ", auc(cv_model, test = TRUE))
 ```
@@ -150,7 +150,7 @@ The function will convert internally the created folds into the correct format f
 
 Block partition using the package `ENMeval`:
 
-```{r enmeval block, eval=FALSE}
+```{r enmeval-block, eval=FALSE}
 library(ENMeval)
 block_folds <- get.block(occ = data@coords[data@pa == 1, ], 
                          bg.coords = data@coords[data@pa == 0, ])
@@ -164,7 +164,7 @@ model <- train(method = "Maxnet",
 
 Checkerboard1 partition using the package `ENMeval`:
 
-```{r enmeval checherboard1, eval=FALSE}
+```{r enmeval-checherboard1, eval=FALSE}
 cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ], 
                               env = predictors, 
                               bg.coords = data@coords[data@pa == 0, ], 

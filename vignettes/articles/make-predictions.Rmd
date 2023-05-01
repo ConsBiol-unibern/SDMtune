@@ -2,7 +2,7 @@
 title: "Make predictions"
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE, message=FALSE}
+```{r load-data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
 data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
@@ -27,7 +27,7 @@ In the previous articles you have learned how to [prepare the data](./prepare-da
 
 First we load the **SDMtune** package:
 
-```{r load SDMtune, warning=FALSE}
+```{r load-SDMtune, warning=FALSE}
 library(SDMtune)
 ```
 
@@ -39,7 +39,7 @@ New locations are predicted with the function [predict()](../../reference/predic
 
 Next we get the prediction for our training locations using the **cloglog** output type:
 
-```{r predict train}
+```{r predict-train}
 pred <- predict(default_model,
                 data = data,
                 type = "cloglog")
@@ -47,13 +47,13 @@ pred <- predict(default_model,
 
 The output in this case is a vector containing all the predicted values for the training locations:
 
-```{r print pred}
+```{r print-pred}
 head(pred)
 ```
 
 We can get the prediction only for the presence location with:
 
-```{r predict presence}
+```{r predict-presence}
 p <- data@data[data@pa == 1, ]
 pred <- predict(default_model,
                 data = p,
@@ -67,7 +67,7 @@ For models trained with the **Maxent**  method, the function performs the predic
 
 We can use the same function to create a distribution map starting from the `predictors` raster object that we created in the [first article](./prepare-data.html#acquire-environmental-variables).
 
-```{r predict raster}
+```{r predict-raster}
 map <- predict(default_model,
                data = predictors,
                type = "cloglog")
@@ -75,13 +75,13 @@ map <- predict(default_model,
 
 In this case the output is a raster object:
 
-```{r print raster output}
+```{r print-raster-output}
 map
 ```
 
 The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the [predict()](../../reference/predict-SDMmodel-method.html) function. In the next example we save the map in a file called "**my_file**" in the **GeoTIFF** format:
 
-```{r save map, eval=FALSE}
+```{r save-map, eval=FALSE}
 map <- predict(default_model,
                data = predictors,
                type = "cloglog",
@@ -98,13 +98,13 @@ The [predict()](../../reference/predict-SDMmodel-method.html) function has other
 
 To plot the distribution map we can use the function `plotPred()`:
 
-```{r plot map default, fig.align="center"}
+```{r plot-map-default, fig.align='center'}
 plotPred(map)
 ```
 
 The function `plotPred()` plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
 
-```{r plot map custom, fig.align="center"}
+```{r plot-map-custom, fig.align='center'}
 plotPred(map,
          lt = "Habitat\nsuitability",
          colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
@@ -114,7 +114,7 @@ plotPred(map,
 
 Restrict the prediction to Chile and plot the prediction. To see the solution highlight the following cell:
 
-```{r exercise, eval = FALSE, class.source='exercise'}
+```{r exercise, eval=FALSE, class.source='exercise'}
 # First create the extent that surrounds Chile
 e = terra::ext(c(-77, -60, -56, -15))
 # Now use the extent to make the prediction
@@ -147,14 +147,14 @@ kableExtra::kable(ths) |>
 
 For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function `plotPA()` passing the threshold value as argument:
 
-```{r plot pa, fig.align="center"}
+```{r plot-pa, fig.align='center'}
 plotPA(map, 
        th = ths[3, 2])
 ```
 
 We can also save the map in a file with the following code:
 
-```{r plot and save pa, eval=FALSE}
+```{r plot-and-save-pa, eval=FALSE}
 plotPA(map, 
        th = ths[3, 2], 
        filename = "my_pa_map", 

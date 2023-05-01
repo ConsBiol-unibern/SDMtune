@@ -3,7 +3,7 @@ title: "Prepare data for the analysis"
 bibliography: ../SDMtune.bib
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -19,7 +19,7 @@ In this article you will learn how to prepare the data to train models using `SD
 
 Load the required packages for the analysis:
 
-```{r load pkgs, message=FALSE, warning=FALSE}
+```{r load-pkgs, message=FALSE, warning=FALSE}
 library(ggplot2)    # To plot locations
 library(maps)       # To access useful maps
 library(rasterVis)  # To plot raster objects
@@ -29,7 +29,7 @@ library(rasterVis)  # To plot raster objects
 
 For the analysis we use the climate data of [WorldClim](https://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestrial ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
 
-```{r get predictors, fig.align="center"}
+```{r get-predictors, fig.align='center'}
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -37,13 +37,13 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 
 We convert the files in a [raster](https://www.rdocumentation.org/packages/terra/versions/1.6-17/topics/rast) object that will be used later in the analysis:
 
-```{r create raster object}
+```{r create-raster-object}
 predictors <- terra::rast(files)
 ```
 
 There are nine environmental variables, eight continuous and one categorical:
 
-```{r names predicrtors}
+```{r names-predicrtors}
 names(predictors)
 ```
 
@@ -61,7 +61,7 @@ names(predictors)
 
 We can plot **bio1** using the [gplot](https://www.rdocumentation.org/packages/rasterVis/versions/0.43/topics/gplot-methods) function from the `rasterVis` package:
 
-```{r plot bio1, fig.align="center"}
+```{r plot-bio1, fig.align='center'}
 gplot(predictors$bio1) +
     geom_tile(mapping = aes(fill = value)) +
     coord_equal() +
@@ -83,13 +83,13 @@ gplot(predictors$bio1) +
 
 Let's load the **SDMtune** package:
 
-```{r load SDMtune, warning=FALSE}
+```{r load-SDMtune, warning=FALSE}
 library(SDMtune)
 ```
 
 For demonstrating how to use `SDMtune` we use the random generated virtual species [virtualSp](../../reference/virtualSp.html) dataset included in the package. The dataset contains `r nrow(virtualSp$presence)` coordinates for presence and `r nrow(virtualSp$background)` for background locations.
 
-```{r load data}
+```{r load-data}
 help(virtualSp)
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
@@ -97,7 +97,7 @@ bg_coords <- virtualSp$background
 
 Plot the study area together with the presence locations:
 
-```{r plot presence, fig.align="center"}
+```{r plot-presence, fig.align='center'}
 ggplot(data = map_data("world"), mapping = aes(x = long, y = lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
     geom_jitter(data = p_coords, aes(x = x, y = y), color = "red",
@@ -112,7 +112,7 @@ ggplot(data = map_data("world"), mapping = aes(x = long, y = lat)) +
 
 To plot the background locations run the following code:
 
-```{r plot bg_model locations, fig.align="center"}
+```{r plot-bg_model-locations, fig.align='center'}
 ggplot(data = map_data("world"), mapping = aes(x = long, y = lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
     geom_jitter(data = as.data.frame(bg_coords), aes(x = x, y = y),
@@ -129,14 +129,14 @@ ggplot(data = map_data("world"), mapping = aes(x = long, y = lat)) +
 
 Before training a model we have to prepare the data in the correct format. The `prepareSWD()` function creates an `SWD()` object that stores the species name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
 
-```{r prepare SWD, eval=FALSE}
+```{r prepare-SWD, eval=FALSE}
 data <- prepareSWD(species = "Virtual species",
                    p = p_coords,
                    a = bg_coords,
                    env = predictors,
                    categorical = "biome")
 ```
-```{r prepare SWD output, echo=FALSE}
+```{r prepare-SWD-output, echo=FALSE}
 data <- prepareSWD(species = "Virtual species",
                    p = p_coords,
                    a = bg_coords,
@@ -149,7 +149,7 @@ data <- prepareSWD(species = "Virtual species",
 
 Let's have a look at the created `SWD()` object:
 
-```{r show SWD object}
+```{r show-SWD-object}
 data
 ```
 
@@ -165,7 +165,7 @@ When we print an `SWD()` object we get a bunch of information:
 
 The object contains four slots: `@species`, `@coords` `@data` and `@pa`. `@pa` contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:
 
-```{r show data, eval=FALSE}
+```{r show-data, eval=FALSE}
 head(data@data)
 ```
 ```{r show data output, echo=FALSE}
@@ -177,7 +177,7 @@ kableExtra::kable(head(data@data)) |>
 
 We can visualize the coordinates with:
 
-```{r show coords data, eval=FALSE}
+```{r show-coords-data, eval=FALSE}
 head(data@coords)
 ```
 ```{r show coords data output, echo=FALSE}
@@ -189,7 +189,7 @@ kableExtra::kable(head(data@coords)) |>
 
 or the name of the species with:
 
-```{r show species}
+```{r show-species}
 data@species
 ```
 
@@ -199,13 +199,13 @@ We can save the `SWD()` object in a **.csv** file using the function `swd2csv()`
 
 * save the object in a single file with the column **pa** indicating if the location is a presence (1) or an absence/background (0) site
 
-```{r save SWD single, eval=F}
+```{r save-SWD-single, eval=FALSE}
 swd2csv(data, file_name = "data.csv")
 ```
 
 * save the object in two separate files: one for the presence and the other for the absence/background locations
 
-```{r save SWDdouble, eval=F}
+```{r save-SWDdouble, eval=FALSE}
 swd2csv(data, file_name = c("presence.csv", "background.csv"))
 ```
 

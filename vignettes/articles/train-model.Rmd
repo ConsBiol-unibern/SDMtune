@@ -3,7 +3,7 @@ title: "Train a model"
 bibliography: ../SDMtune.bib
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE, message=FALSE}
+```{r load-data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
 ```
 
@@ -34,7 +34,7 @@ The code necessary to train a model is the same for all the implementations. We 
 
 First we load the **SDMtune** package:
 
-```{r load SDMtune, warning=FALSE}
+```{r load-SDMtune, warning=FALSE}
 library(SDMtune)
 ```
 
@@ -44,7 +44,7 @@ We use the function `train()` to train a **Maxent** model. We need to provide tw
 * `method`: "Maxent" in our case;
 * `data`: the `SWD()` object with the presence and background locations that we created in the previous article.
 
-```{r, echo=FALSE}
+```{r default-model, echo=FALSE}
 default_model <- SDMtune:::bm_maxent
 ```
 ```{r train, eval=FALSE}
@@ -64,7 +64,7 @@ We will see later how to change the default settings, for the moment let's have 
 
 The output of the function `train()` is an object of class `SDMmodel()`. Let's print it:
 
-```{r print model}
+```{r print-model}
 default_model
 ```
 
@@ -85,7 +85,7 @@ When we print an `SDMmodel` object we get the following information:
     
 An `SDMmodel()` object has two slots:
 
-```{r get slots}
+```{r get-slots}
 slotNames(default_model)
 ```
 
@@ -94,7 +94,7 @@ slotNames(default_model)
 
 The slot `model` contains the configurations of the model plus other information used to make predictions.
 
-```{r model slots}
+```{r model-slots}
 slotNames(default_model@model)
 ```
 
@@ -104,7 +104,7 @@ For the moment the most important are: **fc**, **reg** and **iter** that contain
 
 The function `train()` accepts optional arguments that can be used to change the default model settings. In our previous example we could have trained the same model using:
 
-```{r retrain, eval = FALSE}
+```{r retrain, eval=FALSE}
 default_model <- train(method = "Maxent", 
                        data = data, 
                        fc = "lqph", 
@@ -116,7 +116,7 @@ default_model <- train(method = "Maxent",
 
 Try to change the default settings  and train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations. To see the solution highlight the next cell:
 
-```{r exercise1, eval = FALSE, class.source="exercise"}
+```{r exercise1, eval=FALSE, class.source='exercise'}
 model <- train(method = "Maxent", 
                data = data, 
                fc = "lh", 
@@ -134,7 +134,7 @@ Train a model using the **Maxnet** method is as simple as changing the name of t
 
 Try to train a model using the **Maxnet** method. To see the solution highlight the following cell:
 
-```{r train maxnet, eval = FALSE, class.source="exercise"}
+```{r train-maxnet, eval=FALSE, class.source='exercise'}
 maxnet_model <- train("Maxnet", 
                       data = data)
 ```

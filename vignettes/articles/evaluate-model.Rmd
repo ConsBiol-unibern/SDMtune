@@ -3,7 +3,7 @@ title: "Evaluate a model"
 bibliography: ../SDMtune.bib
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE, message=FALSE}
+```{r load-data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
                     pattern = "grd", 
@@ -35,7 +35,7 @@ We will compute the value of the metrics on the training dataset, using the `def
 
 As usually we first load the **SDMtune** package:
 
-```{r load SDMtune, warning=FALSE}
+```{r load-SDMtune, warning=FALSE}
 library(SDMtune)
 ```
 
@@ -47,7 +47,7 @@ auc(default_model)
 
 We can also plot the ROC curve using the function `plotROC()`:
 
-```{r plot roc, fig.align="center"}
+```{r plot-roc, fig.align='center'}
 plotROC(default_model)
 ```
 

@@ -12,7 +12,7 @@ vignette: >
  %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r, include = FALSE}
+```{r knitr-options, include=FALSE}
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
                       fig.align = "center")
 ```
@@ -25,7 +25,7 @@ In this section you will learn how to prepare the data to train models using `SD
 
 First let's load some packages that we will use to visualize the data:
 
-```{r load pkgs}
+```{r load-pkgs}
 library(ggplot2)    # To plot locations
 library(maps)       # To access useful maps
 library(rasterVis)  # To plot raster objects
@@ -35,7 +35,7 @@ library(rasterVis)  # To plot raster objects
 
 We use the climate data of [WorldClim](https://www.worldclim.org/) version 1.4 [@Hijmans2005] and the [terrestrial ecoregions](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)  from WWF [@Olson2001] included in the `dismo` package:
 
-```{r get predictors}
+```{r get-predictors}
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -43,13 +43,13 @@ files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 
 We convert these files in a `raster` object that will be used later in the analysis:
 
-```{r create raster object}
+```{r create-raster-object}
 predictors <- terra::rast(files)
 ```
 
 There are nine environmental variables, eight continuous and one categorical:
 
-```{r names predicrtors}
+```{r names-predicrtors}
 names(predictors)
 ```
 
@@ -67,7 +67,7 @@ names(predictors)
 
 We can plot **bio1** using the `gplot` function from the `rasterVis` package:
 
-```{r plot bio1}
+```{r plot-bio1}
 gplot(predictors$bio1) +
     geom_tile(aes(fill = value)) +
     coord_equal() +
@@ -89,13 +89,13 @@ gplot(predictors$bio1) +
 
 Let's load the **SDMtune** package:
 
-```{r load SDMtune}
+```{r load-SDMtune}
 library(SDMtune)
 ```
 
 For demonstrating how to use `SDMtune` we use the random generated `virtualSp` dataset included in the package.
 
-```{r help dataset}
+```{r help-dataset}
 help(virtualSp)
 p_coords <- virtualSp$presence
 bg_coords <- virtualSp$background
@@ -103,7 +103,7 @@ bg_coords <- virtualSp$background
 
 Plot the study area together with the presence locations:
 
-```{r plot presence}
+```{r plot-presence}
 ggplot(map_data("world"), aes(long, lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
     geom_jitter(data = p_coords, aes(x = x, y = y), color = "red",
@@ -118,7 +118,7 @@ ggplot(map_data("world"), aes(long, lat)) +
 
 To plot the background locations run the following code:
 
-```{r plot bg_model locations}
+```{r plot-bg_model-locations}
 ggplot(map_data("world"), aes(long, lat)) +
     geom_polygon(aes(group = group), fill = "grey95", color = "gray40", size = 0.2) +
     geom_jitter(data = as.data.frame(bg_coords), aes(x = x, y = y),
@@ -135,7 +135,7 @@ ggplot(map_data("world"), aes(long, lat)) +
 
 Before training a model we have to prepare the data in the correct format. The `prepareSWD` function creates an `SWD` object that stores the species' name, the coordinates of the species at presence and absence/background locations and the value of the environmental variables at the locations. The argument `categorical` indicates which environmental variables are categorical. In our example **biome** is categorical (we can pass a vector if we have more than one categorical environmental variable). The function extracts the value of the environmental variables for each location and excludes those locations that have `NA` value for at least one environmental variable.
 
-```{r prepare SWD}
+```{r prepare-SWD}
 data <- prepareSWD(species = "Virtual species", 
                    p = p_coords, 
                    a = bg_coords,
@@ -148,7 +148,7 @@ data <- prepareSWD(species = "Virtual species",
 
 Let's have a look at the `SWD` object that we have just created:
 
-```{r show SWD object}
+```{r show-SWD-object}
 data
 ```
 
@@ -164,18 +164,18 @@ When we print an `SWD` object we get a bunch of information:
 
 The object contains four slots: `@species`, `@coords` `@data` and `@pa`. `@pa` contains a vector with 1 for presence and 0 for absence/background locations. To visualize the data we run:
 
-```{r show data}
+```{r show-data}
 head(data@data)
 ```
 
 We can visualize the coordinates with:
 
-```{r show coords data}
+```{r show-coords-data}
 head(data@coords)
 ```
 
 or the name of the species with:
-```{r show species}
+```{r show-species}
 data@species
 ```
 
@@ -185,14 +185,14 @@ We can save the `SWD` object in a **.csv** file using the function `swd2csv` (th
 
 * save the object in a single file with the column **pa** indicating if the location is a presence (1) or an absence/background (0) site
 
-```{r save SWD single, eval=FALSE}
+```{r save-SWD-single, eval=FALSE}
 swd2csv(data, 
         file_name = "data.csv")
 ```
 
 * save the object in two separate files: one for the presence and the other for the absence/background locations
 
-```{r save SWDdouble, eval=FALSE}
+```{r save-SWD-double, eval=FALSE}
 swd2csv(data, 
         file_name = c("presence.csv", "background.csv"))
 ```
@@ -234,7 +234,7 @@ We will see later how to change the default settings, for the moment let's have 
 
 The output of the function `train` is an object of class `SDMmodel`. Let's print the `model` object we've just created:
 
-```{r print model}
+```{r print-model}
 model
 ```
 
@@ -255,7 +255,7 @@ When we print an `SDMmodel` object we get the following information:
     
 An `SDMmodel` object has two slots:
 
-```{r get slots}
+```{r get-slots}
 slotNames(model)
 ```
 
@@ -264,7 +264,7 @@ slotNames(model)
 
 The slot `model` contains the configurations of the model plus other information used to make predictions.
 
-```{r model slots}
+```{r model-slots}
 slotNames(model@model)
 ```
 
@@ -284,7 +284,7 @@ model <- train(method = "Maxent",
 
 In the following example we train a model using linear and hinge as feature class combination, 0.5 as regularization multiplier and 700 iterations:
 
-```{r model witout default arguments}
+```{r model-witout-default-arguments}
 model <- train(method = "Maxent", 
                data = data, 
                fc = "lh", 
@@ -304,7 +304,7 @@ New locations are predicted with the function `predict`. The function takes thre
 
 Next we get the prediction for our training locations using the **cloglog** output type:
 
-```{r predict train}
+```{r predict-train}
 pred <- predict(model, 
                 data = data, 
                 type = "cloglog")
@@ -312,13 +312,13 @@ pred <- predict(model,
 
 The output in this case is a vector containing all the predicted values for the training locations:
 
-```{r print pred}
+```{r print-pred}
 head(pred)
 ```
 
 We can get the prediction only for the presence location with:
 
-```{r predict presence}
+```{r predict-presence}
 p <- data@data[data@pa == 1, ]
 pred <- predict(model, 
                 data = p, 
@@ -332,7 +332,7 @@ For models trained with the **Maxent**  method, the function performs the predic
 
 We can use the same function to create a distribution map starting from the `predictors` raster object:
 
-```{r predict raster}
+```{r predict-raster}
 map <- predict(model, 
                data = predictors, 
                type = "cloglog")
@@ -340,13 +340,13 @@ map <- predict(model,
 
 In this case the output is a raster object:
 
-```{r print raster output}
+```{r print-raster-output}
 map
 ```
 
 The map can be saved in a file directly when running the prediction, we just have to pass additional arguments to the `predict` function. In the next example we save the map in a file called "**my_file**" in the **GeoTIFF** format:
 
-```{r save map, eval=FALSE}
+```{r save-map, eval=FALSE}
 map <- predict(model, 
                data = predictors, 
                type = "cloglog", 
@@ -375,13 +375,13 @@ map_e <- predict(model,
 
 To plot the distribution map we can use the function `plotPred`:
 
-```{r plot map default}
+```{r plot-map-default}
 plotPred(map)
 ```
 
 The function `plotPred` plots a map with a color ramp similar to the one used by the MaxEnt Java software. We can pass additional arguments to customize the map. In the next example we provide a custom color ramp and we add a title to the legend:
 
-```{r plot map custom}
+```{r plot-map-custom}
 plotPred(map, 
          lt = "Habitat\nsuitability",
          colorramp = c("#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"))
@@ -399,14 +399,14 @@ ths
 
 For example we want to create a presence/absence map using the threshold that maximize the training sensitivity plus specificity. We use the function `plotPA` passing the threshold value as argument:
 
-```{r plot pa}
+```{r plot-pa}
 plotPA(map, 
        th = ths[3, 2])
 ```
 
 We can also save the map in a file with the following code:
 
-```{r plot and save pa, eval=FALSE}
+```{r plot-and-save-pa, eval=FALSE}
 plotPA(map, 
        th = ths[3, 2], 
        filename = "my_pa_map", 
@@ -435,7 +435,7 @@ auc(model)
 
 We can also plot the ROC curve using the function `plotROC`:
 
-```{r plot roc}
+```{r plot-roc}
 plotROC(model)
 ```
 
@@ -460,7 +460,7 @@ aicc(model,
 
 It's always a good practice to split the species locations into two parts and use one part to train the model and the remaining part to evaluate it. We can use the `trainValTest` function for this purpose. Let's say we want to use 80\% of the species locations to train our model and 20\% as testing dataset to evaluate it:
 
-```{r train test}
+```{r train-test}
 library(zeallot)  # For unpacking assignment
 c(train, test) %<-% trainValTest(data, 
                                  test = 0.2, 
@@ -470,21 +470,21 @@ c(train, test) %<-% trainValTest(data,
 
 Now we train the model using the `train` dataset:
 
-```{r trai with train dataset}
+```{r trai-with-train-dataset}
 model <- train("Maxent", 
                data = train)
 ```
 
 The `only_presence` argument is used to split only the presence and not the background locations. We can now evaluate the model using the testing dataset that has not been used to train the model:
 
-```{r evaluate test}
+```{r evaluate-test}
 auc(model)
 auc(model, test = test)
 ```
 
 We can plot the ROC curve for both, training and testing datasets, with:
 
-```{r plot AUC train/test}
+```{r plot-AUC-train-test}
 plotROC(model, test = test)
 ```
 
@@ -528,7 +528,7 @@ The testing AUC varies for the different train/test partitions. When we have to 
 
 To perform a cross validation in **SDMtune** we have to pass the `fold` argument to the `train` function. First we have to create the folds. There are several way to create them, here we explain how to make a random partition of 4 folds using the function `randomFolds`:
 
-```{r random folds}
+```{r random-folds}
 folds <- randomFolds(data, 
                      k = 4, 
                      only_presence = TRUE, 
@@ -548,7 +548,7 @@ cv_model
 
 The output in this case is an `SDMmodelCV` object. It contains the four trained models in the `models` slot and the fold partitions in the `folds` slot. We can compute the AUC of a `SDMmodelCV` object using:
 
-```{r}
+```{r cv-auc}
 auc(cv_model)
 auc(cv_model, test = TRUE)
 ```
@@ -566,7 +566,7 @@ The function will convert internally the created folds into the correct format f
 
 Block partition using the `ENMeval` package:
 
-```{r enmeval block}
+```{r enmeval-block}
 library(ENMeval)
 block_folds <- get.block(occ = data@coords[data@pa == 1, ],
                          bg.coords = data@coords[data@pa == 0, ])
@@ -580,7 +580,7 @@ model <- train(method = "Maxent",
 
 Checkerboard1 partition using the `ENMeval` package:
 
-```{r enmeval checherboard1}
+```{r enmeval-checherboard1}
 cb_folds <- get.checkerboard1(occ = data@coords[data@pa == 1, ],
                               env = predictors,
                               bg.coords = data@coords[data@pa == 0, ],

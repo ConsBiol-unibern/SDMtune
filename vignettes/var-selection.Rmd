@@ -12,7 +12,7 @@ vignette: >
  %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r, include = FALSE}
+```{r knitr-options, include=FALSE}
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
                       fig.align = "center")
 ```
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE, eval = FALSE,
 
 The following steps are described in the **basic-use** vignette, refer to it if the following code is not clear:
 
-```{r load data}
+```{r load-data}
 library(SDMtune)
 library(zeallot)
 
@@ -62,13 +62,13 @@ cv_model <- train("Maxent",
 
 For a **Maxent** model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:
 
-```{r maxent results}
+```{r maxent-results}
 model@model@results
 ```
 
 The function `maxentVarImp` extracts the variable importance values from the previous output and formats them in a more human readable way:
 
-```{r maxent var importance}
+```{r maxent-var-importance}
 vi <- maxentVarImp(model)
 vi
 ```
@@ -77,13 +77,13 @@ As you can see the function returns a `data.frame` with the variable name, the p
 
 You can plot the variable importance as a bar chart using the function `plotVarImp`. For example you can plot the percent contribution using:
 
-```{r maxent percent contribution plot}
+```{r maxent-percent-contribution-plot}
 plotVarImp(vi[, 1:2])
 ```
 
 or the permutation importance with:
 
-```{r maxent permutation importance plot}
+```{r maxent-permutation-importance-plot}
 plotVarImp(vi[, c(1,3)])
 ```
 
@@ -93,14 +93,14 @@ plotVarImp(vi[, c(1,3)])
 
 For this example we train a **Maxnet** model:
 
-```{r maxnet model}
+```{r maxnet-model}
 maxnet_model <- train("Maxnet",
                       data = train)
 ```
 
 Now we can calculate the variable importance with the function `varImp()` using 5 permutations:
 
-```{r}
+```{r variable-importance}
 vi_maxnet <- varImp(maxnet_model,
                     permut = 5)
 
@@ -109,13 +109,13 @@ vi_maxnet
 
 And plot it with:
 
-```{r plot var imp}
+```{r plot-var-imp}
 plotVarImp(vi_maxnet)
 ```
 
 Next we compute the permutation importance for the **Maxent** model using 10 permutations and compare the results with the Maxent output:
 
-```{r permut exercise}
+```{r permut-exercise}
 # Compute the permutation importance
 vi_maxent <- varImp(model,
                     permut = 10)
@@ -143,7 +143,7 @@ jk
 
 We can also plot the output using the function `plotJk`. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC:
 
-```{r plot jk train}
+```{r plot-jk-train}
 plotJk(jk,
        type = "train",
        ref = auc(maxnet_model))
@@ -151,7 +151,7 @@ plotJk(jk,
 
 and the Jackknife test for the testing AUC:
 
-```{r plot jk test, fig.align="center"}
+```{r plot-jk-test, fig.align='center'}
 plotJk(jk,
        type = "test",
        ref = auc(maxnet_model, test = test))
@@ -161,7 +161,7 @@ plotJk(jk,
 
 With the function `plotResponse` is possible to plot the marginal and the univariate response curve. Let's plot the **cloglog** univariate response curve of **bio1**:
 
-```{r plot bio1, fig.align="center"}
+```{r plot-bio1, fig.align='center'}
 plotResponse(maxnet_model,
              var = "bio1",
              type = "cloglog",
@@ -172,7 +172,7 @@ plotResponse(maxnet_model,
 
 On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the **logistic** marginal response curve of **biome** that is a categorical variable, keeping the other variables at the mean value:
 
-```{r plot biome, fig.align="center"}
+```{r plot-biome, fig.align='center'}
 plotResponse(maxnet_model,
              var = "biome",
              type = "logistic",
@@ -184,7 +184,7 @@ plotResponse(maxnet_model,
 
 In the case of an `SDMmodelCV` the response curve shows the averaged value of the prediction together with one Standard Deviation error interval:
 
-```{r plot cv response}
+```{r plot-cv-response}
 plotResponse(cv_model,
              var = "bio1",
              type = "cloglog",
@@ -242,7 +242,7 @@ The environmental variables we downloaded have a coarse resolution and the funct
 
 With the function `plotCor` you can create an heat map showing the degree of autocorrelation:
 
-```{r heat map}
+```{r heat-map}
 plotCor(bg,
         method = "spearman",
         cor_th = 0.7)
@@ -250,7 +250,7 @@ plotCor(bg,
 
 You can select a different correlation method or set a different correlation threshold. Another useful function is `corVar` that instead of creating a heat map prints the pairs of correlated variables according to the given method and correlation threshold:
 
-```{r cor var}
+```{r cor-var}
 corVar(bg,
        method = "spearman",
        cor_th = 0.7)
@@ -281,13 +281,13 @@ selected_variables_model <- varSel(maxnet_model,
 
 As you can see some variables have been removed. The output of the function is the model trained with the selected variables:
 
-```{r output varSel}
+```{r output-varSel}
 selected_variables_model
 ```
 
 In the next example we remove the highly correlated variables using the **Maxent** model, ranking the variables with the percent contribution and using the AICc as evaluation metric:
 
-```{r exercise 1}
+```{r exercise-1}
 selected_variables_model <- varSel(model,
                                    metric = "aicc",
                                    bg4cor = bg,
@@ -308,7 +308,7 @@ varImp(model,
 
 In the first example we want to remove all the environmental variables that have a permutation importance lower than 6\%, no matter if the model performance decreases. The function removes the last ranked environmental variable, trains a new model and computes a new rank. The process is repeated until all the remaining environmental variables have an importance greater than 6\%:
 
-```{r reduce var 1}
+```{r reduce-var-1}
 cat("Testing AUC before: ", auc(maxnet_model, test = test))
 
 reduced_variables_model <- reduceVar(maxnet_model,
@@ -322,7 +322,7 @@ cat("Testing AUC after: ", auc(reduced_variables_model, test = test))
 
 In the second example we want to remove the environmental variables that have a permutation importance lower than 15\% only if removing the variables the model performance does not decrease, according to the given metric. In this case the function performs a leave one out Jackknife test and remove the environmental variables in a step-wise fashion as described in the previous example, but only if the model performance doesn't drop:
 
-```{r reduce var 2}
+```{r reduce-var-2}
 cat("Testing AUC before: ", auc(maxnet_model, test = test))
 
 reduced_variables_model <- reduceVar(maxnet_model,

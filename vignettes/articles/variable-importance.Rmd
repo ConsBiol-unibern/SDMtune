@@ -2,7 +2,7 @@
 title: "Variable Importance"
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-```{r load data, echo=FALSE, message=FALSE}
+```{r load-data, echo=FALSE, message=FALSE}
 default_model <- SDMtune:::bm_maxent
 data <- SDMtune:::t
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"), 
@@ -27,13 +27,13 @@ In the previous articles you have learned how to [prepare the data](./prepare-da
 
 First we load the **SDMtune** package:
 
-```{r load SDMtune, warning=FALSE}
+```{r load-SDMtune, warning=FALSE}
 library(SDMtune)
 ```
 
 For a **Maxent** model we can get the variable importance values from the output of the MaxEnt Java software. These values are stored in the model object and can be displayed using the following command:
 
-```{r maxent results, eval=FALSE}
+```{r maxent-results, eval=FALSE}
 default_model@model@results
 ```
 ```{r maxent results output, echo=FALSE}
@@ -45,11 +45,11 @@ kableExtra::kable(default_model@model@results) |>
 
 The function `maxentVarImp()` extracts the variable importance values from the previous output and formats them in a more human readable way:
 
-```{r maxent var importance, eval=FALSE}
+```{r maxent-var-importance, eval=FALSE}
 vi <- maxentVarImp(default_model)
 vi
 ```
-```{r maxent var importance output, echo=FALSE}
+```{r maxent-var-importance-output, echo=FALSE}
 vi <- maxentVarImp(default_model)
 kableExtra::kable(vi) |> 
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"),
@@ -61,7 +61,7 @@ As you can see the function returns a `data.frame` with the variable name, the p
 
 You can plot the variable importance as a bar chart using the function `plotVarImp()`. For example you can plot the percent contribution using:
 
-```{r maxent percent contribution plot, fig.align="center"}
+```{r maxent-percent-contribution-plot, fig.align='center'}
 plotVarImp(vi[, 1:2])
 ```
 
@@ -69,7 +69,7 @@ plotVarImp(vi[, 1:2])
 
 Plot the permutation importance as a bar chart. To see the solution highlight the following cell:
 
-```{r maxent permutation importance plot, eval=FALSE, class.source='exercise'}
+```{r maxent-permutation-importance-plot, eval=FALSE, class.source='exercise'}
 # The function accepts a data.frame with 2 columns: one with the variable name
 # and one with the values, so it is enough to select the first and the third
 # columns from the vi data.frame
@@ -82,7 +82,7 @@ plotVarImp(vi[, c(1,3)])
 
 For this example we use a **Maxnet** model and a training/testing validation strategy like in the [previous article](./evaluation-strategies.html#train-and-testing-datasets):
 
-```{r train test}
+```{r train-test}
 library(zeallot)  # For unpacking assignment
 c(train, test) %<-% trainValTest(data, 
                                  test = 0.2, 
@@ -100,7 +100,7 @@ vi_maxnet <- varImp(maxnet_model,
                     permut = 5)
 vi_maxnet
 ```
-```{r vi output, echo=FALSE}
+```{r vi -utput, echo=FALSE}
 vi_maxnet <- varImp(maxnet_model, 
                     permut = 5)
 kableExtra::kable(vi_maxnet) |> 
@@ -111,7 +111,7 @@ kableExtra::kable(vi_maxnet) |>
 
 And plot it with:
 
-```{r plot var imp, fig.align="center"}
+```{r plot-var-imp, fig.align='center'}
 plotVarImp(vi_maxnet)
 ```
 
@@ -119,7 +119,7 @@ plotVarImp(vi_maxnet)
 
 Use the `varImp()` function to compute the permutation importance for the `default_model` using 10 permutations and compare the results with the Maxent output. To see the solution highlight the following cell:
 
-```{r permut exercise, eval=FALSE, class.source='exercise'}
+```{r permut-exercise, eval=FALSE, class.source='exercise'}
 # Compute the permutation importance
 vi_maxent <- varImp(default_model, 
                     permut = 10)
@@ -143,7 +143,7 @@ jk <- doJk(maxnet_model,
            test = test)
 jk
 ```
-```{r jk ouput, echo=FALSE}
+```{r jk-ouput, echo=FALSE}
 jk <- doJk(maxnet_model, 
            metric = "auc", 
            test = test,
@@ -156,7 +156,7 @@ kableExtra::kable(jk) |>
 
 We can also plot the output using the function `plotJk()`. In the following example we plot the previous result and we add a line representing the AUC of the full model trained using all the variables. First we plot the Jackknife test for the training AUC: 
 
-```{r plot jk train, fig.align="center"}
+```{r plot-jk-train, fig.align='center'}
 plotJk(jk, 
        type = "train", 
        ref = auc(maxnet_model))
@@ -164,7 +164,7 @@ plotJk(jk,
 
 and the Jackknife test for the testing AUC:
 
-```{r plot jk test, fig.align="center"}
+```{r plot-jk-test, fig.align='center'}
 plotJk(jk, 
        type = "test", 
        ref = auc(maxnet_model, test = test))
@@ -178,7 +178,7 @@ Repeat the Jackknife part using the TSS and the AICc as evaluation metric and us
 
 With the function `plotResponse()` is possible to plot the marginal and the univariate response curve. Let's plot the **cloglog** univariate response curve of **bio1**:
 
-```{r plot bio1, fig.align="center"}
+```{r plot-bio1, fig.align='center'}
 plotResponse(maxnet_model, 
              var = "bio1", 
              type = "cloglog", 
@@ -189,7 +189,7 @@ plotResponse(maxnet_model,
 
 On top is displayed the rug of the presence locations and on bottom the rug of the background locations. As another example we can plot the **logistic** marginal response curve of **biome** that is a categorical variable, keeping the other variables at the mean value:
 
-```{r plot biome, fig.align="center"}
+```{r plot-biome, fig.align='center'}
 plotResponse(maxnet_model, 
              var = "biome", 
              type = "logistic", 
@@ -203,7 +203,7 @@ plotResponse(maxnet_model,
 
 Plot in green the univariate cloglog response curve of **bio17** removing the rug and using the `default_model`, to see the solution highlight the following cell:
 
-```{r plot exercise, eval=FALSE, eval=FALSE, class.source='exercise'}
+```{r plot-exercise, eval=FALSE,class.source='exercise'}
 plotResponse(default_model, 
              var = "bio17", 
              type = "cloglog", 
@@ -214,11 +214,11 @@ plotResponse(default_model,
 
 In the case of an `SDMmodelCV()` the response curve shows the averaged value of the prediction together with one Standard Deviation error interval. We use the cross validation model trained in the [previous article](./evaluation-strategies.html#cross-validation):
 
-```{r load model, echo=FALSE}
+```{r load-model, echo=FALSE}
 cv_model <- SDMtune:::bm_maxnet_cv
 ```
 
-```{r plot cv response, fig.align="center"}
+```{r plot-cv-response, fig.align='center'}
 plotResponse(cv_model, 
              var = "bio1", 
              type = "cloglog", 
