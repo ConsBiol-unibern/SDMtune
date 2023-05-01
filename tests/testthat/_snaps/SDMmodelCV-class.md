@@ -16,8 +16,8 @@
       -- Info 
       * Species: Virtual species
       * Replicates: 4
-      * Presence locations: 400
-      * Absence locations: 5000
+      * Total presence locations: 400
+      * Total absence locations: 5000
       
       -- Variables 
       * Continuous: "bio1", "bio12", "bio16", "bio17", "bio5", "bio6", "bio7", and
@@ -42,8 +42,8 @@
       -- Info 
       * Species: Virtual species
       * Replicates: 4
-      * Presence locations: 400
-      * Absence locations: 5000
+      * Total presence locations: 400
+      * Total absence locations: 5000
       
       -- Variables 
       * Continuous: "bio1", "bio12", and "bio16"
@@ -67,8 +67,8 @@
       -- Info 
       * Species: Virtual species
       * Replicates: 4
-      * Presence locations: 400
-      * Absence locations: 5000
+      * Total presence locations: 400
+      * Total absence locations: 5000
       
       -- Variables 
       * Continuous: NA
@@ -91,8 +91,8 @@
       -- Info 
       * Species: Virtual species
       * Replicates: 4
-      * Presence locations: 400
-      * Absence locations: 5000
+      * Total presence locations: 400
+      * Total absence locations: 5000
       
       -- Variables 
       * Continuous: "bio1", "bio12", "bio16", "bio17", "bio5", "bio6", "bio7", and

@@ -62,8 +62,8 @@ setMethod(
 
     cli::cli_li("{.field Species}: {.emph {object@data@species}}")
     cli::cli_li("{.field Replicates}: {.val {length(object@models)}}")
-    cli::cli_li("{.field Presence locations}: {.val {n_p}}")
-    cli::cli_li("{.field Absence locations}: {.val {n_a}}")
+    cli::cli_li("{.field Total presence locations}: {.val {n_p}}")
+    cli::cli_li("{.field Total absence locations}: {.val {n_a}}")
 
     cli::cli_h3("Variables")
 
