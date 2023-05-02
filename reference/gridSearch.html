@@ -12,7 +12,7 @@ with all the possible combinations of hyperparameters."><meta property="og:image
     
     <a class="navbar-brand me-2" href="../index.html">SDMtune</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -171,10 +171,10 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>,</span></span>
 <span class="r-in"><span>                   categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[27ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[26ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[63ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[48ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -198,93 +198,105 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                     hypers <span class="op">=</span> <span class="va">h</span>,</span></span>
 <span class="r-in"><span>                     metric <span class="op">=</span> <span class="st">"auc"</span>,</span></span>
 <span class="r-in"><span>                     test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  5s - 00:00:3.2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  2s - 00:00:3.7</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:5.8</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  4s - 00:00:2.5</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  1s - 00:00:5.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:5.2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8672013 0.8410262 0.02617500</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8736319 0.8473287 0.02630312</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8639200 0.8393738 0.02454625</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8692131 0.8488187 0.02039438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8640959 0.8567150 0.007380938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8728128 0.8603875 0.012425313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8608384 0.8572675 0.003570938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8651559 0.8574900 0.007665937</span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">models</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqp"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqph</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqp"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: Maxnet </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Maxnet</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, <span style="color: #0000BB;">"bio5"</span>, <span style="color: #0000BB;">"bio6"</span>, <span style="color: #0000BB;">"bio7"</span>, and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">"bio8"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 320 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 5000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fc: lqph</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reg: 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 bio6 bio7 bio8 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: biome</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Order rusults by highest test AUC</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8692131 0.8488187 0.02039438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8736319 0.8473287 0.02630312</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8672013 0.8410262 0.02617500</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8639200 0.8393738 0.02454625</span>
+<span class="r-in"><span><span class="co"># Order results by highest test AUC</span></span></span>
+<span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8728128 0.8603875 0.012425313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8651559 0.8574900 0.007665937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8608384 0.8572675 0.003570938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8640959 0.8567150 0.007380938</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run the function using the AICc as metric and without saving the trained</span></span></span>
 <span class="r-in"><span><span class="co"># models, helpful when numerous hyperparameters are tested to avoid memory</span></span></span>
@@ -294,15 +306,16 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                     metric <span class="op">=</span> <span class="st">"aicc"</span>,</span></span>
 <span class="r-in"><span>                     env <span class="op">=</span> <span class="va">predictors</span>,</span></span>
 <span class="r-in"><span>                     save_models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  6s - 00:00:04</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:6.7</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  5s - 00:00:3.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  1s - 00:00:5.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:5.6</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg     AICc delta_AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5253.750  13.012151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5250.481   9.743526</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5254.981  14.242744</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5240.738   0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5274.488   8.544497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5283.045  17.101616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5271.855   5.912245</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5265.943   0.000000</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

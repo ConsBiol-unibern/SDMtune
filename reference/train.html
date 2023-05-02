@@ -12,7 +12,7 @@ Boosted Regression Trees, Maxent, Maxnet or Random Forest."><meta property="og:i
     
     <a class="navbar-brand me-2" href="../index.html">SDMtune</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -214,7 +214,7 @@ cross-validation. <a href="https://github.com/rvalavi/blockCV" class="external-l
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[26ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[51ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[47ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Train a Maxent model</span></span></span>
@@ -310,7 +310,7 @@ cross-validation. <a href="https://github.com/rvalavi/blockCV" class="external-l
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[23ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[22ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[20ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Train an Artificial Neural Network model</span></span></span>
@@ -334,62 +334,65 @@ cross-validation. <a href="https://github.com/rvalavi/blockCV" class="external-l
 <span class="r-in"><span>                data <span class="op">=</span> <span class="va">data</span>,</span></span>
 <span class="r-in"><span>                size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">$</span><span class="va">ANN</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: ANN </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 400 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 300 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> size: 10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> decay: 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rang: 0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> maxit: 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Artificial Neural Networks</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">size</span>: <span style="color: #0000BB;">10</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">decay</span>: <span style="color: #0000BB;">0</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">rang</span>: <span style="color: #0000BB;">0.7</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">maxit</span>: <span style="color: #0000BB;">100</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">400</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">300</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, and <span style="color: #0000BB;">"bio5"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">NA</span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">$</span><span class="va">BRT</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: BRT </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 400 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 300 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> distribution: bernoulli</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> n.trees: 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> interaction.depth: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shrinkage: 0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> bag.fraction: 0.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Boosted Regression Trees</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">distribution</span>: <span style="color: #0000BB;">"bernoulli"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">n.trees</span>: <span style="color: #0000BB;">100</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">interaction.depth</span>: <span style="color: #0000BB;">1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">shrinkage</span>: <span style="color: #0000BB;">0.1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">bag.fraction</span>: <span style="color: #0000BB;">0.5</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">400</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">300</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, and <span style="color: #0000BB;">"bio5"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">NA</span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">$</span><span class="va">RF</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: RF </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 400 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 300 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mtry: 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ntree: 500</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> nodesize: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Random Forest</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">mtry</span>: <span style="color: #0000BB;">2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">ntree</span>: <span style="color: #0000BB;">500</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">nodesize</span>: <span style="color: #0000BB;">1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">400</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">300</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, and <span style="color: #0000BB;">"bio5"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">NA</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Multiple methods trained together passing extra arguments</span></span></span>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">train</span><span class="op">(</span>method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ANN"</span>, <span class="st">"BRT"</span>, <span class="st">"RF"</span><span class="op">)</span>,</span></span>
@@ -400,62 +403,68 @@ cross-validation. <a href="https://github.com/rvalavi/blockCV" class="external-l
 <span class="r-in"><span>                shrinkage <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ANN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: ANN </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Artificial Neural Networks</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">size</span>: <span style="color: #0000BB;">10</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">decay</span>: <span style="color: #0000BB;">0</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">rang</span>: <span style="color: #0000BB;">0.7</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">maxit</span>: <span style="color: #0000BB;">100</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">400</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">300</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, and <span style="color: #0000BB;">"bio5"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 400 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 300 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> size: 10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> decay: 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rang: 0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> maxit: 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $BRT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: BRT </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Boosted Regression Trees</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">distribution</span>: <span style="color: #0000BB;">"bernoulli"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">n.trees</span>: <span style="color: #0000BB;">300</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">interaction.depth</span>: <span style="color: #0000BB;">1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">shrinkage</span>: <span style="color: #0000BB;">0.001</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">bag.fraction</span>: <span style="color: #0000BB;">0.5</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">400</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">300</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, and <span style="color: #0000BB;">"bio5"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 400 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 300 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> distribution: bernoulli</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> n.trees: 300</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> interaction.depth: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shrinkage: 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> bag.fraction: 0.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $RF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class SDMmodel </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Method: RF </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Method: <span style="font-style: italic;">Random Forest</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Hyperparameters </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">mtry</span>: <span style="color: #0000BB;">2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">ntree</span>: <span style="color: #0000BB;">300</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">nodesize</span>: <span style="color: #0000BB;">1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Info </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">400</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">300</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Variables </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio16"</span>, <span style="color: #0000BB;">"bio17"</span>, and <span style="color: #0000BB;">"bio5"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species: Virtual species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Presence locations: 400 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Absence locations: 300 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model configurations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mtry: 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ntree: 300</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> nodesize: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Continuous: bio1 bio12 bio16 bio17 bio5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Categorical: NA</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SDMtune</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,16 +102,16 @@
 
     
     
-<div class="section level3">
-<h3 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
-</h3>
+<div class="section level2">
+<h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
+</h2>
 <p>In the previous articles you have learned the core functions of
 <strong>SDMtune</strong> and how to perform <a href="./variable-selection.html">data-driven variable selection</a>. In
 this article you will learn how to tune the model hyperparameters.</p>
 </div>
-<div class="section level3">
-<h3 id="training-validation-and-testing-split">Training, validation and testing split<a class="anchor" aria-label="anchor" href="#training-validation-and-testing-split"></a>
-</h3>
+<div class="section level2">
+<h2 id="training-validation-and-testing-split">Training, validation and testing split<a class="anchor" aria-label="anchor" href="#training-validation-and-testing-split"></a>
+</h2>
 <p>When you tune the model hyperparameters you iteratively adjust the
 hyperparameters while monitoring the changes in the evaluation metric
 computed using the testing dataset. In this process, the information
@@ -153,9 +153,9 @@ unseen held apart testing dataset. For execution time reason we
 demonstrate the first approach but you are free to try out the second
 one.</p>
 </div>
-<div class="section level3">
-<h3 id="check-the-effect-of-varying-one-hyperparameter">Check the effect of varying one hyperparameter<a class="anchor" aria-label="anchor" href="#check-the-effect-of-varying-one-hyperparameter"></a>
-</h3>
+<div class="section level2">
+<h2 id="check-the-effect-of-varying-one-hyperparameter">Check the effect of varying one hyperparameter<a class="anchor" aria-label="anchor" href="#check-the-effect-of-varying-one-hyperparameter"></a>
+</h2>
 <p>To see the effect of varying one hyperparameter on the model
 performance we can use the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>. The
 function iterates through a set of predefined hyperparameter values,
@@ -166,7 +166,7 @@ multiplier. First we have to define the values for the hyperparameter
 that we want to test. For that we create a named list that we will use
 as an argument for the function <code><a href="../reference/gridSearch.html">gridSearch()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Define the values for bg</span></span>
+<code class="sourceCode R"><span><span class="co"># Define the values for the regularization multiplier</span></span>
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Call the gridSearch function</span></span>
@@ -179,12 +179,14 @@ output of the function is an object of class <code><a href="../reference/SDMtune
 Let’s print it:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_1</span></span>
-<span><span class="co">#&gt; Object of class:  SDMtune </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models configuration:</span></span>
-<span><span class="co">#&gt; --------------------</span></span>
-<span><span class="co">#&gt; fc: lqph</span></span>
-<span><span class="co">#&gt; reg: 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1</span></span></code></pre></div>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMtune&gt;</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Method: <span style="font-style: italic;">Maxnet</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Tested hyperparameters</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">0.2</span>, <span style="color: #0000BB;">0.3</span>, <span style="color: #0000BB;">0.4</span>, <span style="color: #0000BB;">0.5</span>, <span style="color: #0000BB;">0.6</span>, <span style="color: #0000BB;">0.7</span>, <span style="color: #0000BB;">0.8</span>, <span style="color: #0000BB;">0.9</span>, and <span style="color: #0000BB;">1</span></span></span></code></pre></div>
 <p>When you print the output, the text contains the models configuration
 that have been used during the execution of the function. In our case,
 only the regularization multiplier <code>reg</code> has multiple values.
@@ -192,7 +194,7 @@ You can plot the <code><a href="../reference/SDMtune-class.html">SDMtune()</a></
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, </span>
 <span>     title <span class="op">=</span> <span class="st">"Experiment 1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tune-hyperparameters_files/figure-html/plot%20exp_1-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="tune-hyperparameters_files/figure-html/plot-exp-1-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>and you can also recreate the interactive chart using:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">exp_1</span>, </span>
@@ -582,9 +584,9 @@ lqph
 </tr>
 </tbody>
 </table>
-<div class="section level4">
-<h4 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
-</h4>
+<div class="section level3">
+<h3 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
+</h3>
 <p>Try to see how TSS changes varying the regularization multiplier from
 1 to 4 (highlight to see the solution):</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -630,9 +632,9 @@ function <code><a href="../reference/getTunableArgs.html">getTunableArgs()</a></
 <span><span class="co">#&gt; [1] "fc"  "reg"</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="tune-hyperparameters">Tune hyperparameters<a class="anchor" aria-label="anchor" href="#tune-hyperparameters"></a>
-</h3>
+<div class="section level2">
+<h2 id="tune-hyperparameters">Tune hyperparameters<a class="anchor" aria-label="anchor" href="#tune-hyperparameters"></a>
+</h2>
 <p>To tune the model hyperparameters you should run all the possible
 combinations of hyperparameters. Here is an example using combinations
 of regularization multiplier and feature classes:</p>
@@ -652,9 +654,9 @@ increases exponentially and consequently the execution time. In the next
 two paragraphs we will present two possible alternative to the
 <code><a href="../reference/gridSearch.html">gridSearch()</a></code> function.</p>
 </div>
-<div class="section level3">
-<h3 id="random-search">Random search<a class="anchor" aria-label="anchor" href="#random-search"></a>
-</h3>
+<div class="section level2">
+<h2 id="random-search">Random search<a class="anchor" aria-label="anchor" href="#random-search"></a>
+</h2>
 <p>The function <code><a href="../reference/randomSearch.html">randomSearch()</a></code> trains models taking a
 random sample of the predefined configurations. In the next example we
 select 10 random configurations:</p>
@@ -873,9 +875,9 @@ l
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="optimize-model">Optimize Model<a class="anchor" aria-label="anchor" href="#optimize-model"></a>
-</h3>
+<div class="section level2">
+<h2 id="optimize-model">Optimize Model<a class="anchor" aria-label="anchor" href="#optimize-model"></a>
+</h2>
 <p>The previous function doesn’t learn anything from the trained models,
 it just selects n random combinations of hyperparameters. The function
 <code><a href="../reference/optimizeModel.html">optimizeModel()</a></code> uses a <em>genetic algorithm</em> to find
@@ -890,9 +892,9 @@ understand how it works, here we provide the code to execute it:</p>
 <span>                       gen <span class="op">=</span> <span class="fl">2</span>, </span>
 <span>                       seed <span class="op">=</span> <span class="fl">798</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="evaluate-final-model">Evaluate final model<a class="anchor" aria-label="anchor" href="#evaluate-final-model"></a>
-</h3>
+<div class="section level2">
+<h2 id="evaluate-final-model">Evaluate final model<a class="anchor" aria-label="anchor" href="#evaluate-final-model"></a>
+</h2>
 <p>Let’s say we want to use the best tuned model found by the
 <code><a href="../reference/randomSearch.html">randomSearch()</a></code> function. Before evaluating the model using
 the testing dataset, we can merge the training and the validation
@@ -1093,19 +1095,18 @@ the <code>SDMmodelCV</code>):</p>
 <span>                      seed <span class="op">=</span> <span class="fl">65466</span><span class="op">)</span></span></code></pre></div>
 <p>The function <code>randomSearch</code> orders the models according to
 the best value of the metric for the testing dataset. In this case we
-can train a model using the best hyperparameters configuration and
-without cross validation with:</p>
+can train a model using the best configuration of the hyperparameters
+and without cross validation (i.e. using all presence and background
+locations) with:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxent"</span>, </span>
-<span>                     data <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">data</span>, </span>
-<span>                     fc <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>, </span>
-<span>                     reg <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineCV.html">combineCV</a></span><span class="op">(</span><span class="va">exp_8</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">final_model</span>, </span>
 <span>    test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
 <p>In this article you have learned:</p>
 <ul>
 <li>the training/validation/testing evaluation strategy;</li>
@@ -1117,9 +1118,9 @@ functions;</li>
 <li>how to evaluate a final model using the held apart testing
 dataset.</li>
 </ul>
-<div class="section level4">
-<h4 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h4>
+<div class="section level3 unnumbered">
+<h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Chollet2018" class="csl-entry">
 Chollet, François, and J. J. Allaire. 2018. <em><span class="nocase">Deep learning with R</span></em>. 1st ed. Manning
@@ -1128,7 +1129,6 @@ Publications Co.
 <div id="ref-Muller2016" class="csl-entry">
 Müller, Andreas C., and Sarah Guido. 2016. <em><span class="nocase">Introduction to machine learning with Python : a guide
 for data scientists</span></em>.
-</div>
 </div>
 </div>
 </div>

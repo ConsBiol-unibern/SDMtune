@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SDMtune</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,7 +140,7 @@ showing the degree of autocorrelation:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotCor.html">plotCor</a></span><span class="op">(</span><span class="va">bg</span>, </span>
 <span>        method <span class="op">=</span> <span class="st">"spearman"</span>, </span>
 <span>        cor_th <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span></span></code></pre></div>
-<p><img src="variable-selection_files/figure-html/heat%20map-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="variable-selection_files/figure-html/heat-map-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>You can select a different correlation method or set a different
 correlation threshold. Another useful function is <code><a href="../reference/corVar.html">corVar()</a></code>
 that instead of creating a heat map prints the pairs of correlated
@@ -307,22 +307,23 @@ get extra information:</p>
 function is the model trained with the selected variables:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">selected_variables_model</span></span>
-<span><span class="co">#&gt; Object of class SDMmodel </span></span>
-<span><span class="co">#&gt; Method: Maxnet </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species: Virtual species </span></span>
-<span><span class="co">#&gt; Presence locations: 320 </span></span>
-<span><span class="co">#&gt; Absence locations: 5000 </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Object of class: </span><span style="color: #0000BB; font-weight: bold;">&lt;SDMmodel&gt;</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model configurations:</span></span>
-<span><span class="co">#&gt; --------------------</span></span>
-<span><span class="co">#&gt; fc: lqph</span></span>
-<span><span class="co">#&gt; reg: 1</span></span>
+<span><span class="co">#&gt; Method: <span style="font-style: italic;">Maxnet</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Variables:</span></span>
-<span><span class="co">#&gt; ---------</span></span>
-<span><span class="co">#&gt; Continuous: bio1 bio12 bio17 bio5 </span></span>
-<span><span class="co">#&gt; Categorical: biome</span></span></code></pre></div>
+<span><span class="co">#&gt; ── Hyperparameters</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">fc</span>: <span style="color: #0000BB;">"lqph"</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">reg</span>: <span style="color: #0000BB;">1</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Info</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Species</span>: <span style="font-style: italic;">Virtual species</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Presence locations</span>: <span style="color: #0000BB;">320</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Absence locations</span>: <span style="color: #0000BB;">5000</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Variables</span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Continuous</span>: <span style="color: #0000BB;">"bio1"</span>, <span style="color: #0000BB;">"bio12"</span>, <span style="color: #0000BB;">"bio17"</span>, and <span style="color: #0000BB;">"bio5"</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #00BB00;">Categorical</span>: <span style="color: #0000BB;">"biome"</span></span></span></code></pre></div>
 <div class="section level3">
 <h3 id="try-yourself">Try yourself<a class="anchor" aria-label="anchor" href="#try-yourself"></a>
 </h3>

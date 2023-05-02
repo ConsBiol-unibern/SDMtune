@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SDMtune</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,7 +168,7 @@ multiplier. First we have to define the values for the hyperparameter
 that we want to test. For that we create a named list that we will use
 as an argument for the function <code>gridSearch</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Define the values for bg</span></span>
+<code class="sourceCode R"><span><span class="co"># Define the values for the regularization multiplier</span></span>
 <span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Call the gridSearch function</span></span>
@@ -389,10 +389,7 @@ the best value of the metric for the testing dataset. In this case we
 can train a model using the best hyperparameters configuration and
 without cross validation with:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train.html">train</a></span><span class="op">(</span><span class="st">"Maxent"</span>,</span>
-<span>                     data <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">data</span>,</span>
-<span>                     fc <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span>,</span>
-<span>                     reg <span class="op">=</span> <span class="va">exp_8</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineCV.html">combineCV</a></span><span class="op">(</span><span class="va">exp_8</span><span class="op">@</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/auc.html">auc</a></span><span class="op">(</span><span class="va">final_model</span>, test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent">
