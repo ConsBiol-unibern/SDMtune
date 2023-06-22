@@ -12,7 +12,7 @@ with all the possible combinations of hyperparameters."><meta property="og:image
     
     <a class="navbar-brand me-2" href="../index.html">SDMtune</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -152,8 +152,7 @@ algorithm is displayed in the Viewer pane.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="co"># Acquire environmental variables</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Acquire environmental variables</span></span></span>
 <span class="r-in"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dismo"</span><span class="op">)</span>, <span class="st">"ex"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                    pattern <span class="op">=</span> <span class="st">"grd"</span>,</span></span>
 <span class="r-in"><span>                    full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -171,10 +170,10 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                   env <span class="op">=</span> <span class="va">predictors</span>,</span></span>
 <span class="r-in"><span>                   categorical <span class="op">=</span> <span class="st">"biome"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[27ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[29ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[50ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[55ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -198,16 +197,16 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                     hypers <span class="op">=</span> <span class="va">h</span>,</span></span>
 <span class="r-in"><span>                     metric <span class="op">=</span> <span class="st">"auc"</span>,</span></span>
 <span class="r-in"><span>                     test <span class="op">=</span> <span class="va">test</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  4s - 00:00:2.5</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  1s - 00:00:5.2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:5.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  5s - 00:00:3.3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  1s - 00:00:5.8</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:5.8</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8633587 0.8526362 0.01072250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8715744 0.8591513 0.01242312</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8599256 0.8468062 0.01311938</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8639587 0.8543587 0.00960000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8643728 0.8500550 0.01431781</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8752791 0.8467050 0.02857406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8607522 0.8460275 0.01472469</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8674272 0.8416750 0.02575219</span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">models</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -293,10 +292,10 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span><span class="co"># Order results by highest test AUC</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8715744 0.8591513 0.01242312</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8639587 0.8543587 0.00960000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8633587 0.8526362 0.01072250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8599256 0.8468062 0.01311938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8643728 0.8500550 0.01431781</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8752791 0.8467050 0.02857406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8607522 0.8460275 0.01472469</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8674272 0.8416750 0.02575219</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run the function using the AICc as metric and without saving the trained</span></span></span>
 <span class="r-in"><span><span class="co"># models, helpful when numerous hyperparameters are tested to avoid memory</span></span></span>
@@ -306,17 +305,16 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                     metric <span class="op">=</span> <span class="st">"aicc"</span>,</span></span>
 <span class="r-in"><span>                     env <span class="op">=</span> <span class="va">predictors</span>,</span></span>
 <span class="r-in"><span>                     save_models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA:  5s - 00:00:1.2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  2s - 00:00:3.4</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:5.7</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA:  4s - 00:00:03</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  1s - 00:00:5.9</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:06</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg     AICc delta_AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5276.875   6.085257</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5296.294  25.504598</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5281.967  11.177055</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5270.790   0.000000</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 5255.924   21.30597</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 5257.681   23.06301</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 5270.850   36.23208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 5234.618    0.00000</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
