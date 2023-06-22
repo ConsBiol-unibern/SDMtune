@@ -1,4 +1,5 @@
 # SDMtune 1.3.0.9000
+* Improve documentation
 
 # SDMtune 1.3.0
 * Add function to combine cross validation models
