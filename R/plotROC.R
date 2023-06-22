@@ -10,6 +10,8 @@
 #' @importFrom rlang .data
 #' @importFrom ggplot2 ggplot aes
 #'
+#' @author Sergio Vignali
+#'
 #' @examples
 #' # Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
@@ -47,8 +49,6 @@
 #' # Plot the training and testing  ROC curves
 #' plotROC(model,
 #'         test = test)
-#'
-#' @author Sergio Vignali
 plotROC <- function(model,
                     test = NULL) {
 

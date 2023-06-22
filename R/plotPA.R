@@ -24,10 +24,9 @@
 #' @seealso \link{plotPred}.
 #'
 #' @examples
-#' \donttest{
-#' map <- terra::rast(matrix(runif(400, 0, 1),
-#'                           nrow = 20,
-#'                           ncol = 20))
+#' \donttest{map <- terra::rast(matrix(runif(400, 0, 1),
+#'                                     nrow = 20,
+#'                                     ncol = 20))
 #' plotPA(map,
 #'        th = 0.8)
 #'
@@ -36,15 +35,12 @@
 #'        th = 0.5,
 #'        colors = c("#d8b365", "#018571"))
 #'
-#' # Save the file
 #' \dontrun{
-#' # The following command will save the map in the working directory. Note that
-#' # the filename must include the extension
+#' # Save the file. The following command will save the map in the working
+#' # directory. Note that `filename` must include the extension.
 #' plotPA(map,
 #'        th = 0.7,
-#'        filename = "my_map.tif")
-#' }
-#' }
+#'        filename = "my_map.tif")}}
 plotPA <- function(map,
                    th,
                    colors = NULL,

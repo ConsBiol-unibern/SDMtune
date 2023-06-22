@@ -55,8 +55,7 @@ An interactive chart showing in real-time the steps performed by the
 algorithm is displayed in the Viewer pane.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -109,8 +108,7 @@ output <- gridSearch(model,
                      metric = "aicc",
                      env = predictors,
                      save_models = FALSE)
-output@results
-}
+output@results}
 }
 \seealso{
 \link{randomSearch} and \link{optimizeModel}.

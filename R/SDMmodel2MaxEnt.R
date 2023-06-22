@@ -9,9 +9,10 @@
 #' @export
 #' @importFrom dismo maxent
 #'
+#' @author Sergio Vignali
+#'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -35,10 +36,7 @@
 #'                fc = "l")
 #'
 #' dismo_model <- SDMmodel2MaxEnt(model)
-#' dismo_model
-#' }
-#'
-#' @author Sergio Vignali
+#' dismo_model}
 SDMmodel2MaxEnt <- function(model) {
 
   if (!inherits(model@model, "Maxent"))

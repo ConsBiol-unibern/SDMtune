@@ -23,8 +23,7 @@ the output is the average of the variable importance of each model trained
 during the cross validation.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -49,8 +48,7 @@ model <- train(method = "Maxent",
                data = data,
                fc = "l")
 
-maxentVarImp(model)
-}
+maxentVarImp(model)}
 }
 \seealso{
 \link{maxentTh}.

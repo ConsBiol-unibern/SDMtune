@@ -101,8 +101,7 @@ setGeneric("predict", function(object, ...)
 #' predict(model,
 #'         data = predictors,
 #'         type = "logistic",
-#'         filename = "my_map.tif")
-#' }
+#'         filename = "my_map.tif")}
 setMethod(
   f = "predict",
   signature = "SDMmodel",

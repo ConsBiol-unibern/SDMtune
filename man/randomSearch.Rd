@@ -57,8 +57,7 @@ An interactive chart showing in real-time the steps performed by the
 algorithm is displayed in the Viewer pane.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -103,8 +102,7 @@ output@results
 output@models
 
 # Order results by highest test AUC
-output@results[order(-output@results$test_AUC), ]
-}
+output@results[order(-output@results$test_AUC), ]}
 }
 \author{
 Sergio Vignali

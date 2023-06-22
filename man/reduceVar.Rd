@@ -61,8 +61,7 @@ An interactive chart showing in real-time the steps performed by the
 algorithm is displayed in the Viewer pane.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -128,9 +127,7 @@ output <- reduceVar(model,
                     th = 2,
                     metric = "auc",
                     test = test,
-                    use_pc = TRUE)
-}
-}
+                    use_pc = TRUE)}}
 }
 \author{
 Sergio Vignali

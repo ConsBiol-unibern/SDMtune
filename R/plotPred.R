@@ -18,10 +18,9 @@
 #' @seealso \link{plotPA}.
 #'
 #' @examples
-#' \donttest{
-#' map <- terra::rast(matrix(runif(400, 0, 1),
-#'                           nrow = 20,
-#'                           ncol= 20))
+#' \donttest{map <- terra::rast(matrix(runif(400, 0, 1),
+#'                                     nrow = 20,
+#'                                     ncol= 20))
 #'
 #' plotPred(map,
 #'          lt = "Habitat suitability \ncloglog")
@@ -29,8 +28,7 @@
 #' # Custom colors
 #' plotPred(map,
 #'          lt = "Habitat suitability",
-#'          colorramp = c("#2c7bb6", "#ffffbf", "#d7191c"))
-#' }
+#'          colorramp = c("#2c7bb6", "#ffffbf", "#d7191c"))}
 plotPred <- function(map,
                      lt = "",
                      colorramp = NULL,

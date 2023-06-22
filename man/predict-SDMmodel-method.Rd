@@ -117,8 +117,7 @@ predict(model,
 predict(model,
         data = predictors,
         type = "logistic",
-        filename = "my_map.tif")
-}
+        filename = "my_map.tif")}
 }
 \references{
 Wilson P.D., (2009). Guidelines for computing MaxEnt model output

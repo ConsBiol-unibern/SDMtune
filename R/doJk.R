@@ -24,8 +24,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -94,8 +93,7 @@
 #'
 #' jk$results
 #' jk$models_without
-#' jk$models_withonly
-#' }
+#' jk$models_withonly}
 doJk <- function(model,
                  metric,
                  variables = NULL,

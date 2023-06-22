@@ -54,7 +54,6 @@ plotROC(model)
 # Plot the training and testing  ROC curves
 plotROC(model,
         test = test)
-
 }
 \author{
 Sergio Vignali

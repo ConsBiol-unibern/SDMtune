@@ -25,8 +25,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -76,8 +75,7 @@
 #' # Compute variable importance
 #' vi <- varImp(model,
 #'              permut = 5)
-#' vi
-#' }
+#' vi}
 varImp <- function(model,
                    permut = 10,
                    progress = TRUE) {

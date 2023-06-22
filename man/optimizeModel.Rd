@@ -74,8 +74,7 @@ Part of the code is inspired by
 \href{https://blog.coast.ai/lets-evolve-a-neural-network-with-a-geneticalgorithm-code-included-8809bece164}{this post}.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -121,9 +120,7 @@ output <- optimizeModel(model,
                         seed = 798)
 output@results
 output@models
-output@models[[1]]  # Best model
-}
-}
+output@models[[1]]  # Best model}}
 }
 \seealso{
 \link{gridSearch} and \link{randomSearch}.

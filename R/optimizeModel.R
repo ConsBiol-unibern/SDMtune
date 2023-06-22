@@ -43,8 +43,7 @@
 #' @seealso \link{gridSearch} and \link{randomSearch}.
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -90,9 +89,7 @@
 #'                         seed = 798)
 #' output@results
 #' output@models
-#' output@models[[1]]  # Best model
-#' }
-#' }
+#' output@models[[1]]  # Best model}}
 optimizeModel <- function(model,
                           hypers,
                           metric,

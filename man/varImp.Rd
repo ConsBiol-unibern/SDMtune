@@ -33,8 +33,7 @@ For \linkS4class{SDMmodelCV} objects the function returns the average and the
 standard deviation of the permutation importances of the single models.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -84,8 +83,7 @@ model <- train(method = "Maxnet",
 # Compute variable importance
 vi <- varImp(model,
              permut = 5)
-vi
-}
+vi}
 }
 \author{
 Sergio Vignali

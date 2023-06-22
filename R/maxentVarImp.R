@@ -18,8 +18,7 @@
 #' @seealso \link{maxentTh}.
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -44,8 +43,7 @@
 #'                data = data,
 #'                fc = "l")
 #'
-#' maxentVarImp(model)
-#' }
+#' maxentVarImp(model)}
 maxentVarImp <- function(model) {
 
   if (.get_model_class(model) != "Maxent")

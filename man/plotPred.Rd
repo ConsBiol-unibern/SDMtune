@@ -23,10 +23,9 @@ A \link[ggplot2]{ggplot} object.
 Plot Prediction output.
 }
 \examples{
-\donttest{
-map <- terra::rast(matrix(runif(400, 0, 1),
-                          nrow = 20,
-                          ncol= 20))
+\donttest{map <- terra::rast(matrix(runif(400, 0, 1),
+                                    nrow = 20,
+                                    ncol= 20))
 
 plotPred(map,
          lt = "Habitat suitability \ncloglog")
@@ -34,8 +33,7 @@ plotPred(map,
 # Custom colors
 plotPred(map,
          lt = "Habitat suitability",
-         colorramp = c("#2c7bb6", "#ffffbf", "#d7191c"))
-}
+         colorramp = c("#2c7bb6", "#ffffbf", "#d7191c"))}
 }
 \seealso{
 \link{plotPA}.

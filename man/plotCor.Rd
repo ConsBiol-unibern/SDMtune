@@ -26,8 +26,7 @@ prints only the coefficients that are higher or lower than the given
 threshold.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -57,8 +56,7 @@ plotCor(bg,
 plotCor(bg,
         method = "spearman",
         cor_th = 0.8,
-        text_size = 4)
-}
+        text_size = 4)}
 }
 \author{
 Sergio Vignali

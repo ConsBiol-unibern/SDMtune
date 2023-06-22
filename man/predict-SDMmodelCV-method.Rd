@@ -84,8 +84,7 @@ trees defined to train the model and the "response" output type.
 }
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -122,10 +121,10 @@ predict(model,
 
 # Make cloglog prediction for the whole study area, get the average, standard
 # deviation, and maximum values of the k models, and save the output in three
-# files
-\dontrun{
+# files.
 # The following commands save the output in the working directory. Note that
-# the filename must include the extension
+# the `filename` must include the extension
+\dontrun{
 maps <- predict(model,
                 data = predictors,
                 fun = c("mean", "sd", "max"),
@@ -144,9 +143,7 @@ predict(model,
         data = predictors,
         fun = "sd",
         type = "logistic",
-        filename = "my_map.tif")
-}
-}
+        filename = "my_map.tif")}}
 }
 \references{
 Wilson P.D., (2009). Guidelines for computing MaxEnt model output

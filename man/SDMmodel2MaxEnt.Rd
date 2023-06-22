@@ -17,8 +17,7 @@ Converts an \linkS4class{SDMmodel} object containing a \linkS4class{Maxent}
 model into a dismo \linkS4class{MaxEnt} object.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -42,9 +41,7 @@ model <- train(method = "Maxent",
                fc = "l")
 
 dismo_model <- SDMmodel2MaxEnt(model)
-dismo_model
-}
-
+dismo_model}
 }
 \author{
 Sergio Vignali

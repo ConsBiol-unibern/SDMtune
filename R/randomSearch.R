@@ -32,8 +32,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -78,8 +77,7 @@
 #' output@models
 #'
 #' # Order results by highest test AUC
-#' output@results[order(-output@results$test_AUC), ]
-#' }
+#' output@results[order(-output@results$test_AUC), ]}
 randomSearch <- function(model,
                          hypers,
                          metric,

@@ -27,8 +27,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -81,8 +80,7 @@
 #'                        env = predictors,
 #'                        x = "X",
 #'                        y = "Y")
-#' head(data)
-#' }
+#' head(data)}
 thinData <- function(coords,
                      env,
                      x = "x",

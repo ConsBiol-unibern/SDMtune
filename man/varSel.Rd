@@ -74,8 +74,7 @@ To find highly correlated variables the following formula is used:
 \deqn{| coeff | \le cor_th}
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -156,9 +155,7 @@ vs <- varSel(model,
              cor_th = 0.7,
              use_pc = TRUE,
              env = predictors)
-vs
-}
-}
+vs}}
 }
 \author{
 Sergio Vignali

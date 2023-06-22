@@ -46,8 +46,7 @@ returns a list containing the test results together with the models.
 Run the Jackknife test for variable importance removing one variable at time.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -116,8 +115,7 @@ jk <- doJk(model,
 
 jk$results
 jk$models_without
-jk$models_withonly
-}
+jk$models_withonly}
 }
 \author{
 Sergio Vignali

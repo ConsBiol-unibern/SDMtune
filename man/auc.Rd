@@ -64,11 +64,9 @@ auc(model)
 # Compute the testing AUC
 auc(model,
     test = test)
-
 \donttest{
 # Same example but using cross validation instead of training and testing
 # datasets
-# Create the folds
 folds <- randomFolds(data,
                      k = 4,
                      only_presence = TRUE)
@@ -87,8 +85,7 @@ auc(model,
 
 # Compute the AUC for the held apart testing dataset
 auc(model,
-    test = test)
-}
+    test = test)}
 }
 \references{
 Mason, S. J. and Graham, N. E. (2002), Areas beneath the relative

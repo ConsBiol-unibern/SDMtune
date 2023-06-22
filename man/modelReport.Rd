@@ -55,9 +55,9 @@ The function produces a report similar to the one created by MaxEnt
 software. See \pkg{terra} documentation to see how to pass factors.
 }
 \examples{
-\donttest{
-# If you run the following examples with the function example(), you may want
-# to set the argument ask like following: example("modelReport", ask = FALSE)
+\donttest{# If you run the following examples with the function example(),
+# you may want to set the argument ask like following: example("modelReport",
+# ask = FALSE)
 # Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
@@ -98,9 +98,7 @@ modelReport(model,
             only_presence = TRUE,
             jk = TRUE,
             env = predictors,
-            permut = 2)
-}
-}
+            permut = 2)}}
 }
 \author{
 Sergio Vignali

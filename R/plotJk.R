@@ -17,8 +17,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -62,8 +61,7 @@
 #' #' # Plot Jackknife test result for testing
 #' plotJk(jk,
 #'        type = "test",
-#'        ref = auc(model, test = test))
-#' }
+#'        ref = auc(model, test = test))}
 plotJk <- function(jk,
                    type = c("train", "test"),
                    ref = NULL) {

@@ -44,8 +44,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -126,9 +125,7 @@
 #'              cor_th = 0.7,
 #'              use_pc = TRUE,
 #'              env = predictors)
-#' vs
-#' }
-#' }
+#' vs}}
 varSel <- function(model,
                    metric,
                    bg4cor,

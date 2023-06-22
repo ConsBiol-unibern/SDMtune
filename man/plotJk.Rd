@@ -23,8 +23,7 @@ A \link[ggplot2]{ggplot} object.
 Plot the Jackknife Test for variable importance.
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -68,8 +67,7 @@ plotJk(jk,
 #' # Plot Jackknife test result for testing
 plotJk(jk,
        type = "test",
-       ref = auc(model, test = test))
-}
+       ref = auc(model, test = test))}
 }
 \author{
 Sergio Vignali

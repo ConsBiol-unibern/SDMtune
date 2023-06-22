@@ -34,8 +34,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -101,9 +100,7 @@
 #'                     th = 2,
 #'                     metric = "auc",
 #'                     test = test,
-#'                     use_pc = TRUE)
-#' }
-#' }
+#'                     use_pc = TRUE)}}
 reduceVar <- function(model,
                       th,
                       metric,

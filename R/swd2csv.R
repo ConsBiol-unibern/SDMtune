@@ -20,8 +20,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -46,9 +45,7 @@
 #'
 #' # Save the SWD object in two separate csv files
 #' swd2csv(data,
-#'         file_name = c("presence.csv", "absence.csv"))
-#' }
-#' }
+#'         file_name = c("presence.csv", "absence.csv"))}}
 swd2csv <- function(swd,
                     file_name) {
 

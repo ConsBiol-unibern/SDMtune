@@ -40,8 +40,7 @@ specified using the arguments \code{x} and \code{y}.
 }
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -94,8 +93,7 @@ thinned_bg <- thinData(data,
                        env = predictors,
                        x = "X",
                        y = "Y")
-head(data)
-}
+head(data)}
 }
 \author{
 Sergio Vignali

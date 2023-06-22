@@ -63,11 +63,9 @@
 #' # Compute the testing AUC
 #' auc(model,
 #'     test = test)
-#'
 #' \donttest{
 #' # Same example but using cross validation instead of training and testing
 #' # datasets
-#' # Create the folds
 #' folds <- randomFolds(data,
 #'                      k = 4,
 #'                      only_presence = TRUE)
@@ -86,8 +84,7 @@
 #'
 #' # Compute the AUC for the held apart testing dataset
 #' auc(model,
-#'     test = test)
-#' }
+#'     test = test)}
 auc <- function(model,
                 test = NULL) {
 

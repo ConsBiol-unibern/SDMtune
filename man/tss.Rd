@@ -65,10 +65,9 @@ tss(model)
 tss(model,
     test = test)
 
-\donttest{
-# Same example but using cross validation instead of training and testing
-# datasets
-# Create 4 random folds splitting only the presence locations
+\donttest{# Same example but using cross validation instead of training and
+# testing datasets. Create 4 random folds splitting only the presence
+# locations
 folds = randomFolds(train,
                     k = 4,
                     only_presence = TRUE)
@@ -87,8 +86,7 @@ tss(model,
 
 # Compute the TSS for the held apart testing dataset
 tss(model,
-    test = test)
-}
+    test = test)}
 }
 \references{
 Allouche O., Tsoar A., Kadmon R., (2006). Assessing the accuracy of species

@@ -35,8 +35,7 @@
 #' @seealso \link{randomSearch} and \link{optimizeModel}.
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -89,8 +88,7 @@
 #'                      metric = "aicc",
 #'                      env = predictors,
 #'                      save_models = FALSE)
-#' output@results
-#' }
+#' output@results}
 gridSearch <- function(model,
                        hypers,
                        metric,

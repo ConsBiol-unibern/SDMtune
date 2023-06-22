@@ -98,8 +98,7 @@
 #' cross-validation. \url{https://github.com/rvalavi/blockCV}.
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -194,8 +193,7 @@
 #'                data = data,
 #'                fc = "l",
 #'                reg = 0.8,
-#'                folds = spatial_folds)
-#' }
+#'                folds = spatial_folds)}
 #'
 #' ## Train presence absence models
 #' # Prepare presence and absence locations
@@ -238,8 +236,7 @@
 #'                 ntree = 300,
 #'                 n.trees = 300,
 #'                 shrinkage = 0.001)
-#' output
-#' }
+#' output}
 train <- function(method,
                   data,
                   folds = NULL,
