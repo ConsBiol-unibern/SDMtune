@@ -13,10 +13,17 @@
 #' marginal curves.
 #' @param rug logical. If `TRUE` it adds the rug plot for the presence and
 #' absence/background locations, available only for continuous variables.
-#' @param color The colour of the curve, default is "red".
+#' @param color The color of the curve, default is "red".
 #'
-#' @details Note that fun is not a character argument, you must use `mean` and
-#' not `"mean"`.
+#' @details
+#' * Note that `fun` is not a character argument, you must use `mean` and not
+#' `"mean"`.
+#' * If you want to modify the plot, first you have to assign the output of the
+#' function to a variable, and then you have two options:
+#'     + Modify the `ggplot` object by editing the theme or adding additional
+#'     elements
+#'     + Get the data with `ggplot2::ggplot_build()` and then build your own
+#'     plot (see examples)
 #'
 #' @return A \link[ggplot2]{ggplot} object.
 #' @export
@@ -26,8 +33,7 @@
 #' @author Sergio Vignali
 #'
 #' @examples
-#' \donttest{
-#' # Acquire environmental variables
+#' \donttest{# Acquire environmental variables
 #' files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
 #'                     pattern = "grd",
 #'                     full.names = TRUE)
@@ -77,6 +83,23 @@
 #'              type = "logistic",
 #'              color = "green")
 #'
+#' # Modify plot
+#' # Change y axes limits
+#' my_plot <- plotResponse(model,
+#'                         var = "bio1",
+#'                         type = "cloglog")
+#' my_plot +
+#'   ggplot2::scale_y_continuous(limits = c(0, 1))
+#'
+#' # Get the data and create your own plot:
+#' df <- ggplot2::ggplot_build(my_plot)$data[[1]]
+#' plot(df$x, df$y,
+#'      type = "l",
+#'      lwd = 3,
+#'      col = "blue",
+#'      xlab = "bio1",
+#'      ylab = "cloglog output")
+#'
 #' # Train a model with cross validation
 #' folds <- randomFolds(data,
 #'                      k = 4,
@@ -97,8 +120,7 @@
 #' plotResponse(model,
 #'              var = "biome",
 #'              type = "logistic",
-#'              color = "green")
-#' }
+#'              color = "green")}
 plotResponse <- function(model,
                          var,
                          type = NULL,

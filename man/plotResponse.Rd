@@ -34,7 +34,7 @@ marginal curves.}
 \item{rug}{logical. If \code{TRUE} it adds the rug plot for the presence and
 absence/background locations, available only for continuous variables.}
 
-\item{color}{The colour of the curve, default is "red".}
+\item{color}{The color of the curve, default is "red".}
 }
 \value{
 A \link[ggplot2]{ggplot} object.
@@ -43,12 +43,21 @@ A \link[ggplot2]{ggplot} object.
 Plot the Response Curve of the given environmental variable.
 }
 \details{
-Note that fun is not a character argument, you must use \code{mean} and
-not \code{"mean"}.
+\itemize{
+\item Note that \code{fun} is not a character argument, you must use \code{mean} and not
+\code{"mean"}.
+\item If you want to modify the plot, first you have to assign the output of the
+function to a variable, and then you have two options:
+\itemize{
+\item Modify the \code{ggplot} object by editing the theme or adding additional
+elements
+\item Get the data with \code{ggplot2::ggplot_build()} and then build your own
+plot (see examples)
+}
+}
 }
 \examples{
-\donttest{
-# Acquire environmental variables
+\donttest{# Acquire environmental variables
 files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
                     pattern = "grd",
                     full.names = TRUE)
@@ -98,6 +107,23 @@ plotResponse(model,
              type = "logistic",
              color = "green")
 
+# Modify plot
+# Change y axes limits
+my_plot <- plotResponse(model,
+                        var = "bio1",
+                        type = "cloglog")
+my_plot +
+  ggplot2::scale_y_continuous(limits = c(0, 1))
+
+# Get the data and create your own plot:
+df <- ggplot2::ggplot_build(my_plot)$data[[1]]
+plot(df$x, df$y,
+     type = "l",
+     lwd = 3,
+     col = "blue",
+     xlab = "bio1",
+     ylab = "cloglog output")
+
 # Train a model with cross validation
 folds <- randomFolds(data,
                      k = 4,
@@ -118,8 +144,7 @@ plotResponse(model,
 plotResponse(model,
              var = "biome",
              type = "logistic",
-             color = "green")
-}
+             color = "green")}
 }
 \author{
 Sergio Vignali
