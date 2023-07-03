@@ -32,7 +32,7 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Install system dependencies Linux
+      - name: Install system dependencies for Linux
         if: runner.os == 'Linux'
         run: |
           sudo apt-get install gdal-bin proj-bin libgdal-dev libproj-dev libgeos-dev libudunits2-dev
