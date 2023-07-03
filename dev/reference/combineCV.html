@@ -124,7 +124,7 @@ hyperparameters in the <a href="train.html">train</a> function.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[29ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[52ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[53ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create 4 random folds splitting only the presence data</span></span></span>
@@ -135,10 +135,9 @@ hyperparameters in the <a href="train.html">train</a> function.</p>
 <span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="train.html">train</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Maxnet"</span>,</span></span>
 <span class="r-in"><span>               data <span class="op">=</span> <span class="va">data</span>,</span></span>
 <span class="r-in"><span>               folds <span class="op">=</span> <span class="va">folds</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Cross Validation  <span style="color: #00BB00;">■■■■■■■■■                       </span>  25% | ETA:  6s - 00:00:02</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Cross Validation  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  5s - 00:00:4.6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Cross Validation  <span style="color: #00BB00;">■■■■■■■■■                       </span>  25% | ETA:  7s - 00:00:2.3</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Cross Validation  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  75% | ETA:  2s - 00:00:6.7</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Cross Validation  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:09</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Cross Validation  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:9.5</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Define the hyperparameters to test</span></span></span>
@@ -149,18 +148,18 @@ hyperparameters in the <a href="train.html">train</a> function.</p>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="gridSearch.html">gridSearch</a></span><span class="op">(</span><span class="va">model</span>,</span></span>
 <span class="r-in"><span>                     hypers <span class="op">=</span> <span class="va">h</span>,</span></span>
 <span class="r-in"><span>                     metric <span class="op">=</span> <span class="st">"auc"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA: 11s - 00:00:2.6</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA: 18s - 00:00:12.1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  9s - 00:00:14</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  6s - 00:00:22.9</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:22.9</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA: 11s - 00:00:2.8</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% | ETA: 16s - 00:00:10.4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  8s - 00:00:12.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  80% | ETA:  5s - 00:00:19.3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Grid Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:19.3</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8646666 0.8518743 0.01279233</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8741347 0.8519507 0.02218400</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8609377 0.8495187 0.01141900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8667573 0.8488967 0.01786050</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8640093 0.8571098 0.006899500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8729684 0.8582228 0.014745667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8600894 0.8548012 0.005288167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8664686 0.8569952 0.009473333</span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">models</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -249,11 +248,11 @@ hyperparameters in the <a href="train.html">train</a> function.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Order results by highest test AUC</span></span></span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span>, <span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC   diff_AUC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8741347 0.8519507 0.02218400</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8646666 0.8518743 0.01279233</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8609377 0.8495187 0.01141900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8667573 0.8488967 0.01786050</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     fc reg train_AUC  test_AUC    diff_AUC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lqph   1 0.8729684 0.8582228 0.014745667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  lqp   1 0.8640093 0.8571098 0.006899500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lqph   2 0.8664686 0.8569952 0.009473333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  lqp   2 0.8600894 0.8548012 0.005288167</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Combine cross validation models for output with highest test AUC</span></span></span>
 <span class="r-in"><span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">output</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">test_AUC</span><span class="op">)</span></span></span>
