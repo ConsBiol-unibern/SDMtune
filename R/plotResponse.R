@@ -235,6 +235,9 @@ plotResponse <- function(model,
     var_min <- min(model@data@data[var])
     var_max <- max(model@data@data[var])
     data[var] <- seq(var_min, var_max, length.out = n_rows)
+    for (c in cat_vars) {
+      levels(data[, c]) <- levels(df[, c])
+    }
   } else {
     data[var] <- factor(categ)
   }
