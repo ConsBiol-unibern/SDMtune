@@ -1,22 +1,21 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  evaluate-model: evaluate-model.html
-  evaluation-strategies: evaluation-strategies.html
-  make-predictions: make-predictions.html
-  prepare-data: prepare-data.html
-  train-model: train-model.html
-  train-tune-presence-absence-models: train-tune-presence-absence-models.html
-  tune-hyperparameters: tune-hyperparameters.html
-  variable-importance: variable-importance.html
-  variable-selection: variable-selection.html
   basic-use: basic-use.html
+  articles/evaluate-model: evaluate-model.html
+  articles/evaluation-strategies: evaluation-strategies.html
   hyper-tuning: hyper-tuning.html
+  articles/make-predictions: make-predictions.html
+  articles/prepare-data: prepare-data.html
   presence-absence: presence-absence.html
+  articles/train-model: train-model.html
+  articles/train-tune-presence-absence-models: train-tune-presence-absence-models.html
+  articles/tune-hyperparameters: tune-hyperparameters.html
   var-selection: var-selection.html
-last_built: 2023-07-03T06:25Z
+  articles/variable-importance: variable-importance.html
+  articles/variable-selection: variable-selection.html
+last_built: 2024-12-16T15:09Z
 urls:
   reference: https://consbiol-unibern.github.io/SDMtune/reference
   article: https://consbiol-unibern.github.io/SDMtune/articles
-
