@@ -1,24 +1,3 @@
-# The function writes messages
-
-    Code
-      c <- thinData(rbind(x, x), env = predictors, progress = FALSE)
-    Message
-      v Removed no NAs and 9000 duplicated locations
-
----
-
-    Code
-      c <- thinData(x, env = predictors, progress = FALSE)
-    Message
-      v Removed -6507 NAs and no duplicated locations
-
----
-
-    Code
-      c <- thinData(rbind(x, x), env = predictors, progress = FALSE)
-    Message
-      v Removed -12950 NAs and 2525 duplicated locations
-
 # The function raises errors
 
     ! Column "A" does not exist

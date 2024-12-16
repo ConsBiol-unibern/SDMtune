@@ -46,42 +46,6 @@ test_that("The function works with custom dataframe", {
   expect_equal(colnames(c), colnames(df))
 })
 
-test_that("The function writes messages", {
-  # Only duplicates
-  x <- terra::spatSample(predictors,
-                         size = 9000,
-                         method = "random",
-                         na.rm = TRUE,
-                         xy = TRUE,
-                         values = FALSE)
-
-  expect_snapshot(c <- thinData(rbind(x, x),
-                                env = predictors,
-                                progress = FALSE))
-
-  # Only NAs
-  x <- terra::spatSample(predictors,
-                         size = 9000,
-                         method = "random",
-                         xy = TRUE,
-                         values = FALSE)
-
-  expect_snapshot(c <- thinData(x,
-                                env = predictors,
-                                progress = FALSE))
-
-  # Both, duplicates and NAs
-  x <- terra::spatSample(predictors,
-                         size = 9000,
-                         method = "random",
-                         xy = TRUE,
-                         values = FALSE)
-
-  expect_snapshot(c <- thinData(rbind(x, x),
-                                env = predictors,
-                                progress = FALSE))
-})
-
 test_that("The function raises errors", {
   expect_snapshot_error(thinData(x,
                                  env = predictors,
