@@ -153,7 +153,7 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">presence</span> locations <span style="color: #B2B2B2;">[19ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[43ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Extracting predictor information for <span style="color: #00BB00;">absence/background</span> locations <span style="color: #B2B2B2;">[42ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Split presence locations in training (80%) and testing (20%) datasets</span></span></span>
@@ -179,11 +179,12 @@ algorithm is displayed in the Viewer pane.</p>
 <span class="r-in"><span>                       test <span class="op">=</span> <span class="va">test</span>,</span></span>
 <span class="r-in"><span>                       pop <span class="op">=</span> <span class="fl">10</span>,</span></span>
 <span class="r-in"><span>                       seed <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 10s - 00:00:2.1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  45% | ETA:  8s - 00:00:6.7</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  55% | ETA:  7s - 00:00:8.2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  82% | ETA:  2s - 00:00:11</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:12.7</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA: 10s - 00:00:2.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA: 11s - 00:00:4.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  45% | ETA:  7s - 00:00:6.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% | ETA:  4s - 00:00:10.7</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  91% | ETA:  1s - 00:00:13.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Random Search  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s - 00:00:13.4</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">output</span><span class="op">@</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      fc reg train_AUC  test_AUC   diff_AUC</span>
