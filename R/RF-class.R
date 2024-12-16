@@ -7,9 +7,11 @@ setOldClass("randomForest")
 #' @slot mtry integer. Number of variable randomly sampled.
 #' @slot ntree integer. Number of grown trees.
 #' @slot nodesize integer. Minimum size of terminal nodes.
-#' @slot model \link{randomForest}. The randomForest model object.
+#' @slot model [randomForest][randomForest::randomForest]. The randomForest
+#' model object.
 #'
-#' @details See \link{randomForest} for the meaning of the slots.
+#' @details See [randomForest][randomForest::randomForest] for the meaning of
+#' the slots.
 #'
 #' @rdname RF-class
 #' @export

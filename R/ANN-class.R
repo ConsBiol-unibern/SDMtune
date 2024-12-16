@@ -8,9 +8,9 @@ setOldClass("nnet")
 #' @slot decay numeric. Weight decay.
 #' @slot rang numeric. Initial random weights.
 #' @slot maxit integer. Maximum number of iterations.
-#' @slot model \link{nnet}. The randomForest model object.
+#' @slot model [nnet][nnet::nnet]. The nnet model object.
 #'
-#' @details See \link{nnet} for the meaning of the slots.
+#' @details See [nnet][nnet::nnet] for the meaning of the slots.
 #'
 #' @rdname ANN-class
 #' @export

@@ -1,3 +1,6 @@
+# SDMtune 1.3.2
+* Patch release to change maintainer email and fix CRAN note.
+
 # SDMtune 1.3.1
 * Minor improvements in documentation (#27)
 

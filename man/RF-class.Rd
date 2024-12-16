@@ -17,7 +17,8 @@ This Class represents a Random Forest model objects and hosts all the
 information related to the model.
 }
 \details{
-See \link{randomForest} for the meaning of the slots.
+See \link[randomForest:randomForest]{randomForest} for the meaning of
+the slots.
 }
 \section{Slots}{
 
@@ -28,7 +29,8 @@ See \link{randomForest} for the meaning of the slots.
 
 \item{\code{nodesize}}{integer. Minimum size of terminal nodes.}
 
-\item{\code{model}}{\link{randomForest}. The randomForest model object.}
+\item{\code{model}}{\link[randomForest:randomForest]{randomForest}. The randomForest
+model object.}
 }}
 
 \author{

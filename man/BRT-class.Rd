@@ -17,7 +17,7 @@ This Class represents a Boosted Regression Tree model objects and hosts all
 the information related to the model.
 }
 \details{
-See \link{gbm} for the meaning of the slots.
+See \link[gbm:gbm]{gbm} for the meaning of the slots.
 }
 \section{Slots}{
 
@@ -33,7 +33,7 @@ See \link{gbm} for the meaning of the slots.
 \item{\code{bag.fraction}}{numeric. Random fraction of data used in the tree
 expansion.}
 
-\item{\code{model}}{\link{gbm}. The Boosted Regression Tree model object.}
+\item{\code{model}}{\link[gbm:gbm]{gbm}. The Boosted Regression Tree model object.}
 }}
 
 \author{

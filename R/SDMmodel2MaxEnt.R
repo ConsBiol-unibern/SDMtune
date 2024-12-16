@@ -1,11 +1,11 @@
 #' SDMmodel2MaxEnt
 #'
-#' Converts an \linkS4class{SDMmodel} object containing a \linkS4class{Maxent}
-#' model into a dismo \linkS4class{MaxEnt} object.
+#' Converts an \linkS4class{SDMmodel} object containing a
+#' [MaxEnt][dismo::maxent] model into a dismo [MaxEnt][dismo::maxent] object.
 #'
 #' @param model \linkS4class{SDMmodel} object to be converted.
 #'
-#' @return The converted dismo \linkS4class{MaxEnt} object.
+#' @return The converted dismo [MaxEnt][dismo::maxent] object.
 #' @export
 #' @importFrom dismo maxent
 #'
