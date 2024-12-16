@@ -1,11 +1,14 @@
 ## Test environments
-* local ubuntu 22.04, R 4.2.2
+* local ubuntu 22.04, R 4.4.2
 * Github actions:
   * linux: R devel, release, and oldrel
   * windows: R release
   * mac: R release
 * win-builder (devel, release and oldrelease)
 
+This release is to change my email, since I am no longer at the University of Bern, my previous email will be closed at the end of December.
+Moreover, it fixes the note in CRAN checks.
+
 Win builder generates 1 NOTE:
 
-* R oldrelease: "Found the following (possibly) invalid URLs" but they are all valid DOI urls
+"Found the following (possibly) invalid URLs" but they are both valid urls
