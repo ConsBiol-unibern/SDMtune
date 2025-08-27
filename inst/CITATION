@@ -3,7 +3,7 @@ bibentry(
   textVersion = paste("Vignali, S., Barras, A. G., Arlettaz, R., Braunisch, V.",
                       "(2022). SDMtune: An R package to tune and evaluate",
                       "species distribution models.",
-                      "Ecology and Evololution, 10(20), 11488–11506.",
+                      "Ecology and Evolution, 10(20), 11488–11506.",
                       "https://doi.org/10.1002/ece3.6786"),
   header = "To cite SDMtune in publications please use:",
   title = "SDMtune: An R package to tune and evaluate species distribution models",
