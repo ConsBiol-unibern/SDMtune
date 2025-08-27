@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   basic-use: basic-use.html
@@ -15,7 +15,7 @@ articles:
   var-selection: var-selection.html
   articles/variable-importance: variable-importance.html
   articles/variable-selection: variable-selection.html
-last_built: 2024-12-16T16:11Z
+last_built: 2025-08-27T19:21Z
 urls:
   reference: https://consbiol-unibern.github.io/SDMtune/reference
   article: https://consbiol-unibern.github.io/SDMtune/articles
