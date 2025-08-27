@@ -1,5 +1,5 @@
 # SDMtune 1.3.3
-* Update tests for ggplot2 to be compatible with version 4.0.0 (thanks to @teunbrand for the PR).
+* Update tests for `ggplot2` to be compatible with version 4.0.0 (thanks to @teunbrand for the PR).
 * Fix typo in CITATION file (thanks to @SethMusker for the PR).
 
 # SDMtune 1.3.2

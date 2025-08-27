@@ -1,14 +1,14 @@
 ## Test environments
-* local ubuntu 22.04, R 4.4.2
+* local Windows, R 4.5.1
 * Github actions:
   * linux: R devel, release
   * windows: R release
   * mac: R release, oldrel
 * win-builder (devel, release and oldrel)
+* macOS builder
 
-This release is to change my email, since I am no longer at the University of Bern, my previous email will be closed at the end of December.
-Moreover, it fixes the note in CRAN checks.
+This release is to update tests to be compatible with ggplot2 version 4.0.0.
 
-Win builder generates 1 NOTE:
+Win builder (oldrel) generates 1 NOTE:
 
-"Found the following (possibly) invalid URLs" but they are both valid urls
+"Found the following (possibly) invalid URLs" but they are both valid urls.
